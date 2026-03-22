@@ -1,224 +1,417 @@
-Return-Path: <linux-renesas-soc+bounces-30076-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-30077-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id aKbcHrE7wGmSFAQAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-30076-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 22 Mar 2026 19:57:53 +0100
+	id mL8QCwtKwGl0FgQAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-30077-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 22 Mar 2026 20:59:07 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id D48952EA653
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 22 Mar 2026 19:57:52 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 31C992EAA11
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 22 Mar 2026 20:59:06 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 1BD883017C0B
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 22 Mar 2026 18:57:25 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 3E6CA3001199
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 22 Mar 2026 19:59:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7518436657B;
-	Sun, 22 Mar 2026 18:57:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B124E37DEAE;
+	Sun, 22 Mar 2026 19:59:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="nRUDA9IS"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="l/PP/GvZ"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from TY3P286CU002.outbound.protection.outlook.com (mail-japaneastazon11010055.outbound.protection.outlook.com [52.101.229.55])
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59E3337648D;
-	Sun, 22 Mar 2026 18:57:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.229.55
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774205844; cv=fail; b=OpGclFHEcjICFb5US96Gnb5uHKgKO6S7tUOfuv8vaDTXc75v7yG2jL4ASyeRkRQQo9fqRlPkBiIkak+RobAWedp6sPXwc1pJ+HGsDc1RywJ2hRJiwL+vlWw8RTDHtLBblAfTDJCpJKO1VL8du3i/XlcFHW8wy1KLVfamKxQrwwM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774205844; c=relaxed/simple;
-	bh=5E5ffIitIKdLXGDVpQoCtA4fx2ilernXbWLTqOFOjf8=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=F446tHqTzeZ1Y7kVMaSLhIdrFb35mD27VrQzG2g9ynjMAsvsPtEw6zqQYyj1H3npLSiZgI4LWCjw3Al0rXNwFZmi0294J/vZj8Xuieviak2GkTQWxPM4QGSPyp1y3WUGnwhc62tvzmcJNGAH6jCumv+ynTApvplan9XxWgNbC0Y=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=nRUDA9IS; arc=fail smtp.client-ip=52.101.229.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=HtGDHCWn90NVu5d6oMP+MKPErS0uzLRIy+mjUDYRIl+LYFd1Sx8gjJW7edxKRdfvjLdd0n2Yfj5iKgufQmXtR/gGkmTXIMJVZ8WXiPRoycuAoOxs9eG8hvho+EhkQrYg9Y4YoxFRWwGzF63g5HHOU0Et66hyKHA0n74YiNh6jwg2HpJ6viVlN+Rss96+q0lfm69SqYcmEO7Lm6onScTRTKsUqlG8cV5FWILvYcUelXjxbz85aY/bANSa6EwdjhLrZDflTyGNz+xlmMTC6czbp30PB/+uAiiZphJWlC2fsmFLgA9t3oTW63abPTv4w8T3LPYqzlSxHQUKILaqtkiFpw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=5E5ffIitIKdLXGDVpQoCtA4fx2ilernXbWLTqOFOjf8=;
- b=DvZjcXzF9Fvi+1J5Fuq8DsUGVnVYFMFdewa4M9Og7CkfVlHbKXuoAwnclP4gzC3DG4CdSbwf8CKFtZ3qkbK85SGvXArj3OdvDVB3GR8Sk9LS8ss8nt2z7VSDrWGvTwVmx5yrS6X5ALYZtH31ZG/evaDjbSjrhZEPC6OvV8CDnTUFBeHmcwwSAlLL8aCfzpTHUPHbANINElaCS2Uj/ccZBa8pxbA0UN7LW9CwICoxFJ1IUvMQtT9aylvniF7hxmq5VDAdVik/Lwdj8MUwnrLm8ryo8cZE6vwIHBqlv8egIKfDQRSnrmQQEON+0IRykbmLecO4x4hFX5GAcWhnWdmfLQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=5E5ffIitIKdLXGDVpQoCtA4fx2ilernXbWLTqOFOjf8=;
- b=nRUDA9ISJ5kVffsgjw2g7K0f32qAO39nOyU3LeqHS1FN/ZXpRnTitVk3cfUTr3zKM002rn3a5PoIgNPIM2YZlDR1juL9CFMaVxFSRpx7+5DEMo0ZE0jb59GY+oiSCZcCt/5pBIFgGzXI6eK67DEWXs/mo77uosW7RNWvivKzYM8=
-Received: from TYRPR01MB15619.jpnprd01.prod.outlook.com
- (2603:1096:405:29b::10) by TYWPR01MB10997.jpnprd01.prod.outlook.com
- (2603:1096:400:395::10) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9723.25; Sun, 22 Mar
- 2026 18:57:01 +0000
-Received: from TYRPR01MB15619.jpnprd01.prod.outlook.com
- ([fe80::a68f:5c9:9de8:4fa4]) by TYRPR01MB15619.jpnprd01.prod.outlook.com
- ([fe80::a68f:5c9:9de8:4fa4%5]) with mapi id 15.20.9723.030; Sun, 22 Mar 2026
- 18:57:02 +0000
-From: Cosmin-Gabriel Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>
-To: William Breathitt Gray <wbg@kernel.org>
-CC: Biju Das <biju.das.jz@bp.renesas.com>, =?iso-8859-1?Q?Uwe_Kleine-K=F6nig?=
-	<ukleinek@kernel.org>, Lee Jones <lee@kernel.org>, Thierry Reding
-	<thierry.reding@gmail.com>, "linux-iio@vger.kernel.org"
-	<linux-iio@vger.kernel.org>, "linux-renesas-soc@vger.kernel.org"
-	<linux-renesas-soc@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "linux-pwm@vger.kernel.org"
-	<linux-pwm@vger.kernel.org>, "stable@vger.kernel.org"
-	<stable@vger.kernel.org>
-Subject: RE: [PATCH 5/5] counter: rz-mtu3-cnt: do not use struct
- rz_mtu3_channel's dev member
-Thread-Topic: [PATCH 5/5] counter: rz-mtu3-cnt: do not use struct
- rz_mtu3_channel's dev member
-Thread-Index: AQHckeN+zOWlZRxvjEyvqD48rWtiM7W6braAgADGS+A=
-Date: Sun, 22 Mar 2026 18:57:02 +0000
-Message-ID:
- <TYRPR01MB15619A8E68E7CDDBB0B66C8DE854AA@TYRPR01MB15619.jpnprd01.prod.outlook.com>
-References: <20260130122353.2263273-6-cosmin-gabriel.tanislav.xa@renesas.com>
- <20260322065813.264398-1-wbg@kernel.org>
-In-Reply-To: <20260322065813.264398-1-wbg@kernel.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TYRPR01MB15619:EE_|TYWPR01MB10997:EE_
-x-ms-office365-filtering-correlation-id: 49b54688-b9e7-4471-efbb-08de8844cd95
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|366016|376014|1800799024|38070700021|56012099003|18002099003|22082099003;
-x-microsoft-antispam-message-info:
- ik1zTsyrrt0pQaNBK6FKZWPd9X5Nt27FvOqRFSieQSlkXZrQPRAQttlG2DwVagZoIetE4x4y/rShTbZKSupZA5Adc9BgYGD4tdcNwf+zDo4FgRWARKnRhxxatxML9z768EKQRl7Hp9UyS4nbfkj/3PX3nkHpzW1z2Fr999SQ/cGStlVfslbhFf+DPFY8xaAVVcGM+qOnI3UBXAcBDPnH4ISh0nij8pOa9LBXfHN+XYNveH9mdgPb6obSenLCozJodYjAG/pO4Sd6r8vzW723tof4DmNDOqOwXcMqiH1NQkrOoJNJyMfkWrfstjiNRUKiV85ZNL9KB4ByA4YkGmIAYkRZFzTpZ79q1GVbRXI0m8LxZA38zaxsdDB7xLeJftJm6xy3GqF5/bpGRLrqTlWlSx97uVSCuz2GXXz88ao5YszH0duRA/cv8uQ2fWv1kZGDdY4uqPl239SJX6URXvpBkiz19Xwd95dSYAP2RodOCnX8VBpdKbwL1ZoPTnbIN9i8ASCtL4rLchEt8CiVv0nluXylIzer90ASLQSFpo0z5CkraDiD2nxvPOXOLdiTaMYPvplYYw2wH7Q5ezG77k8662tVajr1k1VtbWQ995CuFVJFhhuvSsk512O+x3znF9MOqd2CwkbONtdrHtde00lp0vByN0MkgwBMXOiK2Bj9zPn2mcX3pZhT1pT5IWrx97Dv0YnCbjRjA24AfI4kURfv62nMaCrzvDUCSTMrh4UIShAvby5z2miyq2uUonLiEMQ9O37OfzIYPgrYrWIoggksr9pDypkxakOcUK7TAvoa5Wk=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYRPR01MB15619.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(38070700021)(56012099003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?iso-8859-1?Q?XIVMMAoFozAxaS3n5sPQ0yW3yezlNC411HqRHdNrsjpmt5Alg4wS1PeFck?=
- =?iso-8859-1?Q?9y3880elmhgG9RrrxSD1EAfbKN+xCLojMzfRwwG8cfJmF8DAaszMyBLvcd?=
- =?iso-8859-1?Q?yEAuchG5G9emYPr819R2bdGgAKsOZdCQ95N+4X5UIhXxlypO0+ehtkib0I?=
- =?iso-8859-1?Q?T1+T7YKRqPNcQc2J913Wj5sIFjojSiktD4p6eGYtz1KPNH0SyQhWYdt7C5?=
- =?iso-8859-1?Q?AFv5TZI1LmBohL5XzuxyjU6xLSXkmUdJvRSp9Yv32eV+UaUhSEetqI87TH?=
- =?iso-8859-1?Q?wcyAzYhJCdc8/Vw/3Fw+ZN1LY6F7sIbGdGwbAobkc9f1tG//okP4WtKR9Y?=
- =?iso-8859-1?Q?4S8IRpZCa7dmEzSpPIjdk2V/edudTzDziLugqAuEIFxQNRftrMA8ZUvIBk?=
- =?iso-8859-1?Q?tUZlb49LXYKKtOut+Ag3igl2myydlHml9frGMYQSuGnZgq2HWwIg3a9omB?=
- =?iso-8859-1?Q?3lBUKaaklUxyLMC0C2QOC8lVsl+GcBknDAntuBqGg5uAOBj3VDEaazRv43?=
- =?iso-8859-1?Q?FG+rINkEhVDPU31Ag4kscld0SHj4DCSMfj2v5Evn5s2o/hVAxdQkhSzscz?=
- =?iso-8859-1?Q?MGcX058Hw6Ukz6sJ/hgyQqYLIYuHR4He4kEAiTsTeO2vCLBin0ql3PMQk5?=
- =?iso-8859-1?Q?9QPAQOX7LQZcqO+cpgGawTImEFZawE8uoQCOfHqy0GBjp/paJPrABJOVAw?=
- =?iso-8859-1?Q?QYRqgQ6R/8ZFnBHZj/r0sfxG8EdaU2WXDG8ocESmmnJkeio2/r5iGqsQHP?=
- =?iso-8859-1?Q?zxx+hbhEtC9VH5kCQoX104jH6bWFFvQRcdb//s/WwWLwD/v7wyDyLLwf7E?=
- =?iso-8859-1?Q?TEZPxr65U2XHplX9mWUeJ2T/q5kME2nNtNvQ6M2y8lkIoNP1/5wpDCuybx?=
- =?iso-8859-1?Q?CvX6oMijF499kyQpRB1AoL0WSZLSW1861TtZGZvpcMJp86/BF10BhRlMYS?=
- =?iso-8859-1?Q?kXcqwksDoA1dmwm3wCdqKQUSWt4USItd30TsbRw+hqz8LyA2YzrYpjGZqa?=
- =?iso-8859-1?Q?ZZwWBUhDtLhNQsVjqI69yeXqjVUXx6rw1zRvH8C1RuTwt1EN4JJSL39702?=
- =?iso-8859-1?Q?1I+2aYJon/TLs/Z8gcCWkV2pOuCJgqyeylk63OE8M5lXwdUViAsWZeIZSJ?=
- =?iso-8859-1?Q?9DwSGMOA6OIH4SvCh7h8kCW/jY1BF1VyECbqza+efm8Sa0s1LSr/eCom3f?=
- =?iso-8859-1?Q?xUXTod6MGNB+TG5nEap12HPtfV7dOXVA91ZbxxBaXTpU0Z7TIoPMaqpHXd?=
- =?iso-8859-1?Q?lgegLfnuUF/h2PdO3Lci6f8XRmpjP5O2RmHSLf3mC+qN1SEI23O1f1vFbi?=
- =?iso-8859-1?Q?d8alvGhj0jQOJ0R+tqoO33TR4gzfmZH/dmHZOd1wsQBVEQ/PRlBkIhqa5U?=
- =?iso-8859-1?Q?xNowxxQE727BrtEa3cyiBGAnlBcUJ1fkFfAD8Pvg4Nx2BaI05zacyhIKan?=
- =?iso-8859-1?Q?jC5TlqYEd0GXdk/gUcp/FHXcMF04sAAIQbGZpvtuTVSWLo7SaWpOQlVWJi?=
- =?iso-8859-1?Q?aD44q8sHQj+uss6fP34xt32f4bM5WtRoFT+sP8/EUaAPXiyRnALJJ1kd6t?=
- =?iso-8859-1?Q?1Zfhma6GJf2+CDtX+z/5l9rve0NlC0yRpx3abZvy4rlBs+HEMqY1vZkAKx?=
- =?iso-8859-1?Q?QATo9v6O/z5444w38diiaIZaAgxLHr8KKG1CBNwza6RSyBEK9OJEjKBUKL?=
- =?iso-8859-1?Q?H8zs0wEiZNtRkxoyeKapmemZzpO9gOMlXjetas5aJ2Zl9oJn8uMPrq8ent?=
- =?iso-8859-1?Q?fFH23lVmR6Hu9rYW77VfO3JFEb+tMpAaEG8soqF6Wwp6PyB9/ZQM217hfm?=
- =?iso-8859-1?Q?i5mo9Toqk6ZkKmnhzOzH3DPW9KQPRXvY0cT8nF2eev9mPxAofMa2?=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FF42372ED0
+	for <linux-renesas-soc@vger.kernel.org>; Sun, 22 Mar 2026 19:58:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774209540; cv=none; b=jpldPMVOXI/dQ/j+/BN0YQUxqtMf0XQ2E/NmflKV0xdtHYbm3kxysJHpckCFEARbs/k0NNUX3e7wmAQQ3NedE23P4MLu/K8vTPhztjVprgTTWxSBmZsR9P72S4hfTdyMGjnKuyK+DwISQQossIn9iRag45/IV5hjZT6LnxXXnIE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774209540; c=relaxed/simple;
+	bh=U8mmLepVZxhKcDsPX8oGuD24aUpo2IFhkYNR3/mpVZ4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=DgrxdExs+Fv6NojTS1RG4GxMwTkatag7mYVWGtfewMH+hr58wf/vHYNMHzYMMTAKQJAEE2BBHOm66sje0+UsAK6+TEQQMMpDdGJJ+86bxo4HcYlWCZVH4cy2VNovPZZLVbM9il9Uy84cQthstDsbPiVC10MJWwh2WdIpl8DWLA4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=l/PP/GvZ; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=date:from:to:cc:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=i5Z+
+	MrUDS1fqa0Lmm0zGVSrcpniD1b0phVfJ21NCk+Y=; b=l/PP/GvZ18qoV2Ln7cQ9
+	YRk6CuvGee5qn5FhsdgESYoO7L0FwNtgXXpxkKpUe28o06hyzHBUT1rURRoCk46W
+	YEDcsFxs7MDvXulJFVA4TLnOSKUNXYcjYy7ubevWYF3mrvO3DKNYE6Cu20s7UJ3m
+	a4BuzFbuXq2RQrzSe0pqFUNguot5MYszWwzcwkUOM4EkwoBvhzqkq4XGJprm95bG
+	if/g81AT9SU2kfJQ8d+8bfUKfvSfMGIrGc885r5o63c0vZvwTnU/e1QSV/M0IHNq
+	NFNrBYjMnPQEADTBZZsD4KijiFqshmfuxHSKV6+JPB04l6hlRYu8LCyHRugDxzE0
+	CQ==
+Received: (qmail 2381885 invoked from network); 22 Mar 2026 20:58:53 +0100
+Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 22 Mar 2026 20:58:53 +0100
+X-UD-Smtp-Session: l3s3148p1@AsP5WKJNIugujnuM
+Date: Sun, 22 Mar 2026 20:58:52 +0100
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Jassi Brar <jassisinghbrar@gmail.com>,
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>
+Subject: Re: [PATCH 2/3] soc: renesas: Add Renesas R-Car MFIS driver
+Message-ID: <acBJ_G1ZgZwrJfEh@ninjato>
+References: <20260317130638.2804-1-wsa+renesas@sang-engineering.com>
+ <20260317130638.2804-3-wsa+renesas@sang-engineering.com>
+ <CAMuHMdW7jAfXmOHdmd77sB-7aXz3H8xDfAjJUWbU=7SUHiEfSw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TYRPR01MB15619.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 49b54688-b9e7-4471-efbb-08de8844cd95
-X-MS-Exchange-CrossTenant-originalarrivaltime: 22 Mar 2026 18:57:02.1105
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: EZsqU8CeSMidCvbuPn7IHMFY8xdYShS13QvR1xLpykuYYxmdFjF5KVK6rJyJe2QtL2HeoJ5ImUWJCmNx1aP/1kDmUbTC+veu7Ki9YfrtWgcMQr8mkW5HH6oPQCVDJR3h
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYWPR01MB10997
-X-Spamd-Result: default: False [-0.16 / 15.00];
-	ARC_REJECT(1.00)[cv is fail on i=2];
-	DMARC_POLICY_ALLOW(-0.50)[renesas.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[renesas.com:s=selector1];
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="XaFKQH57NdaPa7uY"
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdW7jAfXmOHdmd77sB-7aXz3H8xDfAjJUWbU=7SUHiEfSw@mail.gmail.com>
+X-Spamd-Result: default: False [-1.76 / 15.00];
+	SIGNED_PGP(-2.00)[];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[sang-engineering.com:s=k1];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	MIME_GOOD(-0.20)[multipart/signed,text/plain];
 	MAILLIST(-0.15)[generic];
-	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[bp.renesas.com,kernel.org,gmail.com,vger.kernel.org];
-	TAGGED_FROM(0.00)[bounces-30076-lists,linux-renesas-soc=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
+	TAGGED_FROM(0.00)[bounces-30077-lists,linux-renesas-soc=lfdr.de,renesas];
 	RCVD_TLS_LAST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[renesas.com:+];
-	MISSING_XM_UA(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[cosmin-gabriel.tanislav.xa@renesas.com,linux-renesas-soc@vger.kernel.org];
+	DMARC_NA(0.00)[sang-engineering.com];
+	MIME_TRACE(0.00)[0:+,1:+,2:~];
+	FREEMAIL_CC(0.00)[vger.kernel.org,gmail.com,renesas.com,glider.be];
+	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-renesas-soc];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[renesas.com:dkim,TYRPR01MB15619.jpnprd01.prod.outlook.com:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: D48952EA653
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[wsa@sang-engineering.com,linux-renesas-soc@vger.kernel.org];
+	DKIM_TRACE(0.00)[sang-engineering.com:+];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 31C992EAA11
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-> From: William Breathitt Gray <wbg@kernel.org>
-> Sent: Sunday, March 22, 2026 8:58 AM
+
+--XaFKQH57NdaPa7uY
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Hi Geert,
+
+thank you for the review!
+
+> > +
+> > +struct mfis_per_chan_priv {
 >=20
-> On Fri, Jan 30, 2026 at 02:23:53PM +0200, Cosmin Tanislav wrote:
-> > The counter driver can use HW channels 1 and 2, while the PWM driver ca=
-n
-> > use HW channels 0, 1, 2, 3, 4, 6, 7.
-> >
-> > The dev member is assigned both by the counter driver and the PWM drive=
-r
-> > for channels 1 and 2, to their own struct device instance, overwriting
-> > the previous value.
-> >
-> > The sub-drivers race to assign their own struct device pointer to the
-> > same struct rz_mtu3_channel's dev member.
-> >
-> > The dev member of struct rz_mtu3_channel is used by the counter
-> > sub-driver for runtime PM.
-> >
-> > Depending on the probe order of the counter and PWM sub-drivers, the
-> > dev member may point to the wrong struct device instance, causing the
-> > counter sub-driver to do runtime PM actions on the wrong device.
-> >
-> > To fix this, use the parent pointer of the counter, which is assigned
-> > during probe to the correct struct device, not the struct device pointe=
-r
-> > inside the shared struct rz_mtu3_channel.
+> I would drop the "per_".
+
+Probably OK, will think about it.
+
 >=20
-> It looks like you replace every instance of ch->dev in the file,
-> except in rz_mtu3_cnt_probe where it is initially set as ch->dev =3D dev.
-> Is that line in rz_mtu3_cnt_probe still needed, or can it now be removed
-> too?
+> > +       u32 reg;
+> > +       int irq;
+> > +};
+> > +
+> > +struct mfis_priv {
+> > +       struct device *dev;
+> > +       struct mfis_reg common_reg;
+> > +       struct mfis_reg mbox_reg;
+> > +       const struct mfis_info *info;
+> > +
+> > +       /* mailbox private data */
+> > +       struct mbox_controller mbox;
+> > +       struct mfis_per_chan_priv *per_chan_privs;
+>=20
+> Likewise.
+> This could be a flexible array, if it weren't for the hwspinlock array
+> you will have to add later, right?
 
-The MTU3 MFD driver still depends on struct rz_mtu3_channel::dev being
-initialized for retrieving private data from the channels.
+No, hwspinlock doesn't need any private data here. But something else
+could come in the future maybe? I also don't see a big advantage of the
+flexible array, too. Maybe it's too late in the evening...
 
-I have patches prepared to remove that dependency and removing the dev memb=
-er
-will come afterwards.
+> > +static void mfis_write(struct mfis_reg *mreg, u32 reg, u32 val)
+>=20
+> Both writel() and iowrite32() use the inverse order of "reg" and "val".
+> But I can understand you want to keep "mreg" and "reg" together.
 
-Thank you for applying the patches!
+Yes, please!
 
+> > +/****************************************************
+> > + *                     Mailbox
+>=20
+> Missing closing asterisk ;-)
+
+OK.
+
+>=20
+> > + ****************************************************/
+> > +
+> > +#define mfis_mb_mbox_to_priv(_m) container_of((_m), struct mfis_priv, =
+mbox)
+>=20
+> Both "mb" and "mbox", so perhaps mfis_mbox_to_priv()?
+> And perhaps s/mb_/mbox_/ everywhere?
+
+Well, not sure here. 'mb' marks the mailbox part of the driver. 'mbox'
+is the variable we work on. So, it has a pattern.
+
+> > +       struct mfis_per_chan_priv *per_chan_priv =3D chan->con_priv;
+> > +       int ret =3D 0;
+> > +
+> > +       if (per_chan_priv->irq)
+> > +               ret =3D request_irq(per_chan_priv->irq, mfis_mb_iicr_in=
+terrupt, 0,
+> > +                                 dev_name(chan->mbox->dev), chan);
+> > +
+> > +       return ret;
+>=20
+> You can reduce indentation, and get rid of ret, by inverting the
+> conditional.
+
+I like this.
+
+> > +static void mfis_mb_shutdown(struct mbox_chan *chan)
+> > +{
+> > +       struct mfis_per_chan_priv *per_chan_priv =3D chan->con_priv;
+> > +
+> > +       free_irq(per_chan_priv->irq, chan);
+>=20
+> if (per_chan_priv->irq) ...
+>=20
+> free_irq() seems to support zero, but irq_to_desc() still has to
+> traverse the mtree.
+
+I checked it and it prints a warning, so 'if' is good.
+
+> > +       chan_num =3D sp->args[0];
+>=20
+> "chan_num" is the hardware channel number, and should be validated
+> against mpriv->info->mb_num_channels.
+
+Ack!
+
+>=20
+> > +       chan_flags =3D sp->args[1];
+> > +
+> > +       /* Channel layout is described in mfis_mb_probe() */
+>=20
+> Given you already use "chan +=3D ..." below, perhaps:
+>=20
+>     chan =3D mbox->chans + chan_num;
+>=20
+> > +       if (priv->info->mb_channels_are_unidir) {
+> > +               is_only_rx =3D chan_flags & MFIS_CHANNEL_RX;
+> > +               chan =3D mbox->chans + 2 * chan_num + is_only_rx;
+>=20
+> ...and:
+>=20
+>     chan +=3D chan_num + is_only_rx;
+>=20
+> > +       } else {
+> > +               is_only_rx =3D false;
+> > +               chan =3D mbox->chans + chan_num;
+>=20
+> ... and drop this line?
+> With a proper preinitalization of is_only_rx, the whole "else" branch
+> can be dropped.
+
+I agree it saves a few lines, but I really think the original code is
+easier to understand. Channel layout is already wickes and doing 'channel
++=3D' twice is harder to understand than a simple assignment IMO.
+
+>=20
+> > +       }
+> > +
+> > +       if (priv->info->mb_reg_comes_from_dt) {
+> > +               tx_uses_eicr =3D chan_flags & MFIS_CHANNEL_EICR;
+> > +               if (tx_uses_eicr)
+> > +                       chan +=3D mbox->num_chans / 2;
+> > +       } else {
+> > +               tx_uses_eicr =3D priv->info->mb_tx_uses_eicr;
+> > +       }
+>=20
+> "chan - mbox->chans" is the logical channel number, and should be
+> validated against mbox_num_chans, to avoid out-of-bound accesses.
+
+"chan - ..."? You mean "chan + ..."?
+
+>=20
+> > +
+> > +       per_chan_priv =3D chan->con_priv;
+> > +       per_chan_priv->reg =3D chan_num * 0x1000 + (tx_uses_eicr ^ is_o=
+nly_rx) * 4;
+>=20
+> I think it would be good to document this register is either an IICR
+> or EICR register offset, through:
+>   1. A comment, or
+>   2. Definitions and code, e.g
+>=20
+>          #define MFISIICR 0x00
+>          #define MFISEICR 0x04
+>=20
+>          if (tx_uses_eicr ^ is_only_rx)
+>              per_chan_priv->reg =3D chan_num * 0x1000 + MFISEICR;
+>          else
+>              per_chan_priv->reg =3D chan_num * 0x1000 + MFISIICR;
+>=20
+>      Or:
+>=20
+>          #define MFISIICR(i) ((i) * 0x1000 + 0x00)
+>          #define MFISEICR(i) ((i) * 0x1000 + 0x04)
+>=20
+>          per_chan_priv->reg =3D (tx_uses_eicr ^ is_only_rx) ? MFISEICR(ch=
+an_num)
+>                                                           : MFISIICR(chan=
+_num);
+>=20
+
+I like the latter one. Let my try this. But maybe it will be just a
+comment in the end ;)
+
+> > +
+> > +       if (!priv->info->mb_channels_are_unidir || is_only_rx) {
+> > +               char irqname[8];
+> > +               char suffix =3D tx_uses_eicr ? 'i' : 'e';
+> > +
+> > +               /* "ch0i" or "ch0e" */
+> > +               scnprintf(irqname, sizeof(irqname), "ch%d%c", chan_num,=
+ suffix);
+>=20
+> "%u" for unsigned chan_num.
+
+OK:
+
+>=20
+> > +
+> > +               per_chan_priv->irq =3D of_irq_get_byname(mbox->dev->of_=
+node, irqname);
+> > +               if (per_chan_priv->irq < 0)
+> > +                       return ERR_PTR(per_chan_priv->irq);
+> > +               else if (per_chan_priv->irq =3D=3D 0)
+>=20
+> No need for "else" after "return".
+
+OK.
+
+>=20
+> > +                       return ERR_PTR(-ENOENT);
+> > +       }
+> > +
+> > +       return chan;
+> > +}
+> > +
+> > +static int mfis_mb_probe(struct mfis_priv *priv)
+> > +{
+> > +       struct device *dev =3D priv->dev;
+> > +       struct mbox_chan *chan;
+> > +       struct mbox_controller *mbox;
+> > +       unsigned int i, num_chan =3D priv->info->mb_num_channels;
+>=20
+> "i" is only used in the for-loop below, so you could declare it in the
+> for-statement. As a bonus, that would avoid mixing the declaration of
+> uninitialized and initialized variables.
+
+Yes!
+
+>=20
+> > +
+> > +       if (priv->info->mb_channels_are_unidir)
+> > +               /* Channel layout: Ch0-TX, Ch0-RX, Ch1-TX... */
+> > +               num_chan *=3D 2;
+> > +
+> > +       if (priv->info->mb_reg_comes_from_dt)
+> > +               /* Channel layout: <n> IICR channels, <n> EICR channels=
+ */
+> > +               num_chan *=3D 2;
+>=20
+> Curly braces around multi-line if-branches (even if they are comments)?
+
+OK? I don't mind.
+
+> > +/****************************************************
+> > + *             Common
+>=20
+> Missing closing asterisk.
+
+OK.
+
+>=20
+> > + ****************************************************/
+> >
+> > +static int mfis_reg_probe(struct platform_device *pdev, struct mfis_pr=
+iv *priv,
+> > +                         struct mfis_reg *mreg, const char *name, bool=
+ required)
+> > +{
+> > +       struct resource *res;
+> > +       void __iomem *base;
+> > +
+> > +       res =3D platform_get_resource_byname(pdev, IORESOURCE_MEM, name=
+);
+> > +
+> > +       /* If there is no mailbox resource, registers are in the common=
+ space */
+> > +       if (!res && !required) {
+>=20
+> Given you only test for the negated "!required", perhaps invert the
+> logic, and replace "required" by "optional"?
+
+I had this first and it looked weird that the first call had "false" and
+the second one "true". I liked it better this way but don't really mind.
+
+>=20
+> > +               priv->mbox_reg =3D priv->common_reg;
+>=20
+> This left me looking for an assignment to priv->mbox_reg in the "else"
+> branch ;-) Then I realized "&priv->mbox_reg" is passed as the "mreg"
+> parameter.  Hence perhaps:
+>=20
+>     *mreg =3D priv->common_reg;
+>=20
+> ?
+
+Yup, that should work.
+
+I will work on the next version tomorrow. Thank you for your input!
+
+Happy hacking,
+
+   Wolfram
+
+
+--XaFKQH57NdaPa7uY
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmnASfgACgkQFA3kzBSg
+KbYnmQ/8CZDIRKVfd8bg/FyRN5B9LKhGvfdVqsxPa6Xn0rIFpgtxQkFBZ8GVHs2P
+TDo5oc5j2qBNV+JVmUaifWaS1x9AEui3YUZImpK+DWLC1Kb7GUnnCo1sVkuABRaQ
+IZgxxehrh84tPguDMA8XD/qt4ST3Q3/Vhu7Dm5vGGWEObO9eKmFGGjsUB7E4BIkO
+4tEjCSuCcuD4kaYfeWRriFglG+RVgpEZ9qW0bYFysusbn0Qh6WVLyp/taQsdJ5ak
+/H2n0P941YYOBrl2gMd2/L/jSc27V121gKoUA65Kg4hycz8UsiJ9fgcnBBLQ0k8h
+aAs+YGacsna7PKHdUvKbF3BYk2LznK444RzOlpXACKcmktvjadRbdvFbnatUvnJC
+zegATkBM70Wp0ML604ifG5Hs5QfNjRCOtopobVIyxsX9CehQgOZFE7s1PfvxXra1
+tMK7Qu9NCDJBlI6SeJWfMBcvbNLjf7+XvQt0zSRFRSlbxSM8Pukm4Z/DQI3ujJHB
+tqjICgkw/85r2NXV7vhzVvPrROx5jEPoyTLHb5wXeSBqz30XO6K3xWm/VuyJr6Jy
+Tam7L5e8QbyNiUax7M6kJV2MnftMxv8httDxC87ZmgK86cYK1hzPEBF8ji9OehPF
+aei87B6RzAI04ecW6iFUJuOA3WIJynj1s3FQre8PkVeT96LfIzA=
+=N/7+
+-----END PGP SIGNATURE-----
+
+--XaFKQH57NdaPa7uY--
 
