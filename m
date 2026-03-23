@@ -1,163 +1,211 @@
-Return-Path: <linux-renesas-soc+bounces-30091-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-30092-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id QJO7Kg/qwGl6OQQAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-30091-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Mar 2026 08:21:51 +0100
+	id QPhVEkH2wGmvPAQAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-30092-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Mar 2026 09:13:53 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 407EE2ED796
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Mar 2026 08:21:51 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id AEE7E2EE25D
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Mar 2026 09:13:52 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 06C39300829F
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Mar 2026 07:21:45 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id ACBCB3023A72
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Mar 2026 08:12:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4059E35DA4E;
-	Mon, 23 Mar 2026 07:21:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fvpsta4a"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 038A2370D43;
+	Mon, 23 Mar 2026 08:12:21 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vs1-f48.google.com (mail-vs1-f48.google.com [209.85.217.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B9C3217F33;
-	Mon, 23 Mar 2026 07:21:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D969436EAB1
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 23 Mar 2026 08:12:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774250503; cv=none; b=sVHJfJPdV//ptHVVA49qXR00g7Y0eFQlsLRavzWWccnQZc5IipgkLwScHzrPhV58oyq/y71hwvK+9vljoSWCOMiYMVuEd+ZMepfU8Ctz3loSLD2yPMo7GDly5vWGiDgoJOk+cmoj786DHUIjkWTGzE6pgje6mYtUdVdpqezwKxE=
+	t=1774253540; cv=none; b=blTJAnmpjTJ77iC8MkZ5vKCHDCRm9AqJHncRKONIunCPRi2SurNkPNbMQmW7VLWXU7uVz5lmIApVo1aUbfWZxHC5MZGqQJHmzlep0LkNdEHu41dhc6vEC8jva194ENCCbTtybs/7UaIxafyeXN6zIviiz8nThee+RjZTZW19nKQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774250503; c=relaxed/simple;
-	bh=khyjY1tcctpAPPohTzhhDC80IQdvHmoPDZVMBa4/bZ8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Shxpyq8WNkmAbsemll0wfi/l71F2vidYtSAd6x8BkD6ka/LqyoBXuZR+Gvx9nVmQ1nsbevkdk2MgJk2Gu09kbesmHmUgL+KcqQ9yR4cKQ/9NYEn1UzC1xXAanuhneK76Xx8PSJgHo3sp4z0mTtT8v1lNDi6i5xpWGLHd9lmWz1A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fvpsta4a; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 70101C4CEF7;
-	Mon, 23 Mar 2026 07:21:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774250502;
-	bh=khyjY1tcctpAPPohTzhhDC80IQdvHmoPDZVMBa4/bZ8=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=fvpsta4aIYOMIlRLooU3UD73LSkH808j8tKmlqr7qQ4xEDRZgyTfe7EDyF4mMY34E
-	 bFwoi8RyfFV/ssy1wHkFaBv0UIS3ONpl/TSBJ9OR6yPWjZhkRsLNsgKGfgdjic/VgR
-	 8WB95MlxsROCfj+QFaTlNjyugXkR8KVoLzTxbLW8EYegQ5MTUwh1E+XzSwcTTarLNQ
-	 RaUSPb9Q2sw/bXruZ287S903Ha4k5P0m0MvGidVK4YhK6B0pkwzH1QOvarcfLo8Mv/
-	 g+iEFewv80HKRvFdWdsQo5I2or/Rbm0a/53lbUOI/eZ0GkzvEIF2AS6w27hi+UFzZC
-	 OND1VDihRqFeg==
-Message-ID: <67d44e3a-400c-4b83-94c8-97c0bead0b07@kernel.org>
-Date: Mon, 23 Mar 2026 08:21:37 +0100
+	s=arc-20240116; t=1774253540; c=relaxed/simple;
+	bh=2mo6GiOM8nr9n8Mozs77z1ZO4b+tGmBAyzQSHNSjLnU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ROAzKY47AWwLsuUcZAVmQWwDri1CTNFe6WdI7sFVab46LMxPqfByeJMUqZe0BmbDxVrs+bgibqQAOhwCKrdXytjk0J5kM48PeaN05ADVMvJFYmlqRaehdjXIizR2xdGsNJ9g9ZOd/bWhJ2VJA+25ipqsJCHU9DqiZfm4pAq3kwQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vs1-f48.google.com with SMTP id ada2fe7eead31-5ffc8987050so2444885137.0
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 23 Mar 2026 01:12:17 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774253537; x=1774858337;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=EzEMYYVtDBGD0mp2TQPMZhU1WtqUi9892WrKlxY68vI=;
+        b=nAh6Rxy5ccnMDJmC6vdwgEdH7RcGtc952G53BleNmWBiYZELooU9Y7VF79yhwKPCkU
+         o5DybrA0YaJvR7b5QYtx9PaLYorwGEQa9MaqOiVLnID04C5fQnSxef51yiFuwEsrRM7p
+         POQ8p1OM0rJuSDTIDeazMMgaU6wO30ZPuQ4ePMWtJ+xqNhv6HM3PWPeWow4dSvFd0MZn
+         csCu+rpTC53ufjpert3jMtmIdw9fQEFdLIY3vaf/fiD908qmkuue7qacy/uEvv6+8Wg6
+         ENCIqr+VCsKU9Bij1vvpCNKUwB6NfPp7srwoUpcu9X3y7Xn7GXSr68+TBc+b/gPpQOJ7
+         6sSg==
+X-Gm-Message-State: AOJu0YyB3Us5P2g1/Iqv2Ilus/kIqcpgmTtZA6tDHcMo9U2h3CMJFLL6
+	NEhGtWyKWYedetYlVc4a6LISw71E83ty8vQhaHNOc7EkELqLOKhuF/mMjZk8Mvt0
+X-Gm-Gg: ATEYQzz15zIxshCLpCoP1Fw44wcn946h1l8eKfN5+RcKl2jwjKp9iXZ64bXbNmyIJpj
+	HegXZvRhU+6503Jh6ekpKcjHzUUydsUG97Tgtc7xa6sbyEI1H6WcwLslobysQIIm2Khn9KGSdo6
+	GvVx9m69rSdxNiSLZm+2nGIR4SdmLu5gUavySQPacaX+jCPJsKiEfYPrk25YOQydWZu9YZlsyt8
+	7F9t5rfvPEdhdBr2tTlYAAzokkkHu6bxKO+3HHa3KzYvHiEjSaqZ0Hwja7j1E4ab4Y+beRo/yWz
+	EcOVPnKWzJSLFXqQKsiFhN36VCAupjU/AwM3o5JmvdAZTIsa7KRp6i351FNNZT7qan5DJNsY5ff
+	3fzTrDUThAyh3bLyquNPJf49He6irj1WRaqzoL7WqwPSl4TEH++Jk3msoTkLZWRAIitdGIQvjxN
+	0eoQqKilsqmtxf8yqnrAJhZZGiO8g9p71js9B/KUsc3kGgzCU3x2s16GwPXNox
+X-Received: by 2002:a05:6102:449b:b0:5ff:be25:894a with SMTP id ada2fe7eead31-602aed8ee81mr5645219137.32.1774253536680;
+        Mon, 23 Mar 2026 01:12:16 -0700 (PDT)
+Received: from mail-ua1-f46.google.com (mail-ua1-f46.google.com. [209.85.222.46])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-602af5ea90esm7018770137.0.2026.03.23.01.12.16
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 23 Mar 2026 01:12:16 -0700 (PDT)
+Received: by mail-ua1-f46.google.com with SMTP id a1e0cc1a2514c-94acf9ce1b7so2575237241.2
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 23 Mar 2026 01:12:16 -0700 (PDT)
+X-Received: by 2002:a05:6102:508f:b0:5f7:2430:cba with SMTP id
+ ada2fe7eead31-602aeb13e80mr5874429137.12.1774253535858; Mon, 23 Mar 2026
+ 01:12:15 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] dt-bindings: hwmon: isl68137: Add compatible strings
- for RAA228942 and RAA228943
-To: Dawei Liu <dawei.liu.jy@renesas.com>, linux@roeck-us.net
-Cc: linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, devicetree@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, corbet@lwn.net, skhan@linuxfoundation.org,
- geert+renesas@glider.be, magnus.damm@gmail.com,
- grant.peltier.jg@renesas.com, linda.xin.jg@renesas.com
-References: <20260323032057.953-1-dawei.liu.jy@renesas.com>
- <20260323032057.953-3-dawei.liu.jy@renesas.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <20260323032057.953-3-dawei.liu.jy@renesas.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+References: <20260317130638.2804-1-wsa+renesas@sang-engineering.com>
+ <20260317130638.2804-3-wsa+renesas@sang-engineering.com> <CAMuHMdW7jAfXmOHdmd77sB-7aXz3H8xDfAjJUWbU=7SUHiEfSw@mail.gmail.com>
+ <acBJ_G1ZgZwrJfEh@ninjato>
+In-Reply-To: <acBJ_G1ZgZwrJfEh@ninjato>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 23 Mar 2026 09:12:04 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdV_AFhOEi3fimZF467EWpupmcOQTW4SpdUffjzskBrNmA@mail.gmail.com>
+X-Gm-Features: AQROBzDAfcNLNelaxhdswBm5kNwkcNhan96dxOlefi5tLP8FtQiMexGsvBNEto0
+Message-ID: <CAMuHMdV_AFhOEi3fimZF467EWpupmcOQTW4SpdUffjzskBrNmA@mail.gmail.com>
+Subject: Re: [PATCH 2/3] soc: renesas: Add Renesas R-Car MFIS driver
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc: linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Jassi Brar <jassisinghbrar@gmail.com>, 
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spamd-Result: default: False [-1.46 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-30091-lists,linux-renesas-soc=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,kernel.org,lwn.net,linuxfoundation.org,glider.be,gmail.com,renesas.com];
-	RCPT_COUNT_TWELVE(0.00)[16];
-	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
+	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[krzk@kernel.org,linux-renesas-soc@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	MID_RHS_MATCH_FROM(0.00)[];
+	FREEMAIL_CC(0.00)[vger.kernel.org,gmail.com,renesas.com,glider.be];
+	RCVD_TLS_LAST(0.00)[];
+	DMARC_NA(0.00)[linux-m68k.org];
+	TAGGED_FROM(0.00)[bounces-30092-lists,linux-renesas-soc=lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 407EE2ED796
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[geert@linux-m68k.org,linux-renesas-soc@vger.kernel.org];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
+	R_DKIM_NA(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,mail.gmail.com:mid,linux-m68k.org:email]
+X-Rspamd-Queue-Id: AEE7E2EE25D
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On 23/03/2026 04:20, Dawei Liu wrote:
-> RAA228942 and RAA228943 are Renesas digital dual-output
-> 16-phase (X+Y <= 16) PWM controllers with 2-rail non-TC
-> driver configuration. They have different hardware
-> interfaces and feature sets compared to existing
-> family members.
+Hi Wolfram,
 
-Please wrap commit message according to Linux coding style / submission
-process (neither too early nor over the limit):
-https://elixir.bootlin.com/linux/v6.4-rc1/source/Documentation/process/submitting-patches.rst#L597
+On Sun, 22 Mar 2026 at 20:58, Wolfram Sang
+<wsa+renesas@sang-engineering.com> wrote:
+> > > +struct mfis_priv {
+> > > +       struct device *dev;
+> > > +       struct mfis_reg common_reg;
+> > > +       struct mfis_reg mbox_reg;
+> > > +       const struct mfis_info *info;
+> > > +
+> > > +       /* mailbox private data */
+> > > +       struct mbox_controller mbox;
+> > > +       struct mfis_per_chan_priv *per_chan_privs;
+> >
+> > This could be a flexible array, if it weren't for the hwspinlock array
+> > you will have to add later, right?
+>
+> No, hwspinlock doesn't need any private data here. But something else
+> could come in the future maybe? I also don't see a big advantage of the
+> flexible array, too. Maybe it's too late in the evening...
 
-Anyway, same feedback as last time. I responded to your answer but you
-did not give me chance anymore and sent v3.
+You're right. Somehow I thought you were allocating priv and
+per_chan_privs next to each other.
 
-Best regards,
-Krzysztof
+> > > +       chan_num = sp->args[0];
+> >
+> > "chan_num" is the hardware channel number, and should be validated
+> > against mpriv->info->mb_num_channels.
+>
+> Ack!
+>
+> > > +       chan_flags = sp->args[1];
+> > > +
+> > > +       /* Channel layout is described in mfis_mb_probe() */
+> >
+> > Given you already use "chan += ..." below, perhaps:
+> >
+> >     chan = mbox->chans + chan_num;
+> >
+> > > +       if (priv->info->mb_channels_are_unidir) {
+> > > +               is_only_rx = chan_flags & MFIS_CHANNEL_RX;
+> > > +               chan = mbox->chans + 2 * chan_num + is_only_rx;
+> >
+> > ...and:
+> >
+> >     chan += chan_num + is_only_rx;
+> >
+> > > +       } else {
+> > > +               is_only_rx = false;
+> > > +               chan = mbox->chans + chan_num;
+> >
+> > ... and drop this line?
+> > With a proper preinitalization of is_only_rx, the whole "else" branch
+> > can be dropped.
+>
+> I agree it saves a few lines, but I really think the original code is
+> easier to understand. Channel layout is already wickes and doing 'channel
+> +=' twice is harder to understand than a simple assignment IMO.
+>
+> >
+> > > +       }
+> > > +
+> > > +       if (priv->info->mb_reg_comes_from_dt) {
+> > > +               tx_uses_eicr = chan_flags & MFIS_CHANNEL_EICR;
+> > > +               if (tx_uses_eicr)
+> > > +                       chan += mbox->num_chans / 2;
+> > > +       } else {
+> > > +               tx_uses_eicr = priv->info->mb_tx_uses_eicr;
+> > > +       }
+> >
+> > "chan - mbox->chans" is the logical channel number, and should be
+> > validated against mbox_num_chans, to avoid out-of-bound accesses.
+>
+> "chan - ..."? You mean "chan + ..."?
+
+No, I did mean "-": you do have a pointer "chan" to the channel,
+instead of an index into the mbox->chans[] array.
+Using a  index would  make validation easier to read, though.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
