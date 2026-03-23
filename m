@@ -1,417 +1,304 @@
-Return-Path: <linux-renesas-soc+bounces-30077-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-30078-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id mL8QCwtKwGl0FgQAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-30077-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 22 Mar 2026 20:59:07 +0100
+	id X4pyFKaNwGnmIgQAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-30078-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Mar 2026 01:47:34 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31C992EAA11
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 22 Mar 2026 20:59:06 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id E65562EB497
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Mar 2026 01:47:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 3E6CA3001199
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 22 Mar 2026 19:59:03 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 9D6513007642
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Mar 2026 00:47:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B124E37DEAE;
-	Sun, 22 Mar 2026 19:59:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 76EBE18A6DB;
+	Mon, 23 Mar 2026 00:47:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="l/PP/GvZ"
+	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="k+qvMZ3M"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+Received: from OS0P286CU010.outbound.protection.outlook.com (mail-japanwestazon11011020.outbound.protection.outlook.com [40.107.74.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FF42372ED0
-	for <linux-renesas-soc@vger.kernel.org>; Sun, 22 Mar 2026 19:58:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774209540; cv=none; b=jpldPMVOXI/dQ/j+/BN0YQUxqtMf0XQ2E/NmflKV0xdtHYbm3kxysJHpckCFEARbs/k0NNUX3e7wmAQQ3NedE23P4MLu/K8vTPhztjVprgTTWxSBmZsR9P72S4hfTdyMGjnKuyK+DwISQQossIn9iRag45/IV5hjZT6LnxXXnIE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774209540; c=relaxed/simple;
-	bh=U8mmLepVZxhKcDsPX8oGuD24aUpo2IFhkYNR3/mpVZ4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DgrxdExs+Fv6NojTS1RG4GxMwTkatag7mYVWGtfewMH+hr58wf/vHYNMHzYMMTAKQJAEE2BBHOm66sje0+UsAK6+TEQQMMpDdGJJ+86bxo4HcYlWCZVH4cy2VNovPZZLVbM9il9Uy84cQthstDsbPiVC10MJWwh2WdIpl8DWLA4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=l/PP/GvZ; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=i5Z+
-	MrUDS1fqa0Lmm0zGVSrcpniD1b0phVfJ21NCk+Y=; b=l/PP/GvZ18qoV2Ln7cQ9
-	YRk6CuvGee5qn5FhsdgESYoO7L0FwNtgXXpxkKpUe28o06hyzHBUT1rURRoCk46W
-	YEDcsFxs7MDvXulJFVA4TLnOSKUNXYcjYy7ubevWYF3mrvO3DKNYE6Cu20s7UJ3m
-	a4BuzFbuXq2RQrzSe0pqFUNguot5MYszWwzcwkUOM4EkwoBvhzqkq4XGJprm95bG
-	if/g81AT9SU2kfJQ8d+8bfUKfvSfMGIrGc885r5o63c0vZvwTnU/e1QSV/M0IHNq
-	NFNrBYjMnPQEADTBZZsD4KijiFqshmfuxHSKV6+JPB04l6hlRYu8LCyHRugDxzE0
-	CQ==
-Received: (qmail 2381885 invoked from network); 22 Mar 2026 20:58:53 +0100
-Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 22 Mar 2026 20:58:53 +0100
-X-UD-Smtp-Session: l3s3148p1@AsP5WKJNIugujnuM
-Date: Sun, 22 Mar 2026 20:58:52 +0100
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Jassi Brar <jassisinghbrar@gmail.com>,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>
-Subject: Re: [PATCH 2/3] soc: renesas: Add Renesas R-Car MFIS driver
-Message-ID: <acBJ_G1ZgZwrJfEh@ninjato>
-References: <20260317130638.2804-1-wsa+renesas@sang-engineering.com>
- <20260317130638.2804-3-wsa+renesas@sang-engineering.com>
- <CAMuHMdW7jAfXmOHdmd77sB-7aXz3H8xDfAjJUWbU=7SUHiEfSw@mail.gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FA06286A4;
+	Mon, 23 Mar 2026 00:47:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.74.20
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774226849; cv=fail; b=samRdlAhwDU/+3h8Y+mBVejm18dBtNDB2Q4Sl3rv+vDLV4Oq+PctvnKL2DCZX9tJgZlAAZVfvxAr8pOeRpG26ltswhI+sYSVbEB2LOkk93YTHy5pcYh8a5EA7ZkyE5kGhOwUtlEfRg67hvwSG3X6lUg3kZ2WtlPkkitU/xjKTYA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774226849; c=relaxed/simple;
+	bh=/x+YXy04o5xhxKToWscAd2fQ2UnIV3Vgvdm630q9N4I=;
+	h=Message-ID:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
+	 Date:MIME-Version; b=H9nEXxB3yqsuejpUCENCYcAkRrh68WqjuPG/R+tFQ0xHuzcOq+tGoSq+3P57VPVCV/wVu53s3UuWcwxl5qVcGyxv3S5KxE6CievlafeZmLHJD+tKFRowIaYaXxvf31n4TLvcc5wvLQgAG9NPgiy2CK9qM/S98uzHYPKIDU3zt64=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=k+qvMZ3M; arc=fail smtp.client-ip=40.107.74.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=RwRLDJeVUNMnlzKCL7zdGT4FU63wU2fgXeB6IObygQFG4qZo82Cox8pUVZDHbrCvm2l0qIE9CP2oP6UESGbvNb24rMVTlVQKqd1K9xM/trvukz2qhQAAqtWi7UFZ/YrIkf//N0md7Tt3AYpZS19Rg+VfBWNggkN89nqdN0xvL8zNJFGwmW4iip9+3utAb+M9vvM7yh3P2yE01G1aIgT0qKolJLPo8s7ctwzmfBewL34tkCE1x2YrxoGdqkxz8k1xYwH7oQYIYhbjv3l5/50bOoB3AVsxF/7VmReeUuOVTI28a6XqGIZf1gUP0NuooWgXNlyC0yv85QcC+KIFCINqtA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Orj5RXPCHMOXEOx1CvYsWLqdAKT6D3IbBy8xiZVPgD0=;
+ b=Wj9xHQzIePX2eJySyjSVYDgGK0ZL7iIOrpOJeDQYLw85KtYmQVbxiGP6M5W4chMYVSHNXmD4b0F3xuPFgv7o2UW9MASEAjuXwGXY66OgqinajLBWPyfcpLuzfjOSFeBxn7bhfDQ0w9JtG5RGZrISlbSpHwxsPI+pJTv7YZLuVNXL18j+4ps1TsJFpz3FSyi7W+xGLFV2tNDCjlHoBqVoBLx5P0iTNn8BPuq98YNWks75glP8YX2rzGBY8reC9k0meivZYV8YdLyw/PYVoL8/0X62L+Jq9JbxiWK2NyfLzgeiZ3zQbYr/qSpn9uZiQHWXDaTQaFP80DxJqa0++unDuQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Orj5RXPCHMOXEOx1CvYsWLqdAKT6D3IbBy8xiZVPgD0=;
+ b=k+qvMZ3MC6qqaq3rAdmFiB/Uy6tRtBV0VUXKhcQ/tFzDsol67LqefM+E2ooazLkEJzeSRv0m6LTx6eBfCn6O2kN6K6PR1p4DE+RPT7X7IRwXdMMRRkbZwPKcoxvuU6ANUAdhJSPcF3OW5NoJK14VoN3y0Dmu1v+dYKhG7Bn5KqU=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=renesas.com;
+Received: from TY3PR01MB11797.jpnprd01.prod.outlook.com (2603:1096:400:373::8)
+ by TYRPR01MB13759.jpnprd01.prod.outlook.com (2603:1096:405:219::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9723.31; Mon, 23 Mar
+ 2026 00:47:07 +0000
+Received: from TY3PR01MB11797.jpnprd01.prod.outlook.com
+ ([fe80::1868:c915:c230:a383]) by TY3PR01MB11797.jpnprd01.prod.outlook.com
+ ([fe80::1868:c915:c230:a383%5]) with mapi id 15.20.9723.030; Mon, 23 Mar 2026
+ 00:47:12 +0000
+Message-ID: <87ldfj9xt3.wl-kuninori.morimoto.gx@renesas.com>
+From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+To: John Madieu <john.madieu.xa@bp.renesas.com>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
+	Vinod Koul <vkoul@kernel.org>,
+	Mark Brown <broonie@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Frank Li <Frank.Li@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	John Madieu <john.madieu@gmail.com>,
+	linux-renesas-soc@vger.kernel.org,
+	linux-clk@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	dmaengine@vger.kernel.org,
+	linux-sound@vger.kernel.org
+Subject: Re: [PATCH 09/22] ASoC: rsnd: Add RZ/G3E SoC probing and register map
+In-Reply-To: <20260319155334.51278-10-john.madieu.xa@bp.renesas.com>
+References: <20260319155334.51278-1-john.madieu.xa@bp.renesas.com>
+	<20260319155334.51278-10-john.madieu.xa@bp.renesas.com>
+User-Agent: Wanderlust/2.15.9 Emacs/29.3 Mule/6.0
+Content-Type: text/plain; charset=US-ASCII
+Date: Mon, 23 Mar 2026 00:47:11 +0000
+X-ClientProxiedBy: OS3P301CA0030.JPNP301.PROD.OUTLOOK.COM
+ (2603:1096:604:21f::16) To TY3PR01MB11797.jpnprd01.prod.outlook.com
+ (2603:1096:400:373::8)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="XaFKQH57NdaPa7uY"
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdW7jAfXmOHdmd77sB-7aXz3H8xDfAjJUWbU=7SUHiEfSw@mail.gmail.com>
-X-Spamd-Result: default: False [-1.76 / 15.00];
-	SIGNED_PGP(-2.00)[];
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TY3PR01MB11797:EE_|TYRPR01MB13759:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8acd109a-eee7-41e6-8b73-08de8875b8b8
+X-LD-Processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|52116014|7416014|376014|366016|38350700014|56012099003|18002099003|22082099003;
+X-Microsoft-Antispam-Message-Info:
+	R9e/nFz9pD9UGGnbDcjJn31n/X9BRsFc6bPKPZUGx3h9XEuuQEMbfVqmOCgyV4mC6Fjof11DTnGDrHDPdEpc2O28VUCXMy+ZB2z+QY9F2SB0y/n3J6C0UittbqLpUot13edeSn9Vr9rJ5Q+v38L5kgeiaM5RBw8ua6n9S1VH+v2y3EtmPll2i5N3nFr1Bbx5tpauZZoRZjp+3KMtASCZWSiNKPhhsd2gJm+j7g3XBeDFi0nCkTJDxwx0N1pKSdq0WvnuxQxf/0iHKSeCtLSU7TuPy341Gv8c0Y8yuEI03uvPw3LmMtA5uxKwWn2Mq6obrODA7QhKhMH91p6n/3yxvBw49jxTeXCr7aK+2+Ch7ZWD28OGmwgnzunajtukGjvrxhuWUKUzz0NMZw/qacHkOX9mLa/K0u7EfkLFvDTopZUDDdc/fq8iEX1VtzAvO1sys9BGfLGzHMfG6BkNxcOvunqMEwfuwsl8OPpgfCutrvzRW1dRVPo8cNyC6yghiB+p90N4OphsxHjc5aQIZ8337jY9Duf/LGQnp0zXUJxcqE4N73cQ2DzHD1ksCUxmZlY93OQPnqLoYV3akSgniNnHCn/ffY1VY8+MnFHEN0hKsIU8IXPIL5uhxRm2q+BD4tCS+yj5m6XrKF9SgPMDbtCbKmmDBllYjsgzsLZAfgP6d21Lw93mdxQYbebrkXqu9j3khFA6kMvfdfYsCwVt2s2Ud1yDW8QOaqCU3vvOSRCMdd9diplHieE2ozps83ufwAKVyLDjg6mRWUFRnMhfQPknP+6YQXR6K2RNe2c4iaOnH8o=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB11797.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(52116014)(7416014)(376014)(366016)(38350700014)(56012099003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?iqoZSUDGlUjQlx3i1fmBa4YwUDKIoWRN8seuuedv9FLta7cVSOQkCJ2BEc97?=
+ =?us-ascii?Q?X3pl0mctDf/uLQ1MzwXiyzG9Yt691vsMt1ZJy9mWNdcVRIvYkkfjgtCTEAnC?=
+ =?us-ascii?Q?taFrN4i2KNwL64kz7kDV7aQ/eUfKmTU4AFXc90oFea2AylobJ6M9Ijs8oljv?=
+ =?us-ascii?Q?YYnb0EG8RGKkAFHw6dYFckgJ8SGkLv5wT9mkcmSoCUlMuJGWv0M3X3PLz9Ls?=
+ =?us-ascii?Q?G2+BURh/qHiA5Vfd8trZJaEEN2mUDJF8jB0WjH3c3lcgzs2ifZBT3zB9aapf?=
+ =?us-ascii?Q?FIz7SgQPe6Nm4YHaSR7BkBtMvsCtZsbCcD6dDh9T6RPX5LlwSp+yXfhwfj7A?=
+ =?us-ascii?Q?BLEktFAiqemp0xYjffq3dDCXUS7q7VElZvA7rruy5lDFqW0/gbtDhop5V2sI?=
+ =?us-ascii?Q?2f9k3s5BDSCWGuAETFtixrWu60qLZZyv+WrP8G1cDOS5xSTkERHcHZrXIUYH?=
+ =?us-ascii?Q?uDnl1JRVBNNo7tr9B78/U/uCEPPKkRTk0I82TqVRRrtJelmcOaXARTs7rOCH?=
+ =?us-ascii?Q?mxobI6Lf9lAR8tJ6S6nr+Bpjf3foCfC/iZNu7/YcMM9p/rUKLxKpJ9t0nuJj?=
+ =?us-ascii?Q?4QwsCNvfnLFMvzolfMSLwC6f8vvbLg6/HJIVxDtLVBYPur7xgKtz/Dav5Cy3?=
+ =?us-ascii?Q?6wPUrFxROQwXslf2NS3nfsFmBwkKnJjCBYoM3A8Dd25pSx/HyDwPR8Nrcdbm?=
+ =?us-ascii?Q?hQgjIZN9emeWjxnebmCilbF2oOJayRdohj6ahlGaD6d1s7m2puis6X+A/Anf?=
+ =?us-ascii?Q?hU18KrKXjV5WqrSFTC6WiPQD0fBfdq0W5B7RvY9cOGnGHR1P9jlWgQekpE3/?=
+ =?us-ascii?Q?6Hl8vMP6NgMj6Zu1BzEFpz16hIAEZoGMcgboHxiCbxqHubLeBFJ0gEsC8jYU?=
+ =?us-ascii?Q?laiVm5pd37KjI6GZJyw026oStVWqmGwInTrCVE/TKjPoKd5CFziv3kwjcEuq?=
+ =?us-ascii?Q?xmIWzTSHpbO4zbcLI6ieJc1U65BLImBxghRFkMK7a2IqVe01or75PcD7iQ8R?=
+ =?us-ascii?Q?I45lW9nHAJcm3gqWdGh2M8E25Gqg75di8MmDjHp70uXC5Y7ebHRwOjTt3TjP?=
+ =?us-ascii?Q?sC42zziEFIGE9o+yNHQIGXP5pZSzpfVzyrKmA8D+6ExXXNZ93DjLhkd9fvaM?=
+ =?us-ascii?Q?0CP1TOqHp/O7tqpDl1i8rg0SPvJUeeaFGUq9L4cj5xXsQAprpuwvTBmbrHHX?=
+ =?us-ascii?Q?CyPVXUCg3rYSiuwzyFVqlHu+uzS/37TvV/L6bVbPqir/AbViK8r54aO9tTik?=
+ =?us-ascii?Q?iArOOAgWSnM3znmvImT+QbH7bJhBhOwwVbAzIK1iaKg7rqJeV3EgKZ2Hh28y?=
+ =?us-ascii?Q?3PFvzRS9eC1mOnZ0WqB0kNil/hApQCFZ4EExwuxiSgprBsbB2Gkl+RPPV7zv?=
+ =?us-ascii?Q?GqV1a/fQZ45Am94PbR5eAH5S8OsTrDCIXNO/FpDonQqWfz3m4MdNCHwvIe+5?=
+ =?us-ascii?Q?FQn7sHdGH/Et72zz72Rplqo+IYbVwDNdLwpjP56gfHWM1MrWa7e+C3afhpBL?=
+ =?us-ascii?Q?kFO/ewakZ3mKb1XHa+cou2ydf7VCf66eQL5iV5mEoK6C6nasRITkDJ+sx0tV?=
+ =?us-ascii?Q?QErePvYKkZcvVwV/3w0DS8QJoXFSkQ44N1NbVjOiyQqXmNjMAoww9aeiXZH6?=
+ =?us-ascii?Q?XlcKw89e+FdnFy0GN/0KC5UNwQvh0TC+tFoGCxJBf7c7F0quvkLlMTsdnpIp?=
+ =?us-ascii?Q?jfrwygoRSYBprDzSo9EU7Ki510Jccdkg6jv1bZpP5HT5A3lqm2nWNR1nDOm3?=
+ =?us-ascii?Q?Kl1XLQVYefbKAtPCfvhG6hHdTdSGE7CDCWqHwxTjc7OsMENdq/cl?=
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8acd109a-eee7-41e6-8b73-08de8875b8b8
+X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11797.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Mar 2026 00:47:12.6610
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: BGiWULuU2JUVenapjHLh6umxLuh0fi7u2t7HAo6VOowKuG/kFux/UPJ88reJ1HMX6yYZ5simreOIdDnvr1A662WOvueaOAUxjVOaesoUDcIv4TBf7XW3qw4L7pUkBS2x
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYRPR01MB13759
+X-Spamd-Result: default: False [2.34 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[sang-engineering.com:s=k1];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
-	MIME_GOOD(-0.20)[multipart/signed,text/plain];
+	ARC_REJECT(1.00)[cv is fail on i=2];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[renesas.com,none];
+	R_DKIM_ALLOW(-0.20)[renesas.com:s=selector1];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-30077-lists,linux-renesas-soc=lfdr.de,renesas];
-	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-30078-lists,linux-renesas-soc=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DMARC_NA(0.00)[sang-engineering.com];
-	MIME_TRACE(0.00)[0:+,1:+,2:~];
-	FREEMAIL_CC(0.00)[vger.kernel.org,gmail.com,renesas.com,glider.be];
-	MISSING_XM_UA(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[27];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[glider.be,kernel.org,baylibre.com,gmail.com,perex.cz,suse.com,pengutronix.de,tuxon.dev,bp.renesas.com,renesas.com,vger.kernel.org];
+	DKIM_TRACE(0.00)[renesas.com:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[wsa@sang-engineering.com,linux-renesas-soc@vger.kernel.org];
-	DKIM_TRACE(0.00)[sang-engineering.com:+];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
+	FROM_NEQ_ENVFROM(0.00)[kuninori.morimoto.gx@renesas.com,linux-renesas-soc@vger.kernel.org];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 31C992EAA11
+	RCVD_COUNT_FIVE(0.00)[5];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,dt];
+	NEURAL_HAM(-0.00)[-1.000];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,renesas.com:dkim,renesas.com:email,renesas.com:mid]
+X-Rspamd-Queue-Id: E65562EB497
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
 
---XaFKQH57NdaPa7uY
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hi John
 
-Hi Geert,
+Thank you for the patch
 
-thank you for the review!
+> RZ/G3E audio subsystem has a different register layout compared to
+> R-Car Gen2/Gen3/Gen4, as described below:
+> 
+> - Different base address organization (SCU, ADG, SSIU, SSI as
+>   separate regions accessed by name)
+> - Additional registers: AUDIO_CLK_SEL3, SSI_MODE3, SSI_CONTROL2
+> - Different register offsets within each region
+> 
+> Add RZ/G3E SoC's audio subsystem register layouts and probe support.
+> 
+> Signed-off-by: John Madieu <john.madieu.xa@bp.renesas.com>
+> ---
+(snip)
+> +	static const struct rsnd_regmap_field_conf conf_adg[] = {
+> +		RSND_GEN_S_REG(BRRA,			0x00),
+> +		RSND_GEN_S_REG(BRRB,			0x04),
+> +		RSND_GEN_S_REG(BRGCKR,			0x08),
+> +		RSND_GEN_S_REG(AUDIO_CLK_SEL0,		0x0c),
+> +		RSND_GEN_S_REG(AUDIO_CLK_SEL1,		0x10),
+> +		RSND_GEN_S_REG(AUDIO_CLK_SEL2,		0x14),
+> +		RSND_GEN_S_REG(AUDIO_CLK_SEL3,		0x18),
+> +		RSND_GEN_S_REG(DIV_EN,			0x30),
+> +		RSND_GEN_S_REG(SRCIN_TIMSEL0,		0x34),
+> +		RSND_GEN_S_REG(SRCIN_TIMSEL1,		0x38),
+> +		RSND_GEN_S_REG(SRCIN_TIMSEL2,		0x3c),
+> +		RSND_GEN_S_REG(SRCIN_TIMSEL3,		0x40),
+> +		RSND_GEN_S_REG(SRCIN_TIMSEL4,		0x44),
+> +		RSND_GEN_S_REG(SRCOUT_TIMSEL0,		0x48),
+> +		RSND_GEN_S_REG(SRCOUT_TIMSEL1,		0x4c),
+> +		RSND_GEN_S_REG(SRCOUT_TIMSEL2,		0x50),
+> +		RSND_GEN_S_REG(SRCOUT_TIMSEL3,		0x54),
+> +		RSND_GEN_S_REG(SRCOUT_TIMSEL4,		0x58),
+> +		RSND_GEN_S_REG(CMDOUT_TIMSEL,		0x5c),
+(snip)
+> +	ret = rsnd_gen_regmap_init(priv, 10, RSND_RZG3E_ADG,
+> +				   "adg", conf_adg);
 
-> > +
-> > +struct mfis_per_chan_priv {
->=20
-> I would drop the "per_".
+I don't think you need 10 ADG.
 
-Probably OK, will think about it.
+And it can be 1 line here.
 
->=20
-> > +       u32 reg;
-> > +       int irq;
-> > +};
-> > +
-> > +struct mfis_priv {
-> > +       struct device *dev;
-> > +       struct mfis_reg common_reg;
-> > +       struct mfis_reg mbox_reg;
-> > +       const struct mfis_info *info;
-> > +
-> > +       /* mailbox private data */
-> > +       struct mbox_controller mbox;
-> > +       struct mfis_per_chan_priv *per_chan_privs;
->=20
-> Likewise.
-> This could be a flexible array, if it weren't for the hwspinlock array
-> you will have to add later, right?
+> --- a/sound/soc/renesas/rcar/rsnd.h
+> +++ b/sound/soc/renesas/rcar/rsnd.h
+> @@ -26,6 +26,11 @@
+>  #define RSND_BASE_SSIU	2
+>  #define RSND_BASE_SCU	3	// for Gen2/Gen3
+>  #define RSND_BASE_SDMC	3	// for Gen4	reuse
+> +
+> +#define RSND_RZG3E_SCU		0
+> +#define RSND_RZG3E_ADG		1
+> +#define RSND_RZG3E_SSIU		2
+> +#define RSND_RZG3E_SSI		3
+>  #define RSND_BASE_MAX	4
 
-No, hwspinlock doesn't need any private data here. But something else
-could come in the future maybe? I also don't see a big advantage of the
-flexible array, too. Maybe it's too late in the evening...
+You can reuse existing RSND_BASE_xxx
 
-> > +static void mfis_write(struct mfis_reg *mreg, u32 reg, u32 val)
->=20
-> Both writel() and iowrite32() use the inverse order of "reg" and "val".
-> But I can understand you want to keep "mreg" and "reg" together.
+>  	AUDIO_CLK_SEL2,
+> +	AUDIO_CLK_SEL3,
+>  
+>  	/* SSIU */
+>  	SSI_MODE,
+>  	SSI_MODE0,
+>  	SSI_MODE1,
+>  	SSI_MODE2,
+> +	SSI_MODE3,
+>  	SSI_CONTROL,
+> +	SSI_CONTROL2,
+>  	SSI_CTRL,
+>  	SSI_BUSIF0_MODE,
+>  	SSI_BUSIF1_MODE,
 
-Yes, please!
+Do you really use these reg ?
 
-> > +/****************************************************
-> > + *                     Mailbox
->=20
-> Missing closing asterisk ;-)
+> @@ -627,6 +635,7 @@ struct rsnd_priv {
+>  #define RSND_GEN2	(2 << 0)
+>  #define RSND_GEN3	(3 << 0)
+>  #define RSND_GEN4	(4 << 0)
+> +#define RSND_RZG3E	(5 << 0)
+>  #define RSND_SOC_MASK	(0xFF << 4)
+>  #define RSND_SOC_E	(1 << 4) /* E1/E2/E3 */
+(snip)
+> +#define rsnd_is_rzg3e(priv)	(((priv)->flags & RSND_GEN_MASK) == RSND_RZG3E)
 
-OK.
+(5 << 0) will be used for Gen5.
+There is not detail rule yet, but I think we want to keep (x << 0) and
+(x << 4) for R-Car.
 
->=20
-> > + ****************************************************/
-> > +
-> > +#define mfis_mb_mbox_to_priv(_m) container_of((_m), struct mfis_priv, =
-mbox)
->=20
-> Both "mb" and "mbox", so perhaps mfis_mbox_to_priv()?
-> And perhaps s/mb_/mbox_/ everywhere?
+Maybe you can use (xx << 8) and (xx << 12) for RZ ?
+Something like this
 
-Well, not sure here. 'mb' marks the mailbox part of the driver. 'mbox'
-is the variable we work on. So, it has a pattern.
+	#define RSND_RZ_MASK	(0xFF << 8)
+	#define RSND_RZ1	(1 << 8)
+	#define RSND_RZ2	(2 << 8)
+	#define RSND_RZ3	(3 << 8)
 
-> > +       struct mfis_per_chan_priv *per_chan_priv =3D chan->con_priv;
-> > +       int ret =3D 0;
-> > +
-> > +       if (per_chan_priv->irq)
-> > +               ret =3D request_irq(per_chan_priv->irq, mfis_mb_iicr_in=
-terrupt, 0,
-> > +                                 dev_name(chan->mbox->dev), chan);
-> > +
-> > +       return ret;
->=20
-> You can reduce indentation, and get rid of ret, by inverting the
-> conditional.
+	#define RSND_RZG3E	(1 << 12)
 
-I like this.
-
-> > +static void mfis_mb_shutdown(struct mbox_chan *chan)
-> > +{
-> > +       struct mfis_per_chan_priv *per_chan_priv =3D chan->con_priv;
-> > +
-> > +       free_irq(per_chan_priv->irq, chan);
->=20
-> if (per_chan_priv->irq) ...
->=20
-> free_irq() seems to support zero, but irq_to_desc() still has to
-> traverse the mtree.
-
-I checked it and it prints a warning, so 'if' is good.
-
-> > +       chan_num =3D sp->args[0];
->=20
-> "chan_num" is the hardware channel number, and should be validated
-> against mpriv->info->mb_num_channels.
-
-Ack!
-
->=20
-> > +       chan_flags =3D sp->args[1];
-> > +
-> > +       /* Channel layout is described in mfis_mb_probe() */
->=20
-> Given you already use "chan +=3D ..." below, perhaps:
->=20
->     chan =3D mbox->chans + chan_num;
->=20
-> > +       if (priv->info->mb_channels_are_unidir) {
-> > +               is_only_rx =3D chan_flags & MFIS_CHANNEL_RX;
-> > +               chan =3D mbox->chans + 2 * chan_num + is_only_rx;
->=20
-> ...and:
->=20
->     chan +=3D chan_num + is_only_rx;
->=20
-> > +       } else {
-> > +               is_only_rx =3D false;
-> > +               chan =3D mbox->chans + chan_num;
->=20
-> ... and drop this line?
-> With a proper preinitalization of is_only_rx, the whole "else" branch
-> can be dropped.
-
-I agree it saves a few lines, but I really think the original code is
-easier to understand. Channel layout is already wickes and doing 'channel
-+=3D' twice is harder to understand than a simple assignment IMO.
-
->=20
-> > +       }
-> > +
-> > +       if (priv->info->mb_reg_comes_from_dt) {
-> > +               tx_uses_eicr =3D chan_flags & MFIS_CHANNEL_EICR;
-> > +               if (tx_uses_eicr)
-> > +                       chan +=3D mbox->num_chans / 2;
-> > +       } else {
-> > +               tx_uses_eicr =3D priv->info->mb_tx_uses_eicr;
-> > +       }
->=20
-> "chan - mbox->chans" is the logical channel number, and should be
-> validated against mbox_num_chans, to avoid out-of-bound accesses.
-
-"chan - ..."? You mean "chan + ..."?
-
->=20
-> > +
-> > +       per_chan_priv =3D chan->con_priv;
-> > +       per_chan_priv->reg =3D chan_num * 0x1000 + (tx_uses_eicr ^ is_o=
-nly_rx) * 4;
->=20
-> I think it would be good to document this register is either an IICR
-> or EICR register offset, through:
->   1. A comment, or
->   2. Definitions and code, e.g
->=20
->          #define MFISIICR 0x00
->          #define MFISEICR 0x04
->=20
->          if (tx_uses_eicr ^ is_only_rx)
->              per_chan_priv->reg =3D chan_num * 0x1000 + MFISEICR;
->          else
->              per_chan_priv->reg =3D chan_num * 0x1000 + MFISIICR;
->=20
->      Or:
->=20
->          #define MFISIICR(i) ((i) * 0x1000 + 0x00)
->          #define MFISEICR(i) ((i) * 0x1000 + 0x04)
->=20
->          per_chan_priv->reg =3D (tx_uses_eicr ^ is_only_rx) ? MFISEICR(ch=
-an_num)
->                                                           : MFISIICR(chan=
-_num);
->=20
-
-I like the latter one. Let my try this. But maybe it will be just a
-comment in the end ;)
-
-> > +
-> > +       if (!priv->info->mb_channels_are_unidir || is_only_rx) {
-> > +               char irqname[8];
-> > +               char suffix =3D tx_uses_eicr ? 'i' : 'e';
-> > +
-> > +               /* "ch0i" or "ch0e" */
-> > +               scnprintf(irqname, sizeof(irqname), "ch%d%c", chan_num,=
- suffix);
->=20
-> "%u" for unsigned chan_num.
-
-OK:
-
->=20
-> > +
-> > +               per_chan_priv->irq =3D of_irq_get_byname(mbox->dev->of_=
-node, irqname);
-> > +               if (per_chan_priv->irq < 0)
-> > +                       return ERR_PTR(per_chan_priv->irq);
-> > +               else if (per_chan_priv->irq =3D=3D 0)
->=20
-> No need for "else" after "return".
-
-OK.
-
->=20
-> > +                       return ERR_PTR(-ENOENT);
-> > +       }
-> > +
-> > +       return chan;
-> > +}
-> > +
-> > +static int mfis_mb_probe(struct mfis_priv *priv)
-> > +{
-> > +       struct device *dev =3D priv->dev;
-> > +       struct mbox_chan *chan;
-> > +       struct mbox_controller *mbox;
-> > +       unsigned int i, num_chan =3D priv->info->mb_num_channels;
->=20
-> "i" is only used in the for-loop below, so you could declare it in the
-> for-statement. As a bonus, that would avoid mixing the declaration of
-> uninitialized and initialized variables.
-
-Yes!
-
->=20
-> > +
-> > +       if (priv->info->mb_channels_are_unidir)
-> > +               /* Channel layout: Ch0-TX, Ch0-RX, Ch1-TX... */
-> > +               num_chan *=3D 2;
-> > +
-> > +       if (priv->info->mb_reg_comes_from_dt)
-> > +               /* Channel layout: <n> IICR channels, <n> EICR channels=
- */
-> > +               num_chan *=3D 2;
->=20
-> Curly braces around multi-line if-branches (even if they are comments)?
-
-OK? I don't mind.
-
-> > +/****************************************************
-> > + *             Common
->=20
-> Missing closing asterisk.
-
-OK.
-
->=20
-> > + ****************************************************/
-> >
-> > +static int mfis_reg_probe(struct platform_device *pdev, struct mfis_pr=
-iv *priv,
-> > +                         struct mfis_reg *mreg, const char *name, bool=
- required)
-> > +{
-> > +       struct resource *res;
-> > +       void __iomem *base;
-> > +
-> > +       res =3D platform_get_resource_byname(pdev, IORESOURCE_MEM, name=
-);
-> > +
-> > +       /* If there is no mailbox resource, registers are in the common=
- space */
-> > +       if (!res && !required) {
->=20
-> Given you only test for the negated "!required", perhaps invert the
-> logic, and replace "required" by "optional"?
-
-I had this first and it looked weird that the first call had "false" and
-the second one "true". I liked it better this way but don't really mind.
-
->=20
-> > +               priv->mbox_reg =3D priv->common_reg;
->=20
-> This left me looking for an assignment to priv->mbox_reg in the "else"
-> branch ;-) Then I realized "&priv->mbox_reg" is passed as the "mreg"
-> parameter.  Hence perhaps:
->=20
->     *mreg =3D priv->common_reg;
->=20
-> ?
-
-Yup, that should work.
-
-I will work on the next version tomorrow. Thank you for your input!
-
-Happy hacking,
-
-   Wolfram
+	#define rsnd_is_rzg3e(priv)	(((priv)->flags & RSND_RZ_MASK) == (RSND_RZ3 | RSND_RZG3E))
 
 
---XaFKQH57NdaPa7uY
-Content-Type: application/pgp-signature; name="signature.asc"
+Thank you for your help !!
 
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmnASfgACgkQFA3kzBSg
-KbYnmQ/8CZDIRKVfd8bg/FyRN5B9LKhGvfdVqsxPa6Xn0rIFpgtxQkFBZ8GVHs2P
-TDo5oc5j2qBNV+JVmUaifWaS1x9AEui3YUZImpK+DWLC1Kb7GUnnCo1sVkuABRaQ
-IZgxxehrh84tPguDMA8XD/qt4ST3Q3/Vhu7Dm5vGGWEObO9eKmFGGjsUB7E4BIkO
-4tEjCSuCcuD4kaYfeWRriFglG+RVgpEZ9qW0bYFysusbn0Qh6WVLyp/taQsdJ5ak
-/H2n0P941YYOBrl2gMd2/L/jSc27V121gKoUA65Kg4hycz8UsiJ9fgcnBBLQ0k8h
-aAs+YGacsna7PKHdUvKbF3BYk2LznK444RzOlpXACKcmktvjadRbdvFbnatUvnJC
-zegATkBM70Wp0ML604ifG5Hs5QfNjRCOtopobVIyxsX9CehQgOZFE7s1PfvxXra1
-tMK7Qu9NCDJBlI6SeJWfMBcvbNLjf7+XvQt0zSRFRSlbxSM8Pukm4Z/DQI3ujJHB
-tqjICgkw/85r2NXV7vhzVvPrROx5jEPoyTLHb5wXeSBqz30XO6K3xWm/VuyJr6Jy
-Tam7L5e8QbyNiUax7M6kJV2MnftMxv8httDxC87ZmgK86cYK1hzPEBF8ji9OehPF
-aei87B6RzAI04ecW6iFUJuOA3WIJynj1s3FQre8PkVeT96LfIzA=
-=N/7+
------END PGP SIGNATURE-----
-
---XaFKQH57NdaPa7uY--
+Best regards
+---
+Kuninori Morimoto
 
