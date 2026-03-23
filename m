@@ -1,58 +1,58 @@
-Return-Path: <linux-renesas-soc+bounces-30119-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-30120-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id EDiwOb92wWkQTQQAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-30119-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Mar 2026 18:22:07 +0100
+	id kF2yKJ51wWkQTQQAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-30120-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Mar 2026 18:17:18 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CD032F9CC1
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Mar 2026 18:22:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AC612F9B09
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Mar 2026 18:17:18 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 54705318DFF8
+	by tor.lore.kernel.org (Postfix) with ESMTP id 79469318FD8C
 	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Mar 2026 16:45:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 07D573C2764;
-	Mon, 23 Mar 2026 16:45:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 334813C198E;
+	Mon, 23 Mar 2026 16:45:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="OcNwaZds"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="U5XzyAFT"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BFE93C198E
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 23 Mar 2026 16:45:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 888DA3C060D
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 23 Mar 2026 16:45:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774284334; cv=none; b=dN7+CJkb6eKH2dVagCQCeeTKNBGNt6VjfDCt0H5uIOZ6wBtc4EwuUOwiNu470+IXBe3aSd5xhy3VQZd8rFSbNAxlRsAN/YgVj6Q31z/Igy/dRrDxADZes6ri4oZiWDMM1vbmuptsN4UnugObLx+kGbDs5adjIXzqWrHbQgwnJ5U=
+	t=1774284337; cv=none; b=B19/CosfB2Ve8K+kS1JpErT+KO2xDyRkpD979Tk14aL/Iv3jK6GZxBGL0Ls4w/CLONCy1OaWT3OER/Brpfg8W0p2odLigUUW5P8YZnCExTf0dsr+UAz+b6Mx1xaveYIzbMJr7DQfhJ5WvzqRUI+R6q3j/dcK7MzUxu3lAVgr4Zk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774284334; c=relaxed/simple;
-	bh=KV8jqEFhaHfQRq9P+VG4/SCumEfR8TaE/ef//TFBllg=;
+	s=arc-20240116; t=1774284337; c=relaxed/simple;
+	bh=X7rmBsT/VLu4cXnU/1jFT5MXtJ/cKZy9Of0fz7nPLBw=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=eigzJGj81xSUeSozJFEB2oBPTun+ous4ZI3aLY//sxSURUSViINQLXG9jfDoOqsqrOTcyJG5PTzZGzo5ya4nv8lpkhB1kFAwj9VNMQOqZS6ADvT/CClTrDfrHb7/ZO0U5E5b/yhh/lznkSWB2JnJnxYO3h5IL0cSZU160Vqsun0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=OcNwaZds; arc=none smtp.client-ip=213.167.242.64
+	 MIME-Version; b=Wv1MiDDQSGPoiHhTUBiXEyh1VYgCS+7A9UcbaW4jwTqey++QlM5zdsbKnIIzaqxai9Qz3XPA3Zzv6URUYig7kBy3tUoXxQ+1NZ/dKzyoxQDVwJQ8w0OUskrn9djBKltS7YPqgqA+i+ucTlBAAWqeFuuetHDfavJCYLw2+2T6MnY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=U5XzyAFT; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from killaraus.ideasonboard.com (2001-14ba-703d-e500--2a1.rev.dnainternet.fi [IPv6:2001:14ba:703d:e500::2a1])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 7D1F22673;
-	Mon, 23 Mar 2026 17:44:15 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id D76272674;
+	Mon, 23 Mar 2026 17:44:16 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1774284255;
-	bh=KV8jqEFhaHfQRq9P+VG4/SCumEfR8TaE/ef//TFBllg=;
+	s=mail; t=1774284257;
+	bh=X7rmBsT/VLu4cXnU/1jFT5MXtJ/cKZy9Of0fz7nPLBw=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=OcNwaZds3jR8UpKos26retc7eZRMMmkv9KxLY49ZZ+aZcZu/UUP58Ca+5jRDf76iN
-	 vI3OaSnQ1Jr8a3soegHjahRUrKBPDcSRCxgSBBjmTQqZezzBTui927JxCTiNNnf1ZR
-	 zD47DjegH3K11RdPABLgMkXPFSqNC9KnrpnP+x7I=
+	b=U5XzyAFT3uRwQ63DcvBV0Yb8AsGMsQarh56pfJZo4jFF6QLeEVZBZH1du35Q3NFKR
+	 4C63LkXyM19dgvKlkoR0xoAP+hqNgOvfmESvR/M2lZ4o+C6Y9puyIfjEdsIEY9Fr0f
+	 xpp83nFdmaCHb+4iEYgoQTZUiqINGM9cCDisVYS0=
 From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 To: dri-devel@lists.freedesktop.org
 Cc: linux-renesas-soc@vger.kernel.org,
 	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
 	Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>,
 	Biju Das <biju.das.jz@bp.renesas.com>
-Subject: [PATCH v2 3/4] drm: rcar-du: Use __free() to simplify device_node handling
-Date: Mon, 23 Mar 2026 18:45:25 +0200
-Message-ID: <20260323164526.2292491-4-laurent.pinchart+renesas@ideasonboard.com>
+Subject: [PATCH v2 4/4] drm: rcar-du: Don't leak device_link to CMM
+Date: Mon, 23 Mar 2026 18:45:26 +0200
+Message-ID: <20260323164526.2292491-5-laurent.pinchart+renesas@ideasonboard.com>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20260323164526.2292491-1-laurent.pinchart+renesas@ideasonboard.com>
 References: <20260323164526.2292491-1-laurent.pinchart+renesas@ideasonboard.com>
@@ -76,7 +76,7 @@ X-Spamd-Result: default: False [-1.66 / 15.00];
 	RCVD_TLS_LAST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
 	TO_DN_SOME(0.00)[];
-	TAGGED_FROM(0.00)[bounces-30119-lists,linux-renesas-soc=lfdr.de,renesas];
+	TAGGED_FROM(0.00)[bounces-30120-lists,linux-renesas-soc=lfdr.de,renesas];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
@@ -88,122 +88,200 @@ X-Spamd-Result: default: False [-1.66 / 15.00];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCPT_COUNT_FIVE(0.00)[5];
 	FROM_HAS_DN(0.00)[]
-X-Rspamd-Queue-Id: 7CD032F9CC1
+X-Rspamd-Queue-Id: 3AC612F9B09
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Replace manual of_node_put() calls with __free(). This simplifies error
-handling code and makes it less bug-prone.
+The DU driver creates device_link instances between the DU and CMMs, but
+never deletes them. Fix it by introducing a rcar_du_cmm structure to
+group the CMM device and device_link, and deleting the links at cleanup
+time.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 ---
- drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c | 25 ++++++-------------
- 1 file changed, 7 insertions(+), 18 deletions(-)
+ .../gpu/drm/renesas/rcar-du/rcar_du_crtc.c    | 16 +++++-----
+ .../gpu/drm/renesas/rcar-du/rcar_du_crtc.h    |  3 +-
+ drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.h |  8 ++++-
+ drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c | 29 ++++++++++++-------
+ 4 files changed, 35 insertions(+), 21 deletions(-)
 
-diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c b/drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c
-index f38e45d38ad2..9a53b5a86c82 100644
---- a/drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c
-+++ b/drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c
-@@ -19,6 +19,7 @@
- #include <drm/drm_probe_helper.h>
- #include <drm/drm_vblank.h>
+diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_du_crtc.c b/drivers/gpu/drm/renesas/rcar-du/rcar_du_crtc.c
+index 28a5aa5a14d8..7c36c30a75b6 100644
+--- a/drivers/gpu/drm/renesas/rcar-du/rcar_du_crtc.c
++++ b/drivers/gpu/drm/renesas/rcar-du/rcar_du_crtc.c
+@@ -513,13 +513,13 @@ static void rcar_du_cmm_setup(struct drm_crtc *crtc)
+ 	struct rcar_du_crtc *rcrtc = to_rcar_crtc(crtc);
+ 	struct rcar_cmm_config cmm_config = {};
  
-+#include <linux/cleanup.h>
- #include <linux/device.h>
- #include <linux/dma-buf.h>
- #include <linux/of.h>
-@@ -573,7 +574,7 @@ static int rcar_du_encoders_init_one(struct rcar_du_device *rcdu,
- 				     enum rcar_du_output output,
- 				     struct of_endpoint *ep)
- {
--	struct device_node *entity;
-+	struct device_node *entity __free(device_node) = NULL;
- 	int ret;
+-	if (!rcrtc->cmm)
++	if (!rcrtc->cmm->dev)
+ 		return;
  
- 	/* Locate the connected entity and initialize the encoder. */
-@@ -588,7 +589,6 @@ static int rcar_du_encoders_init_one(struct rcar_du_device *rcdu,
- 		dev_dbg(rcdu->dev,
- 			"connected entity %pOF is disabled, skipping\n",
- 			entity);
--		of_node_put(entity);
- 		return -ENODEV;
- 	}
+ 	if (drm_lut)
+ 		cmm_config.lut.table = (struct drm_color_lut *)drm_lut->data;
  
-@@ -598,15 +598,13 @@ static int rcar_du_encoders_init_one(struct rcar_du_device *rcdu,
- 			 "failed to initialize encoder %pOF on output %s (%d), skipping\n",
- 			 entity, rcar_du_output_name(output), ret);
- 
--	of_node_put(entity);
--
- 	return ret;
+-	rcar_cmm_setup(rcrtc->cmm, &cmm_config);
++	rcar_cmm_setup(rcrtc->cmm->dev, &cmm_config);
  }
  
- static int rcar_du_encoders_init(struct rcar_du_device *rcdu)
- {
-+	struct device_node *ep_node __free(device_node) = NULL;
- 	struct device_node *np = rcdu->dev->of_node;
--	struct device_node *ep_node;
- 	unsigned int num_encoders = 0;
+ /* -----------------------------------------------------------------------------
+@@ -667,8 +667,8 @@ static void rcar_du_crtc_stop(struct rcar_du_crtc *rcrtc)
+ 	if (rcar_du_has(rcrtc->dev, RCAR_DU_FEATURE_VSP1_SOURCE))
+ 		rcar_du_vsp_disable(rcrtc);
+ 
+-	if (rcrtc->cmm)
+-		rcar_cmm_disable(rcrtc->cmm);
++	if (rcrtc->cmm->dev)
++		rcar_cmm_disable(rcrtc->cmm->dev);
  
  	/*
-@@ -620,10 +618,8 @@ static int rcar_du_encoders_init(struct rcar_du_device *rcdu)
- 		int ret;
+ 	 * Select switch sync mode. This stops display operation and configures
+@@ -726,8 +726,8 @@ static void rcar_du_crtc_atomic_enable(struct drm_crtc *crtc,
+ 	struct rcar_du_crtc_state *rstate = to_rcar_crtc_state(crtc->state);
+ 	struct rcar_du_device *rcdu = rcrtc->dev;
  
- 		ret = of_graph_parse_endpoint(ep_node, &ep);
--		if (ret < 0) {
--			of_node_put(ep_node);
-+		if (ret < 0)
- 			return ret;
--		}
+-	if (rcrtc->cmm)
+-		rcar_cmm_enable(rcrtc->cmm);
++	if (rcrtc->cmm->dev)
++		rcar_cmm_enable(rcrtc->cmm->dev);
+ 	rcar_du_crtc_get(rcrtc);
  
- 		/* Find the output route corresponding to the port number. */
- 		for (i = 0; i < RCAR_DU_OUTPUT_MAX; ++i) {
-@@ -644,10 +640,8 @@ static int rcar_du_encoders_init(struct rcar_du_device *rcdu)
- 		/* Process the output pipeline. */
- 		ret = rcar_du_encoders_init_one(rcdu, output, &ep);
- 		if (ret < 0) {
--			if (ret == -EPROBE_DEFER) {
--				of_node_put(ep_node);
-+			if (ret == -EPROBE_DEFER)
- 				return ret;
--			}
+ 	/*
+@@ -1300,8 +1300,8 @@ int rcar_du_crtc_create(struct rcar_du_group *rgrp, unsigned int swindex,
+ 		return ret;
  
- 			continue;
- 		}
-@@ -775,9 +769,9 @@ static int rcar_du_cmm_init(struct rcar_du_device *rcdu)
+ 	/* CMM might be disabled for this CRTC. */
+-	if (rcdu->cmms[swindex]) {
+-		rcrtc->cmm = rcdu->cmms[swindex];
++	if (rcdu->cmms[swindex].dev) {
++		rcrtc->cmm = &rcdu->cmms[swindex];
+ 		rgrp->cmms_mask |= BIT(hwindex % 2);
+ 
+ 		drm_mode_crtc_set_gamma_size(crtc, CM2_LUT_SIZE);
+diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_du_crtc.h b/drivers/gpu/drm/renesas/rcar-du/rcar_du_crtc.h
+index 07a40b305be8..8857926e109a 100644
+--- a/drivers/gpu/drm/renesas/rcar-du/rcar_du_crtc.h
++++ b/drivers/gpu/drm/renesas/rcar-du/rcar_du_crtc.h
+@@ -19,6 +19,7 @@
+ 
+ #include <media/vsp1.h>
+ 
++struct rcar_du_cmm;
+ struct rcar_du_group;
+ struct rcar_du_vsp;
+ 
+@@ -65,7 +66,7 @@ struct rcar_du_crtc {
+ 	unsigned int vblank_count;
+ 
+ 	struct rcar_du_group *group;
+-	struct device *cmm;
++	struct rcar_du_cmm *cmm;
+ 	struct rcar_du_vsp *vsp;
+ 	unsigned int vsp_pipe;
+ 
+diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.h b/drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.h
+index 9e160dede4e6..de9c6617a2d4 100644
+--- a/drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.h
++++ b/drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.h
+@@ -22,6 +22,7 @@
+ 
+ struct clk;
+ struct device;
++struct device_link;
+ struct drm_bridge;
+ struct drm_property;
+ struct rcar_du_device;
+@@ -88,6 +89,11 @@ struct rcar_du_device_info {
+ 	unsigned int lvds_clk_mask;
+ };
+ 
++struct rcar_du_cmm {
++	struct device *dev;
++	struct device_link *link;
++};
++
+ #define RCAR_DU_MAX_CRTCS		4
+ #define RCAR_DU_MAX_GROUPS		DIV_ROUND_UP(RCAR_DU_MAX_CRTCS, 2)
+ #define RCAR_DU_MAX_VSPS		4
+@@ -106,7 +112,7 @@ struct rcar_du_device {
+ 	unsigned int num_crtcs;
+ 
+ 	struct rcar_du_group groups[RCAR_DU_MAX_GROUPS];
+-	struct device *cmms[RCAR_DU_MAX_CRTCS];
++	struct rcar_du_cmm cmms[RCAR_DU_MAX_CRTCS];
+ 	struct rcar_du_vsp vsps[RCAR_DU_MAX_VSPS];
+ 	struct drm_bridge *lvds[RCAR_DU_MAX_LVDS];
+ 	struct drm_bridge *dsi[RCAR_DU_MAX_DSI];
+diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c b/drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c
+index 9a53b5a86c82..b2d0e4651e35 100644
+--- a/drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c
++++ b/drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c
+@@ -769,23 +769,23 @@ static int rcar_du_cmm_init(struct rcar_du_device *rcdu)
  	}
  
  	for (i = 0; i < cells; ++i) {
-+		struct device_node *cmm __free(device_node) = NULL;
+-		struct device_node *cmm __free(device_node) = NULL;
++		struct device_node *cmm_node __free(device_node) = NULL;
++		struct rcar_du_cmm *cmm = &rcdu->cmms[i];
  		struct platform_device *pdev;
- 		struct device_link *link;
--		struct device_node *cmm;
+-		struct device_link *link;
  		int ret;
  
- 		cmm = of_parse_phandle(np, "renesas,cmms", i);
-@@ -787,21 +781,16 @@ static int rcar_du_cmm_init(struct rcar_du_device *rcdu)
+-		cmm = of_parse_phandle(np, "renesas,cmms", i);
+-		if (!cmm) {
++		cmm_node = of_parse_phandle(np, "renesas,cmms", i);
++		if (!cmm_node) {
+ 			dev_err(rcdu->dev,
+ 				"Failed to parse 'renesas,cmms' property\n");
  			return -EINVAL;
  		}
  
--		if (!of_device_is_available(cmm)) {
-+		if (!of_device_is_available(cmm))
+-		if (!of_device_is_available(cmm))
++		if (!of_device_is_available(cmm_node))
  			/* It's fine to have a phandle to a non-enabled CMM. */
--			of_node_put(cmm);
  			continue;
--		}
  
- 		pdev = of_find_device_by_node(cmm);
+-		pdev = of_find_device_by_node(cmm);
++		pdev = of_find_device_by_node(cmm_node);
  		if (!pdev) {
  			dev_err(rcdu->dev, "No device found for CMM%u\n", i);
--			of_node_put(cmm);
  			return -EINVAL;
+@@ -801,14 +801,15 @@ static int rcar_du_cmm_init(struct rcar_du_device *rcdu)
+ 			return ret == -ENODEV ? 0 : ret;
  		}
  
--		of_node_put(cmm);
--
+-		rcdu->cmms[i] = &pdev->dev;
++		cmm->dev = &pdev->dev;
+ 
  		/*
- 		 * -ENODEV is used to report that the CMM config option is
- 		 * disabled: return 0 and let the DU continue probing.
+ 		 * Enforce suspend/resume ordering by making the CMM a provider
+ 		 * of the DU: CMM is suspended after and resumed before the DU.
+ 		 */
+-		link = device_link_add(rcdu->dev, &pdev->dev, DL_FLAG_STATELESS);
+-		if (!link) {
++		cmm->link = device_link_add(rcdu->dev, cmm->dev,
++					    DL_FLAG_STATELESS);
++		if (!cmm->link) {
+ 			dev_err(rcdu->dev,
+ 				"Failed to create device link to CMM%u\n", i);
+ 			return -EINVAL;
+@@ -823,8 +824,14 @@ static void rcar_du_modeset_cleanup(struct drm_device *dev, void *res)
+ 	struct rcar_du_device *rcdu = to_rcar_du_device(dev);
+ 	unsigned int i;
+ 
+-	for (i = 0; i < ARRAY_SIZE(rcdu->cmms); ++i)
+-		put_device(rcdu->cmms[i]);
++	for (i = 0; i < ARRAY_SIZE(rcdu->cmms); ++i) {
++		struct rcar_du_cmm *cmm = &rcdu->cmms[i];
++
++		if (cmm->link)
++			device_link_del(cmm->link);
++
++		put_device(cmm->dev);
++	}
+ }
+ 
+ int rcar_du_modeset_init(struct rcar_du_device *rcdu)
 -- 
 Regards,
 
