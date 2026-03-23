@@ -1,170 +1,157 @@
-Return-Path: <linux-renesas-soc+bounces-30125-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-30126-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id yMPXKNF9wWknTgQAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-30125-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Mar 2026 18:52:17 +0100
+	id QP4FNJGLwWlxTwQAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-30126-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Mar 2026 19:50:57 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16EAE2FA876
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Mar 2026 18:52:16 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 36ACE2FB990
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Mar 2026 19:50:57 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id E8FAE3055A04
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Mar 2026 17:42:45 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 01518302172F
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Mar 2026 18:02:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DF4453CBE98;
-	Mon, 23 Mar 2026 17:41:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=hugovil.com header.i=@hugovil.com header.b="Nv8MHeXf"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9D3103C5DAC;
+	Mon, 23 Mar 2026 18:02:32 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.hugovil.com (mail.hugovil.com [162.243.120.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4B963CCFD2;
-	Mon, 23 Mar 2026 17:41:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.243.120.170
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DFC5B1B86C7;
+	Mon, 23 Mar 2026 18:02:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774287677; cv=none; b=q2bAM+CgHeSCgO+jiefzGMUThDd8EWVPm+/1A5Q8ivAAKs+VbkTSdqNVLViN9uWxzEpkPSonZMBe9FH61rJ+P/foTHihaZ8cFNUpY07D01YvkiUDXn1YxSqqM5Nxt9RMoayH7CTC6c6HMaaxiGykMJyqeshDxztdbIoatzVKNyE=
+	t=1774288952; cv=none; b=eC2H60lOjBZUOit3fjKERIkv7FinIbPIASMU3pNqfQTWBBvCFC0YT5sUTziKR+/vnr4n832MdDLjOXdXm6P1yLSVJihwDIHuVQ78dWHAZlqq3b10Bh67Jwb4oE+sO4/8pr/BMks1fWqXq4Y/4ECWgPsAg6vhzeItk1R/jhfd1sE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774287677; c=relaxed/simple;
-	bh=VNbeoXsnXbo+98jSq/Bl5LZJAYWTKJV7TzFcNeLE4Oo=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=ulbOLKcFQscVEM5SSFdTG8Hsxi7Z2NvjIwuL+aMZhS/WyV8cx7NNxqe0VLI53syhO+zvV1NgTJbqSMcga0e2WBe7jcaLPrPocIT0PucHCOfVFyOtSCpHS3XIcj7aO4l+LAlgsIQ0VoE+qOC+zq/su8q+7/rshAEYtpGgB0t3eTI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hugovil.com; spf=pass smtp.mailfrom=hugovil.com; dkim=pass (1024-bit key) header.d=hugovil.com header.i=@hugovil.com header.b=Nv8MHeXf; arc=none smtp.client-ip=162.243.120.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hugovil.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hugovil.com
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=hugovil.com
-	; s=default; h=Content-Transfer-Encoding:Mime-Version:Message-Id:Subject:Cc:
-	To:From:Date:subject:date:message-id:reply-to;
-	bh=EtCsnBnZz2wovDVb2c1WqzkKZB1qCNcO5X2CZ7cgDMk=; b=Nv8MHeXfYy1zDbtwL544BfXXL2
-	xUDpz9v2/6kr95JFN3HJAZ8/g8Ss8JhcYSEGO7/HSyZVKhCgf+fieiT2Dq1z8hz5mOzbSmtNwgHod
-	GeAmspCxs6Q/PuX5+h1F8BcpQo6CWFJAJj5O5evhQ96LIHTayRPxp7WsuwZjNssoIfPI=;
-Received: from modemcable168.174-80-70.mc.videotron.ca ([70.80.174.168] helo=pettiford.lan)
-	by mail.hugovil.com with esmtpa (Exim 4.98.2)
-	(envelope-from <hugo@hugovil.com>)
-	id 1w4jH1-0000000028R-2NHB;
-	Mon, 23 Mar 2026 13:41:07 -0400
-Date: Mon, 23 Mar 2026 13:41:06 -0400
-From: Hugo Villeneuve <hugo@hugovil.com>
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: biju.das.au <biju.das.au@gmail.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Chris Brandt <Chris.Brandt@renesas.com>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, Sam Ravnborg
- <sam@ravnborg.org>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>, "linux-renesas-soc@vger.kernel.org"
- <linux-renesas-soc@vger.kernel.org>, "linux-kernel@vger.kernel.org"
- <linux-kernel@vger.kernel.org>, Geert Uytterhoeven
- <geert+renesas@glider.be>, Prabhakar Mahadev Lad
- <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH v2 4/4] drm: renesas: rzg2l_mipi_dsi: Increase reset
- deassertion delay to 1 msec
-Message-Id: <20260323134106.a439ffad5d1ff6927e0c549f@hugovil.com>
-In-Reply-To: <TY3PR01MB113460833AFD4BE4422E5E737864BA@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-References: <20260319164833.409126-1-biju.das.jz@bp.renesas.com>
-	<20260319164833.409126-5-biju.das.jz@bp.renesas.com>
-	<20260323102015.957b2f855b7d54aa5d33869d@hugovil.com>
-	<TY3PR01MB113460833AFD4BE4422E5E737864BA@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1774288952; c=relaxed/simple;
+	bh=YJ9N55+1LbnIjsvbxyD8BVXrvl3b4MCCT7hul9aYC7Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YtkSofIPvwtwK5WdsVin+UB6+iMdetHCFTD/zBMN8DEiBvAPMHzTMEskCMPuIQLsYGzs6FBtOjCiE6UNEmerIir5wqdVYJv4f9J9jkTJo/O6494AcAhOPaQPiZ2BW5DbBWfv4t3DPmSyIKo4RAZI/ypsa0jYqY4DbcxsFQneg6w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0DC711476;
+	Mon, 23 Mar 2026 11:02:24 -0700 (PDT)
+Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 669563F694;
+	Mon, 23 Mar 2026 11:02:26 -0700 (PDT)
+Date: Mon, 23 Mar 2026 18:02:18 +0000
+From: Cristian Marussi <cristian.marussi@arm.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Sudeep Holla <sudeep.holla@kernel.org>,
+	Cristian Marussi <cristian.marussi@arm.com>,
+	Marek Vasut <marek.vasut+renesas@mailbox.org>,
+	arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/3] firmware: arm_scmi: Lazy clock rates and bound
+ iterator fixes
+Message-ID: <acGAKmPkfdmxvMR_@pluto>
+References: <cover.1774283748.git.geert+renesas@glider.be>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spamd-Result: default: False [-0.16 / 15.00];
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <cover.1774283748.git.geert+renesas@glider.be>
+X-Spamd-Result: default: False [0.64 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[hugovil.com,none];
-	MV_CASE(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
-	R_DKIM_ALLOW(-0.20)[hugovil.com:s=default];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
+	DMARC_POLICY_SOFTFAIL(0.10)[arm.com : SPF not aligned (relaxed), No valid DKIM,none];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-30125-lists,linux-renesas-soc=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	FREEMAIL_CC(0.00)[gmail.com,linux.intel.com,kernel.org,suse.de,ffwll.ch,renesas.com,ideasonboard.com,ravnborg.org,lists.freedesktop.org,vger.kernel.org,glider.be,bp.renesas.com];
-	RCPT_COUNT_TWELVE(0.00)[15];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[hugo@hugovil.com,linux-renesas-soc@vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-30126-lists,linux-renesas-soc=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[hugovil.com:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
-	NEURAL_HAM(-0.00)[-1.000];
-	TO_DN_SOME(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	MISSING_XM_UA(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[renesas.com:email,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,hugovil.com:dkim,hugovil.com:email,hugovil.com:mid]
-X-Rspamd-Queue-Id: 16EAE2FA876
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[cristian.marussi@arm.com,linux-renesas-soc@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	NEURAL_HAM(-0.00)[-1.000];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	R_DKIM_NA(0.00)[];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,arm.com:email]
+X-Rspamd-Queue-Id: 36ACE2FB990
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi Biju,
+On Mon, Mar 23, 2026 at 05:56:09PM +0100, Geert Uytterhoeven wrote:
+> 	Hi all,
 
-On Mon, 23 Mar 2026 15:19:27 +0000
-Biju Das <biju.das.jz@bp.renesas.com> wrote:
+Hi Geert,
 
-> Hi Hugo,
 > 
-> > -----Original Message-----
-> > From: Hugo Villeneuve <hugo@hugovil.com>
-> > Sent: 23 March 2026 14:20
-> > Subject: Re: [PATCH v2 4/4] drm: renesas: rzg2l_mipi_dsi: Increase reset deassertion delay to 1 msec
-> > 
-> > Hi Biju,
-> > 
-> > On Thu, 19 Mar 2026 16:48:28 +0000
-> > Biju <biju.das.au@gmail.com> wrote:
-> > 
-> > > From: Biju Das <biju.das.jz@bp.renesas.com>
-> > >
-> > > The RZ/G2L hardware manual (Rev. 1.50, May 2025), Section 34.4.2.1,
-> > > requires waiting more than 1 msec after deasserting the CMN_RSTB
-> > > signal before the DSI-Tx module is ready. Increase the delay from 1
-> > > usec to
-> > > 1 msec by replacing udelay(1) with fsleep(1000).
-> > >
-> > > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> > 
-> > In your first submission, I commented that "...this should be backported to stable branches (missing
-> > Fixes / Cc: stable tags)?" and you answered with "Agreed, will add fixes/stable tags".
-> > 
-> > If you still agree, this patch should be #3 in your list, so that it is easier/straightforward to
-> > backport to stable branches.
-> 
-> The patch order is changed. that is the reason I have not added any fixes/stable tags.
+> This patch series:
+>   - Fixes an out-of-bound access in lazy clock rate handling,
+>   - Synchronizes bound-iterator cleanup naming between documentation and
+>     code.
 
-This is not a logical nor valid justification if the change
-merits to be backported to stable branches as you indicated in
-series 1. Why have you changed your mind?
+thanks for this !
 
-> The if check in patch#3 makes it is not backportable to stable branches.
+I was just chasing down exactly the same issue, since it was flagged by
+our CI on a rockchip board (together with some KASAN splat...)...but I had
+still to manage to get my hands directly on that board to start
+debugging properly ... so ...
 
-If you put the delay patch before that "if check", then it is
-irrelevant, no?
+... very happy that you beat me at this:P !
 
-> If I reorder this to patch#3 it is fixing just the delay mentioned in the hardware manual.
+While waiting for the board and trying to figure out what could cause
+the fatal issue I spotted something more to be rectified in the core of
+the iterators, BUT I dont think it would have solved the issue like your
+fixes.
 
-Yes, and that is also exactly what this current version does, no?
+In a nutshell, it was the possibility of an integer undeflow due to an
+unchecked subtraction between unsigned.
 
-For me, it is simply changing a delay from 1us to 1ms. Whether you
-change it before or after another patch isn't supposed to matter in the
-end, unless I am missing something?
+---8<---
+commit 65bd4a11333098fbf4c60f3bc59c971be1cd259d (mygitlab/scmi_dev, scmi_dev)
+Author: Cristian Marussi <cristian.marussi@arm.com>
+Date:   Mon Mar 23 08:19:32 2026 +0000
 
+    [TODO] FIX Iterator boundary checking
+    
+    [TODO] FIX Iterator boundary checking
+    
+    Signed-off-by: Cristian Marussi <cristian.marussi@arm.com>
 
--- 
-Hugo Villeneuve
+diff --git a/drivers/firmware/arm_scmi/driver.c b/drivers/firmware/arm_scmi/driver.c
+index 8b5f477758a0..562977438e60 100644
+--- a/drivers/firmware/arm_scmi/driver.c
++++ b/drivers/firmware/arm_scmi/driver.c
+@@ -1845,7 +1845,7 @@ static int __scmi_iterator_run(void *iter, unsigned int *start, unsigned int *en
+                if (ret)
+                        return ret;
+ 
+-               if (st->num_returned > st->max_resources - st->desc_index) {
++               if (st->num_returned + st->desc_index > st->max_resources) {
+                        dev_err(ph->dev,
+                                "No. of resources can't exceed %d\n",
+                                st->max_resources);
+---8<----
+
+Anyway, next dsys I will test all of this with your series, but since my
+original series indeed was on hold now due to these issues AND because still
+lacking clock-MAINTs acks, I am not sure if:
+ 
+ - we'll merge your fixes into my series while maintaining of course your
+   authorship (instead of applying the series on top)
+
+ - Sudeep will still queue any of this for this cycle
+
+Thanks a lot for the debug and fixes to my cr...y stuff :P
+
+Cristian
 
