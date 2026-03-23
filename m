@@ -1,190 +1,160 @@
-Return-Path: <linux-renesas-soc+bounces-30115-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-30102-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id IB16LzVowWliSwQAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-30115-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Mar 2026 17:20:05 +0100
+	id 6FlyN/w4wWm7RQQAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-30102-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Mar 2026 13:58:36 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6267A2F7E68
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Mar 2026 17:20:05 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C9AB2F258B
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Mar 2026 13:58:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id A20BC3124FA1
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Mar 2026 15:43:04 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 3F0F8305DABD
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Mar 2026 12:49:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A49213B6C01;
-	Mon, 23 Mar 2026 15:38:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4CD593A1698;
+	Mon, 23 Mar 2026 12:49:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="mgU9aFrC"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BRTluIWq"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mailout1.samsung.com (mailout1.samsung.com [203.254.224.24])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23EE83B6BE6
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 23 Mar 2026 15:38:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.254.224.24
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04F4C39659A
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 23 Mar 2026 12:49:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774280290; cv=none; b=Ze+35sdjDA27LKpSG15rW4a6DECDJjFhTxcfYyh5R2KHgtJuhnaU/BFhR+l6k2bhIDDmfEam6hv1DzxuSeeeWZ7MtzVZbSMCaaKaeYxG6jea9pCDfb5W7yVFd4lLv/0oJbJwdybT/MU9lmMopZtwqHkHsahoXfn3Zkq/uUoEBNE=
+	t=1774270162; cv=none; b=DBjdiTW4bAQ4kpEGMPvlBdnt06v76YunWnQT3Rp0ZmZiQbA+qeK4Ye90NYUxc6d1FJaDeEy8Zc6p12jHvS7KZIISOu/8XlUxZSEliDY6TEc+DiZ0Xi1bm3cSPNpKhtWuwXItqyIR63ONhLCw+DfcD20T6gvMRdMtziqKC/Y5g84=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774280290; c=relaxed/simple;
-	bh=vToF1UbNvL4l1OkVwlOI7+XcnxHkjKZMzjHswh/EJ+k=;
-	h=From:To:Cc:In-Reply-To:Subject:Date:Message-ID:MIME-Version:
-	 Content-Type:References; b=MzUK1iiTsUvks1hhL4oMgGyXFFRX5A1eZ5vkVBUS5hWLP/BCIXfOmlAFSO4wQN3gk0lEe+M8CVje6Zeg/qnrXbb+80//pzvi/m5pcEXA1hOgYvBbvMKRY9AWMTP+7v5xlTgC3HtXjpmMpADUwIbuYwA0EjG94f0PCO17k/FAa9w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=mgU9aFrC; arc=none smtp.client-ip=203.254.224.24
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
-Received: from epcas5p1.samsung.com (unknown [182.195.41.39])
-	by mailout1.samsung.com (KnoxPortal) with ESMTP id 20260323153802epoutp01afaf84c9f887a82416f249796cae1286~fgoRDyXov0290102901epoutp015
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 23 Mar 2026 15:38:02 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com 20260323153802epoutp01afaf84c9f887a82416f249796cae1286~fgoRDyXov0290102901epoutp015
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1774280282;
-	bh=MYU9K1BczlLtBMfJPDu28QIk9pzoA+hXl3yf17nC2HI=;
-	h=From:To:Cc:In-Reply-To:Subject:Date:References:From;
-	b=mgU9aFrC+5Kx+21CCBQ48vtUtevP0XGV5aHjupTGFTw7s0wbx2FYZ7piHu2gEGNx9
-	 7FiJ9iRzTsn7N6OtZVcQFwqx9+/yRy1FbPgDJReQh76dJWCUi3xQdbS9llr9OgF8ia
-	 3KFTDuksHm5/ZDwJUU6SICm8wW+RY1yai4quNiMM=
-Received: from epsnrtp03.localdomain (unknown [182.195.42.155]) by
-	epcas5p1.samsung.com (KnoxPortal) with ESMTPS id
-	20260323153802epcas5p1bb1e979594c5257c037cdf6411e7a177~fgoQZrLX82373723737epcas5p1t;
-	Mon, 23 Mar 2026 15:38:02 +0000 (GMT)
-Received: from epcpadp2new (unknown [182.195.40.142]) by
-	epsnrtp03.localdomain (Postfix) with ESMTP id 4ffckf0KMvz3hhT4; Mon, 23 Mar
-	2026 15:38:02 +0000 (GMT)
-Received: from epsmtip2.samsung.com (unknown [182.195.34.31]) by
-	epcas5p3.samsung.com (KnoxPortal) with ESMTPA id
-	20260323123542epcas5p349d0e7c45d02ccaa06c84dbdf1777126~feJElRtj12139221392epcas5p34;
-	Mon, 23 Mar 2026 12:35:42 +0000 (GMT)
-Received: from INBRO002756 (unknown [107.122.3.168]) by epsmtip2.samsung.com
-	(KnoxPortal) with ESMTPA id
-	20260323123538epsmtip2099c850de3b514ee4ac3f5a0092dd02a~feJAkDKG92361023610epsmtip2P;
-	Mon, 23 Mar 2026 12:35:38 +0000 (GMT)
-From: "Alim Akhtar" <alim.akhtar@samsung.com>
-To: "'Vladimir Oltean'" <vladimir.oltean@nxp.com>, "'Martin K. Petersen'"
-	<martin.petersen@oracle.com>
-Cc: <linux-phy@lists.infradead.org>, "'Vinod Koul'" <vkoul@kernel.org>,
-	"'Neil	Armstrong'" <neil.armstrong@linaro.org>,
-	<dri-devel@lists.freedesktop.org>, <freedreno@lists.freedesktop.org>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-arm-msm@vger.kernel.org>,
-	<linux-can@vger.kernel.org>, <linux-gpio@vger.kernel.org>,
-	<linux-ide@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-media@vger.kernel.org>, <linux-pci@vger.kernel.org>,
-	<linux-renesas-soc@vger.kernel.org>, <linux-riscv@lists.infradead.org>,
-	<linux-rockchip@lists.infradead.org>, <linux-samsung-soc@vger.kernel.org>,
-	<linux-scsi@vger.kernel.org>, <linux-sunxi@lists.linux.dev>,
-	<linux-tegra@vger.kernel.org>, <linux-usb@vger.kernel.org>,
-	<netdev@vger.kernel.org>, <spacemit@lists.linux.dev>,
-	<UNGLinuxDriver@microchip.com>, "'Bart Van Assche'" <bvanassche@acm.org>,
-	"'Peter Griffin'" <peter.griffin@linaro.org>, "'James E.J. Bottomley'"
-	<James.Bottomley@HansenPartnership.com>, "'Krzysztof	Kozlowski'"
-	<krzk@kernel.org>, "'Chanho Park'" <chanho61.park@samsung.com>
-In-Reply-To: <20260323115848.ghdu4sbk75tvggfb@skbuf>
-Subject: RE: [PATCH v5 phy-next 09/27] scsi: ufs: exynos: stop poking into
- struct phy guts
-Date: Mon, 23 Mar 2026 18:05:36 +0530
-Message-ID: <1891546521.01774280282025.JavaMail.epsvc@epcpadp2new>
+	s=arc-20240116; t=1774270162; c=relaxed/simple;
+	bh=rrWNi/xNJnsSR6A8ignp7z7Dh6rsilj94gZ31wSf2cI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=DAMlmM5dEesp2o/wnocoMzdfPz2BTtDp7OGHhtkX663F6DxVCFzHP2+ac6HucdXFp3n5bi50lRfy83cqc4ZckbAvy52CtWSxv7lLvjS1AHMhFy0zHwDkBGg5QvOHrC4qiJxuT/C1sJSsur9K+IsVOQrOusv4q0VWUjkr6PaH3Qk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BRTluIWq; arc=none smtp.client-ip=209.85.128.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-486fba7ce4cso677825e9.3
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 23 Mar 2026 05:49:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1774270159; x=1774874959; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=/h14p7w4yNFLxJSIoydmoqwdeJV+j9qvjwD5SXjzhgM=;
+        b=BRTluIWq3WIItrQPlFF8v6kSX9MrHyaMMG+MIGdWB7aoL3xtVCUuqp2L5QR50XauNJ
+         LPMGvYI3TucfiNckAIIFqXRefkz22XLplkeIffH+xyKfDyEHBztwATwt5rCvIJCRHs0i
+         2q8Ea1xmvq6t5V//j6xzRfQf+VtFW5CC/qpG5UpBa2d/jfiRo3g5lENOoAbj8QoXgcWQ
+         tVGVpJVP46oEiGRPuT6gTPcQM0oxz2Ag8X7trj57X/E4tUqdCVFhN0Dmv3d0LluMqt21
+         TMa2wpi2UN1ufQjNtoDFE3U/xXq69tlsZmzzfwauIS8PRWuFoSjLvhB7jJSA8d4+wHI6
+         sadA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774270159; x=1774874959;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/h14p7w4yNFLxJSIoydmoqwdeJV+j9qvjwD5SXjzhgM=;
+        b=RfXQk1ePj3/skfGT3ha8aFBa6cIewqoz+LJPBbln2N1YBMZa1nNAkr/6Z71+EVdUkh
+         KSiOvEPDUQZ1VCQaj1g/NxGE5D+K8oCvHdFeGGG/ZX9v/q47YR7Yse6V7mo2EJk5On3J
+         OI5qqyPXf2JJ7JSReiizePh+QqQSywuHbjsl3nLTW/LBtadNXQfeWkMMXvfQoO1j73Jk
+         oHrU9zSO1TfL0cskeOMvjVBDJq2DkJJXbf1Ja128U/RhJODLJ28bmdkN0Zxy0k1xJb+w
+         Mbjw+MhMWPq5EjbLd9bLxAqzhr7dF55yP9EFBMtn+6AFWn+UH4OaCxusydYcRb9+1h3r
+         HzWQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUBSkln5SvFxBzIm7wLCN5qLmK6zMLFc6+PRA9dFiK3Yo3JJWwLRyn+HbzCKPKH8CQaG6YJ/ersJHsV+JFulKCZng==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw1x0PmDV1t3EB2v1WLdAkdaGcUGL5RarsMFT8GLn3YJc6PaVTO
+	UF7+OjClt02159395MVKDVCXlOtH4KGmE8EvvB1wjnbSl5t2ZKMsHHe8Jd4QKw==
+X-Gm-Gg: ATEYQzwd26klJ3thGtVa+6J53hHn48qZX+JJfj8CewifBEQ4mBVrIoAwwRN2/ltuC90
+	wyPxGVBGcmn7xxGLTLTASbVmIGY+uqm1td8Id0SKp41EDqL3PCDkt5ka77I3KTfU30d/FIhehpL
+	IM77xdnOxhA2LYfu25G16BJbuAuj5LBR/pzaN1uVWL9H2uaS97Aq7hPD37sskOMuFtmYE+0aRdz
+	Rh7rewn4rKjMgvD640jlqAtqoM82+Gf2gnO1K9xTXpBDJHJbq15agHUAqPUHXNGMz0HwcJHsVzS
+	qGDj1fecgZ6XxnTOWFiCtm9t/K95SbceWmZZ9nbjqg0FniM5OiKXMRtfswLYZ//CJXldkQ1Katc
+	Pc9BBifohL4n1GJmIjBJF+kNPiJjLK8cRVZBz+TPKnsRyZVj9/gVNJJrKhzKZjYiKCE2RcQ+CFr
+	2yTatwVcyykK+AiM0NXEZV51fqaF5EOA==
+X-Received: by 2002:a05:600c:828d:b0:486:fe39:28b7 with SMTP id 5b1f17b1804b1-486fedf8fcbmr177887105e9.9.1774270159153;
+        Mon, 23 Mar 2026 05:49:19 -0700 (PDT)
+Received: from biju.lan ([2a00:23c4:a758:8a01:d51:b85b:21f5:4b41])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-486fe836784sm254365855e9.13.2026.03.23.05.49.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 23 Mar 2026 05:49:18 -0700 (PDT)
+From: Biju <biju.das.au@gmail.com>
+X-Google-Original-From: Biju <biju.das.jz@bp.renesas.com>
+To: Thomas Gleixner <tglx@kernel.org>
+Cc: Biju Das <biju.das.jz@bp.renesas.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	linux-kernel@vger.kernel.org,
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	Biju Das <biju.das.au@gmail.com>,
+	linux-renesas-soc@vger.kernel.org
+Subject: [PATCH] irqchip/renesas-rzv2h: Fix error path in irq_domain_create_hierarchy()
+Date: Mon, 23 Mar 2026 12:49:14 +0000
+Message-ID: <20260323124917.41602-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-Mailer: Microsoft Outlook 16.0
-Thread-Index: AQJoz1sM+EbPjkyDopxrfJVWkMJWdwI9AyWpAaSC6pgB9ZOp/gJXIgBltGJxFXA=
-Content-Language: en-us
-X-CMS-MailID: 20260323123542epcas5p349d0e7c45d02ccaa06c84dbdf1777126
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-CMS-TYPE: 105P
-X-CPGSPASS: Y
-X-Hop-Count: 3
-X-CMS-RootMailID: 20260323115859epcas5p10177db12a2e8aee9578271ff1411137b
-References: <20260319223241.1351137-1-vladimir.oltean@nxp.com>
-	<20260319223241.1351137-10-vladimir.oltean@nxp.com>
-	<yq1a4w3l04g.fsf@ca-mkp.ca.oracle.com>
-	<CGME20260323115859epcas5p10177db12a2e8aee9578271ff1411137b@epcas5p1.samsung.com>
-	<20260323115848.ghdu4sbk75tvggfb@skbuf>
-X-Spamd-Result: default: False [-1.66 / 15.00];
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-0.16 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[samsung.com,none];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
-	R_DKIM_ALLOW(-0.20)[samsung.com:s=mail20170921];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_MISSING_CHARSET(0.50)[];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCPT_COUNT_TWELVE(0.00)[31];
-	TAGGED_FROM(0.00)[bounces-30115-lists,linux-renesas-soc=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	URIBL_MULTI_FAIL(0.00)[sto.lore.kernel.org:server fail];
+	FROM_HAS_DN(0.00)[];
+	TAGGED_FROM(0.00)[bounces-30102-lists,linux-renesas-soc=lfdr.de];
+	RCVD_COUNT_FIVE(0.00)[5];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[bp.renesas.com,pengutronix.de,glider.be,vger.kernel.org,gmail.com];
+	TO_DN_SOME(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[bijudasau@gmail.com,linux-renesas-soc@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[alim.akhtar@samsung.com,linux-renesas-soc@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[samsung.com:+];
+	RCPT_COUNT_SEVEN(0.00)[8];
 	NEURAL_HAM(-0.00)[-1.000];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
+	FREEMAIL_FROM(0.00)[gmail.com];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-renesas-soc];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_SEVEN(0.00)[8]
-X-Rspamd-Queue-Id: 6267A2F7E68
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,renesas.com:email,bp.renesas.com:mid]
+X-Rspamd-Queue-Id: 4C9AB2F258B
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi Vladimir
+From: Biju Das <biju.das.jz@bp.renesas.com>
 
-> -----Original Message-----
-> From: Vladimir Oltean <vladimir.oltean@nxp.com>
-> Sent: Monday, March 23, 2026 5:29 PM
-> To: Martin K. Petersen <martin.petersen@oracle.com>
-> Cc: linux-phy@lists.infradead.org; Vinod Koul <vkoul@kernel.org>; Neil
-> Armstrong <neil.armstrong@linaro.org>; dri-devel@lists.freedesktop.org;
-> freedreno@lists.freedesktop.org; linux-arm-kernel@lists.infradead.org;
-> linux-arm-msm@vger.kernel.org; linux-can@vger.kernel.org; linux-
-> gpio@vger.kernel.org; linux-ide@vger.kernel.org; linux-
-> kernel@vger.kernel.org; linux-media@vger.kernel.org; linux-
-> pci@vger.kernel.org; linux-renesas-soc@vger.kernel.org; linux-
-> riscv@lists.infradead.org; linux-rockchip@lists.infradead.org;
-linux-samsung-
-> soc@vger.kernel.org; linux-scsi@vger.kernel.org;
-linux-sunxi@lists.linux.dev;
-> linux-tegra@vger.kernel.org; linux-usb@vger.kernel.org;
-> netdev@vger.kernel.org; spacemit@lists.linux.dev;
-> UNGLinuxDriver@microchip.com; Bart Van Assche <bvanassche@acm.org>;
-> Alim Akhtar <alim.akhtar@samsung.com>; Peter Griffin
-> <peter.griffin@linaro.org>; James E.J. Bottomley
-> <James.Bottomley@HansenPartnership.com>; Krzysztof Kozlowski
-> <krzk@kernel.org>; Chanho Park <chanho61.park@samsung.com>
-> Subject: Re: [PATCH v5 phy-next 09/27] scsi: ufs: exynos: stop poking into
-> struct phy guts
-> 
-> On Thu, Mar 19, 2026 at 10:15:17PM -0400, Martin K. Petersen wrote:
-> > Vladimir,
-> >
-> > > The Exynos host controller driver is clearly a PHY consumer (gets
-> > > the
-> > > ufs->phy using devm_phy_get()), but pokes into the guts of struct
-> > > ufs->phy
-> > > to get the generic_phy->power_count.
-> >
-> > Ah, newer version. Would still like an ack from Samsung.
-> >
-> > And I hit the wrong key, I did not actually apply this...
-> 
-> I will have to resend v6 because of an armv7 build error I've caused for
-ufs-
-> qcom.c (which doesn't #include <linux/interrupt.h>, and relies on a
-transitive
-> inclusion from <linux/phy/phy.h>). It would be nice to get the ack from
-> Samsung, but I'll send the next version in the upcoming hours regardless.
-Will review and possibly test on one of the board later tonight
+Replace pm_runtime_put() with pm_runtime_put_sync() in the
+irq_domain_create_hierarchy() error path to ensure the device suspends
+synchronously before devres cleanup disables runtime PM via
+pm_runtime_disable().
 
+Fixes: 5ec8cabc3b86 ("irqchip/renesas-rzv2h: Use devm_pm_runtime_enable()")
+Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+---
+ drivers/irqchip/irq-renesas-rzv2h.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/drivers/irqchip/irq-renesas-rzv2h.c b/drivers/irqchip/irq-renesas-rzv2h.c
+index ce790590f7ca..330c6ae87d71 100644
+--- a/drivers/irqchip/irq-renesas-rzv2h.c
++++ b/drivers/irqchip/irq-renesas-rzv2h.c
+@@ -884,7 +884,7 @@ static int rzv2h_icu_probe_common(struct platform_device *pdev, struct device_no
+ 	return 0;
+ 
+ pm_put:
+-	pm_runtime_put(dev);
++	pm_runtime_put_sync(dev);
+ 
+ 	return ret;
+ }
+-- 
+2.43.0
 
 
