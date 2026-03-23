@@ -1,211 +1,161 @@
-Return-Path: <linux-renesas-soc+bounces-30092-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-30093-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id QPhVEkH2wGmvPAQAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-30092-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Mar 2026 09:13:53 +0100
+	id EDYRHEAIwWmtPwQAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-30093-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Mar 2026 10:30:40 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEE7E2EE25D
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Mar 2026 09:13:52 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id C9F842EF18A
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Mar 2026 10:30:39 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id ACBCB3023A72
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Mar 2026 08:12:30 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 92954302E925
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Mar 2026 09:29:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 038A2370D43;
-	Mon, 23 Mar 2026 08:12:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7568A37E31C;
+	Mon, 23 Mar 2026 09:29:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="Wu2YcKtr"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vs1-f48.google.com (mail-vs1-f48.google.com [209.85.217.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D969436EAB1
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 23 Mar 2026 08:12:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07D61386568
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 23 Mar 2026 09:29:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774253540; cv=none; b=blTJAnmpjTJ77iC8MkZ5vKCHDCRm9AqJHncRKONIunCPRi2SurNkPNbMQmW7VLWXU7uVz5lmIApVo1aUbfWZxHC5MZGqQJHmzlep0LkNdEHu41dhc6vEC8jva194ENCCbTtybs/7UaIxafyeXN6zIviiz8nThee+RjZTZW19nKQ=
+	t=1774258177; cv=none; b=iiKoX6UYCiqiuGM5+ICy9CboZVmLGIWUgoBl6l+1uONfd9UcUkynLDqBUZ8y3v70Ev7uQD6n1AfKVWaA21tYY+udMyyvXXOOaz+qnJ9Pw1WsrSScErz//XLDL306g//iJvQYsR+k6cd9BedqaFs3d6R7u6hMLR48X1v9mIsri5Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774253540; c=relaxed/simple;
-	bh=2mo6GiOM8nr9n8Mozs77z1ZO4b+tGmBAyzQSHNSjLnU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ROAzKY47AWwLsuUcZAVmQWwDri1CTNFe6WdI7sFVab46LMxPqfByeJMUqZe0BmbDxVrs+bgibqQAOhwCKrdXytjk0J5kM48PeaN05ADVMvJFYmlqRaehdjXIizR2xdGsNJ9g9ZOd/bWhJ2VJA+25ipqsJCHU9DqiZfm4pAq3kwQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vs1-f48.google.com with SMTP id ada2fe7eead31-5ffc8987050so2444885137.0
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 23 Mar 2026 01:12:17 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774253537; x=1774858337;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=EzEMYYVtDBGD0mp2TQPMZhU1WtqUi9892WrKlxY68vI=;
-        b=nAh6Rxy5ccnMDJmC6vdwgEdH7RcGtc952G53BleNmWBiYZELooU9Y7VF79yhwKPCkU
-         o5DybrA0YaJvR7b5QYtx9PaLYorwGEQa9MaqOiVLnID04C5fQnSxef51yiFuwEsrRM7p
-         POQ8p1OM0rJuSDTIDeazMMgaU6wO30ZPuQ4ePMWtJ+xqNhv6HM3PWPeWow4dSvFd0MZn
-         csCu+rpTC53ufjpert3jMtmIdw9fQEFdLIY3vaf/fiD908qmkuue7qacy/uEvv6+8Wg6
-         ENCIqr+VCsKU9Bij1vvpCNKUwB6NfPp7srwoUpcu9X3y7Xn7GXSr68+TBc+b/gPpQOJ7
-         6sSg==
-X-Gm-Message-State: AOJu0YyB3Us5P2g1/Iqv2Ilus/kIqcpgmTtZA6tDHcMo9U2h3CMJFLL6
-	NEhGtWyKWYedetYlVc4a6LISw71E83ty8vQhaHNOc7EkELqLOKhuF/mMjZk8Mvt0
-X-Gm-Gg: ATEYQzz15zIxshCLpCoP1Fw44wcn946h1l8eKfN5+RcKl2jwjKp9iXZ64bXbNmyIJpj
-	HegXZvRhU+6503Jh6ekpKcjHzUUydsUG97Tgtc7xa6sbyEI1H6WcwLslobysQIIm2Khn9KGSdo6
-	GvVx9m69rSdxNiSLZm+2nGIR4SdmLu5gUavySQPacaX+jCPJsKiEfYPrk25YOQydWZu9YZlsyt8
-	7F9t5rfvPEdhdBr2tTlYAAzokkkHu6bxKO+3HHa3KzYvHiEjSaqZ0Hwja7j1E4ab4Y+beRo/yWz
-	EcOVPnKWzJSLFXqQKsiFhN36VCAupjU/AwM3o5JmvdAZTIsa7KRp6i351FNNZT7qan5DJNsY5ff
-	3fzTrDUThAyh3bLyquNPJf49He6irj1WRaqzoL7WqwPSl4TEH++Jk3msoTkLZWRAIitdGIQvjxN
-	0eoQqKilsqmtxf8yqnrAJhZZGiO8g9p71js9B/KUsc3kGgzCU3x2s16GwPXNox
-X-Received: by 2002:a05:6102:449b:b0:5ff:be25:894a with SMTP id ada2fe7eead31-602aed8ee81mr5645219137.32.1774253536680;
-        Mon, 23 Mar 2026 01:12:16 -0700 (PDT)
-Received: from mail-ua1-f46.google.com (mail-ua1-f46.google.com. [209.85.222.46])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-602af5ea90esm7018770137.0.2026.03.23.01.12.16
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 23 Mar 2026 01:12:16 -0700 (PDT)
-Received: by mail-ua1-f46.google.com with SMTP id a1e0cc1a2514c-94acf9ce1b7so2575237241.2
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 23 Mar 2026 01:12:16 -0700 (PDT)
-X-Received: by 2002:a05:6102:508f:b0:5f7:2430:cba with SMTP id
- ada2fe7eead31-602aeb13e80mr5874429137.12.1774253535858; Mon, 23 Mar 2026
- 01:12:15 -0700 (PDT)
+	s=arc-20240116; t=1774258177; c=relaxed/simple;
+	bh=U1wgbEcH0s6HRDM5LJjpzrhJY7EabdBAdG3n70pOvBI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SNVrK7G6FYc5gos3JVKnNaAjj/94dehQC2XrF4uA1InQGwm+yYW3H/cVexnmERA/ASS4ZgN6yRou5hUgYdZCMC0l7f0WwzGalsq4Lj1FXDR6do8+Y5uGN3hdAzOQKkHVFkdsGe9KeF54ZwLst8vNlIBvYMgr9xnU+agHExKT1L4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=Wu2YcKtr; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=date:from:to:cc:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=+u75
+	SoLqZfG/rvUg6Xt980ChlIiIFv95YMmNKEngCMU=; b=Wu2YcKtrTpMcaukQDKD3
+	CQNIsJZuK78eTSNLcm5/Co72cAEqW7VFYRU+qXmcmMxP1qhwe80XADJkapBE66JC
+	FW7Q03Pxd/c681YZgbdUVuST3PMVf3ER6C74bP22WjvG0bvjuULAG4nsmEVlhV+H
+	5tAaIrA7TOPpaRQBP0mJec0CdTxt4x2ZWM3LUjA1GJ48hgkm71gyrSPggwADXMub
+	CH3VS7peW5Lyi9o8KtUamEdtML/OiKZ8/644Owq3m6uNRkeQYQ3lejsOfvcAYADC
+	ohKa9OeJwsjBdQfxSOeN3CCC4bfIJ8hn7z1KgOH7rBRrw2l2Bntt/GrB2ckdyJqD
+	TQ==
+Received: (qmail 2600378 invoked from network); 23 Mar 2026 10:29:22 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 23 Mar 2026 10:29:22 +0100
+X-UD-Smtp-Session: l3s3148p1@8Tp9q61NOokvQbLk
+Date: Mon, 23 Mar 2026 10:29:21 +0100
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Jassi Brar <jassisinghbrar@gmail.com>,
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>
+Subject: Re: [PATCH 2/3] soc: renesas: Add Renesas R-Car MFIS driver
+Message-ID: <acEH8ZKis36cgxT-@shikoro>
+References: <20260317130638.2804-1-wsa+renesas@sang-engineering.com>
+ <20260317130638.2804-3-wsa+renesas@sang-engineering.com>
+ <CAMuHMdW7jAfXmOHdmd77sB-7aXz3H8xDfAjJUWbU=7SUHiEfSw@mail.gmail.com>
+ <acBJ_G1ZgZwrJfEh@ninjato>
+ <CAMuHMdV_AFhOEi3fimZF467EWpupmcOQTW4SpdUffjzskBrNmA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260317130638.2804-1-wsa+renesas@sang-engineering.com>
- <20260317130638.2804-3-wsa+renesas@sang-engineering.com> <CAMuHMdW7jAfXmOHdmd77sB-7aXz3H8xDfAjJUWbU=7SUHiEfSw@mail.gmail.com>
- <acBJ_G1ZgZwrJfEh@ninjato>
-In-Reply-To: <acBJ_G1ZgZwrJfEh@ninjato>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 23 Mar 2026 09:12:04 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdV_AFhOEi3fimZF467EWpupmcOQTW4SpdUffjzskBrNmA@mail.gmail.com>
-X-Gm-Features: AQROBzDAfcNLNelaxhdswBm5kNwkcNhan96dxOlefi5tLP8FtQiMexGsvBNEto0
-Message-ID: <CAMuHMdV_AFhOEi3fimZF467EWpupmcOQTW4SpdUffjzskBrNmA@mail.gmail.com>
-Subject: Re: [PATCH 2/3] soc: renesas: Add Renesas R-Car MFIS driver
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Jassi Brar <jassisinghbrar@gmail.com>, 
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spamd-Result: default: False [-1.46 / 15.00];
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="F3AtRm4xmOqq46sw"
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdV_AFhOEi3fimZF467EWpupmcOQTW4SpdUffjzskBrNmA@mail.gmail.com>
+X-Spamd-Result: default: False [-1.76 / 15.00];
+	SIGNED_PGP(-2.00)[];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[sang-engineering.com:s=k1];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	MIME_GOOD(-0.20)[multipart/signed,text/plain];
 	MAILLIST(-0.15)[generic];
-	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-30093-lists,linux-renesas-soc=lfdr.de,renesas];
+	RCVD_TLS_LAST(0.00)[];
 	FROM_HAS_DN(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DMARC_NA(0.00)[sang-engineering.com];
+	MIME_TRACE(0.00)[0:+,1:+,2:~];
+	FREEMAIL_CC(0.00)[vger.kernel.org,gmail.com,renesas.com,glider.be];
 	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,gmail.com,renesas.com,glider.be];
-	RCVD_TLS_LAST(0.00)[];
-	DMARC_NA(0.00)[linux-m68k.org];
-	TAGGED_FROM(0.00)[bounces-30092-lists,linux-renesas-soc=lfdr.de];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	NEURAL_HAM(-0.00)[-1.000];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[wsa@sang-engineering.com,linux-renesas-soc@vger.kernel.org];
+	DKIM_TRACE(0.00)[sang-engineering.com:+];
+	RCPT_COUNT_SEVEN(0.00)[7];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[geert@linux-m68k.org,linux-renesas-soc@vger.kernel.org];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	R_DKIM_NA(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,mail.gmail.com:mid,linux-m68k.org:email]
-X-Rspamd-Queue-Id: AEE7E2EE25D
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,sang-engineering.com:dkim]
+X-Rspamd-Queue-Id: C9F842EF18A
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi Wolfram,
 
-On Sun, 22 Mar 2026 at 20:58, Wolfram Sang
-<wsa+renesas@sang-engineering.com> wrote:
-> > > +struct mfis_priv {
-> > > +       struct device *dev;
-> > > +       struct mfis_reg common_reg;
-> > > +       struct mfis_reg mbox_reg;
-> > > +       const struct mfis_info *info;
-> > > +
-> > > +       /* mailbox private data */
-> > > +       struct mbox_controller mbox;
-> > > +       struct mfis_per_chan_priv *per_chan_privs;
-> >
-> > This could be a flexible array, if it weren't for the hwspinlock array
-> > you will have to add later, right?
->
-> No, hwspinlock doesn't need any private data here. But something else
-> could come in the future maybe? I also don't see a big advantage of the
-> flexible array, too. Maybe it's too late in the evening...
+--F3AtRm4xmOqq46sw
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-You're right. Somehow I thought you were allocating priv and
-per_chan_privs next to each other.
 
-> > > +       chan_num = sp->args[0];
+> > > > +       if (priv->info->mb_reg_comes_from_dt) {
+> > > > +               tx_uses_eicr =3D chan_flags & MFIS_CHANNEL_EICR;
+> > > > +               if (tx_uses_eicr)
+> > > > +                       chan +=3D mbox->num_chans / 2;
+> > > > +       } else {
+> > > > +               tx_uses_eicr =3D priv->info->mb_tx_uses_eicr;
+> > > > +       }
+> > >
+> > > "chan - mbox->chans" is the logical channel number, and should be
+> > > validated against mbox_num_chans, to avoid out-of-bound accesses.
 > >
-> > "chan_num" is the hardware channel number, and should be validated
-> > against mpriv->info->mb_num_channels.
->
-> Ack!
->
-> > > +       chan_flags = sp->args[1];
-> > > +
-> > > +       /* Channel layout is described in mfis_mb_probe() */
-> >
-> > Given you already use "chan += ..." below, perhaps:
-> >
-> >     chan = mbox->chans + chan_num;
-> >
-> > > +       if (priv->info->mb_channels_are_unidir) {
-> > > +               is_only_rx = chan_flags & MFIS_CHANNEL_RX;
-> > > +               chan = mbox->chans + 2 * chan_num + is_only_rx;
-> >
-> > ...and:
-> >
-> >     chan += chan_num + is_only_rx;
-> >
-> > > +       } else {
-> > > +               is_only_rx = false;
-> > > +               chan = mbox->chans + chan_num;
-> >
-> > ... and drop this line?
-> > With a proper preinitalization of is_only_rx, the whole "else" branch
-> > can be dropped.
->
-> I agree it saves a few lines, but I really think the original code is
-> easier to understand. Channel layout is already wickes and doing 'channel
-> +=' twice is harder to understand than a simple assignment IMO.
->
-> >
-> > > +       }
-> > > +
-> > > +       if (priv->info->mb_reg_comes_from_dt) {
-> > > +               tx_uses_eicr = chan_flags & MFIS_CHANNEL_EICR;
-> > > +               if (tx_uses_eicr)
-> > > +                       chan += mbox->num_chans / 2;
-> > > +       } else {
-> > > +               tx_uses_eicr = priv->info->mb_tx_uses_eicr;
-> > > +       }
-> >
-> > "chan - mbox->chans" is the logical channel number, and should be
-> > validated against mbox_num_chans, to avoid out-of-bound accesses.
->
-> "chan - ..."? You mean "chan + ..."?
+> > "chan - ..."? You mean "chan + ..."?
+>=20
+> No, I did mean "-": you do have a pointer "chan" to the channel,
+> instead of an index into the mbox->chans[] array.
+> Using a  index would  make validation easier to read, though.
 
-No, I did mean "-": you do have a pointer "chan" to the channel,
-instead of an index into the mbox->chans[] array.
-Using a  index would  make validation easier to read, though.
+Sorry, I still don't get it: If 'chan_num' has been sanitized above to
+be in the range of 0..priv->info->mb_num_channels - 1, then how can a
+OOB happen here? "chan +=3D mbox->num_chans / 2" only happens when
+'mb_reg_comes_from_dt' is set. But when it is set, the array of chans is
+also always doubled to have the "<n> IICR, then <n> EICR" layout.
 
-Gr{oetje,eeting}s,
 
-                        Geert
+--F3AtRm4xmOqq46sw
+Content-Type: application/pgp-signature; name="signature.asc"
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+-----BEGIN PGP SIGNATURE-----
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmnBB+kACgkQFA3kzBSg
+Kbb34RAAsAokPxSPiULF0oPP70iI7aHY8wO/jMZt5udUNIx7oVcRrmafhFMh8mIJ
+ZOTLpUPDEwkwiXISJ2xuFgV0PsYmVvZeWqrOJEh9n/QQuH8Jvh+5QxTq8NKWfKGM
+4weR7K2EHCbJ7p/Fvkz8V0HL2WIiTDaE0rQqqxUDOwF8NpWbaMyA5m2TY2XYuWf5
+/VrWvAOKnDq1ni/ffxvNd1GsVBMCzOfSiJbUXKV7aSxwv1pkMtIFqjhWzDmvmKiC
+d+0I9OaRxz+0wPMZGPqFjKDVQoNgl7Q5lFPJZOXo32tTu/+Q2DndLvXYViTc1dkX
+WZsgraJAi6IDG3Jdqrt9vDpVwA5M67aQOw59Drxk+9kActNe80rCp7ZKijULq5l2
+yA7l5XwGKaSri04EpDRYSDLn0HzN2QFy4xF6i2LFxHMCnQ1MlX2HSmW1b//mg1y7
+2zBSYxeI1YL7yuh/iUir6qBinL+EygCqMXYSYcGYNJfNzmpEuc0upcMwuaH59KFm
+p/vgMOjIrOBGhGRi0Ajv1DGR+3Q19DB4JmDdlFyakcGjRbLTfXqTLrwtZFbubsE9
+3EUQv8m7uXVKKRELUFq+UpCKMLbjGftYg2qXfBpJjJ211+tbJidEjd13mZH853rX
+ZIUjfrM1dWd2WG1iOEb2xcAd8Hl9gX/IDyPwMrIXBo9x1HIbETQ=
+=WFJB
+-----END PGP SIGNATURE-----
+
+--F3AtRm4xmOqq46sw--
 
