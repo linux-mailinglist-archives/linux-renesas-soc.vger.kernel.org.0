@@ -1,37 +1,37 @@
-Return-Path: <linux-renesas-soc+bounces-30122-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-30123-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id uFpgFD+EwWnTTgQAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-30122-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Mar 2026 19:19:43 +0100
+	id kN/GKNp1wWkQTQQAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-30123-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Mar 2026 18:18:18 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9DF12FB293
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Mar 2026 19:19:42 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F61E2F9B57
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Mar 2026 18:18:18 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 66C96343CC98
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Mar 2026 16:56:35 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 0F3B631393D7
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Mar 2026 16:56:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3EF783C4551;
-	Mon, 23 Mar 2026 16:56:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 49E493BED75;
+	Mon, 23 Mar 2026 16:56:22 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22B1B3C1979;
-	Mon, 23 Mar 2026 16:56:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C69D3C1410;
+	Mon, 23 Mar 2026 16:56:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774284980; cv=none; b=ch6/vUhYzigrAEiwNF9AtQhPqCkmFpypbQLfGqw7/7DnVjIAT35BZX7u3bs6cmgLQbWVQCBpIEDP5rvMP9cE45nz7RKi8Fx3zUW+Ij1IEplREk4UnrTdvais3oT6s+5idrScnEujGDmgdJRnm4ZxDJFnH97pGiHK9yd0p8bRnIo=
+	t=1774284982; cv=none; b=u6DuABwoB5ov4WzXlSsWgHJjDZtP8/OAoU4RgQKOCyLLtn4YLcrhIQ3Z9+YLvuuZ3GWhPLAKGZ+lXfGYiY8yYX43nT2PC/B8+a5i6vFXg/APJZZKjPk8xa7RdJ3+CbzFqlfMwidY033EKMNlWeARARsAbLlbcdlpsXf8xSsrxyw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774284980; c=relaxed/simple;
-	bh=XCEil2lJ9uatdL21iFJ//WE04pfJLH2pZc1geIn4+gs=;
+	s=arc-20240116; t=1774284982; c=relaxed/simple;
+	bh=y1/A89083KM2LkOVz+hiOs3Z+ZSJaIXCcI9AB7ibEHc=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=NkrsBMkzyxIyY5fc3nrtba0LoZyekFvPAzoBMtrlGcFtAPcm+JbOnyum2pPHIhIa9Z8nWPx0Ex0gX0zeqLj91IOSlKxYPRJi0ZmeO5cZ1j53P6Lhydf8HQ0onvm0P63RGWtBy276F9kQNNxuhOAL7QV1B6ljgxeEooRsPhh8Eig=
+	 MIME-Version; b=ilpKDjD0TflVBwghugLBoe2yzGAE3pVX6bcWyVBCqMflRDbF0KN8U7GRp86HDnmS0e4bDmSZXuV0LiOuS9ZlERdjQRESHE1oQLbfcjfAW+Pdp9hPGgCiruwmodgNIbb+x7Y10jcpB2+3MN9lt1+FBg3hx94Ubl0UdPRkYZqweZg=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 18083C2BC9E;
-	Mon, 23 Mar 2026 16:56:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C011C2BCB0;
+	Mon, 23 Mar 2026 16:56:20 +0000 (UTC)
 From: Geert Uytterhoeven <geert+renesas@glider.be>
 To: Sudeep Holla <sudeep.holla@kernel.org>,
 	Cristian Marussi <cristian.marussi@arm.com>,
@@ -41,9 +41,9 @@ Cc: arm-scmi@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH 1/3] firmware: arm_scmi: Fix OOB in scmi_clock_describe_rates_get_lazy()
-Date: Mon, 23 Mar 2026 17:56:10 +0100
-Message-ID: <9928133be47a09af0c568bcee0f9a987381a1c15.1774283748.git.geert+renesas@glider.be>
+Subject: [PATCH 2/3] firmware: arm_scmi: Fix bound iterators returning too many items
+Date: Mon, 23 Mar 2026 17:56:11 +0100
+Message-ID: <8d9f0630e7ef2e3415df9800b6d9459063034977.1774283748.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1774283748.git.geert+renesas@glider.be>
 References: <cover.1774283748.git.geert+renesas@glider.be>
@@ -58,55 +58,55 @@ X-Spamd-Result: default: False [0.54 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-30122-lists,linux-renesas-soc=lfdr.de,renesas];
-	FROM_HAS_DN(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-30123-lists,linux-renesas-soc=lfdr.de,renesas];
 	DMARC_NA(0.00)[glider.be];
 	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	FROM_NEQ_ENVFROM(0.00)[geert@glider.be,linux-renesas-soc@vger.kernel.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	R_DKIM_NA(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	PRECEDENCE_BULK(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[8];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
-	MID_RHS_MATCH_FROM(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[geert@glider.be,linux-renesas-soc@vger.kernel.org];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[glider.be:email,glider.be:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: A9DF12FB293
+	NEURAL_HAM(-0.00)[-1.000];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	R_DKIM_NA(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	FROM_HAS_DN(0.00)[]
+X-Rspamd-Queue-Id: 7F61E2F9B57
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Lazy discovery of discrete rates works as follows:
-  A. Grab the first three rates,
-  B. Grab the last rate, if there are more than three rates.
+When using a bound-iterator with an upper bound, commands are sent, and
+responses are received, until the upper bound is reached.  However, it
+is up to the SCMI provider implementation to decide how many rates are
+returned in response to a single CLOCK_DESCRIBE_RATES command.  If the
+last response contains rates beyond the specified upper bound, they are
+still passed up for further processing.  This may lead to buffer
+overflows in unprepared callsites.
 
-It is up to the SCMI provider implementation to decide how many rates
-are returned in response to a single CLOCK_DESCRIBE_RATES command.  Each
-rate received is stored in the scmi_clock_rates.rates[] array, and
-.num_rates is updated accordingly.
+While the imprecise bound handling may have been intentional (it was
+mentioned in the commit message introducing the code), it is still
+confusing for users, and may cause hard to debug crashes.  Fix this by
+strictly enforcing the upper bound.
 
-When more than 3 rates have been received after step A, the last rate
-may have been received already, and stored in scmi_clock_rates.rates[]
-(which has space for scmi_clock_desc.tot_rates entries).  Hence grabbing
-the last rate again will store it a second time, beyond the end of the
-array.
+Note that this may cause an increase in the number of
+CLOCK_DESCRIBE_RATES commands issued, as retrieving the last rate may no
+longer be done inadvertentently, but require its own command.
 
-Fix this by only grabbing the last rate when we don't already have it.
-
-Fixes: a78da552c6f3bff5 ("firmware: arm_scmi: Use bound iterators to minimize discovered rates")
+Fixes: 13289addf5a52e1f ("firmware: arm_scmi: Add bound iterators support")
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
-This bug caused random "kernel BUG at drivers/base/devres.c:135!"
-crashes during boot on R-Car X5H.
+This caused random "kernel BUG at drivers/base/devres.c:135!" crashes
+during boot on R-Car X5H, as lazy clock rate discovery does not handle
+correctly receiving more rates than expected.
 
 Example for a clock with 8 rates, which are all returned in response to
 a single CLOCK_DESCRIBE_RATES command:
@@ -122,34 +122,51 @@ a single CLOCK_DESCRIBE_RATES command:
     iter_clk_describe_process_response: rates[5] = 533333333
     iter_clk_describe_process_response: rates[6] = 711111111
     iter_clk_describe_process_response: rates[7] = 1066666666
-                                                   ^^^^^^^^^^
+						   ^^^^^^^^^^
+Rates [3] to [7] are received, despite being outside the bound.
+
     scmi_clock_describe_rates_get_lazy: Grabbing rates 7..7
     iter_clk_describe_update_state: Returned 1 remaining 0
     iter_clk_describe_process_response: rates[8] = 1066666666
-                                              ^    ^^^^^^^^^^
+					      ^    ^^^^^^^^^^
 Out of bounds access! ------------------------+    |
 Same value as [7] ---------------------------------+
- drivers/firmware/arm_scmi/clock.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+---
+ drivers/firmware/arm_scmi/driver.c | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/firmware/arm_scmi/clock.c b/drivers/firmware/arm_scmi/clock.c
-index 0e7e341171aad829..623dbc2f1e09303d 100644
---- a/drivers/firmware/arm_scmi/clock.c
-+++ b/drivers/firmware/arm_scmi/clock.c
-@@ -593,8 +593,11 @@ scmi_clock_describe_rates_get_lazy(const struct scmi_protocol_handle *ph,
- 	if (ret)
- 		goto out;
+diff --git a/drivers/firmware/arm_scmi/driver.c b/drivers/firmware/arm_scmi/driver.c
+index 2a9183686203b4e7..03fd7caa8b42a12c 100644
+--- a/drivers/firmware/arm_scmi/driver.c
++++ b/drivers/firmware/arm_scmi/driver.c
+@@ -1820,6 +1820,7 @@ static int __scmi_iterator_run(void *iter, unsigned int *start, unsigned int *en
+ 	const struct scmi_protocol_handle *ph;
+ 	struct scmi_iterator_state *st;
+ 	struct scmi_iterator *i;
++	unsigned int n;
  
--	/* If discrete grab the last value, which should be the max */
--	if (clkd->r.rate_discrete && clkd->tot_rates > 3) {
-+	/*
-+	 * If discrete and we don't already have it, grab the last value, which
-+	 * should be the max
-+	 */
-+	if (clkd->r.rate_discrete && clkd->tot_rates > clkd->r.num_rates) {
- 		first = clkd->tot_rates - 1;
- 		last = clkd->tot_rates - 1;
- 		ret = ph->hops->iter_response_run_bound(iter, &first, &last);
+ 	if (!iter)
+ 		return -EINVAL;
+@@ -1852,13 +1853,17 @@ static int __scmi_iterator_run(void *iter, unsigned int *start, unsigned int *en
+ 			return -EINVAL;
+ 		}
+ 
+-		for (st->loop_idx = 0; st->loop_idx < st->num_returned; st->loop_idx++) {
++		if (end)
++			n = min(st->num_returned, *end - st->desc_index + 1);
++		else
++			n = st->num_returned;
++		for (st->loop_idx = 0; st->loop_idx < n; st->loop_idx++) {
+ 			ret = iops->process_response(ph, i->resp, st, i->priv);
+ 			if (ret)
+ 				return ret;
+ 		}
+ 
+-		st->desc_index += st->num_returned;
++		st->desc_index += n;
+ 		ph->xops->reset_rx_to_maxsz(ph, i->t);
+ 		/*
+ 		 * check for both returned and remaining to avoid infinite
 -- 
 2.43.0
 
