@@ -1,161 +1,202 @@
-Return-Path: <linux-renesas-soc+bounces-30124-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-30135-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id IOOyNdt9wWknTgQAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-30124-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Mar 2026 18:52:27 +0100
+	id yL/7MD73wWkmYgQAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-30135-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 24 Mar 2026 03:30:22 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id E019B2FA87E
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Mar 2026 18:52:26 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id C212F30128B
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 24 Mar 2026 03:30:21 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 537F330A46DE
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Mar 2026 16:56:55 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 26D663018239
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 24 Mar 2026 02:30:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4A8B13C5541;
-	Mon, 23 Mar 2026 16:56:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DBB5338737C;
+	Tue, 24 Mar 2026 02:30:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="RTFBubUc"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mailout4.samsung.com (mailout4.samsung.com [203.254.224.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 313BA3C140D;
-	Mon, 23 Mar 2026 16:56:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BA8C387347
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 24 Mar 2026 02:30:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.254.224.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774284984; cv=none; b=r1l3SBEjvDSNLCKw5AV01MGZM6jufHrWJbak5WMJ0crVSygSZ8/PXxWX3ETqGKreg/9/Uh4zSUjTt7MHoqzYtpz4AKp8PxvMrLjkRMJKKL4tzU9Fcj8nUhW4U2bDzld1gw8GePR7wYGyDAhKSApIxxtZ2ihE0CBh53zceqxmLnE=
+	t=1774319408; cv=none; b=Cgc+1cFl9j2bnNr87WdTykAqY24SrR4M7DiMI1vkrs7kTS64gyF8mpljKOPbNZi0NlpQIM98+i407CAGjz52BPipKDZbJWoC1DLXyAaj3uTV0KreUxpol/aue+GifXgRwHL4Pk/4utlb8G7gKTVof6r0CW+uPbnHHfJ3C3Gg0h0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774284984; c=relaxed/simple;
-	bh=DlrDh0sXfpGleGJNkZAVP/G29Qv4UHj2GZJhraYhhAU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=h1XkJ6UByA19cfSXOLmIBU/caHuLCueygOn+rloB+S8JhXC830pSmTthJ7ofDHxKxwir0IE33hAkWl/XnQk7fFPdCkfiW9wMNLztz3VDQVnS0Bpt4OVHdYLcNQwHz9JC7C4M0aSBHEscnDrb7IUql26cDQLuj0mMo0NZI38aSTs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3FFF9C2BC9E;
-	Mon, 23 Mar 2026 16:56:22 +0000 (UTC)
-From: Geert Uytterhoeven <geert+renesas@glider.be>
-To: Sudeep Holla <sudeep.holla@kernel.org>,
-	Cristian Marussi <cristian.marussi@arm.com>,
-	Marek Vasut <marek.vasut+renesas@mailbox.org>
-Cc: arm-scmi@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-renesas-soc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH 3/3] firmware: arm_scmi: Use proper iter_response_bound_cleanup() name
-Date: Mon, 23 Mar 2026 17:56:12 +0100
-Message-ID: <fab03f9edfad16c8bba8072874055d1872919498.1774283748.git.geert+renesas@glider.be>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <cover.1774283748.git.geert+renesas@glider.be>
-References: <cover.1774283748.git.geert+renesas@glider.be>
+	s=arc-20240116; t=1774319408; c=relaxed/simple;
+	bh=Vr+wLb3/yfuaY7Ek50G5tqooWQuxrr2KXAF3tU7VBDw=;
+	h=From:To:Cc:In-Reply-To:Subject:Date:Message-ID:MIME-Version:
+	 Content-Type:References; b=BPubriYweOMdd9chHUaXAUzWFVGdjqIVXs1jzC73XFBzzm6DHTL3e9G/nMCcp8u8dqPXpzWyP25OcI7SIr1aL/QQE2xOZOCIJp1HYdlPHvkcl7SX7B5W/DD7EU0L+3NIxgEed1weJgvLae/DcJdz8hKbZM/7LwQwyYurAMa3+Hs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=RTFBubUc; arc=none smtp.client-ip=203.254.224.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
+Received: from epcas5p2.samsung.com (unknown [182.195.41.40])
+	by mailout4.samsung.com (KnoxPortal) with ESMTP id 20260324023002epoutp0478fca0a218846f3f15f1b09cd30bce14~fphiUKf761355313553epoutp04-
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 24 Mar 2026 02:30:02 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com 20260324023002epoutp0478fca0a218846f3f15f1b09cd30bce14~fphiUKf761355313553epoutp04-
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1774319402;
+	bh=xiEG8fs8U4waGFe76frAqj8GUGT8PfbUsJqfEpDU4H0=;
+	h=From:To:Cc:In-Reply-To:Subject:Date:References:From;
+	b=RTFBubUceVdG5dBZjg2EJuOun+7AvU7K1xXJVOiY75v5S6AwPDX0GCIymngOFAphd
+	 E4RA3K/kK+gtTKLgy3khdnDiPmc2cGWIz79uHvHB6IujWAiNQY1L9e+YM2hT5hM2cb
+	 67/UCzZXuKEnGh+5DWuT53H601jKazX4GP44bHGA=
+Received: from epsnrtp02.localdomain (unknown [182.195.42.154]) by
+	epcas5p3.samsung.com (KnoxPortal) with ESMTPS id
+	20260324023002epcas5p3c3a08032a55b26ba4a7023fdeaebf3cd~fphhsTMXr1327213272epcas5p3T;
+	Tue, 24 Mar 2026 02:30:02 +0000 (GMT)
+Received: from epcpadp1new (unknown [182.195.40.141]) by
+	epsnrtp02.localdomain (Postfix) with ESMTP id 4ffvBx72xwz2SSKf; Tue, 24 Mar
+	2026 02:30:01 +0000 (GMT)
+Received: from epsmtip1.samsung.com (unknown [182.195.34.30]) by
+	epcas5p4.samsung.com (KnoxPortal) with ESMTPA id
+	20260323172713epcas5p4dd04df01adb71b7563e1cac14b927632~fiHlqRiPK1063110631epcas5p4A;
+	Mon, 23 Mar 2026 17:27:13 +0000 (GMT)
+Received: from INBRO002756 (unknown [107.122.3.168]) by epsmtip1.samsung.com
+	(KnoxPortal) with ESMTPA id
+	20260323172656epsmtip1078ac64ab1a734cd90e8019874a7de3a~fiHV3p2Rc1639516395epsmtip1L;
+	Mon, 23 Mar 2026 17:26:55 +0000 (GMT)
+From: "Alim Akhtar" <alim.akhtar@samsung.com>
+To: "'Vladimir Oltean'" <vladimir.oltean@nxp.com>,
+	<linux-phy@lists.infradead.org>
+Cc: "'Vinod Koul'" <vkoul@kernel.org>, "'Neil Armstrong'"
+	<neil.armstrong@linaro.org>, <dri-devel@lists.freedesktop.org>,
+	<freedreno@lists.freedesktop.org>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-arm-msm@vger.kernel.org>, <linux-can@vger.kernel.org>,
+	<linux-gpio@vger.kernel.org>, <linux-ide@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
+	<linux-pci@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
+	<linux-riscv@lists.infradead.org>, <linux-rockchip@lists.infradead.org>,
+	<linux-samsung-soc@vger.kernel.org>, <linux-scsi@vger.kernel.org>,
+	<linux-sunxi@lists.linux.dev>, <linux-tegra@vger.kernel.org>,
+	<linux-usb@vger.kernel.org>, <netdev@vger.kernel.org>,
+	<spacemit@lists.linux.dev>, <UNGLinuxDriver@microchip.com>, "'Bart Van
+ Assche'" <bvanassche@acm.org>, "'Peter Griffin'" <peter.griffin@linaro.org>,
+	"'James E.J. Bottomley'" <James.Bottomley@HansenPartnership.com>, "'Martin
+ K. Petersen'" <martin.petersen@oracle.com>, "'Krzysztof Kozlowski'"
+	<krzk@kernel.org>, "'Chanho Park'" <chanho61.park@samsung.com>
+In-Reply-To: <20260319223241.1351137-10-vladimir.oltean@nxp.com>
+Subject: RE: [PATCH v5 phy-next 09/27] scsi: ufs: exynos: stop poking into
+ struct phy guts
+Date: Mon, 23 Mar 2026 22:56:51 +0530
+Message-ID: <1891546521.01774319401971.JavaMail.epsvc@epcpadp1new>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [0.54 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+Content-Transfer-Encoding: 7bit
+X-Mailer: Microsoft Outlook 16.0
+Thread-Index: AQJoz1sM+EbPjkyDopxrfJVWkMJWdwIGLiEOAj0DJam0ghnJMA==
+Content-Language: en-us
+X-CMS-MailID: 20260323172713epcas5p4dd04df01adb71b7563e1cac14b927632
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+CMS-TYPE: 105P
+X-CPGSPASS: Y
+X-Hop-Count: 3
+X-CMS-RootMailID: 20260319223312epcas5p183a1e0c31206025da8cf00b5d745a0ce
+References: <20260319223241.1351137-1-vladimir.oltean@nxp.com>
+	<CGME20260319223312epcas5p183a1e0c31206025da8cf00b5d745a0ce@epcas5p1.samsung.com>
+	<20260319223241.1351137-10-vladimir.oltean@nxp.com>
+X-Spamd-Result: default: False [-1.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[samsung.com,none];
+	R_DKIM_ALLOW(-0.20)[samsung.com:s=mail20170921];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-30124-lists,linux-renesas-soc=lfdr.de,renesas];
-	FROM_HAS_DN(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	DMARC_NA(0.00)[glider.be];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-30135-lists,linux-renesas-soc=lfdr.de];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns];
 	MIME_TRACE(0.00)[0:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
-	FROM_NEQ_ENVFROM(0.00)[geert@glider.be,linux-renesas-soc@vger.kernel.org];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	R_DKIM_NA(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	PRECEDENCE_BULK(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
-	MID_RHS_MATCH_FROM(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[31];
+	DKIM_TRACE(0.00)[samsung.com:+];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[glider.be:email,glider.be:mid,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: E019B2FA87E
+	FROM_NEQ_ENVFROM(0.00)[alim.akhtar@samsung.com,linux-renesas-soc@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	TAGGED_RCPT(0.00)[linux-renesas-soc];
+	NEURAL_HAM(-0.00)[-1.000];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_COUNT_SEVEN(0.00)[8]
+X-Rspamd-Queue-Id: C212F30128B
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-The documentation speaks of the "iter_response_bound_cleanup()" protocol
-helper, while the actual helper is called "iter_response_cleanup()".
-Settle on the former name, because the helper is only needed when using
-bound-iterators.
+HI Vladimir,
 
-Fixes: 13289addf5a52e1f ("firmware: arm_scmi: Add bound iterators support")
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
- drivers/firmware/arm_scmi/clock.c     | 2 +-
- drivers/firmware/arm_scmi/driver.c    | 6 +++---
- drivers/firmware/arm_scmi/protocols.h | 2 +-
- 3 files changed, 5 insertions(+), 5 deletions(-)
+> -----Original Message-----
+> From: Vladimir Oltean <vladimir.oltean@nxp.com>
+> Sent: Friday, March 20, 2026 4:02 AM
+> To: linux-phy@lists.infradead.org
+> Cc: Vinod Koul <vkoul@kernel.org>; Neil Armstrong
+> <neil.armstrong@linaro.org>; dri-devel@lists.freedesktop.org;
+> freedreno@lists.freedesktop.org; linux-arm-kernel@lists.infradead.org;
+> linux-arm-msm@vger.kernel.org; linux-can@vger.kernel.org; linux-
+> gpio@vger.kernel.org; linux-ide@vger.kernel.org; linux-
+> kernel@vger.kernel.org; linux-media@vger.kernel.org; linux-
+> pci@vger.kernel.org; linux-renesas-soc@vger.kernel.org; linux-
+> riscv@lists.infradead.org; linux-rockchip@lists.infradead.org;
+linux-samsung-
+> soc@vger.kernel.org; linux-scsi@vger.kernel.org;
+linux-sunxi@lists.linux.dev;
+> linux-tegra@vger.kernel.org; linux-usb@vger.kernel.org;
+> netdev@vger.kernel.org; spacemit@lists.linux.dev;
+> UNGLinuxDriver@microchip.com; Bart Van Assche <bvanassche@acm.org>;
+> Alim Akhtar <alim.akhtar@samsung.com>; Peter Griffin
+> <peter.griffin@linaro.org>; James E.J. Bottomley
+> <James.Bottomley@HansenPartnership.com>; Martin K. Petersen
+> <martin.petersen@oracle.com>; Krzysztof Kozlowski <krzk@kernel.org>;
+> Chanho Park <chanho61.park@samsung.com>
+> Subject: [PATCH v5 phy-next 09/27] scsi: ufs: exynos: stop poking into
+struct
+> phy guts
+> 
+> The Exynos host controller driver is clearly a PHY consumer (gets the
+> ufs->phy using devm_phy_get()), but pokes into the guts of struct phy
+> to get the generic_phy->power_count.
+> 
+> The UFS core (specifically ufshcd_link_startup()) may call the variant
+> operation exynos_ufs_pre_link() -> exynos_ufs_phy_init() multiple times if
+> the link startup fails and needs to be retried.
+> 
+> However ufs-exynos shouldn't be doing what it's doing, i.e. looking at the
+> generic_phy->power_count, because in the general sense of the API, a
+> single Generic PHY may have multiple consumers. If ufs-exynos looks at
+> generic_phy->power_count, there's no guarantee that this ufs-exynos
+> instance is the one who previously bumped that power count. So it may be
+> powering down the PHY on behalf of another consumer.
+> 
+> The correct way in which this should be handled is ufs-exynos should
+> *remember* whether it has initialized and powered up the PHY before, and
+> power it down during link retries. Not rely on the power_count (which,
+btw,
+> on the writer side is modified under &phy->mutex, but on the reader side
+is
+> accessed unlocked). This is a discouraged pattern even if here it doesn't
+> cause functional problems.
+> 
+> Signed-off-by: Vladimir Oltean <vladimir.oltean@nxp.com>
+> Reviewed-by: Bart Van Assche <bvanassche@acm.org>
+> ---
+Thanks for the patch
+Acked-by: Alim Akhtar <alim.akhtar@samsung.com>
 
-diff --git a/drivers/firmware/arm_scmi/clock.c b/drivers/firmware/arm_scmi/clock.c
-index 623dbc2f1e09303d..0205b37d219a88ed 100644
---- a/drivers/firmware/arm_scmi/clock.c
-+++ b/drivers/firmware/arm_scmi/clock.c
-@@ -604,7 +604,7 @@ scmi_clock_describe_rates_get_lazy(const struct scmi_protocol_handle *ph,
- 	}
- 
- out:
--	ph->hops->iter_response_cleanup(iter);
-+	ph->hops->iter_response_bound_cleanup(iter);
- 
- 	return ret;
- }
-diff --git a/drivers/firmware/arm_scmi/driver.c b/drivers/firmware/arm_scmi/driver.c
-index 03fd7caa8b42a12c..bfcc3e3c931dc9cc 100644
---- a/drivers/firmware/arm_scmi/driver.c
-+++ b/drivers/firmware/arm_scmi/driver.c
-@@ -1875,7 +1875,7 @@ static int __scmi_iterator_run(void *iter, unsigned int *start, unsigned int *en
- 	return 0;
- }
- 
--static void scmi_iterator_cleanup(void *iter)
-+static void scmi_iterator_bound_cleanup(void *iter)
- {
- 	struct scmi_iterator *i = iter;
- 
-@@ -1888,7 +1888,7 @@ static int scmi_iterator_run(void *iter)
- 	int ret;
- 
- 	ret = __scmi_iterator_run(iter, NULL, NULL);
--	scmi_iterator_cleanup(iter);
-+	scmi_iterator_bound_cleanup(iter);
- 
- 	return ret;
- }
-@@ -2078,7 +2078,7 @@ static const struct scmi_proto_helpers_ops helpers_ops = {
- 	.iter_response_init = scmi_iterator_init,
- 	.iter_response_run = scmi_iterator_run,
- 	.iter_response_run_bound = scmi_iterator_run_bound,
--	.iter_response_cleanup = scmi_iterator_cleanup,
-+	.iter_response_bound_cleanup = scmi_iterator_bound_cleanup,
- 	.protocol_msg_check = scmi_protocol_msg_check,
- 	.fastchannel_init = scmi_common_fastchannel_init,
- 	.fastchannel_db_ring = scmi_common_fastchannel_db_ring,
-diff --git a/drivers/firmware/arm_scmi/protocols.h b/drivers/firmware/arm_scmi/protocols.h
-index e2ef604c16ef6771..15ad5162e37a90ec 100644
---- a/drivers/firmware/arm_scmi/protocols.h
-+++ b/drivers/firmware/arm_scmi/protocols.h
-@@ -286,7 +286,7 @@ struct scmi_proto_helpers_ops {
- 	int (*iter_response_run)(void *iter);
- 	int (*iter_response_run_bound)(void *iter,
- 				       unsigned int *start, unsigned int *end);
--	void (*iter_response_cleanup)(void *iter);
-+	void (*iter_response_bound_cleanup)(void *iter);
- 	int (*protocol_msg_check)(const struct scmi_protocol_handle *ph,
- 				  u32 message_id, u32 *attributes);
- 	void (*fastchannel_init)(const struct scmi_protocol_handle *ph,
--- 
-2.43.0
+Tested this patch for basic UFS functionality, UFS still works. 
+Feel free to add
+Tested-by: Alim Akhtar <alim.akhtar@samsung.com>
+
+
 
 
