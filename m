@@ -1,653 +1,667 @@
-Return-Path: <linux-renesas-soc+bounces-30109-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-30110-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id CGDwJHxAwWlnRwQAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-30109-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Mar 2026 14:30:36 +0100
+	id aAh+OXlAwWmeRwQAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-30110-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Mar 2026 14:30:33 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 427222F2F28
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Mar 2026 14:30:36 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 901292F2F19
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Mar 2026 14:30:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id E9D57307F392
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Mar 2026 13:22:41 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 9A98A300DDFA
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Mar 2026 13:24:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 18F0D3AE6ED;
-	Mon, 23 Mar 2026 13:21:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 91BA93AB263;
+	Mon, 23 Mar 2026 13:24:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="iCo3bctD";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="Q6u2DHli"
+	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="tpkNDot5"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from TY3P286CU002.outbound.protection.outlook.com (mail-japaneastazon11010058.outbound.protection.outlook.com [52.101.229.58])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1E6E3AE6F2
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 23 Mar 2026 13:21:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774272103; cv=none; b=AXOVhB9ZhN1PJlA7sDB5mJC87kOoCjlfdJc5t28JWESRjrA7lae9n6G+1e9cs1SMAIFD9LqmRDOXyLDx86vihIpRsLGOkntdbTXf6WI9VU4lAoUb31kDYVzVr2SQoRY2SFEl2VkMDDHkLWoJbJ11QjN3rUlsAGB7a4Qefw8EL+c=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774272103; c=relaxed/simple;
-	bh=3YX99yDiykq8wht5jhlxLD9GqcQlDRrqtioZ2YaSMF4=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=ZZo5ovnk2INz1q7Nsu6PiLq/KrVRmHjih2KUA5O+XrKxSTMHRFlYY72dAuncJrcyNnyDnPozlk+ym9J4y94e20/R6yxgs0HoumA+54qo7UplNp2nLLpbfnYGpQPl5JvZ/y+90sIghKN/P4OpRZNR2j/8VhLT85rEi5XIrw4ZiAY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=iCo3bctD; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=Q6u2DHli; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62NCegDE2475974
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 23 Mar 2026 13:21:40 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	3Q2i+GiHSpXUMk/5V2t9vb8q95gvl7L2wScFZUzHsU8=; b=iCo3bctD9dFdamfa
-	Bge8/bpjrUtGHfrLjSKxlAKdSdgLfeTPRB2955lSkQ9bnimI+QXHSVgYGnyRHPwR
-	FJn4MEz7HfIfsEAAOfV0G0pzSv+RoCxtebxCjqtZlLhI+w8LlCzhbwojwfxIKxaf
-	BKXzTJ5sH/B+xtIGMXM+aZnbRo9kKUiMMNKCF4YC7QFIIG4C6vRmYhAzlCaL/5PX
-	3FYg4/rd6DpQg8nM4OhfyGZ4YJEPKIb0kSbze5Wzt5hwvfolVH7zJS8b1NeMUA1+
-	zcTPC6lok9vzDSOrF+Pac84oafnPqKgM5zebVowQUWqeqdA3cDsB8VZgcq9EmsW0
-	r+7lig==
-Received: from mail-ua1-f72.google.com (mail-ua1-f72.google.com [209.85.222.72])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4d35r20475-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 23 Mar 2026 13:21:39 +0000 (GMT)
-Received: by mail-ua1-f72.google.com with SMTP id a1e0cc1a2514c-94d6c5433a0so564611241.1
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 23 Mar 2026 06:21:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1774272099; x=1774876899; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=3Q2i+GiHSpXUMk/5V2t9vb8q95gvl7L2wScFZUzHsU8=;
-        b=Q6u2DHlidG5C6+SHelVXxlMQYVBoUM6xKJSOQYnchxMVD4f7MFvcdVjoDoWy5205hn
-         TQrcJhu5KA8SSthNDZP1IAPb9dn3pKCcDAC3GGJd/QHC2ydvGQJdqrcQ7lWEwQN6NK3l
-         nng37S+os+4DFSf3kxB1Fsn+ETNSWprSjr7z9qNp6xJMS2IROUKxzSzMKkt341dAy1T4
-         XgyCuFXdwQ8QUe4I2rG4b3z/k1Zhy+1LebY+PvvT9gizQX+KUDYYr0GC4qDydFkph6Pj
-         UnGv4RdPd7Dc+r2UZsEIs4muWLhwBV1e7sb8aCw93lWeRZrGgYzzNNa8fJkq7Ho2RR2J
-         XSTw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774272099; x=1774876899;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=3Q2i+GiHSpXUMk/5V2t9vb8q95gvl7L2wScFZUzHsU8=;
-        b=QuQpFZKX9H+/ROWKYcOqh8ZD/Hbuovbs79lqtXeGm2OraFHaI9LXi5i8RtWyn8PbAU
-         HXixjDV9MXdmBZTKufLl8jZYv0Ea2+m+uefwaaQljMbXIdW2GzmXvaa/Yp+6jAs3cgCl
-         lus70izKWHYDjHO8eoNy15ZMZvVIJP5tgmhKTdaOVM6o2vcT4HBVPFNuTXc+2inbvkN5
-         EyIsQBa95TpwLPA7Oj7J1QbOqBHBYLEcP6FORd8N/3nZXlb4S05HjuVwtZbcLyhhptJw
-         wYSmmkrHGbj0Baqy/ZBgr0V59U3FacxWxrw1mDjS5gWjz5NU44/REtQZdlxKY7HeJEh2
-         UjLg==
-X-Forwarded-Encrypted: i=1; AJvYcCXIg4fk51O4nsW65VUZGnViDC6eqIsxfJfpKtg0QSZsUQZYrns6Z0jyo8kF7T+vxrkInRoMx0jkCJkDJbayOJjOPA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwCzQt+rm9m0qx1prBlvbgI6doSUETkf54GDVG2jqp/H1fPJNXU
-	EjDMEx2P8meLadLv1u44J6SA6Hk21JbJeaYcZdYo7YogOmMv+szzcPXMxhprPM4B+MCoikdH80H
-	Mij89TZ3HjqsSIE7ggeg4WaCxZ+45yIPv0BddlWRD/rr9ynFcP8KQHjeKRAoRF1v8ja6seS897Q
-	==
-X-Gm-Gg: ATEYQzz1Mj3C8Gu2YswFmj/6oYaguXthyK2sV8dM11ChH6++ZZGgkXJiOnM2gJCvfUL
-	VZKYrrfLoYMBBw4AMlxQH9hxS+7+sdQoaJIerTRsfLkJZNXGwUzSIySnbT3AXbIDIFs0FsrbJIN
-	GdOKyBIhpPyOPwbvaIxKx51LLTHHjYbnkQmAMs8wNoVb35Yw6gU/WjkQnr/nwReDMEXGsYGcVXd
-	LS9MCATJYioLQkDzev3vYrqLrnlvInoRMz6W/zsdasqJ2G/PJSbAkncwobJYLf+/zzNVS2vxK0w
-	IopgoRysKxyF2LubWNg5Wnd/e+3N2M8VDS4KY4LuFLBXxpheJKSzT84cWaYxDJMama7YqvU5WRY
-	9tl3jXsa60pXmAMYEkbYI5BjyPQQ+f1JU7hAjLCebHqNMtHBMwosB
-X-Received: by 2002:a67:e704:0:b0:600:106f:5fa8 with SMTP id ada2fe7eead31-602aeb230cemr7011673137.15.1774272099018;
-        Mon, 23 Mar 2026 06:21:39 -0700 (PDT)
-X-Received: by 2002:a67:e704:0:b0:600:106f:5fa8 with SMTP id ada2fe7eead31-602aeb230cemr7011634137.15.1774272098415;
-        Mon, 23 Mar 2026 06:21:38 -0700 (PDT)
-Received: from brgl-qcom.local ([2a01:cb1d:dc:7e00:f9a0:d7e2:7eb6:79b5])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b9832f44034sm503102066b.4.2026.03.23.06.21.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Mar 2026 06:21:37 -0700 (PDT)
-From: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Date: Mon, 23 Mar 2026 14:20:58 +0100
-Subject: [PATCH net-next v10 6/6] net: stmmac: qcom-ethqos: add support for
- sa8255p
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 743942D7DDB;
+	Mon, 23 Mar 2026 13:24:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.229.58
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774272249; cv=fail; b=NjkYi2eTXRsU/OY1rxtGIhunvo13QImM83IeQ2FgcrWeRNZJ1Nh5pQRKl3UHGpM15jg9jLWC9Q22JvFqfjTCGCBQgvX7HRmGy2/X7Dmz+P4A7LdMQxHpZoxmeA7zOFucmlyCo9rIWd0ocso+xpeGS5rM8FgHgdFPwYVuSJyztfA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774272249; c=relaxed/simple;
+	bh=Mr2lFuvAuhZ7h6paxxIX2ZhpNgno9L4ZKwMDhEL7/hY=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=hxae0jigcofjU/UwXfNlNeQDyoRUBrsaEDVIaBlP7gv94fH5lARqC/FgxSMfpmx5XU3sA3UpNyQRXw8t0o8EjpcZOb//vQdEAUBYaPlLtTJw3+Eg6r9w63n0e+Nbfwt9zBM8bzrA3mz4/qwGw7AHDhz8jnnUM0n4soy6KPb0X3A=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=tpkNDot5; arc=fail smtp.client-ip=52.101.229.58
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=SyZPjTD/11xOs4ungy8qI6nhSK6Yj2mMo0baxZAMYFBU5h8sreYwvjHQPedzxfd3Fru6eVaxsqs822Hc3i90bJf7PUmXPgG9u8uSFXuaXkeZEfkBDF4TTj2Icd65D6NnQwyGQ0UoyjKzbZl0YW1hByaj6TnWp20zOAL5j3b3vt0CqMY64xT8ww3j1G+XG2md7ASwnWukKJ8XrUd1FppgScKikgXjgw8XWrBmFMjIeDsGhvzwom0fwn/DJWgO9y7inFr/9dLuGzoOJijdkK2Lm4MK2QyseeH+qAHMW1F+c+7V7FWvXaxtH8hvoP2oXo1ll2oXbRHDLb7iXV189TL1vg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=a8xiPAsBsGBzi61wxVAEeQQ6Q/LtVAUVWO/IJ++G7fk=;
+ b=k5SJpqkuOCw7py5dfLk9WQA1xLfcvNMFtmVj/T1p5vglWP+jNqDY4HQRnSP5HnoJ1ySWWc/4e0oiZvKMoe4SBuDue/etWW9UgdaiyC5nM2+ElfsFkjNPzToMHJVdatRt+C6qDDujmm6pPeoAwf9DiTrbfqKuZlCACT7BvkkcGXCx5y1+qki/0SujFiJeHfaNs21L0WKkAIb4nGqNFSed3y0YHJ2xXKbpP9Y4uVPJbfKvAgxVaxoWAGlyUlbE1bKNfpX7jq7omuSzRKWQOSLmYWQxGgVPg5hS20qwTmqVu6Os6T1pqpwhVlIVQTy4R1l+6yoPlypJCYBlh0jP4ESNBQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=a8xiPAsBsGBzi61wxVAEeQQ6Q/LtVAUVWO/IJ++G7fk=;
+ b=tpkNDot5wsATERcreJsIxvC8nN8diA9FIkbdjzwfJeyPSwuKZ/ZqXOlZ+uzXAzslADn3KS1KRuueu1Y+aKR2MKUzn6meiPfQhErPOxD8wxGZvCCvtee/9roF3EM2LUsPm4JjyweihPyuaAM7iGcpqR5Tu8ua3M77xe2NxSdtdto=
+Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com (2603:1096:400:3d0::7)
+ by OSZPR01MB7100.jpnprd01.prod.outlook.com (2603:1096:604:11a::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9723.31; Mon, 23 Mar
+ 2026 13:23:28 +0000
+Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com
+ ([fe80::87d1:4928:d55:97de]) by TY3PR01MB11346.jpnprd01.prod.outlook.com
+ ([fe80::87d1:4928:d55:97de%4]) with mapi id 15.20.9723.030; Mon, 23 Mar 2026
+ 13:23:43 +0000
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: biju.das.au <biju.das.au@gmail.com>, Geert Uytterhoeven
+	<geert+renesas@glider.be>, Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof
+ Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+	magnus.damm <magnus.damm@gmail.com>
+CC: "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
+	"linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, Prabhakar
+ Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, biju.das.au
+	<biju.das.au@gmail.com>, Conor Dooley <conor.dooley@microchip.com>
+Subject: RE: [PATCH v7 01/10] dt-bindings: clock: Document RZ/G3L SoC
+Thread-Topic: [PATCH v7 01/10] dt-bindings: clock: Document RZ/G3L SoC
+Thread-Index: AQHcuFdLFpAC8aylHkKpsjrkcq2tHbW8H7+g
+Date: Mon, 23 Mar 2026 13:23:43 +0000
+Message-ID:
+ <TY3PR01MB11346B7A8A0E31B9A231FCF7E864BA@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+References: <20260320104950.42220-1-biju.das.jz@bp.renesas.com>
+ <20260320104950.42220-2-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20260320104950.42220-2-biju.das.jz@bp.renesas.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TY3PR01MB11346:EE_|OSZPR01MB7100:EE_
+x-ms-office365-filtering-correlation-id: bab6398e-ea94-4121-f4f0-08de88df681f
+x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|1800799024|376014|7416014|366016|38070700021|56012099003|18002099003|22082099003;
+x-microsoft-antispam-message-info:
+ UbY9iG73Sou+vXOTVJS53g05FQvgFa8Ye47DG/Pr0J8U4sbHUXhUfiMd0Zt0TnZ9pjbPu4H7SNuMg0kVWl/Y0YJpUvUkk2u+RaVtTGuw3KJLoPuFgkFvswYXaHhTAYig/No+gU6Eck03PVuPdungnhRIH81ri9E1xzjskHEsX+VV67CAPZ37zFA0rrZNxqLaymmlOCm0/SE8ka4jXwdD35PRwAeoK/E2ahkeUE3vbsURbSsrGNkyDYNjvxguzE54Mz7XYNorGV11FN0uS9o2Ci9TSZBy4LTrf2PzmFkumHh7PO0Z11AzrBYLiqWvA6zMvG1ujNISTLZp+EbrgNSxZ9ZzIyesuxwP+P9MMEy9dKgLx5yK/kUJaOs5Vj300xXDoCKH61AKqN49Tr2aZ9BSKXCVCQD/8/F9u/8wZcw9oAkCOdfRwWVJsHO9peA+ZITCpiXwpP2dmcPVP9Ch6avVlgbJ5mprO5cpkhUMhHQKc0sNVr3Ic4Vuwu5tuHsP/5QTHH3NhaXmVOuf5Q5eiDvwHgZVjwy43cM+S95x1bIbKQjJGsDePrx7duXUTa7LgIc+iGx3iU4ge8oeB8Z+Y5xD5pgysB7mg3ByQEONZTGa+q8nInrr9C6mvA99MEh7ADx3VCu74wYRk3XRZkK8ogBi1g90GI3+CQ2gpm7ACPQYxkrB25ylmXcLltol70bbwVSo1sjRy/cSk4zjcczD8b9uuGrxb/LoXT88BiA1kgeG31v5uZYsHI0B4w+FITsCREqM82Wz41uHKAVScNhO0mzPXQDQWJXFElKeWa8Xhq38TUE=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB11346.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(7416014)(366016)(38070700021)(56012099003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?us-ascii?Q?zR2xBlNBjyMrgakoFVjgFIvXwsEetuTKNoMcU1ZhPrE3yjJ/4GX8BPZRrb4t?=
+ =?us-ascii?Q?BSC4sizsu45QhC9OMtHetufluI6i1SL8wAiY0BGUL3l0yXRBqaHvdB3ugs7h?=
+ =?us-ascii?Q?F5b2LEBdkMnuBXbMCAhHlOa3RQnLHKkC//C9iYAbSLoZTXVaAiR+uhhCH4XT?=
+ =?us-ascii?Q?wZc2iuEC3YUZV8RWjZQaFLH/4wv9JxAfbKN8JK3b/I0A2w2rLTtUM+BRsMtk?=
+ =?us-ascii?Q?a39KfFDEVoyjfRKwDB1kzGgQ5hviKuML0n2UuLqi5Sk+yNX6CKqTsPujhO9D?=
+ =?us-ascii?Q?cb7zWEbyhQWT30lds3Md5NxfOdWmMpAskRqKyRotcfcvaS3QEFMyNm57zN9t?=
+ =?us-ascii?Q?SZeEGlgCi/IqM1FtyjrcMsRmmGwmsLIM8li4l1WH+T0mgUQ0c9Bej5+Kuitt?=
+ =?us-ascii?Q?6STTKD4UUb74rJi8vNzCCEz92dCgcwJDsSSTwxrybo+57Jui8PBdGeMGIHTp?=
+ =?us-ascii?Q?YsPJGgO3s/UJOq7eJMh8TgWAHva4jet9EogMPgleC+z2Y0vR3XLs3BIoV+fe?=
+ =?us-ascii?Q?ZK+5BuQlaXUK3IMdfxBIL8oVEek4/FYtu2JFXpqVL2tXC5shHQ3b4rV/xD9R?=
+ =?us-ascii?Q?isO/b5dY0T87g70W0+1VWjlh1PlTj7hBzzykXxR6rjIgH5YOuMyb3jVTAMko?=
+ =?us-ascii?Q?QRDczFuCP+N+tm6CkiUoRSgPpjDJKz1IIpf4kPQc70iXPWt4jOF2RrlHGAbg?=
+ =?us-ascii?Q?t2ctcH4iRn453bjl6RJvqqYBQN0c0uHcIgOyalf2BNzwW+yanf5qIsJlDq+C?=
+ =?us-ascii?Q?hEpuGiCK6XfFe/gj78ln5PB+1jrW+rfYm2+ZqDlzPnK3yFuHpNlEI5ceTQCA?=
+ =?us-ascii?Q?GYcDr5mGwAo+Eldtb8cjSqjLBNR9LOHaEWFWctG6lXWIzdmrTzL7a0v+8/Gj?=
+ =?us-ascii?Q?c+uMkzFX0MgTcV/wZSNH4pYW5ZcIibcuxgCmOmaOzqKu2k/+J5yiuXDumUH/?=
+ =?us-ascii?Q?mtn+CVxsLQTCIc366sLJYuqWzD3yI+JnqR5Mu11wpHWXHI1XsTJCRMwVyxyX?=
+ =?us-ascii?Q?E9i7/WJakK+YhJDrby9/tUlYvLoJWwo/zaEy8BzL5g/g2ixdFDcX6LkolK8A?=
+ =?us-ascii?Q?Uk7q9jRVtkF1f+Z23VMLN3BbzieFae9YiMtZApYBizTMo4o9xEMM3CybRGN1?=
+ =?us-ascii?Q?/TAh/qk85I0/igrYIyTh2rkbtJy7QDB4OkNe6D9cJJ+pp+RVMSeK8rdIErNe?=
+ =?us-ascii?Q?+kwmHzAW5wtYHneU8wi4/B2Odh8dGZTWKNA3ny4WqzFyDAQUyOqPvQJ4mnfe?=
+ =?us-ascii?Q?tR6nEROtbqFlD3iaCzUUMj11RSECWXlI9NI/1V3SpKYBPnGInW/JoLt7jmxf?=
+ =?us-ascii?Q?RDMV+SD9an5PlzmTBmAoZ/rjhDTmNEov7+jMyoyJiu3xQNrJsPV5uhbrHgDC?=
+ =?us-ascii?Q?IJPHCsnOA24u7Vui00SY7ihm5aQyxeeVKAqiUsffYyA3Jyi9R1ZsqXrn/Kbr?=
+ =?us-ascii?Q?AT6jjdpYTkO+FQhCMSB/pFMp5zW0KQASnf0KHoqLKuu5hK13yWJ6OFjllav5?=
+ =?us-ascii?Q?Zmb4IboUDpKw9YByu4QEVrEddAamVh7NzP46SHPV7YPIRU4GL836UlN6ZClx?=
+ =?us-ascii?Q?/eJ9pHecqOsZASqz5zEf9yAQf1CT3fHnCZoXU7p5Lfye5BmGU5w8Aqn2nTMl?=
+ =?us-ascii?Q?Ar7cgegOsQoz59O2dGZHIABlUBEc+TwVRaoF+HAhgut4wPNldHN1CnJlNBfe?=
+ =?us-ascii?Q?0WPYXqPVrowiqgloGbYTitEXCcLGI/x3QL4s49mWfaUY6kSKGUHMQVu7pMSQ?=
+ =?us-ascii?Q?i2J1gPv+Ow=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260323-qcom-sa8255p-emac-v10-6-79302b238a16@oss.qualcomm.com>
-References: <20260323-qcom-sa8255p-emac-v10-0-79302b238a16@oss.qualcomm.com>
-In-Reply-To: <20260323-qcom-sa8255p-emac-v10-0-79302b238a16@oss.qualcomm.com>
-To: Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Andrew Lunn <andrew+netdev@lunn.ch>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Giuseppe Cavallaro <peppe.cavallaro@st.com>,
-        Chen-Yu Tsai <wens@kernel.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Neil Armstrong <neil.armstrong@linaro.org>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Jerome Brunet <jbrunet@baylibre.com>, Shawn Guo <shawnguo@kernel.org>,
-        Fabio Estevam <festevam@gmail.com>,
-        Jan Petrous <jan.petrous@oss.nxp.com>, s32@nxp.com,
-        Mohd Ayaan Anwar <mohd.anwar@oss.qualcomm.com>,
-        Romain Gantois <romain.gantois@bootlin.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Christophe Roullier <christophe.roullier@foss.st.com>,
-        Bartosz Golaszewski <brgl@kernel.org>,
-        Radu Rendec <rrendec@redhat.com>
-Cc: linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-arm-kernel@lists.infradead.org,
-        Drew Fustini <dfustini@tenstorrent.com>, linux-sunxi@lists.linux.dev,
-        linux-amlogic@lists.infradead.org, linux-mips@vger.kernel.org,
-        imx@lists.linux.dev, linux-renesas-soc@vger.kernel.org,
-        linux-rockchip@lists.infradead.org, sophgo@lists.linux.dev,
-        linux-riscv@lists.infradead.org, brgl@kernel.org,
-        Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
-        Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=13278;
- i=bartosz.golaszewski@oss.qualcomm.com; h=from:subject:message-id;
- bh=3YX99yDiykq8wht5jhlxLD9GqcQlDRrqtioZ2YaSMF4=;
- b=owEBbQKS/ZANAwAKAQWdLsv/NoTDAcsmYgBpwT5MxDQjK24eHHLbfxTlhthlxk1AlnbkT6xW2
- Px45/VChQGJAjMEAAEKAB0WIQSR5RMt5bVGHXuiZfwFnS7L/zaEwwUCacE+TAAKCRAFnS7L/zaE
- w3tuD/9AKs1Rakst0JFymj2NL4Fiz6GIj8cqw+hF4MSyRmFOucfl69YYPzWKzTdq+uAAr22YdEL
- 9Abr+BvAHm7D4iaFnrAiF6BTSfk1cEHBDhCAteqv2UScshQmx31ufaniixWpFHwWpHQITdwXQ6t
- dlkgwBou2xzYVYWyOJCny7Agc+D3FRqKbA2f2oZGHintY7wC+8plmU7XRMDZEeIfCR0ybFgb+lj
- juYAV+zVqj0d9eiPXFeon/v+X8/9/ImSus+dCfSEpXNOl9Zpk2BSPzxUz7NEpRWrNQzWrPK8nDL
- pxHIzMf4IX+PfWgVK5rrtIqgIrJ8nU5dhFKBT94SrlFzqfYge/RLtVORkk5hxrBKolsbWi9uvEX
- hVnfJxCLudFoqypbDfiWv8wZipltIgzR54ulv8Ao/fdrpCoUSwCPFT5WCD4QyJpoi4OKASF8kBR
- 39raOzFLCB1QsOSbgeVmSETi1JOcL0pGbYTrsnRGsWEgytYa94bA0T6etRRLOYTCr3Zc+/j7foT
- VkoHlOxy5xHcaImeUGB1hmVi6lXrUflu4xLy0cmmEzECf3RHlPzVTKiBHYD795XOdO1X5Lyb8aL
- js8veq1ZHAS1dMHyx6vs4KcffdZGwair4wXZ3TuX6/cLZxa6sMV8JppglLjuT39qAdE0QL/jylY
- Hs2CWaKgBuO+0jQ==
-X-Developer-Key: i=bartosz.golaszewski@oss.qualcomm.com; a=openpgp;
- fpr=169DEB6C0BC3C46013D2C79F11A72EA01471D772
-X-Authority-Analysis: v=2.4 cv=VvUuwu2n c=1 sm=1 tr=0 ts=69c13e63 cx=c_pps
- a=ULNsgckmlI/WJG3HAyAuOQ==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=Yq5XynenixoA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=3WHJM1ZQz_JShphwDgj5:22 a=KKAkSRfTAAAA:8
- a=EUspDBNiAAAA:8 a=eSQ9y_BssGCL3sbXkzsA:9 a=QEXdDO2ut3YA:10
- a=1WsBpfsz9X-RYQiigVTh:22 a=cvBusfyB2V15izCimMoJ:22
-X-Proofpoint-GUID: ERt4rSmuphpWGXxCw8gYSAasGGPNzel5
-X-Proofpoint-ORIG-GUID: ERt4rSmuphpWGXxCw8gYSAasGGPNzel5
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzIzMDEwMyBTYWx0ZWRfXxGgoKlKHlWLh
- wAB8XcI+hAHg9+2JnBgIC6kdh1oCRud+FP/ZAC+q+rRoMpt+ErLPVIV7hF5CqyQZKrvhKtuABen
- R8N7cra9sIwcvJGReqPQ5Q8s3CILCHHzCo7reuoAYhm8i5L7aoDirp7KdbpT/dGXv/eL1GmuQT6
- muzDFmMUVaTIcrNcCoK+raRM7O+Q5ogw5Fuzl3WIniy8ek922EP+ayVOf3jVGgCiwPDcUQoLofM
- QbAOSt9g4s4L5ZuAl4AaSaYQEpN1yPzfq36gUBhfB6a6CWc9FDIXWfSXE0uXcuHzbUmhB37JYCp
- 4pr82H+w2gyyKLlqpDdqVtHy6yefwEQwreeVPdbbyrdzHSefnXlf+c6hscV60yuIFI+k4GN2Dnt
- Eg4c1iW98H/fKCj0XEJJNSPXEub4r0HOPW4BCAgIJ0MkooCzGCCWyGAWvIEjMkWeHZaD53fL6P9
- ahfDk0PCRzTMD71iIxA==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-03-23_04,2026-03-20_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 malwarescore=0 spamscore=0 adultscore=0 lowpriorityscore=0
- impostorscore=0 bulkscore=0 clxscore=1015 priorityscore=1501 suspectscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2603050001 definitions=main-2603230103
-X-Spamd-Result: default: False [-0.66 / 15.00];
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11346.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: bab6398e-ea94-4121-f4f0-08de88df681f
+X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Mar 2026 13:23:43.8897
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: trOBFXJDoRF5jFY90zDVtBcntQvHXuwsVHKladnECpsnA59X9bHDe16UcHAYLsOM25uCkMnBZujGhUmQVJUd2H1K7GIFNYnEzpceEcoOvSw=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSZPR01MB7100
+X-Spamd-Result: default: False [1.34 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
-	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	ARC_REJECT(1.00)[cv is fail on i=2];
+	DMARC_POLICY_ALLOW(-0.50)[renesas.com,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[bp.renesas.com:s=selector1];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-30109-lists,linux-renesas-soc=lfdr.de];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[linaro.org:email,oss.qualcomm.com:dkim,oss.qualcomm.com:mid,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,qualcomm.com:dkim,qualcomm.com:email];
-	FREEMAIL_TO(0.00)[kernel.org,lunn.ch,davemloft.net,google.com,redhat.com,gmail.com,foss.st.com,st.com,linaro.org,baylibre.com,oss.nxp.com,nxp.com,oss.qualcomm.com,bootlin.com,glider.be];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[49];
+	TAGGED_FROM(0.00)[bounces-30110-lists,linux-renesas-soc=lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[15];
 	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com,glider.be,baylibre.com,kernel.org];
+	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_CC(0.00)[vger.kernel.org,bp.renesas.com,gmail.com,microchip.com];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[bartosz.golaszewski@oss.qualcomm.com,linux-renesas-soc@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[biju.das.jz@bp.renesas.com,linux-renesas-soc@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[bp.renesas.com:+];
+	RCVD_COUNT_FIVE(0.00)[5];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,dt];
 	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,netdev,renesas];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_COUNT_SEVEN(0.00)[7]
-X-Rspamd-Queue-Id: 427222F2F28
+	MISSING_XM_UA(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[bp.renesas.com:dkim,microchip.com:email,TY3PR01MB11346.jpnprd01.prod.outlook.com:mid,renesas.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 901292F2F19
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Extend the driver to support a new model - sa8255p. Unlike the
-previously supported variants, this one's power management is done in
-the firmware using SCMI. This is modeled in linux using power domains so
-add support for them.
+Hi All,
 
-Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
----
- .../ethernet/stmicro/stmmac/dwmac-qcom-ethqos.c    | 301 ++++++++++++++++++---
- 1 file changed, 262 insertions(+), 39 deletions(-)
+> -----Original Message-----
+> From: Biju <biju.das.au@gmail.com>
+> Sent: 20 March 2026 10:50
+> Subject: [PATCH v7 01/10] dt-bindings: clock: Document RZ/G3L SoC
+>=20
+> From: Biju Das <biju.das.jz@bp.renesas.com>
+>=20
+> Document the device tree bindings for the Renesas RZ/G3L SoC Clock Pulse =
+Generator (CPG). RZ/G3L CPG
+> is similar to RZ/G2L CPG but has 5 clocks compared to 1 clock on other So=
+Cs.
+>=20
+> Also define RZ/G3L (R9A08G046) Clock Pulse Generator Core Clocks, as list=
+ed in section 4.4.4.1 ("Block
+> Diagram of the Clock System"), module clock outputs, as listed in section=
+ 4.4.2 ("Clock List r1.00")
+> and add Reset definitions referring to registers CPG_RST_* in Section 4.4=
+.3
+> ("Register") of the RZ/G3L Hardware User's Manual (Rev.1.00 Oct, 2025).
+>=20
+> Acked-by: Conor Dooley <conor.dooley@microchip.com>
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> ---
+> v6->v7:
+>  * No change
+> v5->v6:
+>  * No change
+> v4->v5:
+>  * No change
+> v3->v4:
+>  * Updated commit description related to core clocks section in
+>    the hardware manual
+>  * Dropped CLK_P4_DIV2 from core clocks
+>  * Added MIPI_DSI_PLLCLK and USB_SCLK to core clocks
+>  * Dropped LVDS_PCLK  module clock
+>  * Added BSC_X_PRESET_BSC reset
+> v2->v3:
+>  * Added macros R9A08G046_ETH{0,1}_CLK_{TX,RX}_I_RMII.
+>  * Keep the tag from Conor as it is trivial change for just adding macros=
+.
+> v1->v2:
+>  * Documented external ethernet clocks as it is a clock source for MUX
+>    inside CPG
+>  * Updated commit description.
+>  * Keep the tag from Conor as it is trivial change for adding more
+>    clks.
+> ---
+>  .../bindings/clock/renesas,rzg2l-cpg.yaml     |  40 +-
+>  include/dt-bindings/clock/r9a08g046-cpg.h     | 342 ++++++++++++++++++
+>  2 files changed, 377 insertions(+), 5 deletions(-)  create mode 100644 i=
+nclude/dt-
+> bindings/clock/r9a08g046-cpg.h
+>=20
+> diff --git a/Documentation/devicetree/bindings/clock/renesas,rzg2l-cpg.ya=
+ml
+> b/Documentation/devicetree/bindings/clock/renesas,rzg2l-cpg.yaml
+> index 8c18616e5c4d..c0ce687d83ee 100644
+> --- a/Documentation/devicetree/bindings/clock/renesas,rzg2l-cpg.yaml
+> +++ b/Documentation/devicetree/bindings/clock/renesas,rzg2l-cpg.yaml
+> @@ -28,19 +28,30 @@ properties:
+>        - renesas,r9a07g044-cpg # RZ/G2{L,LC}
+>        - renesas,r9a07g054-cpg # RZ/V2L
+>        - renesas,r9a08g045-cpg # RZ/G3S
+> +      - renesas,r9a08g046-cpg # RZ/G3L
+>        - renesas,r9a09g011-cpg # RZ/V2M
+>=20
+>    reg:
+>      maxItems: 1
+>=20
+>    clocks:
+> -    maxItems: 1
+> +    minItems: 1
+> +    items:
+> +      - description: Clock source to CPG can be either from external clo=
+ck
+> +                     input (EXCLK) or crystal oscillator (XIN/XOUT).
+> +      - description: ETH0 TXC clock input
+> +      - description: ETH0 RXC clock input
+> +      - description: ETH1 TXC clock input
+> +      - description: ETH1 RXC clock input
+>=20
+>    clock-names:
+> -    description:
+> -      Clock source to CPG can be either from external clock input (EXCLK=
+) or
+> -      crystal oscillator (XIN/XOUT).
+> -    const: extal
+> +    minItems: 1
+> +    items:
+> +      - const: extal
+> +      - const: eth0_txc_tx_clk
+> +      - const: eth0_rxc_rx_clk
+> +      - const: eth1_txc_tx_clk
+> +      - const: eth1_rxc_rx_clk
+>=20
+>    '#clock-cells':
+>      description: |
+> @@ -74,6 +85,25 @@ required:
+>    - '#power-domain-cells'
+>    - '#reset-cells'
+>=20
+> +allOf:
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            const: renesas,r9a08g046-cpg
+> +    then:
+> +      properties:
+> +        clocks:
+> +          minItems: 5
+> +        clock-names:
+> +          minItems: 5
+> +    else:
+> +      properties:
+> +        clocks:
+> +          maxItems: 1
+> +        clock-names:
+> +          maxItems: 1
+> +
+>  additionalProperties: false
+>=20
+>  examples:
+> diff --git a/include/dt-bindings/clock/r9a08g046-cpg.h b/include/dt-bindi=
+ngs/clock/r9a08g046-cpg.h
+> new file mode 100644
+> index 000000000000..56b98e98cf88
+> --- /dev/null
+> +++ b/include/dt-bindings/clock/r9a08g046-cpg.h
+> @@ -0,0 +1,342 @@
+> +/* SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> + *
+> + * Copyright (C) 2026 Renesas Electronics Corp.
+> + */
+> +#ifndef __DT_BINDINGS_CLOCK_R9A08G046_CPG_H__
+> +#define __DT_BINDINGS_CLOCK_R9A08G046_CPG_H__
+> +
+> +#include <dt-bindings/clock/renesas-cpg-mssr.h>
+> +
+> +/* R9A08G046 CPG Core Clocks */
+> +#define R9A08G046_CLK_I			0
+> +#define R9A08G046_CLK_IC0		1
+> +#define R9A08G046_CLK_IC1		2
+> +#define R9A08G046_CLK_IC2		3
+> +#define R9A08G046_CLK_IC3		4
+> +#define R9A08G046_CLK_P0		5
+> +#define R9A08G046_CLK_P1		6
+> +#define R9A08G046_CLK_P2		7
+> +#define R9A08G046_CLK_P3		8
+> +#define R9A08G046_CLK_P4		9
+> +#define R9A08G046_CLK_P5		10
+> +#define R9A08G046_CLK_P6		11
+> +#define R9A08G046_CLK_P7		12
+> +#define R9A08G046_CLK_P8		13
+> +#define R9A08G046_CLK_P9		14
+> +#define R9A08G046_CLK_P10		15
+> +#define R9A08G046_CLK_P13		16
+> +#define R9A08G046_CLK_P14		17
+> +#define R9A08G046_CLK_P15		18
+> +#define R9A08G046_CLK_P16		19
+> +#define R9A08G046_CLK_P17		20
+> +#define R9A08G046_CLK_P18		21
+> +#define R9A08G046_CLK_P19		22
+> +#define R9A08G046_CLK_P20		23
+> +#define R9A08G046_CLK_M0		24
+> +#define R9A08G046_CLK_M1		25
+> +#define R9A08G046_CLK_M2		26
+> +#define R9A08G046_CLK_M3		27
+> +#define R9A08G046_CLK_M4		28
+> +#define R9A08G046_CLK_M5		29
+> +#define R9A08G046_CLK_M6		30
+> +#define R9A08G046_CLK_AT		31
+> +#define R9A08G046_CLK_B			32
+> +#define R9A08G046_CLK_ETHTX01		33
+> +#define R9A08G046_CLK_ETHTX02		34
+> +#define R9A08G046_CLK_ETHRX01		35
+> +#define R9A08G046_CLK_ETHRX02		36
+> +#define R9A08G046_CLK_ETHRM0		37
+> +#define R9A08G046_CLK_ETHTX11		38
+> +#define R9A08G046_CLK_ETHTX12		39
+> +#define R9A08G046_CLK_ETHRX11		40
+> +#define R9A08G046_CLK_ETHRX12		41
+> +#define R9A08G046_CLK_ETHRM1		42
+> +#define R9A08G046_CLK_G			43
+> +#define R9A08G046_CLK_HP		44
+> +#define R9A08G046_CLK_SD0		45
+> +#define R9A08G046_CLK_SD1		46
+> +#define R9A08G046_CLK_SD2		47
+> +#define R9A08G046_CLK_SPI0		48
+> +#define R9A08G046_CLK_SPI1		49
+> +#define R9A08G046_CLK_S0		50
+> +#define R9A08G046_CLK_SWD		51
+> +#define R9A08G046_OSCCLK		52
+> +#define R9A08G046_OSCCLK2		53
+> +#define R9A08G046_MIPI_DSI_PLLCLK	54
+> +#define R9A08G046_USB_SCLK		55
+> +
+> +/* R9A08G046 Module Clocks */
+> +#define R9A08G046_CA55_SCLK		0
+> +#define R9A08G046_CA55_PCLK		1
+> +#define R9A08G046_CA55_ATCLK		2
+> +#define R9A08G046_CA55_GICCLK		3
+> +#define R9A08G046_CA55_PERICLK		4
+> +#define R9A08G046_CA55_ACLK		5
+> +#define R9A08G046_CA55_TSCLK		6
+> +#define R9A08G046_CA55_CORECLK0		7
+> +#define R9A08G046_CA55_CORECLK1		8
+> +#define R9A08G046_CA55_CORECLK2		9
+> +#define R9A08G046_CA55_CORECLK3		10
+> +#define R9A08G046_SRAM_ACPU_ACLK0	11
+> +#define R9A08G046_SRAM_ACPU_ACLK1	12
+> +#define R9A08G046_SRAM_ACPU_ACLK2	13
+> +#define R9A08G046_GIC600_GICCLK		14
+> +#define R9A08G046_IA55_CLK		15
+> +#define R9A08G046_IA55_PCLK		16
+> +#define R9A08G046_MHU_PCLK		17
+> +#define R9A08G046_SYC_CNT_CLK		18
+> +#define R9A08G046_DMAC_ACLK		19
+> +#define R9A08G046_DMAC_PCLK		20
+> +#define R9A08G046_OSTM0_PCLK		21
+> +#define R9A08G046_OSTM1_PCLK		22
+> +#define R9A08G046_OSTM2_PCLK		23
+> +#define R9A08G046_MTU_X_MCK_MTU3	24
+> +#define R9A08G046_POE3_CLKM_POE		25
+> +#define R9A08G046_GPT_PCLK		26
+> +#define R9A08G046_POEG_A_CLKP		27
+> +#define R9A08G046_POEG_B_CLKP		28
+> +#define R9A08G046_POEG_C_CLKP		29
+> +#define R9A08G046_POEG_D_CLKP		30
+> +#define R9A08G046_WDT0_PCLK		31
+> +#define R9A08G046_WDT0_CLK		32
+> +#define R9A08G046_WDT1_PCLK		33
+> +#define R9A08G046_WDT1_CLK		34
+> +#define R9A08G046_WDT2_PCLK		35
+> +#define R9A08G046_WDT2_CLK		36
+> +#define R9A08G046_XSPI_HCLK		37
+> +#define R9A08G046_XSPI_ACLK		38
+> +#define R9A08G046_XSPI_CLK		39
+> +#define R9A08G046_XSPI_CLKX2		40
+> +#define R9A08G046_SDHI0_IMCLK		41
+> +#define R9A08G046_SDHI0_IMCLK2		42
+> +#define R9A08G046_SDHI0_CLK_HS		43
+> +#define R9A08G046_SDHI0_IACLKS		44
+> +#define R9A08G046_SDHI0_IACLKM		45
+> +#define R9A08G046_SDHI1_IMCLK		46
+> +#define R9A08G046_SDHI1_IMCLK2		47
+> +#define R9A08G046_SDHI1_CLK_HS		48
+> +#define R9A08G046_SDHI1_IACLKS		49
+> +#define R9A08G046_SDHI1_IACLKM		50
+> +#define R9A08G046_SDHI2_IMCLK		51
+> +#define R9A08G046_SDHI2_IMCLK2		52
+> +#define R9A08G046_SDHI2_CLK_HS		53
+> +#define R9A08G046_SDHI2_IACLKS		54
+> +#define R9A08G046_SDHI2_IACLKM		55
+> +#define R9A08G046_GE3D_CLK		56
+> +#define R9A08G046_GE3D_AXI_CLK		57
+> +#define R9A08G046_GE3D_ACE_CLK		58
+> +#define R9A08G046_ISU_ACLK		59
+> +#define R9A08G046_ISU_PCLK		60
+> +#define R9A08G046_H264_CLK_A		61
+> +#define R9A08G046_H264_CLK_P		62
+> +#define R9A08G046_CRU_SYSCLK		63
+> +#define R9A08G046_CRU_VCLK		64
+> +#define R9A08G046_CRU_PCLK		65
+> +#define R9A08G046_CRU_ACLK		66
+> +#define R9A08G046_MIPI_DSI_SYSCLK	67
+> +#define R9A08G046_MIPI_DSI_ACLK		68
+> +#define R9A08G046_MIPI_DSI_PCLK		69
+> +#define R9A08G046_MIPI_DSI_VCLK		70
+> +#define R9A08G046_MIPI_DSI_LPCLK	71
+> +#define R9A08G046_LVDS_PLLCLK		72
+> +#define R9A08G046_LVDS_CLK_DOT0		73
+> +#define R9A08G046_LCDC_CLK_A		74
+> +#define R9A08G046_LCDC_CLK_D		75
+> +#define R9A08G046_LCDC_CLK_P		76
+> +#define R9A08G046_SSI0_PCLK2		77
+> +#define R9A08G046_SSI0_PCLK_SFR		78
+> +#define R9A08G046_SSI1_PCLK2		79
+> +#define R9A08G046_SSI1_PCLK_SFR		80
+> +#define R9A08G046_SSI2_PCLK2		81
+> +#define R9A08G046_SSI2_PCLK_SFR		82
+> +#define R9A08G046_SSI3_PCLK2		83
+> +#define R9A08G046_SSI3_PCLK_SFR		84
+> +#define R9A08G046_USB_U2H0_HCLK		85
+> +#define R9A08G046_USB_U2H1_HCLK		86
+> +#define R9A08G046_USB_U2P0_EXR_CPUCLK	87
+> +#define R9A08G046_USB_U2P1_EXR_CPUCLK	88
+> +#define R9A08G046_USB_PCLK		89
+> +#define R9A08G046_ETH0_CLK_AXI		90
+> +#define R9A08G046_ETH0_CLK_CHI		91
+> +#define R9A08G046_ETH0_CLK_TX_I		92
+> +#define R9A08G046_ETH0_CLK_RX_I		93
+> +#define R9A08G046_ETH0_CLK_TX_180_I	94
+> +#define R9A08G046_ETH0_CLK_RX_180_I	95
+> +#define R9A08G046_ETH0_CLK_RMII_I	96
+> +#define R9A08G046_ETH0_CLK_PTP_REF_I	97
+> +#define R9A08G046_ETH0_CLK_TX_I_RMII	98
+> +#define R9A08G046_ETH0_CLK_RX_I_RMII	99
+> +#define R9A08G046_ETH1_CLK_AXI		100
+> +#define R9A08G046_ETH1_CLK_CHI		101
+> +#define R9A08G046_ETH1_CLK_TX_I		102
+> +#define R9A08G046_ETH1_CLK_RX_I		103
+> +#define R9A08G046_ETH1_CLK_TX_180_I	104
+> +#define R9A08G046_ETH1_CLK_RX_180_I	105
+> +#define R9A08G046_ETH1_CLK_RMII_I	106
+> +#define R9A08G046_ETH1_CLK_PTP_REF_I	107
+> +#define R9A08G046_ETH1_CLK_TX_I_RMII	108
+> +#define R9A08G046_ETH1_CLK_RX_I_RMII	109
+> +#define R9A08G046_I2C0_PCLK		110
+> +#define R9A08G046_I2C1_PCLK		111
+> +#define R9A08G046_I2C2_PCLK		112
+> +#define R9A08G046_I2C3_PCLK		113
+> +#define R9A08G046_SCIF0_CLK_PCK		114
+> +#define R9A08G046_SCIF1_CLK_PCK		115
+> +#define R9A08G046_SCIF2_CLK_PCK		116
+> +#define R9A08G046_SCIF3_CLK_PCK		117
+> +#define R9A08G046_SCIF4_CLK_PCK		118
+> +#define R9A08G046_SCIF5_CLK_PCK		119
+> +#define R9A08G046_RSCI0_PCLK		120
+> +#define R9A08G046_RSCI0_TCLK		121
+> +#define R9A08G046_RSCI1_PCLK		122
+> +#define R9A08G046_RSCI1_TCLK		123
+> +#define R9A08G046_RSCI2_PCLK		124
+> +#define R9A08G046_RSCI2_TCLK		125
+> +#define R9A08G046_RSCI3_PCLK		126
+> +#define R9A08G046_RSCI3_TCLK		127
+> +#define R9A08G046_RSPI0_PCLK		128
+> +#define R9A08G046_RSPI0_TCLK		129
+> +#define R9A08G046_RSPI1_PCLK		130
+> +#define R9A08G046_RSPI1_TCLK		131
+> +#define R9A08G046_RSPI2_PCLK		132
+> +#define R9A08G046_RSPI2_TCLK		133
+> +#define R9A08G046_CANFD_PCLK		134
+> +#define R9A08G046_CANFD_CLK_RAM		135
+> +#define R9A08G046_GPIO_HCLK		136
+> +#define R9A08G046_ADC0_ADCLK		137
+> +#define R9A08G046_ADC0_PCLK		138
+> +#define R9A08G046_ADC1_ADCLK		138
 
-diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-qcom-ethqos.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-qcom-ethqos.c
-index f32ff0d9ce513d8270c8db9c549a79778549df59..09ce80b446cbac8bf85d974a3d6517e037b049c1 100644
---- a/drivers/net/ethernet/stmicro/stmmac/dwmac-qcom-ethqos.c
-+++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-qcom-ethqos.c
-@@ -7,6 +7,8 @@
- #include <linux/platform_device.h>
- #include <linux/phy.h>
- #include <linux/phy/phy.h>
-+#include <linux/pm_opp.h>
-+#include <linux/pm_domain.h>
- 
- #include "stmmac.h"
- #include "stmmac_platform.h"
-@@ -81,6 +83,13 @@
- 
- #define SGMII_10M_RX_CLK_DVDR			0x31
- 
-+enum ethqos_pd_selector {
-+	ETHQOS_PD_CORE = 0,
-+	ETHQOS_PD_MDIO,
-+	ETHQOS_PD_SERDES,
-+	ETHQOS_NUM_PDS,
-+};
-+
- struct ethqos_emac_por {
- 	unsigned int offset;
- 	unsigned int value;
-@@ -98,6 +107,9 @@ struct ethqos_emac_driver_data {
- 
- struct ethqos_emac_pm_data {
- 	const char *link_clk_name;
-+	bool use_domains;
-+	struct dev_pm_domain_attach_data pd;
-+	unsigned int clk_ptp_rate;
- };
- 
- struct ethqos_emac_match_data {
-@@ -110,13 +122,21 @@ struct ethqos_emac_pm_ctx {
- 	struct phy *serdes_phy;
- };
- 
-+struct ethqos_emac_pd_ctx {
-+	struct dev_pm_domain_list *pd_list;
-+	int serdes_level;
-+};
-+
- struct qcom_ethqos {
- 	struct platform_device *pdev;
- 	void __iomem *rgmii_base;
- 	void (*configure_func)(struct qcom_ethqos *ethqos,
- 			       phy_interface_t interface, int speed);
- 
--	struct ethqos_emac_pm_ctx pm;
-+	union {
-+		struct ethqos_emac_pm_ctx pm;
-+		struct ethqos_emac_pd_ctx pd;
-+	};
- 	phy_interface_t phy_mode;
- 
- 	const struct ethqos_emac_por *rgmii_por;
-@@ -338,6 +358,25 @@ static const struct ethqos_emac_match_data emac_sa8775p_data = {
- 	.pm_data = &emac_sa8775p_pm_data,
- };
- 
-+static const char * const emac_sa8255p_pd_names[] = {
-+	"core", "mdio", "serdes"
-+};
-+
-+static const struct ethqos_emac_pm_data emac_sa8255p_pm_data = {
-+	.pd = {
-+		.pd_flags = PD_FLAG_NO_DEV_LINK,
-+		.pd_names = emac_sa8255p_pd_names,
-+		.num_pd_names = ETHQOS_NUM_PDS,
-+	},
-+	.use_domains = true,
-+	.clk_ptp_rate = 230400000,
-+};
-+
-+static const struct ethqos_emac_match_data emac_sa8255p_data = {
-+	.drv_data = &emac_v4_0_0_data,
-+	.pm_data = &emac_sa8255p_pm_data,
-+};
-+
- static int ethqos_dll_configure(struct qcom_ethqos *ethqos)
- {
- 	struct device *dev = &ethqos->pdev->dev;
-@@ -406,6 +445,28 @@ static int ethqos_dll_configure(struct qcom_ethqos *ethqos)
- 	return 0;
- }
- 
-+static int qcom_ethqos_domain_on(struct qcom_ethqos *ethqos,
-+				 enum ethqos_pd_selector sel)
-+{
-+	struct device *dev = ethqos->pd.pd_list->pd_devs[sel];
-+	int ret;
-+
-+	ret = pm_runtime_resume_and_get(dev);
-+	if (ret < 0)
-+		dev_err(&ethqos->pdev->dev,
-+			"Failed to enable the power domain for %s\n",
-+			dev_name(dev));
-+	return ret;
-+}
-+
-+static void qcom_ethqos_domain_off(struct qcom_ethqos *ethqos,
-+				   enum ethqos_pd_selector sel)
-+{
-+	struct device *dev = ethqos->pd.pd_list->pd_devs[sel];
-+
-+	pm_runtime_put_sync(dev);
-+}
-+
- static int ethqos_rgmii_macro_init(struct qcom_ethqos *ethqos, int speed)
- {
- 	struct device *dev = &ethqos->pdev->dev;
-@@ -655,6 +716,20 @@ static void ethqos_configure_sgmii(struct qcom_ethqos *ethqos,
- 	ethqos_pcs_set_inband(priv, interface == PHY_INTERFACE_MODE_SGMII);
- }
- 
-+static void ethqos_configure_sgmii_pd(struct qcom_ethqos *ethqos,
-+				      phy_interface_t interface, int speed)
-+{
-+	switch (speed) {
-+	case SPEED_2500:
-+	case SPEED_1000:
-+	case SPEED_100:
-+	case SPEED_10:
-+		ethqos->pd.serdes_level = speed;
-+	}
-+
-+	ethqos_configure_sgmii(ethqos, interface, speed);
-+}
-+
- static void ethqos_configure(struct qcom_ethqos *ethqos,
- 			     phy_interface_t interface, int speed)
- {
-@@ -710,6 +785,45 @@ static int ethqos_mac_finish_serdes(struct net_device *ndev, void *priv,
- 	return ret;
- }
- 
-+static int ethqos_mac_finish_serdes_pd(struct net_device *ndev, void *priv,
-+				       unsigned int mode,
-+				       phy_interface_t interface)
-+{
-+	struct qcom_ethqos *ethqos = priv;
-+	struct device *dev = ethqos->pd.pd_list->pd_devs[ETHQOS_PD_SERDES];
-+	int ret = 0;
-+
-+	qcom_ethqos_set_sgmii_loopback(ethqos, false);
-+
-+	if (interface == PHY_INTERFACE_MODE_SGMII ||
-+	    interface == PHY_INTERFACE_MODE_2500BASEX)
-+		ret = dev_pm_opp_set_level(dev, ethqos->pd.serdes_level);
-+
-+	return ret;
-+}
-+
-+static int qcom_ethqos_pd_serdes_powerup(struct net_device *ndev, void *priv)
-+{
-+	struct qcom_ethqos *ethqos = priv;
-+	struct device *dev = ethqos->pd.pd_list->pd_devs[ETHQOS_PD_SERDES];
-+	int ret;
-+
-+	ret = qcom_ethqos_domain_on(ethqos, ETHQOS_PD_SERDES);
-+	if (ret < 0)
-+		return ret;
-+
-+	return dev_pm_opp_set_level(dev, ethqos->pd.serdes_level);
-+}
-+
-+static void qcom_ethqos_pd_serdes_powerdown(struct net_device *ndev, void *priv)
-+{
-+	struct qcom_ethqos *ethqos = priv;
-+	struct device *dev = ethqos->pd.pd_list->pd_devs[ETHQOS_PD_SERDES];
-+
-+	dev_pm_opp_set_level(dev, 0);
-+	qcom_ethqos_domain_off(ethqos, ETHQOS_PD_SERDES);
-+}
-+
- static int ethqos_clks_config(void *priv, bool enabled)
- {
- 	struct qcom_ethqos *ethqos = priv;
-@@ -741,6 +855,68 @@ static void ethqos_clks_disable(void *data)
- 	ethqos_clks_config(data, false);
- }
- 
-+static void ethqos_disable_serdes(void *data)
-+{
-+	struct qcom_ethqos *ethqos = data;
-+
-+	qcom_ethqos_domain_off(ethqos, ETHQOS_PD_SERDES);
-+}
-+
-+static int ethqos_pd_clks_config(void *priv, bool enabled)
-+{
-+	struct qcom_ethqos *ethqos = priv;
-+	int ret = 0;
-+
-+	if (enabled) {
-+		ret = qcom_ethqos_domain_on(ethqos, ETHQOS_PD_MDIO);
-+		if (ret < 0) {
-+			dev_err(&ethqos->pdev->dev,
-+				"Failed to enable the MDIO power domain\n");
-+			return ret;
-+		}
-+
-+		ethqos_set_func_clk_en(ethqos);
-+	} else {
-+		qcom_ethqos_domain_off(ethqos, ETHQOS_PD_MDIO);
-+	}
-+
-+	return ret;
-+}
-+
-+static int qcom_ethqos_pd_init(struct device *dev, void *priv)
-+{
-+	struct qcom_ethqos *ethqos = priv;
-+	int ret;
-+
-+	/*
-+	 * Enable functional clock to prevent DMA reset after timeout due
-+	 * to no PHY clock being enabled after the hardware block has been
-+	 * power cycled. The actual configuration will be adjusted once
-+	 * ethqos_fix_mac_speed() is called.
-+	 */
-+	ethqos_set_func_clk_en(ethqos);
-+
-+	ret = qcom_ethqos_domain_on(ethqos, ETHQOS_PD_CORE);
-+	if (ret)
-+		return ret;
-+
-+	ret = qcom_ethqos_domain_on(ethqos, ETHQOS_PD_MDIO);
-+	if (ret) {
-+		qcom_ethqos_domain_off(ethqos, ETHQOS_PD_CORE);
-+		return ret;
-+	}
-+
-+	return 0;
-+}
-+
-+static void qcom_ethqos_pd_exit(struct device *dev, void *data)
-+{
-+	struct qcom_ethqos *ethqos = data;
-+
-+	qcom_ethqos_domain_off(ethqos, ETHQOS_PD_MDIO);
-+	qcom_ethqos_domain_off(ethqos, ETHQOS_PD_CORE);
-+}
-+
- static void ethqos_ptp_clk_freq_config(struct stmmac_priv *priv)
- {
- 	struct plat_stmmacenet_data *plat_dat = priv->plat;
-@@ -781,31 +957,11 @@ static int qcom_ethqos_probe(struct platform_device *pdev)
- 				     "dt configuration failed\n");
- 	}
- 
--	plat_dat->clks_config = ethqos_clks_config;
--
- 	ethqos = devm_kzalloc(dev, sizeof(*ethqos), GFP_KERNEL);
- 	if (!ethqos)
- 		return -ENOMEM;
- 
- 	ethqos->phy_mode = plat_dat->phy_interface;
--	switch (ethqos->phy_mode) {
--	case PHY_INTERFACE_MODE_RGMII:
--	case PHY_INTERFACE_MODE_RGMII_ID:
--	case PHY_INTERFACE_MODE_RGMII_RXID:
--	case PHY_INTERFACE_MODE_RGMII_TXID:
--		ethqos->configure_func = ethqos_configure_rgmii;
--		break;
--	case PHY_INTERFACE_MODE_2500BASEX:
--	case PHY_INTERFACE_MODE_SGMII:
--		ethqos->configure_func = ethqos_configure_sgmii;
--		plat_dat->mac_finish = ethqos_mac_finish_serdes;
--		break;
--	default:
--		dev_err(dev, "Unsupported phy mode %s\n",
--			phy_modes(ethqos->phy_mode));
--		return -EINVAL;
--	}
--
- 	ethqos->pdev = pdev;
- 	ethqos->rgmii_base = devm_platform_ioremap_resource_byname(pdev, "rgmii");
- 	if (IS_ERR(ethqos->rgmii_base))
-@@ -823,35 +979,101 @@ static int qcom_ethqos_probe(struct platform_device *pdev)
- 	ethqos->has_emac_ge_3 = drv_data->has_emac_ge_3;
- 	ethqos->needs_sgmii_loopback = drv_data->needs_sgmii_loopback;
- 
--	ethqos->pm.link_clk = devm_clk_get(dev, clk_name);
--	if (IS_ERR(ethqos->pm.link_clk))
--		return dev_err_probe(dev, PTR_ERR(ethqos->pm.link_clk),
--				     "Failed to get link_clk\n");
-+	if (pm_data && pm_data->use_domains) {
-+		switch (ethqos->phy_mode) {
-+		case PHY_INTERFACE_MODE_RGMII:
-+		case PHY_INTERFACE_MODE_RGMII_ID:
-+		case PHY_INTERFACE_MODE_RGMII_RXID:
-+		case PHY_INTERFACE_MODE_RGMII_TXID:
-+			ethqos->configure_func = ethqos_configure_rgmii;
-+			break;
-+		case PHY_INTERFACE_MODE_2500BASEX:
-+		case PHY_INTERFACE_MODE_SGMII:
-+			ethqos->configure_func = ethqos_configure_sgmii_pd;
-+			plat_dat->mac_finish = ethqos_mac_finish_serdes_pd;
-+			break;
-+		default:
-+			dev_err(dev, "Unsupported phy mode %s\n",
-+				phy_modes(ethqos->phy_mode));
-+			return -EINVAL;
-+		}
- 
--	ret = ethqos_clks_config(ethqos, true);
--	if (ret)
--		return ret;
-+		ret = devm_pm_domain_attach_list(dev, &pm_data->pd,
-+						 &ethqos->pd.pd_list);
-+		if (ret < 0)
-+			return dev_err_probe(dev, ret, "Failed to attach power domains\n");
-+
-+		plat_dat->clks_config = ethqos_pd_clks_config;
-+		plat_dat->serdes_powerup = qcom_ethqos_pd_serdes_powerup;
-+		plat_dat->serdes_powerdown = qcom_ethqos_pd_serdes_powerdown;
-+		plat_dat->exit = qcom_ethqos_pd_exit;
-+		plat_dat->init = qcom_ethqos_pd_init;
-+		plat_dat->clk_ptp_rate = pm_data->clk_ptp_rate;
-+
-+		ret = qcom_ethqos_domain_on(ethqos, ETHQOS_PD_SERDES);
-+		if (ret)
-+			return dev_err_probe(dev, ret,
-+					     "Failed to enable the serdes power domain\n");
-+
-+		ret = devm_add_action_or_reset(dev, ethqos_disable_serdes, ethqos);
-+		if (ret)
-+			return ret;
-+	} else {
-+		switch (ethqos->phy_mode) {
-+		case PHY_INTERFACE_MODE_RGMII:
-+		case PHY_INTERFACE_MODE_RGMII_ID:
-+		case PHY_INTERFACE_MODE_RGMII_RXID:
-+		case PHY_INTERFACE_MODE_RGMII_TXID:
-+			ethqos->configure_func = ethqos_configure_rgmii;
-+			break;
-+		case PHY_INTERFACE_MODE_2500BASEX:
-+		case PHY_INTERFACE_MODE_SGMII:
-+			ethqos->configure_func = ethqos_configure_sgmii;
-+			plat_dat->mac_finish = ethqos_mac_finish_serdes;
-+			break;
-+		default:
-+			dev_err(dev, "Unsupported phy mode %s\n",
-+				phy_modes(ethqos->phy_mode));
-+			return -EINVAL;
-+		}
- 
--	ret = devm_add_action_or_reset(dev, ethqos_clks_disable, ethqos);
--	if (ret)
--		return ret;
-+		ethqos->pm.link_clk = devm_clk_get(dev, clk_name);
-+		if (IS_ERR(ethqos->pm.link_clk))
-+			return dev_err_probe(dev, PTR_ERR(ethqos->pm.link_clk),
-+					     "Failed to get link_clk\n");
-+
-+		ret = ethqos_clks_config(ethqos, true);
-+		if (ret)
-+			return ret;
-+
-+		ret = devm_add_action_or_reset(dev, ethqos_clks_disable, ethqos);
-+		if (ret)
-+			return ret;
-+
-+		ethqos->pm.serdes_phy = devm_phy_optional_get(dev, "serdes");
-+		if (IS_ERR(ethqos->pm.serdes_phy))
-+			return dev_err_probe(dev, PTR_ERR(ethqos->pm.serdes_phy),
-+					     "Failed to get serdes phy\n");
- 
--	ethqos->pm.serdes_phy = devm_phy_optional_get(dev, "serdes");
--	if (IS_ERR(ethqos->pm.serdes_phy))
--		return dev_err_probe(dev, PTR_ERR(ethqos->pm.serdes_phy),
--				     "Failed to get serdes phy\n");
-+		ethqos_set_clk_tx_rate(ethqos, NULL, plat_dat->phy_interface,
-+				       SPEED_1000);
- 
--	ethqos_set_clk_tx_rate(ethqos, NULL, plat_dat->phy_interface,
--			       SPEED_1000);
-+		plat_dat->clks_config = ethqos_clks_config;
-+		plat_dat->set_clk_tx_rate = ethqos_set_clk_tx_rate;
-+		plat_dat->ptp_clk_freq_config = ethqos_ptp_clk_freq_config;
-+
-+		if (ethqos->pm.serdes_phy) {
-+			plat_dat->serdes_powerup = qcom_ethqos_serdes_powerup;
-+			plat_dat->serdes_powerdown  = qcom_ethqos_serdes_powerdown;
-+		}
-+	}
- 
- 	qcom_ethqos_set_sgmii_loopback(ethqos, true);
- 	ethqos_set_func_clk_en(ethqos);
- 
- 	plat_dat->bsp_priv = ethqos;
--	plat_dat->set_clk_tx_rate = ethqos_set_clk_tx_rate;
- 	plat_dat->fix_mac_speed = ethqos_fix_mac_speed;
- 	plat_dat->dump_debug_regs = rgmii_dump;
--	plat_dat->ptp_clk_freq_config = ethqos_ptp_clk_freq_config;
- 	plat_dat->core_type = DWMAC_CORE_GMAC4;
- 	if (ethqos->has_emac_ge_3)
- 		plat_dat->dwmac4_addrs = &drv_data->dwmac4_addrs;
-@@ -877,6 +1099,7 @@ static int qcom_ethqos_probe(struct platform_device *pdev)
- 
- static const struct of_device_id qcom_ethqos_match[] = {
- 	{ .compatible = "qcom,qcs404-ethqos", .data = &emac_qcs404_data},
-+	{ .compatible = "qcom,sa8255p-ethqos", .data = &emac_sa8255p_data},
- 	{ .compatible = "qcom,sa8775p-ethqos", .data = &emac_sa8775p_data},
- 	{ .compatible = "qcom,sc8280xp-ethqos", .data = &emac_sc8280xp_data},
- 	{ .compatible = "qcom,sm8150-ethqos", .data = &emac_sm8150_data},
+Oops, typo should be 138.
 
--- 
-2.47.3
+Cheers,
+Biju
+
+> +#define R9A08G046_ADC1_PCLK		140
+> +#define R9A08G046_TSU_PCLK		141
+> +#define R9A08G046_PDM_PCLK		142
+> +#define R9A08G046_PDM_CCLK		143
+> +#define R9A08G046_PCI_ACLK		144
+> +#define R9A08G046_PCI_CLKL1PM		145
+> +#define R9A08G046_PCI_CLK_PMU		146
+> +#define R9A08G046_SPDIF_PCLK		147
+> +#define R9A08G046_I3C_TCLK		148
+> +#define R9A08G046_I3C_PCLK		149
+> +#define R9A08G046_VBAT_BCLK		150
+> +#define R9A08G046_BSC_X_BCK_BSC		151
+> +
+> +/* R9A08G046 Resets */
+> +#define R9A08G046_CA55_RST0_0		0
+> +#define R9A08G046_CA55_RST0_1		1
+> +#define R9A08G046_CA55_RST0_2		2
+> +#define R9A08G046_CA55_RST0_3		3
+> +#define R9A08G046_CA55_RST4_0		4
+> +#define R9A08G046_CA55_RST4_1		5
+> +#define R9A08G046_CA55_RST4_2		6
+> +#define R9A08G046_CA55_RST4_3		7
+> +#define R9A08G046_CA55_RST8		8
+> +#define R9A08G046_CA55_RST9		9
+> +#define R9A08G046_CA55_RST10		10
+> +#define R9A08G046_CA55_RST11		11
+> +#define R9A08G046_CA55_RST12		12
+> +#define R9A08G046_CA55_RST13		13
+> +#define R9A08G046_CA55_RST14		14
+> +#define R9A08G046_CA55_RST15		15
+> +#define R9A08G046_CA55_RST16		16
+> +#define R9A08G046_SRAM_ACPU_ARESETN0	17
+> +#define R9A08G046_SRAM_ACPU_ARESETN1	18
+> +#define R9A08G046_SRAM_ACPU_ARESETN2	19
+> +#define R9A08G046_GIC600_GICRESET_N	20
+> +#define R9A08G046_GIC600_DBG_GICRESET_N	21
+> +#define R9A08G046_IA55_RESETN		22
+> +#define R9A08G046_MHU_RESETN		23
+> +#define R9A08G046_SYC_RESETN		24
+> +#define R9A08G046_DMAC_ARESETN		25
+> +#define R9A08G046_DMAC_RST_ASYNC	26
+> +#define R9A08G046_GTM0_PRESETZ		27
+> +#define R9A08G046_GTM1_PRESETZ		28
+> +#define R9A08G046_GTM2_PRESETZ		29
+> +#define R9A08G046_MTU_X_PRESET_MTU3	30
+> +#define R9A08G046_POE3_RST_M_REG	31
+> +#define R9A08G046_GPT_RST_C		32
+> +#define R9A08G046_POEG_A_RST		33
+> +#define R9A08G046_POEG_B_RST		34
+> +#define R9A08G046_POEG_C_RST		35
+> +#define R9A08G046_POEG_D_RST		36
+> +#define R9A08G046_WDT0_PRESETN		37
+> +#define R9A08G046_WDT1_PRESETN		38
+> +#define R9A08G046_WDT2_PRESETN		39
+> +#define R9A08G046_XSPI_HRESETN		40
+> +#define R9A08G046_XSPI_ARESETN		41
+> +#define R9A08G046_SDHI0_IXRST		42
+> +#define R9A08G046_SDHI1_IXRST		43
+> +#define R9A08G046_SDHI2_IXRST		44
+> +#define R9A08G046_SDHI0_IXRSTAXIM	45
+> +#define R9A08G046_SDHI0_IXRSTAXIS	46
+> +#define R9A08G046_SDHI1_IXRSTAXIM	47
+> +#define R9A08G046_SDHI1_IXRSTAXIS	48
+> +#define R9A08G046_SDHI2_IXRSTAXIM	49
+> +#define R9A08G046_SDHI2_IXRSTAXIS	50
+> +#define R9A08G046_GE3D_RESETN		51
+> +#define R9A08G046_GE3D_AXI_RESETN	52
+> +#define R9A08G046_GE3D_ACE_RESETN	53
+> +#define R9A08G046_ISU_ARESETN		54
+> +#define R9A08G046_ISU_PRESETN		55
+> +#define R9A08G046_H264_X_RESET_VCP	56
+> +#define R9A08G046_H264_CP_PRESET_P	57
+> +#define R9A08G046_CRU_CMN_RSTB		58
+> +#define R9A08G046_CRU_PRESETN		59
+> +#define R9A08G046_CRU_ARESETN		60
+> +#define R9A08G046_MIPI_DSI_CMN_RSTB	61
+> +#define R9A08G046_MIPI_DSI_ARESET_N	62
+> +#define R9A08G046_MIPI_DSI_PRESET_N	63
+> +#define R9A08G046_LCDC_RESET_N		64
+> +#define R9A08G046_SSI0_RST_M2_REG	65
+> +#define R9A08G046_SSI1_RST_M2_REG	66
+> +#define R9A08G046_SSI2_RST_M2_REG	67
+> +#define R9A08G046_SSI3_RST_M2_REG	68
+> +#define R9A08G046_USB_U2H0_HRESETN	69
+> +#define R9A08G046_USB_U2H1_HRESETN	70
+> +#define R9A08G046_USB_U2P0_EXL_SYSRST	71
+> +#define R9A08G046_USB_PRESETN		72
+> +#define R9A08G046_USB_U2P1_EXL_SYSRST	73
+> +#define R9A08G046_ETH0_ARESET_N		74
+> +#define R9A08G046_ETH1_ARESET_N		75
+> +#define R9A08G046_I2C0_MRST		76
+> +#define R9A08G046_I2C1_MRST		77
+> +#define R9A08G046_I2C2_MRST		78
+> +#define R9A08G046_I2C3_MRST		79
+> +#define R9A08G046_SCIF0_RST_SYSTEM_N	80
+> +#define R9A08G046_SCIF1_RST_SYSTEM_N	81
+> +#define R9A08G046_SCIF2_RST_SYSTEM_N	82
+> +#define R9A08G046_SCIF3_RST_SYSTEM_N	83
+> +#define R9A08G046_SCIF4_RST_SYSTEM_N	84
+> +#define R9A08G046_SCIF5_RST_SYSTEM_N	85
+> +#define R9A08G046_RSPI0_PRESETN		86
+> +#define R9A08G046_RSPI1_PRESETN		87
+> +#define R9A08G046_RSPI2_PRESETN		88
+> +#define R9A08G046_RSPI0_TRESETN		89
+> +#define R9A08G046_RSPI1_TRESETN		90
+> +#define R9A08G046_RSPI2_TRESETN		91
+> +#define R9A08G046_CANFD_RSTP_N		92
+> +#define R9A08G046_CANFD_RSTC_N		93
+> +#define R9A08G046_GPIO_RSTN		94
+> +#define R9A08G046_GPIO_PORT_RESETN	95
+> +#define R9A08G046_GPIO_SPARE_RESETN	96
+> +#define R9A08G046_ADC0_PRESETN		97
+> +#define R9A08G046_ADC0_ADRST_N		98
+> +#define R9A08G046_ADC1_PRESETN		99
+> +#define R9A08G046_ADC1_ADRST_N		100
+> +#define R9A08G046_TSU_PRESETN		101
+> +#define R9A08G046_PDM_PRESETN		102
+> +#define R9A08G046_PCI_ARESETN		103
+> +#define R9A08G046_SPDIF_RST		104
+> +#define R9A08G046_I3C_TRESETN		105
+> +#define R9A08G046_I3C_PRESETN		106
+> +#define R9A08G046_VBAT_BRESETN		107
+> +#define R9A08G046_RSCI0_PRESETN		108
+> +#define R9A08G046_RSCI1_PRESETN		109
+> +#define R9A08G046_RSCI2_PRESETN		110
+> +#define R9A08G046_RSCI3_PRESETN		111
+> +#define R9A08G046_RSCI0_TRESETN		112
+> +#define R9A08G046_RSCI1_TRESETN		113
+> +#define R9A08G046_RSCI2_TRESETN		114
+> +#define R9A08G046_RSCI3_TRESETN		115
+> +#define R9A08G046_LVDS_RESET_N		116
+> +#define R9A08G046_BSC_X_PRESET_BSC	117
+> +
+> +#endif /* __DT_BINDINGS_CLOCK_R9A08G046_CPG_H__ */
+> --
+> 2.43.0
 
 
