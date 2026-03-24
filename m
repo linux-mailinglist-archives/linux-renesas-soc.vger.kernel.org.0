@@ -1,202 +1,199 @@
-Return-Path: <linux-renesas-soc+bounces-30173-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-30174-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id WDQPI3qcwmm3fQQAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-30173-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 24 Mar 2026 15:15:22 +0100
+	id sNK8Btugwmm3fQQAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-30174-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 24 Mar 2026 15:34:03 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E2DC30A017
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 24 Mar 2026 15:15:22 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CCEB30A36A
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 24 Mar 2026 15:34:02 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id B2D793036B1F
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 24 Mar 2026 14:15:16 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id B37433038EA6
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 24 Mar 2026 14:34:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 597C13845B4;
-	Tue, 24 Mar 2026 14:15:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BC9063FADFB;
+	Tue, 24 Mar 2026 14:34:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LpvSttzc"
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="mbecJxAu";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="owug9S5k"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF02E3FEB2C
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 24 Mar 2026 14:15:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.49
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774361710; cv=pass; b=lKYc3tdKziM97tRKu4b/NivNP4xGfGvT0OIMUx/XOPi7kedgpXZrPrhn0zHXypVfAcAQo/gBLaimP8m+OOXkBpycLPSNWAYMdEwC6As5rfm4N9vqLVftwdFNLZQbqn5TMYQoP39m020rX8lGTFluvmcdcJIPwzDbvnIvpLer+7Y=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774361710; c=relaxed/simple;
-	bh=uBwDMfTBCb+LjtnAZMtmCvVkOtKPcFmjMhI4Bp4J4/I=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=sbaRIvlXDcMTXd0dislizBVsWqfATgdzbehS+UtXrW43hPCWMSVl7h3zSsRJadjVkXr8DU+2FkkENhjhCseUv49AGnLrtc7dPpcmVGWGbmRjdAvYSOFHBKXBENjNDNfpQ0OMIXBCCiG+PnmmbHLHW13OpcQf0pclACmpYGtT4V8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LpvSttzc; arc=pass smtp.client-ip=209.85.221.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-43b467dcf0bso3864028f8f.0
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 24 Mar 2026 07:15:08 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1774361707; cv=none;
-        d=google.com; s=arc-20240605;
-        b=P9fSA4kbcrXAA+Dsz+BfUM9W0JSpw5KYbRbND+w+Emm4XJEWQi/lrPP7lTn/V68sPp
-         8lSESrH/kzpaP8n3q5pOH5R9x3GLbYZZJoSOXA5suyFUeZ2JeOzjwAZ+Ca5VjuQMWlXB
-         ctt9cq1X55Yx/LSSCcwqO9EUtqWSlf0mvthsHk9W0rnlidBydXeXAYiPA5wkdcUY4HDy
-         igrCLAyoF/b7qV1gIWtzsl1az2vROrV9Z4BENgQgP0vurekEcnOAfsEGl9M2jochIzSI
-         9URXMWZgFE3J3ffOO3+g8aVXROCr9DJIG1qkVXT2zhpAtqivniR1jQaEEttCFTNWst0d
-         6KWQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=B2D0D4+AOw6I2d5eSn36/Uu9mBQlJgp6d//ZsHPIQmw=;
-        fh=r+vQ1HzevUthZi0oz61i88Kxt9oM7rQrzi73GlRLzvA=;
-        b=K4yPnz05Qrzm0Ku1sERUufAx35MNeDLkLiXIGjQgoTRXGThd1Yry3L5rtCfzP7rsZs
-         KIOYXiKEFY5KmEpJfeN9bOFEgeRgPJVD5hXeJQ/3G4rRK8S8A5vHE9Io3pkE/I0UYgUo
-         0BhjvmKmDkZoWZXOK/IvPGKsj0swzb3W1wH3UWdc/MhJULeCIn9zmM+HFELoQV3Dflhh
-         uABr+1JeWsM25Mx0LOWsdchAHwk1Un8Mq0yDeQsEqLcdOGwiwUBh/VylNErCy4b9xgrc
-         SwPchuolrUVHqQK01k+d5ohmC+ZPLF315nFmoedvvVa/szEZSTUmNkb8EFkzE7vjpNin
-         VxNA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774361707; x=1774966507; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=B2D0D4+AOw6I2d5eSn36/Uu9mBQlJgp6d//ZsHPIQmw=;
-        b=LpvSttzcM/iFl8IzJ/tWS++8qhMZX8UrnmTiyGV3zcuwypUg8Rpgxlj5vUJuSGzhCh
-         7lfASLntNXukAJ6PJ/xr2o7dNe8rTgVMIVl9U8SqgTj5EKsQ9Ray0iePdtARrluYYMfG
-         7/lKmbkAlQeXYNU3p0q+pq1xi3aIFy3Xddhp+c8TZ6nR/Yqc6cmtp0vqIknuHb9dQS01
-         CONuCrvMNbLNNZAhIEIh3yCSpE/HwkvFreoxtGZ/aQXFhVvXGZzhLDPwoHY8EOKiSZ59
-         IIE/FFs3iIoQlquSDIIV7tbKz4/4Y989SVoNlT9oiwl5nfFCs+0lVDY+8X7RPp4ZsJdy
-         DjsA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774361707; x=1774966507;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=B2D0D4+AOw6I2d5eSn36/Uu9mBQlJgp6d//ZsHPIQmw=;
-        b=pt/NoqJsy/SBtRkM0CKyq5PZaLTSkKYR6ymYiC9GWYG5rRuVHeNdLvUPB7SjjEt1Km
-         4YImpTKCJplRBX4N4B/hLRDHWt4zwxmsHriWJljVwPAwZLijacYmtVq9hjfpBLlm3cWB
-         miNwSRNsHe7H5tIL1j172vV7ZDmLarhCpUkHguYEbH0bGGkeeMCkOYfS94kYkbN75Az7
-         q1HVCV4gPw/AOYqe9qi1Z/We4GlnI74oBZvecwM1/1Q/d56XngxnrHIbF/ZtVNFkUjB3
-         YCdN5etivtn7i+KURkv15w5i/F85GYAI0Cz/vH+1hRXBfbCvS4gV9lsQz2PuhMA6ImLp
-         kiEw==
-X-Forwarded-Encrypted: i=1; AJvYcCWpcP0Uvl3iyeSEVTEaWyGNy1Qhe420ucVoMY11t/ZyWA4spDUutoEEaM6Ex6HQB+/zl+eXD12Z8voVzpzDm7ipvg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxXJZ/RSSTQXCSNhhLVtHFsGBA6wZ/LxKj1SKs0E4IAW2s2IXEU
-	OQ8ejY5W61QKs9Ndla5oaj5AfS+PsfIv8UHKkMm6B6RYkvZVJxsr4Wxi+5ncgK/OLSM8sETjMVE
-	eJvCZEPjMAh3pHVqVw+9zRkZqbfqK8Yg=
-X-Gm-Gg: ATEYQzwMBvh4+NmaOwHC3WlRpcxOoYLCwM+dPLsHZ16Uju1IoBSuiXwjFKyiapFCSyH
-	u/Gj1R88hXxZCcPBOIFB5CQR0c9v3vM2CugkL6EJzBu/kWt7VLh5xYE7y7ITw9fAF0KSajRDbXB
-	x2XgnW9WNzSaf0eYp+3F9jzmW1rzqMi5atCSGPcuuby7uxjUj7x4cpMxisjUn6A9hyffnmFE9aH
-	E7C8ORuPKSj/5H+IRs99iuTKke5REVN0U00xeGhH5u+9N8THIhk87Q6TV8o9819eH9+uGw1QZbH
-	hgaT2O3aeqqNdPlLm5eO91ClVRDQXgqVDmW7Za8csBgR76zaOwMw3NHikB4n0GPtgJK3Nw==
-X-Received: by 2002:a5d:5c8a:0:b0:43b:7481:f899 with SMTP id
- ffacd0b85a97d-43b8052efcbmr6038979f8f.7.1774361705907; Tue, 24 Mar 2026
- 07:15:05 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9BA0370D71;
+	Tue, 24 Mar 2026 14:33:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.152
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774362840; cv=none; b=hOo+RSMJ/cSnUhnkuv0W3tjiBA4hL1ggVp5jRiJyDvnmMN24MOa02WFITTL7ZAjoev20V4Eu2aTD9jFdg4wdnfE14CEnW2N5puYZXANo1LOj1ocBq2ucaJwym8QYEOZJpe2HkLYCWZWwUlZxo5r30I+BfFFZs4gdSNiwXayMVSs=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774362840; c=relaxed/simple;
+	bh=Sfm03RBcqzghHfJuiqYjZmL9+CWFB0+6xctSSsfbLWk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=PxsEsarnWPFFnx5mNk51KoZS6LYtziEK59JbDF7MWCXG8F925d3fZ7WJ2xFl2PUZEX97YJXM4bjTAXd/ItXcW2cJNg+SllaJBu1CNaYd6nk6jFLp3ZjAhvLQKY2/TW6NBuXw2Z724fgJ+iboUb5jnhjqhwg9zlqkxKOmNgI0xr4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=mbecJxAu; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=owug9S5k; arc=none smtp.client-ip=80.241.56.152
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4fgCGC2h1Sz9vHX;
+	Tue, 24 Mar 2026 15:33:55 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1774362835;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=Mqk3zd0vAxbDi/5mlXVc3BFXCT+o69PX3fU4fgQH7Sw=;
+	b=mbecJxAuIMIH3Ch9AtQeri0jWVvMkP8I8dllYEyBXUhy0Mv8eARsRLOMPudWNPBoXr6IsS
+	Zpsvm8e9+oWUvWFcGsGnVwyecOZVfqPuR0zjB3Z3Fw8HeUf66kUcykwp3LBVmnm8+vYs8Q
+	qV3McdI7wGKb/ira5JZoF2K9AXSxg0JCpR9YqeId+9JIxxR8cHiadeUfGfKN8mcAUxjnL2
+	5ZiOdeH4NTiZyvTHkB6zTg52AV61PpAiiQs8g6Nug7ojg1EP8YDtoVHJOGXorrNQ6uQjbF
+	nRfbel4nvYYH0GatdWuFxpeuIo/Q/xHLdxtDWrEivgoB2q+n5cYANOVnCc9WhA==
+From: Marek Vasut <marek.vasut+renesas@mailbox.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1774362833;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=Mqk3zd0vAxbDi/5mlXVc3BFXCT+o69PX3fU4fgQH7Sw=;
+	b=owug9S5k4ghRHnxaYSYBgR7qRRdEqLHEse0Ha6chP+8nf37arN4MSAxcEDF+UOiL+FxYy8
+	DUpS/FlIFPCsUVyZpe3VTNlY8fLX/b1lTDfJawa6gI/GykOyh0LglxGUYCHxxVdY9rrB4c
+	dEmIeNOXyc0QSaXn9HHAnuoN5S2LfHSgtcBpnP3GWxY6PpSEkfnFKLChfqom1UTyHn5jPF
+	9COwCjWo9piE30x2tk1AowM0NYjSxSdHlciibwOqvuPw6od0ATm/cYaA5DZdrGP12hSFOw
+	f326nTKaXTv9MYsRR6Luh73gtLqifQb++S15t3vj5+WH3gORulwYPEhpM6dCPA==
+To: linux-arm-kernel@lists.infradead.org
+Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
+	stable@vger.kernel.org,
+	Conor Dooley <conor+dt@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Rob Herring <robh@kernel.org>,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org
+Subject: [PATCH] arm64: dts: renesas: sparrow-hawk: Reserve first 128 MiB of DRAM
+Date: Tue, 24 Mar 2026 15:33:28 +0100
+Message-ID: <20260324143342.17872-1-marek.vasut+renesas@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260324121608.3444943-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdV_94xOmqRqDKW_e740ckmRoyW+oaHvorphNg27JNKUrw@mail.gmail.com>
-In-Reply-To: <CAMuHMdV_94xOmqRqDKW_e740ckmRoyW+oaHvorphNg27JNKUrw@mail.gmail.com>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Tue, 24 Mar 2026 14:14:39 +0000
-X-Gm-Features: AQROBzBUPNwZp5gKyz8Dv35PHiHje_gQgwLV9LKjrD1-LD60-apIs2rcFkO59Dg
-Message-ID: <CA+V-a8t+eH-40xRZOS1zvme3Nubj5b12M0qkTAiFVrswZX_omA@mail.gmail.com>
-Subject: Re: [PATCH] phy: renesas: rcar-gen3-usb2: Simplify ID/VBUS detection logic
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, Vinod Koul <vkoul@kernel.org>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Magnus Damm <magnus.damm@gmail.com>, 
-	Pavel Machek <pavel@nabladev.com>, linux-renesas-soc@vger.kernel.org, 
-	linux-phy@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	Biju Das <biju.das.jz@bp.renesas.com>, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+Content-Transfer-Encoding: 8bit
+X-MBO-RS-ID: ff339114a086be2d558
+X-MBO-RS-META: bdah8foftyj3w1iz9kz7webosjn7f446
+X-Spamd-Result: default: False [-1.66 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[mailbox.org,reject];
+	R_MISSING_CHARSET(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74];
+	R_DKIM_ALLOW(-0.20)[mailbox.org:s=mail20150812];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-30174-lists,linux-renesas-soc=lfdr.de,renesas];
+	PRECEDENCE_BULK(0.00)[];
+	FREEMAIL_CC(0.00)[mailbox.org,vger.kernel.org,kernel.org,glider.be,gmail.com];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-30173-lists,linux-renesas-soc=lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[renesas.com,kernel.org,linaro.org,gmail.com,nabladev.com,vger.kernel.org,lists.infradead.org,bp.renesas.com];
-	RCPT_COUNT_TWELVE(0.00)[12];
-	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	NEURAL_HAM(-0.00)[-1.000];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[prabhakarcsengg@gmail.com,linux-renesas-soc@vger.kernel.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
-	TAGGED_RCPT(0.00)[linux-renesas-soc];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[mailbox.org:+];
 	MISSING_XM_UA(0.00)[];
-	TO_DN_SOME(0.00)[]
-X-Rspamd-Queue-Id: 4E2DC30A017
+	FROM_NEQ_ENVFROM(0.00)[marek.vasut@mailbox.org,linux-renesas-soc@vger.kernel.org];
+	MID_RHS_MATCH_FROM(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	DBL_PROHIBIT(0.00)[2.98.90.0:email,35.195.70.0:email];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	TO_DN_SOME(0.00)[];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,dt];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 5CCEB30A36A
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi Geert,
+Mark the first 128 MiB of DRAM as reserved. The first 128 MiB of DRAM
+may optionally be used by TFA and other firmware for its own purposes,
+and in such case, Linux must not use this memory.
 
-Thank you for the review.
+On this platform, U-Boot runs in EL3 and starts TFA BL31 and Linux from
+a single combined fitImage. U-Boot has full access to all memory in the
+0x40000000..0xbfffffff range, as well memory in the memory banks in the
+64-bit address ranges, and therefore U-Boot patches this full complete
+view of platform memory layout into the DT that is passed to the next
+stage.
 
-On Tue, Mar 24, 2026 at 1:05=E2=80=AFPM Geert Uytterhoeven <geert@linux-m68=
-k.org> wrote:
->
-> Hi Prabhakar,
->
-> On Tue, 24 Mar 2026 at 13:16, Prabhakar <prabhakar.csengg@gmail.com> wrot=
-e:
-> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> >
-> > Read the USB2_ADPCTRL register once in rcar_gen3_check_id() and reuse
-> > the value instead of performing multiple MMIO reads.
-> >
-> > Simplify the return logic by comparing the IDDIG and VBUSVALID bits
-> > directly. This preserves the existing behaviour while improving code
-> > clarity and avoiding redundant register accesses.
-> >
-> > Reported-by: Pavel Machek <pavel@nabladev.com>
-> > Closes: https://lore.kernel.org/all/acJV-Xq-2uq_JFMn@duo.ucw.cz/
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->
-> Thanks for your patch!
->
-> > --- a/drivers/phy/renesas/phy-rcar-gen3-usb2.c
-> > +++ b/drivers/phy/renesas/phy-rcar-gen3-usb2.c
-> > @@ -314,13 +314,14 @@ static void rcar_gen3_init_from_a_peri_to_a_host(=
-struct rcar_gen3_chan *ch)
-> >  static bool rcar_gen3_check_id(struct rcar_gen3_chan *ch)
-> >  {
-> >         if (ch->phy_data->vblvl_ctrl) {
-> > +               u32 val =3D readl(ch->base + USB2_ADPCTRL);
-> >                 bool vbus_valid;
-> >                 bool device;
-> >
-> > -               device =3D !!(readl(ch->base + USB2_ADPCTRL) & USB2_ADP=
-CTRL_IDDIG);
-> > -               vbus_valid =3D !!(readl(ch->base + USB2_ADPCTRL) & USB2=
-_ADPCTRL_VBUSVALID);
-> > +               device =3D !!(val & USB2_ADPCTRL_IDDIG);
-> > +               vbus_valid =3D !!(val & USB2_ADPCTRL_VBUSVALID);
->
-> Perhaps combine variable declarations and assignments?
-> The "!!" is not needed when assigning to a bool.
->
-Agreed, I will address it and send a v2.
+The next stage is TFA BL31 and then the Linux kernel. The TFA BL31 does
+not modify the DT passed from U-Boot to TFA BL31 and then to Linux with
+any new reserved-memory {} node to reserve memory areas used by the TFA
+BL31 to prevent the next stage from using those areas, which lets Linux
+to use all of the available DRAM as described in the DT that was passed
+in by U-Boot, including the areas that are newly utilized by TFA BL31.
 
-Cheers,
-Prabhakar
+In case of high DRAM utilization, for example in case of four instances
+of "memtester 3900M" running in parallel, unless the memory used by TFA
+BL31 is properly reserved, Linux may use and corrupt the memory used by
+TFA BL31, which would often lead to system becoming unresponsive.
+
+Until TFA BL31 can properly fill its own reserved-memory node into the
+DT, and to assure older versions of TFA BL31 do not cause problems, add
+explicitly reserved-memory {} node which prevents Linux from using the
+first 128 MiB of DRAM.
+
+Note that TFA BL31 can be adjusted to use different memory areas, this
+newly added reserved-memory {} node follows longer-term practice on the
+R-Car SoCs where the first 128 MiB of DRAM is reserved for firmware use.
+In case user does modify TFA BL31 to use different memory ranges, they
+must either use a future version of TFA BL31 which properly patches a
+reserved-memory {} node into the DT, or they must adjust the address
+ranges of this reserved-memory {} node accordingly.
+
+Fixes: a719915e76f2 ("arm64: dts: renesas: r8a779g3: Add Retronix R-Car V4H Sparrow Hawk board support")
+Cc: stable@vger.kernel.org
+Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+---
+Cc: Conor Dooley <conor+dt@kernel.org>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
+Cc: Magnus Damm <magnus.damm@gmail.com>
+Cc: Rob Herring <robh@kernel.org>
+Cc: devicetree@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: linux-renesas-soc@vger.kernel.org
+---
+ arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk.dts | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
+
+diff --git a/arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk.dts b/arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk.dts
+index bcf8270a3ed9a..714fcaf8a846e 100644
+--- a/arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk.dts
++++ b/arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk.dts
+@@ -118,6 +118,17 @@ memory@600000000 {
+ 		reg = <0x6 0x00000000 0x1 0x00000000>;
+ 	};
+ 
++	reserved-memory {
++		#address-cells = <2>;
++		#size-cells = <2>;
++		ranges;
++
++		tfa@40000000 {
++			reg = <0x0 0x40000000 0x0 0x8000000>;
++			no-map;
++		};
++	};
++
+ 	/* Page 27 / DSI to Display */
+ 	dp-con {
+ 		compatible = "dp-connector";
+-- 
+2.53.0
+
 
