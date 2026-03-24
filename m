@@ -1,85 +1,84 @@
-Return-Path: <linux-renesas-soc+bounces-30165-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-30166-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id aMe8GDyCwmlneQQAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-30165-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 24 Mar 2026 13:23:24 +0100
+	id YD0CAXOBwmlneQQAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-30166-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 24 Mar 2026 13:20:03 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA89E308255
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 24 Mar 2026 13:23:23 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7608C308101
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 24 Mar 2026 13:20:02 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 275553043D6B
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 24 Mar 2026 12:12:58 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 62E31302E92D
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 24 Mar 2026 12:13:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B0EC43F1652;
-	Tue, 24 Mar 2026 12:12:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 09D8C3E63A1;
+	Tue, 24 Mar 2026 12:13:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VXKk0Y2h"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DbtisNoh"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-dy1-f178.google.com (mail-dy1-f178.google.com [74.125.82.178])
+Received: from mail-dl1-f48.google.com (mail-dl1-f48.google.com [74.125.82.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7EDA34DB6B
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 24 Mar 2026 12:12:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAF1634DB6B
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 24 Mar 2026 12:13:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774354375; cv=none; b=R0CYVw94Ot5ml4h2HdkZRHdUT1gWo32czMvD7WdhWjYteDzKI3bfBWsLxWqRKqt1fqjF+xe0A25fdDLMA35m7CtLVxU1LXYEE4/brnJSletBQUp4TC9qc8gD1ifj2WrzcRSg81Tr/041/Lfr8s7GzSH4SETla6jPwWX/mTEeRRQ=
+	t=1774354406; cv=none; b=lq3xZrhQZoQc4UCbtnyxhA6A1Q5uWeQeGJsSFeAEm5rACxfkvaiTPnDMDkBq58LJgeyDAoEyAfnoM5l9W8t8ZG+OX69Prrx0voAEaozBSY8k3HErEseN8COWZryw9/sI9JL3irye4l0eQuKeTCFyKy5XoEsRvkuwKgg5x9BDZGQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774354375; c=relaxed/simple;
-	bh=sCtex8QLEBQd1Iaa4RTPc5h8fhMUPxFyELPd8IKBgYE=;
+	s=arc-20240116; t=1774354406; c=relaxed/simple;
+	bh=6JL7si245mXkq5nnm78Qo+nx3gF/lncyNQ+73R1QH54=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=A6QaI1Vyo46SviBiwfe5LFa/joDqBxg2nY/KiSBLkuEGjoIT68s025s9LizI945Z//TqSlMw1paJVlaVd78cuj6eMVKPn4oni/oitazAVECt88bfLhV1QDWWdoNoZcVC0Eke40w5cszUka8SNP/6dWJ16+gavYNHyz0pkLycLak=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VXKk0Y2h; arc=none smtp.client-ip=74.125.82.178
+	 In-Reply-To:Content-Type; b=o/6EZLOh8rhe/dyPl0i4qTz3FwPDRBnPJ0rugSJY4Ebw2Od0oHMiLSmAzre0qsBjqMPS3m254gVJTNoWNceRAnSRyJ0V2tMHgqQDUAA5Y3Th9BFxlqp50GPIAv0RKwapJDBo6UZIZjU6z6ZzjNPUaQGXaCfvwT8vWx9Lo/4hO5k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DbtisNoh; arc=none smtp.client-ip=74.125.82.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-dy1-f178.google.com with SMTP id 5a478bee46e88-2c11c43aca0so1906759eec.1
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 24 Mar 2026 05:12:52 -0700 (PDT)
+Received: by mail-dl1-f48.google.com with SMTP id a92af1059eb24-12776bebe9fso368327c88.1
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 24 Mar 2026 05:13:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774354371; x=1774959171; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1774354405; x=1774959205; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:autocrypt:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=dd7ld8QgGMmhxeSAt+yc27mRDHtyBCuQTPG9sSAJi90=;
-        b=VXKk0Y2hgOESFLRjAMVgeVD5Z5zcg7pM2ez6Nsl7A+b4pQXHhWSiQ34ydNOXTIIlrC
-         xgD/1O0nEVTpgarMp3wEK0z7QEREYCxqQnPWvQFtoEZkpRpiq61trXU7PxxvAIxcgylu
-         p9XRtDrAi8fRBkiXa6YNjnkd1dEhcWqaMKMYsqQ9mgNsSazBjEIhvBiZGESwiGL9mJbl
-         qUDbabmQx0JA1bk8/rlfmoFcTwSeIlweEMSlVtuLLLcgKLA70wZj3SdnBToK2WuPU3nf
-         7oGG0W5EFISu7Gj/cMNs7UYUcYwInPgcrfSwROgA3i5PyBdR7E2iphq9sSifWvlrPpaW
-         Um+Q==
+        bh=0szi+mILes8LVs2crfk+WLdxZPpH87uSZvRpbW20inE=;
+        b=DbtisNohUG2jmBLXHBLvboVeWqhcyak9cm8PUfuoFgPLBZHYAKciQWifp8yZl1Y9W0
+         t0kUvDUU+xcSk+FucDWQDYL9RVd9A5PQ/lvq/jYQeq1txSXZNyvCWNwAj3+zl6Y50Bro
+         89yQ0bR85ppeBQlvm2E8fSERAJZKQkw2/hsMKX6gpiDCyw1Xs/WG7Rt32FS25pQYn0v9
+         3hIhx+v5CWRJ3hjv8qRDCyhb2qYxNJDzvGWXq/bzaRjT52jFaVcVXrByVNqJCzETW5Dg
+         oqinryUwLdR+CcF/eGJ+8HOZJliwyRDa/IXG0uh6Fa9VYI94LfUtfQGaLQX5NpFxqdmL
+         DCdw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774354371; x=1774959171;
+        d=1e100.net; s=20251104; t=1774354405; x=1774959205;
         h=content-transfer-encoding:in-reply-to:autocrypt:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=dd7ld8QgGMmhxeSAt+yc27mRDHtyBCuQTPG9sSAJi90=;
-        b=P1tCWWsVmP5WoRWPVmKNrphzpEtCLCNz68QgjI1+s+s1mnqbd5fnGPC209g9YvvHxZ
-         YwOD1HshxONJpgXJ5pW0i64U5dKLwm/dphM6358+1kHDmQlg9/6m5Ztt8Lsq9FSu3q2V
-         zldmrk5yBKkCBtRhVuDN3+20DqesUhygifp7FGp0NRDKDRCgRaeEeD77SPnWqhJex3Dx
-         3yrDuMyMoKotHTIfGGX1Lw56zmjEuw0fujOpz2M/TXPa64wtEWv8WQI19Ol/fjhtOneZ
-         nCuKVUu98zpN4EcW/wSUBZ3t2lp+mQi2va/sBYb2wcnymUBZmpCSKvjsndmpiu6oL3Km
-         UCmQ==
-X-Gm-Message-State: AOJu0YwmcMlhb9+lyslbgb8+MDM1ONkjE4QdAMp+ODazn3J8GJM2iw2J
-	KPphQFN8V6JW/Dg4Y0ujIRhrvF76SCFkRWojy3ph1y+Lt4aTCQfbl6P0
-X-Gm-Gg: ATEYQzwr3jaSMABAHHbVPKTpTaXCnUA9gK3TE129PzP4/FpO+2TqodkrduuwWlizgdj
-	JGmP3KWT5Qwz2RfqKty0w57LecrXbro+G5e8xGo86l0tJBpewTrjQhVmfOzoDjU/EMTLWmLJn/o
-	TjNhtptx0+Xe+luBgfPBtDaEBcy7iw1PQQAe4aRdh7dkaAUC3W8zefuacj7lsnl/t7xLFwr/j8k
-	KIIn+kEpJlngUtVyOAkp/TEr7XyVDIB83M8HU/Sl+SPYNQneGqHaT3/Ezn6q2y0hR3Xy4mIHpVn
-	f5Lhw/4rZ4FDWlMP/QSmgVmbzHQ+xs2Ky8SmOxmHAMLOipDd8mUhzQeN8vnrjL8csDIp2VvE+Aa
-	2ORXi20ndjak0aon5bA/vx0GRj4NeizQkCSuW+9YYzjdwxrVI9MzcxCAMo+QD+NrfrmsOLP/x+O
-	bPVBft32K9zI1g1Vj57exO5eZ8d6gemoN23LYQKXwlwB9RWkIOjcnWsf9RP+4avSWNkn7gjoffa
-	JnZFEBB484=
-X-Received: by 2002:a05:7301:4195:b0:2be:1f56:ed2a with SMTP id 5a478bee46e88-2c14b554283mr1610081eec.16.1774354370883;
-        Tue, 24 Mar 2026 05:12:50 -0700 (PDT)
+        bh=0szi+mILes8LVs2crfk+WLdxZPpH87uSZvRpbW20inE=;
+        b=ZvUBcOvIIT9zSzGWN9QE1udj+pSnbWUa2iwwNekN63xd40suFS4uKMF+AQujw2tv+t
+         Ufnw7owPYbu/k/iqzgIlEg2q4GGQ8vY9sGXK6vVuw76dnNe4gLRxsjyhytjUIG8QH/rh
+         T0cRJY4X+CtDVDWUBEb+X1hTdHS3JWJIWjz5kPiyiOJaQJYb7plQkSepS7ESHX2lRiWS
+         fClP8pveurdUkilYnSmjPTT+AY/Mi0GDWROnzMkccPORVitIh3ynrIAGJCMOUJ2D0mIg
+         rGfdsyol9/4xR24q08nEraaSN3g95wGUv/HE3L9EIStMa28luOKHAv7q2LPjtUxlc+zE
+         91tg==
+X-Gm-Message-State: AOJu0Yy3l975jhm1ju7xb4+Da74uw4J5V6eC4PAAFgzTuC0ELd4sr6x2
+	+OdbMrKvaZKiFL2SId5mIt9R0RujY4di+kmoicfnsCiwUPxiTaVGX5U0
+X-Gm-Gg: ATEYQzzWRc5CSmHNdOqfOtp2AaTUodkXIK1Yc6VepObYAMwjCMV4cPLHofIFFAFPiSd
+	iabZXkLtxBgxjtxhYnzPQ102JvPIG6g1DbXXBjauVcaVJn+u/1Zc0ttH9J5b0TOej3ZuPBis+o8
+	ueF7J8IMQ+hMa1bOf0bfldqc74GTOa3ycgpZPRJE1G+bVnrn8c0OUBfnRpLpevntM642puvAYLd
+	yZrflqAibXueqKdMv7lahyQ9cqAF36otBuyvmeJepJk2Bz4qpyNdir5qB6dzNTFVRALAzbaUxhl
+	hUkQgAQWN1ko9jGsSFaMnxnWi/c7Jbhn6gXzWViOdLE78tV43bxbqSf/OdQjLGdNMqrm31EDjgn
+	joQHtG/bzSgBKjLw6+bG0K6JTnn5/VJD021K2jyfSTOS3kyRE2YV5bb1JIQqACYChOOZWM4Khvb
+	FDlZKpZ9c2q1a7zEPm39PJ6E+E6KFz25I8oca4Fd0uhCwf+whMU97MetIX1Pcc389KIxRUDdjz
+X-Received: by 2002:a05:7022:6883:b0:128:dbbf:fd35 with SMTP id a92af1059eb24-12a726c2485mr8652405c88.28.1774354404508;
+        Tue, 24 Mar 2026 05:13:24 -0700 (PDT)
 Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2c10b3253d0sm15177748eec.29.2026.03.24.05.12.49
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-12a733b4a99sm11162278c88.1.2026.03.24.05.13.22
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 24 Mar 2026 05:12:49 -0700 (PDT)
+        Tue, 24 Mar 2026 05:13:23 -0700 (PDT)
 Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <ca9f8846-9560-473d-b5f1-542950c7cf71@roeck-us.net>
-Date: Tue, 24 Mar 2026 05:12:48 -0700
+Message-ID: <bba20fb7-a244-4ec2-9860-f88353072691@roeck-us.net>
+Date: Tue, 24 Mar 2026 05:13:21 -0700
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -87,7 +86,7 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/2] watchdog: rzn1: Fix reverse xmas tree declaration
+Subject: Re: [PATCH v3 2/2] watchdog: rzn1: Use dev_err_probe()
 To: "Herve Codina (Schneider Electric)" <herve.codina@bootlin.com>,
  Wolfram Sang <wsa+renesas@sang-engineering.com>,
  Geert Uytterhoeven <geert+renesas@glider.be>,
@@ -97,7 +96,7 @@ Cc: linux-renesas-soc@vger.kernel.org, linux-watchdog@vger.kernel.org,
  Miquel Raynal <miquel.raynal@bootlin.com>,
  Thomas Petazzoni <thomas.petazzoni@bootlin.com>
 References: <20260324114849.242755-1-herve.codina@bootlin.com>
- <20260324114849.242755-2-herve.codina@bootlin.com>
+ <20260324114849.242755-3-herve.codina@bootlin.com>
 Content-Language: en-US
 From: Guenter Roeck <linux@roeck-us.net>
 Autocrypt: addr=linux@roeck-us.net; keydata=
@@ -143,19 +142,19 @@ Autocrypt: addr=linux@roeck-us.net; keydata=
  F0WaMvQMNrk9UAUziVcUkLU52NS9SXqpVg8vgrO0JKx97IXFPcNh0DWsSj/0Y8HO/RDkGXYn
  FDMj7fZSPKyPQPmEHg+W/KzxSSfdgWIHF2QaQ0b2q1wOSec4Rti52ohmNSY+KNIW/zODhugJ
  np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
-In-Reply-To: <20260324114849.242755-2-herve.codina@bootlin.com>
+In-Reply-To: <20260324114849.242755-3-herve.codina@bootlin.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Spamd-Result: default: False [-0.16 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	DKIM_TRACE(0.00)[gmail.com:+];
-	TAGGED_FROM(0.00)[bounces-30165-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-30166-lists,linux-renesas-soc=lfdr.de];
 	FROM_HAS_DN(0.00)[];
 	DMARC_NA(0.00)[roeck-us.net];
 	RCVD_TLS_LAST(0.00)[];
@@ -167,21 +166,24 @@ X-Spamd-Result: default: False [-0.16 / 15.00];
 	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[linux@roeck-us.net,linux-renesas-soc@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	NEURAL_HAM(-0.00)[-1.000];
 	RCPT_COUNT_SEVEN(0.00)[10];
 	MID_RHS_MATCH_FROM(0.00)[];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[bootlin.com:email,sang-engineering.com:email,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,roeck-us.net:email,roeck-us.net:mid]
-X-Rspamd-Queue-Id: AA89E308255
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,roeck-us.net:email,roeck-us.net:mid,sang-engineering.com:email,bootlin.com:email]
+X-Rspamd-Queue-Id: 7608C308101
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
 On 3/24/26 04:48, Herve Codina (Schneider Electric) wrote:
-> Variables declared in probe() don't follow the reverse xmas
-> tree convention.
+> In the probe() function the following pattern is present several times:
+> 	if (err) {
+> 		dev_err(dev, ...);
+> 		return err;
+> 	}
 > 
-> Fix the declaration in order to follow the convention.
+> Replace them by dev_err_probe() calls.
 > 
 > Signed-off-by: Herve Codina (Schneider Electric) <herve.codina@bootlin.com>
 > Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
@@ -190,25 +192,41 @@ On 3/24/26 04:48, Herve Codina (Schneider Electric) wrote:
 Reviewed-by: Guenter Roeck <linux@roeck-us.net>
 
 > ---
->   drivers/watchdog/rzn1_wdt.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
+>   drivers/watchdog/rzn1_wdt.c | 18 ++++++------------
+>   1 file changed, 6 insertions(+), 12 deletions(-)
 > 
 > diff --git a/drivers/watchdog/rzn1_wdt.c b/drivers/watchdog/rzn1_wdt.c
-> index 96fd04fbc2a2..b7034eac91d0 100644
+> index b7034eac91d0..48d5afef62a5 100644
 > --- a/drivers/watchdog/rzn1_wdt.c
 > +++ b/drivers/watchdog/rzn1_wdt.c
-> @@ -101,10 +101,10 @@ static const struct watchdog_ops rzn1_wdt_ops = {
->   static int rzn1_wdt_probe(struct platform_device *pdev)
->   {
->   	struct device *dev = &pdev->dev;
-> -	struct rzn1_watchdog *wdt;
->   	struct device_node *np = dev->of_node;
-> -	struct clk *clk;
-> +	struct rzn1_watchdog *wdt;
->   	unsigned long clk_rate;
-> +	struct clk *clk;
->   	int ret;
->   	int irq;
+> @@ -122,22 +122,16 @@ static int rzn1_wdt_probe(struct platform_device *pdev)
 >   
+>   	ret = devm_request_irq(dev, irq, rzn1_wdt_irq, 0,
+>   			       np->name, wdt);
+> -	if (ret) {
+> -		dev_err(dev, "failed to request irq %d\n", irq);
+> -		return ret;
+> -	}
+> +	if (ret)
+> +		return dev_err_probe(dev, ret, "failed to request irq %d\n", irq);
+>   
+>   	clk = devm_clk_get_enabled(dev, NULL);
+> -	if (IS_ERR(clk)) {
+> -		dev_err(dev, "failed to get the clock\n");
+> -		return PTR_ERR(clk);
+> -	}
+> +	if (IS_ERR(clk))
+> +		return dev_err_probe(dev, PTR_ERR(clk), "failed to get the clock\n");
+>   
+>   	clk_rate = clk_get_rate(clk);
+> -	if (!clk_rate) {
+> -		dev_err(dev, "failed to get the clock rate\n");
+> -		return -EINVAL;
+> -	}
+> +	if (!clk_rate)
+> +		return dev_err_probe(dev, -EINVAL, "failed to get the clock rate\n");
+>   
+>   	wdt->clk_rate_khz = clk_rate / 1000;
+>   	wdt->wdtdev.info = &rzn1_wdt_info;
 
 
