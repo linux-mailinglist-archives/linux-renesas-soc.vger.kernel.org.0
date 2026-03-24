@@ -1,49 +1,49 @@
-Return-Path: <linux-renesas-soc+bounces-30131-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-30132-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 4KPQI6rYwWkaXQQAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-30131-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 24 Mar 2026 01:19:54 +0100
+	id WAbbJV3XwWkaXQQAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-30132-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 24 Mar 2026 01:14:21 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF4592FF8EE
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 24 Mar 2026 01:19:53 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 978712FF6B8
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 24 Mar 2026 01:14:20 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 8CAD23117CA5
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 24 Mar 2026 00:13:29 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 9725F3001596
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 24 Mar 2026 00:14:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B6FE8248F66;
-	Tue, 24 Mar 2026 00:12:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D99B842050;
+	Tue, 24 Mar 2026 00:14:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YHECWCy6"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DaTn4Rvq"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92F832459D1;
-	Tue, 24 Mar 2026 00:12:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B433A2772D;
+	Tue, 24 Mar 2026 00:14:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774311143; cv=none; b=MyCJpYinaBcWFM5kJm2efDCYsgd92IwK5+sYhGe0d94O1tvCXwA9Q7YUZpjmc3FGLTc3Xbu+ZXqZGE85nF0bndJPuuuATi/YJ7aNEPBQlwSsSZtScvpp2lajivc3fYj0gAO46MmRtzD7NP934I/mkxQgrkhUKtC0wOLnzJMtUoc=
+	t=1774311255; cv=none; b=vGaUOPY7y6qt+dOXgegNTq1OR51RhMxq7JY22rc/1QjVvJT8HlNfL9xLKi3TawGu8187qruiz4J58M7ePBSCzBZT0nnbRdu80YCiarcwdBcC+7rxtyo+PX24tkG66eVKqTiUZZZ7NZ0xFW1DuYHYNM6EUJUHjgi698SSty7H+gA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774311143; c=relaxed/simple;
-	bh=3d94VpZd83GM75ewdyTGCQUds65SXEiLlGyDDdQljTw=;
+	s=arc-20240116; t=1774311255; c=relaxed/simple;
+	bh=lhJQJHgQA3/FSpGv4O/1DgzapYOamVujjmZkgzX+/+c=;
 	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
-	 To:Date:Message-ID; b=TWN2kXGNXc5ipWostyJ/FZ4F+r5xCMrC46unjBfr5NcJCl16hp6SOZ7+O8rPCzrhCje+oFtfdVvftUH53YgaoQTXVjygEYRCytcWmgPltFkAubc531oLqlPHyhTcVtIZSO0UUqyfIGjBUqzgKfSl6e2yTiwSZF3zxXmIKUo7ppc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YHECWCy6; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DF633C2BC9E;
-	Tue, 24 Mar 2026 00:12:22 +0000 (UTC)
+	 To:Date:Message-ID; b=YpjSoASMOXkoyz7jx3ogDSajTdQZk5Wih6VkDjaGJ9WPCMFs+VZ2kpsbUkoH5IvjubdAQmwPnOxbgU1goZTKpX99Qn9YYKBYdEdfURbi1LaCJ2VwX9BzJ9JLXJ5pV+FOcEJ6d2UEH82T95a+gQTRB2GaCPpWMWa+5rNL7Rpa74A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DaTn4Rvq; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 890FEC2BC9E;
+	Tue, 24 Mar 2026 00:14:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774311143;
-	bh=3d94VpZd83GM75ewdyTGCQUds65SXEiLlGyDDdQljTw=;
+	s=k20201202; t=1774311255;
+	bh=lhJQJHgQA3/FSpGv4O/1DgzapYOamVujjmZkgzX+/+c=;
 	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-	b=YHECWCy6Zc1CWjqgaSHkzxn5CWuItVrBr3HtmSV+pqb2LozX8wg98ptj1Oti5gpRf
-	 Ei1H+hRn7KuaybpHYY6b2QdDy93zQq7fnGIk/vDTAtIjPgoteD7dWA7qIluOBM2tsN
-	 R5riTAI/YCzEzZfuTmNofb4uygNAyPtr1L1N+ec6R6atODtZXOTJvBSKNntrSolzNo
-	 eWiQwdxaWcABet+JAZaWOq5wfZvjp8Oax68t+Aa5tCJkYe88Ucuq5mPFsWW/Vl1Hvj
-	 IvUtO6UgkIXDxqWZSqFoZLn+OiPmIja9ec+QwuA3z/WwNbAR4pbu7bjjoj13JbJrxw
-	 KfL6oyTWpjn5g==
+	b=DaTn4RvqfuGaXS9YReMbGDnXASNNeGF+Lh2UYIG7Z6koOqocibrNkGGM85koFbrIu
+	 MSei1l1l3nMKHJOYxjWcTb+f7BOfUKpuLWdI76V1jMcsEBzSill56aczjBUJvADtyZ
+	 u2pQ7UX0B649sGOqriBnot0Zjw0ZUez1WfcBHqiceUOc/7rg0B1jSOjxhW4MS07sGt
+	 ygidEXOEc81gVXht+y0AdvTMixsafWUxYO1QzYAiqXCb1ZOLClN69616laRFyKHWpD
+	 vDXbLOt15yGws2uP5xYXNbEgm+cSOdKcaouRa9+57odWi6qkEQytMi8RgOuQpETbWF
+	 44xSJuf3ofw8A==
 Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
@@ -52,26 +52,26 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <cover.1773399185.git.geert+renesas@glider.be>
-References: <cover.1773399185.git.geert+renesas@glider.be>
-Subject: Re: [GIT PULL] clk: renesas: Fixes for v7.0
+In-Reply-To: <cover.1773399986.git.geert+renesas@glider.be>
+References: <cover.1773399986.git.geert+renesas@glider.be>
+Subject: Re: [GIT PULL] clk: renesas: Updates for v7.1
 From: Stephen Boyd <sboyd@kernel.org>
 Cc: linux-clk@vger.kernel.org, linux-renesas-soc@vger.kernel.org, Geert Uytterhoeven <geert+renesas@glider.be>
 To: Geert Uytterhoeven <geert+renesas@glider.be>, Michael Turquette <mturquette@baylibre.com>
-Date: Mon, 23 Mar 2026 17:12:19 -0700
-Message-ID: <177431113981.5403.10886179003607189492@lazor>
+Date: Mon, 23 Mar 2026 17:14:13 -0700
+Message-ID: <177431125366.5403.11545955529864995912@lazor>
 User-Agent: alot/0.12
 X-Spamd-Result: default: False [-0.16 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	MID_RHS_NOT_FQDN(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-30131-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-30132-lists,linux-renesas-soc=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
@@ -86,31 +86,32 @@ X-Spamd-Result: default: False [-0.16 / 15.00];
 	NEURAL_HAM(-0.00)[-1.000];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: DF4592FF8EE
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 978712FF6B8
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Quoting Geert Uytterhoeven (2026-03-13 04:12:26)
+Quoting Geert Uytterhoeven (2026-03-13 04:13:15)
 >         Hi Mike, Stephen,
 >=20
-> The following changes since commit 6de23f81a5e08be8fbf5e8d7e9febc72a5b5f2=
-7f:
->=20
->   Linux 7.0-rc1 (2026-02-22 13:18:59 -0800)
->=20
-> are available in the Git repository at:
->=20
->   git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git=
- tags/renesas-clk-fixes-for-v7.0-tag1
->=20
-> for you to fetch changes up to 1b4f047dc4010d51821694cc4ed73b52b3040a5c:
+> The following changes since commit 1b4f047dc4010d51821694cc4ed73b52b3040a=
+5c:
 >=20
 >   clk: renesas: r9a09g057: Remove entries for WDT{0,2,3} (2026-03-06 13:3=
 3:52 +0100)
 >=20
+> are available in the Git repository at:
+>=20
+>   git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git=
+ tags/renesas-clk-for-v7.1-tag1
+>=20
+> for you to fetch changes up to c8d5972a25408b1daf73653ccd5207fdfc80c964:
+>=20
+>   clk: renesas: r9a09g056: Add clock and reset entries for RTC (2026-03-0=
+6 13:33:56 +0100)
+>=20
 > ----------------------------------------------------------------
 
-Thanks. Pulled into clk-fixes
+Thanks. Pulled into clk-next
 
