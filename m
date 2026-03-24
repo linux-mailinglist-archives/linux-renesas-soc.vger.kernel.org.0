@@ -1,269 +1,257 @@
-Return-Path: <linux-renesas-soc+bounces-30183-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-30184-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id KIS3BdvJwmmIlgQAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-30183-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 24 Mar 2026 18:28:59 +0100
+	id wIzDNYjTwmllmgQAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-30184-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 24 Mar 2026 19:10:16 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 724AE31A027
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 24 Mar 2026 18:28:58 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id E133131A897
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 24 Mar 2026 19:10:15 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 0CC91300F140
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 24 Mar 2026 17:28:56 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id C4374300D0EA
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 24 Mar 2026 18:06:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D897F3F076E;
-	Tue, 24 Mar 2026 17:28:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AE92F355F5C;
+	Tue, 24 Mar 2026 18:05:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="eIxp/3Li"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f177.google.com (mail-vk1-f177.google.com [209.85.221.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from OS0P286CU010.outbound.protection.outlook.com (mail-japanwestazon11011037.outbound.protection.outlook.com [40.107.74.37])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63616402459
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 24 Mar 2026 17:28:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.177
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774373335; cv=none; b=luUy3jqzS3ZD1M80IdHOjizlbgaNmQoYhu/W1OAGOLImkOT37POT6gR83kQT1uayxBr4DRsFvKhObYoBpBj9wTX3A0EpkVkLQafAeHbM8fw5ySJ10M/d+wz40JAyuGGdt1ADlLayPnsQRjCr6HxSBsrrWfLemQuceceA5G9T1kM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774373335; c=relaxed/simple;
-	bh=x2ByeNkouiKEPMao42C6oXqtSEjnJKDNRhIggOr4SeU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=noKIXlMYXzour5iZ2mrwdjuy70imNJ2jcNDWgV0XkfTkduA4SDfQOHFiq/Q+aYMDAtg/XYj6XEhyRz44X0jgTWKNJ6ewIeDiEKdCc/TmvevdG+ZA4xR3OKM1nRINBbw/60Br7xbMF+z792oQcQziRKdlJdPySWS2Ne1PQ8xNVsU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f177.google.com with SMTP id 71dfb90a1353d-56b6c7c8d00so3467293e0c.3
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 24 Mar 2026 10:28:54 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774373333; x=1774978133;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=XpevOJBLVmJEY5vWAghuAgrLubq4HkQJ5E3Owe/CCLU=;
-        b=E+1fbarCnRy4DK0LNlU1ROhPQi78lXDgHx8hJJq/z3YowcV+QOjcQz3zSAhSx71a+x
-         H/zeJ4DXUv4BQFzGyhk7CC68Z31mVbYh8mXQVRnGxiIXdlJOEl7yH4wcla5e46eVpXrt
-         L35a6QipRwK0yGu/C51NYq/RgWI4Dqo8WP8C6MBzQY6dCWLPPr1rRGPcYS96EqI9wZGl
-         /UvY5dONKqNILviLfoKOWxBlMrZ0h/dd+4j+pEKCWg9V5UjNU/jLtKZQwC3rT2cXBFjc
-         KKNDpYbqaCzNxehuTlbTpk5DgFGa6VwFwGoZjayNmKUFxDLleVWGIhEyPE8AqwJ8r8wm
-         Yhtw==
-X-Forwarded-Encrypted: i=1; AJvYcCVxfIJqdx2ipzgZoFDNe28PddPxRmh4rDNmuDGu4NTdk8K6oMlkuY5r185SayR/U95KfTfRZRJldQ2S+pzUuJ64Hg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxtaqXBGfLNpc0BXTLCmYFtUf9/OHLaMof4tSG7jnZl1eBAfKCz
-	59OAlpPvODot9p1Ic2tkgNYcd3wp5E8hkdy1NGyogHkiTqQXbTK/UlEBw83K0AfsCEQ=
-X-Gm-Gg: ATEYQzyQ86FyROtz6bOXXk0FmXT4qm0IEIM8nTDv+/5SwtySAALfist9HRSILKzBs5O
-	Nztv817eVCLWauxAl9x/FLPw7I/tbp4jJfKesl1p+qKOOXb9pN614toU2wVCq5ad30tQ9ev3szO
-	eHIRqiK/MXpnJgAOwlQaXZh9eLV/5xEGHlPoQ1M57zU5VKGapusqX6/TfXu06gsquwve07dYjne
-	fxz8CdUqTAHTKxzeASXmQVBGHe/0Mv1zSEvqHgD6z6GLdSjnRXSGbicPSX0GFy+K3SpSkrck54u
-	Sggy4SSY8XWo4cvur0oO45kGc6LINWoXZpJreWyVkYmwmT7t7emlOQUh16qbFAEallRUajjsWBK
-	5mmp5sAmxyBdqV4fEc09CSMA+ghVNFBW7TrR2C++KQNPezyywegDTrjRsfi2fHa2rpTc4JkKhC9
-	CzcdJEXIvgr6+yaJGCGC2R5S5NPsbCNPXPDsmWPPKV/WyNG1hSj93zGIH3H14c00Ko
-X-Received: by 2002:a05:6122:c9c:b0:56b:c6e1:65b2 with SMTP id 71dfb90a1353d-56d21f3d2d2mr435851e0c.4.1774373333228;
-        Tue, 24 Mar 2026 10:28:53 -0700 (PDT)
-Received: from mail-vk1-f171.google.com (mail-vk1-f171.google.com. [209.85.221.171])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-56cddb6cdf8sm15994995e0c.3.2026.03.24.10.28.52
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 24 Mar 2026 10:28:52 -0700 (PDT)
-Received: by mail-vk1-f171.google.com with SMTP id 71dfb90a1353d-56b65ffbda3so4121105e0c.1
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 24 Mar 2026 10:28:52 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUvG4dZTBysg1KXdLfN0fO2Slj6A1VtYvHofMvSPtz41t6Qgj5C/MYPoFDQIfd3MHcMezrHcY8K+f5sblLa2yzEYA==@vger.kernel.org
-X-Received: by 2002:a05:6122:3296:b0:56c:c88d:e8c0 with SMTP id
- 71dfb90a1353d-56d21f9be0dmr420645e0c.6.1774373332547; Tue, 24 Mar 2026
- 10:28:52 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B891A346E6D;
+	Tue, 24 Mar 2026 18:05:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.74.37
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774375559; cv=fail; b=iEHlir5Fa/Hu6zRl7KKUvvujDLbEq+AeGLN4RfeqhBhklth158r1OMqvN7nK/YhaFxiLFPsyx/smjmSwA1QeUyxEFuivPPr+DRofcWIHdFnbK63WjukJzXzhHYacmLORl3EmOfoGb/meB83qBndXFF7RPKC6vuWCHVHZb+uLuBw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774375559; c=relaxed/simple;
+	bh=DgTO6q/3nUIYjYd0DyeN5lVOwrJKyl9mG3zhWoXIlwg=;
+	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=LOyeaJVP4A0b2iPL3IGrZEC22WSo7BciRYIGGeSGxzhX/MO97GMuKN7fDbntPAvccYdxESLR33DhsGXnEMxPHA2WLvt5zeGEOkrv3R8vGGbsz/Jdz9jUl5m6CTS/i1KmCSG4RwmNx1yT28T13Oeka26EeWNkHu/QZ+Ds9w9kD0M=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=eIxp/3Li; arc=fail smtp.client-ip=40.107.74.37
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=kGYmbAty3qJUPwM51LbolQAWIQwY6UKrwpFcqmnaETo29a+2byKxnGxoU7ZknGXtayaX05PmLWK9oKcMIQn/IspMVOrBLPdL8veJmC4UhY1VFdXZ+fH3l/4be9cXOYNWEDk4lTjcIMSd2hE0p9Sx0/BzFnPLYWGaLNSG/93b9w+z9zFWzK+tTpY4uKbVI7WkNtIossoJNcM8vJHBHxnW2Tun/TpONW41rsqVyURIQH9rBvwyMafNrKQU2kcsGHEM6DPzyFDsfhZVFLj63ZSpWW7hLZJFf6c1isnh+WviflP2d3auMYnS+ZOkOtlCmWG35J8ljENRqq3zXLmY9jp6bA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=xj/OSgKxCTprmIkG6oHLJAq/cBgvqkvUw9WBJnEqyFY=;
+ b=weYWhM5La7wWca1aIoetOK4mU+9RGrArCVoJtpG6RpZtKU2qfETFWHJFK1OPqKqwM1Ka6w8fCIiXLcD2b8E9HIPU42YH3WOSJ0h63y+V5FxEcoWSyA7nNZY4hI9nj9/7Apqzgd4FcAZ6DJtvb2Z6FRlTYpaSTBZSyw9IEhepyesg8VqvhmKMYh7RM9kA9at2DhLDFkrgpLbKjsZOuyl1JWtj/67uike6hI1HmNFpd/BPbzOnPj0p7P0/jcDe4VgEpXeCGOLRtD7ixPx33VQjpW6YVUWKnHxVpjyPc2qAjhXwfpGgA12fHv5Z2z4ccyQSp/4zT75RTbcVaHyIxq+mXw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=xj/OSgKxCTprmIkG6oHLJAq/cBgvqkvUw9WBJnEqyFY=;
+ b=eIxp/3LiVf+emRWWNcs20/q6WugWvMcbgZBU/e+DkGZNbijT9VkynuyAXkI3YLbo9lro0cLU+CIOM9AAHLOImBhoFY7n0hcr730PsJfGwBLjSmjKPxbQRXtA7EqDU4uCvVDdQukrv+eNlteNgWnHRa59zSLedMWbUsMCj491UiM=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+Received: from TYCPR01MB11947.jpnprd01.prod.outlook.com (2603:1096:400:3e1::6)
+ by OS7PR01MB17371.jpnprd01.prod.outlook.com (2603:1096:604:43e::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9723.31; Tue, 24 Mar
+ 2026 18:05:54 +0000
+Received: from TYCPR01MB11947.jpnprd01.prod.outlook.com
+ ([fe80::33f1:f7cd:46be:e4d8]) by TYCPR01MB11947.jpnprd01.prod.outlook.com
+ ([fe80::33f1:f7cd:46be:e4d8%5]) with mapi id 15.20.9723.030; Tue, 24 Mar 2026
+ 18:05:53 +0000
+From: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+To: tomm.merciai@gmail.com,
+	geert@linux-m68k.org,
+	laurent.pinchart@ideasonboard.com
+Cc: linux-renesas-soc@vger.kernel.org,
+	biju.das.jz@bp.renesas.com,
+	Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	dri-devel@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] drm: rz-du: Ensure correct suspend/resume ordering with VSP
+Date: Tue, 24 Mar 2026 19:05:05 +0100
+Message-ID: <20260324180512.2277875-1-tommaso.merciai.xr@bp.renesas.com>
+X-Mailer: git-send-email 2.43.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: FR4P281CA0354.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:f4::11) To TYCPR01MB11947.jpnprd01.prod.outlook.com
+ (2603:1096:400:3e1::6)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260218151925.1104098-1-claudiu.beznea.uj@bp.renesas.com>
- <CAMuHMdWv1dQ55NcwMga_X0G8K97RgMRXoDu_FV10fNQv7AadbA@mail.gmail.com> <2772d5e1-2127-4808-bd9d-aa40b4ad7104@tuxon.dev>
-In-Reply-To: <2772d5e1-2127-4808-bd9d-aa40b4ad7104@tuxon.dev>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 24 Mar 2026 18:28:41 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdUEjMs9TgGR=vMG4Sd_XtnaW+D5Vrb0VBCZdb35TtLXEw@mail.gmail.com>
-X-Gm-Features: AQROBzCteidl4a6fS-qPzYwEquSsiUdAXRMvWK12r9jXkFflwuEKzU1olQROBhU
-Message-ID: <CAMuHMdUEjMs9TgGR=vMG4Sd_XtnaW+D5Vrb0VBCZdb35TtLXEw@mail.gmail.com>
-Subject: Re: [PATCH] pinctrl: renesas: rzg2l: Add GPIO set_config
-To: claudiu beznea <claudiu.beznea@tuxon.dev>
-Cc: linusw@kernel.org, brgl@kernel.org, linux-renesas-soc@vger.kernel.org, 
-	linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spamd-Result: default: False [-1.46 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TYCPR01MB11947:EE_|OS7PR01MB17371:EE_
+X-MS-Office365-Filtering-Correlation-Id: 08280f79-1a43-4a3d-f6c9-08de89cffd40
+X-LD-Processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+ BCL:0;ARA:13230040|1800799024|376014|52116014|7416014|366016|38350700014|56012099003|18002099003;
+X-Microsoft-Antispam-Message-Info:
+ OaU1DULgOD62IYwBSCBZeW5UkimZ56247zhd1JsAYuTzdwkf3c3CYf8iVT80miG8KeWP1ajQINQaRvGqtzfHcVBRtjldDwk36nKzTG/z/g3nGpQ8JkSRWvA1DMzWi6aNvJzdpiOItfgV4vcjFteKItC2QrWFeZlOdyuklfmwFcu4GszFC7cDwrtmfIMehj0W62e8gznpW1kYZ/tnGnJOK3MNYXmyLRE/m2TZ0eJyba8od2Yl1VHicA3OJRCfl7oqoCCsWvXVZuZs55DEBpxA59N6sDamw+cwROOOj5UJJ1Fo1pkz7iLXFOYPIaxGB6K5JrBeVkGyMF0g32pvunZlyi0JHu9jOPh6JHoekkd01QRDF7E41U1uvzzh9oiCAr9msywNwiOvktLXaJnqERThkN95qjfTxd/thsLzBX4Lsr5DCbJtw7gpRoW2ikU7UKXCjpTD2FAHSFBKOjG30FgqJtYR1v0S/rcioR6eM2xMBTB6D742rne8r0IrtiwqTGj8jXUjfIb7/aBHLsnhQ8pRi3mdDaN/92W9RxDIAXlppYkI0BL4OR0/nBG8tX5uZ5wFFx2AMEiW30LXxqtCWAV6bM6ITG5MjBOcMdkLJQj9/NQAiLRrygCWJSOmDaC+ZUrmfIAPBm17mUvzfDl2jF+Wm5jvnoQ0oGIbPnUfSuY/A/QZ+pmnTQZaoKh2NoeA/Y/mRTHjufj8mtX917HwsAFhmwcVNTS8s3mtmf5VGvUlpJDIOL/dAgSQSbD/z1KnfH0GEzydp+oLbRxmq90Z1d6xEwmHq1HFlH3kezMidikZqZo=
+X-Forefront-Antispam-Report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB11947.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(52116014)(7416014)(366016)(38350700014)(56012099003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+ =?us-ascii?Q?mTrwqligDTrDYYVLUeEYYg+DtgPNbOgRWpLopyz+4dBs9vFHE16nM8WX4G3Q?=
+ =?us-ascii?Q?N6i8WUZ7agpYBNIcBGE5+YF6pPy/T6Ta7UUPwX3x+FP8TnQ4n1O79oJUb0qZ?=
+ =?us-ascii?Q?Y7R3ynW5IO8AowKU592Ww7dX5jOtHowPAnq+BPwz+IjQKfLGU70p4W8FQ8Hl?=
+ =?us-ascii?Q?D98bQI25hZ6HrGrSdU3U3YYVyNUqJcaJcXQMy5dMW3yvKYKBWacl4ebEbKFA?=
+ =?us-ascii?Q?PzaRGrnsNo6q8e6FgfXbHGa8QV77mUfuEG/LcbuEVyfFZxQCaKYnz5IyYOcS?=
+ =?us-ascii?Q?bxXgIDEClNYpc9FUUjZX4Wm6BUkBoVmKOjdGielBygLrXODDud+JaZzaV8lp?=
+ =?us-ascii?Q?qksnbobY4nJSx0uEB2iHYbD00lrOqD0VfhBSKcr6aetxFM9fD8hIIwN7VbuG?=
+ =?us-ascii?Q?LfTRLj0swm+wVrNhKtaEA8AtcombRy6uLV08b8LayqOgm99dfm+lz/GhiJld?=
+ =?us-ascii?Q?Q9A6vlY5/jDbaWnzRDhKvHFdSyGNMuPmm7+JfKKQrCeC1Ib+SUd1aFZ+5aO0?=
+ =?us-ascii?Q?/n+3I4nZ5GjOLWHsv9upTIznqobkSFv4bq8/9pYuLsPRxz4oXCOlIOwZD/qA?=
+ =?us-ascii?Q?oHHcw4NjTY8Qrprtgasuw33+Y04p9TWutphSFtADhk/piWeitk6zWnRYrjEK?=
+ =?us-ascii?Q?qzOyjcJXcq/A6+vjSkUT0zIE6TLcG7mJ8C2Z/H9Sodta5rPifPMRZnw9CUjq?=
+ =?us-ascii?Q?iCI/NUPQyqtKYc126JsdSn4kqUyqbe8AO4AVzIQ97iDEYgTgdaXAj1yTpCak?=
+ =?us-ascii?Q?BjTn+dribilvrTLgomTJTcv2O99Gi/9yYsMNITyE8PGAXZFk9mEuMkzSfN/l?=
+ =?us-ascii?Q?ihoFUWStV8uKpQWV/shIoQBEQmgfy643W4NAoGQ0lZv3sEoStgaOQlZi0Pf7?=
+ =?us-ascii?Q?nhBuIX4sl8/cNA9KAKtLn0aZSxdsLaFLzLfM7hCLBogtKMBDHU9FBFB6BEeG?=
+ =?us-ascii?Q?1o7NDEqmcdKLRV5kOLiLPMFa/wiFLf4Cw1MUCYDFcCDeE7SKkdwgFQNoUoLg?=
+ =?us-ascii?Q?6+UTNXfGkfeR4lhXfdzfXULjYv5BK4PT0KqhNV/D/C9OrlAgQSliyGwr2mFj?=
+ =?us-ascii?Q?zvnMxqFcoW6eeJJPfUGiU7cHpFNn+rypkzA8bYjd6M5ZPbbd9ePnwZI9pI7f?=
+ =?us-ascii?Q?/iTr8PYOPQf9GQk9iTCAZNZP1zd59mGrvGiVn9yGp5gIKHFz5X0t/oMNrUIO?=
+ =?us-ascii?Q?fJQ42v2L2KQuU2uYx0lPJElWZawZC6hnmrEAqMdObqoeW8bnSfe75VN0ugbm?=
+ =?us-ascii?Q?iIVE9bAEW/S9EdoZb8NjQniMYZaVAahD/FgU0qASculehoRUT8Ne7Cp3/+dm?=
+ =?us-ascii?Q?BeZ7BCgBAzVgJK+fXqxejjUWe9F/l2nUG/vBKJ4dxQraeadxRa/xgFFV/o+r?=
+ =?us-ascii?Q?N3D8Ot5u72cXW+qKPHpS/l9D+XrQ1YgKd1/Ri4qLRgGRdLRvbwamZhRjEpyd?=
+ =?us-ascii?Q?nLAXyuze/L+Wf7NyAw4o3CsZXCNN0NOedyOXcYWmy2tLFpCFf+Y4Y+Q4oMTY?=
+ =?us-ascii?Q?YfjYMZkImdl9+qst6MRbdFL78gWqb66ofsaUa6ay9WFZCYVXpt2818YHZs7V?=
+ =?us-ascii?Q?OM/4A73KCZ2zzoQhinw9WsrE/6far026vB5+UVxjVCpyL7pnfnJu3godqU5s?=
+ =?us-ascii?Q?TG24SgayeceEP9iL3eW8XKW+DnTBoRWx9PacgZlGuNe5ExVBoHvwBuAqXtpv?=
+ =?us-ascii?Q?Dp3WKcwQaZetcFPtuSazHRZHTDhyXWoOxIs1M57oRMVVSwb33C56Xk/M17d+?=
+ =?us-ascii?Q?oEz351F5dkznd5XHW3VSOnmuDGD/Qv7bV0dweCfN5Ofln9yg+VRJ?=
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 08280f79-1a43-4a3d-f6c9-08de89cffd40
+X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB11947.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Mar 2026 18:05:53.7026
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: S9lkHnr3jRtktQz0+DYP2GLPhy/3t+GBO4MLYM9aMJ63RnSFucGv8f9EgpIHp65Pxhd1+tRCzvsgOgbBPAcKQ0BiYT5Rwnp7RkKHBhHOm6sA/GsaB7uN70+jLnIjcskq
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS7PR01MB17371
+X-Spamd-Result: default: False [2.84 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_REJECT(1.00)[cv is fail on i=2];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[renesas.com,none];
+	R_MISSING_CHARSET(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	R_DKIM_ALLOW(-0.20)[bp.renesas.com:s=selector1];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MISSING_XM_UA(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-30183-lists,linux-renesas-soc=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
 	MIME_TRACE(0.00)[0:+];
-	DMARC_NA(0.00)[linux-m68k.org];
+	RCPT_COUNT_TWELVE(0.00)[13];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-30184-lists,linux-renesas-soc=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com,linux-m68k.org,ideasonboard.com];
+	FREEMAIL_CC(0.00)[vger.kernel.org,bp.renesas.com,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,lists.freedesktop.org];
+	DKIM_TRACE(0.00)[bp.renesas.com:+];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[tommaso.merciai.xr@bp.renesas.com,linux-renesas-soc@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[geert@linux-m68k.org,linux-renesas-soc@vger.kernel.org];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	R_DKIM_NA(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
 	TAGGED_RCPT(0.00)[linux-renesas-soc];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,mail.gmail.com:mid,tuxon.dev:email]
-X-Rspamd-Queue-Id: 724AE31A027
+	NEURAL_HAM(-0.00)[-1.000];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,bp.renesas.com:dkim,bp.renesas.com:mid]
+X-Rspamd-Queue-Id: E133131A897
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi Claudiu,
+The VSP serves as an interface to memory and a compositor to the DU. It
+therefore needs to be suspended after and resumed before the DU, to be
+properly stopped and restarted in a controlled fashion driven by the DU
+driver. This currently works by chance. Avoid relying on luck by
+enforcing the correct suspend/resume ordering with device links.
 
-On Mon, 16 Mar 2026 at 11:19, claudiu beznea <claudiu.beznea@tuxon.dev> wro=
-te:
-> On 3/13/26 15:15, Geert Uytterhoeven wrote:
-> > On Wed, 18 Feb 2026 at 16:19, Claudiu <claudiu.beznea@tuxon.dev> wrote:
-> >> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> >>
-> >> Add GPIO set_config to allow setting GPIO specific functionalities.
-> >>
-> >> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> >
-> > Thanks for your patch!
-> >
-> >> --- a/drivers/pinctrl/renesas/pinctrl-rzg2l.c
-> >> +++ b/drivers/pinctrl/renesas/pinctrl-rzg2l.c
-> >> @@ -1848,6 +1848,25 @@ static void rzg2l_gpio_free(struct gpio_chip *c=
-hip, unsigned int offset)
-> >>          rzg2l_gpio_direction_input(chip, offset);
-> >>   }
-> >>
-> >> +static int rzg2l_gpio_set_config(struct gpio_chip *chip, unsigned int=
- offset,
-> >> +                                unsigned long config)
-> >> +{
-> >> +       switch (pinconf_to_config_param(config)) {
-> >> +       case PIN_CONFIG_BIAS_DISABLE:
-> >> +       case PIN_CONFIG_BIAS_PULL_UP:
-> >> +       case PIN_CONFIG_BIAS_PULL_DOWN:
-> >> +       case PIN_CONFIG_DRIVE_OPEN_DRAIN:
-> >> +       case PIN_CONFIG_DRIVE_PUSH_PULL:
-> >> +       case PIN_CONFIG_SLEW_RATE:
-> >> +       case PIN_CONFIG_DRIVE_STRENGTH:
-> >> +       case PIN_CONFIG_DRIVE_STRENGTH_UA:
-> >> +       case PIN_CONFIG_POWER_SOURCE:
-> >
-> > Shouldn't you handle all types that are supported by
-> > rzg2l_pinctrl_pinconf_[gs]et()?
-> >
-> > The following are missing:
-> > PIN_CONFIG_INPUT_ENABLE
-> > PIN_CONFIG_OUTPUT_ENABLE
-> > PIN_CONFIG_OUTPUT_IMPEDANCE_OHMS
-> > PIN_CONFIG_INPUT_SCHMITT_ENABLE
-> > RENESAS_RZV2H_PIN_CONFIG_OUTPUT_IMPEDANCE
->
-> I'll add these as well.
+Based on similar work done by Laurent Pinchart for R-Car DU.
 
-Apparently you can't just add RENESAS_RZV2H_PIN_CONFIG_OUTPUT_IMPEDANCE
-to the switch statement, as gcc requires all case statements to use values
-that are actually defined in the enum:
+Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+---
+ drivers/gpu/drm/renesas/rz-du/rzg2l_du_vsp.c | 16 ++++++++++++++++
+ drivers/gpu/drm/renesas/rz-du/rzg2l_du_vsp.h |  2 ++
+ 2 files changed, 18 insertions(+)
 
-    drivers/pinctrl/renesas/pinctrl-rzg2l.c:2072:9: error: case value
-=E2=80=98128=E2=80=99 not in enumerated type =E2=80=98enum pin_config_param=
-=E2=80=99 [-Werror=3Dswitch]
+diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_vsp.c b/drivers/gpu/drm/renesas/rz-du/rzg2l_du_vsp.c
+index bd486377f037..eb626c3cc421 100644
+--- a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_vsp.c
++++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_du_vsp.c
+@@ -20,6 +20,7 @@
+ #include <drm/drm_vblank.h>
+ 
+ #include <linux/bitops.h>
++#include <linux/device.h>
+ #include <linux/dma-mapping.h>
+ #include <linux/of_platform.h>
+ #include <linux/platform_device.h>
+@@ -293,6 +294,9 @@ static void rzg2l_du_vsp_cleanup(struct drm_device *dev, void *res)
+ {
+ 	struct rzg2l_du_vsp *vsp = res;
+ 
++	if (vsp->link)
++		device_link_del(vsp->link);
++
+ 	put_device(vsp->vsp);
+ }
+ 
+@@ -317,6 +321,18 @@ int rzg2l_du_vsp_init(struct rzg2l_du_vsp *vsp, struct device_node *np,
+ 	if (ret < 0)
+ 		return ret;
+ 
++	/*
++	 * Enforce suspend/resume ordering between the DU (consumer) and the
++	 * VSP (supplier). The DU will be suspended before and resume after the
++	 * VSP.
++	 */
++	vsp->link = device_link_add(rcdu->dev, vsp->vsp, DL_FLAG_STATELESS);
++	if (!vsp->link) {
++		dev_err(rcdu->dev, "Failed to create device link to VSP %s\n",
++			dev_name(vsp->vsp));
++		return -EINVAL;
++	}
++
+ 	ret = vsp1_du_init(vsp->vsp);
+ 	if (ret < 0)
+ 		return ret;
+diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_vsp.h b/drivers/gpu/drm/renesas/rz-du/rzg2l_du_vsp.h
+index 322eb80dcbaf..a22aaf0843ed 100644
+--- a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_vsp.h
++++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_du_vsp.h
+@@ -15,6 +15,7 @@
+ #include <linux/scatterlist.h>
+ 
+ struct device;
++struct device_link;
+ struct drm_framebuffer;
+ struct rzg2l_du_device;
+ struct rzg2l_du_format_info;
+@@ -29,6 +30,7 @@ struct rzg2l_du_vsp_plane {
+ struct rzg2l_du_vsp {
+ 	unsigned int index;
+ 	struct device *vsp;
++	struct device_link *link;
+ 	struct rzg2l_du_device *dev;
+ };
+ 
+-- 
+2.43.0
 
-As the documentation states this range is meant for custom
-configurations:
-
-     * @PIN_CONFIG_END: this is the last enumerator for pin configurations,=
- if
-     *      you need to pass in custom configurations to the pin controller=
-, use
-     *      PIN_CONFIG_END+1 as the base offset.
-     * @PIN_CONFIG_MAX: this is the maximum configuration value that can be
-     *      presented using the packed format.
-
-I fixed that by replacing the enum by u8 in the conversion macros:
-
-    --- a/include/linux/pinctrl/pinconf-generic.h
-    +++ b/include/linux/pinctrl/pinconf-generic.h
-    @@ -173,9 +173,9 @@ enum pin_config_param {
-      * upper 24 bits.
-      */
-
-    -static inline enum pin_config_param
-pinconf_to_config_param(unsigned long config)
-    +static inline u8 pinconf_to_config_param(unsigned long config)
-     {
-    -       return (enum pin_config_param) (config & 0xffUL);
-    +       return config & 0xffUL;
-     }
-
-     static inline u32 pinconf_to_config_argument(unsigned long config)
-    @@ -183,8 +183,7 @@ static inline u32
-pinconf_to_config_argument(unsigned long config)
-            return (u32) ((config >> 8) & 0xffffffUL);
-     }
-
-    -static inline unsigned long pinconf_to_config_packed(enum
-pin_config_param param,
-    -                                                    u32 argument)
-    +static inline unsigned long pinconf_to_config_packed(u8 param,
-u32 argument)
-     {
-            return PIN_CONF_PACKED(param, argument);
-     }
-
-Probably a few more should be updated, too?
-
-> >> @@ -2819,6 +2838,7 @@ static int rzg2l_gpio_register(struct rzg2l_pinc=
-trl *pctrl)
-> >>        chip->direction_output =3D rzg2l_gpio_direction_output;
-> >>        chip->get =3D rzg2l_gpio_get;
-> >>        chip->set =3D rzg2l_gpio_set;
-> >> +       chip->set_config =3D rzg2l_gpio_set_config;
-> >>        chip->label =3D name;
-> >>        chip->parent =3D pctrl->dev;
-> >>        chip->owner =3D THIS_MODULE;
-
-This change breaks pin control and GPIO on RZ/Five:
-
-    -pinctrl-rzg2l 11030000.pinctrl: pinctrl-rzg2l support registered
-    +gpio gpiochip0: (11030000.pinctrl): setup of own GPIO can0_stb failed
-    +requesting hog GPIO can0_stb (chip 11030000.pinctrl, offset 18) failed=
-, -95
-    +gpiochip_add_data_with_key: GPIOs 512..743 (11030000.pinctrl)
-failed to register, -95
-    +pinctrl-rzg2l 11030000.pinctrl: error -EOPNOTSUPP: failed to add
-GPIO controller
-    +pinctrl-rzg2l 11030000.pinctrl: error -EOPNOTSUPP: failed to add GPIO =
-chip
-    +pinctrl-rzg2l 11030000.pinctrl: probe with driver pinctrl-rzg2l
-failed with error -95
-
-For the can0_stb hog, rzg2l_gpio_set_config() is called with offset 18 and
-config 0x115 (PIN_CONFIG_PERSIST_STATE =3D 1).
-
-Just adding PIN_CONFIG_PERSIST_STATE to the switch doesn't help,
-as pinctrl_gpio_set_config() also returns -EOPNOTSUPP.
-Ignoring PIN_CONFIG_PERSIST_STATE helps a bit, but the next call
-uses config 0x8, and pinctrl_gpio_set_config() now returns -EINVAL,
-but the pin controller now gets registered?...
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
 
