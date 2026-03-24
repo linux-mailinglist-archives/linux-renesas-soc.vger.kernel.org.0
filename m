@@ -1,56 +1,56 @@
-Return-Path: <linux-renesas-soc+bounces-30162-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-30161-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 4I/JAup+wmnqdAQAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-30162-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 24 Mar 2026 13:09:14 +0100
+	id YP8vAmB8wmnqdAQAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-30161-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 24 Mar 2026 12:58:24 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4E31307ED3
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 24 Mar 2026 13:09:13 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id BC243307C3F
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 24 Mar 2026 12:58:23 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 3019331B18B1
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 24 Mar 2026 11:51:54 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 6C1453055A2C
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 24 Mar 2026 11:51:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B0F5F3F8E14;
-	Tue, 24 Mar 2026 11:49:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E78693F7AAC;
+	Tue, 24 Mar 2026 11:49:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="POYcAUL/"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="EH60VlCb"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72E7C3F8816
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 24 Mar 2026 11:49:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D32E93F7E9B;
+	Tue, 24 Mar 2026 11:49:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774352959; cv=none; b=bjbp3f3+q9JSPDeIqQitWYWCnp8qxg5JioXbZGLVIDQO2fYBo6EWi9nuJULRFWgkLSAe50U/s/HmXMjf+GarsSHg4adkdTIyPGB4iYLl3jQBHdKW13q3MG8OwiGHik7lDBgU5hlOI6j5CF4Ee4omfpO+5gSv2JkGDmRzyemhqzo=
+	t=1774352954; cv=none; b=CkhGclD6EUf7jmzgZVJGuVGaacB4iZkVBsItpAqpBVelRWhQS/ld/SDrhf1MNbypAtsmS2T2XSfkL3xCbGhaEriRisjqoZSmmMchM/NQUgOGzOjavIakiOa5n7ELjYSxotJaw0opoe42i41hT0J8nZIKlBdX6xksXZPA07FR9J0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774352959; c=relaxed/simple;
-	bh=e9l2eGLM8Fj9YUuxcB2nhRaay/6xOXbkDDgNcShoUO0=;
+	s=arc-20240116; t=1774352954; c=relaxed/simple;
+	bh=cnlyyAE0hKJh44VrBo3wLRg1/bJ/z8lV9SX/IznzyPk=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=KyGq4kJo5gYaQUdvS85Sje1thy1uggH25sFm/dU+1crRAcbSUkJZqkCA+z+6I7+RSnuFItCdQEuELte9hJZpaR4DAbDNLZv/7swadXB3rTKwGSeVXgGpICEi5i0PpEWSzZu1fo3/6N/kwXpqWntQyf+SSwL/g0h+8qmknSKQGkY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=POYcAUL/; arc=none smtp.client-ip=185.246.85.4
+	 MIME-Version; b=TUa044zd+qyJLEzGckvQSRnrZH7BDxs07avymclZmNR0GJL1iRSU42xnbsFRh6BfbG5hXpIbzpdFzjq6Zg9lIn4BBw4H1ciaGDejQrTIe7H8c3/Q9QKmquz0YS/347YmLJI4zLWgY8S/CorBPxcroHvoNVc9rn4hQT1GmRM0Z14=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=EH60VlCb; arc=none smtp.client-ip=185.171.202.116
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id EAE834E427C7;
-	Tue, 24 Mar 2026 11:49:07 +0000 (UTC)
+	by smtpout-04.galae.net (Postfix) with ESMTPS id 5E35FC5809A;
+	Tue, 24 Mar 2026 11:49:36 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id C0B526011D;
-	Tue, 24 Mar 2026 11:49:07 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 9778E1045034F;
-	Tue, 24 Mar 2026 12:49:05 +0100 (CET)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 2161B6011D;
+	Tue, 24 Mar 2026 11:49:09 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 71CC810451126;
+	Tue, 24 Mar 2026 12:49:07 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1774352947; h=from:subject:date:message-id:to:cc:mime-version:
+	t=1774352948; h=from:subject:date:message-id:to:cc:mime-version:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=6Htc16u0egxjTg5XK+PPzZYkeVZ6gvD699dGr/7ro+Y=;
-	b=POYcAUL/2xSqy5yhME6CIrkE69/6C6EXrPfheRXNkczbWrQbKkG/DD81xAOKJTBa/AfrXD
-	+TvM3g7c9l3/tlYbNlp9rLJKJhRwxQZ/SE+Rj/ZMi7lR/Cum8XlAVY3B+hRCQxWqyE+oQI
-	GybYudx9VldscY3pX/vmE/GMeKIvWEXaxZ4iWmlShLNuavL+3KYb5YeIFzO5tflnhbJN26
-	JLea7B43TgxYWZ1qZ1pgmlvB94ggble5SQNNsKL2BOqo4QxxgFIonsngVvzBZI0EOrJM39
-	yu03PM/yf5x44X18pAm9/ITMn4Th8Ea3AtNv/2Kn8Ci6t52qvJFVtTAwc/FQrw==
+	bh=+ZO+ja/wZQnveqYe42ml5vWLXL8y3cUnpi0huNlQkmM=;
+	b=EH60VlCb7Awj/fLHNoFZlhIL0+MOuFLtQ7ZCiRx0A2THUYQnAmK978bwzQF3GDLLFmB+5G
+	b5H2zbyMgWQynXXLN4slzgAiXUYWYb5cEHmTRz3vGMaJVp/JVq0VKu3ZZlgBRzDjx1W1oa
+	0srkEPZgDe9FuiJmGY2E69Faevidnj1zyTTtqxN+H1Cdwg6wgfU7u/HpFAmTVhkpJEVDTQ
+	zm427idnbTPjDE6I3hIQ5RpBrY0kjzmGq0sviFl48HskA7Qk9k5L2WgZwlp8gNc8p9Hizr
+	LWuCBwmh7qi0c5FvPJxy+XvtT5J+U5MmmJk3Dyp0CG/PB0ZfrcP6q6R7i4WQwQ==
 From: "Herve Codina (Schneider Electric)" <herve.codina@bootlin.com>
 To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
 	Geert Uytterhoeven <geert+renesas@glider.be>,
@@ -63,9 +63,9 @@ Cc: linux-renesas-soc@vger.kernel.org,
 	Miquel Raynal <miquel.raynal@bootlin.com>,
 	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
 	"Herve Codina (Schneider Electric)" <herve.codina@bootlin.com>
-Subject: [PATCH v3 1/2] watchdog: rzn1: Fix reverse xmas tree declaration
-Date: Tue, 24 Mar 2026 12:48:44 +0100
-Message-ID: <20260324114849.242755-2-herve.codina@bootlin.com>
+Subject: [PATCH v3 2/2] watchdog: rzn1: Use dev_err_probe()
+Date: Tue, 24 Mar 2026 12:48:45 +0100
+Message-ID: <20260324114849.242755-3-herve.codina@bootlin.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260324114849.242755-1-herve.codina@bootlin.com>
 References: <20260324114849.242755-1-herve.codina@bootlin.com>
@@ -81,20 +81,20 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[bootlin.com,reject];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_MISSING_CHARSET(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
 	R_DKIM_ALLOW(-0.20)[bootlin.com:s=dkim];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	RECEIVED_HELO_LOCALHOST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-30162-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-30161-lists,linux-renesas-soc=lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	DKIM_TRACE(0.00)[bootlin.com:+];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
 	TO_DN_SOME(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
@@ -105,39 +105,58 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	RCPT_COUNT_SEVEN(0.00)[11];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	FROM_HAS_DN(0.00)[]
-X-Rspamd-Queue-Id: A4E31307ED3
+X-Rspamd-Queue-Id: BC243307C3F
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Variables declared in probe() don't follow the reverse xmas
-tree convention.
+In the probe() function the following pattern is present several times:
+	if (err) {
+		dev_err(dev, ...);
+		return err;
+	}
 
-Fix the declaration in order to follow the convention.
+Replace them by dev_err_probe() calls.
 
 Signed-off-by: Herve Codina (Schneider Electric) <herve.codina@bootlin.com>
 Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 Tested-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 ---
- drivers/watchdog/rzn1_wdt.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/watchdog/rzn1_wdt.c | 18 ++++++------------
+ 1 file changed, 6 insertions(+), 12 deletions(-)
 
 diff --git a/drivers/watchdog/rzn1_wdt.c b/drivers/watchdog/rzn1_wdt.c
-index 96fd04fbc2a2..b7034eac91d0 100644
+index b7034eac91d0..48d5afef62a5 100644
 --- a/drivers/watchdog/rzn1_wdt.c
 +++ b/drivers/watchdog/rzn1_wdt.c
-@@ -101,10 +101,10 @@ static const struct watchdog_ops rzn1_wdt_ops = {
- static int rzn1_wdt_probe(struct platform_device *pdev)
- {
- 	struct device *dev = &pdev->dev;
--	struct rzn1_watchdog *wdt;
- 	struct device_node *np = dev->of_node;
--	struct clk *clk;
-+	struct rzn1_watchdog *wdt;
- 	unsigned long clk_rate;
-+	struct clk *clk;
- 	int ret;
- 	int irq;
+@@ -122,22 +122,16 @@ static int rzn1_wdt_probe(struct platform_device *pdev)
  
+ 	ret = devm_request_irq(dev, irq, rzn1_wdt_irq, 0,
+ 			       np->name, wdt);
+-	if (ret) {
+-		dev_err(dev, "failed to request irq %d\n", irq);
+-		return ret;
+-	}
++	if (ret)
++		return dev_err_probe(dev, ret, "failed to request irq %d\n", irq);
+ 
+ 	clk = devm_clk_get_enabled(dev, NULL);
+-	if (IS_ERR(clk)) {
+-		dev_err(dev, "failed to get the clock\n");
+-		return PTR_ERR(clk);
+-	}
++	if (IS_ERR(clk))
++		return dev_err_probe(dev, PTR_ERR(clk), "failed to get the clock\n");
+ 
+ 	clk_rate = clk_get_rate(clk);
+-	if (!clk_rate) {
+-		dev_err(dev, "failed to get the clock rate\n");
+-		return -EINVAL;
+-	}
++	if (!clk_rate)
++		return dev_err_probe(dev, -EINVAL, "failed to get the clock rate\n");
+ 
+ 	wdt->clk_rate_khz = clk_rate / 1000;
+ 	wdt->wdtdev.info = &rzn1_wdt_info;
 -- 
 2.53.0
 
