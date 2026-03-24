@@ -1,119 +1,116 @@
-Return-Path: <linux-renesas-soc+bounces-30171-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-30172-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id GEvSAWKXwmkbfQQAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-30171-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 24 Mar 2026 14:53:38 +0100
+	id QKMdNmSXwmkbfQQAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-30172-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 24 Mar 2026 14:53:40 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58146309C3F
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 24 Mar 2026 14:53:37 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 463A7309C4D
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 24 Mar 2026 14:53:40 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 60773300F9CF
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 24 Mar 2026 13:43:53 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 6FFC63018D4A
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 24 Mar 2026 13:43:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DED833F8DEF;
-	Tue, 24 Mar 2026 13:43:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B4DB33FD120;
+	Tue, 24 Mar 2026 13:43:55 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-oi1-f178.google.com (mail-oi1-f178.google.com [209.85.167.178])
+Received: from mail-vs1-f49.google.com (mail-vs1-f49.google.com [209.85.217.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82B963FCB30
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 24 Mar 2026 13:43:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 607B43F8DEF
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 24 Mar 2026 13:43:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774359832; cv=none; b=Fgi2u8lyxWrRwspamraWE0EcHaiKLHkViOdJeTn2g3qehYMH5tvbYO2+VyyPCym2A9fAPts6SdTuTKFgbbeA7QaeatQEVoIEXcVWqGOOzoDCZE7vDTr2xL9oK1N/yQtgt1OttkA/M7a7MVBaPzjL/55HiGXcdbpPcFvmMXZDlgI=
+	t=1774359835; cv=none; b=gX7ouRYhQDGG9BQDV3m8uGGkdgv+GtQjwBZwuxoJ+WLQNRMJtFQxm0YFLG58QYTG7dvAIjygaIq6sA/6TyRTAfqRJATGWWTUJVp6zaXVI40bNOh7fCSyyn9P3OGerf1X4/Q54iVH1iNU8IKhiOcoz723906awDYA6I/uwiCWSYg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774359832; c=relaxed/simple;
-	bh=jxD2923ET52CY8fhMQtErtaWu+053QLtVBSwzxbDk0o=;
+	s=arc-20240116; t=1774359835; c=relaxed/simple;
+	bh=v0TQlWPzu8GTPZY9FpXVbuwaCxkxoZDN7EjwI6xWIr0=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=UJsruYghXhMnwjgAGdRNQIazDrtwH1pm9OzuYsjAR0Gw5HMw7l+f58Qn0IvZJYPAkUE8yKH9hvjY3WtKTsnq9iCqU363aa5vm51xXicb/x4kSYXz52G2UIcJy00Iy+NEzjO/bWjKzrkiMHSLAogheScHjurHjrUKRq5NT03L2MQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.167.178
+	 To:Cc:Content-Type; b=lH5wQ9ZhEJohC/bqWudwVZhoPoh5WZbR3xjPnzuiadRDWjoNZ2B24zCSV180/xfWsCrWPZSCSwB9jKF0ZIiApocMy3mUqxEG6/8IUzj7iio3UVotbZg77bkVJGBe+BXb0sZBMKaGgx7/YyzGddd7oVkePHXKuUOhQJqA63CeiHE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-oi1-f178.google.com with SMTP id 5614622812f47-45f053b7b90so728111b6e.0
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 24 Mar 2026 06:43:51 -0700 (PDT)
+Received: by mail-vs1-f49.google.com with SMTP id ada2fe7eead31-60291b2cd89so1278943137.1
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 24 Mar 2026 06:43:54 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774359830; x=1774964630;
+        d=1e100.net; s=20251104; t=1774359833; x=1774964633;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=UFHE6SbqkfrINgqOev1LeMJP9y3Lb6YlEweE9fpbW9I=;
-        b=ihqZHlTFHGxt6aHk5A2Z8OeFhxRG/lonCvkKn3lA2DwNO9bYx+IC5IPIYB7c5kpN1E
-         0eGRFOM01yII67hFh+G9cH9zGxOiF3yav2fIoNVTrrl7rakPPOek4TDkPyibaCS+8t0R
-         DQXdPGQ2BIeDuPMm3e7+iO2JliLw/IOKfbaHr34diP2Fb5iQOOd5UyTNuDp/jT1GIqlo
-         TUF+IJHQdebA17ELcmnKCV/4KI7B7tBA9i70S5E9vb10d7sk8djCHS8S6EF9WtPNGJrt
-         Udzr+ZsGbX7DfYBrFxjRo8Ith7Jm4gagmaG3wKuDrtDZtwMbF/AG761f30sNuT8qcYjy
-         4f6w==
-X-Forwarded-Encrypted: i=1; AJvYcCUtSP6A3xr5qikWNIflm92to/zM7PfOlHX2z236bK1Z7vXyMW4PjKbsN/RGx7UMQjDcPbwW2M6w0sKYsP228uB7jQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YylcziVrGpAFxPSFjwognLTJDGZMPYPcj9QQsdISo3nXATlYEa7
-	HZ0ZT8/9kipU+J1h4JSFvO5SKVAZFYtHkQdv1axKKdQ+7i1Zq3gzOTEbggCX7qP0ymU=
-X-Gm-Gg: ATEYQzydRnV636DXnHZVfQ+jhqCfzZYrPe4X/AYZi2EePNPZaPFEx65RR5vJGAIeFsL
-	H2yMTpMWDzx8voG6P5D832VRZaP48XBsLVQuRi45/SgFd5bSopNR6aEHyGHs+eBpgQDb8PG96jP
-	AEEVITzD5Rw8kARKMqaCuIBurFiqNtYCYNPf0wFRwatJYSa5dpZYjTUHQ5ZDQyI04sKNxMHOu2m
-	GwRxQ5lL3evokpCIy9XWW5BFdVkp1QgzYsoybL6OtM9EVY40kyo42tL45YMuHbec38F6fgFttkn
-	VQEsOu0QJYqcoMKg76pTfpcATwnJfZ8+kWol6skW3KwD73ZChDu72TaHKpaCz7gABxEInQLGiVz
-	kWZ0A/79jvO+KHNtv5N837BMcC/fSnu8RmHxPRC4M6YQrxEtE0Dp5E5u1ZEbrM8gs5p5z6sejqV
-	Vcm/n6P8M34LB8yGPhrLQh/9Rx6D73L6NLDkOjpO5UwDAQ0aUPJql7y4e8wqbcKUoxK7HQbXmrx
-	7k=
-X-Received: by 2002:a05:6808:d4e:b0:467:11fa:40a1 with SMTP id 5614622812f47-467e5f2504dmr8976714b6e.43.1774359830224;
-        Tue, 24 Mar 2026 06:43:50 -0700 (PDT)
-Received: from mail-oi1-f177.google.com (mail-oi1-f177.google.com. [209.85.167.177])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-41c976ce5b4sm1210503fac.6.2026.03.24.06.43.49
+        bh=D3UNdFM/2oVC0aBHnMmb6liNAkmGmbywgRrpmh1ChmU=;
+        b=MEwt/ibH+NI5w7lBm+HZVJg2OVQjM5nEfqv8JjvwU+ViWH90iLS5gBpecbQv6CrrQW
+         tMDZqI4VMl7pCP20L8/tbKzLSizXdZRkp54zya1SGCsLRtUHz0KICHmB9yw9BW/c3jjr
+         zfXjT4QXC7VfNgMOmCRaAfrNrCZzrinlwrRDvegSIFtNB7E6mvW9/S+qeJlaAQU6ygNL
+         NdYbYlb3qYaQUEQUb0kzGzdAVjs0zQmnFKJ3y7ZifA3N+tHL5Nf3uk/RL6cmf+sRm86s
+         inToVLVZmvEcXoIaxZsWIkpaFDpVRUXFp23JUFNyxL6zB242thcP7iex6Zp8IaLiPk4k
+         2wKQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU4PTtClUP7hjZicQGdq3ij5ZZFhBHiiggSTRSgmhFDRukan55WcXQfX30R7bNk6D+6S6CdltzL/GW/hcO7JzsyHw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx4vI4A8+FDKXKu+UvPr+4I5LT22Nc1mngPzqc1HujBO5pXs456
+	RG5M49cDNgZJ/a95muYv/iNGQc0YxvwmiSCjrzm1VjCayas4se5t80XQQCPO5aZN2tI=
+X-Gm-Gg: ATEYQzzVc/86x9J6DryXIZlnRCUx0WxB2Ur2i7uQgqeJzLgfpJHCaALburxVymtOk5q
+	NmUE0qQrGyA01CIRoEkcv/PtL7um2X4I8GS/YJg+x0zfLdWcqOt6eBheBtU+vCH0TaUDVoEb/Zn
+	WNmO1Gf/LaKFGNd3DkK3mo8N4WYFN1Q+xl1TF8jzqWBRGUg5h+IRg6FpKwVUvAQJzHU1KLLKHrt
+	1o7WBk/JhbVsBfNmIqLGv1ojyXeV5qw+vq9XMLBjzfGJKbfDgTv1JEHy9EDjJ4Tubf0ZBK+teZR
+	0UdFaLBNVfE4pFoIrYKoiLJG49uRxrItZmJH6GQEu25fkLJoOavx7hgb5BBwUM5FF+OgF4eDzHw
+	It7RDl6aFq08fDrGLqtPSvwvELA/5dvQQEz/R9d1eblhHBMIxZ9PwcTYErqC2ssZxbjHz82tmmW
+	L4HswKGsxK64WSyOErKvvnNcTYNQnY3vxYxKwTkzqV8U3EbsaV+OcXr7450bju
+X-Received: by 2002:a05:6102:3f49:b0:5ff:be25:8934 with SMTP id ada2fe7eead31-602aea92a0bmr6221970137.8.1774359833244;
+        Tue, 24 Mar 2026 06:43:53 -0700 (PDT)
+Received: from mail-ua1-f54.google.com (mail-ua1-f54.google.com. [209.85.222.54])
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-95199278ecdsm1090261241.13.2026.03.24.06.43.52
         for <linux-renesas-soc@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 24 Mar 2026 06:43:49 -0700 (PDT)
-Received: by mail-oi1-f177.google.com with SMTP id 5614622812f47-4671cbce465so597524b6e.3
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 24 Mar 2026 06:43:49 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWAtjENUsAxM9fKO41LFnjQ/nSegDYYnp8A/msyVWoN3xB3xoD/k/iEJJlqTttFmqfcBvrqL8Q61o9QzcgflX2osA==@vger.kernel.org
-X-Received: by 2002:a05:6122:7d2:b0:56b:5893:d042 with SMTP id
- 71dfb90a1353d-56cde498b94mr8236000e0c.12.1774359455206; Tue, 24 Mar 2026
- 06:37:35 -0700 (PDT)
+        Tue, 24 Mar 2026 06:43:52 -0700 (PDT)
+Received: by mail-ua1-f54.google.com with SMTP id a1e0cc1a2514c-950d235b500so1450502241.0
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 24 Mar 2026 06:43:52 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCW/vqXkX0eE7mNwFIoaNzW8OYsPaO4ZoCdnZJCQYesjUCKhgE7w3OZpN7aalb4aCth9+QHO9wjCGwxWzdYS01Ph+A==@vger.kernel.org
+X-Received: by 2002:a05:6102:5812:b0:602:71a7:63c2 with SMTP id
+ ada2fe7eead31-602aecd0de0mr7186355137.23.1774359832015; Tue, 24 Mar 2026
+ 06:43:52 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260319155334.51278-1-john.madieu.xa@bp.renesas.com> <20260319155334.51278-13-john.madieu.xa@bp.renesas.com>
-In-Reply-To: <20260319155334.51278-13-john.madieu.xa@bp.renesas.com>
+References: <20260310184030.3669330-1-cristian.marussi@arm.com>
+ <20260310184030.3669330-9-cristian.marussi@arm.com> <CAMuHMdUdqrA9kYeDpjwj-y6-4aALkAi2g2Od81Kxh-EVW2e2Nw@mail.gmail.com>
+ <abG4VfyB2C-gBa5Q@pluto> <20260312-classy-misty-platypus-5baea1@sudeepholla>
+ <abLrm7x8ggzAhYOg@pluto> <CAMuHMdVWL4rVTPnsMofPKFKCozjCPqF0K95ZFmrdrBD8EUt22A@mail.gmail.com>
+ <abgsW1yoGtMNE3c7@pluto> <CAMuHMdU1Z9NiQOd10zsimMcOfSC=dVYbfjAKKT4aD3Zx9KttVQ@mail.gmail.com>
+In-Reply-To: <CAMuHMdU1Z9NiQOd10zsimMcOfSC=dVYbfjAKKT4aD3Zx9KttVQ@mail.gmail.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 24 Mar 2026 14:37:23 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdW9uvkcU789W+K38qxVTVQbFHGOaBgqNkj7SbTR8WShoA@mail.gmail.com>
-X-Gm-Features: AQROBzBcCn1BnwXSbjTDtD6HtzQVV_AICC4S_yzN7SsVw9iP4uwy2_3tUoSu3Ao
-Message-ID: <CAMuHMdW9uvkcU789W+K38qxVTVQbFHGOaBgqNkj7SbTR8WShoA@mail.gmail.com>
-Subject: Re: [PATCH 12/22] ASoC: rsnd: Update SSI for RZ/G3E support
-To: John Madieu <john.madieu.xa@bp.renesas.com>
-Cc: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, Vinod Koul <vkoul@kernel.org>, 
-	Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Michael Turquette <mturquette@baylibre.com>, 
-	Stephen Boyd <sboyd@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Frank Li <Frank.Li@kernel.org>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Magnus Damm <magnus.damm@gmail.com>, 
-	Thomas Gleixner <tglx@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
-	Biju Das <biju.das.jz@bp.renesas.com>, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
-	John Madieu <john.madieu@gmail.com>, linux-renesas-soc@vger.kernel.org, 
-	linux-clk@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, dmaengine@vger.kernel.org, 
-	linux-sound@vger.kernel.org
+Date: Tue, 24 Mar 2026 14:43:40 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdWm9X5TLaAHgCsMqjFZLvUsDjrf4CqzNiO-Hsr4X9bDtw@mail.gmail.com>
+X-Gm-Features: AQROBzDvNZgLoQvhVJc-PSdP06Iq5zvkWOybQz-6zVMkfKMPvuuu_fBc0vUNAPY
+Message-ID: <CAMuHMdWm9X5TLaAHgCsMqjFZLvUsDjrf4CqzNiO-Hsr4X9bDtw@mail.gmail.com>
+Subject: Re: [PATCH v2 08/13] firmware: arm_scmi: Harden clock protocol initialization
+To: Cristian Marussi <cristian.marussi@arm.com>
+Cc: Sudeep Holla <sudeep.holla@kernel.org>, linux-kernel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, arm-scmi@vger.kernel.org, 
+	linux-clk@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	philip.radford@arm.com, james.quinlan@broadcom.com, f.fainelli@gmail.com, 
+	vincent.guittot@linaro.org, etienne.carriere@foss.st.com, 
+	peng.fan@oss.nxp.com, michal.simek@amd.com, dan.carpenter@linaro.org, 
+	geert+renesas@glider.be, kuninori.morimoto.gx@renesas.com, 
+	marek.vasut+renesas@gmail.com
 Content-Type: text/plain; charset="UTF-8"
 X-Spamd-Result: default: False [0.04 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[renesas.com,kernel.org,baylibre.com,gmail.com,perex.cz,suse.com,pengutronix.de,tuxon.dev,bp.renesas.com,vger.kernel.org];
-	TAGGED_FROM(0.00)[bounces-30171-lists,linux-renesas-soc=lfdr.de];
+	FREEMAIL_CC(0.00)[kernel.org,vger.kernel.org,lists.infradead.org,arm.com,broadcom.com,gmail.com,linaro.org,foss.st.com,oss.nxp.com,amd.com,glider.be,renesas.com];
+	TAGGED_FROM(0.00)[bounces-30172-lists,linux-renesas-soc=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	DMARC_NA(0.00)[linux-m68k.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[27];
+	RCPT_COUNT_TWELVE(0.00)[18];
 	MIME_TRACE(0.00)[0:+];
 	MISSING_XM_UA(0.00)[];
 	FROM_HAS_DN(0.00)[];
@@ -121,127 +118,115 @@ X-Spamd-Result: default: False [0.04 / 15.00];
 	RCVD_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[geert@linux-m68k.org,linux-renesas-soc@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,dt];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
 	R_DKIM_NA(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[linux-m68k.org:email,mail.gmail.com:mid,renesas.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 58146309C3F
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,linux-m68k.org:email,arm.com:email]
+X-Rspamd-Queue-Id: 463A7309C4D
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi John,
+Hi Cristian,
 
-On Thu, 19 Mar 2026 at 16:56, John Madieu <john.madieu.xa@bp.renesas.com> wrote:
-> Add SSI support for the Renesas RZ/G3E SoC, which differs from earlier
-> generations in several ways:
+On Mon, 16 Mar 2026 at 17:35, Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> On Mon, 16 Mar 2026 at 17:14, Cristian Marussi <cristian.marussi@arm.com> wrote:
+> > On Mon, Mar 16, 2026 at 04:50:17PM +0100, Geert Uytterhoeven wrote:
+> > > Then I came up with the following preliminary (have to check more
+> > > firmware versions) quirk (Gmail whitespace-damaged):
+> > >
+> > > diff --git a/drivers/firmware/arm_scmi/clock.c
+> > > b/drivers/firmware/arm_scmi/clock.c
+> > > index f62f9492bd42afbc..6f2af6e9084836c6 100644
+> > > --- a/drivers/firmware/arm_scmi/clock.c
+> > > +++ b/drivers/firmware/arm_scmi/clock.c
+> > > @@ -1230,6 +1230,18 @@ static const struct scmi_protocol_events
+> > > clk_protocol_events = {
+> > >         .num_events = ARRAY_SIZE(clk_events),
+> > >  };
+> > >
+> > > +#define QUIRK_RCAR_X5H_NO_ATTRIBUTES                                   \
+> > > +       ({                                                              \
+> > > +               if (ret == -EREMOTEIO || ret == -EOPNOTSUPP)            \
+> > > +                       continue;                                       \
+> > > +       })
+> > > +
+> > > +#define QUIRK_RCAR_X5H_NO_RATES
+> > >          \
+> > > +       ({                                                              \
+> > > +               if (ret == -EOPNOTSUPP)                                 \
+> > > +                       ret = 0;                                        \
+> > > +       })
+> > > +
+> > >  static int scmi_clock_protocol_init(const struct scmi_protocol_handle *ph)
+> > >  {
+> > >         int clkid, ret;
+> > > @@ -1254,10 +1266,12 @@ static int scmi_clock_protocol_init(const
+> > > struct scmi_protocol_handle *ph)
+> > >         for (clkid = 0; clkid < cinfo->num_clocks; clkid++) {
+> > >                 cinfo->clkds[clkid].id = clkid;
+> > >                 ret = scmi_clock_attributes_get(ph, clkid, cinfo);
+> > > +               SCMI_QUIRK(clock_rcar_x5h_no_attributes,
+> > > QUIRK_RCAR_X5H_NO_ATTRIBUTES);
+> > >                 if (ret)
+> > >                         return ret;
+> > >
+> > >                 ret = scmi_clock_describe_rates_get(ph, clkid, cinfo);
+> > > +               SCMI_QUIRK(clock_rcar_x5h_no_attributes,
+> > > QUIRK_RCAR_X5H_NO_RATES);
+> > >                 if (ret)
+> > >                         return ret;
+> > >         }
 >
->  - The SSI block always operates in BUSIF mode; RZ/G3E does not implement
->    the SSITDR/SSIRDR registers used by R-Car Gen2/Gen3/Gen4 for direct SSI
->    DMA.
->    Consequently, all audio data must pass through BUSIF.
->  - Each SSI instance has its own reset line, exposed using per-SSI names
->    such as "ssi0", "ssi1", etc., rather than a single shared reset.
+> > > Does that look like what you have in mind?
+> > > Thanks!
+> >
+> > Yes in quirk I was only addressing NOT_ATTRIBUTES and mimicing the old
+> > behaviour with continue, BUT if the set of clocks not supporting attributes
+> > and the set of clocks not suppporting rates is disjoint, I feel we need your
+> > double quirks :P
 >
-> To support these differences, update rsnd_ssi_use_busif() to always
-> return 1 on RZ/G3E, ensuring that the driver consistently selects the
-> BUSIF DMA path. Also update the reset acquisition logic to request the
-> appropriate per-SSI reset controller based on the SSI instance name.
+> I could have used
 >
-> Signed-off-by: John Madieu <john.madieu.xa@bp.renesas.com>
+>     SCMI_QUIRK(clock_rcar_x5h_no_attributes, QUIRK_RCAR_X5H_NO_ATTRIBUTES);
+>
+> after both scmi_clock_attributes_get() and
+> scmi_clock_describe_rates_get(), but I wanted to keep the check as
+> strict as possible: the former returns two error codes to ignore,
+> the latter only one.
 
-Thanks for your patch!
+So these are two mitigations:
 
-> --- a/sound/soc/renesas/rcar/ssi.c
-> +++ b/sound/soc/renesas/rcar/ssi.c
-> @@ -123,8 +123,15 @@ int rsnd_ssi_use_busif(struct rsnd_dai_stream *io)
->  {
->         struct rsnd_mod *mod = rsnd_io_to_mod_ssi(io);
->         struct rsnd_ssi *ssi = rsnd_mod_to_ssi(mod);
-> +       struct rsnd_priv *priv = rsnd_mod_to_priv(mod);
->         int use_busif = 0;
->
-> +       /*
-> +        * RZ/G3E does not support PIO mode. Always use BUSIF.
-> +        */
-> +       if (rsnd_flags_has(priv, RSND_SSI_ALWAYS_BUSIF))
-> +               return 1;
-> +
->         if (!rsnd_ssi_is_dma_mode(mod))
->                 return 0;
->
-> @@ -865,6 +872,8 @@ static int rsnd_ssi_common_remove(struct rsnd_mod *mod,
->                 rsnd_flags_del(ssi, RSND_SSI_PROBED);
->         }
->
-> +       rsnd_dma_detach(io, mod, &io->dma);
+    #define QUIRK_RCAR_X5H_NO_ATTRIBUTES    ({ ... })
+    SCMI_QUIRK(clock_rcar_x5h_no_attributes, QUIRK_RCAR_X5H_NO_ATTRIBUTES);
 
-This goes BOOM on R-Car Gen3 and Gen4:
+and
 
-    Unable to handle kernel NULL pointer dereference at virtual
-address 0000000000000004
-    Mem abort info:
-      ESR = 0x0000000096000004
-      EC = 0x25: DABT (current EL), IL = 32 bits
-      SET = 0, FnV = 0
-      EA = 0, S1PTW = 0
-      FSC = 0x04: level 0 translation fault
-    Data abort info:
-      ISV = 0, ISS = 0x00000004, ISS2 = 0x00000000
-      CM = 0, WnR = 0, TnD = 0, TagAccess = 0
-      GCS = 0, Overlay = 0, DirtyBit = 0, Xs = 0
-    [0000000000000004] user address but active_mm is swapper
-    Internal error: Oops: 0000000096000004 [#1]  SMP
-    CPU: 1 UID: 0 PID: 1 Comm: swapper/0 Not tainted
-7.0.0-rc5-arm64-renesas-07233-g377893124b8a #3530 PREEMPT
-    Hardware name: Renesas Gray Hawk Single board based on r8a779h0 (DT)
-    pstate: 60400005 (nZCv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
-    pc : rsnd_dma_detach+0x10/0x20
-    lr : rsnd_ssi_common_remove+0x48/0x74
-    sp : ffff8000818ebac0
-    x29: ffff8000818ebac0 x28: ffff000441c02938 x27: ffff0004408a8410
-    x26: 000000000000000d x25: 0000000000000000 x24: ffff8000817b9970
-    x23: 0000000000000000 x22: 000000000000000c x21: 00000000fffffdfb
-    x20: ffff000441c02938 x19: ffff0004402bc080 x18: 00000000ffffffff
-    x17: ffff000440ba6600 x16: ffff000440ba6a00 x15: ffff8000818eb700
-    x14: 0000000000000000 x13: 0000000000000000 x12: 0000000000000030
-    x11: 0101010101010101 x10: ffff800080fa7670 x9 : 1fffe00088052d21
-    x8 : 0101010101010101 x7 : 7f7f7f7f7f7f7f7f x6 : feff636d746e722d
-    x5 : 000000000000003c x4 : ffff800080a9dcc4 x3 : ffff0004402be800
-    x2 : ffff000441c029b8 x1 : ffff000441c02938 x0 : 0000000000000000
-    Call trace:
-     rsnd_dma_detach+0x10/0x20 (P)
-     rsnd_ssi_common_remove+0x48/0x74
-     rsnd_probe+0x2d0/0x448
-     platform_probe+0x58/0x90
-     really_probe+0xb8/0x294
-     __driver_probe_device+0x74/0x124
-     driver_probe_device+0x3c/0x158
-     __driver_attach+0xe0/0x1b4
-     bus_for_each_dev+0x78/0xd4
-     driver_attach+0x20/0x28
-     bus_add_driver+0xe0/0x1e0
-     driver_register+0x58/0x114
-     __platform_driver_register+0x20/0x28
-     rsnd_driver_init+0x18/0x20
-     do_one_initcall+0x7c/0x184
-     kernel_init_freeable+0x200/0x2e0
-     kernel_init+0x20/0x1cc
-     ret_from_fork+0x10/0x20
-    Code: a9bf7bfd aa0003e1 910003fd f9400040 (b9400402)
-    ---[ end trace 0000000000000000 ]---
+    #define QUIRK_RCAR_X5H_NO_RATES         ({ ... })
+    SCMI_QUIRK(clock_rcar_x5h_no_attributes, QUIRK_RCAR_X5H_NO_RATES);
 
-> +
->         return 0;
->  }
->
+gated by a single quirk entry clock_rcar_x5h_no_attributes:
+
+    DECLARE_SCMI_QUIRK(clock_rcar_x5h_no_attributes);
+    DEFINE_SCMI_QUIRK(clock_rcar_x5h_no_attributes, "Renesas", NULL,
+                      "0x10a0000", "renesas,r8a78000");
+    __DECLARE_SCMI_QUIRK_ENTRY(clock_rcar_x5h_no_attributes),
+
+In general, when a specific SCMI implementation has multiple quirks
+and needs multiple mitigations, do you prefer to have individual
+entries for each quirk plus mitigation, or just a single entry with
+multiple mitigations (which may not be limited to a single protocol,
+unlike my example above)?
+
+Thanks!
+
 
 Gr{oetje,eeting}s,
 
                         Geert
 
--- 
+--
 Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
 In personal conversations with technical people, I call myself a hacker. But
