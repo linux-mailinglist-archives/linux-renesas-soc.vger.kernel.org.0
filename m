@@ -1,187 +1,209 @@
-Return-Path: <linux-renesas-soc+bounces-30225-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-30226-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id ONwPMb7Iw2lKuAQAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-30225-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 25 Mar 2026 12:36:30 +0100
+	id ECQ9KkXJw2lKuAQAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-30226-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 25 Mar 2026 12:38:45 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id D365D323FC9
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 25 Mar 2026 12:36:29 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A4E632403C
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 25 Mar 2026 12:38:45 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 792C0308E88A
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 25 Mar 2026 11:20:58 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 0DD8C30297B4
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 25 Mar 2026 11:27:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 990B83CCFA0;
-	Wed, 25 Mar 2026 11:20:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5E9493CE481;
+	Wed, 25 Mar 2026 11:27:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="pIK+SGib"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Gek2NIF+"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 282673CCFD1
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 25 Mar 2026 11:20:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3174F3AEF29;
+	Wed, 25 Mar 2026 11:27:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774437649; cv=none; b=HNZhc0xkMJx5QjFnQIK1DA966aDVuVMbxeQHK9ShcCNmVLQ8xe8xXeoqMP6W1wItcg4o3NCrIRziaGfQ//YRZwZhaFtCMdfM7JMXBMTVV7J96HVV6qLW+ROHHXj8QobgH9tBDqw2xuKF0NOHzELT4U63BPAt36vaizbvt64b8Xs=
+	t=1774438055; cv=none; b=C23U600qty4xUWJ/4lPG9N9gqp77x0XddSy9UBs3aO7AaDtogtNUDw0WkUWjvnbYCF2FNmCYBFDqak4+BMZsEL2ruen2RLK4BMR9wXki2iEuy0FPpvDmKVVgSn7wk88BSgJfi8PObf6ZgCpv7QbC8UQ6FXArHanHzWNYqA6xYdo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774437649; c=relaxed/simple;
-	bh=O+ThQsahUnk734oWnoBLUJg1oyxuP1qQGEU6Qizf36U=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=tI3RlHrv7Dvs6wuefjDlx3px+k0LW00hvDYtbaBeTiOKhY9cTrWCCERVBPTrHTxCej+M3UkzUGcZHZRmlCNjskKWs/0djMlkvuwyZwKGlrbxUokgGshm1H7Vu+GISmPbJ8TR7jq8+97xfWQ0Pf0S+kkwB9NpHa7mlybJgFo9nvE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=pIK+SGib; arc=none smtp.client-ip=209.85.221.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-439c56e822eso2205262f8f.2
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 25 Mar 2026 04:20:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774437646; x=1775042446; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=0dwTG4J1M8IL8PPbtOF4W3xYh4+M5sfK/wvLd5SnCE8=;
-        b=pIK+SGibUN2f9Z4RPOKgExzsikiDDJZHfhIm9ZIJ3hSf0g7vhVhbv6HqDI9JTaTp5r
-         e5GPk9u3npUZ58+eb7vNS/FzhyzFQ7YacXUNYTs1NUZKm/4ibKkps8CdvtvZc9+fdKyd
-         z7y2cNdKB2XKM5cY61O3DYZ+AxqioV2/ZUuUPlfF0clNUxXFUBfar0+qnhuHUxtuOP5t
-         SiMwQEz1rMjQb0hd6QRWbmPS/R/foy7spDUENzeSx0dyomnWKsKrXTuh+C6S89WSArxF
-         fI/bANCQIDhzUWHOYaJB9wFLVc/E0j4Ooc0Wb9w1v/O/a9kyjSda2tHbibLE2DzSzCS5
-         aIcw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774437646; x=1775042446;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=0dwTG4J1M8IL8PPbtOF4W3xYh4+M5sfK/wvLd5SnCE8=;
-        b=izvFe35YL9jy/qBh68NViWKdfi3GRAMDVaZo8nb5JWMzVrD7DMcmfjcRVvBK0W0aYb
-         jI1JS0Mq4L9cAWpWz11vBwqcUrlTvS7ZFo8cT4Gr7LgLmHnOgQDb4nQC1HZ5E3NNEOVy
-         pSmA5wB5XGkhVyMqDwIYsIKHURUXLkYHcRIQwPM3Xe1cZ4MTIQUTO0lu1PsqfHtfEtdj
-         DLmQO4zTWb0QpAXq5dGQCTGISCfub61FObcB0enEUswn82fWYoyp/eXQZyNCnHl2Cuh4
-         iNEIvrvPMir1W8KGqy9ntkRWBcAcwGKATdV3XugPgwgXMD599/S7kJd+VJC2qxPQjPac
-         WzUA==
-X-Gm-Message-State: AOJu0Yy8CIemQD70xLMsWKxrLT9XNOFNR5JxSq2175gJZPR3C1lrNT8B
-	HbFH+VELGKj931dU+JknlnpvcHnMROEiqlIMw9R9cvBByJbJ0YmhO8q9
-X-Gm-Gg: ATEYQzyGffv0KMCKT3b5fqsSmUjq6QIKzcsNpcR3MEavxLpYIJCJ2/HiVcnckRbsqpy
-	IhsKcvRuiIo8WlGpcqFPV+6ILtI1Ek4EVlQ+NuigDMoj8m3TO3TMT0Y57bR+1jouxkdXukNQtz3
-	3dQzsEsgj122v6f4q5T3jwKySUbc2/94LQkbVHeuUpejf0ujHQYIn4oAjgpA99JWQzn4UBModG6
-	So830S3B1+UarXezCZGzlWFIl0HOXJJXdFJaxiKIEJac1h/MTgFQv9e8PpiaSHY9nixCcY2ztWW
-	HWn+IUZRjI4xCmNiu7PEKtuUeKm0pQcZFj6uYFtUUP0mJG5Tg3J8ZsMB4ZTCKyZpPLBm6F1Fhor
-	DtgTzfIk751c1vNAD/oNlxPa78M7V4Fc39WmVBrEAUBZ0PVJ8RUCQAcTFyqQ/0UtWNGaOKpdrHa
-	3c4Hhd4GrdmlUXiyK/ndVLeVYDQjiPW6MCAmUcbHW99gcoNrp2v6nHBo+bxCOo15YQ4WOmWn5dR
-	TgLs293zpdESMYH+RMJ8YIGW4h9TgnlW80+
-X-Received: by 2002:a05:600c:1e09:b0:487:5c0:671f with SMTP id 5b1f17b1804b1-48715fe711emr53696995e9.9.1774437646297;
-        Wed, 25 Mar 2026 04:20:46 -0700 (PDT)
-Received: from iku.Home ([2a06:5906:61b:2d00:3783:5d64:bc35:885])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-487165ecf00sm20077425e9.5.2026.03.25.04.20.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Mar 2026 04:20:45 -0700 (PDT)
-From: Prabhakar <prabhakar.csengg@gmail.com>
-X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-	Vinod Koul <vkoul@kernel.org>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Pavel Machek <pavel@nabladev.com>
-Cc: linux-renesas-soc@vger.kernel.org,
-	linux-phy@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	Prabhakar <prabhakar.csengg@gmail.com>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v2] phy: renesas: rcar-gen3-usb2: Simplify ID/VBUS detection logic
-Date: Wed, 25 Mar 2026 11:20:39 +0000
-Message-ID: <20260325112039.464992-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.53.0
+	s=arc-20240116; t=1774438055; c=relaxed/simple;
+	bh=aD1JvDIfq0GE0tWPZnEpoteUQl9LKVoUeLp+4KiP+wI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=tPbOX9Xm4rouURHDfzNbuXe8jUZbm0od46RrF8MMGw/151hP+mVAL2d8T98yf3SibIxxky4muJJnMoTUnD4vD2ixo+ChdIGHh/XHjFq9sCAbbJpulTGS7+s2CPiIrU5h2u4Un8hpo6MT355a10WUXCu8Fh9PYPXdvyEtf0mNekY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Gek2NIF+; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7CE08C4CEF7;
+	Wed, 25 Mar 2026 11:27:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774438055;
+	bh=aD1JvDIfq0GE0tWPZnEpoteUQl9LKVoUeLp+4KiP+wI=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=Gek2NIF+50ZmqIFXo3Abwewv4G7+nnsW9VSMv0MJSvCqE0QYQCxE0tBmFgJRBRECp
+	 Gcc7YZXcn6ZVjnnOFNPWxF9MXqXyhFMV2/rtAU9seEjQdh1t6qZiZ0is2C0JPXPhBn
+	 2cYzSNQ+wv0QUFUGa/aTz2gJSJZJA4ed1dMrx9K6NARl0UOWe3qrF1pRaeGcjSPDkw
+	 D4ktPFXCkzERe/9x5RNai4KmjZT+sqqQPICvXI7s+TI3/NID3cRU0cs8f4vrDqo6yN
+	 THmNV9Nu9oWReHHUKBYPcvAflG6BahJmiGo3mGEaRVmOB4tsJAqcsgQbvaJ4aWQ8Xg
+	 08DYkx/Hy2gVA==
+Message-ID: <3ec53a2e-a8e1-43d3-abdb-c00433e7675c@kernel.org>
+Date: Wed, 25 Mar 2026 12:27:13 +0100
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 5/9] arm: configs: remove obsolete assignments to
+ SND_SOC_ROCKCHIP
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Alexandre Gonzalo <alexandre.gonzalo@arm.com>,
+ linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-alpha@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-omap@vger.kernel.org, loongarch@lists.linux.dev,
+ linux-mips@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
+ linux-sh@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+ linux-samsung-soc@vger.kernel.org, imx@lists.linux.dev,
+ linux-renesas-soc@vger.kernel.org, linux-parisc@vger.kernel.org,
+ openbmc@lists.ozlabs.org, Nathan Chancellor <nathan@kernel.org>,
+ Nicolas Schier <nsc@kernel.org>, Mikko Rapeli <mikko.rapeli@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Matt Turner <mattst88@gmail.com>, Magnus Lindholm <linmag7@gmail.com>,
+ Russell King <linux@armlinux.org.uk>, Aaro Koskinen <aaro.koskinen@iki.fi>,
+ Andreas Kemnade <andreas@kemnade.info>, Kevin Hilman <khilman@baylibre.com>,
+ Roger Quadros <rogerq@kernel.org>, Tony Lindgren <tony@atomide.com>,
+ Huacai Chen <chenhuacai@kernel.org>, WANG Xuerui <kernel@xen0n.name>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Madhavan Srinivasan <maddy@linux.ibm.com>,
+ Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
+ "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
+ Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
+ Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
+ Alexander Gordeev <agordeev@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Sven Schnelle <svens@linux.ibm.com>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>, Rich Felker <dalias@libc.org>,
+ John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+ Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+ Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
+ x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
+ Pablo Neira Ayuso <pablo@netfilter.org>,
+ Alim Akhtar <alim.akhtar@samsung.com>, Frank Li <Frank.Li@nxp.com>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, Vladimir Zapolskiy <vz@mleia.com>,
+ Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>,
+ Liviu Dudau <liviu.dudau@arm.com>, Sudeep Holla <sudeep.holla@kernel.org>,
+ Lorenzo Pieralisi <lpieralisi@kernel.org>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Magnus Damm <magnus.damm@gmail.com>,
+ Vladimir Kondratiev <vladimir.kondratiev@mobileye.com>,
+ Gregory CLEMENT <gregory.clement@bootlin.com>,
+ =?UTF-8?Q?Th=C3=A9o_Lebrun?= <theo.lebrun@bootlin.com>,
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+ Helge Deller <deller@gmx.de>, Janusz Krzysztofik <jmkrzyszt@gmail.com>,
+ =?UTF-8?Q?Jonathan_Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
+ Chris Zankel <chris@zankel.net>, Max Filippov <jcmvbkbc@gmail.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Arnd Bergmann <arnd@arndb.de>,
+ Heiko Stuebner <heiko@sntech.de>,
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+ Mark Brown <broonie@kernel.org>, Eric Biggers <ebiggers@kernel.org>,
+ Ard Biesheuvel <ardb@kernel.org>,
+ Sricharan Ramabadhran <quic_srichara@quicinc.com>,
+ Bjorn Andersson <andersson@kernel.org>, Michael Walle <mwalle@kernel.org>,
+ Guenter Roeck <linux@roeck-us.net>,
+ Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
+ "Rob Herring (Arm)" <robh@kernel.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Anna Schumaker <anna.schumaker@oracle.com>, soc@lists.linux.dev
+References: <20260317-arm_defconf_cleanup-v1-0-8eecb7fdd24d@kernel.org>
+ <20260317-arm_defconf_cleanup-v1-5-8eecb7fdd24d@kernel.org>
+ <febd0f7e-59f3-4ba4-8706-53c7353e3fe5@kernel.org>
+From: "Vincent Mailhol (Arm)" <mailhol@kernel.org>
+Content-Language: en-US
+In-Reply-To: <febd0f7e-59f3-4ba4-8706-53c7353e3fe5@kernel.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-0.16 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-30225-lists,linux-renesas-soc=lfdr.de];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	RCPT_COUNT_TWELVE(0.00)[13];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,lists.infradead.org,gmail.com,bp.renesas.com,renesas.com];
-	FREEMAIL_TO(0.00)[renesas.com,kernel.org,linaro.org,glider.be,gmail.com,nabladev.com];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[prabhakarcsengg@gmail.com,linux-renesas-soc@vger.kernel.org];
+	FREEMAIL_CC(0.00)[arm.com,vger.kernel.org,lists.infradead.org,lists.linux.dev,lists.ozlabs.org,kernel.org,linaro.org,gmail.com,armlinux.org.uk,iki.fi,kemnade.info,baylibre.com,atomide.com,xen0n.name,alpha.franken.de,linux.ibm.com,ellerman.id.au,dabbelt.com,eecs.berkeley.edu,ghiti.fr,users.sourceforge.jp,libc.org,physik.fu-berlin.de,redhat.com,alien8.de,linux.intel.com,zytor.com,linutronix.de,goodmis.org,netfilter.org,samsung.com,nxp.com,pengutronix.de,mleia.com,timesys.com,glider.be,mobileye.com,bootlin.com,HansenPartnership.com,gmx.de,gmx.net,zankel.net,suse.de,arndb.de,sntech.de,renesas.com,quicinc.com,roeck-us.net,oss.qualcomm.com,linuxfoundation.org,oracle.com];
+	TAGGED_FROM(0.00)[bounces-30226-lists,linux-renesas-soc=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	RCVD_COUNT_FIVE(0.00)[5];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
+	RCVD_COUNT_THREE(0.00)[4];
+	RCVD_TLS_LAST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	TO_DN_SOME(0.00)[];
+	RCPT_COUNT_GT_50(0.00)[98];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[mailhol@kernel.org,linux-renesas-soc@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
+	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,nabladev.com:email,renesas.com:email,bp.renesas.com:mid]
-X-Rspamd-Queue-Id: D365D323FC9
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,linux.dev:email]
+X-Rspamd-Queue-Id: 4A4E632403C
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
++CC: soc@lists.linux.dev
 
-Read USB2_ADPCTRL once in rcar_gen3_check_id() instead of issuing
-multiple MMIO reads, and derive both IDDIG and VBUSVALID from the same
-value.
+On 3/17/26 12:28, Krzysztof Kozlowski wrote:
+> On 17/03/2026 10:13, Vincent Mailhol (Arm) wrote:
+>> CONFIG_SND_SOC_ROCKCHIP was removed in commit cae3cc435db5 ("ASoC:
+>> rockchip: Standardize ASoC menu"). However it is still referenced in
+>> some defconfigs.
+>>
+>> Remove any references to CONFIG_SND_SOC_ROCKCHIP.
+>>
+>> FYI, the suppressions were done using:
+>>
+>>   git ls-files -z 'arch/*/configs/*defconfig' |\
+>>     xargs -0 sed -i -E '/^CONFIG_SND_SOC_ROCKCHIP/d'
+>>
+>> Fixes: cae3cc435db5 ("ASoC: rockchip: Standardize ASoC menu")
+>> Signed-off-by: Vincent Mailhol (Arm) <mailhol@kernel.org>
+>> ---
+>>  arch/arm/configs/multi_v7_defconfig | 1 -
+>>  arch/arm64/configs/defconfig        | 1 -
+> 
+> This was already posted:
+> https://lore.kernel.org/all/20260313-rockchip-snd-cleanup-v1-1-77d9a953fd1b@schnwalter.eu/
+> but just like that patch you did not send it to soc@ (if I am not
+> mistaken... CC list is enormous).
 
-Drop the redundant !! operator, as assigning a masked u32 value to a
-bool already performs the required normalization. Simplify the logic by
-comparing the ID and VBUS status directly, which is equivalent to the
-previous conditional but easier to follow.
+OK, I will add soc@lists.linux.dev to the recipient list in v2.
 
-Reported-by: Pavel Machek <pavel@nabladev.com>
-Closes: https://lore.kernel.org/all/acJVCOdlchLiSe5n@duo.ucw.cz/
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
----
-v1->v2:
-- Rebased on top of latest next-20260324
-- Combined variable declarations and assignments and dropped
-  redundant !! operator
-- Updated commit message
-- Corrected the link for closes tag
----
- drivers/phy/renesas/phy-rcar-gen3-usb2.c | 10 ++++------
- 1 file changed, 4 insertions(+), 6 deletions(-)
+> I think you are mixing here independent works, like kconfig and per-arch
+> defconfig changes. Please split these per arch defconfig maintainers -
+> patches and patchset, so you won't be Cc-ing 50 addresses.
 
-diff --git a/drivers/phy/renesas/phy-rcar-gen3-usb2.c b/drivers/phy/renesas/phy-rcar-gen3-usb2.c
-index 79e820e2fe55..9a45d840efeb 100644
---- a/drivers/phy/renesas/phy-rcar-gen3-usb2.c
-+++ b/drivers/phy/renesas/phy-rcar-gen3-usb2.c
-@@ -314,13 +314,11 @@ static void rcar_gen3_init_from_a_peri_to_a_host(struct rcar_gen3_chan *ch)
- static bool rcar_gen3_check_id(struct rcar_gen3_chan *ch)
- {
- 	if (ch->phy_data->vblvl_ctrl) {
--		bool vbus_valid;
--		bool device;
-+		u32 val = readl(ch->base + USB2_ADPCTRL);
-+		bool vbus_valid = val & USB2_ADPCTRL_VBUSVALID;
-+		bool device = val & USB2_ADPCTRL_IDDIG;
- 
--		device = !!(readl(ch->base + USB2_ADPCTRL) & USB2_ADPCTRL_IDDIG);
--		vbus_valid = !!(readl(ch->base + USB2_ADPCTRL) & USB2_ADPCTRL_VBUSVALID);
--
--		return vbus_valid ? device : !device;
-+		return device == vbus_valid;
- 	}
- 
- 	if (!ch->uses_otg_pins)
--- 
-2.53.0
+The config issues which I am addressing are transversal problems so I
+was expecting to just get the Acked-by from the other architecture and
+have all this go through the same tree.
+
+As I explained in my cover letter, this is not doing any functional changes.
+
+But if this is not acceptable, I will just reduce the scope to arm/arm64
+then. Doing a per arch split as you suggested would be too much overhead
+(more than what I am ready to invest on this clean-up).
+
+
+Yours sincerely,
+Vincent Mailhol
 
 
