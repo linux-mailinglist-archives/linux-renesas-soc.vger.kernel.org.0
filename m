@@ -1,81 +1,81 @@
-Return-Path: <linux-renesas-soc+bounces-30287-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-30288-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id kF9yAnU3xGnkxQQAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-30287-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 25 Mar 2026 20:28:53 +0100
+	id qEDXJn03xGnkxQQAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-30288-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 25 Mar 2026 20:29:01 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E47332B417
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 25 Mar 2026 20:28:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E009E32B427
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 25 Mar 2026 20:29:00 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 39A38305D23A
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 25 Mar 2026 19:26:11 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 68F2730612AC
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 25 Mar 2026 19:26:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BAE4B408223;
-	Wed, 25 Mar 2026 19:25:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5DEFA40B6D9;
+	Wed, 25 Mar 2026 19:25:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MkOpeWiG"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UD3cB45P"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD3A2401A21
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 25 Mar 2026 19:25:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 654964035BC
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 25 Mar 2026 19:25:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774466710; cv=none; b=a7amFPXBOeJudHO6gXoZ2nvWFRSeScwOUT4OJrTOOO9fGWTwGeo4YLsM6ROA0WRRvVtCS7nTdlR1SeI3DtNe9yJz5qlX0j3+3Zpu1cbmPOOIfz6ozrFZMTLWDRL7eW7xCTd9vnou7Wtr4ZVvQKn2T8IwYn1i+lnMkLbwhWtnYYA=
+	t=1774466711; cv=none; b=sZ1vjxHPNZ/h9oDfhp7PA1LKUgHD4nGYY01CCMAc2QG9qX5znH/EHrL6hgfRNVJjQJCIrHHay0vccymoikAoqEFhqHDKMmdEWMgWu0+QOoJsfv5B9kE9UCZaSvd8RH7o6Kzm0FF+265xoj+X6VffwGec3+tkaFA5TPRL+bhgz+4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774466710; c=relaxed/simple;
-	bh=dsW5m/DnC+sovXDLhObHDgqNfbTWBZrXn483vlT4bWo=;
+	s=arc-20240116; t=1774466711; c=relaxed/simple;
+	bh=IkxdVFlOCAP/hZFHt0uM7rCw0sIXbatY/GEyg6Ym4iI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=WBJTkrX8MCSnqW5XNXlJtBE5ArBQEdKEr1IA3fZlFTD4ApOGLryPJlXCvUo1AUMyhVrxzNyIzmEzpBsXIf8MmvFoL+UOiJgH5EJ3/+w35eZyPYgb/dm4UqvJpu7R2pNatN8j9HFw2ijP7BHLdxypf7ip8tybQaP1hsinT71FnXs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MkOpeWiG; arc=none smtp.client-ip=209.85.221.41
+	 MIME-Version; b=GTDLJRopyhSgflpXn2stI/r04j6helquJxiHdZl50trFF0KnAPYfYdKx8B+KTiH7kModU/BxMFBAcsK7QGIVF4oe4s+hpU1wklEfzXY/Q445qpZ/dOUnmafvCHpCNEuTpUdLsUuF24XVu0I2+InGB4EVK5Vb6LOz3JSRUmXz3m0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UD3cB45P; arc=none smtp.client-ip=209.85.221.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-43b7481f9d3so89208f8f.3
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 25 Mar 2026 12:25:08 -0700 (PDT)
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-43a03cb1df9so138502f8f.1
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 25 Mar 2026 12:25:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774466707; x=1775071507; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1774466708; x=1775071508; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Qb++ewnJyJ45pXXOaXG+zeHzFHUXt13TUkOk/iIgvLY=;
-        b=MkOpeWiGpDL1KWwHEN2Kf2S9XeAgW783g3NdNF5S4eju0pCzhCPY7Z4k4+VEG45upA
-         X/8Hqm7TXcGX09MdSJ4f3FtmtUTOhxbKuHsS7YNQ9YhZWhg7yQzP3S/XBytUiovi/ref
-         mXaYG5WTz35/WMVzWSoicxnmHxAiMu6Dv/o2hlcupvHkih32RWa6WVguInuCB3ElfSJM
-         oUiLwlkiXYhUO1vZEQOIrkY5rl8xY2Bl0SNbthcoF4TJ4jHSErBrfsOYKMrocyCJAiJU
-         C2sZjrzEPlLpp5AYzk3fuMrB+P5CvC7fXs/wOylcEw3lJpp5Uveex8BHBQyEqcd27JgH
-         AzOw==
+        bh=IlUdYHL4ApiPu1iv8AhDNiJZOVECgksheHgilyW3k8k=;
+        b=UD3cB45PMXlRjRhquijsG5qmLsND601sklaE/z00ojc8R2d3dEsvzK0OzfY+YmKXAn
+         x1sNV6ZXtv1S+nAXXlV+QwMmi8A2AXy2MltT0GLX810YatqUv/JCy/nEfF83gIgj5Wqu
+         9H6WIs1OOf6YT7WOSRq2sgCeTG4lyGVrpxSQ4UOXo0f7ULl0OYBYw5GCfl5kxXPDJ2bL
+         TMKzEJkchLijFLqXkHcJbPVmrgeGkKCCabCERM2P0bKpfrTBR+a0zTBtS7JBxzpcJeJ/
+         QcpsonZmSge7vvoK9dZPLGqFLCetMtHMMYeR9zXvRWaRwWroMLIVe8w0oExxKQwqSKfO
+         Ev8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774466707; x=1775071507;
+        d=1e100.net; s=20251104; t=1774466708; x=1775071508;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=Qb++ewnJyJ45pXXOaXG+zeHzFHUXt13TUkOk/iIgvLY=;
-        b=Lnvcd4nje3wCpuB2byrqu313kT8bEMRiv1kjkxrZRLrQRlZHCHk/9Ved7uOvVJWDMb
-         eI7eMbd1dKE5IQL9RgvOGHwrIgaK6YjOrWEVtnNSkMg6v7FlbOKMeM8PWnINCiMZyaGS
-         U3mU6gGt3dYHT9QGuBdT5niw/H6oYnfyj+uj/Cqu+g7SyaRdBManhwvySXMhMehNBYck
-         r8rM8+JZjPeauQ/bmIV0OneN9lhasl05HjrrmvuX+zTg+ag4eUtXSQpLFT2QeIKm4/hv
-         2lYLSCvkK1Kuqy+r0vq166jXUD2U8J0zGJRly7KlVYMRzvB/3Y/KbAqGQqYOrg6MQDLZ
-         0TNg==
-X-Forwarded-Encrypted: i=1; AJvYcCVy4sSLxa7JfIlRDb0li2uAhPa/wl45UnyCSMfeWO2CfeUGS3Gqt9eRMqmpk3LpkaF3ogk/nHAaov3/F3FUcHHUAg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyMM2eOcQpd3q5gF4BFL4kGyEyDKSXEhf2A2zHag/LZYh3npDbf
-	Ah64qb0FlHZUVXfZPf9YlHPx46crvBAtAxoknIx+VoKn2JD26A/SBVob
-X-Gm-Gg: ATEYQzzCGeo4hqpBrxPasWQmhgNe8nJqGr04Yq0eo7lZ7VbtT1ohkuuvZSdlW/aCps6
-	wA9qFddWzsmnO1KXRxmLAMSHtXNqfw4CAsWZKgpxAO0XS8+L47c0ieurDUSm3FIzA5AG8hFaXBO
-	U+t2m6tG+0em9vVQpxIETuSttQvE86ltjnHE+oVj44zdI5ZExGoZ+ayne3VaSYQKKZLJrhEbRTu
-	/KgX1GXIZQQ7Dp6fiVWlv0AqvwXbsS1h44EQOC+S7Jhh5eeQkf4gVDS1Yk/Y8Fs0IrvByAjT7Tp
-	+dGkztbvwBEN4YdXg9suxHIV1VnrB2zymNh2kXqJeSnf3fU66OBvhJmuJN/x1MMHw/alWYFXuyP
-	khn5FRQNg4uJDGmMja859gll8aJq6kl+BFpvuTFsb9OEsU+U4v1z4od1NxEag810oosYXTRm3V4
-	jNcmdT5Ff58jVCop8/EjUIXHvODBI2m868844syEt0jwdEMTMSVNCAmu9+Q3w=
-X-Received: by 2002:a05:6000:4025:b0:43b:86ce:279e with SMTP id ffacd0b85a97d-43b88a411bcmr7588810f8f.44.1774466707106;
+        bh=IlUdYHL4ApiPu1iv8AhDNiJZOVECgksheHgilyW3k8k=;
+        b=SMC5qbRuLDtNjif5Kju7dC/yZGjy5CzRaqPIMFuj8dihm4wmsgn+mTfD3CI78+n8UP
+         XAeStreefSXCTD8OAWvBuWpcXlmi9TNGTmnBSfy3JapE8DWqO030ydsxChYph4uS9i61
+         q1mFY5ocwPtbstv1p+vvrDDiuvPW8/y4x/Lr09wMQIcMuG9Sx2LeQiu3jvSN73IAmXee
+         HXOZ4mbvsa6VmdiZ0R7QKvsFeVPGBcIvyJLeBf4QGeYMwkZDsdlbUoBtVdOhV51LfIy9
+         kgpsNSFOGa2lPyDT9GELzK0L0mBPPm33ObVUPR4nwpwDeWYJrnJpRGoJqrB9rYApXx/c
+         q6hA==
+X-Forwarded-Encrypted: i=1; AJvYcCWAYEksVEVt+/R+QABfbLna+VaQzdey2n9mXJKMEXBjXnm0PijHUDUXiAfdB7O3M6wCacbFAy+VYSav6QGKGkdhrg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz9jTkE+HVgm6FS5sl/wcR6K7EvLTxevoMsn5Y4iDJEAK9PPUsJ
+	TFolENEnPun7bcAh+zqUc8KT0bWBANqcNgi97uX8hcrLIhUm3cjAVKdighbxhg==
+X-Gm-Gg: ATEYQzxrUyFZ5oLYTiXLfb+I/BX/A2uvIym7niGrBgfRWc5Lrm0D+1nf++rUjcgedRk
+	mijrQCYcHcvdV9H8PXm75aSCHO1uFWWoINLtwamcMgZ6kIklJe29JgfD6Km6ktJbmDR/OBXHbRk
+	jFFVp7u0DEcLicuLHXrgOZRAnelW23TaoS4hYbsZA4YjDWw3GrrVUlrSM55QI/ZBxiqPfgN2dqo
+	Tc0qq+kHdF1BmRQ8Q5r6Js7lxMpajzw45/Vo1QjA5e8Su57QrQbh9OR9J6OPhS3W9ngtvwho2ev
+	jtBcGJsJncoqpwQqLnW6OuTEeB6kteojzi8tNsc5lsdulSOS+3K6eivcmToo8JW6CEKwGKie9Qu
+	ZMZviq9BJ5tU5IbzpQA7EMRUj7n7bVkRSHEU33ClFBjn3jshflS010N3a3kVKLaZlK4zGkm4wwR
+	BVTz8mvPKyMwAttt571yPobOHqMpX5p0HaBfPTQdsIE2hVJ6md
+X-Received: by 2002:a05:6000:2dc7:b0:43b:4e01:4abe with SMTP id ffacd0b85a97d-43b88a21586mr7174531f8f.11.1774466707731;
         Wed, 25 Mar 2026 12:25:07 -0700 (PDT)
 Received: from localhost.localdomain ([2a00:23c4:a758:8a01:8138:17e4:88b1:468c])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43b9192e533sm2464485f8f.2.2026.03.25.12.25.06
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43b9192e533sm2464485f8f.2.2026.03.25.12.25.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Mar 2026 12:25:06 -0700 (PDT)
+        Wed, 25 Mar 2026 12:25:07 -0700 (PDT)
 From: Biju <biju.das.au@gmail.com>
 X-Google-Original-From: Biju <biju.das.jz@bp.renesas.com>
 To: Thomas Gleixner <tglx@kernel.org>
@@ -85,9 +85,9 @@ Cc: Biju Das <biju.das.jz@bp.renesas.com>,
 	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
 	Biju Das <biju.das.au@gmail.com>,
 	linux-renesas-soc@vger.kernel.org
-Subject: [PATCH v7 15/16] irqchip/renesas-rzg2l: Add RZ/G3L support
-Date: Wed, 25 Mar 2026 19:24:30 +0000
-Message-ID: <20260325192451.172562-16-biju.das.jz@bp.renesas.com>
+Subject: [PATCH v7 16/16] irqchip/renesas-rzg2l: Add shared interrupt support
+Date: Wed, 25 Mar 2026 19:24:31 +0000
+Message-ID: <20260325192451.172562-17-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260325192451.172562-1-biju.das.jz@bp.renesas.com>
 References: <20260325192451.172562-1-biju.das.jz@bp.renesas.com>
@@ -108,7 +108,7 @@ X-Spamd-Result: default: False [-1.66 / 15.00];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-30287-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-30288-lists,linux-renesas-soc=lfdr.de];
 	RCVD_COUNT_FIVE(0.00)[5];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
@@ -125,145 +125,288 @@ X-Spamd-Result: default: False [-1.66 / 15.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
 	FROM_HAS_DN(0.00)[]
-X-Rspamd-Queue-Id: 4E47332B417
+X-Rspamd-Queue-Id: E009E32B427
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
 From: Biju Das <biju.das.jz@bp.renesas.com>
 
-The IRQC block on the RZ/G3L SoC is almost identical to the one found on
-the RZ/G2L SoC, with the following differences:
+The RZ/G3L SoC has 16 external interrupts, of which 8 are shared with
+TINT (GPIO interrupts), whereas RZ/G2L has only 8 external interrupts
+with no sharing. The shared interrupt line selection between external
+interrupt and GPIO interrupt is based on the INTTSEL register. Add
+shared_irq_cnt variable to struct rzg2l_hw_info handle these differences.
 
- - The number of GPIO interrupts for TINT selection is 113 instead of 123.
- - The pin index and TINT selection index are not in the 1:1 map.
- - The number of external interrupts are 16 instead of 8, out of these
-   8 external interrupts are shared with TINT.
-
-Add support for the RZ/G3L driver by filling the rzg2l_hw_info table and
-adding LUT for mapping between pin index and TINT selection index.
+Add used_irqs bitmap to struct rzg2l_irqc_priv to track allocation state.
+In the alloc callback, use test_and_set_bit() to enforce mutual exclusion
+and configure the INTTSEL register to route to either the external
+interrupt or TINT. In the free callback, use test_and_clear_bit() to
+release the shared interrupt line and reset the INTTSEL. Also add INTTSEL
+register save/restore support to the suspend/resume path.
 
 Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 ---
 v6->v7:
- * Replaced variable type of iitseln, sense, tmp in rzg2l_irq_set_type()
-   to unsigned int.
+ * Replaced rzg2l_irq_*and_get_irq_num()->rzg2l_irqc_*and_get_irq_num().
+ * Replaced raw_spinlock->raw_spinlock_irqsave in rzg2l_irqc_set_inttsel()
+   to avoid possible dead lock with the consumer driver probe and eoi
+   handler executing on the same cpu.
+ * Updated error handling paths in rzg2l_irqc_alloc()
+ * Added missing colon reported by the bot for 'struct member 'used_irqs'
+   not described in 'rzg2l_irqc_priv'.
 v5->v6:
- * No change.
+ * Updated commit description.
+ * Switched to using irq_domain_ops::{alloc,free} callbacks for mutual
+   exclusion between external interrupts and GPIO interrupts as using
+   irq_{request,release}_resources() leading to irq storm()
+ * Dropped irq_{request,release}_resources().
+ * Replaced the macro TINTSEL->INTTSEL_TINTSEL
+ * Added macros INTTSEL_TINTSEL_START, IRQC_SHARED_IRQ_COUNT and
+   IRQC_IRQ_SHARED_START.
+ * Added used_irqs bitmap to struct rzg2l_irqc_priv to track allocation
+   state of shared_interrupt
+ * Added rzg2l_irqc_set_inttsel() for configuring INTTSEL register.
+ * Replaced irq_domain_free_irqs_common()->rzg2l_irqc_free() as 
+   rzg2l_irqc_domain_ops::free() callback.
+ * Replaced the 8->IRQC_SHARED_IRQ_COUNT in shared_irq_cnt varaible as
+   the same macro used in bitmap.
 v4->v5:
- * Updated rzg3l_irqc_probe() for supporting separate interrupt chips.
+ * Added callback irq_{request,release}_resources() to both irq and tint
+   interrupt chips.
 v3->v4:
+ * Updated commit header irq->interrupt.
  * Updated commit description IRQs->interrupts.
- * Updated rzg2l_disable_tint_and_set_tint_source() for making
-   tint assignment very clear in the code.
- * Formatted rzg3l_tssel_lut as table format.
+ * Updated shared_irq_cnt variable type from u8->unsigned int.
 v2->v3:
  * No change
 v1->v2:
  * No change
 ---
- drivers/irqchip/irq-renesas-rzg2l.c | 48 +++++++++++++++++++++++++++--
- 1 file changed, 46 insertions(+), 2 deletions(-)
+ drivers/irqchip/irq-renesas-rzg2l.c | 118 +++++++++++++++++++++++++++-
+ 1 file changed, 115 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/irqchip/irq-renesas-rzg2l.c b/drivers/irqchip/irq-renesas-rzg2l.c
-index 171717a4805f..c885beaa666c 100644
+index c885beaa666c..fef4b3036926 100644
 --- a/drivers/irqchip/irq-renesas-rzg2l.c
 +++ b/drivers/irqchip/irq-renesas-rzg2l.c
-@@ -67,11 +67,13 @@ struct rzg2l_irqc_reg_cache {
+@@ -22,6 +22,8 @@
+ 
+ #define IRQC_IRQ_START			1
+ #define IRQC_TINT_COUNT			32
++#define IRQC_SHARED_IRQ_COUNT		8
++#define IRQC_IRQ_SHARED_START		(IRQC_IRQ_START + IRQC_SHARED_IRQ_COUNT)
+ 
+ #define ISCR				0x10
+ #define IITSR				0x14
+@@ -29,6 +31,7 @@
+ #define TITSR(n)			(0x24 + (n) * 4)
+ #define TITSR0_MAX_INT			16
+ #define TITSEL_WIDTH			0x2
++#define INTTSEL				0x2c
+ #define TSSR(n)				(0x30 + ((n) * 4))
+ #define TIEN				BIT(7)
+ #define TSSEL_SHIFT(n)			(8 * (n))
+@@ -52,16 +55,21 @@
+ #define IITSR_IITSEL_EDGE_BOTH		3
+ #define IITSR_IITSEL_MASK(n)		IITSR_IITSEL((n), 3)
+ 
++#define INTTSEL_TINTSEL(n)		BIT(n)
++#define INTTSEL_TINTSEL_START		24
++
+ #define TINT_EXTRACT_HWIRQ(x)		FIELD_GET(GENMASK(15, 0), (x))
+ #define TINT_EXTRACT_GPIOINT(x)		FIELD_GET(GENMASK(31, 16), (x))
  
  /**
-  * struct rzg2l_hw_info - Interrupt Control Unit controller hardware info structure.
-+ * @tssel_lut:		TINT lookup table
+  * struct rzg2l_irqc_reg_cache - registers cache (necessary for suspend/resume)
+  * @iitsr: IITSR register
++ * @inttsel: INTTSEL register
+  * @titsr: TITSR registers
+  */
+ struct rzg2l_irqc_reg_cache {
+ 	u32	iitsr;
++	u32	inttsel;
+ 	u32	titsr[2];
+ };
+ 
+@@ -71,12 +79,14 @@ struct rzg2l_irqc_reg_cache {
   * @irq_count:		Number of IRQC interrupts
   * @tint_start:		Start of TINT interrupts
   * @num_irq:		Total Number of interrupts
++ * @shared_irq_cnt:	Number of shared interrupts
   */
  struct rzg2l_hw_info {
-+	const u8	*tssel_lut;
+ 	const u8	*tssel_lut;
  	unsigned int	irq_count;
  	unsigned int	tint_start;
  	unsigned int	num_irq;
-@@ -331,9 +333,9 @@ static int rzg2l_irq_set_type(struct irq_data *d, unsigned int type)
- {
- 	struct rzg2l_irqc_priv *priv = irq_data_to_priv(d);
- 	unsigned int hwirq = irqd_to_hwirq(d);
--	u32 iitseln = hwirq - IRQC_IRQ_START;
-+	unsigned int iitseln = hwirq - IRQC_IRQ_START;
- 	bool clear_irq_int = false;
--	u16 sense, tmp;
-+	unsigned int sense, tmp;
++	unsigned int	shared_irq_cnt;
+ };
  
- 	switch (type & IRQ_TYPE_SENSE_MASK) {
- 	case IRQ_TYPE_LEVEL_LOW:
-@@ -377,6 +379,11 @@ static u32 rzg2l_disable_tint_and_set_tint_source(struct irq_data *d, struct rzg
- 	u32 tint = (u32)(uintptr_t)irq_data_get_irq_chip_data(d);
- 	u32 tien = reg & (TIEN << TSSEL_SHIFT(tssr_offset));
+ /**
+@@ -88,6 +98,7 @@ struct rzg2l_hw_info {
+  * @lock:	Lock to serialize access to hardware registers
+  * @info:	Hardware specific data
+  * @cache:	Registers cache for suspend/resume
++ * @used_irqs:	Bitmap to manage the shared interrupts
+  */
+ static struct rzg2l_irqc_priv {
+ 	void __iomem			*base;
+@@ -97,6 +108,7 @@ static struct rzg2l_irqc_priv {
+ 	raw_spinlock_t			lock;
+ 	struct rzg2l_hw_info		info;
+ 	struct rzg2l_irqc_reg_cache	cache;
++	DECLARE_BITMAP(used_irqs, IRQC_SHARED_IRQ_COUNT);
+ } *rzg2l_irqc_data;
  
-+	if (priv->info.tssel_lut)
-+		tint = priv->info.tssel_lut[tint];
-+	else
-+		tint = (u32)(uintptr_t)irq_data_get_irq_chip_data(d);
-+
- 	/* Clear the relevant byte in reg */
- 	reg &= ~(TSSEL_MASK << TSSEL_SHIFT(tssr_offset));
- 	/* Set TINT and leave TIEN clear */
-@@ -683,6 +690,36 @@ static int rzg2l_irqc_common_probe(struct platform_device *pdev, struct device_n
- 	return 0;
+ static struct rzg2l_irqc_priv *irq_data_to_priv(struct irq_data *data)
+@@ -464,6 +476,8 @@ static int rzg2l_irqc_irq_suspend(void *data)
+ 	void __iomem *base = rzg2l_irqc_data->base;
+ 
+ 	cache->iitsr = readl_relaxed(base + IITSR);
++	if (rzg2l_irqc_data->info.shared_irq_cnt)
++		cache->inttsel = readl_relaxed(base + INTTSEL);
+ 	for (u8 i = 0; i < 2; i++)
+ 		cache->titsr[i] = readl_relaxed(base + TITSR(i));
+ 
+@@ -482,6 +496,8 @@ static void rzg2l_irqc_irq_resume(void *data)
+ 	 */
+ 	for (u8 i = 0; i < 2; i++)
+ 		writel_relaxed(cache->titsr[i], base + TITSR(i));
++	if (rzg2l_irqc_data->info.shared_irq_cnt)
++		writel_relaxed(cache->inttsel, base + INTTSEL);
+ 	writel_relaxed(cache->iitsr, base + IITSR);
  }
  
-+/* Mapping based on port index on Table 4.2-1 and GPIOINT on Table 4.6-7 */
-+static const u8 rzg3l_tssel_lut[] = {
-+	 83,  84,					/* P20-P21 */
-+	  7,   8,   9,  10,  11,  12,  13,		/* P30-P36 */
-+	 85,  86,  87,  88,  89,  90,  91,		/* P50-P56 */
-+	 92,  93,  94,  95,  96,  97,  98,		/* P60-P66 */
-+	 99, 100, 101, 102, 103, 104, 105, 106,		/* P70-P77 */
-+	107, 108, 109, 110, 111, 112,			/* P80-P85 */
-+	 45,  46,  47,  48,  49,  50,  51,  52,		/* PA0-PA7 */
-+	 53,  54,  55,  56,  57,  58,  59,  60,		/* PB0-PB7 */
-+	 61,  62,  63,					/* PC0-PC2 */
-+	 64,  65,  66,  67,  68,  69,  70,  71,		/* PD0-PD7 */
-+	 72,  73,  74,  75,  76,  77,  78,  79,		/* PE0-PE7 */
-+	 80,  81,  82,					/* PF0-PF2 */
-+	 27,  28,  29,  30,  31,  32,  33,  34,		/* PG0-PG7 */
-+	 35,  36,  37,  38,  39,  40,			/* PH0-PH5 */
-+	  2,   3,   4,   5,   6,			/* PJ0-PJ4 */
-+	 41,  42,  43,  44,				/* PK0-PK3 */
-+	 14,  15,  16,  17,  26,			/* PL0-PL4 */
-+	 18,  19,  20,  21,  22,  23,  24,  25,		/* PM0-PM7 */
-+	  0,   1					/* PS0-PS1 */
-+};
-+
-+static const struct rzg2l_hw_info rzg3l_hw_params = {
-+	.tssel_lut	= rzg3l_tssel_lut,
-+	.irq_count	= 16,
-+	.tint_start	= IRQC_IRQ_START + 16,
-+	.num_irq	= IRQC_IRQ_START + 16 + IRQC_TINT_COUNT,
-+};
-+
- static const struct rzg2l_hw_info rzg2l_hw_params = {
- 	.irq_count	= 8,
- 	.tint_start	= IRQC_IRQ_START + 8,
-@@ -695,6 +732,12 @@ static int rzg2l_irqc_probe(struct platform_device *pdev, struct device_node *pa
- 				       rzg2l_hw_params);
- }
+@@ -562,6 +578,72 @@ static const struct irq_chip rzfive_irqc_tint_chip = {
+ 				  IRQCHIP_SKIP_SET_WAKE,
+ };
  
-+static int rzg3l_irqc_probe(struct platform_device *pdev, struct device_node *parent)
++static bool rzg2l_irqc_is_shared_irqc(const struct rzg2l_hw_info info, unsigned int hw_irq)
 +{
-+	return rzg2l_irqc_common_probe(pdev, parent, &rzg2l_irqc_irq_chip, &rzg2l_irqc_tint_chip,
-+				       rzg3l_hw_params);
++	return ((hw_irq >= (info.tint_start - info.shared_irq_cnt)) && hw_irq < info.tint_start);
 +}
 +
- static int rzfive_irqc_probe(struct platform_device *pdev, struct device_node *parent)
++static bool rzg2l_irqc_is_shared_tint(const struct rzg2l_hw_info info, unsigned int hw_irq)
++{
++	return ((hw_irq >= (info.num_irq - info.shared_irq_cnt)) && hw_irq < info.num_irq);
++}
++
++static bool rzg2l_irqc_is_shared_and_get_irq_num(struct rzg2l_irqc_priv *priv,
++						 irq_hw_number_t hwirq, unsigned int *irq_num)
++{
++	bool is_shared = false;
++
++	if (rzg2l_irqc_is_shared_irqc(priv->info, hwirq)) {
++		*irq_num = hwirq - IRQC_IRQ_SHARED_START;
++		is_shared = true;
++	} else if (rzg2l_irqc_is_shared_tint(priv->info, hwirq)) {
++		*irq_num = hwirq - IRQC_TINT_COUNT - IRQC_IRQ_SHARED_START;
++		is_shared = true;
++	}
++
++	return is_shared;
++}
++
++static void rzg2l_irqc_set_inttsel(struct rzg2l_irqc_priv *priv, unsigned int offset,
++				   unsigned int select_irq)
++{
++	u32 reg;
++
++	guard(raw_spinlock_irqsave)(&priv->lock);
++	reg = readl_relaxed(priv->base + INTTSEL);
++	if (select_irq)
++		reg |= INTTSEL_TINTSEL(offset);
++	else
++		reg &= ~INTTSEL_TINTSEL(offset);
++	writel_relaxed(reg, priv->base + INTTSEL);
++}
++
++static int rzg2l_irqc_shared_irq_alloc(struct rzg2l_irqc_priv *priv, irq_hw_number_t hwirq)
++{
++	unsigned int irq_num;
++
++	if (rzg2l_irqc_is_shared_and_get_irq_num(priv, hwirq, &irq_num)) {
++		if (test_and_set_bit(irq_num, priv->used_irqs))
++			return -EBUSY;
++
++		if (hwirq < priv->info.tint_start)
++			rzg2l_irqc_set_inttsel(priv, INTTSEL_TINTSEL_START + irq_num, 1);
++		else
++			rzg2l_irqc_set_inttsel(priv, INTTSEL_TINTSEL_START + irq_num, 0);
++	}
++
++	return 0;
++}
++
++static void rzg2l_irqc_shared_irq_free(struct rzg2l_irqc_priv *priv, irq_hw_number_t hwirq)
++{
++	unsigned int irq_num;
++
++	if (rzg2l_irqc_is_shared_and_get_irq_num(priv, hwirq, &irq_num) &&
++	    test_and_clear_bit(irq_num, priv->used_irqs))
++		rzg2l_irqc_set_inttsel(priv, INTTSEL_TINTSEL_START + irq_num, 0);
++}
++
+ static int rzg2l_irqc_alloc(struct irq_domain *domain, unsigned int virq,
+ 			    unsigned int nr_irqs, void *arg)
  {
- 	return rzg2l_irqc_common_probe(pdev, parent, &rzfive_irqc_irq_chip, &rzfive_irqc_tint_chip,
-@@ -703,6 +746,7 @@ static int rzfive_irqc_probe(struct platform_device *pdev, struct device_node *p
+@@ -594,16 +676,45 @@ static int rzg2l_irqc_alloc(struct irq_domain *domain, unsigned int virq,
+ 	if (hwirq >= priv->info.num_irq)
+ 		return -EINVAL;
  
- IRQCHIP_PLATFORM_DRIVER_BEGIN(rzg2l_irqc)
- IRQCHIP_MATCH("renesas,rzg2l-irqc", rzg2l_irqc_probe)
-+IRQCHIP_MATCH("renesas,r9a08g046-irqc", rzg3l_irqc_probe)
- IRQCHIP_MATCH("renesas,r9a07g043f-irqc", rzfive_irqc_probe)
- IRQCHIP_PLATFORM_DRIVER_END(rzg2l_irqc)
- MODULE_AUTHOR("Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>");
++	if (priv->info.shared_irq_cnt) {
++		ret = rzg2l_irqc_shared_irq_alloc(priv, hwirq);
++		if (ret)
++			return ret;
++	}
++
+ 	ret = irq_domain_set_hwirq_and_chip(domain, virq, hwirq, chip, (void *)(uintptr_t)tint);
+ 	if (ret)
+-		return ret;
++		goto shared_irq_free;
++
++	ret = irq_domain_alloc_irqs_parent(domain, virq, nr_irqs, &priv->fwspec[hwirq]);
++	if (ret)
++		goto shared_irq_free;
++
++	return 0;
++
++shared_irq_free:
++	if (priv->info.shared_irq_cnt)
++		rzg2l_irqc_shared_irq_free(priv, hwirq);
++
++	return ret;
++}
+ 
+-	return irq_domain_alloc_irqs_parent(domain, virq, nr_irqs, &priv->fwspec[hwirq]);
++static void rzg2l_irqc_free(struct irq_domain *domain, unsigned int virq, unsigned int nr_irqs)
++{
++	struct rzg2l_irqc_priv *priv = domain->host_data;
++
++	irq_domain_free_irqs_common(domain, virq, nr_irqs);
++
++	if (priv->info.shared_irq_cnt) {
++		struct irq_data *d = irq_domain_get_irq_data(domain, virq);
++
++		rzg2l_irqc_shared_irq_free(priv, irqd_to_hwirq(d));
++	}
+ }
+ 
+ static const struct irq_domain_ops rzg2l_irqc_domain_ops = {
+ 	.alloc = rzg2l_irqc_alloc,
+-	.free = irq_domain_free_irqs_common,
++	.free = rzg2l_irqc_free,
+ 	.translate = irq_domain_translate_twocell,
+ };
+ 
+@@ -718,6 +829,7 @@ static const struct rzg2l_hw_info rzg3l_hw_params = {
+ 	.irq_count	= 16,
+ 	.tint_start	= IRQC_IRQ_START + 16,
+ 	.num_irq	= IRQC_IRQ_START + 16 + IRQC_TINT_COUNT,
++	.shared_irq_cnt	= IRQC_SHARED_IRQ_COUNT,
+ };
+ 
+ static const struct rzg2l_hw_info rzg2l_hw_params = {
 -- 
 2.43.0
 
