@@ -1,230 +1,171 @@
-Return-Path: <linux-renesas-soc+bounces-30370-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-30371-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id eNlKNjRUxWmD9QQAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-30370-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Mar 2026 16:43:48 +0100
+	id AC61JlNTxWmD9QQAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-30371-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Mar 2026 16:40:03 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 805BC337C9C
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Mar 2026 16:43:48 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 19D87337BA5
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Mar 2026 16:40:02 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 48EC4311E60D
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Mar 2026 15:30:53 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 1098330BB4C4
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Mar 2026 15:33:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AE08C411619;
-	Thu, 26 Mar 2026 15:27:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AF3682367CF;
+	Thu, 26 Mar 2026 15:33:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b="ToZpJbJC"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f177.google.com (mail-vk1-f177.google.com [209.85.221.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50CFD3FFAC1
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 26 Mar 2026 15:27:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.177
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774538875; cv=none; b=XYYdvGIL/kATN7Owy+9JX/mGCGc1UEsLA+nUy850CYtioYWtvADqVINVAglOqdFNjcRFfp+9cnUzGeQvrDKimJ8T95P3aBWB6CoolYlZjIBhNjg70sqOcxY153ZmyJ00EUv3N+6b0w+zjVEaGTTTv6hmHBVT/A6SYprBGbDt+Eg=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774538875; c=relaxed/simple;
-	bh=peWwslY60X5deNxQgqJv7OYyoSx6v0JNvTUpeeVZ1q4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=czkwNwQOVXQEmrTn8FLokIXbPy7MADGzS6saqiUe7hnsxuH9zYYytU1WqaP2bEyYLRi+elbc1iDJe87CrtkjNIPL00AqWpJAar02hH1YoyO+VoxKpD5Mo6vHe41/DzX9BhpH4uqXzdzn6ZoMJjYwenngnWMBzOfP0VZ7LgaIjR4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f177.google.com with SMTP id 71dfb90a1353d-56ce44a204dso837791e0c.1
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 26 Mar 2026 08:27:54 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774538873; x=1775143673;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ICY5En3i4NzNQi5qrag5c9s0SZbURVLCotK2DvpExx4=;
-        b=NQS4dZ4R1WbYnkYat/j16JqwarGu1oT+zUVUp1siD25BhnVYaSFEeJ5a95cpDpOS3j
-         JNyVP5DTv8th8Omo+jFPCd+fEswnn+qkES+YA0FgYPBA5CfhxzUFRZ0wAXGaVF5w9Gcr
-         3K9pAN5dEh983BNTeqNyr58TOrNLXOpZ5JtTVgUw4ILnFJ2XAvsUW051bgEm1w7+AqSi
-         E3RiUx7wDlbdvpCVMNbQcVLTGXGhMad6MvSI50LV/+oJxwwaKBwRQFu2YB8gBw1eupo+
-         3bK44/I2o3vDHco3jDWT/cWSkaFaEc+xC8gK+cAs4SoZkjtos2LcULvAsGDAKU8LmwVp
-         H0lg==
-X-Forwarded-Encrypted: i=1; AJvYcCVR3ituM6s3dLqyH6uV5sGBL2gFVPVdybl4RutvacnnbJWpbs/fGJCn6AytPKTB13ax9W7SDHyOnb43Nx6hHg7fMQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz4CjrDuAd5KsC9VDcvP0PZXACpSwBqDDb0qPBEI6xkTZpq33HK
-	mYcxgBMoF86ai5OzRveFBBoRrbbBPYWzt+1Lz6lAlf7QY7OL053LGwv/zaKk3jse1bg=
-X-Gm-Gg: ATEYQzw91bUHN9YZXNaSKeoR4jcfOyOuKiub1OI9TgCNV2R6AdcJj6BYtAegk+k6DZ1
-	n2KQGEnQBRPBEYZ5N/qr15+wfHW+lxKU4Mm0dywhu+asT97ZOibmSwNv4s+ueg+2hbtH1INs1yU
-	dkb7piDiYEjojnfe5D3to6LflcJtlcG4ROVti+ekDwFOCWc6Kas31qiREvozlFmpWlu4JxHKiwE
-	25+B078syzptESJnp2NNMREceP1buRt8xJ84Pv73lDDFGpKbR/hPOBFmgNiRuWM3zVroyxl9CdM
-	fS2lifRta8BusKAGivRbIrGypK4AAXVX25Ss3xDfqa2WcxhmOyCcab0BS/AL5dJedvGBzXd+Cq6
-	s5Nqq67FQFJX5RQlonoSuQ022CunqRiXXflbhHlHlV/jkRiNBjqOIcR5W9VW2apQ2qsaW5HLx2q
-	Ymlab5nFoyMAPvSAYVyAIKKG1R5mFFgKhq80IOjoKmHTADfkRBbXHw4c+QwbeS
-X-Received: by 2002:a05:6122:340e:b0:56c:860b:c34e with SMTP id 71dfb90a1353d-56d21f67619mr4462904e0c.8.1774538873108;
-        Thu, 26 Mar 2026 08:27:53 -0700 (PDT)
-Received: from mail-ua1-f53.google.com (mail-ua1-f53.google.com. [209.85.222.53])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-951be185991sm4003060241.6.2026.03.26.08.27.51
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 26 Mar 2026 08:27:51 -0700 (PDT)
-Received: by mail-ua1-f53.google.com with SMTP id a1e0cc1a2514c-94b07fddecbso679609241.1
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 26 Mar 2026 08:27:51 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVTFsmIsgre53DlDx2WHI2SADt7yI7xcqFMEwNHXqQ/0sQBOkNLdFbUUeIOUQ0Z1YZcE1/r0/LeaJWCV+IwF4HpAA==@vger.kernel.org
-X-Received: by 2002:a05:6102:5801:b0:5f5:2539:9b11 with SMTP id
- ada2fe7eead31-603870ce0f5mr4152226137.14.1774538871002; Thu, 26 Mar 2026
- 08:27:51 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 560AB1E868;
+	Thu, 26 Mar 2026 15:33:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774539188; cv=pass; b=INQ9AFBhJoU6+eUXIBILG1R0AOndQdfbDfgVAm/Y7sR9IAWEa5STBHN1CcvRZhzBtZqtn/epJuoBFOJ8x3vEnGhTbMwc8wOGyp1SWZg5iVnkaADCOm9mxiK9PRT9sy8J7izqOdbVWoxVrmaVm5/Sb08OGLH6mB8rPEIEitLXFXg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774539188; c=relaxed/simple;
+	bh=lyX4mDuWAivwI+NVS931cuZ6UIrTRKPF6SJGMWMwI8o=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GZvaaT7SN8S4acACL9mFdwa9cs2AgrchTbx/tnIE6jLybX925q/YHKireijvWFHvf9RYPcJQUtR/km9qS3PstSmkPXdg8Zx9/p3Snvh4XhXLjdtEh+TodpAzVQPAAeb6NvWB6ELW16TuAdcJpYjW2Cwx5F24p9UXyX3gZbuoA7o=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b=ToZpJbJC; arc=pass smtp.client-ip=136.143.188.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+ARC-Seal: i=1; a=rsa-sha256; t=1774539166; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=P9947dORHl9g3ldLyNIdMFXw90ZL1kGKAuNr37DTFG+qd5goWJVFxSMJTnrVO68oB5cwD0fM6YCBV4j+po2CGa0BxoOX2Xsa/sHWcj0P7DDgEkC1WtIGg5bvpNjHWyfE6M53Cu87aGJ5ONOSjdcHpdFmea9blbR41G2HIep/svU=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1774539166; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=1WOoGV4b22+v+li+Na+6Um69R+tGDjyr9vnEy8DGxYg=; 
+	b=NTxbHI+Zpv0aFqMGPwAGQB9aAKObZdhrliJZWCH4lm+Js8npaBz0Nu0pDUGCerE+aW+aoZFrAWol6p0bhpHBaAvJC4Bk18XPMfWePi62gOBBgZMcxSV+BCusqEGLOfeMYmUxsU9Lk4FWNtnSkmHQIJKIq0So6woVVgHY/lV9z7Y=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=adrian.larumbe@collabora.com;
+	dmarc=pass header.from=<adrian.larumbe@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1774539166;
+	s=zohomail; d=collabora.com; i=adrian.larumbe@collabora.com;
+	h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:Content-Transfer-Encoding:In-Reply-To:Message-Id:Reply-To;
+	bh=1WOoGV4b22+v+li+Na+6Um69R+tGDjyr9vnEy8DGxYg=;
+	b=ToZpJbJCiOZguELIXEfvmHQBls5WFFXtIMnGH4VtT3wbTzesV4lxiX4z0DKtTGoh
+	eRMDC5RnVr/a9W8XzK+qWP/J60WnkUVqQFQAwXIVV2uxdAj2NckpQ5skloVakbL+YYk
+	Bs2j6ZHhtODlKF0/NiWWSTK8NwMF2UiqFDMqDVzA=
+Received: by mx.zohomail.com with SMTPS id 1774539163745938.0661014333109;
+	Thu, 26 Mar 2026 08:32:43 -0700 (PDT)
+Date: Thu, 26 Mar 2026 15:32:38 +0000
+From: =?utf-8?Q?Adri=C3=A1n?= Larumbe <adrian.larumbe@collabora.com>
+To: Biju <biju.das.au@gmail.com>
+Cc: Boris Brezillon <boris.brezillon@collabora.com>, 
+	Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+	Simona Vetter <simona@ffwll.ch>, Biju Das <biju.das.jz@bp.renesas.com>, 
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
+	linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v2 2/4] drm/panfrost: Drop redundant optional clock
+ checks in runtime PM
+Message-ID: <acVRjZkeGmS2ThtU@sobremesa>
+References: <20260320164158.487406-1-biju.das.jz@bp.renesas.com>
+ <20260320164158.487406-3-biju.das.jz@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260319155334.51278-1-john.madieu.xa@bp.renesas.com> <20260319155334.51278-5-john.madieu.xa@bp.renesas.com>
-In-Reply-To: <20260319155334.51278-5-john.madieu.xa@bp.renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 26 Mar 2026 16:27:40 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdVbP5Bbr9KuxoEb48zUvubT3CN7sC9oVat2NcNWaBwOtQ@mail.gmail.com>
-X-Gm-Features: AQROBzCXM6uPDs6UcVr58TTtg0-_14CRbEgbIPerOfaOzDyxBM9HF9kuEp2hlRY
-Message-ID: <CAMuHMdVbP5Bbr9KuxoEb48zUvubT3CN7sC9oVat2NcNWaBwOtQ@mail.gmail.com>
-Subject: Re: [PATCH 04/22] dt-bindings: dma: renesas,rz-dmac: Document
- optional DMA ACK cell
-To: John Madieu <john.madieu.xa@bp.renesas.com>
-Cc: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, Vinod Koul <vkoul@kernel.org>, 
-	Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Michael Turquette <mturquette@baylibre.com>, 
-	Stephen Boyd <sboyd@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Frank Li <Frank.Li@kernel.org>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Magnus Damm <magnus.damm@gmail.com>, 
-	Thomas Gleixner <tglx@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
-	Biju Das <biju.das.jz@bp.renesas.com>, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
-	John Madieu <john.madieu@gmail.com>, linux-renesas-soc@vger.kernel.org, 
-	linux-clk@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, dmaengine@vger.kernel.org, 
-	linux-sound@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spamd-Result: default: False [0.04 / 15.00];
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260320164158.487406-3-biju.das.jz@bp.renesas.com>
+X-Spamd-Result: default: False [-0.16 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
+	R_DKIM_ALLOW(-0.20)[collabora.com:s=zohomail];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[renesas.com,kernel.org,baylibre.com,gmail.com,perex.cz,suse.com,pengutronix.de,tuxon.dev,bp.renesas.com,vger.kernel.org];
-	TAGGED_FROM(0.00)[bounces-30370-lists,linux-renesas-soc=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	DMARC_NA(0.00)[linux-m68k.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[27];
+	RCPT_COUNT_TWELVE(0.00)[15];
 	MIME_TRACE(0.00)[0:+];
-	MISSING_XM_UA(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-30371-lists,linux-renesas-soc=lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
+	FREEMAIL_TO(0.00)[gmail.com];
 	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[collabora.com:+];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[geert@linux-m68k.org,linux-renesas-soc@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
 	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,dt];
-	R_DKIM_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,mail.gmail.com:mid,renesas.com:email,linux-m68k.org:email]
-X-Rspamd-Queue-Id: 805BC337C9C
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[adrian.larumbe@collabora.com,linux-renesas-soc@vger.kernel.org];
+	FREEMAIL_CC(0.00)[collabora.com,kernel.org,arm.com,linux.intel.com,suse.de,gmail.com,ffwll.ch,bp.renesas.com,lists.freedesktop.org,vger.kernel.org,glider.be];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
+	MISSING_XM_UA(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[renesas.com:email,arm.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 19D87337BA5
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi John,
+Reviewed-by: Adrián Larumbe <adrian.larumbe@collabora.com>
 
-On Thu, 19 Mar 2026 at 16:55, John Madieu <john.madieu.xa@bp.renesas.com> wrote:
-> Some peripherals on RZ/V2H, RZ/V2N, and RZ/G3E SoCs require explicit
-> ACK signal routing through the ICU. Document the optional second cell
-> in the DMA specifier for specifying the ACK signal number.
+On 20.03.2026 16:41, Biju wrote:
+> From: Biju Das <biju.das.jz@bp.renesas.com>
 >
-> The first cell remains unchanged and specifies the encoded MID/RID and
-> channel configuration. The optional second cell specifies the DMA ACK
-> signal number for peripherals requiring level-based handshaking.
+> The clk_enable() and clk_disable() APIs already handle NULL clock pointers
+> gracefully — clk_enable() returns 0 and clk_disable() returns immediately
+> when passed a NULL or optional clock. The explicit if (pfdev->bus_clock)
+> guards around these calls in the runtime suspend/resume paths are
+> therefore unnecessary. Remove them to simplify the code.
 >
-> Signed-off-by: John Madieu <john.madieu.xa@bp.renesas.com>
-
-Thanks for your patch!
-
-Just a quick head-up, as I haven't read the actual secion in the
-documentation yet.
-
-> --- a/Documentation/devicetree/bindings/dma/renesas,rz-dmac.yaml
-> +++ b/Documentation/devicetree/bindings/dma/renesas,rz-dmac.yaml
-> @@ -63,17 +63,27 @@ properties:
->        - const: register
+> Reviewed-by: Steven Price <steven.price@arm.com>
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> ---
+> v1->v2:
+>  * Collected tag
+> ---
+>  drivers/gpu/drm/panfrost/panfrost_device.c | 12 ++++--------
+>  1 file changed, 4 insertions(+), 8 deletions(-)
 >
->    '#dma-cells':
-> -    const: 1
-> -    description:
-> +    description: |
->        The cell specifies the encoded MID/RID or the REQ No values of
->        the DMAC port connected to the DMA client and the slave channel
->        configuration parameters.
-> +      Use 1 cell for basic DMA configuration.
-> +      Use 2 cells when DMA ACK signal routing through ICU is required
-> +      (RZ/V2H, RZ/V2N, RZ/G3E audio peripherals such as SSIU, SPDIF, SRC, DVC).
-> +
-> +      First cell:
->        bits[0:9] - Specifies the MID/RID or the REQ No value
->        bit[10] - Specifies DMA request high enable (HIEN)
->        bit[11] - Specifies DMA request detection type (LVL)
->        bits[12:14] - Specifies DMAACK output mode (AM)
->        bit[15] - Specifies Transfer Mode (TM)
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_device.c b/drivers/gpu/drm/panfrost/panfrost_device.c
+> index dedc13e56631..01e702a0b2f0 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_device.c
+> +++ b/drivers/gpu/drm/panfrost/panfrost_device.c
+> @@ -429,11 +429,9 @@ static int panfrost_device_runtime_resume(struct device *dev)
+>  		if (ret)
+>  			goto err_clk;
 >
-> +      Second cell (optional, when #dma-cells = <2>):
-> +      bits[6:0] - DMA acknowledge signal number (from ICU ACK table),
-> +                  where 0 is a valid signal number.
-> +                  Required for peripherals using level-based DMA
-> +                  handshaking (SSIU, SPDIF, RSPI, SCU, ADC, PDM).
-
-How do you expect this to work? #dma-cells applies to all DMA consumers
-of this provider, and these SoCs already have DMA users relying on
-#dma-cells being one.
-In addition, you cannot have optional cells: if #dma-cells is two,
-then all consumers must supply two cells (of course we could switch
-all of them to two cells at once).  However, as zero is a valid signal
-number, we cannot use that as a dummy when no DMA acknowledge signal
-number is needed (we could use e.g. 0xffffffff instead).
-
-Is there any other way to provide this information?
-E.g. could we have a table in the driver that contains this info for
-the (presumably few) MID/RID values that need it?
-
-> +
->    dma-channels:
->      const: 16
+> -		if (pfdev->bus_clock) {
+> -			ret = clk_enable(pfdev->bus_clock);
+> -			if (ret)
+> -				goto err_bus_clk;
+> -		}
+> +		ret = clk_enable(pfdev->bus_clock);
+> +		if (ret)
+> +			goto err_bus_clk;
+>  	}
 >
-> @@ -212,6 +222,20 @@ allOf:
->          - renesas,icu
->          - resets
+>  	panfrost_device_reset(pfdev, true);
+> @@ -464,9 +462,7 @@ static int panfrost_device_runtime_suspend(struct device *dev)
+>  	panfrost_gpu_power_off(pfdev);
 >
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            const: renesas,r9a09g057-dmac
-> +    then:
-> +      properties:
-> +        '#dma-cells':
-> +          enum: [1, 2]
-> +    else:
-> +      properties:
-> +        '#dma-cells':
-> +          const: 1
-> +
->    - if:
->        properties:
->          compatible:
+>  	if (pfdev->comp->pm_features & BIT(GPU_PM_RT)) {
+> -		if (pfdev->bus_clock)
+> -			clk_disable(pfdev->bus_clock);
+> -
+> +		clk_disable(pfdev->bus_clock);
+>  		clk_disable(pfdev->clock);
+>  		reset_control_assert(pfdev->rstc);
+>  	}
+> --
+> 2.43.0
 
-Gr{oetje,eeting}s,
 
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Adrian Larumbe
 
