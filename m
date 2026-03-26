@@ -1,193 +1,162 @@
-Return-Path: <linux-renesas-soc+bounces-30341-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-30342-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id yOOcKt0uxWnJ7wQAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-30341-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Mar 2026 14:04:29 +0100
+	id YLgfGCAwxWnk7wQAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-30342-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Mar 2026 14:09:52 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 881EF335AD2
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Mar 2026 14:04:28 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id B2DD0335B90
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Mar 2026 14:09:51 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id F280A3088EA1
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Mar 2026 12:56:17 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id D92753026142
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Mar 2026 13:03:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CBE43248861;
-	Thu, 26 Mar 2026 12:56:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5EB18298CAF;
+	Thu, 26 Mar 2026 13:03:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="KQhxWVqm"
+	dkim=pass (2048-bit key) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b="fhRjKcvQ"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from www537.your-server.de (www537.your-server.de [188.40.3.216])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE2C629ACFC
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 26 Mar 2026 12:56:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DF9850276;
+	Thu, 26 Mar 2026 13:03:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=188.40.3.216
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774529773; cv=none; b=K3B/FGVnsda4Y+lIUyPmE375ek+Wt1kK6hMUKymKGxitB+VVpGVWRlwdncoVL1AogsDC+L9VEw4wqMCammoFDY7tXHVThl8bauS19u2LxYcBCGL3Z2e9e/GeINWDAOnq+DJwNSvsguINBx1yUVermvlYc0dCwRh5lN6Jg1ujugU=
+	t=1774530188; cv=none; b=XL7wsWvrKiGhlE2lh6hkzwjFys2AFk8SiszVhhGTr7Rt6yG852B8sJ5WVg5/NmS4zfo5gIFvF0oFULz86SBJT3tuFl6qAzDKioqS6yegWp0b2JcWfAlINE0XtGQQ6kGGGirGMd0GOt8C6KTQY9DcDUo706OcnSj10Dfk1ZCLJAY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774529773; c=relaxed/simple;
-	bh=AOyK9K7He9jaWEQcI0TLML2gpG/QGkSkNBxuQXYT1yc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=VBt/tA1PQDZ69fpc7lymuAD5yPlK9THzJidaCXcSkyOyoiEuvKYVG2C9FKxNf4fs4gbv5gjL+rIMtwSOTe5PKz7ncVLza3g2OgUasMdqNg/yYfEwBiTm+q7kKqk/poGsTAoqPRJn6Oj0kkzVjs4WDOjf9x6BZ+beyNGys5bGtos=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=KQhxWVqm; arc=none smtp.client-ip=209.85.128.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-486fb112c09so9564915e9.1
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 26 Mar 2026 05:56:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1774529770; x=1775134570; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=v53LCrPXAsR6yI+88VBtN+4JZC9PqA7W1DCpmW7oQMM=;
-        b=KQhxWVqmIDKZj8pG7iMOWyg01iAWIJGnIXDPbSc6mez85fbhulOa2RfJStsIfd6irK
-         +8lwYtZlzdL0gU7qZ53QUXfPbgAFP6dfXE79KezzfGq7S8W6y4ABqoSS0db2Q/J7Cag5
-         /7F/uWyyp+jVLrNR9msAaMYwgxNEZ9xYFJmIoOQaMocPtLipWpMRvDx+VgGtdN+FGGXM
-         dR69jS4u5fdxISlSdAHLf3V+vym9tyfApJARZSjRSL4aNQfpWV5fBEOzDnEBEMEyvtbA
-         k3XsHx5/TuvBOBiBtgr5SGM87HuoE9dDXfAiHtsduian3PpW6BtuDtQMm3cn9lrqG3AW
-         4vBA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774529770; x=1775134570;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=v53LCrPXAsR6yI+88VBtN+4JZC9PqA7W1DCpmW7oQMM=;
-        b=PLP6EuD5m8FXa4aUnXzgMY/v6hUmIxVNmUx54pkuon8gudE8sx2E5SMXMtFRE4NgwZ
-         p2SkGvIY9r5Ix2qXabZgWlqP0PIG3Xk9sRlLiyUR7Edvjmwlhfx2rpSOd6EdCg+QTlMg
-         yPDFDkK9XHZIfie3ndaWcvgf1dyIBWFoaeLCBgwYkMs8dYrDm+T8kx9nAX7HgXwlTmzd
-         V7geEhmh4NmRk/t0FjYWLH+yXOYrN/nMMTPrAWXHUeSu0BAVh+iZ7//tQL5SSCHUaXaL
-         jCOChsts/FZRKq2q/E56qIly+ENLa/vzVO4Tr5EQXDlWBG8Ixi5VlhLW7txqs5fjHEjV
-         jjaA==
-X-Forwarded-Encrypted: i=1; AJvYcCWEv+LO5xts8jnyQqLMoPrNL9sXkAFYLfER9+rpD2UEPZnLj8B1oGIlwqy+dTATHBKfadNlvnvAD+O1Kb2n5nWJRQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx+9MmAHBcE6ZWMWUQ7sDpTS4gD/vbXM77zG8AYCKI9qJKTcY9V
-	UoJuLxlTj/BnPhDRpNlY8h0g7LZ5FuzOMJ0/0wZgxeiy9c1cnUsPzLaPCPqVe75l/L4=
-X-Gm-Gg: ATEYQzz1NkLJwkO3dhZZB792vUohCjh/ikQodjYEJZdwTv5//jxFP0g4/07NjYXSOcp
-	QWk6HH++e52nP9NazhgawGk88uu2i7OyiVqbewHiUtPAagh830XaOcQwlrXh54w942YOKMaAscH
-	HV20QBrauSgVynqXPZsBlJUm5m4tA+ACnwWmPIGg8Z3KhAQxeijTVOYaxQDzBqJGRwmht7hXVGR
-	MNtixdDIG70epi0cZlGRTZ3U4PRZYlZNZrnt8wIU9hT1TIoMph+gX9dGidSvmpfr5pIOYrvau37
-	S0qXvDFsYMdh8Kxm1KD0GvS6RnXF/OxZt+SedMnYsIVfm9HVIr8HrX/n1DR0DPMSgNDBXaPHbjG
-	tmm3i2ABC0YrrTCoJ2C6ghof3B19HYnxJxPXX/x8q5kTswI9WH/8XvvB8KEVie4ZJPXK9gfVoW0
-	gMxj7++dnHoaqaWvlZxSNRh3XWN43AE8o=
-X-Received: by 2002:a05:600c:3490:b0:486:f8e9:add5 with SMTP id 5b1f17b1804b1-48716042c08mr111608235e9.19.1774529770172;
-        Thu, 26 Mar 2026 05:56:10 -0700 (PDT)
-Received: from [192.168.50.4] ([82.78.167.216])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48722c789ecsm28316645e9.4.2026.03.26.05.56.08
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 26 Mar 2026 05:56:09 -0700 (PDT)
-Message-ID: <693acd52-987e-4018-ae02-386dbd430462@tuxon.dev>
-Date: Thu, 26 Mar 2026 14:56:07 +0200
+	s=arc-20240116; t=1774530188; c=relaxed/simple;
+	bh=nM9ID0JsTmZug9or3qtquzi1Ydfl3eitDralhER5QY8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=sZ9hxn0zba9Hlk/2pyt68gQw2vIlcwyHjQ/8Tvdoq/K32K4N5D50+WvOVpVhvRFWRJqFeyjTsEzmbnP2e1IyWoUGgD4FntOyDgOd272uNG2kDDnNKtoTiaRR/4Qf+B82h/4/pVEefGYFyMouww/xBqRMHa2UzyOEWOD1Mrw5uCU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ew.tq-group.com; spf=pass smtp.mailfrom=ew.tq-group.com; dkim=pass (2048-bit key) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b=fhRjKcvQ; arc=none smtp.client-ip=188.40.3.216
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ew.tq-group.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ew.tq-group.com
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=ew.tq-group.com; s=default2602; h=Content-Transfer-Encoding:MIME-Version:
+	Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:In-Reply-To:References;
+	bh=SE2NRfRHPwJEdSfoM027+6QczK5mncPPsBhluV/mbEo=; b=fhRjKcvQewDrlhhUPTpRVfjrUF
+	7NrLBBLD8Jp61Dqtx1pMuEdWMwYUpQNGQSSSE9NI9AQuJpUn4gasoHBHk8ne7xGK1QU6Bugr9hMgE
+	pOhzib5r0HeAPUmfIKPQpcjvmNMD3YrUpnvQcLwBPzC7KqZ5P5ws04kdqDHskbA6zAqoMOMLh/FcZ
+	bJ+x+Dab7dDxm6Xs4z6dt7AI0cYmTGOFLPuTwh4AXeG+j4pV6QWYLsMvo2dAiL1CgmKEJJmy3PPgj
+	csDhXXKHfrcXnh9uUczmnP2jIs+QjoyECfkIx/L6CZNuzxsPYntH8QQUxElhvLyKLtd2jEDF7zz1Z
+	8IATbRHg==;
+Received: from sslproxy06.your-server.de ([78.46.172.3])
+	by www537.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.96.2)
+	(envelope-from <alexander.stein@ew.tq-group.com>)
+	id 1w5kMZ-0009m1-2C;
+	Thu, 26 Mar 2026 14:03:03 +0100
+Received: from localhost ([127.0.0.1])
+	by sslproxy06.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <alexander.stein@ew.tq-group.com>)
+	id 1w5kM1-000ByX-2q;
+	Thu, 26 Mar 2026 14:03:03 +0100
+From: Alexander Stein <alexander.stein@ew.tq-group.com>
+To: Frank Li <Frank.Li@nxp.com>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>
+Cc: Alexander Stein <alexander.stein@ew.tq-group.com>,
+	imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux@ew.tq-group.com,
+	linux-renesas-soc@vger.kernel.org
+Subject: [PATCH v4 0/2] Support TQMa8QM
+Date: Thu, 26 Mar 2026 14:02:20 +0100
+Message-ID: <20260326130225.1406806-1-alexander.stein@ew.tq-group.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 5/5] PCI: rzg3s-host: Add support for RZ/V2H(P) SoC
-To: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Cc: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
- Bjorn Helgaas <bhelgaas@google.com>,
- Lorenzo Pieralisi <lpieralisi@kernel.org>,
- =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
- Manivannan Sadhasivam <mani@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Magnus Damm <magnus.damm@gmail.com>,
- Wolfram Sang <wsa+renesas@sang-engineering.com>,
- John Madieu <john.madieu.xa@bp.renesas.com>, linux-pci@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>,
- Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20260318124450.163471-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20260318124450.163471-6-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <605e8d4c-09e7-4d11-acdb-7829a85eacc3@tuxon.dev>
- <CA+V-a8s_Kv5WwocsKy_qBEtZ=0gzN-YbAz3pYjubf_qZVLhBew@mail.gmail.com>
-Content-Language: en-US
-From: Claudiu Beznea <claudiu.beznea@tuxon.dev>
-In-Reply-To: <CA+V-a8s_Kv5WwocsKy_qBEtZ=0gzN-YbAz3pYjubf_qZVLhBew@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spamd-Result: default: False [-0.16 / 15.00];
+Content-Transfer-Encoding: 8bit
+X-Virus-Scanned: Clear (ClamAV 1.4.3/27952/Thu Mar 26 07:24:52 2026)
+X-Spamd-Result: default: False [0.84 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[tuxon.dev:s=google];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[ew.tq-group.com,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[ew.tq-group.com:s=default2602];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-30341-lists,linux-renesas-soc=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
+	FREEMAIL_TO(0.00)[nxp.com,pengutronix.de,gmail.com,kernel.org,glider.be];
+	RCPT_COUNT_TWELVE(0.00)[16];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DMARC_NA(0.00)[tuxon.dev];
-	RCPT_COUNT_TWELVE(0.00)[21];
+	TAGGED_FROM(0.00)[bounces-30342-lists,linux-renesas-soc=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[bp.renesas.com,google.com,kernel.org,pengutronix.de,glider.be,gmail.com,sang-engineering.com,vger.kernel.org,renesas.com];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	RECEIVED_HELO_LOCALHOST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[claudiu.beznea@tuxon.dev,linux-renesas-soc@vger.kernel.org];
-	DKIM_TRACE(0.00)[tuxon.dev:+];
-	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
-	MID_RHS_MATCH_FROM(0.00)[];
 	TO_DN_SOME(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[alexander.stein@ew.tq-group.com,linux-renesas-soc@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[ew.tq-group.com:+];
+	RCVD_COUNT_FIVE(0.00)[5];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
+	NEURAL_HAM(-0.00)[-1.000];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,tuxon.dev:dkim,tuxon.dev:mid]
-X-Rspamd-Queue-Id: 881EF335AD2
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,ew.tq-group.com:dkim,ew.tq-group.com:mid]
+X-Rspamd-Queue-Id: B2DD0335B90
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi, Prabhakar,
+Hi,
 
-On 3/25/26 13:53, Lad, Prabhakar wrote:
->> from [1]:
->> "For example, if rzg3s_pcie_resets_prepare_and_get() returns -EPROBE_DEFER,
->> the static variable is never decremented. On subsequent probe retries,
->> the variable will be artificially inflated, eventually causing the bounds
->> check to fail and returning a permanent -EINVAL. This would also prevent
->> driver unbind and rebind from working correctly."
->>
-> The other alternative would be the below, where we wouldn't need to
-> use the num-lanes property but would need a comparison with the DT
-> compatible,
+this series adds support for TQ's TQMa8QM. In v4 several prepatory have been
+merged already. So this series include only the two missing patches:
+1. platform DT
 
-Or move rzv2h_num_total_lanes outside of rzv2h_pcie_setup_lanes() and reset it 
-on failure path.
+2. Workaround for missing "ERR050104: Arm/A53: Cache coherency issue"
+workaround. See [1] for details. Split into separate commit for easy revert
+once an errata workaround has been integrated.
 
-> 
-> +       for_each_compatible_node(np, NULL, "renesas,r9a09g057-pcie") {
+Changes in v4:
+* Reduced recipient audience due to reduced patches
+* Sorted nodes by name (not by phandle)
 
-If it's possible I would avoid spreading compatibles though the file but instead 
-use driver data where possible.
+Changes in v3:
+* Small cleanups in patch 1 & 4
 
-Thank you,
-Claudiu
+Changes in v2:
+The need for clock-output-names properties for renesas,9fgv0441 has
+been removed by reworkging the PCIe clocking
 
-> +               if (of_device_is_available(np))
-> +                       count++;
-> +       }
-> +       if (!count)
-> +               return 0;
-> +
-> +       /* If both PCIe channels are enabled configure the LINK_MASTER
-> in x2 lane mode.
-> +        * If only one channel is enabled check the port index and if
-> port1 is enabled
-> +        * configure the LINK_MASTER in x2 lane mode, otherwise keep
-> it in x4 lane mode.
-> +        */
-> +       if (count == RZV2H_MAX_PCIE_PORTS ||
-> +           (count == 1 && host->channel == 1))
-> +               host->link_mode = RZV2H_PCIE_MODE_DUAL_X2;
-> +       else
-> +               host->link_mode = RZV2H_PCIE_MODE_SINGLE_X4;
+Best regards,
+Alexander
+
+[1] https://lore.kernel.org/all/20230420112952.28340-1-iivanov@suse.de/
+
+Alexander Stein (2):
+  arm64: dts: freescale: add initial device tree for TQMa8x
+  arm64: dts: imx8qm-tqma8qm-mba8x: Disable Cortex-A72 cluster
+
+ arch/arm64/boot/dts/freescale/Makefile        |   1 +
+ .../dts/freescale/imx8qm-tqma8qm-mba8x.dts    | 871 ++++++++++++++++++
+ .../boot/dts/freescale/imx8qm-tqma8qm.dtsi    | 325 +++++++
+ 3 files changed, 1197 insertions(+)
+ create mode 100644 arch/arm64/boot/dts/freescale/imx8qm-tqma8qm-mba8x.dts
+ create mode 100644 arch/arm64/boot/dts/freescale/imx8qm-tqma8qm.dtsi
+
+-- 
+2.43.0
 
 
