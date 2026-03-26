@@ -1,1401 +1,257 @@
-Return-Path: <linux-renesas-soc+bounces-30368-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-30369-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 6OALOjVNxWkU8wQAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-30368-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Mar 2026 16:13:57 +0100
+	id EFGdOI9NxWkb9QQAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-30369-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Mar 2026 16:15:27 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9C3B337575
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Mar 2026 16:13:56 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DB0E3375E2
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Mar 2026 16:15:27 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 2395F307F500
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Mar 2026 15:01:05 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id B6C6E30F0872
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Mar 2026 15:06:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B9CDF39183F;
-	Thu, 26 Mar 2026 15:01:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C53983FFABB;
+	Thu, 26 Mar 2026 15:06:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=windriver.com header.i=@windriver.com header.b="hq+LtoQk"
+	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="XfZIVBhx"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+Received: from TY3P286CU002.outbound.protection.outlook.com (mail-japaneastazon11010071.outbound.protection.outlook.com [52.101.229.71])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D06138F230;
-	Thu, 26 Mar 2026 15:00:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.166.238
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49AB135CBC3;
+	Thu, 26 Mar 2026 15:06:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.229.71
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774537263; cv=fail; b=enY3U4WhM8MFbH2Wkn3srLhxOG1hYoX0rE1HHVWOZ+xt6VKJrBWxROxkd7409sCtTx7GHb3M9QhIbFkNoN22Tf21b+Bq0n0tbBJZKYHBRKSfsrODbL/qCeeW7MQU6G1NFlZVO9FzcsV5xph+f62ygsOVbnIRfCV8zNdX+lO/l0c=
+	t=1774537610; cv=fail; b=Oo2HAc5wjB8zFvZRyeUaYiwALbhLE9/D1wAgyQIwpuL5SqgrZToIWU49IhYFERvKJSL+Ky5o6U3+pEu34bvIivXLSBTY1KmyUdeHKuNxqrhhnFxvtdvfcIbvFkWCA3J4PzmkWqwrm1YQhpGpIZ5cEqZ8tHDDEl+76q5D2rHAiP8=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774537263; c=relaxed/simple;
-	bh=3kHBOF99TtEDhjfGUiqo9yR4ZDLfCPY0/3cnhg1hk0o=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=JmoMSP3TF8rEABj7CiVt/gRVX32Gqm5lbdAiI0n40axr/x6g7vcnKJJ3oLZ2bK1vqdTehQTmz5f3FOw2Iele0+LCnJkzr5bLRUP+Aq3LZoWn5U8pUOPiFUr5SEHdw/vKaYz9nK67rKHqGPMbh5gRUVMbSO/m7kXCGEhWbDVuBB0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=windriver.com; spf=pass smtp.mailfrom=windriver.com; dkim=pass (2048-bit key) header.d=windriver.com header.i=@windriver.com header.b=hq+LtoQk; arc=fail smtp.client-ip=205.220.166.238
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=windriver.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=windriver.com
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62QAlDK03755848;
-	Thu, 26 Mar 2026 08:00:12 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=cc:content-transfer-encoding:content-type:date:from
-	:in-reply-to:message-id:mime-version:references:subject:to; s=
-	PPS06212021; bh=lwsiwdOPOafNkn1i5cEuIyhlvRA2Vd6QlT9D825XvtQ=; b=
-	hq+LtoQkuIjhN9Entw4QUKGcJeuYTpCmkmRQ6nymGClBR5UlSM7ZZTW0Qy+o7qwJ
-	kzUnB3VJ7eEKpAme8sN9qMl3HSbo6TXvRXtG0ZZIB2MW8Lui27R+/UNv/X/PHo+o
-	sRyozhgLEkPpSdo4dPhg0SoXCufBuzapusjeRXiPGhyrV9YqFeuS5uHNzpHoh/mH
-	BR5GgoaoBG9a8S7wpQp1/74Iv/6Ucmi4HICs1HvZ72BdJ/SuS3lxjfHn88TlGizk
-	NRuktDbM1qF2yzQ7xmlZXuJ5/g40H8Et1GdUCLumsAXxJIwf8iOEUkpwDduQpgX4
-	py8qtwpnB4/HmrUIQdFdcQ==
-Received: from dm5pr21cu001.outbound.protection.outlook.com (mail-centralusazon11011057.outbound.protection.outlook.com [52.101.62.57])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4d1tucxdv8-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Thu, 26 Mar 2026 08:00:12 -0700 (PDT)
+	s=arc-20240116; t=1774537610; c=relaxed/simple;
+	bh=FCZteffyqLGgXWgvwa7xpGE/q/tCXD5e93v12JXhxyY=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=mD7MEtDKu6NIIg+/E/fd6YwP40EBWw0T7Z37YKTit2VvV6g2Cy4OyTz3DljXHSxMzZVsLwEwq363e9Zmt6qmk7AyW1TOVmzDaK7qNNTguBi9nSpPSrUy+ekQ0TYVaABIXYWr40rQrSxoCKgmiRx8S4JYapmHhgW2pZuP0PwwWC4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=XfZIVBhx; arc=fail smtp.client-ip=52.101.229.71
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=O7ZZ/wpklsgD2Kiqno5dgZ/GX8keB09P91eDxSyygmBbbpcVJCu2H7VK9iFO65SU+2BozQ7ACxCdceGGhZn+Qk1bw4KY8lDzRVTBGBanuUqILyX/SQxIQ4OhtvSIan2xFU/ZXm6FZbKp/WFPwXqMmjAi1nXkKXTkp5x3trEBAshJvuP8VtV0VsmGmMjW8T8DzyB1g2fUKB0ptG1M5iG+9csSTcfFAbhkNwrGLP1ewc23FkTy8M1jci5scVgGGyD+eYHowZmcbjdIZQ6U9QXnFjFBh2mRce11+gvaGOCOHeBO1idly/dGj+19eTQxnSuNEo3WABIj+erF4Y/nHcEUsA==
+ b=o1sJCvscRQfGwsqcLcph/37zZnowCCWLoDQWe97koXWi5tyH4ivGhWNzaNykAG8k+MwbgMv+Gux+thxGJqXM1AKb7qoW7NFHRez6/3R7KAhhcaFqiSKV2L8ntHi7Q/Dw6tn8LWtnpTNhKjGR68wzDu5M7TNAaZPzFhZ2DdHmRKQPPHhze15bLkQ9jsCL4Awg0Ch0XhtE4aSOyreh4lW2GHilqk1EnCm29hA8bT83RwxU56ilIu4lSVdi8c1qd8gBnScFY7J0j60cs9UAb7rpRUaB7+2mwORUbkFYvYl1kbzUauZNfBqg+CrtdeXf0NAZoMvRoCwhuz4X2pFjv/hqyA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=lwsiwdOPOafNkn1i5cEuIyhlvRA2Vd6QlT9D825XvtQ=;
- b=O8Z429UwvnBAFHmPX56mAL5ob/uJRtHiRF/YSV1k9skLmclQfOGfhoGAgBqE0RCwwI1EoE3vJ3y0caEjsbX7txCS1gLGQFGiNsR7A8QDnrSBJukFZN3spIy9PpwVf7dKww7SFl1kg8mWXM3jJ++hrGF4gom4VppNtr5bDDcPHGZ5LHw7m0CCFEIn6+4m8wik/8U79RO6XpwhIMEE4iulYGuWJ9LXqv/H3RIdAPfxKpgbOvAs1TOEZEH0+pQDTJCHzsmR6C8UC2gSoeFx8wBJaQ8Gqm0YcC8eNqXw6TP4pAENXTFcdV/rkaz2cjrykmlK7XwpH1Ide/v31IWtryJkFw==
+ bh=FCZteffyqLGgXWgvwa7xpGE/q/tCXD5e93v12JXhxyY=;
+ b=VHTyy4rIEOMWfI8MLAHJCyoI9EIdVIETEaLoEvtQop0tyWPEk1dqGPzhI/ZlMVmH97euHEQH2Ivhz1Pyq/oguF06RMJ4C6RAmB55mzyV1JJ8LuGkk7fvBc+QiyK3n4xt7N2dWdDRs0U5qcjRaLKksg59ulXpE+ZGRIn2URxRd93BbqRaUFCV3dCtwB6PQMamhahFdaBtTDS1IxeCtQ22GroYhKji5fKL31XS8ulN1ckL2iosWkAyHKyrItqCSeTmpXCsdRMZkRb91Y+3CefsM06Ol0d5WczsrQ7tXNyR6pb3HRJpsvKv7+XdViO9USrc+5fPOHGEOuiD7upHBbTguQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from DS4PPFD667CEBB6.namprd11.prod.outlook.com
- (2603:10b6:f:fc02::53) by PH0PR11MB5781.namprd11.prod.outlook.com
- (2603:10b6:510:14a::14) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9745.20; Thu, 26 Mar
- 2026 15:00:04 +0000
-Received: from DS4PPFD667CEBB6.namprd11.prod.outlook.com
- ([fe80::5f46:caa4:60d4:f669]) by DS4PPFD667CEBB6.namprd11.prod.outlook.com
- ([fe80::5f46:caa4:60d4:f669%8]) with mapi id 15.20.9745.007; Thu, 26 Mar 2026
- 15:00:04 +0000
-Message-ID: <bb172420-e19d-4844-bbd7-a6b6ef5dbab5@windriver.com>
-Date: Thu, 26 Mar 2026 22:59:49 +0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] media: i2c: ov5645: Convert to CCI register access
- helpers
-To: Prabhakar <prabhakar.csengg@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Hans Verkuil <hverkuil@kernel.org>,
-        Hans de Goede <johannes.goede@oss.qualcomm.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
-        Mehdi Djait <mehdi.djait@linux.intel.com>,
-        Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
-        Sylvain Petinot <sylvain.petinot@foss.st.com>,
-        Hardevsinh Palaniya <hardevsinh.palaniya@siliconsignals.io>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20260326142107.297811-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20260326142107.297811-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=FCZteffyqLGgXWgvwa7xpGE/q/tCXD5e93v12JXhxyY=;
+ b=XfZIVBhxu3PRxQjxgONmLpFdG6sZIHHHOoQB3M1x8a+StVeH+Z8/7LNcv/HFOIuvoU1mljho5DhOgqXtjBBKc6L9HHcJGoXHXIt+bjpKESjeG242iRTx3iR7mBZAY0sydqFLehTAmEqGVzf09A+osigVQDHJZdxgk3ouIuZvRgQ=
+Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com (2603:1096:400:3d0::7)
+ by TYVPR01MB11229.jpnprd01.prod.outlook.com (2603:1096:400:36c::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9745.22; Thu, 26 Mar
+ 2026 15:06:44 +0000
+Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com
+ ([fe80::87d1:4928:d55:97de]) by TY3PR01MB11346.jpnprd01.prod.outlook.com
+ ([fe80::87d1:4928:d55:97de%4]) with mapi id 15.20.9745.023; Thu, 26 Mar 2026
+ 15:06:37 +0000
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: geert <geert@linux-m68k.org>, biju.das.au <biju.das.au@gmail.com>
+CC: Linus Walleij <linusw@kernel.org>, Claudiu Beznea
+	<claudiu.beznea.uj@bp.renesas.com>, "linux-renesas-soc@vger.kernel.org"
+	<linux-renesas-soc@vger.kernel.org>, "linux-gpio@vger.kernel.org"
+	<linux-gpio@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, Prabhakar Mahadev Lad
+	<prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: RE: [PATCH v2] pinctrl: renesas: rzg2l: Fix save/restore of
+ {IOLH,IEN,PUPD,SMT} registers
+Thread-Topic: [PATCH v2] pinctrl: renesas: rzg2l: Fix save/restore of
+ {IOLH,IEN,PUPD,SMT} registers
+Thread-Index: AQHcvIVATi6zgACS9k6a3PkefV2v/bXArt+AgAA6XRA=
+Date: Thu, 26 Mar 2026 15:06:37 +0000
+Message-ID:
+ <TY3PR01MB11346A5A7DA755F372ECE3D968656A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+References: <20260325182849.84660-1-biju.das.jz@bp.renesas.com>
+ <CAMuHMdW5jiR5CqV0xhxio4vtV_bPczO5u1Da86CWJO+=6WU4+Q@mail.gmail.com>
+In-Reply-To:
+ <CAMuHMdW5jiR5CqV0xhxio4vtV_bPczO5u1Da86CWJO+=6WU4+Q@mail.gmail.com>
+Accept-Language: en-GB, en-US
 Content-Language: en-US
-From: xiaolei wang <xiaolei.wang@windriver.com>
-In-Reply-To: <20260326142107.297811-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SG2P153CA0037.APCP153.PROD.OUTLOOK.COM (2603:1096:4:c6::6)
- To DS4PPFD667CEBB6.namprd11.prod.outlook.com (2603:10b6:f:fc02::53)
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TY3PR01MB11346:EE_|TYVPR01MB11229:EE_
+x-ms-office365-filtering-correlation-id: aabbc9ba-6c11-463c-872f-08de8b494742
+x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|1800799024|376014|366016|38070700021|56012099003|22082099003|18002099003;
+x-microsoft-antispam-message-info:
+ QP97MTtVJvCCN+LHwVY5uCaUa4Tu4v61SMBvThOjGHQLoZ2vK2vkJdnehhaHvy9ir5WT0/rHZTul4Y/TB2KrKFNHlHxxryx3ULbOeZmLcdIJn9ECKnatDMBGeQ06K38vBwVCS8jXXo1aPqfc6yxMTT+rWDEyq17M0hjtTc/O/8ss5NlqMQG6mB8QsWN1BjO0C5kYWVdrWS96vKIVxas3HBsok2W5Qs3GBkEMPZAVtdCESdOabBJO0ot50hMfcX143abOjXWW+taR0ZFtNrJq8U9nHdytLYvST1e1K5FdFsYRy4S0unAOFSq3OeLvvnn3vAk44ehngPdkpM0J2iiaFKEaKXy8Z5/TpQONANDWz8g+rSKLi8x5Pm3qCDunjC3YVTU2+BgSZoMNS1QTJMNhyg9e325HWW26bTiuB5aqUxRXhYuMmOg0OUYCmFDALLpzzVc242KtQl01riy/Ywotpyb9SQAj/LMaTvlnWW/3IYhP3WyfoIHu+EGxpKSOGBHpKOnYjmN/tC44ephCGICv9i8zToSGAfbp6vKImE+Yl5W3SzlUDmhjjTpvXx+cSEhkeNUkyjiZNWob5zvzpmMLKJ9ASHH2hEuXGOrJOX/tCH9W2N2I64GTaHksRH2mlOdQj/jR3cL0kSxYpebkGaIQReWGNaS+1n3amQseTHm/Tf9NQu5F1YCsJpRlUV9x2cssJE7kqQhu3GKrchbEIHNhRr4tzynTgUOuvF9RsNBttiI8lJiFKrAzX3xfFtrMYbPgTBFY9YU6k6PJ3GERVEqP5TN4GDI2OoBHZWh+vuLx7P8=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB11346.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(38070700021)(56012099003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?utf-8?B?MC9hMHJUSHZVSk9CY2RabmhrTjhnUDRwSS8weDRHMlhyWXZ0eU5sc3UwdUxK?=
+ =?utf-8?B?MUc0eU1zMm9KTGdBdzc3UlhKbS8xakVKMnJ3Mm9VU3RCL0VEZHJMdWd6QnhE?=
+ =?utf-8?B?djg3ZWVOQVR3ZDdENFZPNm1Va1pPVEl4V3RzV2V1ZEdmTUVIMk9velZZSGNj?=
+ =?utf-8?B?OVdVcW9mZDhNeHp2eTF5cGc0bFhtZXJzOHpwT2pyazh2SW5GVnpSTjZNVVNM?=
+ =?utf-8?B?QVByZUg2aVRIS0IzVlhHcjNzQkQxbzBzZDBpWUQxdkg1ZnQ2YjAxNTNsSFZW?=
+ =?utf-8?B?bnppOVRZSzFLSS9kdFdWQnA1N1B3eGJVZHV3NGphd05TRjVUUkIzNDlMR28v?=
+ =?utf-8?B?cDY5aFprQWtQNUV5U09oanFyVXdESmZrSkNIb0VpQ1ovR1l2d1NvM09oSnRK?=
+ =?utf-8?B?VHZMQmVvdzN5dHlRZ2VXU0lxbFlSZnVuU0tyVG92Z051U0RSQ0xMb3NGMzJk?=
+ =?utf-8?B?emZsOWhlRkJrbVc5azR4YVNPckhyODNKdmswZy9hSjVkWkExUXExTjlhYStZ?=
+ =?utf-8?B?YWtSb1Y2TjBNRWdQeEdFK1lhNDM1VVk0YWg0VktkYlc2U0R5R0xsOFhqeWpj?=
+ =?utf-8?B?dHRvdW9KTWlWWVBKVTdSNVdXVXI0dCs3MU5ueFduc1JFSFFkYjJMUDVzZDNK?=
+ =?utf-8?B?SkZBZFAxdTl4YTZmd1RwQUxVd0tWM2wrejB0UCtJdFB4RDhJMFJXeFp2dUQ0?=
+ =?utf-8?B?UDVuREhhbmtnYnNHZVNTMXZRWlAveWlDMHF4T3gyYkhza1RnVnJlKzRHb2F6?=
+ =?utf-8?B?VGJtOXhOMlFoY3Fiajl3ZVErMzFIZkJLemZlYUcyOUhPUUdONlRjYS9ON2Fj?=
+ =?utf-8?B?ZEYwUWprUWhGakpZOGQvc0JSblEwWW0zY0ZMODZXd2dwcmdWaDZTMzJSZHdN?=
+ =?utf-8?B?RGNCL3RqZkkyU2oyVU1MTWh1V0tqSDBzVnY0K3lvYTl1RVB5K1V0Q0t4c3dn?=
+ =?utf-8?B?bUZqZkxmeWh2eXBwcElmbkFJWWlYRUROVGVtSGVZQjdnOHpLeDhQeXc4Z3ky?=
+ =?utf-8?B?WUtYNkM4MjlIUHJISG1mZllqREhvblBFbnJ3RUZOOUNPbzNBL1RRbGp3U0pE?=
+ =?utf-8?B?bUZhcnpUUlBhUDkzZFhJa1ViTTF2Sm5QL3cvM0hrbjN6dUpHaktqVXZ5eU5j?=
+ =?utf-8?B?ODkxd1d6bFZoQ3hDdnAxMkpiV1BZK2dKTEdMM05SREtNVjNQZDV6SElBUFg1?=
+ =?utf-8?B?Nlk4OG8rTnVlSzNhL0VXdXpJbUc5dzA5YU5TMHNJSUFhM2F0cytWb0h4RDk1?=
+ =?utf-8?B?MDRMQ09MTWJJVEc0dFpwWWFnUmNNMXpEOTlrTnJvVTdJT1JCTmxjRVJJNDJp?=
+ =?utf-8?B?WVZoZm54WkIyUkU1M1FMVzE1NHR3ZXFYTUF5Z1FXNGdqZlpVaE1YUnQ2Skpx?=
+ =?utf-8?B?R0lFQ2dvbkRsclgvYTdpajYzYklQckE0NTVMS0FORFNyc0tqK1VkOGw2Q2gz?=
+ =?utf-8?B?WEpkdzdPLzA4RTEveXN2NWticTJyVFAvalRSbytwbnJMczNOT3hkd3hpZEVW?=
+ =?utf-8?B?L3hWRTlSQ2FtVmEyRklrQjBJREg2QktESzRyazVuWkgrZ24yL2Ivbmwrd0xh?=
+ =?utf-8?B?QjBMaFovdVZCZ3oxK2NmT3pwR0xQZkxPT0xmMnUweVc3UTVtc1huMmIvdWxR?=
+ =?utf-8?B?NmxnSFdFbXhqZEpkK0J4Z2hrdjlzb0RaQlBtY0pkZnVTUTdJZXZKRlc4N3Vz?=
+ =?utf-8?B?QkxwMlgxRHlnbjZ5Mm1ybGk5NGRIU0dyUjFUTHpzZlhtdW40THVTVVlLZlNo?=
+ =?utf-8?B?T2U2UUE2UkpVcW1OK1MvUWlabldsRzZRUEU4cGdTdldFL1VvR1A0Q0J1dlRZ?=
+ =?utf-8?B?WUtJOVp1MU0xeG8zYnI4ajdjVUJENE1FU3ZpbEY4YktwbVhZZUQ4LzErZzRN?=
+ =?utf-8?B?WmdFK25peHhqS281Vm5OV0M1eitrYXFsWXFzYUxxOFV4eGhmbit5YnFjNjB2?=
+ =?utf-8?B?b0ZqTUlVWHBhcjdteGZqSE5CaVJwTld3WnlhL0JmZFlTeXJJdkVGajkyM0xJ?=
+ =?utf-8?B?Ujg0LzVVb2d1Z05KZUtVV082d2tWK3RESkcvQS9jUEt2ZHNuaGxFZFFyZkVs?=
+ =?utf-8?B?V1VtS2FmNlVHWjVab1lySlBwdE9CMUdBNDVIYWI0RVRoUElCMlZCRWM2YS9p?=
+ =?utf-8?B?V1BoRlR2Z3VQSkJ0aUhBMTRmSjZ0SXVndzFmY0pUMEY2UURHOTlLY3pWd0Jn?=
+ =?utf-8?B?UURqekQrL2hrSDh6Zjloc2hkQitwVHVCVHE0dDFIcHhuRi9maUk4SHYwVlp4?=
+ =?utf-8?B?NkRqSmlBQ0FSbDBFcElLVDZpSjhQY3hmcVYxQ1Nyb3FxLzNmMHhPK3U0MXh4?=
+ =?utf-8?B?NHg3RU54ZGsrZ0EvMENMUlAreVpVQkZnclNsRFhVYUtrL1hvRDJKUT09?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS4PPFD667CEBB6:EE_|PH0PR11MB5781:EE_
-X-MS-Office365-Filtering-Correlation-Id: 618a439e-9cd9-4368-db6c-08de8b485c63
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|376014|7416014|10070799003|366016|921020|56012099003|18002099003|18092099006|22082099003;
-X-Microsoft-Antispam-Message-Info:
-	3+iAwbkm48rdQA7hfOeLL+aA6q+3r/CAotC7sYxGoPF16bK+Jv6KYxdPeW7K2X7QV4vIbKkIz9/BgXWFfYNaFQeZplQC9UO3iB/Lgb3+dVUcm7XiQwpUma7LGkaquZUB/9wQvAKBuN/hDoNEtsrZD2wqLIvoXd2ZEogPARDH6AS5htjgoamB6meEBsml+q/MJ13+ZtIMiHBLGYFF1GIUZ6emBCC5TjD2upE2K/RnaNoUnrezuKuysSM85bhxuNhe/ZxMuQTDcTwmRGJLFZjKOO1ULb8LESO+B6krzdHSnpXpicsX+TRmPaBtX2Ru+PWdChjO9PgEW3KyWWpFmCb/eqZ7wAhiWPgLnpPv9CO348ZIuyjMUD/Fp1G/vhXEAzBaLPdLcwg1tVCEP/a1akPYKqWcH4bFQZXPQ5vn7HR+yn+P9XChIhvJzzP0A3BopKRkRnP1/vh7hDqzhzMLy170OvBnjnZ+0bZ8n45KzgFswHtEQKT/iYyVbqh0B6tm6H6kZAwoT6ngAbUFq3nGADhXQRyomElKrY6y3M+fVAfrlNDQbQfNbo/PlfvKjK01wm0XspM/qkZ6zsOOrN+oELjb8F9VbOHPLfpZvQ0zTo1obTNx2dQMtl8vVKo33lOHJI1OT5P+7IXZIx1fR4Sx83CddVm1IyMxsWaAIPMPC4EM6t4cNYIfVfpwpud320u/GwmC1JSKZYgi01J/IiFqevl6fofs/9Fv6VddeQCb/mcJzakuOeJTo4VTD1uy8IuaudP7HqvefMKEoo7fNSDlWxglfA==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS4PPFD667CEBB6.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(7416014)(10070799003)(366016)(921020)(56012099003)(18002099003)(18092099006)(22082099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?TlMybFZaNVdBYnY1bEJWcXN1YWxBWFRXbnRoYnFkM0picnFjbE9OdERpeXJN?=
- =?utf-8?B?cjZGWnZIS2xaaG9YUmlVT3BPaUxtMjNFUnFDSE5zVnlRZFltYmkrVnU3YVVD?=
- =?utf-8?B?Q1JGaDJDbmRScW5TcVR0WUdHV3ppVEVjT2NhNXlZajdwLzdpbmZyYUt4bHhR?=
- =?utf-8?B?Q0xXYzI5T00zcTFiZ294SW96VlY2LzRuSlp4YnhSZk5TdDl5cnlacWhqSERS?=
- =?utf-8?B?dVo5QWdOYUUybWJXUFpFUElYM3l6KzdDaDMzYk9lazltSmRHWHJUWS9haTJs?=
- =?utf-8?B?QnJYZ0hONENyVHN2dmtDZnFJQ1BVQTRGRjNCclRRSnlId0kydDF4NGF0bit0?=
- =?utf-8?B?MjlqOWJZMEt6QTFFZHVyNWxyQ3lzUGJSQ2FVcTJVZ29hOWhVNDdPdmlqZy9W?=
- =?utf-8?B?RWY2YXkrejNkV2pZMkFRQnlBVFRCQzkvbXJGZEhmWWJhVGZYOXQwNXc4Nmdu?=
- =?utf-8?B?azRGWHVKM2MrenpnVXlQTTNnZUk4cEVhUU9yVU0xdW5TZU1vZHMwMUxUMnk4?=
- =?utf-8?B?ZFhKT2ZkaE84TVc5SDd2U3N0dnhqTmdaOUNhL2R5N3hldmljQXA1NlBWVGwv?=
- =?utf-8?B?eGNaMGxsc0tROU51eDNRVGFpdDJVVUdPWGlWSGE0S2VFZzA4YTdtUnlSUjVK?=
- =?utf-8?B?R3BJSlhVQXZEWHhVZGF3M0EvcnVqdWFwSTYyd1RNWjJRNTZBeFRTYllNbkZq?=
- =?utf-8?B?RkU1SEFicHd4R0tIeWRkTG1OdDZCU0dhMFBuQnRhQ2w2azlpSmVzT3lyY2R6?=
- =?utf-8?B?YmxVM0Y5RmJzKzhpU0RNYURCSk1VN1Z5NFh5Nk9NMDk5R2RzR0Jkb3k3U09p?=
- =?utf-8?B?L2hKd1hiR01uK00rK3N6a2h2bUlEVyt5MEovZC9SblNxVFJEb1BEQ1lOM1ha?=
- =?utf-8?B?QmN1OEdHdzhKaGxRNlBodllueks0Z3BRTUdIUjVGbVREUW81NkNVTmtRTXE3?=
- =?utf-8?B?ZGRyWHdxZXlBVzNKM0pRSzB2WXd0ZXBCMjhNYTVEVXdQVFVOSTd4WmZLM2Nh?=
- =?utf-8?B?Z1ZsMldEVHplSHBVdmRUSkJwV081TUdHN3p6T1F2OUt0d0pqUWJvZG1pdHh1?=
- =?utf-8?B?M0ZFaWZxNm85VmN6RStFY2FqaU4yMU8wb0Q4MnpaMWsxQmhWd25LbFFWSFJz?=
- =?utf-8?B?R1BRRVNKWmpjMGZmT2VRanNSdFZ5ZGR6bCtQUUJ6TzZPam1lT2hCc1FuNnRM?=
- =?utf-8?B?cHJUQno5Ymt3KzdEMFl4THIvd20wQS85U1JUYUYySytFNDRibWtPTUxvK2pW?=
- =?utf-8?B?S2pwK3VnWjVDMTlOeXhJUjhxL0pxMWVEM0V3TTZDREtrNHdHMEcySWN5cmkr?=
- =?utf-8?B?cVVoZ3BPdndXaGNHSWxHbmN6dmpNem83R29sc1dXdWV5ZFJRbERuSnNYQjdM?=
- =?utf-8?B?bng0bllrQWdKbWp3eXZ1NTFVM0FlNEdBNFR0cko0cy9qL0pNTnRYOUo4elJw?=
- =?utf-8?B?NXVEaE5XaTVUMit0Sm1RdmxlM2JOeUxXcFVRdnFSVUdINTVWM0hhZktpQnlo?=
- =?utf-8?B?Yk9CQ0JhTmd4RSsraW1XYXBXQTk4ZWIxM0lRa3czeTFiNGNWYWZ2UzJSeHpE?=
- =?utf-8?B?WTBJSk55R3JRbnM5d3RHN09mbEk4SlBCZ3lpYmt6dDFjOTlrMWVCRUpTdFl3?=
- =?utf-8?B?SWtXNDIxam9RRTZJa1UvQUpnQitMZU5XSDVUMGlQOVNyY0VWQXFGcUIyemsr?=
- =?utf-8?B?YUtGbUptUDVIOHd3bHJSZ0FqMjVqV0JoZWtmN2crY09reXIzKzRvTXFVa05j?=
- =?utf-8?B?b1l3cFdqWVdQV0tSVlVDSVlCOGgyYTFoRHZtWC9hYkZEeGJPWlI3QzFSZU1C?=
- =?utf-8?B?TnowS2xRcW53RHQxRGQyUDJwYm9qZFBNV2VjejZhWVFPbmxwanRuY2Uxd3dm?=
- =?utf-8?B?K05CZ2JCKzZEdmIzUEJJY1ZQeGRDQjZ1NGhxUDdaekF6T0NIMmxISnhwMEVT?=
- =?utf-8?B?b29qcmlFMFFFM2pzcHppVEp3b2dCMnl5K1pHRjNDWjBHTlk5elgxZi85dlRa?=
- =?utf-8?B?czJBdmIrZHcwT2JiQzBmV1VRVnpYQlluOVhOOG9pTHRxLzJNbXVJMjhsUkZF?=
- =?utf-8?B?dUJ0RnNVbGhpZUtTaVd4SmpjQ0VMaXpGZ2t4NUpHTTh0MytOVlQ3bmo0cWkx?=
- =?utf-8?B?U05vdEQ3eWJCVGd0d2k3YXZiSVB0TmwzdUErSjBzd29EaVl2dTAvaHNxa2Vm?=
- =?utf-8?B?OStkeFR6ajI3Q2txbThwTDJJM1RRRkU4TU1WT1JkSEJnL1F0eHduRG85OG9S?=
- =?utf-8?B?VE81VExrR2RqOFVuTmdBVFhISGh3ZHRYL3ozVWlMRVlBZTZ1eEMxMGZxeFlQ?=
- =?utf-8?B?S09oUW1teHYyaUxkV05LUllvcEZoQldTNTVJN0IxcXp4b0g3cUdrZ1dsWVQw?=
- =?utf-8?Q?m92d6yophsEqNd/XpiQ2JciDZMcohrF6cX+5u4OVY6gCh?=
-X-MS-Exchange-AntiSpam-MessageData-1: wlQNeNRljbnr5BXr5rlpCxq1dw1Jn79nFYQ=
-X-Exchange-RoutingPolicyChecked:
-	IH3r5B/l6Olo1sG1IzrOcbTnLjOEPQRcse5TKV1AH134Co6r5kqGJLVehVaYEdqyTAUmVp58umw2rGt4MC0v79bM9/JbFBSfdyZCcONtbILtyTeUDdzd7sBraudZStVFJ1PWqRzBRmA5dgUu/GHdycgmpGzMphK/j40HYa/fHGgLn60oTGUXJcPcTnxrhXVfjbWKxVDrZ9+Bb7BnS1iRF/5BIDLZi0/COOySSuMjFhdwK6dOY1yI8lcZmiFB/NWcPZ4Yn14xP1dbQxEyHOihK/4H8TmsTQiQUMRC3hK4Emio8dXSqOB6l3YSXswhErK9Q9XtPbW8SNhY8w1HF61u0w==
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 618a439e-9cd9-4368-db6c-08de8b485c63
-X-MS-Exchange-CrossTenant-AuthSource: DS4PPFD667CEBB6.namprd11.prod.outlook.com
+X-OriginatorOrg: bp.renesas.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Mar 2026 15:00:04.4257
+X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11346.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: aabbc9ba-6c11-463c-872f-08de8b494742
+X-MS-Exchange-CrossTenant-originalarrivaltime: 26 Mar 2026 15:06:37.7467
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ePYSh1rCsmjjZLi3Dhbs/5mpTyvQFpcKigLnzV8KW/D9EbHvIlVpGRc+4+DElytO7YkSiBBpjmDTb7m91VVCg7LzIxAscslcv6dO+EQkEMs=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR11MB5781
-X-Proofpoint-GUID: YGed9JMtsbOV9hB8PQVnBUw1jomh6Hae
-X-Proofpoint-ORIG-GUID: YGed9JMtsbOV9hB8PQVnBUw1jomh6Hae
-X-Authority-Analysis: v=2.4 cv=deCNHHXe c=1 sm=1 tr=0 ts=69c549fc cx=c_pps
- a=aQYToRbhQZUme44wGBfxuw==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
- a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
- a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10 a=Yq5XynenixoA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=bi6dqmuHe4P4UrxVR6um:22 a=iKiJcTA2PjBS6x5JeXcw:22
- a=yC-0_ovQAAAA:8 a=fmOElCpjytO-HW3pjo8A:9 a=QEXdDO2ut3YA:10
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzI2MDEwNiBTYWx0ZWRfXz78lsrih4Hiu
- hDCjDaLVhNr1/4fs5irXXLWGvBIqeibbTAc9GZkXOP2C47345YzM5AZT9Bm3FVBt8k3HDOzO7OC
- UfDENt1YcKBJEJEgZS+qJc5gw0M+CvDE7h4Jlc1D3tihWizhVqfSg9SotI/stpdCQQEQeat3iaq
- kU7UfaEQrjswsVmh+cxyYU/UhjOirawwMTyzZCDiRYwbFvgC7BFxUKvDl6jjKNLWg01+G2LS7o5
- w+KFaRkhfq+AYNNeYg5Dai97kVZ87MkhC9wZZPehX1/cK4aMCmxhRLFvgjec7Mv+U1I51EJ9v9l
- bVgpy6kDQgRv5SHJjBoOjzv08M3DlECUjp9vfvURRKDvO/Gsf95478GhewfuoJLO85kSAW0Ra9B
- fPaAzdZiceChsCkEZLf+MPpSg8NyQDU4XNZ1Y5c++yo0arriygHWURt0JOlIiQUFOdaetnzP/Hd
- umYzbpmAZ/04TXWMjGg==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-03-26_03,2026-03-26_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1011 malwarescore=0 spamscore=0 phishscore=0 priorityscore=1501
- impostorscore=0 lowpriorityscore=0 suspectscore=0 adultscore=0 bulkscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2603050001 definitions=main-2603260106
-X-Spamd-Result: default: False [1.34 / 15.00];
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 0N3RT0VR1kRSyU0qrMPWvXA4z8F9Cp2xj6EOCpLNwBtpacjiiiGtXkZpY81GhDyT35q16YMnVTgtFYwgj+wwm1dzmACWERE4/vm8JBuy0jg=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYVPR01MB11229
+X-Spamd-Result: default: False [2.44 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_REJECT(1.00)[cv is fail on i=2];
-	DMARC_POLICY_ALLOW(-0.50)[windriver.com,reject];
-	R_DKIM_ALLOW(-0.20)[windriver.com:s=PPS06212021];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	MIME_BASE64_TEXT_BOGUS(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[renesas.com,none];
+	R_DKIM_ALLOW(-0.20)[bp.renesas.com:s=selector1];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
+	MIME_BASE64_TEXT(0.10)[];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-30368-lists,linux-renesas-soc=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com,kernel.org,linux.intel.com,oss.qualcomm.com,ideasonboard.com,linaro.org,foss.st.com,siliconsignals.io];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[17];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,renesas.com:email,windriver.com:dkim,windriver.com:mid];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[xiaolei.wang@windriver.com,linux-renesas-soc@vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-30369-lists,linux-renesas-soc=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
+	FREEMAIL_TO(0.00)[linux-m68k.org,gmail.com];
+	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[windriver.com:+];
+	DKIM_TRACE(0.00)[bp.renesas.com:+];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[biju.das.jz@bp.renesas.com,linux-renesas-soc@vger.kernel.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
 	TAGGED_RCPT(0.00)[linux-renesas-soc];
-	MID_RHS_MATCH_FROM(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	RCVD_COUNT_SEVEN(0.00)[7]
-X-Rspamd-Queue-Id: E9C3B337575
+	RCPT_COUNT_SEVEN(0.00)[8];
+	MISSING_XM_UA(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[TY3PR01MB11346.jpnprd01.prod.outlook.com:mid,linux-m68k.org:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,renesas.com:email]
+X-Rspamd-Queue-Id: 8DB0E3375E2
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi Prabhakar,
-
-On 3/26/26 22:21, Prabhakar wrote:
-> CAUTION: This email comes from a non Wind River email account!
-> Do not click links or open attachments unless you recognize the sender and know the content is safe.
->
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->
-> Convert the ov5645 driver to use the V4L2 CCI register access helpers
-> and regmap infrastructure instead of the custom I2C register access
-> implementation.
->
-> Keep ov5645_set_register_array() as ov5645_global_init_setting requires
-> a delay between specific register writes, which cannot be expressed
-> through the generic CCI multi-write helper.
->
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> ---
->   drivers/media/i2c/Kconfig  |   1 +
->   drivers/media/i2c/ov5645.c | 901 ++++++++++++++++++-------------------
->   2 files changed, 429 insertions(+), 473 deletions(-)
->
-> diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
-> index 20482be35f26..921186d36589 100644
-> --- a/drivers/media/i2c/Kconfig
-> +++ b/drivers/media/i2c/Kconfig
-> @@ -526,6 +526,7 @@ config VIDEO_OV5640
->          tristate "OmniVision OV5640 sensor support"
->          depends on OF
->          depends on GPIOLIB
-> +       select V4L2_CCI_I2C
-
-The V4L2_CCI_I2C select option seems to have been placed here on the OV5640.
-
-thanks
-
-xiaolei
-
->          help
->            This is a Video4Linux2 sensor driver for the Omnivision
->            OV5640 camera sensor with a MIPI CSI-2 interface.
-> diff --git a/drivers/media/i2c/ov5645.c b/drivers/media/i2c/ov5645.c
-> index df9001fce44d..04097289e119 100644
-> --- a/drivers/media/i2c/ov5645.c
-> +++ b/drivers/media/i2c/ov5645.c
-> @@ -25,40 +25,42 @@
->   #include <linux/of.h>
->   #include <linux/of_graph.h>
->   #include <linux/pm_runtime.h>
-> +#include <linux/regmap.h>
->   #include <linux/regulator/consumer.h>
->   #include <linux/slab.h>
->   #include <linux/types.h>
->   #include <media/mipi-csi2.h>
-> +#include <media/v4l2-cci.h>
->   #include <media/v4l2-ctrls.h>
->   #include <media/v4l2-fwnode.h>
->   #include <media/v4l2-subdev.h>
->
-> -#define OV5645_SYSTEM_CTRL0            0x3008
-> +#define OV5645_SYSTEM_CTRL0            CCI_REG8(0x3008)
->   #define                OV5645_SYSTEM_CTRL0_START       0x02
->   #define                OV5645_SYSTEM_CTRL0_STOP        0x42
-> -#define OV5645_CHIP_ID_HIGH            0x300a
-> +#define OV5645_CHIP_ID_HIGH            CCI_REG8(0x300a)
->   #define                OV5645_CHIP_ID_HIGH_BYTE        0x56
-> -#define OV5645_CHIP_ID_LOW             0x300b
-> +#define OV5645_CHIP_ID_LOW             CCI_REG8(0x300b)
->   #define                OV5645_CHIP_ID_LOW_BYTE         0x45
-> -#define OV5645_IO_MIPI_CTRL00          0x300e
-> -#define OV5645_PAD_OUTPUT00            0x3019
-> -#define OV5645_AWB_MANUAL_CONTROL      0x3406
-> +#define OV5645_IO_MIPI_CTRL00          CCI_REG8(0x300e)
-> +#define OV5645_PAD_OUTPUT00            CCI_REG8(0x3019)
-> +#define OV5645_AWB_MANUAL_CONTROL      CCI_REG8(0x3406)
->   #define                OV5645_AWB_MANUAL_ENABLE        BIT(0)
-> -#define OV5645_AEC_PK_MANUAL           0x3503
-> +#define OV5645_AEC_PK_MANUAL           CCI_REG8(0x3503)
->   #define                OV5645_AEC_MANUAL_ENABLE        BIT(0)
->   #define                OV5645_AGC_MANUAL_ENABLE        BIT(1)
-> -#define OV5645_TIMING_TC_REG20         0x3820
-> +#define OV5645_TIMING_TC_REG20         CCI_REG8(0x3820)
->   #define                OV5645_SENSOR_VFLIP             BIT(1)
->   #define                OV5645_ISP_VFLIP                BIT(2)
-> -#define OV5645_TIMING_TC_REG21         0x3821
-> +#define OV5645_TIMING_TC_REG21         CCI_REG8(0x3821)
->   #define                OV5645_SENSOR_MIRROR            BIT(1)
-> -#define OV5645_MIPI_CTRL00             0x4800
-> -#define OV5645_PRE_ISP_TEST_SETTING_1  0x503d
-> +#define OV5645_MIPI_CTRL00             CCI_REG8(0x4800)
-> +#define OV5645_PRE_ISP_TEST_SETTING_1  CCI_REG8(0x503d)
->   #define                OV5645_TEST_PATTERN_MASK        0x3
->   #define                OV5645_SET_TEST_PATTERN(x)      ((x) & OV5645_TEST_PATTERN_MASK)
->   #define                OV5645_TEST_PATTERN_ENABLE      BIT(7)
-> -#define OV5645_SDE_SAT_U               0x5583
-> -#define OV5645_SDE_SAT_V               0x5584
-> +#define OV5645_SDE_SAT_U               CCI_REG8(0x5583)
-> +#define OV5645_SDE_SAT_V               CCI_REG8(0x5584)
->
->   /* regulator supplies */
->   static const char * const ov5645_supply_name[] = {
-> @@ -71,15 +73,10 @@ static const char * const ov5645_supply_name[] = {
->
->   #define OV5645_PAD_SOURCE      0
->
-> -struct reg_value {
-> -       u16 reg;
-> -       u8 val;
-> -};
-> -
->   struct ov5645_mode_info {
->          u32 width;
->          u32 height;
-> -       const struct reg_value *data;
-> +       const struct cci_reg_sequence *data;
->          u32 data_size;
->          u32 pixel_clock;
->          u32 link_freq;
-> @@ -88,6 +85,7 @@ struct ov5645_mode_info {
->   struct ov5645 {
->          struct i2c_client *i2c_client;
->          struct device *dev;
-> +       struct regmap *regmap;
->          struct v4l2_subdev sd;
->          struct media_pad pad;
->          struct v4l2_fwnode_endpoint ep;
-> @@ -103,9 +101,9 @@ struct ov5645 {
->          struct v4l2_ctrl *link_freq;
->
->          /* Cached register values */
-> -       u8 aec_pk_manual;
-> -       u8 timing_tc_reg20;
-> -       u8 timing_tc_reg21;
-> +       u64 aec_pk_manual;
-> +       u64 timing_tc_reg20;
-> +       u64 timing_tc_reg21;
->
->          struct gpio_desc *enable_gpio;
->          struct gpio_desc *rst_gpio;
-> @@ -116,393 +114,393 @@ static inline struct ov5645 *to_ov5645(struct v4l2_subdev *sd)
->          return container_of(sd, struct ov5645, sd);
->   }
->
-> -static const struct reg_value ov5645_global_init_setting[] = {
-> -       { 0x3103, 0x11 },
-> -       { 0x3008, 0x42 },
-> -       { 0x3103, 0x03 },
-> -       { 0x3503, 0x07 },
-> -       { 0x3002, 0x1c },
-> -       { 0x3006, 0xc3 },
-> -       { 0x3017, 0x00 },
-> -       { 0x3018, 0x00 },
-> -       { 0x302e, 0x0b },
-> -       { 0x3037, 0x13 },
-> -       { 0x3108, 0x01 },
-> -       { 0x3611, 0x06 },
-> -       { 0x3500, 0x00 },
-> -       { 0x3501, 0x01 },
-> -       { 0x3502, 0x00 },
-> -       { 0x350a, 0x00 },
-> -       { 0x350b, 0x3f },
-> -       { 0x3620, 0x33 },
-> -       { 0x3621, 0xe0 },
-> -       { 0x3622, 0x01 },
-> -       { 0x3630, 0x2e },
-> -       { 0x3631, 0x00 },
-> -       { 0x3632, 0x32 },
-> -       { 0x3633, 0x52 },
-> -       { 0x3634, 0x70 },
-> -       { 0x3635, 0x13 },
-> -       { 0x3636, 0x03 },
-> -       { 0x3703, 0x5a },
-> -       { 0x3704, 0xa0 },
-> -       { 0x3705, 0x1a },
-> -       { 0x3709, 0x12 },
-> -       { 0x370b, 0x61 },
-> -       { 0x370f, 0x10 },
-> -       { 0x3715, 0x78 },
-> -       { 0x3717, 0x01 },
-> -       { 0x371b, 0x20 },
-> -       { 0x3731, 0x12 },
-> -       { 0x3901, 0x0a },
-> -       { 0x3905, 0x02 },
-> -       { 0x3906, 0x10 },
-> -       { 0x3719, 0x86 },
-> -       { 0x3810, 0x00 },
-> -       { 0x3811, 0x10 },
-> -       { 0x3812, 0x00 },
-> -       { 0x3821, 0x01 },
-> -       { 0x3824, 0x01 },
-> -       { 0x3826, 0x03 },
-> -       { 0x3828, 0x08 },
-> -       { 0x3a19, 0xf8 },
-> -       { 0x3c01, 0x34 },
-> -       { 0x3c04, 0x28 },
-> -       { 0x3c05, 0x98 },
-> -       { 0x3c07, 0x07 },
-> -       { 0x3c09, 0xc2 },
-> -       { 0x3c0a, 0x9c },
-> -       { 0x3c0b, 0x40 },
-> -       { 0x3c01, 0x34 },
-> -       { 0x4001, 0x02 },
-> -       { 0x4514, 0x00 },
-> -       { 0x4520, 0xb0 },
-> -       { 0x460b, 0x37 },
-> -       { 0x460c, 0x20 },
-> -       { 0x4818, 0x01 },
-> -       { 0x481d, 0xf0 },
-> -       { 0x481f, 0x50 },
-> -       { 0x4823, 0x70 },
-> -       { 0x4831, 0x14 },
-> -       { 0x5000, 0xa7 },
-> -       { 0x5001, 0x83 },
-> -       { 0x501d, 0x00 },
-> -       { 0x501f, 0x00 },
-> -       { 0x503d, 0x00 },
-> -       { 0x505c, 0x30 },
-> -       { 0x5181, 0x59 },
-> -       { 0x5183, 0x00 },
-> -       { 0x5191, 0xf0 },
-> -       { 0x5192, 0x03 },
-> -       { 0x5684, 0x10 },
-> -       { 0x5685, 0xa0 },
-> -       { 0x5686, 0x0c },
-> -       { 0x5687, 0x78 },
-> -       { 0x5a00, 0x08 },
-> -       { 0x5a21, 0x00 },
-> -       { 0x5a24, 0x00 },
-> -       { 0x3008, 0x02 },
-> -       { 0x3503, 0x00 },
-> -       { 0x5180, 0xff },
-> -       { 0x5181, 0xf2 },
-> -       { 0x5182, 0x00 },
-> -       { 0x5183, 0x14 },
-> -       { 0x5184, 0x25 },
-> -       { 0x5185, 0x24 },
-> -       { 0x5186, 0x09 },
-> -       { 0x5187, 0x09 },
-> -       { 0x5188, 0x0a },
-> -       { 0x5189, 0x75 },
-> -       { 0x518a, 0x52 },
-> -       { 0x518b, 0xea },
-> -       { 0x518c, 0xa8 },
-> -       { 0x518d, 0x42 },
-> -       { 0x518e, 0x38 },
-> -       { 0x518f, 0x56 },
-> -       { 0x5190, 0x42 },
-> -       { 0x5191, 0xf8 },
-> -       { 0x5192, 0x04 },
-> -       { 0x5193, 0x70 },
-> -       { 0x5194, 0xf0 },
-> -       { 0x5195, 0xf0 },
-> -       { 0x5196, 0x03 },
-> -       { 0x5197, 0x01 },
-> -       { 0x5198, 0x04 },
-> -       { 0x5199, 0x12 },
-> -       { 0x519a, 0x04 },
-> -       { 0x519b, 0x00 },
-> -       { 0x519c, 0x06 },
-> -       { 0x519d, 0x82 },
-> -       { 0x519e, 0x38 },
-> -       { 0x5381, 0x1e },
-> -       { 0x5382, 0x5b },
-> -       { 0x5383, 0x08 },
-> -       { 0x5384, 0x0a },
-> -       { 0x5385, 0x7e },
-> -       { 0x5386, 0x88 },
-> -       { 0x5387, 0x7c },
-> -       { 0x5388, 0x6c },
-> -       { 0x5389, 0x10 },
-> -       { 0x538a, 0x01 },
-> -       { 0x538b, 0x98 },
-> -       { 0x5300, 0x08 },
-> -       { 0x5301, 0x30 },
-> -       { 0x5302, 0x10 },
-> -       { 0x5303, 0x00 },
-> -       { 0x5304, 0x08 },
-> -       { 0x5305, 0x30 },
-> -       { 0x5306, 0x08 },
-> -       { 0x5307, 0x16 },
-> -       { 0x5309, 0x08 },
-> -       { 0x530a, 0x30 },
-> -       { 0x530b, 0x04 },
-> -       { 0x530c, 0x06 },
-> -       { 0x5480, 0x01 },
-> -       { 0x5481, 0x08 },
-> -       { 0x5482, 0x14 },
-> -       { 0x5483, 0x28 },
-> -       { 0x5484, 0x51 },
-> -       { 0x5485, 0x65 },
-> -       { 0x5486, 0x71 },
-> -       { 0x5487, 0x7d },
-> -       { 0x5488, 0x87 },
-> -       { 0x5489, 0x91 },
-> -       { 0x548a, 0x9a },
-> -       { 0x548b, 0xaa },
-> -       { 0x548c, 0xb8 },
-> -       { 0x548d, 0xcd },
-> -       { 0x548e, 0xdd },
-> -       { 0x548f, 0xea },
-> -       { 0x5490, 0x1d },
-> -       { 0x5580, 0x02 },
-> -       { 0x5583, 0x40 },
-> -       { 0x5584, 0x10 },
-> -       { 0x5589, 0x10 },
-> -       { 0x558a, 0x00 },
-> -       { 0x558b, 0xf8 },
-> -       { 0x5800, 0x3f },
-> -       { 0x5801, 0x16 },
-> -       { 0x5802, 0x0e },
-> -       { 0x5803, 0x0d },
-> -       { 0x5804, 0x17 },
-> -       { 0x5805, 0x3f },
-> -       { 0x5806, 0x0b },
-> -       { 0x5807, 0x06 },
-> -       { 0x5808, 0x04 },
-> -       { 0x5809, 0x04 },
-> -       { 0x580a, 0x06 },
-> -       { 0x580b, 0x0b },
-> -       { 0x580c, 0x09 },
-> -       { 0x580d, 0x03 },
-> -       { 0x580e, 0x00 },
-> -       { 0x580f, 0x00 },
-> -       { 0x5810, 0x03 },
-> -       { 0x5811, 0x08 },
-> -       { 0x5812, 0x0a },
-> -       { 0x5813, 0x03 },
-> -       { 0x5814, 0x00 },
-> -       { 0x5815, 0x00 },
-> -       { 0x5816, 0x04 },
-> -       { 0x5817, 0x09 },
-> -       { 0x5818, 0x0f },
-> -       { 0x5819, 0x08 },
-> -       { 0x581a, 0x06 },
-> -       { 0x581b, 0x06 },
-> -       { 0x581c, 0x08 },
-> -       { 0x581d, 0x0c },
-> -       { 0x581e, 0x3f },
-> -       { 0x581f, 0x1e },
-> -       { 0x5820, 0x12 },
-> -       { 0x5821, 0x13 },
-> -       { 0x5822, 0x21 },
-> -       { 0x5823, 0x3f },
-> -       { 0x5824, 0x68 },
-> -       { 0x5825, 0x28 },
-> -       { 0x5826, 0x2c },
-> -       { 0x5827, 0x28 },
-> -       { 0x5828, 0x08 },
-> -       { 0x5829, 0x48 },
-> -       { 0x582a, 0x64 },
-> -       { 0x582b, 0x62 },
-> -       { 0x582c, 0x64 },
-> -       { 0x582d, 0x28 },
-> -       { 0x582e, 0x46 },
-> -       { 0x582f, 0x62 },
-> -       { 0x5830, 0x60 },
-> -       { 0x5831, 0x62 },
-> -       { 0x5832, 0x26 },
-> -       { 0x5833, 0x48 },
-> -       { 0x5834, 0x66 },
-> -       { 0x5835, 0x44 },
-> -       { 0x5836, 0x64 },
-> -       { 0x5837, 0x28 },
-> -       { 0x5838, 0x66 },
-> -       { 0x5839, 0x48 },
-> -       { 0x583a, 0x2c },
-> -       { 0x583b, 0x28 },
-> -       { 0x583c, 0x26 },
-> -       { 0x583d, 0xae },
-> -       { 0x5025, 0x00 },
-> -       { 0x3a0f, 0x30 },
-> -       { 0x3a10, 0x28 },
-> -       { 0x3a1b, 0x30 },
-> -       { 0x3a1e, 0x26 },
-> -       { 0x3a11, 0x60 },
-> -       { 0x3a1f, 0x14 },
-> -       { 0x0601, 0x02 },
-> -       { 0x3008, 0x42 },
-> -       { 0x3008, 0x02 },
-> +static const struct cci_reg_sequence ov5645_global_init_setting[] = {
-> +       { CCI_REG8(0x3103), 0x11 },
-> +       { CCI_REG8(0x3008), 0x42 },
-> +       { CCI_REG8(0x3103), 0x03 },
-> +       { CCI_REG8(0x3503), 0x07 },
-> +       { CCI_REG8(0x3002), 0x1c },
-> +       { CCI_REG8(0x3006), 0xc3 },
-> +       { CCI_REG8(0x3017), 0x00 },
-> +       { CCI_REG8(0x3018), 0x00 },
-> +       { CCI_REG8(0x302e), 0x0b },
-> +       { CCI_REG8(0x3037), 0x13 },
-> +       { CCI_REG8(0x3108), 0x01 },
-> +       { CCI_REG8(0x3611), 0x06 },
-> +       { CCI_REG8(0x3500), 0x00 },
-> +       { CCI_REG8(0x3501), 0x01 },
-> +       { CCI_REG8(0x3502), 0x00 },
-> +       { CCI_REG8(0x350a), 0x00 },
-> +       { CCI_REG8(0x350b), 0x3f },
-> +       { CCI_REG8(0x3620), 0x33 },
-> +       { CCI_REG8(0x3621), 0xe0 },
-> +       { CCI_REG8(0x3622), 0x01 },
-> +       { CCI_REG8(0x3630), 0x2e },
-> +       { CCI_REG8(0x3631), 0x00 },
-> +       { CCI_REG8(0x3632), 0x32 },
-> +       { CCI_REG8(0x3633), 0x52 },
-> +       { CCI_REG8(0x3634), 0x70 },
-> +       { CCI_REG8(0x3635), 0x13 },
-> +       { CCI_REG8(0x3636), 0x03 },
-> +       { CCI_REG8(0x3703), 0x5a },
-> +       { CCI_REG8(0x3704), 0xa0 },
-> +       { CCI_REG8(0x3705), 0x1a },
-> +       { CCI_REG8(0x3709), 0x12 },
-> +       { CCI_REG8(0x370b), 0x61 },
-> +       { CCI_REG8(0x370f), 0x10 },
-> +       { CCI_REG8(0x3715), 0x78 },
-> +       { CCI_REG8(0x3717), 0x01 },
-> +       { CCI_REG8(0x371b), 0x20 },
-> +       { CCI_REG8(0x3731), 0x12 },
-> +       { CCI_REG8(0x3901), 0x0a },
-> +       { CCI_REG8(0x3905), 0x02 },
-> +       { CCI_REG8(0x3906), 0x10 },
-> +       { CCI_REG8(0x3719), 0x86 },
-> +       { CCI_REG8(0x3810), 0x00 },
-> +       { CCI_REG8(0x3811), 0x10 },
-> +       { CCI_REG8(0x3812), 0x00 },
-> +       { CCI_REG8(0x3821), 0x01 },
-> +       { CCI_REG8(0x3824), 0x01 },
-> +       { CCI_REG8(0x3826), 0x03 },
-> +       { CCI_REG8(0x3828), 0x08 },
-> +       { CCI_REG8(0x3a19), 0xf8 },
-> +       { CCI_REG8(0x3c01), 0x34 },
-> +       { CCI_REG8(0x3c04), 0x28 },
-> +       { CCI_REG8(0x3c05), 0x98 },
-> +       { CCI_REG8(0x3c07), 0x07 },
-> +       { CCI_REG8(0x3c09), 0xc2 },
-> +       { CCI_REG8(0x3c0a), 0x9c },
-> +       { CCI_REG8(0x3c0b), 0x40 },
-> +       { CCI_REG8(0x3c01), 0x34 },
-> +       { CCI_REG8(0x4001), 0x02 },
-> +       { CCI_REG8(0x4514), 0x00 },
-> +       { CCI_REG8(0x4520), 0xb0 },
-> +       { CCI_REG8(0x460b), 0x37 },
-> +       { CCI_REG8(0x460c), 0x20 },
-> +       { CCI_REG8(0x4818), 0x01 },
-> +       { CCI_REG8(0x481d), 0xf0 },
-> +       { CCI_REG8(0x481f), 0x50 },
-> +       { CCI_REG8(0x4823), 0x70 },
-> +       { CCI_REG8(0x4831), 0x14 },
-> +       { CCI_REG8(0x5000), 0xa7 },
-> +       { CCI_REG8(0x5001), 0x83 },
-> +       { CCI_REG8(0x501d), 0x00 },
-> +       { CCI_REG8(0x501f), 0x00 },
-> +       { CCI_REG8(0x503d), 0x00 },
-> +       { CCI_REG8(0x505c), 0x30 },
-> +       { CCI_REG8(0x5181), 0x59 },
-> +       { CCI_REG8(0x5183), 0x00 },
-> +       { CCI_REG8(0x5191), 0xf0 },
-> +       { CCI_REG8(0x5192), 0x03 },
-> +       { CCI_REG8(0x5684), 0x10 },
-> +       { CCI_REG8(0x5685), 0xa0 },
-> +       { CCI_REG8(0x5686), 0x0c },
-> +       { CCI_REG8(0x5687), 0x78 },
-> +       { CCI_REG8(0x5a00), 0x08 },
-> +       { CCI_REG8(0x5a21), 0x00 },
-> +       { CCI_REG8(0x5a24), 0x00 },
-> +       { CCI_REG8(0x3008), 0x02 },
-> +       { CCI_REG8(0x3503), 0x00 },
-> +       { CCI_REG8(0x5180), 0xff },
-> +       { CCI_REG8(0x5181), 0xf2 },
-> +       { CCI_REG8(0x5182), 0x00 },
-> +       { CCI_REG8(0x5183), 0x14 },
-> +       { CCI_REG8(0x5184), 0x25 },
-> +       { CCI_REG8(0x5185), 0x24 },
-> +       { CCI_REG8(0x5186), 0x09 },
-> +       { CCI_REG8(0x5187), 0x09 },
-> +       { CCI_REG8(0x5188), 0x0a },
-> +       { CCI_REG8(0x5189), 0x75 },
-> +       { CCI_REG8(0x518a), 0x52 },
-> +       { CCI_REG8(0x518b), 0xea },
-> +       { CCI_REG8(0x518c), 0xa8 },
-> +       { CCI_REG8(0x518d), 0x42 },
-> +       { CCI_REG8(0x518e), 0x38 },
-> +       { CCI_REG8(0x518f), 0x56 },
-> +       { CCI_REG8(0x5190), 0x42 },
-> +       { CCI_REG8(0x5191), 0xf8 },
-> +       { CCI_REG8(0x5192), 0x04 },
-> +       { CCI_REG8(0x5193), 0x70 },
-> +       { CCI_REG8(0x5194), 0xf0 },
-> +       { CCI_REG8(0x5195), 0xf0 },
-> +       { CCI_REG8(0x5196), 0x03 },
-> +       { CCI_REG8(0x5197), 0x01 },
-> +       { CCI_REG8(0x5198), 0x04 },
-> +       { CCI_REG8(0x5199), 0x12 },
-> +       { CCI_REG8(0x519a), 0x04 },
-> +       { CCI_REG8(0x519b), 0x00 },
-> +       { CCI_REG8(0x519c), 0x06 },
-> +       { CCI_REG8(0x519d), 0x82 },
-> +       { CCI_REG8(0x519e), 0x38 },
-> +       { CCI_REG8(0x5381), 0x1e },
-> +       { CCI_REG8(0x5382), 0x5b },
-> +       { CCI_REG8(0x5383), 0x08 },
-> +       { CCI_REG8(0x5384), 0x0a },
-> +       { CCI_REG8(0x5385), 0x7e },
-> +       { CCI_REG8(0x5386), 0x88 },
-> +       { CCI_REG8(0x5387), 0x7c },
-> +       { CCI_REG8(0x5388), 0x6c },
-> +       { CCI_REG8(0x5389), 0x10 },
-> +       { CCI_REG8(0x538a), 0x01 },
-> +       { CCI_REG8(0x538b), 0x98 },
-> +       { CCI_REG8(0x5300), 0x08 },
-> +       { CCI_REG8(0x5301), 0x30 },
-> +       { CCI_REG8(0x5302), 0x10 },
-> +       { CCI_REG8(0x5303), 0x00 },
-> +       { CCI_REG8(0x5304), 0x08 },
-> +       { CCI_REG8(0x5305), 0x30 },
-> +       { CCI_REG8(0x5306), 0x08 },
-> +       { CCI_REG8(0x5307), 0x16 },
-> +       { CCI_REG8(0x5309), 0x08 },
-> +       { CCI_REG8(0x530a), 0x30 },
-> +       { CCI_REG8(0x530b), 0x04 },
-> +       { CCI_REG8(0x530c), 0x06 },
-> +       { CCI_REG8(0x5480), 0x01 },
-> +       { CCI_REG8(0x5481), 0x08 },
-> +       { CCI_REG8(0x5482), 0x14 },
-> +       { CCI_REG8(0x5483), 0x28 },
-> +       { CCI_REG8(0x5484), 0x51 },
-> +       { CCI_REG8(0x5485), 0x65 },
-> +       { CCI_REG8(0x5486), 0x71 },
-> +       { CCI_REG8(0x5487), 0x7d },
-> +       { CCI_REG8(0x5488), 0x87 },
-> +       { CCI_REG8(0x5489), 0x91 },
-> +       { CCI_REG8(0x548a), 0x9a },
-> +       { CCI_REG8(0x548b), 0xaa },
-> +       { CCI_REG8(0x548c), 0xb8 },
-> +       { CCI_REG8(0x548d), 0xcd },
-> +       { CCI_REG8(0x548e), 0xdd },
-> +       { CCI_REG8(0x548f), 0xea },
-> +       { CCI_REG8(0x5490), 0x1d },
-> +       { CCI_REG8(0x5580), 0x02 },
-> +       { CCI_REG8(0x5583), 0x40 },
-> +       { CCI_REG8(0x5584), 0x10 },
-> +       { CCI_REG8(0x5589), 0x10 },
-> +       { CCI_REG8(0x558a), 0x00 },
-> +       { CCI_REG8(0x558b), 0xf8 },
-> +       { CCI_REG8(0x5800), 0x3f },
-> +       { CCI_REG8(0x5801), 0x16 },
-> +       { CCI_REG8(0x5802), 0x0e },
-> +       { CCI_REG8(0x5803), 0x0d },
-> +       { CCI_REG8(0x5804), 0x17 },
-> +       { CCI_REG8(0x5805), 0x3f },
-> +       { CCI_REG8(0x5806), 0x0b },
-> +       { CCI_REG8(0x5807), 0x06 },
-> +       { CCI_REG8(0x5808), 0x04 },
-> +       { CCI_REG8(0x5809), 0x04 },
-> +       { CCI_REG8(0x580a), 0x06 },
-> +       { CCI_REG8(0x580b), 0x0b },
-> +       { CCI_REG8(0x580c), 0x09 },
-> +       { CCI_REG8(0x580d), 0x03 },
-> +       { CCI_REG8(0x580e), 0x00 },
-> +       { CCI_REG8(0x580f), 0x00 },
-> +       { CCI_REG8(0x5810), 0x03 },
-> +       { CCI_REG8(0x5811), 0x08 },
-> +       { CCI_REG8(0x5812), 0x0a },
-> +       { CCI_REG8(0x5813), 0x03 },
-> +       { CCI_REG8(0x5814), 0x00 },
-> +       { CCI_REG8(0x5815), 0x00 },
-> +       { CCI_REG8(0x5816), 0x04 },
-> +       { CCI_REG8(0x5817), 0x09 },
-> +       { CCI_REG8(0x5818), 0x0f },
-> +       { CCI_REG8(0x5819), 0x08 },
-> +       { CCI_REG8(0x581a), 0x06 },
-> +       { CCI_REG8(0x581b), 0x06 },
-> +       { CCI_REG8(0x581c), 0x08 },
-> +       { CCI_REG8(0x581d), 0x0c },
-> +       { CCI_REG8(0x581e), 0x3f },
-> +       { CCI_REG8(0x581f), 0x1e },
-> +       { CCI_REG8(0x5820), 0x12 },
-> +       { CCI_REG8(0x5821), 0x13 },
-> +       { CCI_REG8(0x5822), 0x21 },
-> +       { CCI_REG8(0x5823), 0x3f },
-> +       { CCI_REG8(0x5824), 0x68 },
-> +       { CCI_REG8(0x5825), 0x28 },
-> +       { CCI_REG8(0x5826), 0x2c },
-> +       { CCI_REG8(0x5827), 0x28 },
-> +       { CCI_REG8(0x5828), 0x08 },
-> +       { CCI_REG8(0x5829), 0x48 },
-> +       { CCI_REG8(0x582a), 0x64 },
-> +       { CCI_REG8(0x582b), 0x62 },
-> +       { CCI_REG8(0x582c), 0x64 },
-> +       { CCI_REG8(0x582d), 0x28 },
-> +       { CCI_REG8(0x582e), 0x46 },
-> +       { CCI_REG8(0x582f), 0x62 },
-> +       { CCI_REG8(0x5830), 0x60 },
-> +       { CCI_REG8(0x5831), 0x62 },
-> +       { CCI_REG8(0x5832), 0x26 },
-> +       { CCI_REG8(0x5833), 0x48 },
-> +       { CCI_REG8(0x5834), 0x66 },
-> +       { CCI_REG8(0x5835), 0x44 },
-> +       { CCI_REG8(0x5836), 0x64 },
-> +       { CCI_REG8(0x5837), 0x28 },
-> +       { CCI_REG8(0x5838), 0x66 },
-> +       { CCI_REG8(0x5839), 0x48 },
-> +       { CCI_REG8(0x583a), 0x2c },
-> +       { CCI_REG8(0x583b), 0x28 },
-> +       { CCI_REG8(0x583c), 0x26 },
-> +       { CCI_REG8(0x583d), 0xae },
-> +       { CCI_REG8(0x5025), 0x00 },
-> +       { CCI_REG8(0x3a0f), 0x30 },
-> +       { CCI_REG8(0x3a10), 0x28 },
-> +       { CCI_REG8(0x3a1b), 0x30 },
-> +       { CCI_REG8(0x3a1e), 0x26 },
-> +       { CCI_REG8(0x3a11), 0x60 },
-> +       { CCI_REG8(0x3a1f), 0x14 },
-> +       { CCI_REG8(0x0601), 0x02 },
-> +       { CCI_REG8(0x3008), 0x42 },
-> +       { CCI_REG8(0x3008), 0x02 },
->          { OV5645_IO_MIPI_CTRL00, 0x40 },
->          { OV5645_MIPI_CTRL00, 0x24 },
->          { OV5645_PAD_OUTPUT00, 0x70 }
->   };
->
-> -static const struct reg_value ov5645_setting_sxga[] = {
-> -       { 0x3612, 0xa9 },
-> -       { 0x3614, 0x50 },
-> -       { 0x3618, 0x00 },
-> -       { 0x3034, 0x18 },
-> -       { 0x3035, 0x21 },
-> -       { 0x3036, 0x70 },
-> -       { 0x3600, 0x09 },
-> -       { 0x3601, 0x43 },
-> -       { 0x3708, 0x66 },
-> -       { 0x370c, 0xc3 },
-> -       { 0x3800, 0x00 },
-> -       { 0x3801, 0x00 },
-> -       { 0x3802, 0x00 },
-> -       { 0x3803, 0x06 },
-> -       { 0x3804, 0x0a },
-> -       { 0x3805, 0x3f },
-> -       { 0x3806, 0x07 },
-> -       { 0x3807, 0x9d },
-> -       { 0x3808, 0x05 },
-> -       { 0x3809, 0x00 },
-> -       { 0x380a, 0x03 },
-> -       { 0x380b, 0xc0 },
-> -       { 0x380c, 0x07 },
-> -       { 0x380d, 0x68 },
-> -       { 0x380e, 0x03 },
-> -       { 0x380f, 0xd8 },
-> -       { 0x3813, 0x06 },
-> -       { 0x3814, 0x31 },
-> -       { 0x3815, 0x31 },
-> -       { 0x3820, 0x47 },
-> -       { 0x3a02, 0x03 },
-> -       { 0x3a03, 0xd8 },
-> -       { 0x3a08, 0x01 },
-> -       { 0x3a09, 0xf8 },
-> -       { 0x3a0a, 0x01 },
-> -       { 0x3a0b, 0xa4 },
-> -       { 0x3a0e, 0x02 },
-> -       { 0x3a0d, 0x02 },
-> -       { 0x3a14, 0x03 },
-> -       { 0x3a15, 0xd8 },
-> -       { 0x3a18, 0x00 },
-> -       { 0x4004, 0x02 },
-> -       { 0x4005, 0x18 },
-> -       { 0x4300, 0x32 },
-> -       { 0x4202, 0x00 }
-> +static const struct cci_reg_sequence ov5645_setting_sxga[] = {
-> +       { CCI_REG8(0x3612), 0xa9 },
-> +       { CCI_REG8(0x3614), 0x50 },
-> +       { CCI_REG8(0x3618), 0x00 },
-> +       { CCI_REG8(0x3034), 0x18 },
-> +       { CCI_REG8(0x3035), 0x21 },
-> +       { CCI_REG8(0x3036), 0x70 },
-> +       { CCI_REG8(0x3600), 0x09 },
-> +       { CCI_REG8(0x3601), 0x43 },
-> +       { CCI_REG8(0x3708), 0x66 },
-> +       { CCI_REG8(0x370c), 0xc3 },
-> +       { CCI_REG8(0x3800), 0x00 },
-> +       { CCI_REG8(0x3801), 0x00 },
-> +       { CCI_REG8(0x3802), 0x00 },
-> +       { CCI_REG8(0x3803), 0x06 },
-> +       { CCI_REG8(0x3804), 0x0a },
-> +       { CCI_REG8(0x3805), 0x3f },
-> +       { CCI_REG8(0x3806), 0x07 },
-> +       { CCI_REG8(0x3807), 0x9d },
-> +       { CCI_REG8(0x3808), 0x05 },
-> +       { CCI_REG8(0x3809), 0x00 },
-> +       { CCI_REG8(0x380a), 0x03 },
-> +       { CCI_REG8(0x380b), 0xc0 },
-> +       { CCI_REG8(0x380c), 0x07 },
-> +       { CCI_REG8(0x380d), 0x68 },
-> +       { CCI_REG8(0x380e), 0x03 },
-> +       { CCI_REG8(0x380f), 0xd8 },
-> +       { CCI_REG8(0x3813), 0x06 },
-> +       { CCI_REG8(0x3814), 0x31 },
-> +       { CCI_REG8(0x3815), 0x31 },
-> +       { CCI_REG8(0x3820), 0x47 },
-> +       { CCI_REG8(0x3a02), 0x03 },
-> +       { CCI_REG8(0x3a03), 0xd8 },
-> +       { CCI_REG8(0x3a08), 0x01 },
-> +       { CCI_REG8(0x3a09), 0xf8 },
-> +       { CCI_REG8(0x3a0a), 0x01 },
-> +       { CCI_REG8(0x3a0b), 0xa4 },
-> +       { CCI_REG8(0x3a0e), 0x02 },
-> +       { CCI_REG8(0x3a0d), 0x02 },
-> +       { CCI_REG8(0x3a14), 0x03 },
-> +       { CCI_REG8(0x3a15), 0xd8 },
-> +       { CCI_REG8(0x3a18), 0x00 },
-> +       { CCI_REG8(0x4004), 0x02 },
-> +       { CCI_REG8(0x4005), 0x18 },
-> +       { CCI_REG8(0x4300), 0x32 },
-> +       { CCI_REG8(0x4202), 0x00 }
->   };
->
-> -static const struct reg_value ov5645_setting_1080p[] = {
-> -       { 0x3612, 0xab },
-> -       { 0x3614, 0x50 },
-> -       { 0x3618, 0x04 },
-> -       { 0x3034, 0x18 },
-> -       { 0x3035, 0x11 },
-> -       { 0x3036, 0x54 },
-> -       { 0x3600, 0x08 },
-> -       { 0x3601, 0x33 },
-> -       { 0x3708, 0x63 },
-> -       { 0x370c, 0xc0 },
-> -       { 0x3800, 0x01 },
-> -       { 0x3801, 0x50 },
-> -       { 0x3802, 0x01 },
-> -       { 0x3803, 0xb2 },
-> -       { 0x3804, 0x08 },
-> -       { 0x3805, 0xef },
-> -       { 0x3806, 0x05 },
-> -       { 0x3807, 0xf1 },
-> -       { 0x3808, 0x07 },
-> -       { 0x3809, 0x80 },
-> -       { 0x380a, 0x04 },
-> -       { 0x380b, 0x38 },
-> -       { 0x380c, 0x09 },
-> -       { 0x380d, 0xc4 },
-> -       { 0x380e, 0x04 },
-> -       { 0x380f, 0x60 },
-> -       { 0x3813, 0x04 },
-> -       { 0x3814, 0x11 },
-> -       { 0x3815, 0x11 },
-> -       { 0x3820, 0x47 },
-> -       { 0x4514, 0x88 },
-> -       { 0x3a02, 0x04 },
-> -       { 0x3a03, 0x60 },
-> -       { 0x3a08, 0x01 },
-> -       { 0x3a09, 0x50 },
-> -       { 0x3a0a, 0x01 },
-> -       { 0x3a0b, 0x18 },
-> -       { 0x3a0e, 0x03 },
-> -       { 0x3a0d, 0x04 },
-> -       { 0x3a14, 0x04 },
-> -       { 0x3a15, 0x60 },
-> -       { 0x3a18, 0x00 },
-> -       { 0x4004, 0x06 },
-> -       { 0x4005, 0x18 },
-> -       { 0x4300, 0x32 },
-> -       { 0x4202, 0x00 },
-> -       { 0x4837, 0x0b }
-> +static const struct cci_reg_sequence ov5645_setting_1080p[] = {
-> +       { CCI_REG8(0x3612), 0xab },
-> +       { CCI_REG8(0x3614), 0x50 },
-> +       { CCI_REG8(0x3618), 0x04 },
-> +       { CCI_REG8(0x3034), 0x18 },
-> +       { CCI_REG8(0x3035), 0x11 },
-> +       { CCI_REG8(0x3036), 0x54 },
-> +       { CCI_REG8(0x3600), 0x08 },
-> +       { CCI_REG8(0x3601), 0x33 },
-> +       { CCI_REG8(0x3708), 0x63 },
-> +       { CCI_REG8(0x370c), 0xc0 },
-> +       { CCI_REG8(0x3800), 0x01 },
-> +       { CCI_REG8(0x3801), 0x50 },
-> +       { CCI_REG8(0x3802), 0x01 },
-> +       { CCI_REG8(0x3803), 0xb2 },
-> +       { CCI_REG8(0x3804), 0x08 },
-> +       { CCI_REG8(0x3805), 0xef },
-> +       { CCI_REG8(0x3806), 0x05 },
-> +       { CCI_REG8(0x3807), 0xf1 },
-> +       { CCI_REG8(0x3808), 0x07 },
-> +       { CCI_REG8(0x3809), 0x80 },
-> +       { CCI_REG8(0x380a), 0x04 },
-> +       { CCI_REG8(0x380b), 0x38 },
-> +       { CCI_REG8(0x380c), 0x09 },
-> +       { CCI_REG8(0x380d), 0xc4 },
-> +       { CCI_REG8(0x380e), 0x04 },
-> +       { CCI_REG8(0x380f), 0x60 },
-> +       { CCI_REG8(0x3813), 0x04 },
-> +       { CCI_REG8(0x3814), 0x11 },
-> +       { CCI_REG8(0x3815), 0x11 },
-> +       { CCI_REG8(0x3820), 0x47 },
-> +       { CCI_REG8(0x4514), 0x88 },
-> +       { CCI_REG8(0x3a02), 0x04 },
-> +       { CCI_REG8(0x3a03), 0x60 },
-> +       { CCI_REG8(0x3a08), 0x01 },
-> +       { CCI_REG8(0x3a09), 0x50 },
-> +       { CCI_REG8(0x3a0a), 0x01 },
-> +       { CCI_REG8(0x3a0b), 0x18 },
-> +       { CCI_REG8(0x3a0e), 0x03 },
-> +       { CCI_REG8(0x3a0d), 0x04 },
-> +       { CCI_REG8(0x3a14), 0x04 },
-> +       { CCI_REG8(0x3a15), 0x60 },
-> +       { CCI_REG8(0x3a18), 0x00 },
-> +       { CCI_REG8(0x4004), 0x06 },
-> +       { CCI_REG8(0x4005), 0x18 },
-> +       { CCI_REG8(0x4300), 0x32 },
-> +       { CCI_REG8(0x4202), 0x00 },
-> +       { CCI_REG8(0x4837), 0x0b }
->   };
->
-> -static const struct reg_value ov5645_setting_full[] = {
-> -       { 0x3612, 0xab },
-> -       { 0x3614, 0x50 },
-> -       { 0x3618, 0x04 },
-> -       { 0x3034, 0x18 },
-> -       { 0x3035, 0x11 },
-> -       { 0x3036, 0x54 },
-> -       { 0x3600, 0x08 },
-> -       { 0x3601, 0x33 },
-> -       { 0x3708, 0x63 },
-> -       { 0x370c, 0xc0 },
-> -       { 0x3800, 0x00 },
-> -       { 0x3801, 0x00 },
-> -       { 0x3802, 0x00 },
-> -       { 0x3803, 0x00 },
-> -       { 0x3804, 0x0a },
-> -       { 0x3805, 0x3f },
-> -       { 0x3806, 0x07 },
-> -       { 0x3807, 0x9f },
-> -       { 0x3808, 0x0a },
-> -       { 0x3809, 0x20 },
-> -       { 0x380a, 0x07 },
-> -       { 0x380b, 0x98 },
-> -       { 0x380c, 0x0b },
-> -       { 0x380d, 0x1c },
-> -       { 0x380e, 0x07 },
-> -       { 0x380f, 0xb0 },
-> -       { 0x3813, 0x06 },
-> -       { 0x3814, 0x11 },
-> -       { 0x3815, 0x11 },
-> -       { 0x3820, 0x47 },
-> -       { 0x4514, 0x88 },
-> -       { 0x3a02, 0x07 },
-> -       { 0x3a03, 0xb0 },
-> -       { 0x3a08, 0x01 },
-> -       { 0x3a09, 0x27 },
-> -       { 0x3a0a, 0x00 },
-> -       { 0x3a0b, 0xf6 },
-> -       { 0x3a0e, 0x06 },
-> -       { 0x3a0d, 0x08 },
-> -       { 0x3a14, 0x07 },
-> -       { 0x3a15, 0xb0 },
-> -       { 0x3a18, 0x01 },
-> -       { 0x4004, 0x06 },
-> -       { 0x4005, 0x18 },
-> -       { 0x4300, 0x32 },
-> -       { 0x4837, 0x0b },
-> -       { 0x4202, 0x00 }
-> +static const struct cci_reg_sequence ov5645_setting_full[] = {
-> +       { CCI_REG8(0x3612), 0xab },
-> +       { CCI_REG8(0x3614), 0x50 },
-> +       { CCI_REG8(0x3618), 0x04 },
-> +       { CCI_REG8(0x3034), 0x18 },
-> +       { CCI_REG8(0x3035), 0x11 },
-> +       { CCI_REG8(0x3036), 0x54 },
-> +       { CCI_REG8(0x3600), 0x08 },
-> +       { CCI_REG8(0x3601), 0x33 },
-> +       { CCI_REG8(0x3708), 0x63 },
-> +       { CCI_REG8(0x370c), 0xc0 },
-> +       { CCI_REG8(0x3800), 0x00 },
-> +       { CCI_REG8(0x3801), 0x00 },
-> +       { CCI_REG8(0x3802), 0x00 },
-> +       { CCI_REG8(0x3803), 0x00 },
-> +       { CCI_REG8(0x3804), 0x0a },
-> +       { CCI_REG8(0x3805), 0x3f },
-> +       { CCI_REG8(0x3806), 0x07 },
-> +       { CCI_REG8(0x3807), 0x9f },
-> +       { CCI_REG8(0x3808), 0x0a },
-> +       { CCI_REG8(0x3809), 0x20 },
-> +       { CCI_REG8(0x380a), 0x07 },
-> +       { CCI_REG8(0x380b), 0x98 },
-> +       { CCI_REG8(0x380c), 0x0b },
-> +       { CCI_REG8(0x380d), 0x1c },
-> +       { CCI_REG8(0x380e), 0x07 },
-> +       { CCI_REG8(0x380f), 0xb0 },
-> +       { CCI_REG8(0x3813), 0x06 },
-> +       { CCI_REG8(0x3814), 0x11 },
-> +       { CCI_REG8(0x3815), 0x11 },
-> +       { CCI_REG8(0x3820), 0x47 },
-> +       { CCI_REG8(0x4514), 0x88 },
-> +       { CCI_REG8(0x3a02), 0x07 },
-> +       { CCI_REG8(0x3a03), 0xb0 },
-> +       { CCI_REG8(0x3a08), 0x01 },
-> +       { CCI_REG8(0x3a09), 0x27 },
-> +       { CCI_REG8(0x3a0a), 0x00 },
-> +       { CCI_REG8(0x3a0b), 0xf6 },
-> +       { CCI_REG8(0x3a0e), 0x06 },
-> +       { CCI_REG8(0x3a0d), 0x08 },
-> +       { CCI_REG8(0x3a14), 0x07 },
-> +       { CCI_REG8(0x3a15), 0xb0 },
-> +       { CCI_REG8(0x3a18), 0x01 },
-> +       { CCI_REG8(0x4004), 0x06 },
-> +       { CCI_REG8(0x4005), 0x18 },
-> +       { CCI_REG8(0x4300), 0x32 },
-> +       { CCI_REG8(0x4837), 0x0b },
-> +       { CCI_REG8(0x4202), 0x00 }
->   };
->
->   static const s64 link_freq[] = {
-> @@ -537,50 +535,6 @@ static const struct ov5645_mode_info ov5645_mode_info_data[] = {
->          },
->   };
->
-> -static int ov5645_write_reg(struct ov5645 *ov5645, u16 reg, u8 val)
-> -{
-> -       u8 regbuf[3];
-> -       int ret;
-> -
-> -       regbuf[0] = reg >> 8;
-> -       regbuf[1] = reg & 0xff;
-> -       regbuf[2] = val;
-> -
-> -       ret = i2c_master_send(ov5645->i2c_client, regbuf, 3);
-> -       if (ret < 0) {
-> -               dev_err(ov5645->dev, "%s: write reg error %d: reg=%x, val=%x\n",
-> -                       __func__, ret, reg, val);
-> -               return ret;
-> -       }
-> -
-> -       return 0;
-> -}
-> -
-> -static int ov5645_read_reg(struct ov5645 *ov5645, u16 reg, u8 *val)
-> -{
-> -       u8 regbuf[2];
-> -       int ret;
-> -
-> -       regbuf[0] = reg >> 8;
-> -       regbuf[1] = reg & 0xff;
-> -
-> -       ret = i2c_master_send(ov5645->i2c_client, regbuf, 2);
-> -       if (ret < 0) {
-> -               dev_err(ov5645->dev, "%s: write reg error %d: reg=%x\n",
-> -                       __func__, ret, reg);
-> -               return ret;
-> -       }
-> -
-> -       ret = i2c_master_recv(ov5645->i2c_client, val, 1);
-> -       if (ret < 0) {
-> -               dev_err(ov5645->dev, "%s: read reg error %d: reg=%x\n",
-> -                       __func__, ret, reg);
-> -               return ret;
-> -       }
-> -
-> -       return 0;
-> -}
-> -
->   static int ov5645_set_aec_mode(struct ov5645 *ov5645, u32 mode)
->   {
->          u8 val = ov5645->aec_pk_manual;
-> @@ -591,7 +545,7 @@ static int ov5645_set_aec_mode(struct ov5645 *ov5645, u32 mode)
->          else /* V4L2_EXPOSURE_MANUAL */
->                  val |= OV5645_AEC_MANUAL_ENABLE;
->
-> -       ret = ov5645_write_reg(ov5645, OV5645_AEC_PK_MANUAL, val);
-> +       ret = cci_write(ov5645->regmap, OV5645_AEC_PK_MANUAL, val, NULL);
->          if (!ret)
->                  ov5645->aec_pk_manual = val;
->
-> @@ -608,7 +562,7 @@ static int ov5645_set_agc_mode(struct ov5645 *ov5645, u32 enable)
->          else
->                  val |= OV5645_AGC_MANUAL_ENABLE;
->
-> -       ret = ov5645_write_reg(ov5645, OV5645_AEC_PK_MANUAL, val);
-> +       ret = cci_write(ov5645->regmap, OV5645_AEC_PK_MANUAL, val, NULL);
->          if (!ret)
->                  ov5645->aec_pk_manual = val;
->
-> @@ -616,14 +570,14 @@ static int ov5645_set_agc_mode(struct ov5645 *ov5645, u32 enable)
->   }
->
->   static int ov5645_set_register_array(struct ov5645 *ov5645,
-> -                                    const struct reg_value *settings,
-> +                                    const struct cci_reg_sequence *settings,
->                                       unsigned int num_settings)
->   {
->          unsigned int i;
->          int ret;
->
->          for (i = 0; i < num_settings; ++i, ++settings) {
-> -               ret = ov5645_write_reg(ov5645, settings->reg, settings->val);
-> +               ret = cci_write(ov5645->regmap, settings->reg, settings->val, NULL);
->                  if (ret < 0)
->                          return ret;
->
-> @@ -640,7 +594,7 @@ static void __ov5645_set_power_off(struct device *dev)
->          struct v4l2_subdev *sd = dev_get_drvdata(dev);
->          struct ov5645 *ov5645 = to_ov5645(sd);
->
-> -       ov5645_write_reg(ov5645, OV5645_IO_MIPI_CTRL00, 0x58);
-> +       cci_write(ov5645->regmap, OV5645_IO_MIPI_CTRL00, 0x58, NULL);
->          gpiod_set_value_cansleep(ov5645->rst_gpio, 1);
->          gpiod_set_value_cansleep(ov5645->enable_gpio, 0);
->          regulator_bulk_disable(OV5645_NUM_SUPPLIES, ov5645->supplies);
-> @@ -704,11 +658,11 @@ static int ov5645_set_saturation(struct ov5645 *ov5645, s32 value)
->          u32 reg_value = (value * 0x10) + 0x40;
->          int ret;
->
-> -       ret = ov5645_write_reg(ov5645, OV5645_SDE_SAT_U, reg_value);
-> +       ret = cci_write(ov5645->regmap, OV5645_SDE_SAT_U, reg_value, NULL);
->          if (ret < 0)
->                  return ret;
->
-> -       return ov5645_write_reg(ov5645, OV5645_SDE_SAT_V, reg_value);
-> +       return cci_write(ov5645->regmap, OV5645_SDE_SAT_V, reg_value, NULL);
->   }
->
->   static int ov5645_set_hflip(struct ov5645 *ov5645, s32 value)
-> @@ -721,7 +675,7 @@ static int ov5645_set_hflip(struct ov5645 *ov5645, s32 value)
->          else
->                  val |= (OV5645_SENSOR_MIRROR);
->
-> -       ret = ov5645_write_reg(ov5645, OV5645_TIMING_TC_REG21, val);
-> +       ret = cci_write(ov5645->regmap, OV5645_TIMING_TC_REG21, val, NULL);
->          if (!ret)
->                  ov5645->timing_tc_reg21 = val;
->
-> @@ -738,7 +692,7 @@ static int ov5645_set_vflip(struct ov5645 *ov5645, s32 value)
->          else
->                  val &= ~(OV5645_SENSOR_VFLIP | OV5645_ISP_VFLIP);
->
-> -       ret = ov5645_write_reg(ov5645, OV5645_TIMING_TC_REG20, val);
-> +       ret = cci_write(ov5645->regmap, OV5645_TIMING_TC_REG20, val, NULL);
->          if (!ret)
->                  ov5645->timing_tc_reg20 = val;
->
-> @@ -754,7 +708,7 @@ static int ov5645_set_test_pattern(struct ov5645 *ov5645, s32 value)
->                  val |= OV5645_TEST_PATTERN_ENABLE;
->          }
->
-> -       return ov5645_write_reg(ov5645, OV5645_PRE_ISP_TEST_SETTING_1, val);
-> +       return cci_write(ov5645->regmap, OV5645_PRE_ISP_TEST_SETTING_1, val, NULL);
->   }
->
->   static const char * const ov5645_test_pattern_menu[] = {
-> @@ -772,7 +726,7 @@ static int ov5645_set_awb(struct ov5645 *ov5645, s32 enable_auto)
->          if (!enable_auto)
->                  val = OV5645_AWB_MANUAL_ENABLE;
->
-> -       return ov5645_write_reg(ov5645, OV5645_AWB_MANUAL_CONTROL, val);
-> +       return cci_write(ov5645->regmap, OV5645_AWB_MANUAL_CONTROL, val, NULL);
->   }
->
->   static int ov5645_s_ctrl(struct v4l2_ctrl *ctrl)
-> @@ -958,9 +912,8 @@ static int ov5645_enable_streams(struct v4l2_subdev *sd,
->          if (ret < 0)
->                  return ret;
->
-> -       ret = ov5645_set_register_array(ov5645,
-> -                                       ov5645->current_mode->data,
-> -                                       ov5645->current_mode->data_size);
-> +       ret = cci_multi_reg_write(ov5645->regmap, ov5645->current_mode->data,
-> +                                 ov5645->current_mode->data_size, NULL);
->          if (ret < 0) {
->                  dev_err(ov5645->dev, "could not set mode %dx%d\n",
->                          ov5645->current_mode->width,
-> @@ -973,12 +926,12 @@ static int ov5645_enable_streams(struct v4l2_subdev *sd,
->                  goto err_rpm_put;
->          }
->
-> -       ret = ov5645_write_reg(ov5645, OV5645_IO_MIPI_CTRL00, 0x45);
-> +       ret = cci_write(ov5645->regmap, OV5645_IO_MIPI_CTRL00, 0x45, NULL);
->          if (ret < 0)
->                  goto err_rpm_put;
->
-> -       ret = ov5645_write_reg(ov5645, OV5645_SYSTEM_CTRL0,
-> -                              OV5645_SYSTEM_CTRL0_START);
-> +       ret = cci_write(ov5645->regmap, OV5645_SYSTEM_CTRL0,
-> +                       OV5645_SYSTEM_CTRL0_START, NULL);
->          if (ret < 0)
->                  goto err_rpm_put;
->
-> @@ -996,12 +949,12 @@ static int ov5645_disable_streams(struct v4l2_subdev *sd,
->          struct ov5645 *ov5645 = to_ov5645(sd);
->          int ret;
->
-> -       ret = ov5645_write_reg(ov5645, OV5645_IO_MIPI_CTRL00, 0x40);
-> +       ret = cci_write(ov5645->regmap, OV5645_IO_MIPI_CTRL00, 0x40, NULL);
->          if (ret < 0)
->                  goto rpm_put;
->
-> -       ret = ov5645_write_reg(ov5645, OV5645_SYSTEM_CTRL0,
-> -                              OV5645_SYSTEM_CTRL0_STOP);
-> +       ret = cci_write(ov5645->regmap, OV5645_SYSTEM_CTRL0,
-> +                       OV5645_SYSTEM_CTRL0_STOP, NULL);
->
->   rpm_put:
->          pm_runtime_put_autosuspend(ov5645->dev);
-> @@ -1036,9 +989,9 @@ static const struct v4l2_subdev_internal_ops ov5645_internal_ops = {
->   static int ov5645_probe(struct i2c_client *client)
->   {
->          struct device *dev = &client->dev;
-> +       u64 chip_id_high, chip_id_low;
->          struct device_node *endpoint;
->          struct ov5645 *ov5645;
-> -       u8 chip_id_high, chip_id_low;
->          unsigned int i;
->          u32 xclk_freq;
->          int ret;
-> @@ -1068,6 +1021,11 @@ static int ov5645_probe(struct i2c_client *client)
->                  return dev_err_probe(dev, -EINVAL,
->                                       "invalid bus type, must be CSI2\n");
->
-> +       ov5645->regmap = devm_cci_regmap_init_i2c(client, 16);
-> +       if (IS_ERR(ov5645->regmap))
-> +               return dev_err_probe(ov5645->dev, PTR_ERR(ov5645->regmap),
-> +                                    "Failed to init CCI\n");
-> +
->          /* get system clock (xclk) */
->          ov5645->xclk = devm_v4l2_sensor_clk_get_legacy(dev, NULL, false, 0);
->          if (IS_ERR(ov5645->xclk))
-> @@ -1154,13 +1112,13 @@ static int ov5645_probe(struct i2c_client *client)
->          if (ret)
->                  goto free_entity;
->
-> -       ret = ov5645_read_reg(ov5645, OV5645_CHIP_ID_HIGH, &chip_id_high);
-> +       ret = cci_read(ov5645->regmap, OV5645_CHIP_ID_HIGH, &chip_id_high, NULL);
->          if (ret < 0 || chip_id_high != OV5645_CHIP_ID_HIGH_BYTE) {
->                  ret = -ENODEV;
->                  dev_err_probe(dev, ret, "could not read ID high\n");
->                  goto power_down;
->          }
-> -       ret = ov5645_read_reg(ov5645, OV5645_CHIP_ID_LOW, &chip_id_low);
-> +       ret = cci_read(ov5645->regmap, OV5645_CHIP_ID_LOW, &chip_id_low, NULL);
->          if (ret < 0 || chip_id_low != OV5645_CHIP_ID_LOW_BYTE) {
->                  ret = -ENODEV;
->                  dev_err_probe(dev, ret, "could not read ID low\n");
-> @@ -1169,24 +1127,21 @@ static int ov5645_probe(struct i2c_client *client)
->
->          dev_info(dev, "OV5645 detected at address 0x%02x\n", client->addr);
->
-> -       ret = ov5645_read_reg(ov5645, OV5645_AEC_PK_MANUAL,
-> -                             &ov5645->aec_pk_manual);
-> +       ret = cci_read(ov5645->regmap, OV5645_AEC_PK_MANUAL, &ov5645->aec_pk_manual, NULL);
->          if (ret < 0) {
->                  ret = -ENODEV;
->                  dev_err_probe(dev, ret, "could not read AEC/AGC mode\n");
->                  goto power_down;
->          }
->
-> -       ret = ov5645_read_reg(ov5645, OV5645_TIMING_TC_REG20,
-> -                             &ov5645->timing_tc_reg20);
-> +       ret = cci_read(ov5645->regmap, OV5645_TIMING_TC_REG20, &ov5645->timing_tc_reg20, NULL);
->          if (ret < 0) {
->                  ret = -ENODEV;
->                  dev_err_probe(dev, ret, "could not read vflip value\n");
->                  goto power_down;
->          }
->
-> -       ret = ov5645_read_reg(ov5645, OV5645_TIMING_TC_REG21,
-> -                             &ov5645->timing_tc_reg21);
-> +       ret = cci_read(ov5645->regmap, OV5645_TIMING_TC_REG21, &ov5645->timing_tc_reg21, NULL);
->          if (ret < 0) {
->                  ret = -ENODEV;
->                  dev_err_probe(dev, ret, "could not read hflip value\n");
-> --
-> 2.53.0
->
+SGkgR2VlcnQsDQoNClRoYW5rcyBmb3IgdGhlIGZlZWRiYWNrDQoNCj4gLS0tLS1PcmlnaW5hbCBN
+ZXNzYWdlLS0tLS0NCj4gRnJvbTogR2VlcnQgVXl0dGVyaG9ldmVuIDxnZWVydEBsaW51eC1tNjhr
+Lm9yZz4NCj4gU2VudDogMjYgTWFyY2ggMjAyNiAxMTozMQ0KPiBTdWJqZWN0OiBSZTogW1BBVENI
+IHYyXSBwaW5jdHJsOiByZW5lc2FzOiByemcybDogRml4IHNhdmUvcmVzdG9yZSBvZiB7SU9MSCxJ
+RU4sUFVQRCxTTVR9IHJlZ2lzdGVycw0KPiANCj4gSGkgQmlqdSwNCj4gDQo+IE9uIFdlZCwgMjUg
+TWFyIDIwMjYgYXQgMTk6MjgsIEJpanUgPGJpanUuZGFzLmF1QGdtYWlsLmNvbT4gd3JvdGU6DQo+
+ID4gRnJvbTogQmlqdSBEYXMgPGJpanUuZGFzLmp6QGJwLnJlbmVzYXMuY29tPg0KPiA+DQo+ID4g
+VGhlIHJ6ZzJsX3BpbmN0cmxfcG1fc2V0dXBfcmVncygpIGhhbmRsZXMgc2F2ZS9yZXN0b3JlIG9m
+DQo+ID4ge0lPTEgsSUVOLFBVUEQsU01UfSByZWdpc3RlcnMgZHVyaW5nIHMycmFtLCBidXQgb25s
+eSBmb3IgcG9ydHMgd2hlcmUNCj4gPiBhbGwgcGlucyBzaGFyZSB0aGUgc2FtZSBwaW5jZmcuIEV4
+dGVuZCB0aGUgY29kZSB0byBhbHNvIHN1cHBvcnQgcG9ydHMNCj4gPiB3aXRoIHZhcmlhYmxlIHBp
+bmNmZyBwZXIgcGluLCBzbyB0aGF0IHtJT0xILElFTixQVVBELFNNVH0gcmVnaXN0ZXJzDQo+ID4g
+YXJlIGNvcnJlY3RseSBzYXZlZCBhbmQgcmVzdG9yZWQgZm9yIGFsbCBwaW5zLg0KPiA+DQo+ID4g
+Rml4ZXM6IDI1NDIwM2Y5YTk0YyAoInBpbmN0cmw6IHJlbmVzYXM6IHJ6ZzJsOiBBZGQgc3VzcGVu
+ZC9yZXN1bWUNCj4gPiBzdXBwb3J0IikNCj4gPiBTaWduZWQtb2ZmLWJ5OiBCaWp1IERhcyA8Ymlq
+dS5kYXMuanpAYnAucmVuZXNhcy5jb20+DQo+IA0KPiBUaGFua3MgZm9yIHRoZSB1cGRhdGUhDQo+
+IA0KPiA+IC0tLQ0KPiA+IHYxLT52MjoNCj4gPiAgKiBVcGRhdGVkIGNvbW1pdCBkZXNjcmlwdGlv
+bg0KPiA+ICAqIEltcHJvdmVkIHRoZSBsb2dpYy4NCj4gDQo+IFlvdSBhbHNvIGZpeGVkIHRoZSBk
+b3VibGUgYXBwbGljYXRpb24gb2YgdGhlIHBpbl9vZmYgaW5kZXgsIHJpZ2h0Pw0KDQpZZXMsIGl0
+IGlzIG15IG1pc3Rha2UsIEkgaGF2ZW4ndCBsb29rZWQgdGhlIHByb3Bvc2VkIGNvZGUgZHVyaW5n
+DQpvdXIgaW50ZXJuYWwgcmV2aWV3IGFzIHRoZSB0ZXN0aW5nIHNob3dlZCB0aGUgcmVzdWx0cyBh
+cmUgT0sgd2l0aCBldGhlcm5ldCBPRU4gDQpQaW5zIGR1cmluZyBzdXNwZW5kL3Jlc3VtZSBjeWNs
+ZSBvZiBzMnJhbS4NCg0KPiANCj4gPiAtLS0gYS9kcml2ZXJzL3BpbmN0cmwvcmVuZXNhcy9waW5j
+dHJsLXJ6ZzJsLmMNCj4gPiArKysgYi9kcml2ZXJzL3BpbmN0cmwvcmVuZXNhcy9waW5jdHJsLXJ6
+ZzJsLmMNCj4gPiBAQCAtMzAwMSw5ICszMDAxLDEyIEBAIHN0YXRpYyB2b2lkIHJ6ZzJsX3BpbmN0
+cmxfcG1fc2V0dXBfcmVncyhzdHJ1Y3QNCj4gPiByemcybF9waW5jdHJsICpwY3RybCwgYm9vbCBz
+dXNwZW4gIHsNCj4gPiAgICAgICAgIHUzMiBucG9ydHMgPSBwY3RybC0+ZGF0YS0+bl9wb3J0X3Bp
+bnMgLyBSWkcyTF9QSU5TX1BFUl9QT1JUOw0KPiA+ICAgICAgICAgc3RydWN0IHJ6ZzJsX3BpbmN0
+cmxfcmVnX2NhY2hlICpjYWNoZSA9IHBjdHJsLT5jYWNoZTsNCj4gPiArICAgICAgIHUzMiBwaW5f
+b2ZmID0gMDsNCj4gPg0KPiA+IC0gICAgICAgZm9yICh1MzIgcG9ydCA9IDA7IHBvcnQgPCBucG9y
+dHM7IHBvcnQrKykgew0KPiA+ICsgICAgICAgZm9yICh1MzIgcG9ydCA9IDA7IHBvcnQgPCBucG9y
+dHM7IHBvcnQrKywgcGluX29mZiArPSBSWkcyTF9QSU5TX1BFUl9QT1JUKSB7DQo+ID4gKyAgICAg
+ICAgICAgICAgIGNvbnN0IHN0cnVjdCBwaW5jdHJsX3Bpbl9kZXNjICpwaW5fZGVzYyA9DQo+ID4g
+KyAmcGN0cmwtPmRlc2MucGluc1twaW5fb2ZmXTsNCj4gDQo+IEhlcmUgeW91IGluZGV4IHBjdHJs
+LT5kZXNjLnBpbnNbXS4uLg0KDQpPSy4NCj4gDQo+ID4gICAgICAgICAgICAgICAgIGJvb2wgaGFz
+X2lvbGgsIGhhc19pZW4sIGhhc19wdXBkLCBoYXNfc210Ow0KPiA+ICsgICAgICAgICAgICAgICB1
+NjQgKnBpbl9kYXRhID0gcGluX2Rlc2MtPmRydl9kYXRhOw0KPiANCj4gSGVyZSB5b3UgZ2V0IHBp
+bl9kYXRhLCBzbyBiZWxvdyB5b3Ugd2lsbCBhY3R1YWxseSBpbmRleA0KPiBwY3RybC0+ZGVzYy5w
+aW5zW3Bpbl9vZmZdLmRydl9kYXRhW10uICBUaGF0IGlzIG5vdCBvbmx5IGNvbmZ1c2luZywNCj4g
+YnV0IGFsc28gb25seSB3b3JrcyBiZWNhdXNlIHBjdHJsLT5kZXNjLnBpbnNbaV0uZHJ2X2RhdGEg
+aXMgaW5pdGlhbGl6ZWQgaW4gcnpnMmxfcGluY3RybF9yZWdpc3RlcigpDQo+IGxpa2U6DQo+IA0K
+PiAgICAgcGluc1tpXS5kcnZfZGF0YSA9ICZwaW5fZGF0YVtpXTsNCj4gDQo+IEFsbCB0aGVzZSBu
+ZXcgdmFyaWFibGVzIChpbmNsLiBwaW5fb2ZmKSBhcmUgb25seSB1c2VkIGluc2lkZSB0aGUgbmV3
+IGlmICgpIGJlbG93LCBzbyBwbGVhc2UgY29uZmluZQ0KPiBldmVyeXRoaW5nIHRvIHRoYXQgYmxv
+Y2suDQoNCk9LLg0KPiANCj4gPiAgICAgICAgICAgICAgICAgdTMyIG9mZiwgY2FwczsNCj4gPiAg
+ICAgICAgICAgICAgICAgdTggcGluY250Ow0KPiA+ICAgICAgICAgICAgICAgICB1NjQgY2ZnOw0K
+PiA+IEBAIC0zMDEyLDYgKzMwMTUsMTEgQEAgc3RhdGljIHZvaWQgcnpnMmxfcGluY3RybF9wbV9z
+ZXR1cF9yZWdzKHN0cnVjdCByemcybF9waW5jdHJsICpwY3RybCwgYm9vbA0KPiBzdXNwZW4NCj4g
+PiAgICAgICAgICAgICAgICAgb2ZmID0gUlpHMkxfUElOX0NGR19UT19QT1JUX09GRlNFVChjZmcp
+Ow0KPiA+ICAgICAgICAgICAgICAgICBwaW5jbnQgPSBod2VpZ2h0OChGSUVMRF9HRVQoUElOX0NG
+R19QSU5fTUFQX01BU0ssDQo+ID4gY2ZnKSk7DQo+ID4NCj4gPiArICAgICAgICAgICAgICAgaWYg
+KGNmZyAmIFJaRzJMX1ZBUklBQkxFX0NGRykgew0KPiA+ICsgICAgICAgICAgICAgICAgICAgICAg
+IGZvciAodW5zaWduZWQgaW50IGkgPSAxOyBpIDwNCj4gPiArIFJaRzJMX1BJTlNfUEVSX1BPUlQ7
+IGkrKykNCj4gDQo+IFNob3VsZG4ndCB0aGUgbG9vcCBzdGFydCBhdCB6ZXJvPyBUaGUgUElOX0NG
+R19NQVNLIHBhcnQgb2YgYSB2YXJpYWJsZSBjb25maWcgaXMgYWx3YXlzIHplcm8uDQo+IA0KPiA+
+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgY2ZnIHw9ICpwaW5fZGF0YSsrOw0KPiAN
+Cj4gUGxlYXNlIHVzZSBwY3RybC0+ZGVzYy5waW5zW3Bpbl9vZmYgKyBpXS5kcnZfZGF0YSBoZXJl
+Lg0KPiBBbmQgcGluX29mZiBjYW4gYmUgcmVwbGFjZWQgYnkgcG9ydCAqIFJaRzJMX1BJTlNfUEVS
+X1BPUlQuDQoNCg0KT0ssIHdpbGwgcmVwbGFjZSBpdCBhcyBpbiB0aGUgbmV4dCB2ZXJzaW9uIGFz
+IGJlbG93DQoNCisJCWlmIChjZmcgJiBSWkcyTF9WQVJJQUJMRV9DRkcpIHsNCisJCQl1bnNpZ25l
+ZCBpbnQgcGluID0gcG9ydCAqIFJaRzJMX1BJTlNfUEVSX1BPUlQ7DQorDQorCQkJZm9yICh1bnNp
+Z25lZCBpbnQgaSA9IDA7IGkgPCBSWkcyTF9QSU5TX1BFUl9QT1JUOyBpKyspDQorCQkJCWNmZyB8
+PSAqKHU2NCAqKXBjdHJsLT5kZXNjLnBpbnNbIHBpbiArIGkgXS5kcnZfZGF0YTsNCisJCX0NCisN
+Cg0KQ2hlZXJzLA0KQmlqdQ0K
 
