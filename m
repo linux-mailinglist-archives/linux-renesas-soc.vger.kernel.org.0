@@ -1,149 +1,201 @@
-Return-Path: <linux-renesas-soc+bounces-30373-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-30374-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id yNLTCQNUxWmD9QQAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-30373-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Mar 2026 16:42:59 +0100
+	id aFBnJgVUxWmD9QQAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-30374-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Mar 2026 16:43:01 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B3EF337C44
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Mar 2026 16:42:58 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C3EE337C5A
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Mar 2026 16:43:01 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id E1F4230488F4
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Mar 2026 15:33:43 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id BAEC230E7664
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Mar 2026 15:34:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 40F992C08AB;
-	Thu, 26 Mar 2026 15:33:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8540D3FBEC3;
+	Thu, 26 Mar 2026 15:34:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b="NxfZOdQn"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ia0N599X"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0288837F72D;
-	Thu, 26 Mar 2026 15:33:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F6083FB7D4
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 26 Mar 2026 15:34:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.42
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774539223; cv=pass; b=GMLfz0FKQSHYU9twKEVC+OLjrI8YF6pyIFdd1WdxzQ8C+t+bEUF38k5/n0Js99urofWMaZxU6RpkD+9S1jTzliPSx55hRskoI3zrJTzMtFgR3plU7mWHUlsGgXNi8kei5VUobODShYHloEw5IZghxVAKJFvUcKL5Lwev1gaoNto=
+	t=1774539242; cv=pass; b=fV2x8sAUE0bWIwpgjwkA3VqIhuFy8aNvQJx5r3qjfOB15fbZd60z0EZFr3kKqvhW3AkKtF+7oZtAToz/vIsdZ1peiFtG/qCQD2e40ZAYGkk4TfnWCQ+ywawaSkMHA9287UnsP/Kw+A8poNFa2i3berz2ihwG6DFqxOESJb7zbmg=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774539223; c=relaxed/simple;
-	bh=nGfnLesYR13qNlB0iaoKy+rd620g5TRhdi6N0vUhs88=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FPnV4firM6qQi4zYnTL5+SbSelHhNjMAErmzKLHwJhZlw5L3zZgdxcVEV7UV+EnjHYaPUK3hrLUQH5Vg+OureWWslkeUVMl8CRgQZQgqwuG1k05HCkb8CwUS9dNV1mduUO5lHi7ESDzMSk1JCtRZTFrwetrCdcSrxZ2abGeU4Qw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b=NxfZOdQn; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-ARC-Seal: i=1; a=rsa-sha256; t=1774539210; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=Eg6fdgt0y5fOGIHKS+UKsoY3samybAC7yIgVyJMM7Iw6zWvqTAGGBpw/l1ulgUrD8io5Z0ptou2M2vJoH5gy++APSOKraCvc4rMYxEyXxavOEVxdhj/2pHxCoAIioDLk9YqUPsf+h+8/0b2qCx+NznGamC1oxHLUaJJAPLGVpM0=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1774539210; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=0wcdsbWkSrAnmgL9+6UpLjpTKxBc6Zr/xz6jnshfDGw=; 
-	b=dQ2CeFIpBw9gNcNFi7FmUHRQE13xd+fVpYQqtereR01gkyW6yK35wQxBvuUZXE3LVGsDoY8zb4MrsLjqGJU2ezl96HXPtQ2uyB8AAVm0kfgS5lFRjYvDbQnUhhjrwd+R7n2PUw3LtZ2uKt8hxK1PSDBXN32oU6Pk8Iqo864ZmUk=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=adrian.larumbe@collabora.com;
-	dmarc=pass header.from=<adrian.larumbe@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1774539210;
-	s=zohomail; d=collabora.com; i=adrian.larumbe@collabora.com;
-	h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:Content-Transfer-Encoding:In-Reply-To:Message-Id:Reply-To;
-	bh=0wcdsbWkSrAnmgL9+6UpLjpTKxBc6Zr/xz6jnshfDGw=;
-	b=NxfZOdQngsUkjJaBH4BIeUkdlENKr30NdoOD6QLQ/Tn/ih0fX5VpT7NAH5Yn/2XE
-	5nDn1Prhm4ZiVjnY3vmmCELHBKNYN3bZIYQZaMuSG9hZOgngqKRK3/tmQDZKARNuspE
-	Rxum1Ry21MGTWbGgavkwNusm3N+t956qE11BKQGQ=
-Received: by mx.zohomail.com with SMTPS id 1774539208197622.9571966303812;
-	Thu, 26 Mar 2026 08:33:28 -0700 (PDT)
-Date: Thu, 26 Mar 2026 15:33:23 +0000
-From: =?utf-8?Q?Adri=C3=A1n?= Larumbe <adrian.larumbe@collabora.com>
-To: Biju <biju.das.au@gmail.com>
-Cc: Boris Brezillon <boris.brezillon@collabora.com>, 
-	Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
-	Simona Vetter <simona@ffwll.ch>, Biju Das <biju.das.jz@bp.renesas.com>, 
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
-	linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v2 4/4] drm/panfrost: Add GPU_PM_RT support for RZ/G3L SoC
-Message-ID: <acVRuisdluSGURcU@sobremesa>
-References: <20260320164158.487406-1-biju.das.jz@bp.renesas.com>
- <20260320164158.487406-5-biju.das.jz@bp.renesas.com>
+	s=arc-20240116; t=1774539242; c=relaxed/simple;
+	bh=QHDDHO4LVVYxJRc2Eubtw5cGEKghDTKOLbul4jNp5LA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=u/FLBR388k8UP2dBwbAUwJaVUIeqS7mi2vftstHb4lwmISLqoB/wJH2MlBgKQ4uMw4QzGVJbq/LxMyVHE/wsJNJZF4WQvKTVuZR5AEoFegD3Bqp85mqJKbE9aHB1kDlPQJnHO/paiMWgbxH8394vJKGXoJMfcADC/r+srIQWG3A=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ia0N599X; arc=pass smtp.client-ip=209.85.128.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-48334ee0aeaso10090835e9.1
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 26 Mar 2026 08:34:00 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1774539239; cv=none;
+        d=google.com; s=arc-20240605;
+        b=bMkrugRQPgvYXQQaXBQhv/zKYleOv2mZWm1QliJ1n9eacAj+VGO0NjH1lJb7NyjJvT
+         80kskeFSDtm+zxzz7zims3bFH5cPxn5K0CaMOQzRUcKjJOenUDI9zmgFXVUvU4ANmCq/
+         yutS1EU/Gs5sZIBxOu/Q3hJ/VYl2ePRI4b+lLC/xr9zUbJSeFSSiPrs5hYmwzT6P2sG8
+         iAqUxqDO2bi7llp9gzN9lOyi5CP0wYE8KmElI45kiAskxzUbNiqoEFMt3UWpDzVTDSrS
+         z751n/HDKGWlA+iYFpWLJo/NfxboRSqz7lU8r+j1wMUGfSt34zojmDzLbURRwUxeizxP
+         6/OA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=P5UOQ2XgSgA9XitChwg3fQOJH1UmuYoeUNuk8tCpCA4=;
+        fh=jeQ96SnzcVYQdoNsLr9HFNAnLe9VPcmDHw4uqBPdxOg=;
+        b=D+/EGdgFfJE7UbnErYAEBpQ7+cyL7quILpejIbj0M1ImJX8G8DqHHBPmwi/bvovRtL
+         81MHuqTVLxVLey10MOtaPtHwuHh7Ck8pBrUChJmm+vcgYO83qSdAxQkX65KHQ/lAUBfp
+         RdVhuUTXNz9tNJtxdX41ZqWTUNwxIQuV0kAFlmOvhQ0W3xtlXnGOyrXnDnWGKEnN9Dhj
+         8t4RcWY6aGoWewg1Yqux8YiuGMvqbehUFt+w3BAWHROqXPZpymHdiK28QbNO0DBa+BaQ
+         u4ee7iikLGiVaFgyHQ54nx9LTQ7AC4xBPR/m2CxDeYkCiyedwrUCvTP8T10476epNvgr
+         YgBw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1774539239; x=1775144039; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=P5UOQ2XgSgA9XitChwg3fQOJH1UmuYoeUNuk8tCpCA4=;
+        b=Ia0N599XwSCAth6j6XXDtr7IRFq8tBywK/o/pfogKyYDFB618LrYDe0fioAh/6Gjtd
+         QoTRqBCdBWLrgyezNaM34SGYrJjVeVTV4DsdjJ9etTYZmB+wpUorcqkCn1SsnmKdMAZA
+         8hRWXAOGor/0/wZKZXNVve4/3YctGvHd+AI5ABZiaLvwilvdg+WQ+Q8Ps/noR2xTsZoO
+         2CqksOFDY99mwBTXcU4isR0rQ8cbhmEcDn2YKVZwrmNYWMcX/9rGBSbJ4PCAV6vNm6Dr
+         xUrHhLyCJznlhoDkB1R3YogOIFWhjmNRwuWOM3TYNDv8vnkOHbMhfotTIQL+0ncvF+Cl
+         qDkA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774539239; x=1775144039;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=P5UOQ2XgSgA9XitChwg3fQOJH1UmuYoeUNuk8tCpCA4=;
+        b=Pq6Amfn6RhcdUBb6ao1ffvtrz7EoNxt5H1UMmlSnUlySQoi3Lzx32/UThP3S43jhzW
+         lxlBpZC25KN3Eo+sOX/IbJNlRVI/iBxFOsVFU87LZFpudnRAYmauTuSHijX4U8pu1yKw
+         QSqY96M/6LdOJEfR6Q818CUmMRpo6it5hVzkHCgIkjVAqV+rblF6xDLvbD8ehkKn/wW5
+         DgaYI+5VGffJ+q6r4o9en1St1M0750SPxNiuY/uuHivfeKqj9DSeOw2B3YW3A1mOhf//
+         7u5feGomzrDF6ooE03/ImHRzALqJDDzB5TEbSwV2tMH7vdXoWK4EllkRhJVUH4TZTQKs
+         xOaA==
+X-Forwarded-Encrypted: i=1; AJvYcCU+Ag6pCZ/VrYOkC4lIVJsKp8rvmBii+nljgXtay6N49S0w1/RYaT4lwRZimca5UiapSNS18f6ZEBlWtI1OxXoWaQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwOhzr8pn1vhEn0mo7tAbfGW8Tg5oBgjsN752hJwdKesP7hEMOg
+	Y75h+1QJqe2fCbModMrl56Sz/BPqdbbL3XDr4Ax5U1h5jU9mYQ5Ltann6xPJxrKIwL86Nt1G+bH
+	a90oyjaIDfivO+7VHr7EdhIEuABHezfA=
+X-Gm-Gg: ATEYQzwZ8Z+rAhFRSHcl27Kcz9sGqq44iEf0ychStrYY5OpABrFTrg8CRvoec6WOiXY
+	k/tCDrqdGJMn7C9chWnDl8HUvaNzvcFA98VJ/2XhtiZRFR63TlxzUKmnmTCnQ9mSGNTlkL4Yv4s
+	gDVVZ3g4mbs/tvsYTHXAtifg1P7/xml3Gt46r6a/FRQMkuL4m+NW4W2ylGmCWlpgekHEwZD5GNP
+	2Nn8KEecr8oq8L+wZzMf5AORX5VuMZXjcKPr2NLI1sG/gBJNjEWv+E7mdYSsXovyPtKmV24Xz0s
+	LYqt6lT9HzcJbi4CH57q3N3yPShtJttf5bFd40Rs3aYaGiKWxvd4S0VZzr61KQRNwfWg9w==
+X-Received: by 2002:a05:600c:1548:b0:487:716:2fa9 with SMTP id
+ 5b1f17b1804b1-48715ff7a16mr134430615e9.13.1774539239050; Thu, 26 Mar 2026
+ 08:33:59 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260320164158.487406-5-biju.das.jz@bp.renesas.com>
-X-Spamd-Result: default: False [-0.16 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+References: <20260326142107.297811-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20260326142107.297811-3-prabhakar.mahadev-lad.rj@bp.renesas.com> <bb172420-e19d-4844-bbd7-a6b6ef5dbab5@windriver.com>
+In-Reply-To: <bb172420-e19d-4844-bbd7-a6b6ef5dbab5@windriver.com>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Thu, 26 Mar 2026 15:33:32 +0000
+X-Gm-Features: AQROBzAn9bGjSA_U9-7Bi0VG3hKZ4DZaBmDg7pB_PzCwe24_K7xtnvK7QMBK2-o
+Message-ID: <CA+V-a8uuT=GEFGQXfXPc6KzPqOdTEjUxyP92f_YUzBq9AzUKVw@mail.gmail.com>
+Subject: Re: [PATCH 2/2] media: i2c: ov5645: Convert to CCI register access helpers
+To: xiaolei wang <xiaolei.wang@windriver.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Hans Verkuil <hverkuil@kernel.org>, Hans de Goede <johannes.goede@oss.qualcomm.com>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>, Mehdi Djait <mehdi.djait@linux.intel.com>, 
+	Benjamin Mugnier <benjamin.mugnier@foss.st.com>, 
+	Sylvain Petinot <sylvain.petinot@foss.st.com>, 
+	Hardevsinh Palaniya <hardevsinh.palaniya@siliconsignals.io>, linux-media@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	Biju Das <biju.das.jz@bp.renesas.com>, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
-	R_DKIM_ALLOW(-0.20)[collabora.com:s=zohomail];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCPT_COUNT_TWELVE(0.00)[15];
-	MIME_TRACE(0.00)[0:+];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-30373-lists,linux-renesas-soc=lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
-	FREEMAIL_TO(0.00)[gmail.com];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-30374-lists,linux-renesas-soc=lfdr.de];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	RCPT_COUNT_TWELVE(0.00)[17];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[collabora.com:+];
-	TO_DN_SOME(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[adrian.larumbe@collabora.com,linux-renesas-soc@vger.kernel.org];
-	FREEMAIL_CC(0.00)[collabora.com,kernel.org,arm.com,linux.intel.com,suse.de,gmail.com,ffwll.ch,bp.renesas.com,lists.freedesktop.org,vger.kernel.org,glider.be];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
-	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[collabora.com:dkim,collabora.com:email,renesas.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,arm.com:email]
-X-Rspamd-Queue-Id: 7B3EF337C44
+	FROM_NEQ_ENVFROM(0.00)[prabhakarcsengg@gmail.com,linux-renesas-soc@vger.kernel.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	TAGGED_RCPT(0.00)[linux-renesas-soc];
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,renesas.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,windriver.com:email]
+X-Rspamd-Queue-Id: 3C3EE337C5A
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Reviewed-by: Adrián Larumbe <adrian.larumbe@collabora.com>
+Hi Xiaolei,
 
-On 20.03.2026 16:41, Biju wrote:
-> From: Biju Das <biju.das.jz@bp.renesas.com>
+On Thu, Mar 26, 2026 at 3:00=E2=80=AFPM xiaolei wang <xiaolei.wang@windrive=
+r.com> wrote:
 >
-> RZ/G3L SoC is embedded with Mali-G31 GPU system. Add GPU_PM_RT support as
-> it needs to be assert/deassert the reset during suspend/resume.
+> Hi Prabhakar,
 >
-> Reviewed-by: Steven Price <steven.price@arm.com>
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> ---
-> v1->v2:
->  * Collected tag
-> ---
->  drivers/gpu/drm/panfrost/panfrost_drv.c | 1 +
->  1 file changed, 1 insertion(+)
+> On 3/26/26 22:21, Prabhakar wrote:
+> > CAUTION: This email comes from a non Wind River email account!
+> > Do not click links or open attachments unless you recognize the sender =
+and know the content is safe.
+> >
+> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> >
+> > Convert the ov5645 driver to use the V4L2 CCI register access helpers
+> > and regmap infrastructure instead of the custom I2C register access
+> > implementation.
+> >
+> > Keep ov5645_set_register_array() as ov5645_global_init_setting requires
+> > a delay between specific register writes, which cannot be expressed
+> > through the generic CCI multi-write helper.
+> >
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > ---
+> >   drivers/media/i2c/Kconfig  |   1 +
+> >   drivers/media/i2c/ov5645.c | 901 ++++++++++++++++++------------------=
+-
+> >   2 files changed, 429 insertions(+), 473 deletions(-)
+> >
+> > diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
+> > index 20482be35f26..921186d36589 100644
+> > --- a/drivers/media/i2c/Kconfig
+> > +++ b/drivers/media/i2c/Kconfig
+> > @@ -526,6 +526,7 @@ config VIDEO_OV5640
+> >          tristate "OmniVision OV5640 sensor support"
+> >          depends on OF
+> >          depends on GPIOLIB
+> > +       select V4L2_CCI_I2C
 >
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
-> index 711f5101aa04..3d0bdba2a474 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_drv.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
-> @@ -1156,6 +1156,7 @@ static const struct of_device_id dt_match[] = {
->  	  .data = &amlogic_data, },
->  	{ .compatible = "amlogic,meson-g12a-mali",
->  	  .data = &amlogic_data, },
-> +	{ .compatible = "renesas,r9a08g046-mali", .data = &default_pm_rt_data },
->  	{ .compatible = "renesas,r9a09g047-mali", .data = &default_pm_rt_data },
->  	{ .compatible = "arm,mali-t604", .data = &default_data, },
->  	{ .compatible = "arm,mali-t624", .data = &default_data, },
-> --
-> 2.43.0
+> The V4L2_CCI_I2C select option seems to have been placed here on the OV56=
+40.
+>
+Ouch my bad, I will fix that in v2.
 
-
-Adrian Larumbe
+Cheeers,
+Prabhakar
 
