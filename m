@@ -1,71 +1,71 @@
-Return-Path: <linux-renesas-soc+bounces-30300-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-30301-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id mDcBNKO1xGn02gQAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-30300-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Mar 2026 05:27:15 +0100
+	id GD84G/S7xGkw3AQAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-30301-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Mar 2026 05:54:12 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4EFF32F066
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Mar 2026 05:27:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AFC4632F288
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Mar 2026 05:54:11 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 357C6303C121
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Mar 2026 04:24:53 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id B8CF3301E71F
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Mar 2026 04:54:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DC56B39D6C3;
-	Thu, 26 Mar 2026 04:24:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A6A8B332914;
+	Thu, 26 Mar 2026 04:54:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="BrjI85Uc";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="AFRLrZta"
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="ijy2+VTT";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="U2HGUSrY"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
+Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8560D391501;
-	Thu, 26 Mar 2026 04:24:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.161
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0505019B5B1;
+	Thu, 26 Mar 2026 04:54:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774499080; cv=none; b=GK3jR+90nA41bhpi+zdikMX0w9GbemnvHoInub62UtSURcd1aZxvf/03Fi5ZVtlhgrOSlWYbg57IhBwgrqV+nIFFBlJWy5R9Uw/fDe1uJoB0JnKWReEXx5sWL0H5XasWdQBVhjg4IqgznSZaBP8tpjmwngeh1zXg5TZZLIUvpuA=
+	t=1774500845; cv=none; b=niQXsoNvrt7wJ6Xrp/yvzkiMJXwouduJQioYVDBjxPJIL1vW03wGe9pgiYv1DyAtNqTdaJDAq4/pA3lHnTRN2bjsM2+GXhtNJ5Qg7GF+F4MWU8zwovFFnr4OPscIhhn9/t24bhArAfbchG2ed2CkvivnxfvX7N+ZhRblKJH7NRY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774499080; c=relaxed/simple;
-	bh=AJdJjCQipZ/3vXI3YxYY1ujWiRdZlx2miqftSqttx6Y=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Rnev1rvn316X+Hd1mAF/f3oMln2Fn/qy43l8KfaMVD9tbKm5MiAySzu5FiJAq7eBp9ZVXmefEbLrrItrWOY21hPFN1JhxSKy5YiFxQPEkumcghlYZaohvA+rHeDZlt+2B7CU9uImZkv83tzcEp04clN0EHm7pOe8jQ12xLpBTu0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=BrjI85Uc; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=AFRLrZta; arc=none smtp.client-ip=80.241.56.161
+	s=arc-20240116; t=1774500845; c=relaxed/simple;
+	bh=cjdKbHJJ6LtAhA+a5BeTS1s2l03pDc3+3EeRGDJvVg0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=PDCpVYb0NzIfDWTa+D9LXZeOF4ggRvGWlx0eyN/HdQbMP3NzdEFkd7RQ8SMGKZZ9klaTGblVzM3xfKO/ecB8jGXDmR9CC9QR8nfhAvgLG5vdhLq0ImQk/gie7S+sUvKHxRP03Hv48vAe/QbWSX5raqF+5cHHX7MFUUO8R/HCUw0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=ijy2+VTT; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=U2HGUSrY; arc=none smtp.client-ip=80.241.56.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [IPv6:2001:67c:2050:b231:465::2])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4fh9f60H5pz9v01;
-	Thu, 26 Mar 2026 05:24:30 +0100 (CET)
+	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4fhBJB077gz9tqX;
+	Thu, 26 Mar 2026 05:54:02 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1774499070;
+	t=1774500842;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=mjJ47iz69kffMqjrmrab+FRigiZP+JvFCki4MhCjrAw=;
-	b=BrjI85Uca/IG5hHM/bNDRYDl7BITyI5UD2zAIVB1CD6FOowWah1bDPkkfnaHJgkIenvU0Y
-	CDCMppcq/vPmHRxRF8V8pcCM03mA7S4YgGpT+DSdfjMyYkQ8JyOWLGk1H8qLMtH8jwRfo0
-	1Df+w6Ybz+KNvv77TSgrinr3L/vxwp9ovmIQig4fpQiPt1fpcDZnoyE7EJoG8g0pNKKn9c
-	0IL4Jp/OJkFvdzUDUMyxOl++8eistHyzM+MQw8syVkXVKijm7JZ4v16Mqmavj56x65h/xb
-	3zKteFV5JwgCBWPAU/z2P5PdzO/VgRjqzB1MFSjMYdDDjlujba1De87R/hku0g==
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=+5gFP7YwrJnFNVXiscxFDwA79x/GURVZ2upvuTJ3tKg=;
+	b=ijy2+VTTzT7P6EM3tEbsHKpr+5nQvOG5g0gQyzWVJfP3R2zN1wfDxirOzbkX3qhILrbskT
+	A5Lp9YkSdDqjf27+BBwm6xFFBgw9x/4gj+xZzZiBDJlp+Y9GyghWXvzI6vXGGSMsmcVeBQ
+	8fHtrj7EnziGnqmvjh2c3metmTJSS98x9OjWQvg1Imref7/cPS5pd0HjEqB8hzFVAwj6ZM
+	ehIBNzWIJ+m+ZexoAtic9tga1G1TAkv+Nhra8RCsGeFYbSCbrepZyBgTe9N5kSaTA5Etnr
+	EaSYpz1Ko7k26L9BVOs9ekgfUHmVTsTnY5TljSGCOh2h4ykO4heFN5OKSM5LAQ==
+Authentication-Results: outgoing_mbo_mout;
+	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=U2HGUSrY;
+	spf=pass (outgoing_mbo_mout: domain of marek.vasut+renesas@mailbox.org designates 2001:67c:2050:b231:465::2 as permitted sender) smtp.mailfrom=marek.vasut+renesas@mailbox.org
 From: Marek Vasut <marek.vasut+renesas@mailbox.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1774499068;
+	t=1774500840;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=mjJ47iz69kffMqjrmrab+FRigiZP+JvFCki4MhCjrAw=;
-	b=AFRLrZtadueE6nkaAXnOCPfuKtPNXnYDuoYrUydn1G1D4F3lHp5sUBMDf30oa5obA4TpuG
-	ERzyRzPwYmPk/DFk4QRC4+ZInFG9tQtkgFKvjuMCvU3Fn5UFXZ2YKTL7zu72QaZFIUt6hy
-	4OJMopvqNNdQi5VK5DiHr82a8z9KNb82ydORFnlBH7WC0mLdb0WnfQu8X0kjzlRLMgkPCf
-	xIZfa3crTftonRaxWKfjwWJ67f/DB2Vx45pwqYqqLavcOD+zH54ka3rmA6ezuzg1yBp0RU
-	2Ih9T+txicJmuNWyOSKpTg02ArMxMCHLEaENdSgq/lxUZqgBDLpf4O9hFxo8nw==
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=+5gFP7YwrJnFNVXiscxFDwA79x/GURVZ2upvuTJ3tKg=;
+	b=U2HGUSrYFKbqk7I0TNh65xBq6wWbvxX7dHznfbcRMOjX1hBA2/QYl/lDf5XEWQZtY4lmsu
+	pyaIELfa4tlMqLIV701dlWE/GqOcRd+/pJooKSBqO1qjPHij1EF8lU4bNp+UhT8qIxENLv
+	xagTwalj0BT3nah9isXVU49ocbpa52sPv4/xaGeWm2e5c5Hd3zOJbsgjmcOmfyqgc50yfW
+	k5Uj6KyT8Jt0bE18gAj3GmRIwQdsSocQCG6RPSfotjqGjYcrFvbGtK2l0ENcSw5HVCYhuE
+	4SO76ugqtFFnexWxUOIihjQqEyYGl5kX/A//DstfXZF0YN5O10hNmXwnuLiirQ==
 To: linux-arm-kernel@lists.infradead.org
 Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
 	Conor Dooley <conor+dt@kernel.org>,
@@ -76,11 +76,9 @@ Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
 	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org
-Subject: [PATCH 4/4] arm64: dts: renesas: rzg2l-smarc: Fix missing cells and reg into DU subnode
-Date: Thu, 26 Mar 2026 05:24:01 +0100
-Message-ID: <20260326042411.215241-5-marek.vasut+renesas@mailbox.org>
-In-Reply-To: <20260326042411.215241-1-marek.vasut+renesas@mailbox.org>
-References: <20260326042411.215241-1-marek.vasut+renesas@mailbox.org>
+Subject: [PATCH] ARM: dts: renesas: r8a7742-iwg21d-q7-dbcm-ca: Drop KSZ8081 PHY C22 compatible string
+Date: Thu, 26 Mar 2026 05:53:38 +0100
+Message-ID: <20260326045355.223529-1-marek.vasut+renesas@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -88,8 +86,8 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-MBO-RS-ID: 8195f495464a61884c3
-X-MBO-RS-META: 4os6sgow5fx197emqeseecb1h9nh57cc
+X-MBO-RS-META: bxrekjewuqupwonyrbkk59ty3i73yqdh
+X-MBO-RS-ID: dc97bce3079db75bf83
 X-Spamd-Result: default: False [-1.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	R_MISSING_CHARSET(0.50)[];
@@ -104,7 +102,7 @@ X-Spamd-Result: default: False [-1.66 / 15.00];
 	MIME_TRACE(0.00)[0:+];
 	FREEMAIL_CC(0.00)[mailbox.org,kernel.org,glider.be,gmail.com,vger.kernel.org];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-30300-lists,linux-renesas-soc=lfdr.de,renesas];
+	TAGGED_FROM(0.00)[bounces-30301-lists,linux-renesas-soc=lfdr.de,renesas];
 	DKIM_TRACE(0.00)[mailbox.org:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
@@ -117,17 +115,15 @@ X-Spamd-Result: default: False [-1.66 / 15.00];
 	RCPT_COUNT_SEVEN(0.00)[10];
 	MID_RHS_MATCH_FROM(0.00)[];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,dt];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[0.0.0.0:email,0.0.0.1:email,glider.be:email,mailbox.org:dkim,mailbox.org:email,mailbox.org:mid,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: D4EFF32F066
+	DBL_BLOCKED_OPENRESOLVER(0.00)[glider.be:email,mailbox.org:dkim,mailbox.org:email,mailbox.org:mid,0.0.0.1:email,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: AFC4632F288
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Add missing cells and reg DT property into DU subnode to fix
-the following warning:
-
-"
-arch/arm64/boot/dts/renesas/rz-smarc-du-adv7513.dtsi:29.10-33.5: Warning (unit_address_vs_reg): /fragment@1/__overlay__/ports/port@0: node has a unit name, but no reg or ranges property
-"
+Microchip KSZ8081 PHY schema indicates that compatible string
+"ethernet-phy-id0022.1560" must not be followed by any other
+compatible string. Drop trailing "ethernet-phy-ieee802.3-c22"
+to match the schema.
 
 Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
 ---
@@ -140,26 +136,23 @@ Cc: devicetree@vger.kernel.org
 Cc: linux-kernel@vger.kernel.org
 Cc: linux-renesas-soc@vger.kernel.org
 ---
- arch/arm64/boot/dts/renesas/rz-smarc-du-adv7513.dtsi | 5 +++++
- 1 file changed, 5 insertions(+)
+ arch/arm/boot/dts/renesas/r8a7742-iwg21d-q7-dbcm-ca.dts | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/arch/arm64/boot/dts/renesas/rz-smarc-du-adv7513.dtsi b/arch/arm64/boot/dts/renesas/rz-smarc-du-adv7513.dtsi
-index 36707576030d4..f5412578ee65f 100644
---- a/arch/arm64/boot/dts/renesas/rz-smarc-du-adv7513.dtsi
-+++ b/arch/arm64/boot/dts/renesas/rz-smarc-du-adv7513.dtsi
-@@ -26,7 +26,12 @@ &du {
+diff --git a/arch/arm/boot/dts/renesas/r8a7742-iwg21d-q7-dbcm-ca.dts b/arch/arm/boot/dts/renesas/r8a7742-iwg21d-q7-dbcm-ca.dts
+index 33ac4bd1e63bd..c43c08d9ff944 100644
+--- a/arch/arm/boot/dts/renesas/r8a7742-iwg21d-q7-dbcm-ca.dts
++++ b/arch/arm/boot/dts/renesas/r8a7742-iwg21d-q7-dbcm-ca.dts
+@@ -85,8 +85,7 @@ &ether {
  	status = "okay";
  
- 	ports {
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+
- 		port@0 {
-+			reg = <0>;
-+
- 			du_out_rgb: endpoint {
- 				remote-endpoint = <&adv7513_in>;
- 			};
+ 	phy1: ethernet-phy@1 {
+-		compatible = "ethernet-phy-id0022.1560",
+-			     "ethernet-phy-ieee802.3-c22";
++		compatible = "ethernet-phy-id0022.1560";
+ 		reg = <1>;
+ 		micrel,led-mode = <1>;
+ 	};
 -- 
 2.53.0
 
