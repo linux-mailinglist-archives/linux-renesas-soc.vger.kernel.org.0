@@ -1,159 +1,284 @@
-Return-Path: <linux-renesas-soc+bounces-30315-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-30316-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id CFNyKIX4xGmC5QQAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-30315-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Mar 2026 10:12:37 +0100
+	id EMPqKHD4xGmC5QQAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-30316-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Mar 2026 10:12:16 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B148332020
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Mar 2026 10:12:37 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E592331FFA
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Mar 2026 10:12:15 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id A69E830F830D
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Mar 2026 09:03:17 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 9BC1F301BEC6
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Mar 2026 09:04:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9D37B3BD259;
-	Thu, 26 Mar 2026 09:02:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EAABC3AF64B;
+	Thu, 26 Mar 2026 09:03:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="b6jLtqur"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HuZie4H9"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B6BC3BB9F9
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 26 Mar 2026 09:02:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C675434EEE5;
+	Thu, 26 Mar 2026 09:03:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774515761; cv=none; b=drokLXcu8zEAMUaP6Vkuqh+NrEdOcSk4m4g5caVaR2Hf9oy7F6HpJ0KjX79fiP+9ojIjeMgBrwCwjSx0JTcsuudH9y7DJwnFMT1qh08MaFIVqhuLqmo62j5CDJPwsw1ztD1NiTXcTwxHCmbMass6XgQPoaXGPy/4cL7VU+Bd0Xg=
+	t=1774515802; cv=none; b=hC8Z5UeqbrX3kaLWzbWS1viWRXdlT1sTz7ZbMJggNqP3GtTisA9MjhGv9FB7FpYDcKlwQci9MztyuA8PNCiy+oYBZqB+nztL+dNOaaMOvWHwOKzP0Iy1WAbM7NdGp51BX4XhmlSiy6UQpY6SDDc327vEDizN1BiHK9lvt72VEDQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774515761; c=relaxed/simple;
-	bh=807Ne1Y9uBnLW+q48+Lb85aSjXQzwhaHaQlGx3XMnWE=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=Zii+pfNPKsKywXwWQApRBtjVsqnkVRJzqTphT7Qf/uzgJy3lPpl4Zt+xsZZ/J4qNtu3TO3n0+1PEGNIL/P0pGuSuDJxzAHw0iGODBCgXaqbBb5kfsUUqnAJnXRGxwaAv2L8pEDJUifzQO3gF8yqJMhHw4BiSmwOri7YldwX2Ul0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=b6jLtqur; arc=none smtp.client-ip=209.85.128.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-487035181a7so4290805e9.2
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 26 Mar 2026 02:02:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1774515758; x=1775120558; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:date:message-id:subject
-         :references:in-reply-to:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=hREPPe0C3+Lmwx2tkDyEQDqCZUnz8ZDMuws56ODjtSM=;
-        b=b6jLtqursYuQabYuJHgWSYfbIUGun8CzrEHYUuZF6tiVqlZ/H3irOSd4Pzao3cUx0y
-         68b8wWUZfup2f9fJsF067fYoVm1OXdpq4ygHHI0EWNh4OMRZFEV/oKVy/UdYlWl5ISF9
-         FqEQGwV38heYaRJ0gK30a7W4C6OJKYig/IgiCGErG7/YAl77yHDbs8fHIBDFjgo9QZ8+
-         y6P8qk0qAFRfihFwKibpjC7GEA0jSB1fBPnTulB8t2JPNxEZqkcU4QSH4EUxGUYYBLp4
-         SYmEJPU3RkPapnB6fiz1h7UCdThZyKg7MVvYZhjGQxB0Q2rL8JVRIYHAW1TQ2pYTBzqY
-         2w4g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774515758; x=1775120558;
-        h=content-transfer-encoding:mime-version:date:message-id:subject
-         :references:in-reply-to:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=hREPPe0C3+Lmwx2tkDyEQDqCZUnz8ZDMuws56ODjtSM=;
-        b=C5WOvCLIpRIWZZTmgRuzz9g4ScnSDmF5nDrMN78GQa9i/ZOc+OoGEltxjlleiUTCqC
-         kQNp+WL1kXoJxrCXdFQwvMvNKfpC1jshLZDhDWVXMcOllhwZ2UXLm3aQ7s3s3ocZwd9D
-         IJS05BlOgZcwbUNax+TuVQE8agI/Zjtc7cgx0kSFwO4nahz/gfd0g3cHGR9Cq/OGMBHh
-         3kl2lg0siSpV98fi9c3qU6DisRXbMMBg6FWe6wB1yQ4eCi1K20xgqcjj5qKKOJwKquAo
-         B62Ug0icMhFIxiP44ZH7OLrH3hYXDKt6cKEITgTcMfXq2VokvA/KD7+AHdALxMdAf5v3
-         oRzQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWSrTGc4QQ/XPejARierrM8pYCsa8kgqm9lxffHNTmNlpLVv5twZqmplcZxTJ7wBkuZgY3s/u94wJzK6WNCB3DwVg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyL/pbOqYOdqztftFciaOTvYgIcd4M8f0sFU1zLO4NDqImuuEFV
-	fq4/5IazXuQrRHdWJ/GITcDl9KkgttzWafb4I1wmIAla5OQ51DG+Vri5xqxNlz9tVR4=
-X-Gm-Gg: ATEYQzxFb/K+wYd3ZAVYED/1/q1E0sgHlR/BZhYrdyIeH6A4Y0qKUe1dsUZM0+iDvd7
-	+9e619BqbEE1o051dyfSaul2wr7QGODzvb5v9YsyVhWO/bA6ohe3tcJxqkG0jO/wEHxZn8X8lez
-	ep9SciWNK6C7gfCaElf2yGuwySQCx+vzxEdvL7FLSFv/SqHQ3Ln0VHY1SwjnRu6XWxY6YyH0Vhi
-	AdszfoDJ/mYOkAnEoBaM8aKfDC0rvLG9co8suhwA07YijT0rt2TJyBQKIM2CGjFlyRz+cdu3iwe
-	GWTUnRFZXryiT3ueINvioaK679n+WzaP3cctl1QDvudwRhJsLnPGmjUmnAIAu2iH+mVcr8QZW82
-	Pfaz/ARjIoCHQ/Oxj1+0QVbKXuR/eDmc3Na7yrWnyRJPZOR1oJ28jRK+yRO/rqOcKbrrqR31HiG
-	ufcV39LLscL4SFuOb6EpdLkdZ+1u53TMb9eVLzAkypbW9k
-X-Received: by 2002:a05:600c:630d:b0:485:3586:1e28 with SMTP id 5b1f17b1804b1-48716034eb4mr98838765e9.18.1774515758363;
-        Thu, 26 Mar 2026 02:02:38 -0700 (PDT)
-Received: from arrakeen.starnux.net ([2a01:e0a:106d:1080:8261:5fff:fe11:bdda])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43b919cf069sm6213436f8f.22.2026.03.26.02.02.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Mar 2026 02:02:38 -0700 (PDT)
-From: Neil Armstrong <neil.armstrong@linaro.org>
-To: Artur Weber <aweber.kernel@gmail.com>, 
- Jessica Zhang <jesszhan0024@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Dzmitry Sankouski <dsankouski@gmail.com>, 
- Tomi Valkeinen <tomi.valkeinen@ti.com>, 
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Konrad Dybcio <konradybcio@kernel.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-In-Reply-To: <20260313-dt-bindings-display-panel-clean-v2-1-d49615218f92@oss.qualcomm.com>
-References: <20260313-dt-bindings-display-panel-clean-v2-1-d49615218f92@oss.qualcomm.com>
-Subject: Re: [PATCH v2] dt-bindings: display: panel: Align style of "true"
- properties
-Message-Id: <177451575750.103892.1923752988731034667.b4-ty@linaro.org>
-Date: Thu, 26 Mar 2026 10:02:37 +0100
+	s=arc-20240116; t=1774515802; c=relaxed/simple;
+	bh=KWquyYpNTRQ2FFSXokOqbO0npmNcbFXxbWHw0wqfMnA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UyXMXC6s7kKqtijB/ZZ7cltT4r6L9bBGlF88dKlMTBn4bXb43HarxxfiSUZpzjGucueOBHK9MV9OMla22+6bRhho9tXh/xW4lU9sNfpxLBh61Wj3rMrGtMPr/YNgEZtiEpZEbmtAqEu8wZWN410XUs1c7EnfPOZlyFZNaU7IdS4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HuZie4H9; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D505BC116C6;
+	Thu, 26 Mar 2026 09:03:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774515802;
+	bh=KWquyYpNTRQ2FFSXokOqbO0npmNcbFXxbWHw0wqfMnA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=HuZie4H97DP27oCCg9eEjYnSxijKDCme9SpNpVp75ETQBVUGZw020Hno5VYc3GupE
+	 x5Se2LAuE6mbnrOV/1iMIA2Jpl8jKKs5WCOduOEBitWEfrBZPar41S8RAe29VhDwNJ
+	 NkZ5+LO2rx6nP+5WqyrJ/JV9xND7+AQPLJODbWtDH4aX4beED5//klMJQm2EbCw2RL
+	 TKm4JJujCUUwpcbNN6mjiL/azQpbj2YVYhlFbHWEu2tN98hKgCffz5883wNHddr2Gr
+	 iej6Z5RdimOeNhM25Rz1cpzJKIZaDSy7tvXVKgI+g4V7CSEUOL7sGaUhG/6OQIT8dJ
+	 c3i83LeE6zQHA==
+Date: Thu, 26 Mar 2026 10:03:19 +0100
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc: linux-renesas-soc@vger.kernel.org, 
+	Marek Vasut <marek.vasut@mailbox.org>, devicetree@vger.kernel.org, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>
+Subject: Re: [PATCH v2 1/3] dt-bindings: soc: renesas: Document MFIS IP core
+Message-ID: <20260326-magnetic-cautious-earthworm-aee7ec@quoll>
+References: <20260325110717.17083-1-wsa+renesas@sang-engineering.com>
+ <20260325110717.17083-2-wsa+renesas@sang-engineering.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14.3
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260325110717.17083-2-wsa+renesas@sang-engineering.com>
+X-Spamd-Result: default: False [-1.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[linaro.org,none];
-	R_DKIM_ALLOW(-0.20)[linaro.org:s=google];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-30315-lists,linux-renesas-soc=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com,linux.intel.com,kernel.org,suse.de,ffwll.ch,ti.com,ideasonboard.com,oss.qualcomm.com];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_CC(0.00)[vger.kernel.org,mailbox.org,glider.be,gmail.com,kernel.org];
+	TAGGED_FROM(0.00)[bounces-30316-lists,linux-renesas-soc=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[19];
+	FROM_HAS_DN(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[linaro.org:+];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	MISSING_XM_UA(0.00)[];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[neil.armstrong@linaro.org,linux-renesas-soc@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,dt];
-	MID_RHS_MATCH_FROM(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[krzk@kernel.org,linux-renesas-soc@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[9];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gitlab.freedesktop.org:url,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,linaro.org:dkim,linaro.org:mid]
-X-Rspamd-Queue-Id: 2B148332020
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,dt];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,sang-engineering.com:email]
+X-Rspamd-Queue-Id: 0E592331FFA
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi,
-
-On Fri, 13 Mar 2026 09:20:54 +0100, Krzysztof Kozlowski wrote:
-> For code readability, several bindings which list allowed properties
-> with ": true" syntax group them in one place, without line breaks
-> between each.  Align a few bindings to match this style.  No functional
-> impact.
+On Wed, Mar 25, 2026 at 12:07:13PM +0100, Wolfram Sang wrote:
+> Document the Renesas Multifunctional Interface (MFIS) as found on the
+> Renesas R-Car X5H (r8a78000) SoC. MFIS includes features like Mailbox/HW
+> Spinlock/Product Register/Error Injection/Error Detection and the likes.
+> Family-compatible values are not introduced here because MFIS is usually
+> very different per SoC.
 > 
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> ---
 > 
+> Still passes 'dt_binding_check'. Double-checked with some invalid DTs.
+> Thank you to Krzysztof and Geert for the review.
+> 
+> Changes since v1:
+> * moved header from 'mailbox' to 'soc' and fixed ifdef-guard
+> * handled interrupt numbers and patterns per compatible
+>   (tried to remove minItems, didn't work.)
+> * extended descriptions
+> * in the header, explain that bits are ORable flags
+>   (I hope that shifts are okay then? Like in other upstream examples)
+> * use "system-controller" instead of "syscon"
+> * dropped label from the example
+> * improved subject and commit message
+> 
+>  .../soc/renesas/renesas,r8a78000-mfis.yaml    | 187 ++++++++++++++++++
+>  .../dt-bindings/soc/renesas,r8a78000-mfis.h   |  28 +++
+>  2 files changed, 215 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/soc/renesas/renesas,r8a78000-mfis.yaml
+>  create mode 100644 include/dt-bindings/soc/renesas,r8a78000-mfis.h
+> 
+> diff --git a/Documentation/devicetree/bindings/soc/renesas/renesas,r8a78000-mfis.yaml b/Documentation/devicetree/bindings/soc/renesas/renesas,r8a78000-mfis.yaml
+> new file mode 100644
+> index 000000000000..2839642ec116
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/soc/renesas/renesas,r8a78000-mfis.yaml
+> @@ -0,0 +1,187 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/soc/renesas/renesas,r8a78000-mfis.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Renesas MFIS (Multifunctional Interface) controller
+> +
+> +maintainers:
+> +  - Wolfram Sang <wsa+renesas@sang-engineering.com>
+> +
+> +description:
+> +  The Renesas Multifunctional Interface (MFIS) provides various functionality
+> +  like mailboxes, hardware spinlocks, product identification, error injection,
+> +  error detection and such. Parts of it can be used for communication between
+> +  different CPU cores. Those cores can be in various domains like AP, RT, or
+> +  SCP. Often multiple domain-specific MFIS instances exist in one SoC.
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - renesas,r8a78000-mfis       # R-Car X5H (AP<->AP, with PRR)
+> +      - renesas,r8a78000-mfis-scp   # R-Car X5H (AP<->SCP, without PRR)
+> +
+> +  reg:
+> +    maxItems: 2
+> +
+> +  reg-names:
+> +    items:
+> +      - const: common
+> +      - const: mboxes
+> +
+> +  interrupts:
 
-Thanks, Applied to https://gitlab.freedesktop.org/drm/misc/kernel.git (drm-misc-next)
+Missing constraints.
 
-[1/1] dt-bindings: display: panel: Align style of "true" properties
-      https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/a00e773b4a5ce23dd831044283e134466e3f337a
+> +    description:
+> +      The interrupts raised by the remote doorbells.
+> +
+> +  interrupt-names:
 
--- 
-Neil
+Missing constraints. See writing bindings.
+
+> +    description:
+> +      An interrupt name is constructed with the prefix 'ch'. Then, the
+> +      channel number as specified in the documentation of the SoC. Finally,
+> +      the letter 'i' if the interrupt is raised by the IICR register. Or 'e'
+> +      if it is raised by the EICR register.
+> +
+> +  "#hwlock-cells":
+> +    const: 1
+> +
+> +  "#mbox-cells":
+> +    const: 2
+> +    description:
+> +      The first cell is the channel number as specified in the documentation
+> +      of the SoC. The second cell may specify flags as described in the file
+> +      <dt-bindings/soc/renesas,r8a78000-mfis.h>.
+> +
+> +allOf:
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            const: renesas,r8a78000-mfis
+> +    then:
+> +      properties:
+> +        interrupts:
+> +          minItems: 128
+> +          maxItems: 128
+> +        interrupt-names:
+> +          minItems: 128
+> +          maxItems: 128
+> +          items:
+> +            pattern: "^ch[0-9]+[ie]$"
+> +
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            const: renesas,r8a78000-mfis-scp
+> +    then:
+> +      properties:
+> +        interrupts:
+> +          minItems: 32
+> +          maxItems: 32
+> +        interrupt-names:
+> +          minItems: 32
+> +          maxItems: 32
+> +          items:
+> +            pattern: "^ch[0-9]+i$"
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - reg-names
+> +  - interrupts
+> +  - interrupt-names
+> +  - "#hwlock-cells"
+> +  - "#mbox-cells"
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +    system-controller@189e0000 {
+> +            compatible = "renesas,r8a78000-mfis";
+
+Since I expect next version, one more detail I forgot to ask last time:
+
+Use 4 spaces for example indentation.
+
+> +            reg = <0x189e0000 0x1000>, <0x18800000 0x40000>;
+> +            reg-names = "common", "mboxes";
+> +            interrupts = <GIC_SPI 101 IRQ_TYPE_LEVEL_HIGH>, <GIC_SPI 102 IRQ_TYPE_LEVEL_HIGH>,
+
+....
+
+
+> diff --git a/include/dt-bindings/soc/renesas,r8a78000-mfis.h b/include/dt-bindings/soc/renesas,r8a78000-mfis.h
+> new file mode 100644
+> index 000000000000..52e17fea1a03
+> --- /dev/null
+> +++ b/include/dt-bindings/soc/renesas,r8a78000-mfis.h
+> @@ -0,0 +1,28 @@
+> +/* SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause) */
+> +#ifndef _DT_BINDINGS_SOC_RENESAS_R8A78000_MFIS_H
+> +#define _DT_BINDINGS_SOC_RENESAS_R8A78000_MFIS_H
+> +
+> +/*
+> + * Constants for the second mbox-cell of the Renesas MFIS IP core. To be treated
+> + * as bit flags which can be ORed.
+> + */
+> +
+> +/*
+> + * MFIS HW design before r8a78001 requires a channel to be marked as either
+> + * TX or RX.
+> + */
+> +#define MFIS_CHANNEL_TX (0 << 0)
+> +#define MFIS_CHANNEL_RX (1 << 0)
+
+No improvements and no answers to comments. Same review, drop, not a
+binding. If disagree, respond to v1 comments.
+
+Best regards,
+Krzysztof
 
 
