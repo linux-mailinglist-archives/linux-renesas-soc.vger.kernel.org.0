@@ -1,60 +1,60 @@
-Return-Path: <linux-renesas-soc+bounces-30371-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-30372-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id AC61JlNTxWmD9QQAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-30371-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Mar 2026 16:40:03 +0100
+	id kGK6KvlXxWkk9gQAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-30372-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Mar 2026 16:59:53 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19D87337BA5
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Mar 2026 16:40:02 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id B3A0533802F
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Mar 2026 16:59:52 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 1098330BB4C4
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Mar 2026 15:33:09 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 5C2AE30607D0
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Mar 2026 15:33:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AF3682367CF;
-	Thu, 26 Mar 2026 15:33:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 83163391846;
+	Thu, 26 Mar 2026 15:33:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b="ToZpJbJC"
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b="cCb+31Yk"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 560AB1E868;
-	Thu, 26 Mar 2026 15:33:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3696D2367CF;
+	Thu, 26 Mar 2026 15:33:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774539188; cv=pass; b=INQ9AFBhJoU6+eUXIBILG1R0AOndQdfbDfgVAm/Y7sR9IAWEa5STBHN1CcvRZhzBtZqtn/epJuoBFOJ8x3vEnGhTbMwc8wOGyp1SWZg5iVnkaADCOm9mxiK9PRT9sy8J7izqOdbVWoxVrmaVm5/Sb08OGLH6mB8rPEIEitLXFXg=
+	t=1774539200; cv=pass; b=fTCuJeMHegs15vGsHlivy/XqygLjDpKKHVunenpKeN811VIVOd4jUuHwL2t4mOmkyCFRf7eCUEbNmy9Khwooe+Va3KdZdXKBQPSVgLw0pfv5tNrYwYI9xyMVABe1HHYq6fApMiLYk1n4X1xsM1kwf6Oinj7H7VqE98v/bjc7bvk=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774539188; c=relaxed/simple;
-	bh=lyX4mDuWAivwI+NVS931cuZ6UIrTRKPF6SJGMWMwI8o=;
+	s=arc-20240116; t=1774539200; c=relaxed/simple;
+	bh=nPTIEhop1meTtdd2LrXotUz3HMuGHlfnq4OnFOPW3Zg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GZvaaT7SN8S4acACL9mFdwa9cs2AgrchTbx/tnIE6jLybX925q/YHKireijvWFHvf9RYPcJQUtR/km9qS3PstSmkPXdg8Zx9/p3Snvh4XhXLjdtEh+TodpAzVQPAAeb6NvWB6ELW16TuAdcJpYjW2Cwx5F24p9UXyX3gZbuoA7o=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b=ToZpJbJC; arc=pass smtp.client-ip=136.143.188.112
+	 Content-Type:Content-Disposition:In-Reply-To; b=raMhC2TXVPfQsR1iA3M1/HnhLHsxYhw23xte4dkJXo70yW2mDSAzBytLDMYz0s96fCdNEMxqQpRf+AuddpZo3mcLgU+cDCTLHN5a/FIPwIfTeIAmVPewxMDFVLIIDJmnPJeesbxennuHMFe46qkcWDA/aRU6RRkeNnt69wtZJN8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b=cCb+31Yk; arc=pass smtp.client-ip=136.143.188.112
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-ARC-Seal: i=1; a=rsa-sha256; t=1774539166; cv=none; 
+ARC-Seal: i=1; a=rsa-sha256; t=1774539184; cv=none; 
 	d=zohomail.com; s=zohoarc; 
-	b=P9947dORHl9g3ldLyNIdMFXw90ZL1kGKAuNr37DTFG+qd5goWJVFxSMJTnrVO68oB5cwD0fM6YCBV4j+po2CGa0BxoOX2Xsa/sHWcj0P7DDgEkC1WtIGg5bvpNjHWyfE6M53Cu87aGJ5ONOSjdcHpdFmea9blbR41G2HIep/svU=
+	b=XHe1iN5XbrLfPUKbsOl/hD1TQFrLh1uPvI4V5GVbbLigm4FBNvjgTH9PqM/+JEa28c8lkgfiqiKVt2VBzpkZsfC6XPWLoqZ3dOAfGCo1/rK8ddwlKq9fDTFy0gCexjcCFRilrr6lXW3xyxHoV9WfZjvq6gbSVGAEgM35+mudeZ8=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1774539166; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=1WOoGV4b22+v+li+Na+6Um69R+tGDjyr9vnEy8DGxYg=; 
-	b=NTxbHI+Zpv0aFqMGPwAGQB9aAKObZdhrliJZWCH4lm+Js8npaBz0Nu0pDUGCerE+aW+aoZFrAWol6p0bhpHBaAvJC4Bk18XPMfWePi62gOBBgZMcxSV+BCusqEGLOfeMYmUxsU9Lk4FWNtnSkmHQIJKIq0So6woVVgHY/lV9z7Y=
+	t=1774539184; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=JRNyXHVtn2PpTLiAjNMNPkrrImzdHX7B3U+BewJhPEU=; 
+	b=IXYZQGCE2Jp2cvjZ62z3X6ekCwHWnn7nb93S0PSIptOdEbEkI6Mzrw3vPju9Kcs1GYKd5sx04/5tMJzQuh3EY2bYhI8t543DyUfNIyYXErvf9fXC9LIW14T1TBUxLvoZejSuTE3p7fR5IGkhMtufH23uuppBjXjnY123xL0cjJo=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
 	dkim=pass  header.i=collabora.com;
 	spf=pass  smtp.mailfrom=adrian.larumbe@collabora.com;
 	dmarc=pass header.from=<adrian.larumbe@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1774539166;
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1774539184;
 	s=zohomail; d=collabora.com; i=adrian.larumbe@collabora.com;
 	h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:Content-Transfer-Encoding:In-Reply-To:Message-Id:Reply-To;
-	bh=1WOoGV4b22+v+li+Na+6Um69R+tGDjyr9vnEy8DGxYg=;
-	b=ToZpJbJCiOZguELIXEfvmHQBls5WFFXtIMnGH4VtT3wbTzesV4lxiX4z0DKtTGoh
-	eRMDC5RnVr/a9W8XzK+qWP/J60WnkUVqQFQAwXIVV2uxdAj2NckpQ5skloVakbL+YYk
-	Bs2j6ZHhtODlKF0/NiWWSTK8NwMF2UiqFDMqDVzA=
-Received: by mx.zohomail.com with SMTPS id 1774539163745938.0661014333109;
-	Thu, 26 Mar 2026 08:32:43 -0700 (PDT)
-Date: Thu, 26 Mar 2026 15:32:38 +0000
+	bh=JRNyXHVtn2PpTLiAjNMNPkrrImzdHX7B3U+BewJhPEU=;
+	b=cCb+31YkhLABm4GsQVdAzc+C88ErWwAkKpMMQSRyp2ulQkE09Xx41/lsNuNH13ID
+	pZ/97HpGZdD0QsupyRQiuDGzGSwvOsDQCiGGAfpJW2Di+z7EM4YAJi96oQmZ22JaXTc
+	KyZTTbkGSg1DBvjZBATogRnJ+imcdwiWQvDdh8wU=
+Received: by mx.zohomail.com with SMTPS id 1774539182534803.1431305674896;
+	Thu, 26 Mar 2026 08:33:02 -0700 (PDT)
+Date: Thu, 26 Mar 2026 15:32:57 +0000
 From: =?utf-8?Q?Adri=C3=A1n?= Larumbe <adrian.larumbe@collabora.com>
 To: Biju <biju.das.au@gmail.com>
 Cc: Boris Brezillon <boris.brezillon@collabora.com>, 
@@ -65,11 +65,11 @@ Cc: Boris Brezillon <boris.brezillon@collabora.com>,
 	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
 	Geert Uytterhoeven <geert+renesas@glider.be>, Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
 	linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v2 2/4] drm/panfrost: Drop redundant optional clock
- checks in runtime PM
-Message-ID: <acVRjZkeGmS2ThtU@sobremesa>
+Subject: Re: [PATCH v2 3/4] drm/panfrost: Add bus_ace optional clock support
+ for RZ/G2L
+Message-ID: <acVRoZkXyINAVHbe@sobremesa>
 References: <20260320164158.487406-1-biju.das.jz@bp.renesas.com>
- <20260320164158.487406-3-biju.das.jz@bp.renesas.com>
+ <20260320164158.487406-4-biju.das.jz@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -79,14 +79,14 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260320164158.487406-3-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20260320164158.487406-4-biju.das.jz@bp.renesas.com>
 X-Spamd-Result: default: False [-0.16 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
 	MID_RHS_NOT_FQDN(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
 	R_DKIM_ALLOW(-0.20)[collabora.com:s=zohomail];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
@@ -94,7 +94,7 @@ X-Spamd-Result: default: False [-0.16 / 15.00];
 	MIME_TRACE(0.00)[0:+];
 	RCVD_TLS_LAST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-30371-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-30372-lists,linux-renesas-soc=lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
 	FREEMAIL_TO(0.00)[gmail.com];
 	FROM_HAS_DN(0.00)[];
@@ -106,10 +106,10 @@ X-Spamd-Result: default: False [-0.16 / 15.00];
 	FREEMAIL_CC(0.00)[collabora.com,kernel.org,arm.com,linux.intel.com,suse.de,gmail.com,ffwll.ch,bp.renesas.com,lists.freedesktop.org,vger.kernel.org,glider.be];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
 	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[renesas.com:email,arm.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 19D87337BA5
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,arm.com:email,renesas.com:email,collabora.com:dkim,collabora.com:email]
+X-Rspamd-Queue-Id: B3A0533802F
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
@@ -118,51 +118,101 @@ Reviewed-by: Adrián Larumbe <adrian.larumbe@collabora.com>
 On 20.03.2026 16:41, Biju wrote:
 > From: Biju Das <biju.das.jz@bp.renesas.com>
 >
-> The clk_enable() and clk_disable() APIs already handle NULL clock pointers
-> gracefully — clk_enable() returns 0 and clk_disable() returns immediately
-> when passed a NULL or optional clock. The explicit if (pfdev->bus_clock)
-> guards around these calls in the runtime suspend/resume paths are
-> therefore unnecessary. Remove them to simplify the code.
+> On RZ/G2L SoCs, the GPU MMU requires a bus_ace clock to operate correctly.
+> Without it, unbind/bind cycles leave the GPU non-operational, manifesting
+> as an AS_ACTIVE bit stuck and a soft reset timeout falling back to hard
+> reset. Add bus_ace_clock as an optional clock, wiring it into init/fini,
+> and the runtime suspend/resume paths alongside the existing optional
+> bus_clock.
 >
 > Reviewed-by: Steven Price <steven.price@arm.com>
 > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 > ---
 > v1->v2:
+>  * Dropped duplicate err assignment
+>  * Changed the format string of dev_err to "%d" and simplify the dev_err()
+>    line by using err rather than the same PTR_ERR().
 >  * Collected tag
 > ---
->  drivers/gpu/drm/panfrost/panfrost_device.c | 12 ++++--------
->  1 file changed, 4 insertions(+), 8 deletions(-)
+>  drivers/gpu/drm/panfrost/panfrost_device.c | 22 ++++++++++++++++++++++
+>  drivers/gpu/drm/panfrost/panfrost_device.h |  1 +
+>  2 files changed, 23 insertions(+)
 >
 > diff --git a/drivers/gpu/drm/panfrost/panfrost_device.c b/drivers/gpu/drm/panfrost/panfrost_device.c
-> index dedc13e56631..01e702a0b2f0 100644
+> index 01e702a0b2f0..7fed22d555a5 100644
 > --- a/drivers/gpu/drm/panfrost/panfrost_device.c
 > +++ b/drivers/gpu/drm/panfrost/panfrost_device.c
-> @@ -429,11 +429,9 @@ static int panfrost_device_runtime_resume(struct device *dev)
->  		if (ret)
->  			goto err_clk;
+> @@ -70,8 +70,21 @@ static int panfrost_clk_init(struct panfrost_device *pfdev)
+>  			goto disable_clock;
+>  	}
 >
-> -		if (pfdev->bus_clock) {
-> -			ret = clk_enable(pfdev->bus_clock);
-> -			if (ret)
-> -				goto err_bus_clk;
-> -		}
-> +		ret = clk_enable(pfdev->bus_clock);
+> +	pfdev->bus_ace_clock = devm_clk_get_optional(pfdev->base.dev, "bus_ace");
+> +	if (IS_ERR(pfdev->bus_ace_clock)) {
+> +		err = PTR_ERR(pfdev->bus_ace_clock);
+> +		dev_err(pfdev->base.dev, "get bus_ace_clock failed %d\n", err);
+> +		goto disable_bus_clock;
+> +	}
+> +
+> +	err = clk_prepare_enable(pfdev->bus_ace_clock);
+> +	if (err)
+> +		goto disable_bus_clock;
+> +
+>  	return 0;
+>
+> +disable_bus_clock:
+> +	clk_disable_unprepare(pfdev->bus_clock);
+>  disable_clock:
+>  	clk_disable_unprepare(pfdev->clock);
+>
+> @@ -80,6 +93,7 @@ static int panfrost_clk_init(struct panfrost_device *pfdev)
+>
+>  static void panfrost_clk_fini(struct panfrost_device *pfdev)
+>  {
+> +	clk_disable_unprepare(pfdev->bus_ace_clock);
+>  	clk_disable_unprepare(pfdev->bus_clock);
+>  	clk_disable_unprepare(pfdev->clock);
+>  }
+> @@ -432,6 +446,10 @@ static int panfrost_device_runtime_resume(struct device *dev)
+>  		ret = clk_enable(pfdev->bus_clock);
+>  		if (ret)
+>  			goto err_bus_clk;
+> +
+> +		ret = clk_enable(pfdev->bus_ace_clock);
 > +		if (ret)
-> +			goto err_bus_clk;
+> +			goto err_bus_ace_clk;
 >  	}
 >
 >  	panfrost_device_reset(pfdev, true);
-> @@ -464,9 +462,7 @@ static int panfrost_device_runtime_suspend(struct device *dev)
+> @@ -439,6 +457,9 @@ static int panfrost_device_runtime_resume(struct device *dev)
+>
+>  	return 0;
+>
+> +err_bus_ace_clk:
+> +	if (pfdev->comp->pm_features & BIT(GPU_PM_RT))
+> +		clk_disable(pfdev->bus_clock);
+>  err_bus_clk:
+>  	if (pfdev->comp->pm_features & BIT(GPU_PM_RT))
+>  		clk_disable(pfdev->clock);
+> @@ -462,6 +483,7 @@ static int panfrost_device_runtime_suspend(struct device *dev)
 >  	panfrost_gpu_power_off(pfdev);
 >
 >  	if (pfdev->comp->pm_features & BIT(GPU_PM_RT)) {
-> -		if (pfdev->bus_clock)
-> -			clk_disable(pfdev->bus_clock);
-> -
-> +		clk_disable(pfdev->bus_clock);
+> +		clk_disable(pfdev->bus_ace_clock);
+>  		clk_disable(pfdev->bus_clock);
 >  		clk_disable(pfdev->clock);
 >  		reset_control_assert(pfdev->rstc);
->  	}
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_device.h b/drivers/gpu/drm/panfrost/panfrost_device.h
+> index 0f3992412205..ec55c136b1b6 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_device.h
+> +++ b/drivers/gpu/drm/panfrost/panfrost_device.h
+> @@ -136,6 +136,7 @@ struct panfrost_device {
+>  	void __iomem *iomem;
+>  	struct clk *clock;
+>  	struct clk *bus_clock;
+> +	struct clk *bus_ace_clock;
+>  	struct regulator_bulk_data *regulators;
+>  	struct reset_control *rstc;
+>  	/* pm_domains for devices with more than one. */
 > --
 > 2.43.0
 
