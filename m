@@ -1,141 +1,156 @@
-Return-Path: <linux-renesas-soc+bounces-30295-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-30298-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id gNCBHnKnxGmZ1wQAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-30295-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Mar 2026 04:26:42 +0100
+	id oBhaEFu1xGn02gQAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-30298-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Mar 2026 05:26:03 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1243332ECB8
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Mar 2026 04:26:42 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BF7032EFFE
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Mar 2026 05:26:02 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id CD6C130A3019
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Mar 2026 03:20:01 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id D2C803028275
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Mar 2026 04:24:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4BCD2399368;
-	Thu, 26 Mar 2026 03:19:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 29D2339DBEB;
+	Thu, 26 Mar 2026 04:24:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DoNJjbvs"
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="qHki3Pv8";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="D7rTkzRD"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0DD9399002;
-	Thu, 26 Mar 2026 03:19:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C16EE39C65E;
+	Thu, 26 Mar 2026 04:24:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774495181; cv=none; b=it6ATsJYfua/hVE/4ibMHfHIAiz+6rb4D17Oaim19nv8Om1F46LWg1BSc/sEMYSJH/pxLcPT9hsOCf73BNikm1jjIKzYDgVUKQSoPaiuFTp5Jk8AhSTMCtzz7Uf4/UzA+cMwoaMy3cMvxuGPBFyCe1CcsLPq78sPtsYJ+sKBqas=
+	t=1774499070; cv=none; b=WCReeRPjAMKAl/37LM228vqJ2KohdrfBBAbzEEwDFOzsVfhjCV6kfce56ENmrb2+q3KKeSYCmTaVy1SxnUj1AtMBRGws/6/bBcYvGwAh6rtbGRcOAKC5dNdd8+lmlNMpplc+pL/rmkGC8da/jhwvgIUtmVz7fHl70qeIIoH/Jes=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774495181; c=relaxed/simple;
-	bh=64GvIUh5BK+CA6321kY9KFkS39Cla/4+STtvnAwRWeg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=cymlS0+iX6pRjX/LWHWa+zU/0A4R/FKnOuY0Rtw32gMdMeat6dLODBMswyykmDmxE+gI2kDsKjmXCBa7Uz57tljLZ2BZJZrmP3PwqLwdiMZQB3+9JysNw7qGbdJAeiYZGPbrVKB8odirrMZaQU4W8KcBNQzSZL1ydtnah6Q6WAY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DoNJjbvs; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 93B85C2BC9E;
-	Thu, 26 Mar 2026 03:19:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774495180;
-	bh=64GvIUh5BK+CA6321kY9KFkS39Cla/4+STtvnAwRWeg=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=DoNJjbvsdO9M8I355YakZTdyuT3xoRXpGtMM2wojdApb9Q7ajDoGdWHuW7T+qyJs8
-	 JLJtoasNll/fzCTKgF2pot1ARQr8/WJz18ymv6QdXj8Tag8zYprMsTUMGMVBz07VAn
-	 5/ol1dU6SqblhURvBbAUXWOT7ww/gO3Zmxb6zeoa1vKQWvC6Bi4QosLSw70nx8ljqL
-	 mxsSn9BJvJy2ba4neAZFnE1z8Z2JJhzsTZs5kI0u1/lgpSiGsj2hWBD4svpQ3mlUIl
-	 XLzSUDEneP1HMa3cDTXdRO7iUfFokDI5VOrhaCtSvbUNOFApAwpcyH/ryPfTXW5PdJ
-	 42LGsCrP7+iHQ==
-From: Bjorn Andersson <andersson@kernel.org>
-To: Neil Armstrong <neil.armstrong@linaro.org>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Jerome Brunet <jbrunet@baylibre.com>,
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-	Peter Griffin <peter.griffin@linaro.org>,
-	=?UTF-8?q?Andr=C3=A9=20Draszik?= <andre.draszik@linaro.org>,
-	Tudor Ambarus <tudor.ambarus@linaro.org>,
-	Alim Akhtar <alim.akhtar@samsung.com>,
-	Frank Li <Frank.Li@nxp.com>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Dinh Nguyen <dinguyen@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Thierry Reding <treding@nvidia.com>,
-	Marc Zyngier <maz@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: linux-arm-kernel@lists.infradead.org,
-	linux-amlogic@lists.infradead.org,
-	linux-samsung-soc@vger.kernel.org,
-	imx@lists.linux.dev,
-	linux-arm-msm@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: (subset) [PATCH 0/7] arm64: dts: Drop CPU masks from GICv3 PPI interrupts
-Date: Wed, 25 Mar 2026 22:19:21 -0500
-Message-ID: <177449516624.60308.16445349174496027428.b4-ty@kernel.org>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <cover.1772643434.git.geert+renesas@glider.be>
-References: <cover.1772643434.git.geert+renesas@glider.be>
+	s=arc-20240116; t=1774499070; c=relaxed/simple;
+	bh=DGWyxXbPPWiLLfcVQQfKkl6CPKrzGRc9g16RlRCSZGc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=DssAakLD4ab7xIeRFS+xBIM+5JsWaE2fmMsZfxj/xGzjmye0w8Mkem/mizCWxuMs+Amy1rZyXbAYqtj3ZYCcdvTNsSuNfKJdyDrZEpVHeMBNPpQBpfPEiK051GWl9oiZIekS2x1jrixQE2OIjlYZ6SSMITtyM20ph2iQbx7guBc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=qHki3Pv8; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=D7rTkzRD; arc=none smtp.client-ip=80.241.56.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [IPv6:2001:67c:2050:b231:465::102])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4fh9dw3n6fz9tq0;
+	Thu, 26 Mar 2026 05:24:20 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1774499060;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=4sc9eF22ynlpvOhGIdmpxFtevzPA+moa6iK6YW8bAPE=;
+	b=qHki3Pv8BitXtg7NUbAmF90IP1hF7YVm5J4G/SeiqP2zTiSAuMK3V4UkzID2KnJP3pgLNu
+	+drSb80MU98RLKFFRvfpHx1rcEYTlhK7tMLgGhWtgvktpBInAA3fvNA6IYuAkyq0jlsKl2
+	uWG88Gtk/8ll2yLTFdc+R/rnKeCc8vVhvhoWy6q3NxGbNQJfzw4tFV2gAEhW/KHWDomOPw
+	29t7vBlnPuC/qOqcGX0jaPY9qnhtH+b8U+TQDwEGssqVdWCazzjPVpUkcqzN09KTv4te0F
+	pX3FnqMSwBRCBIn/FEVJ7LQqQeu8ERLEasn5Q6bTZWbKSZ9cJNvAaF2eOjy8Zg==
+Authentication-Results: outgoing_mbo_mout;
+	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=D7rTkzRD;
+	spf=pass (outgoing_mbo_mout: domain of marek.vasut+renesas@mailbox.org designates 2001:67c:2050:b231:465::102 as permitted sender) smtp.mailfrom=marek.vasut+renesas@mailbox.org
+From: Marek Vasut <marek.vasut+renesas@mailbox.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1774499058;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=4sc9eF22ynlpvOhGIdmpxFtevzPA+moa6iK6YW8bAPE=;
+	b=D7rTkzRDL+xaid+ZggyHD4wM3GPbaN2RtcQyoyDLM+TUVFVTrlIob9s24gmSVHpMJXRam0
+	zHVx22p2whbhMr79eyYRM6Z+rofMIsVtY61+ao2H15jauK6CihpgheabzbRfhVX6CysZdk
+	H81S2AgnEAMNw+p2tIgNWZKP/N3HGAlY3i+0fZzTbHsZJiusDbtINZ5yRSLxWvNFJBS63T
+	0Pwss1nfbzqzav+zKCcknm5Mf/D4jjyOvsKbLkHqvAGEkBaOOVHSRLm9b0gQ5bLXC9mM7O
+	AH9s2JsPHx21VDzgwATOZSjDgKVbqR9JMdsbRo7jhMhJ3TibDQizHNdS4qOzzQ==
+To: linux-arm-kernel@lists.infradead.org
+Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Rob Herring <robh@kernel.org>,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org
+Subject: [PATCH 0/4] arm64: dts: renesas: Fix missing cells and reg
+Date: Thu, 26 Mar 2026 05:23:57 +0100
+Message-ID: <20260326042411.215241-1-marek.vasut+renesas@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-MBO-RS-META: 5w3gzjnq9qnautburomud1kmpaim1pqx
+X-MBO-RS-ID: 1ab4610f542420e0b76
+X-Spamd-Result: default: False [-1.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[mailbox.org,reject];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	R_DKIM_ALLOW(-0.20)[mailbox.org:s=mail20150812];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-30295-lists,linux-renesas-soc=lfdr.de];
-	FREEMAIL_TO(0.00)[linaro.org,baylibre.com,googlemail.com,samsung.com,nxp.com,pengutronix.de,gmail.com,kernel.org,nvidia.com,glider.be];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
-	RCPT_COUNT_TWELVE(0.00)[24];
 	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[mailbox.org,kernel.org,glider.be,gmail.com,vger.kernel.org];
+	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-30298-lists,linux-renesas-soc=lfdr.de,renesas];
+	DKIM_TRACE(0.00)[mailbox.org:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
 	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[andersson@kernel.org,linux-renesas-soc@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
+	FROM_NEQ_ENVFROM(0.00)[marek.vasut@mailbox.org,linux-renesas-soc@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	RCPT_COUNT_SEVEN(0.00)[10];
 	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 1243332ECB8
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,dt];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[0.0.0.1:email,glider.be:email,mailbox.org:dkim,mailbox.org:mid,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,0.0.0.2:email]
+X-Rspamd-Queue-Id: 3BF7032EFFE
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
+Add missing cells and reg DT property into DTOs to fix warnings like this:
 
-On Wed, 04 Mar 2026 18:10:57 +0100, Geert Uytterhoeven wrote:
-> 	Hi all,
-> 
-> Unlike older GIC variants, the GICv3 DT bindings do not support
-> specifying a CPU mask in PPI interrupt specifiers.  Hence this patch
-> series drop all such masks where they are still present.
-> 
-> This has been compile-tested only.  But note that all such masks were
-> removed before from Renesas SoCs in commit 8b6a006c914aac17 ("arm64:
-> dts: renesas: Drop specifying the GIC_CPU_MASK_SIMPLE() for GICv3
-> systems")).
-> 
-> [...]
+"
+arch/arm64/boot/dts/renesas/draak-ebisu-panel-aa104xd12.dtso:30.10-34.5: Warning (unit_address_vs_reg): /fragment@2/__overlay__/ports/port@1: node has a unit name, but no reg or ranges property
+"
 
-Applied, thanks!
+Marek Vasut (4):
+  arm64: dts: renesas: Fix missing cells and reg in Draak/Ebisu panel
+    DTO
+  arm64: dts: renesas: Fix missing cells and reg in Salvator-X panel DTO
+  arm64: dts: renesas: rzg2l-smarc: Fix missing cells and reg into CSI2
+    subnode
+  arm64: dts: renesas: rzg2l-smarc: Fix missing cells and reg into DU
+    subnode
 
-[7/7] arm64: dts: qcom: Drop CPU masks from GICv3 PPI interrupts
-      commit: 99bb0693df91db9338fa69d496de4601c9582058
+ arch/arm64/boot/dts/renesas/draak-ebisu-panel-aa104xd12.dtso | 5 +++++
+ arch/arm64/boot/dts/renesas/rz-smarc-cru-csi-ov5645.dtsi     | 5 +++++
+ arch/arm64/boot/dts/renesas/rz-smarc-du-adv7513.dtsi         | 5 +++++
+ arch/arm64/boot/dts/renesas/salvator-panel-aa104xd12.dtso    | 5 +++++
+ 4 files changed, 20 insertions(+)
 
-Best regards,
+Cc: Conor Dooley <conor+dt@kernel.org>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
+Cc: Magnus Damm <magnus.damm@gmail.com>
+Cc: Rob Herring <robh@kernel.org>
+Cc: devicetree@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: linux-renesas-soc@vger.kernel.org
+
 -- 
-Bjorn Andersson <andersson@kernel.org>
+2.53.0
+
 
