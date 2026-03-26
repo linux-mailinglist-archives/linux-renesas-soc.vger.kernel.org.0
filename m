@@ -1,186 +1,174 @@
-Return-Path: <linux-renesas-soc+bounces-30378-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-30379-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id eCuSGhhdxWlM9wQAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-30378-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Mar 2026 17:21:44 +0100
+	id +Ps4HrJexWlM9wQAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-30379-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Mar 2026 17:28:34 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFEEB3384D8
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Mar 2026 17:21:43 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2015A338618
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Mar 2026 17:28:34 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id AAF8230F48A1
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Mar 2026 16:13:28 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 5AACD3003994
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Mar 2026 16:25:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 00A5440B6E8;
-	Thu, 26 Mar 2026 16:12:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 329513F0742;
+	Thu, 26 Mar 2026 16:25:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Wq03FqpE"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f176.google.com (mail-vk1-f176.google.com [209.85.221.176])
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DBEC402BB3
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 26 Mar 2026 16:12:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D48243EBF36
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 26 Mar 2026 16:25:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774541537; cv=none; b=lz2aUQsyZaOT9DTBFZT+99cKrmCJIy/l7CPq4wIh7ATkJmDbUVoS2yybwJ9KmAUzEVy5LVD+bJwr7zoMejDbNS6m+c3cdo/5B3eRJPco5NoEPe2lAeIzm7wmJ43dZYAXIDKxpAiBpIrJyjOPAX5uRFlfor0DYoVcwwZ8Aits+oE=
+	t=1774542306; cv=none; b=R9K9iB2Y0XbyJJ2KEufVVwRW9rUhBlg4DCDF9+CJxGcBmG785AsJ3v1MSppm22V4Sl1fqwVrBt2P+TenYEJLD+Ouza/hOqtkTS4VC840hSLbqEQpZYx98y2QqZdgs+lGoop5TGcffq8qj6xvMx0hf3gb7RrR327uD9hbFLcC41E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774541537; c=relaxed/simple;
-	bh=rNsqYs9XZiNIs58rpzMtgeYcYIlt3WXgo1ohw4icZf4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Im/8kVrcgLi0wbJwTssP/WSgHy7nSmX7afrXJygEyQ6K/VwjccxzbCx3TAz5XE4rn8vN0oHDqCRs06ipnWe6iFHB676HFzHpsAYNwkLsIFz5vDPrhR5kx/9m/bSXCcVbvO1gY3dS9tU7WgYAEa0Auw3dUHuDlr7hJcqasQrZmTk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+	s=arc-20240116; t=1774542306; c=relaxed/simple;
+	bh=yRn65xz5S6D3nAmmUq5pfrFoiqpW/Jk83rHf1vrztWk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=s3QIt2RGk5ZpY2y3MrieVQxkG8Xw0W8BAWGepZeH++QytEZ4S4tTXa1H+CmeODYTweU4aqMjNquT6KRokR/UZ9LwV8RszuknpwNZPdcs9Y0/PRYGILydKGHlSkcfOEoop1UOpNeNxuQOnNKPeXCtmpTbBb9JNnECd2RJg0H7sgc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Wq03FqpE; arc=none smtp.client-ip=209.85.221.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f176.google.com with SMTP id 71dfb90a1353d-5675d609621so1020363e0c.2
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 26 Mar 2026 09:12:16 -0700 (PDT)
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-43b949bf4easo685308f8f.0
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 26 Mar 2026 09:25:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1774542302; x=1775147102; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Q2ce0HxX3/F0Io4jy/v+v+g0q9K7PyjffbJmK+am7Z8=;
+        b=Wq03FqpEQPYzKKALhRbzEptoA2qmrXo8G4mBc41X89p1b7ioLim4uSAjC2kFs7wZVq
+         BtMS7DaGJ25lCl2S0cpsN1Z46q3Uvre4gBTqy+/YTI15sODBzogdDEvx+3LuexL8vmsE
+         uI6E1rYaFWG1tr6FYtnsRIqByzhlyA5LRlCZGNpyD9mfw2UETbcaTc/2K/fmljzDNYjd
+         HeLpe6hOfvr9EEj3mIzDNfhk4r6c5YBVnzHh6QCoHNzENDPOLcRaH3okODBa5PgTP6Cb
+         ml5TJKmLDB/8cYXYAH+o2rYXnjjJ2VkanZs+xl3sgH+rWjzrqH2r75GHhh7lSL0OYeuj
+         O0aw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774541535; x=1775146335;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20251104; t=1774542302; x=1775147102;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=uSoOoWFbk127jfYcbLQVHGWRDLpMWSdUjX9Ohf2bfKM=;
-        b=P85fcvmQP9dts2TxM47ikl0nySMX+WVuBuxUe2yVRDStvvma3oC1KwN1lFAJAguT4A
-         yXVb9Sg1frmQ1y01RkNNrUvyr7MVifS/iQUcGN8AP5RCd/STKRy866bgKE+pETTJEng2
-         cGVSrwYgqguFjwT17C/KxAbI3lVeE7q6fADMurYUam4Vl4uRbyExT1esHDkHTU/29/Lk
-         vZouAUUA6f0tNzqPSLVwI5riqdOPp7hkOPp91Q6rAH8De9pMh7RzY3rFyFUeRa8acT7I
-         tomp/vtCJpWH29gNwudGhYFJXITtvevPZTXkD2ESOQOcrSgnr24PeWDvA97EQNpovzCL
-         BxpQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUMkvowjlDc0NvoTvEJ5zMdrVuEX2qfnwaHyeIoJ4BgGXu9X93P6MnJUnxUA5h6ILDXKoyNWsv26VAL4BNlM9BhGg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx4hnwT/ifUk5cLAal2dW65BQFSxzKyEgLAi9Q/UWsYTjAW4f32
-	eoOpVE69sRnGlBkErHagxfcxfaDiNiEgK11P+Xkymh5rvCsoowbkgcRF1rweY7YMi4g=
-X-Gm-Gg: ATEYQzzv4esGDUKXHmMyjRlttHDMQgRkmzydB1okqI70sYG/zF3ZV0VWjP8kGFUuut/
-	Zr62MGoOJF6I4Cj+daf/jj95tXWYpC1ldIryZx9OUPPgL0PqoZ+Fk1KXhfDfpMhSAO53U4HSoMo
-	wsARLbtivuuw7rezx/tvF5cOKbJEWTkQV1roI+JOGtA7IfUDG5LRWSN3cDZM20a2y5yiEutUu7V
-	UzXGc5vJ39pXxguW5hZOXNUsUz7XcX0Ad9KDkOb6mylrNBrBDxuCxg8QBeSuo9sXuXEbZ9RkqLq
-	tb/FWaAUZN6/bH0U9HiYfm2O3UU+n0feu/JzJ6kiXkwOeoHy9etKoUpuRGPYcapASjo/Yo3EeMK
-	Xx5aGQP0ekVLGuJlh0X9uTT3tjZrevMXi0RVEsJQZHaWU1wkFhYOziD8rmv3KLhh3YP9jQ5ZFXu
-	fmrEi7XKiE7Gsx+9/VgEZqMVUBinLsS0eUUqXmwd1FkZk0xWcTudcBtB9Aqi/W
-X-Received: by 2002:a05:6102:8016:b0:604:f155:9374 with SMTP id ada2fe7eead31-604f155b637mr534244137.15.1774541535406;
-        Thu, 26 Mar 2026 09:12:15 -0700 (PDT)
-Received: from mail-ua1-f53.google.com (mail-ua1-f53.google.com. [209.85.222.53])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-604d531357dsm3560164137.9.2026.03.26.09.12.13
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 26 Mar 2026 09:12:13 -0700 (PDT)
-Received: by mail-ua1-f53.google.com with SMTP id a1e0cc1a2514c-94acb3d6cceso655558241.2
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 26 Mar 2026 09:12:13 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUul1QCN4acltlhoOyl0etAxkX8kxTyWD9MHHoC5r0fXmmcrvL8A5EHppXOzgSl59KhVgBQj45TcvUVwi0QsMse2g==@vger.kernel.org
-X-Received: by 2002:a05:6102:6c4:b0:5ff:1cc2:aa8c with SMTP id
- ada2fe7eead31-60387536b11mr3781605137.36.1774541533179; Thu, 26 Mar 2026
- 09:12:13 -0700 (PDT)
+        bh=Q2ce0HxX3/F0Io4jy/v+v+g0q9K7PyjffbJmK+am7Z8=;
+        b=bgIUq4QL63icfBmml7BJAP+PsxBDdsMxIUMWMtEtERVjEgyGzLc6spQ5TyjrvMR8Jf
+         14Uok0RAe6ZsFK28hqhiljj0aIEoQDcC/9+VID2tXhwIgsHJP9s0rxSIW65C6kbHigOm
+         8LDsOo10Ksm+iW1U+7kOXrxbIZtLABTt27U9CdGiSUycf7Xc1dYZOk0UPgYE7WVnJEkZ
+         ftZ/oaR/33n2LQcGnsItvlSJ7ifgRABCnAJFSXV3P4MefvAh9gZDk8njBIMfniYYn9HS
+         mVcJz4PBHcmJ8DshbrYPTSNHUYUz5K7hVXPLqi1X+ddhUV2dfjx3LoBSKy8mn+/nfLOt
+         MN7g==
+X-Forwarded-Encrypted: i=1; AJvYcCX8cgc1SH2Vk7YmcF4Q/TxFnEBH7wv/EWk0sOmnU1uCED7N0t8L3TQDRX5o2ZKYyKt2Oy5MRJ5qnWhFpPeUXdGGQw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyQ2yIPBbxNpzKZ2hdlefa00U9dS33wZWEj09zcKcVE1bx6zuwN
+	PJGlpBQZclLLmv8R70Fzrs3XERN0VQUb42jJHdhUQdN+J5A6IVZ8tT8N
+X-Gm-Gg: ATEYQzyneBmLifm8nTmmDkbWFYnznDRDImFIBwFrEKB/IOLhcCSGwI4rZCAfZH80mNt
+	M4zhnoT8V7ypaU3NTdhDTXZqpnBRCvhdFt1qdXIX97wCTBz004zRO7v+miJVVIcNNwpSKkTn87s
+	h2+dLfwU4TUqqDu2UyUajGfwG6EVvhtoWbl71jipOm1Lq4ZqrsavEmnQasDrf3eRh3dEdUT4QOt
+	wD9yZHyrHMgje8ggLvTzMOO6ethEY+D+T9LPznou7zZ9kglgatYdlOAiJyXZdl6ThuqZtWTQvMm
+	KnhHsO7ZTw010CMKIkjkKl7cf3/WWrZrL8ukH9eAzCXYk9Jd07NnF5OKGCg5mW1qWbG4rsfZ6kN
+	kx8asDkKwMuUxtUTFYTkEMDO795DxbXI2EGk6OFBJ9kH2gzw8zRisCvUFE0TVxtY0YkmZ5dR1Yt
+	4F1D5hk7SyCxtuf1g9Eq6/5pKlCBDxVVUER3UlVzT1BUgRiTNj
+X-Received: by 2002:adf:9cc1:0:b0:43b:3eef:acd9 with SMTP id ffacd0b85a97d-43b97a86605mr2884336f8f.27.1774542301944;
+        Thu, 26 Mar 2026 09:25:01 -0700 (PDT)
+Received: from localhost.localdomain ([2a00:23c4:a758:8a01:377f:9a3e:6c94:560d])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43b919588e6sm8460951f8f.16.2026.03.26.09.25.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 26 Mar 2026 09:25:01 -0700 (PDT)
+From: Biju <biju.das.au@gmail.com>
+X-Google-Original-From: Biju <biju.das.jz@bp.renesas.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>,
+	Linus Walleij <linusw@kernel.org>
+Cc: Biju Das <biju.das.jz@bp.renesas.com>,
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
+	linux-renesas-soc@vger.kernel.org,
+	linux-gpio@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	Biju Das <biju.das.au@gmail.com>
+Subject: [PATCH v3] pinctrl: renesas: rzg2l: Fix save/restore of {IOLH,IEN,PUPD,SMT} registers
+Date: Thu, 26 Mar 2026 16:24:51 +0000
+Message-ID: <20260326162459.101414-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260319141515.2053556-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20260319141515.2053556-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20260319141515.2053556-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 26 Mar 2026 17:12:01 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdXzWFHxeyR4Z4fLUc-QhwPK1RnB5VTzQODjzoR6oDwKHg@mail.gmail.com>
-X-Gm-Features: AQROBzB4lDDc6Paz2lavGGOEVw_oYmGOkaXAJNxgaMlSXZ2W_dPOAbJR1CHRwrA
-Message-ID: <CAMuHMdXzWFHxeyR4Z4fLUc-QhwPK1RnB5VTzQODjzoR6oDwKHg@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] pinctrl: renesas: rzt2h: Add pin configuration support
-To: Prabhakar <prabhakar.csengg@gmail.com>
-Cc: Linus Walleij <linusw@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Magnus Damm <magnus.damm@gmail.com>, linux-renesas-soc@vger.kernel.org, 
-	linux-gpio@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spamd-Result: default: False [-1.46 / 15.00];
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-1.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_MISSING_CHARSET(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-30378-lists,linux-renesas-soc=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_CC(0.00)[kernel.org,gmail.com,vger.kernel.org,bp.renesas.com,renesas.com];
-	DMARC_NA(0.00)[linux-m68k.org];
-	FREEMAIL_TO(0.00)[gmail.com];
+	TAGGED_FROM(0.00)[bounces-30379-lists,linux-renesas-soc=lfdr.de];
+	FREEMAIL_CC(0.00)[bp.renesas.com,vger.kernel.org,gmail.com];
+	PRECEDENCE_BULK(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[13];
 	MIME_TRACE(0.00)[0:+];
-	MISSING_XM_UA(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[geert@linux-m68k.org,linux-renesas-soc@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	FROM_NEQ_ENVFROM(0.00)[bijudasau@gmail.com,linux-renesas-soc@vger.kernel.org];
 	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,dt];
-	R_DKIM_NA(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[9];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,glider.be:email,linux-m68k.org:email,renesas.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: AFEEB3384D8
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,renesas.com:email,bp.renesas.com:mid]
+X-Rspamd-Queue-Id: 2015A338618
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi Prabhakar,
+From: Biju Das <biju.das.jz@bp.renesas.com>
 
-On Thu, 19 Mar 2026 at 15:15, Prabhakar <prabhakar.csengg@gmail.com> wrote:
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->
-> Add pin configuration support for the Renesas RZ/T2H SoC. The RZ/T2H SoC
-> allows configuring several electrical characteristics through the DRCTLm
-> (I/O Buffer Function Switching) registers. These registers control bias
-> configuration, Schmitt trigger input, output slew rate, and drive
-> strength.
->
-> Implement pinconf_ops to allow reading and updating these properties
-> through the generic pin configuration framework. The implementation
-> supports bias-disable, bias-pull-up, bias-pull-down,
-> input-schmitt-enable, slew-rate, and drive-strength-microamp.
->
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> ---
-> v1->v2:
-> - Updated commit description
-> - Dropped 32 bit reg access for DRCTLm registers
-> - Switched using to guard for locking in rzt2h_pinctrl_drctl_rmwq
->   helper function
-> - Dropped using RENESAS_RZT2H_PIN_CONFIG_DRIVE_STRENGTH instead
->   switched to using the standard PIN_CONFIG_DRIVE_STRENGTH_UA
+The rzg2l_pinctrl_pm_setup_regs() handles save/restore of
+{IOLH,IEN,PUPD,SMT} registers during s2ram, but only for ports where all
+pins share the same pincfg. Extend the code to also support ports with
+variable pincfg per pin, so that {IOLH,IEN,PUPD,SMT} registers are
+correctly saved and restored for all pins.
 
-Thanks for the update!
+Fixes: 254203f9a94c ("pinctrl: renesas: rzg2l: Add suspend/resume support")
+Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+---
+v2->v3:
+ * Dropped pin_off, pin_desc, and pin_data local variables and
+   instead used pctrl->desc.pins[pin + i].drv_data.
+ * Started the loop at 0 so that it covers all the variable pins.
+v1->v2:
+ * Updated commit description
+ * Improved the logic.
+---
+ drivers/pinctrl/renesas/pinctrl-rzg2l.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-> --- a/drivers/pinctrl/renesas/pinctrl-rzt2h.c
-> +++ b/drivers/pinctrl/renesas/pinctrl-rzt2h.c
-
-> @@ -54,6 +56,16 @@
->  #define PFC_PIN_MASK(pin)      (PFC_MASK << ((pin) * 8))
->  #define PFC_FUNC_INTERRUPT     0
->
-> +#define DRCTL_PIN_SHIFT(pin)   ((pin) << 3)
-
-"* 8" sounds more logical to me.
-
-> +#define DRCTL_DRV_PIN_MASK(pin)        (GENMASK_ULL(1, 0) << DRCTL_PIN_SHIFT(pin))
-> +#define DRCTL_PUD_PIN_MASK(pin)        (GENMASK_ULL(3, 2) << DRCTL_PIN_SHIFT(pin))
-> +#define DRCTL_SMT_PIN_MASK(pin)        (BIT_ULL(4) << DRCTL_PIN_SHIFT(pin))
-> +#define DRCTL_SR_PIN_MASK(pin) (BIT_ULL(5) << DRCTL_PIN_SHIFT(pin))
-
-I will drop DRCTL_PIN_SHIFT(), and replace it by "((pin) * 8)" while
-applying, for consistency with e.g. PFC_PIN_MASK() above.
-
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-pinctrl for v7.1.
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
+diff --git a/drivers/pinctrl/renesas/pinctrl-rzg2l.c b/drivers/pinctrl/renesas/pinctrl-rzg2l.c
+index 863e779dda02..55e35f63343c 100644
+--- a/drivers/pinctrl/renesas/pinctrl-rzg2l.c
++++ b/drivers/pinctrl/renesas/pinctrl-rzg2l.c
+@@ -3012,6 +3012,13 @@ static void rzg2l_pinctrl_pm_setup_regs(struct rzg2l_pinctrl *pctrl, bool suspen
+ 		off = RZG2L_PIN_CFG_TO_PORT_OFFSET(cfg);
+ 		pincnt = hweight8(FIELD_GET(PIN_CFG_PIN_MAP_MASK, cfg));
+ 
++		if (cfg & RZG2L_VARIABLE_CFG) {
++			unsigned int pin = port * RZG2L_PINS_PER_PORT;
++
++			for (unsigned int i = 0; i < RZG2L_PINS_PER_PORT; i++)
++				cfg |= *(u64 *)pctrl->desc.pins[pin + i].drv_data;
++		}
++
+ 		caps = FIELD_GET(PIN_CFG_MASK, cfg);
+ 		has_iolh = !!(caps & (PIN_CFG_IOLH_A | PIN_CFG_IOLH_B | PIN_CFG_IOLH_C));
+ 		has_ien = !!(caps & PIN_CFG_IEN);
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+2.43.0
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
 
