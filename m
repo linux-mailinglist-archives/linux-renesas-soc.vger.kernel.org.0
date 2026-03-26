@@ -1,209 +1,231 @@
-Return-Path: <linux-renesas-soc+bounces-30338-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-30339-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id KIzlC8kZxWnr6QQAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-30338-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Mar 2026 12:34:33 +0100
+	id mC+eIVkhxWmC7AQAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-30339-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Mar 2026 13:06:49 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2CF033495B
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Mar 2026 12:34:32 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id DC29C334EED
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Mar 2026 13:06:48 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 7FE663001D67
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Mar 2026 11:30:52 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id E21323128FB7
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Mar 2026 11:59:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 663033E51C8;
-	Thu, 26 Mar 2026 11:30:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4F655355F53;
+	Thu, 26 Mar 2026 11:59:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b="FaX23d+e"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f179.google.com (mail-vk1-f179.google.com [209.85.221.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E4AC348879
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 26 Mar 2026 11:30:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.179
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774524651; cv=none; b=Fwa4AOEdlC7fnju2na97wVhYyVKdPvkpLSI5CbosLu6xdCSBlSCymHtESzZWqfa89xtlK9/ZLW9R8C78rvWNRsOTIQ34rwGb2k50P9FfHF9smCOCs1m4KKnxwTMv4H6qtCWZLRzGMG/+JSjEBT+aGknmhFthRNw6e8vVdbD7r08=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774524651; c=relaxed/simple;
-	bh=odmcbAvqK0vOqDQP/nWAmuzHOBKhpU4i+9caAtg5EmA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=OXg6zMDtU+hpCJr6a4ssRM+vv8wtkObD4BuVYUsWbH41TTFx8w3B2+ayP3Xy7Rv3KqaZDKvF9ZCYoCx+TkhbvTmb4mV6Et9eixMHsmA66rFoJFTD5KYhrODdNvYn+DmWPQ2l0/TcDDSXtSKk8sgUFxmf+4Xe/t2lMv41nVIYieo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f179.google.com with SMTP id 71dfb90a1353d-56cfe7b2344so310442e0c.2
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 26 Mar 2026 04:30:47 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774524647; x=1775129447;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=NPXrf/dFqxXiTE7eESLhISzL+tSi36TOUFQjk/UIol8=;
-        b=Feq1IOhUq3ygt1zfxX/5tvAXEVFdN2A3VZI4asym5OG0vN/L+/jPUEezv/hR0MYYZ+
-         KQIUJTHrfoWMiqBhHM52ZqhWAP3UGdGgrZaHKfs+33LBbwhJyGcstvVPeVpu76GOg2v6
-         upBPImsir7ErgOYhBPJNuvH/CXJBBv//73mfnH/thRMbRDTgI71GbpxVK6rLZ7uoLtOb
-         xdOVX7etmWz+8po6yKamc+StMHv5edulVAc65EzxCVPRWkwVzSeLepxTUGb5zTF/IqS/
-         Qz+1pf77pCH1f//+fT2qxR4cQGbPMMtXPzVse4et37xfSpj5NXUgKHPquWgs+3g94NZo
-         NUJw==
-X-Forwarded-Encrypted: i=1; AJvYcCW/OC0uf/RvwOv0R5e4VsGyrCmYlqnoCWFi0LRf9jH+OKFlQnWwMO/bUnlZ5+fJp+AR+SNLYrbVxG1f7pwvydRaZQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzG2bsMqtC6zdNxdk3+O0ogJ/k75+q61+sp9mx4z7EUYNbPpwvb
-	HGr+kpEIKROsWYqTyiVeGAOYxwcpeEkbqi07jFr49D+/6lDsuPeA5GYdqZQt22ZwWhU=
-X-Gm-Gg: ATEYQzwwpynPJ4aYwebXCN1Q+4IBx7TGmdA3uqySW/lk2w5kpHtJQhsq7Gp8I5Zinpc
-	1/jJJS54VP1Q28AW0GNgXt8K7DXUD8bJfj95011inoWRJy+haRi82jvPFyje57araJ4/1tseWUu
-	NwrJnFQPhWxXfJzeHxtW3yAjPhBGiJpcTfFqZksVxZHpvLyK7cuM8R9QE8IqgXux7mxoOSae19A
-	N6uovF+kiyeU+O45WNjryAGBiTvUHbmG99mGksyxiDOi40omu6cMyEtonKlpETJKBPiBPg3jpa2
-	Vy5rGdXfZNSJiw+Y2Ag72cVEv1g+hLteX9j4S3HCz7UvwPh5uLS+x6tdgDb8Bsnxd+ADCPGNpoZ
-	Lv3exDyxAFEJnxoSmgfSatVUT8kb4EUnAJZZZUiZQY+moAaphVJ5ri3OgYXsvkMKB+VwML9y8BA
-	BVEO7OLa+emSrKWhcyEcygbSPsHbbatVvhJareTWEYkm121rylYb9O/320Yy+3Rg0hQv0e+URb6
-	5E=
-X-Received: by 2002:a05:6122:2510:b0:56c:d59a:cfe4 with SMTP id 71dfb90a1353d-56d22120a10mr3106484e0c.17.1774524646908;
-        Thu, 26 Mar 2026 04:30:46 -0700 (PDT)
-Received: from mail-vk1-f175.google.com (mail-vk1-f175.google.com. [209.85.221.175])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-56d31d71725sm3937900e0c.13.2026.03.26.04.30.46
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 26 Mar 2026 04:30:46 -0700 (PDT)
-Received: by mail-vk1-f175.google.com with SMTP id 71dfb90a1353d-56b7043c97eso369324e0c.1
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 26 Mar 2026 04:30:46 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVb88Sy70EaN073ATDQDxy8WnvwIp1UTMo5mtH31VhOlD7sLQLlkR6eYtSrZ803FhXBUNOg5gWFZiUXbMUmFJk/nQ==@vger.kernel.org
-X-Received: by 2002:a05:6123:4c:b0:56a:f542:78fb with SMTP id
- 71dfb90a1353d-56d21f80b13mr3497906e0c.7.1774524646190; Thu, 26 Mar 2026
- 04:30:46 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA6C538734D;
+	Thu, 26 Mar 2026 11:59:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774526367; cv=pass; b=H1ZoUbIE5JXGd3paNRT1R/Xn6FfOTRGFFoRutVs4AoIWMIE5TrD0iOed2LQC+QVUSCoqngZpK7UB6meAlTgn8A5S9tcNEJMvoMsHAnZzotZJ47NRlRzGs2UGsg666ysomNm84xvPpCon/G092zpvDeTG43SNXOh0yDVrCBohxqM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774526367; c=relaxed/simple;
+	bh=HKV+pqDUW70yS1IkUgHPQGOB1Ixw8VVKBshT19NRnpU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NDZkJowoth9vHrisyIFMLsvOsoRazYT+70KjNY971lUqkZLCjgcbyBTktu4tBwceDg0mWtg+k2fOHxYiG4uCnm8O4m9O5fKR5ilr0mvhYRIqFeS1wO0w5S1cWA2vqHqLg9RRUI5T81TwWuPbIhGS+iAy44XBsj8AvScJLgQ31bw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b=FaX23d+e; arc=pass smtp.client-ip=136.143.188.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+ARC-Seal: i=1; a=rsa-sha256; t=1774526345; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=eibIxsY4jbugMMsUsRzfo4YlKvNyygN1G/z8U3/IkGyIh8Zq0DkQhFwzN4tw5pi+hEU0gh5jdWnl2z78AMpnuEn2NsjfJO/AjvITE58ayAf9z2v4DsrSNNP3tasAgHD6TlCrTncyfu6cQIgf2sRZWnj9sTxmV1CwuSf1xUmvNN4=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1774526345; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=Ul3Elmvarjeo2F5dZsfHqeijZFTBr3ip2K2uSBcgO+g=; 
+	b=E/1m/krGiAxQ4hNv/5Mpn4vgVj5fFNbwsCMTFv0u41/ZCLamFFB9qv+Xvse2/lTguR/ApgPRASdggCk4N2A1UNyNMtEI0SiNy815MXaBW8sPXVVVPQjUN92Ki87TR0vCnOxVBfKOgrlsjggAPj1XtZ5YBkpWahI2ewD3DbWdg9k=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=adrian.larumbe@collabora.com;
+	dmarc=pass header.from=<adrian.larumbe@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1774526345;
+	s=zohomail; d=collabora.com; i=adrian.larumbe@collabora.com;
+	h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:Content-Transfer-Encoding:In-Reply-To:Message-Id:Reply-To;
+	bh=Ul3Elmvarjeo2F5dZsfHqeijZFTBr3ip2K2uSBcgO+g=;
+	b=FaX23d+eST4NvBkpuAforAXC1w55gz/e6Ca5LBk3is7dXSXr9k1BIT/VPol8QgIu
+	+dOHKibJ4DnlVUQM9Bagr2q1Ws43B6EOTWcy4O9+xOMyAXEs/wPBnFMYTQTdjoibHd0
+	yrEdWG4ZlahccvvmnXiakw2qLuzG79LoXwr8otCM=
+Received: by mx.zohomail.com with SMTPS id 1774526344009716.8538221987557;
+	Thu, 26 Mar 2026 04:59:04 -0700 (PDT)
+Date: Thu, 26 Mar 2026 11:58:59 +0000
+From: =?utf-8?Q?Adri=C3=A1n?= Larumbe <adrian.larumbe@collabora.com>
+To: Biju Das <biju.das.jz@bp.renesas.com>
+Cc: Boris Brezillon <boris.brezillon@collabora.com>, 
+	Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+	Simona Vetter <simona@ffwll.ch>, 
+	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
+	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH v2 2/4] drm/panfrost: Drop redundant optional clock
+ checks in runtime PM
+Message-ID: <acUfZmYoDA_ZKVBk@sobremesa>
+References: <20260320164158.487406-1-biju.das.jz@bp.renesas.com>
+ <20260320164158.487406-3-biju.das.jz@bp.renesas.com>
+ <ab25E0kTBA4EjZ3Y@sobremesa>
+ <TY3PR01MB11346F3DF5ACB55B5FE8DC96F864CA@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+ <TY3PR01MB11346DD20F7E2AB23A54A274B864DA@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+ <acLFYNHPODCYArCk@sobremesa>
+ <TY3PR01MB11346F913241559462D109F2D8656A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260325182849.84660-1-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20260325182849.84660-1-biju.das.jz@bp.renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 26 Mar 2026 12:30:33 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdW5jiR5CqV0xhxio4vtV_bPczO5u1Da86CWJO+=6WU4+Q@mail.gmail.com>
-X-Gm-Features: AQROBzCSesQ1Gk9HBRRwU2IRgiI5K96hhm2cR4dgKIMFaNKm8dS0uOXZPcMlwPo
-Message-ID: <CAMuHMdW5jiR5CqV0xhxio4vtV_bPczO5u1Da86CWJO+=6WU4+Q@mail.gmail.com>
-Subject: Re: [PATCH v2] pinctrl: renesas: rzg2l: Fix save/restore of
- {IOLH,IEN,PUPD,SMT} registers
-To: Biju <biju.das.au@gmail.com>
-Cc: Linus Walleij <linusw@kernel.org>, Biju Das <biju.das.jz@bp.renesas.com>, 
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>, linux-renesas-soc@vger.kernel.org, 
-	linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spamd-Result: default: False [-1.46 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <TY3PR01MB11346F913241559462D109F2D8656A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+X-Spamd-Result: default: False [-0.16 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_DKIM_ALLOW(-0.20)[collabora.com:s=zohomail];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FROM_HAS_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-30338-lists,linux-renesas-soc=lfdr.de];
-	DMARC_NA(0.00)[linux-m68k.org];
-	FREEMAIL_TO(0.00)[gmail.com];
 	RCVD_TLS_LAST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-30339-lists,linux-renesas-soc=lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-renesas-soc];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[geert@linux-m68k.org,linux-renesas-soc@vger.kernel.org];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[collabora.com,kernel.org,arm.com,linux.intel.com,suse.de,gmail.com,ffwll.ch,lists.freedesktop.org,vger.kernel.org,glider.be,bp.renesas.com];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	R_DKIM_NA(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[adrian.larumbe@collabora.com,linux-renesas-soc@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[collabora.com:+];
 	NEURAL_HAM(-0.00)[-1.000];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[renesas.com:email,mail.gmail.com:mid,linux-m68k.org:email]
-X-Rspamd-Queue-Id: B2CF033495B
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,collabora.com:dkim,collabora.com:email,renesas.com:email,arm.com:email,lists.freedesktop.org:email]
+X-Rspamd-Queue-Id: DC29C334EED
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi Biju,
-
-On Wed, 25 Mar 2026 at 19:28, Biju <biju.das.au@gmail.com> wrote:
-> From: Biju Das <biju.das.jz@bp.renesas.com>
+On 26.03.2026 08:55, Biju Das wrote:
+> Hi Adrian,
 >
-> The rzg2l_pinctrl_pm_setup_regs() handles save/restore of
-> {IOLH,IEN,PUPD,SMT} registers during s2ram, but only for ports where all
-> pins share the same pincfg. Extend the code to also support ports with
-> variable pincfg per pin, so that {IOLH,IEN,PUPD,SMT} registers are
-> correctly saved and restored for all pins.
+> > -----Original Message-----
+> > From: Adrián Larumbe <adrian.larumbe@collabora.com>
+> > Sent: 24 March 2026 17:11
+> > Subject: Re: [PATCH v2 2/4] drm/panfrost: Drop redundant optional clock checks in runtime PM
+> >
+> > On 21.03.2026 14:16, Biju Das wrote:
+> > > Hi Adrián Larumbe,
+> > >
+> > > Thanks for the feedback.
+> > >
+> > > > -----Original Message-----
+> > > > From: dri-devel <dri-devel-bounces@lists.freedesktop.org> On Behalf
+> > > > Of Biju Das
+> > > > Sent: 20 March 2026 21:32
+> > > > Subject: RE: [PATCH v2 2/4] drm/panfrost: Drop redundant optional
+> > > > clock checks in runtime PM
+> > > >
+> > > >
+> > > >
+> > > > > -----Original Message-----
+> > > > > From: dri-devel <dri-devel-bounces@lists.freedesktop.org> On
+> > > > > Behalf Of Adrián Larumbe
+> > > > > Sent: 20 March 2026 21:20
+> > > > > Subject: Re: [PATCH v2 2/4] drm/panfrost: Drop redundant optional
+> > > > > clock checks in runtime PM
+> > > > >
+> > > > > Hi Biju,
+> > > > >
+> > > > > On 20.03.2026 16:41, Biju wrote:
+> > > > > > From: Biju Das <biju.das.jz@bp.renesas.com>
+> > > > > >
+> > > > > > The clk_enable() and clk_disable() APIs already handle NULL
+> > > > > > clock pointers gracefully — clk_enable() returns 0 and
+> > > > > > clk_disable() returns immediately when passed a NULL or optional
+> > > > > > clock. The explicit if
+> > > > > > (pfdev->bus_clock) guards around these calls in the runtime
+> > > > > > suspend/resume paths are therefore unnecessary. Remove them to simplify the code.
+> > > > > >
+> > > > > > Reviewed-by: Steven Price <steven.price@arm.com>
+> > > > > > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> > > > > > ---
+> > > > > > v1->v2:
+> > > > > >  * Collected tag
+> > > > > > ---
+> > > > > >  drivers/gpu/drm/panfrost/panfrost_device.c | 12 ++++--------
+> > > > > >  1 file changed, 4 insertions(+), 8 deletions(-)
+> > > > > >
+> > > > > > diff --git a/drivers/gpu/drm/panfrost/panfrost_device.c
+> > > > > > b/drivers/gpu/drm/panfrost/panfrost_device.c
+> > > > > > index dedc13e56631..01e702a0b2f0 100644
+> > > > > > --- a/drivers/gpu/drm/panfrost/panfrost_device.c
+> > > > > > +++ b/drivers/gpu/drm/panfrost/panfrost_device.c
+> > > > > > @@ -429,11 +429,9 @@ static int panfrost_device_runtime_resume(struct device *dev)
+> > > > > >  		if (ret)
+> > > > > >  			goto err_clk;
+> > > > > >
+> > > > > > -		if (pfdev->bus_clock) {
+> > > > > > -			ret = clk_enable(pfdev->bus_clock);
+> > > > > > -			if (ret)
+> > > > > > -				goto err_bus_clk;
+> > > > > > -		}
+> > > > > > +		ret = clk_enable(pfdev->bus_clock);
+> > > > > > +		if (ret)
+> > > > > > +			goto err_bus_clk;
+> > > > > >  	}
+> > > > >
+> > > > > It seems clk_prepare_enable() can also deal with NULL clock device
+> > > > > pointers gracefully, so maybe you could also do away with pointer checks in panfrost_clk_init?
+> > > >
+> > > > This is the only check and no need to print rate for optional clk.
+> > > > That is the reason I have not touched this.
+> > > >
+> > > > 	if (pfdev->bus_clock) {
+> > > > 		rate = clk_get_rate(pfdev->bus_clock);
+> > > > 		dev_info(pfdev->base.dev, "bus_clock rate = %lu\n", rate);
+> > > >
+> > > > 		err = clk_prepare_enable(pfdev->bus_clock);
+> > > > 		if (err)
+> > > > 			goto disable_clock;
+> > > > 	}
+> > >
+> > > The above block is good for optional clock.
+> > >
+> > > Otherwise, there will be 2 checks for optional clk.
+> > >
+> > > One here:
+> > >
+> > > if (pfdev->bus_clock) {
+> > > 	rate = clk_get_rate(pfdev->bus_clock);
+> > > 	dev_info(pfdev->base.dev, "bus_clock rate = %lu\n", rate); }
+> > >
+> > > and one inside the clk_prepare_enable():
+> > >
+> > > err = clk_prepare_enable(pfdev->bus_clock);
+> > >
+> > > Please let me know your thoughts.
+> >
+> > You're right, it's probably best to leave it the way it is.
 >
-> Fixes: 254203f9a94c ("pinctrl: renesas: rzg2l: Add suspend/resume support")
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> If you are happy with the series, can you please merge it?
 
-Thanks for the update!
+Will do, I'll add my Rb's and let you know when it's merged.
 
-> ---
-> v1->v2:
->  * Updated commit description
->  * Improved the logic.
+> Cheers,
+> Biju
 
-You also fixed the double application of the pin_off index, right?
-
-> --- a/drivers/pinctrl/renesas/pinctrl-rzg2l.c
-> +++ b/drivers/pinctrl/renesas/pinctrl-rzg2l.c
-> @@ -3001,9 +3001,12 @@ static void rzg2l_pinctrl_pm_setup_regs(struct rzg2l_pinctrl *pctrl, bool suspen
->  {
->         u32 nports = pctrl->data->n_port_pins / RZG2L_PINS_PER_PORT;
->         struct rzg2l_pinctrl_reg_cache *cache = pctrl->cache;
-> +       u32 pin_off = 0;
->
-> -       for (u32 port = 0; port < nports; port++) {
-> +       for (u32 port = 0; port < nports; port++, pin_off += RZG2L_PINS_PER_PORT) {
-> +               const struct pinctrl_pin_desc *pin_desc = &pctrl->desc.pins[pin_off];
-
-Here you index pctrl->desc.pins[]...
-
->                 bool has_iolh, has_ien, has_pupd, has_smt;
-> +               u64 *pin_data = pin_desc->drv_data;
-
-Here you get pin_data, so below you will actually index
-pctrl->desc.pins[pin_off].drv_data[].  That is not only confusing,
-but also only works because pctrl->desc.pins[i].drv_data is initialized
-in rzg2l_pinctrl_register() like:
-
-    pins[i].drv_data = &pin_data[i];
-
-All these new variables (incl. pin_off) are only used inside the new
-if () below, so please confine everything to that block.
-
->                 u32 off, caps;
->                 u8 pincnt;
->                 u64 cfg;
-> @@ -3012,6 +3015,11 @@ static void rzg2l_pinctrl_pm_setup_regs(struct rzg2l_pinctrl *pctrl, bool suspen
->                 off = RZG2L_PIN_CFG_TO_PORT_OFFSET(cfg);
->                 pincnt = hweight8(FIELD_GET(PIN_CFG_PIN_MAP_MASK, cfg));
->
-> +               if (cfg & RZG2L_VARIABLE_CFG) {
-> +                       for (unsigned int i = 1; i < RZG2L_PINS_PER_PORT; i++)
-
-Shouldn't the loop start at zero? The PIN_CFG_MASK part of a variable
-config is always zero.
-
-> +                               cfg |= *pin_data++;
-
-Please use pctrl->desc.pins[pin_off + i].drv_data here.
-And pin_off can be replaced by port * RZG2L_PINS_PER_PORT.
-
-> +               }
-> +
->                 caps = FIELD_GET(PIN_CFG_MASK, cfg);
->                 has_iolh = !!(caps & (PIN_CFG_IOLH_A | PIN_CFG_IOLH_B | PIN_CFG_IOLH_C));
->                 has_ien = !!(caps & PIN_CFG_IEN);
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Adrian Larumbe
 
