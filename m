@@ -1,176 +1,151 @@
-Return-Path: <linux-renesas-soc+bounces-30398-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-30399-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id AKF8FHUsxmmNHQUAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-30398-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Mar 2026 08:06:29 +0100
+	id +DXWHqA4xmm7HgUAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-30399-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Mar 2026 08:58:24 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB3773402CD
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Mar 2026 08:06:24 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B536340B04
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Mar 2026 08:58:19 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id B22B331F9362
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Mar 2026 06:53:10 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 4E48A300A632
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Mar 2026 07:58:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ABF7D3C344F;
-	Fri, 27 Mar 2026 06:53:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D166C3CBE80;
+	Fri, 27 Mar 2026 07:58:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uM9tWBQS"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="nC677v1O"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F1A12BE7BB;
-	Fri, 27 Mar 2026 06:53:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE47937D13B
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 27 Mar 2026 07:57:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774594384; cv=none; b=ESnt93odZ5ccH6QecTRpZez+pzGT89aWC5NqsSD8Fhcz/j3N18YOpxXVT0+bixAVPmssGaNK2zDc0HvmLkXEMzWwqty9HsdNmXprVtVgMdG2+G+T5L5RQWwWNWpCSTFW4enPEy2xpyRC3lru1cdjUBoELDq43oS19HqYbTfoCEg=
+	t=1774598281; cv=none; b=LqzR6DIivPw1NDYZg8YbBhXurYnu5C7RFHez+fGHPAUdJgPlciu7Hd0G53xkM9fDIobzDSxB0VIE2MeJgBIUZ0+KplAnauQy+tZEfSeFRy9RVDvIC4SR62QjZprBaPchD+9Vw9aLzyhQ28YGV8JRJnPajnrZ4/LL/JtvvA3Fo6E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774594384; c=relaxed/simple;
-	bh=+6taD/KYX6s6aOGsQO53ivGa0KI2dG/K2GEdTZ29IxI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=maY8VjJ4M8ub7rY6gutpF8eIFQyvtYi1+++x2DcJwHGfOX0f41dZIGa/Utm0EM31BBTovbZ3+CXl08C+ydUVpxWWk/i4kcyZ5hKkqJpgD7zVyXn0oEDR9CpUbgRk9lHRqxSD+owzeafQuMEczQJ88UbSl9Lvv+cLesXXTneo4VM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uM9tWBQS; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5247EC19423;
-	Fri, 27 Mar 2026 06:52:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774594383;
-	bh=+6taD/KYX6s6aOGsQO53ivGa0KI2dG/K2GEdTZ29IxI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=uM9tWBQSBzeOskmqaDM0QvWoV4jUNiC4DsBlIKIFg7In21qbXcrgvL+npIdvVsRu4
-	 qrE69iQ+kiDSqXlcivHy16z+fEY80xVdn90vInQTF9nPU0Nfe7+PBampXS2wO/gG+p
-	 NgAISEoCyX1+VSpZjmfa/Wk2xePLkgGitS5duT/iqLt2Xz6gmhtYoyq/3bAsUtsGq+
-	 2OtE88H/kNHCxHKSKe13LzCtkcFHYUQtieBVLEZ/RgfH2fMVrGZXCU2jVD0wDWvbDI
-	 /UHVNy1S2RfsSIT/lKpdHdy0Vk/hccjI1KCqeAffyJ+BOUCNvP4IiTCz7QCM5HVlUz
-	 YXDRsPrcv0reg==
-Date: Fri, 27 Mar 2026 12:22:46 +0530
-From: Manivannan Sadhasivam <mani@kernel.org>
-To: Vladimir Oltean <vladimir.oltean@nxp.com>
-Cc: linux-phy@lists.infradead.org, Vinod Koul <vkoul@kernel.org>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
-	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org, linux-can@vger.kernel.org, 
-	linux-gpio@vger.kernel.org, linux-ide@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-media@vger.kernel.org, linux-pci@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	linux-riscv@lists.infradead.org, linux-rockchip@lists.infradead.org, 
-	linux-samsung-soc@vger.kernel.org, linux-scsi@vger.kernel.org, linux-sunxi@lists.linux.dev, 
-	linux-tegra@vger.kernel.org, linux-usb@vger.kernel.org, netdev@vger.kernel.org, 
-	spacemit@lists.linux.dev, UNGLinuxDriver@microchip.com, 
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, "Martin K. Petersen" <martin.petersen@oracle.com>, 
-	Nitin Rawat <quic_nitirawa@quicinc.com>
-Subject: Re: [PATCH v5 phy-next 10/27] scsi: ufs: qcom: keep parallel track
- of PHY power state
-Message-ID: <gq4sswslkjaoe5hhxe2mz6z57uiumotqknkryadvfsstj4srx4@qgenqekgrqv4>
-References: <20260319223241.1351137-1-vladimir.oltean@nxp.com>
- <20260319223241.1351137-11-vladimir.oltean@nxp.com>
- <ezrcjjwtg5n76w4m65l27szu5mywx66ti3xuprkfcp3x6quvbf@2rew4zrnnbt2>
- <20260325114309.3k7xkfrffpxp5xq4@skbuf>
- <vu3cxpynr5mu2fzkrtmjcwijc5jz323wlnbc3r7lp2wxqmhydx@z5xhgf4myw2d>
- <20260325115731.genmq2yew2p4dvbs@skbuf>
- <20260326080444.gbesciaa5zwvcgoy@skbuf>
+	s=arc-20240116; t=1774598281; c=relaxed/simple;
+	bh=BvIvOiULdSDzr1AdSUV8P2PsoZVED4hMWpwkQzx9zas=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
+	 References:In-Reply-To; b=TwdO5lofNDRV9m9gaGNyRT0MkGg3BgHX3NWZcQeWOH0msegWFEG/yc+RQv30UVOen6wDDswFDKM9hk9Nm956O+6XgIwZymvZ3XfXwMdcwL0M7Sm5iw9KHG3UHoEqrsdih6NP7TBItcf7u31OlqLDjpHktp5/Hwm7hOzPRc9Lf3g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=nC677v1O; arc=none smtp.client-ip=185.246.84.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-02.galae.net (Postfix) with ESMTPS id EE47D1A3018;
+	Fri, 27 Mar 2026 07:57:52 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id C102260230;
+	Fri, 27 Mar 2026 07:57:52 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id E20E810450F0A;
+	Fri, 27 Mar 2026 08:57:47 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1774598272; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=FFBfGsTXnTK41d/BbkcMjWKr681rJqWXfmtbDSwR6W8=;
+	b=nC677v1Otou6cBTVPwLOC+9wP0nDsMdCloupXcLWPT6Wo8EyVvSpstWjA5dZ8HxYQRPtcN
+	kjAkSq9Eusjh7k4jh6o3I6X5hEQSWe76lhf0jf9RyxzOYpmyEmmeLFqkiqe5b5vhuXURFE
+	6QmSjZVLhLTcwuVGUia3lXYE1tfkKVc4xNHYZC0TjYQg+gKLci5HYhSYDnD163+rT/DIw6
+	YTmGam1BoOtZUWd6vf32MHiGWCEgoUO/7DA76E6nsXBcItwDnNi8zogFw79d1haTTr+834
+	4eMEG0qCHrJED15sXRxX+ht9rXOcNm79UvIv/4bjTV6QUkQmoEu8R0yEzULEbQ==
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260326080444.gbesciaa5zwvcgoy@skbuf>
-X-Spamd-Result: default: False [-1.66 / 15.00];
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 27 Mar 2026 08:57:45 +0100
+Message-Id: <DHDEL0VTRYDP.2D45EP8E07Y08@bootlin.com>
+Subject: Re: [PATCH] drm/rcar-du: Convert to of_drm_find_and_get_bridge()
+Cc: <dri-devel@lists.freedesktop.org>, <linux-renesas-soc@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>
+To: "Amin GATTOUT" <amin.gattout@gmail.com>, "Laurent Pinchart"
+ <laurent.pinchart+renesas@ideasonboard.com>, "Tomi Valkeinen"
+ <tomi.valkeinen+renesas@ideasonboard.com>, "Kieran Bingham"
+ <kieran.bingham+renesas@ideasonboard.com>, "Maarten Lankhorst"
+ <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
+ "Thomas Zimmermann" <tzimmermann@suse.de>, "David Airlie"
+ <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Geert
+ Uytterhoeven" <geert+renesas@glider.be>, "Magnus Damm"
+ <magnus.damm@gmail.com>
+From: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
+X-Mailer: aerc 0.20.1
+References: <20260326-bridge-v1-1-c0c44b53f7b6@gmail.com>
+In-Reply-To: <20260326-bridge-v1-1-c0c44b53f7b6@gmail.com>
+X-Last-TLS-Session-Version: TLSv1.3
+X-Spamd-Result: default: False [-0.16 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	MV_CASE(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[bootlin.com,reject];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[bootlin.com:s=dkim];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
+	TAGGED_FROM(0.00)[bounces-30399-lists,linux-renesas-soc=lfdr.de];
+	FREEMAIL_TO(0.00)[gmail.com,ideasonboard.com,linux.intel.com,kernel.org,suse.de,ffwll.ch,glider.be];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-30398-lists,linux-renesas-soc=lfdr.de];
-	RCPT_COUNT_TWELVE(0.00)[28];
+	RECEIVED_HELO_LOCALHOST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[14];
 	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
+	RCVD_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[mani@kernel.org,linux-renesas-soc@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	TAGGED_RCPT(0.00)[linux-renesas-soc];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[luca.ceresoli@bootlin.com,linux-renesas-soc@vger.kernel.org];
+	DKIM_TRACE(0.00)[bootlin.com:+];
+	MID_RHS_MATCH_FROM(0.00)[];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
+	NEURAL_HAM(-0.00)[-0.999];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: EB3773402CD
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 0B536340B04
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Thu, Mar 26, 2026 at 10:04:44AM +0200, Vladimir Oltean wrote:
-> On Wed, Mar 25, 2026 at 01:57:31PM +0200, Vladimir Oltean wrote:
-> > On Wed, Mar 25, 2026 at 05:21:14PM +0530, Manivannan Sadhasivam wrote:
-> > > I believe I added the power_count check for phy_exit(). But since that got
-> > > moved, the check becomes no longer necessary.
-> > 
-> > FYI, the power_count keeps track of the balance of phy_power_on() and
-> > phy_power_off() calls, whereas it is the init_count keeps track of
-> > phy_init() and phy_exit() calls. They are only related to the extent
-> > that you must respect the phy_init() -> phy_power_on() -> phy_power_off()
-> > -> phy_exit() sequence. But in any case, both should be considered
-> > PHY-internal fields. The "Order of API calls" section from
-> > Documentation/driver-api/phy/phy.rst mentions the order that I just
-> > described above, and consumers should just ensure they follow that.
-> 
-> Ok, so we can close this topic of "checking the power_count not needed"
-> by linking to the conversation which spun off here:
-> https://lore.kernel.org/lkml/20260325120122.265973-1-manivannan.sadhasivam@oss.qualcomm.com/
-> 
+Hello Amin,
 
-Sure.
+On Thu Mar 26, 2026 at 9:10 PM CET, Amin GATTOUT wrote:
+> of_drm_find_bridge() is deprecated.
+> Replace it with of_drm_find_and_get_bridge() which increments
+> the bridge refcount as required.
 
-> Mani, I spent some more time to figure out what's really going on with
-> this unexpected phy_power_off() call. Do you think you could
-> regression-test the patch attached?
-> 
+Thanks for taking care of the conversion to the new API!
 
-I tested the patch. But it fails ufs_qcom_power_up_sequence() if PHY was already
-powered on:
+> --- a/drivers/gpu/drm/renesas/rcar-du/rcar_du_encoder.c
+> +++ b/drivers/gpu/drm/renesas/rcar-du/rcar_du_encoder.c
+> @@ -72,7 +72,7 @@ int rcar_du_encoder_init(struct rcar_du_device *rcdu,
+>  		if (IS_ERR(bridge))
+>  			return PTR_ERR(bridge);
+>  	} else {
+> -		bridge =3D of_drm_find_bridge(enc_node);
+> +		bridge =3D of_drm_find_and_get_bridge(enc_node);
 
-[   31.513321] qcom-qmp-ufs-phy 1d87000.phy: phy initialization timed-out
-[   31.513335] ufshcd-qcom 1d84000.ufshc: Failed to calibrate PHY: -110
-[   31.565273] ufshcd-qcom 1d84000.ufshc: Enabling the controller failed
+This change alone is not correct I'm afraid. The difference between
+of_drm_find_bridge() and of_drm_find_and_get_bridge() is the latter get a
+reference to the bridge, so you have to put that reference when the bridge
+pointer is no more accessible.
 
-Funny thing is, it didn't affect the functionality since the UFS core retries
-ufshcd_hba_enable() and in the error path of ufs_qcom_power_up_sequence(),
-phy_power_off() gets called and that causes the next try to succeed. So it is
-evident that, if PHY was already powered ON, it should be powered off before
-ufs_qcom_phy_power_on(). And due to the UFS driver design,
-ufs_qcom_power_up_sequence() can get called multiple times. So we cannot just
-remove phy_power_off().
+Have a look at previous commits doing the same API replacement, you can
+find examples similar to this one, where:
 
-Below diff on top of your patch fixes the issue:
+ * the bridge pointer is stored in a local variable (not saved in a struct)
+ * the bridge pointer could be set wither by of_drm_find_bridge() or
+   a function adding a panel bridge
 
-```
-diff --git a/drivers/ufs/host/ufs-qcom.c b/drivers/ufs/host/ufs-qcom.c
-index ed067247d72a..2c9fe03f349e 100644
---- a/drivers/ufs/host/ufs-qcom.c
-+++ b/drivers/ufs/host/ufs-qcom.c
-@@ -567,6 +567,8 @@ static int ufs_qcom_power_up_sequence(struct ufs_hba *hba)
-        if (ret)
-                return ret;
- 
-+       ufs_qcom_phy_power_off(host);
-+
-        ret = ufs_qcom_phy_set_gear(host, mode);
-        if (ret) {
-                dev_err(hba->dev, "%s: phy_set_mode_ext() failed, ret = %d\n",
-```
+Luca
 
-- Mani
-
--- 
-மணிவண்ணன் சதாசிவம்
+--
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
