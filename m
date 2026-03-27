@@ -1,60 +1,59 @@
-Return-Path: <linux-renesas-soc+bounces-30496-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-30497-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 6IUHF6HkxmmjPwUAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-30496-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Mar 2026 21:12:17 +0100
+	id 2EjPGcPkxmmjPwUAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-30497-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Mar 2026 21:12:51 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA1E934AA48
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Mar 2026 21:12:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3BDD34AA6D
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Mar 2026 21:12:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 17732307A31D
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Mar 2026 20:10:36 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 036C8309D6B9
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Mar 2026 20:10:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B453638F920;
-	Fri, 27 Mar 2026 20:10:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D5FBB39099C;
+	Fri, 27 Mar 2026 20:10:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="2wx9k1HP"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="iW2Xhm0W"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 697B838F629;
-	Fri, 27 Mar 2026 20:10:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8102B38F643;
+	Fri, 27 Mar 2026 20:10:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774642235; cv=none; b=NmwUktLP/fS4cZm2JIPNr/FOT70ghdfRctc1LE3eFgcGC4k1ArWIFy8Dd+9OgVhSCbvgwTxk2Id5FU7I1hb5sxwB54EpAGU7EJOQR7kF8B5PoANiGCyqL7vJH1QzNkn3LJ7/2Lo+xRabEVoe3Oct1aBn5bdOTRcfOcLRqBB1sjQ=
+	t=1774642238; cv=none; b=E6ZLD62fi3hc1ypgq3PC9uvrNXXCay3HDQ9s7tui5XvCz2DJnNlvN8UdKyEM7WGynfdgd4b1sg8jQ8x1f5S4dh2deb9biF59Po5o542QYc4O237cVMY11GXSfE49HX/RwmH6jFigLicoZnVh4UlDpnz38MgBvtS5sL1whz0St+k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774642235; c=relaxed/simple;
-	bh=9ykDc/2Fq36YhPKpD+AdlHrqOq429F/13Ov/J4ZvzEs=;
+	s=arc-20240116; t=1774642238; c=relaxed/simple;
+	bh=hsP7fHqPt9mP87f1VpCI1fLI42QC74jqzhrlvlxm5us=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=emZT8xPhdjOTRU7QCOIoi7/ygC9buQBwBBs6xunKquEqtitgK8BMG+I3Nhmyypmuw+bX4RrlMKHAoNeEcVhOmNXUYCubsiRPhc0ZfcAR3+RTtxG4a3l5xTrexUyUMkupBJMSSdx/LwlZYg27L2vvrp25ekYsZ3UBAw6/ldR2jcs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=2wx9k1HP; arc=none smtp.client-ip=185.246.85.4
+	 In-Reply-To:To:Cc; b=c0coz0ACANiQD70bkJWX8psbtWBsax3pvIV3LplirvANdXg+cgRw39gthxoI0UV51xgDxHNPWkhkWwRNXxj90SPe2vKHnBe4b8WA/v5RC9L77RsWdxp498jPd7xEMXjf8G9P+YOXtD4uxMDuLAI/5mU7jFSkH51isqT1PlNIS4s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=iW2Xhm0W; arc=none smtp.client-ip=185.171.202.116
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id 2F9BB4E4282D;
-	Fri, 27 Mar 2026 20:10:33 +0000 (UTC)
+	by smtpout-04.galae.net (Postfix) with ESMTPS id 2BE8FC58754;
+	Fri, 27 Mar 2026 20:11:05 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 0329560268;
-	Fri, 27 Mar 2026 20:10:33 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 5B5F610451AFC;
-	Fri, 27 Mar 2026 21:10:28 +0100 (CET)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 5618060268;
+	Fri, 27 Mar 2026 20:10:36 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 0D89F10451AFF;
+	Fri, 27 Mar 2026 21:10:31 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1774642231; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	t=1774642235; h=from:subject:date:message-id:to:cc:mime-version:content-type:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=1tXPZKU8vqlwEKf00N91HyfiiBe7zrASx6NrddJCNWU=;
-	b=2wx9k1HPWTWiiTykAU/2pYkKRUmmjGgfNBxfNkKucGh41A7LmOBZturbtbJBYVE0u19PLy
-	sDACs9I5qI8Z0frjFkmIO2NM8PmL31ejZs0bJECae7VqqTMPFjZwub8dv60LEIJILsiLj7
-	xTysrOBPjyd/z4/ZaT823Iexz7alqOJhWO8XiD+7ffC4BvOeAGMBOmVXwoOxnfeMUWo0Jv
-	KguyOUOK2LMecARezi5OtQibRtnbaL4d232zBwxEL/9EaEy08BLfHAWl7+o7Ab+H1pPCML
-	ioU6Z9lCVVmJlk0X3rK+qT73VWXFewgekSNx9ihSVeCiES9FCxSmjAmxV7LxQw==
+	bh=Bv5k4m7ct4CZYhqzZBg0LTSqAE21eXTy+4/0cBCVguk=;
+	b=iW2Xhm0WEU7YSS3l6jm/y3D79IbblvrQT76gkk4GswHH1AGqkmLkFcQ7yVEZL4rFKBn67e
+	AMmX+xIEQVIs5YOzaDAaMVVq+gKaeYDmF6mQa4o1JelpN8EcyFhNgUM82Wtgyujb5doFeS
+	WD3cHETp6pjqNpplGnAy8UCJUg5eoWqaTrPT5CP+0zvJfgKnnk1umGFd8zXlLD1T2559+U
+	Ezm/zg8pnlia+jNmOaH8ot28qNaFHE67kbawBCUgdztQKCOfj26WQbJW9U40069UAZ53so
+	dRfZLKH0ELZ6Yuy+wW6nYFi+D6dPpEMWoo3lrIxpdRCQNj63NKXgR5gD7PtQzQ==
 From: "Miquel Raynal (Schneider Electric)" <miquel.raynal@bootlin.com>
-Date: Fri, 27 Mar 2026 21:09:25 +0100
-Subject: [PATCH 03/16] dt-bindings: rng: Rename the title of the EIP-76
- file
+Date: Fri, 27 Mar 2026 21:09:26 +0100
+Subject: [PATCH 04/16] dt-bindings: crypto: eip28: Describe EIP-28 PKA
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -63,7 +62,7 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260327-schneider-v7-0-rc1-crypto-v1-3-5e6ff7853994@bootlin.com>
+Message-Id: <20260327-schneider-v7-0-rc1-crypto-v1-4-5e6ff7853994@bootlin.com>
 References: <20260327-schneider-v7-0-rc1-crypto-v1-0-5e6ff7853994@bootlin.com>
 In-Reply-To: <20260327-schneider-v7-0-rc1-crypto-v1-0-5e6ff7853994@bootlin.com>
 To: Michael Turquette <mturquette@baylibre.com>, 
@@ -96,7 +95,7 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-30496-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-30497-lists,linux-renesas-soc=lfdr.de];
 	FREEMAIL_TO(0.00)[baylibre.com,kernel.org,selenic.com,gondor.apana.org.au,ti.com,davemloft.net,gmail.com,glider.be];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RECEIVED_HELO_LOCALHOST(0.00)[];
@@ -109,38 +108,62 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[miquel.raynal@bootlin.com,linux-renesas-soc@vger.kernel.org];
 	DKIM_TRACE(0.00)[bootlin.com:+];
-	NEURAL_HAM(-0.00)[-0.989];
+	NEURAL_HAM(-0.00)[-0.995];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
 	MID_RHS_MATCH_FROM(0.00)[];
 	TO_DN_SOME(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[bootlin.com:dkim,bootlin.com:email,bootlin.com:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,devicetree.org:url,ti.com:email]
-X-Rspamd-Queue-Id: BA1E934AA48
+	DBL_BLOCKED_OPENRESOLVER(0.00)[bootlin.com:dkim,bootlin.com:email,bootlin.com:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,devicetree.org:url]
+X-Rspamd-Queue-Id: B3BDD34AA6D
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Be a little more precise in the title by giving the family name and the
-own name of the hardware block. Despite the original compatibles, this
-file describes a SafeXcel EIP-76 hardware random number generator.
+Describe the Public Key Accelerator named EIP-28 from Inside-Secure,
+part of the SafeXcel family, it is typically included in a bigger
+hardware container named EIP-150.
 
 Signed-off-by: Miquel Raynal (Schneider Electric) <miquel.raynal@bootlin.com>
 ---
- Documentation/devicetree/bindings/rng/inside-secure,safexcel-eip76.yaml | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../crypto/inside-secure,safexcel-eip28.yaml       | 31 ++++++++++++++++++++++
+ 1 file changed, 31 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/rng/inside-secure,safexcel-eip76.yaml b/Documentation/devicetree/bindings/rng/inside-secure,safexcel-eip76.yaml
-index f501fc7691c6..92d906998211 100644
---- a/Documentation/devicetree/bindings/rng/inside-secure,safexcel-eip76.yaml
-+++ b/Documentation/devicetree/bindings/rng/inside-secure,safexcel-eip76.yaml
-@@ -4,7 +4,7 @@
- $id: http://devicetree.org/schemas/rng/inside-secure,safexcel-eip76.yaml#
- $schema: http://devicetree.org/meta-schemas/core.yaml#
- 
--title: Inside-Secure HWRNG Module
-+title: Inside-Secure SafeXcel EIP-76 HWRNG Module
- 
- maintainers:
-   - Jayesh Choudhary <j-choudhary@ti.com>
+diff --git a/Documentation/devicetree/bindings/crypto/inside-secure,safexcel-eip28.yaml b/Documentation/devicetree/bindings/crypto/inside-secure,safexcel-eip28.yaml
+new file mode 100644
+index 000000000000..96acb257450a
+--- /dev/null
++++ b/Documentation/devicetree/bindings/crypto/inside-secure,safexcel-eip28.yaml
+@@ -0,0 +1,31 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/crypto/inside-secure,safexcel-eip28.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Inside-Secure SafeXcel EIP-28 Public Key Accelerator
++
++maintainers:
++  - Miquel Raynal <miquel.raynal@bootlin.com>
++
++properties:
++  compatible:
++    const: inside-secure,safexcel-eip28
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    maxItems: 3
++
++  clocks:
++    minItems: 1
++
++required:
++  - compatible
++  - reg
++  - interrupts
++  - clocks
++
++additionalProperties: false
 
 -- 
 2.51.1
