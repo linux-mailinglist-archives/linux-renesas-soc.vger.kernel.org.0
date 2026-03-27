@@ -1,59 +1,60 @@
-Return-Path: <linux-renesas-soc+bounces-30494-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-30495-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 4LEiD0DkxmmjPwUAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-30494-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Mar 2026 21:10:40 +0100
+	id 0KqxGU7kxmmjPwUAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-30495-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Mar 2026 21:10:54 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id A648934A9A4
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Mar 2026 21:10:39 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id DAE7C34A9C2
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Mar 2026 21:10:53 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id EB92330457F1
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Mar 2026 20:10:28 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id CA312304CB9E
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Mar 2026 20:10:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8334A390223;
-	Fri, 27 Mar 2026 20:10:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9963C390234;
+	Fri, 27 Mar 2026 20:10:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="s8LU75QG"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="TazAGxoC"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7EF0390234
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 27 Mar 2026 20:10:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 341E938F643;
+	Fri, 27 Mar 2026 20:10:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774642228; cv=none; b=sEmuYgSlG0v7ZXoaSHRqhSDp9MMWG0nV6ZXxOPGGiaiJxHcyO/hMU6o1CaLD2TvY99e9Nmt5MggQg8KkQDyI1uMfZoW+jbO6oI4H78g/o20gR/Kf2WYb1U9rbD0i7XHx7kR53MxSp+0LatriPUzeWwDWyqf7zIaTgKxLVygHDcQ=
+	t=1774642231; cv=none; b=btaVxAG2WN97J6Rf3XJwsSm67+lCZl0YsPGII7eXeM6FKQNQKxqA6hxj4JfFFYcqXwj93Jbp8P2pDQ7F1qOg+yqurIuYUPnE/jfZMgEBT/b4tOnRIV6DoLanF4gMBf0tpvR5M8ABNGEsE9w94d9gBychw55FITlRpU0udSme3Lo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774642228; c=relaxed/simple;
-	bh=53ISBKabvLXIGpST9KmWh9Un7jYPoZOrSqGNFBlPPog=;
+	s=arc-20240116; t=1774642231; c=relaxed/simple;
+	bh=sVqPuDmF9xHaBRF6OFpbGvH89BwIdivjgPf1rMw5go4=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=raPvwwwDKmHjod9YFMo4qL0JmFllemhi4Hh3rgeLYUvpocibixaJXfLpXgWyLGKwenoyhuXW+EQ3B1mWNXBeZLP4Ue/A9BEfvx0X5sNU+JZfGYk0Q/3YrGOVsHgiZ7SXBopvzWEAmn8waHVkbIDpjno4oxZo+iUTGJdyKVM772k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=s8LU75QG; arc=none smtp.client-ip=185.171.202.116
+	 In-Reply-To:To:Cc; b=cnqwON4QlwdwRtyn7UIPy0+PRA/wPZBnO7tRaH/t93xphH2AAUQcTrUZFSMDCanaMsmEVK4oBjD4iiJVXSyKg0Lxk4sJJkM3MYwHJK9FQjhUVmZ8T5DV2+izGpKX8W5CojvxFljjprZoVdRZvM++xDtuKE2yLfpJmY+HbTK0Ozo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=TazAGxoC; arc=none smtp.client-ip=185.246.85.4
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id 6BCEEC58750;
-	Fri, 27 Mar 2026 20:10:54 +0000 (UTC)
+	by smtpout-03.galae.net (Postfix) with ESMTPS id 044B74E42829;
+	Fri, 27 Mar 2026 20:10:29 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 8FC7D60268;
-	Fri, 27 Mar 2026 20:10:25 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id F1B5310451AD3;
-	Fri, 27 Mar 2026 21:10:20 +0100 (CET)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id CD46860268;
+	Fri, 27 Mar 2026 20:10:28 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 9F7F810451AF7;
+	Fri, 27 Mar 2026 21:10:24 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1774642223; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	t=1774642227; h=from:subject:date:message-id:to:cc:mime-version:content-type:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=lE3QKXVXrOESVFGZ+EtmwjmJziMWMpwyr3ofoukXeI4=;
-	b=s8LU75QGO5PxR0VmI003T4y+A+OZdpHPLs8YNMTPr1r0366jG4m8cvSZaol9G77Dav1vIt
-	EeX6Sz5X5P59OZk7XXsQz8lWrnWBNkw+syOb3nRghVMJhWLWAf42gUAp6wCpU5jZRuUjKk
-	0+7T7lRjEMagnD1gccSqfuyZ5vMpzo2nK8zs9LEAQP63NKAm7wdcwAAGcJNwXLe3TVR0Z8
-	PW98+Pzbu2psIZgoBEZLT0+FFfB9WDEIJ0UBa58emzZ+bIkMrdHF1IO+LVggV2QkbpF5wg
-	YmN8uAnuNdjUqTfPdDfBebnxF2mf+tVrYiXOlBN6W55Z41bj7rkTqZJeMYzaGA==
+	bh=F7KByxnZKYpIC4KwssijV6OI8JnCVJ1fz1NVPkaqHkg=;
+	b=TazAGxoCfrmXyOrbi+2KpJ0PifSweozMCGHe+9LvEboTSY0XgEw+gcSOZE02YRHON2lflA
+	ewciCTp71XVuJ7axUJ8OGI5j3xk/da3bEa4D+kDjS+cs9n8JlzL2SAwEGmaZliUg4CA+kk
+	T3snOgCPIXRbk1SCu4rgeDmm1lwzK5+cya7furyT5B5nDWtguPGGiUO56IPDFJhmyF8qRh
+	+GSzAqghDDtxf8pDAOr+fOqYcJvAfo5A6QbFO6YJ+yL4BkafGlzKPhplRmBniD/pgeHmoo
+	hDMia6pncXaLolqSVBQaT9rGSqEyPxCZRXEzsfR7aPWoOO2QLQMtHr3sTNhDQg==
 From: "Miquel Raynal (Schneider Electric)" <miquel.raynal@bootlin.com>
-Date: Fri, 27 Mar 2026 21:09:23 +0100
-Subject: [PATCH 01/16] dt-bindings: clock: Introduce nexus nodes
+Date: Fri, 27 Mar 2026 21:09:24 +0100
+Subject: [PATCH 02/16] dt-bindings: interrupt-controller: Describe EIP-201
+ AIC
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -61,8 +62,8 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20260327-schneider-v7-0-rc1-crypto-v1-1-5e6ff7853994@bootlin.com>
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260327-schneider-v7-0-rc1-crypto-v1-2-5e6ff7853994@bootlin.com>
 References: <20260327-schneider-v7-0-rc1-crypto-v1-0-5e6ff7853994@bootlin.com>
 In-Reply-To: <20260327-schneider-v7-0-rc1-crypto-v1-0-5e6ff7853994@bootlin.com>
 To: Michael Turquette <mturquette@baylibre.com>, 
@@ -89,94 +90,113 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[bootlin.com,reject];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	R_DKIM_ALLOW(-0.20)[bootlin.com:s=dkim];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-30494-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-30495-lists,linux-renesas-soc=lfdr.de];
 	FREEMAIL_TO(0.00)[baylibre.com,kernel.org,selenic.com,gondor.apana.org.au,ti.com,davemloft.net,gmail.com,glider.be];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RECEIVED_HELO_LOCALHOST(0.00)[];
 	RCPT_COUNT_TWELVE(0.00)[23];
 	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[miquel.raynal@bootlin.com,linux-renesas-soc@vger.kernel.org];
 	DKIM_TRACE(0.00)[bootlin.com:+];
-	NEURAL_HAM(-0.00)[-0.996];
+	NEURAL_HAM(-0.00)[-0.984];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
 	MID_RHS_MATCH_FROM(0.00)[];
 	TO_DN_SOME(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,bootlin.com:dkim,bootlin.com:email,bootlin.com:mid]
-X-Rspamd-Queue-Id: A648934A9A4
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,bootlin.com:dkim,bootlin.com:email,bootlin.com:mid,devicetree.org:url]
+X-Rspamd-Queue-Id: DAE7C34A9C2
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hardware containers can just decouple external resources like clock
-without any more control. Nexus nodes already exist for PWM and GPIOs,
-add a binding to allow them for clocks as well.
-
-No examples are given, the file is litteraly a copy-paste from Hervé
-Codina's work on PWM Nexus nodes, hence we just point to the examples
-there which already illustrate very clearly the concept of the various
-properties.
+The EIP-201 Advanced Interrupt Controller is part of a bigger container
+block from Inside Secure nicely named EIP-150. It typically takes one
+clock from the EIP-150 and offers basic controls through a few simple
+registers.
 
 Signed-off-by: Miquel Raynal (Schneider Electric) <miquel.raynal@bootlin.com>
 ---
- .../bindings/clock/clock-nexus-node.yaml           | 39 ++++++++++++++++++++++
- 1 file changed, 39 insertions(+)
+ .../inside-secure,safexcel-eip201.yaml             | 41 ++++++++++++++++++++++
+ .../inside-secure,safexcel-eip201.h                | 14 ++++++++
+ 2 files changed, 55 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/clock/clock-nexus-node.yaml b/Documentation/devicetree/bindings/clock/clock-nexus-node.yaml
+diff --git a/Documentation/devicetree/bindings/interrupt-controller/inside-secure,safexcel-eip201.yaml b/Documentation/devicetree/bindings/interrupt-controller/inside-secure,safexcel-eip201.yaml
 new file mode 100644
-index 000000000000..f07e2972e8aa
+index 000000000000..ddad8e5eab96
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/clock/clock-nexus-node.yaml
-@@ -0,0 +1,39 @@
++++ b/Documentation/devicetree/bindings/interrupt-controller/inside-secure,safexcel-eip201.yaml
+@@ -0,0 +1,41 @@
 +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
 +%YAML 1.2
 +---
-+$id: http://devicetree.org/schemas/clock/clock-nexus-node.yaml#
++$id: http://devicetree.org/schemas/interrupt-controller/inside-secure,safexcel-eip201.yaml#
 +$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
-+title: Clock Nexus
-+
-+description: >
-+  A nexus node allows to remap a phandle list in a consumer node through a
-+  container or a connector node in a generic way. With this remapping,
-+  the consumer node needs to know only about the nexus node. Resources
-+  behind the nexus node are decoupled by the nexus node itself.
++title: Inside-Secure SafeXcel EIP-201 Advanced Interrupt Controller
 +
 +maintainers:
 +  - Miquel Raynal <miquel.raynal@bootlin.com>
 +
-+select: true
++allOf:
++  - $ref: /schemas/interrupt-controller.yaml#
 +
 +properties:
-+  '#clock-cells': true
++  compatible:
++    const: inside-secure,safexcel-eip201
 +
-+  clock-map:
-+    $ref: /schemas/types.yaml#/definitions/uint32-matrix
++  reg:
++    maxItems: 1
 +
-+  clock-map-mask:
-+    $ref: /schemas/types.yaml#/definitions/uint32-array
++  interrupts:
++    maxItems: 1
 +
-+  clock-map-pass-thru:
-+    $ref: /schemas/types.yaml#/definitions/uint32-array
++  clocks:
++    minItems: 1
 +
-+dependentRequired:
-+  clock-map: ['#clock-cells']
-+  clock-map-mask: [ clock-map ]
-+  clock-map-pass-thru: [ clock-map ]
++  interrupt-controller: true
 +
-+additionalProperties: true
++  "#interrupt-cells":
++    const: 2
 +
-+# See the original pwm-nexus-node.yaml description for examples
++required:
++  - compatible
++  - reg
++  - interrupts
++  - clocks
++  - interrupt-controller
++  - "#interrupt-cells"
++
++unevaluatedProperties: false
+diff --git a/include/dt-bindings/interrupt-controller/inside-secure,safexcel-eip201.h b/include/dt-bindings/interrupt-controller/inside-secure,safexcel-eip201.h
+new file mode 100644
+index 000000000000..ead73bd96296
+--- /dev/null
++++ b/include/dt-bindings/interrupt-controller/inside-secure,safexcel-eip201.h
+@@ -0,0 +1,14 @@
++/* SPDX-License-Identifier: (GPL-2.0-only OR MIT) */
++
++#ifndef _DT_BINDINGS_IRQ_SAFEXCEL_EIP201_AIC_H
++#define _DT_BINDINGS_IRQ_SAFEXCEL_EIP201_AIC_H
++
++#define AIC_PKA_INT0 0
++#define AIC_PKA_INT1 1
++#define AIC_PKA_INT2 2
++#define AIC_TRNG_INT 3
++#define AIC_RESERVED 4
++#define AIC_SL_ERR_INT  5
++#define AIC_PROTECTION_INT 6
++
++#endif
 
 -- 
 2.51.1
