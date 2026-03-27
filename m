@@ -1,42 +1,42 @@
-Return-Path: <linux-renesas-soc+bounces-30482-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-30483-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id UDmlEjDcxmkoPQUAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-30482-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Mar 2026 20:36:16 +0100
+	id wJ+mIc3axmkoPQUAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-30483-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Mar 2026 20:30:21 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D7A334A3C5
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Mar 2026 20:36:15 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id F34D434A265
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Mar 2026 20:30:20 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 67A06308C9CE
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Mar 2026 19:25:29 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 95C6030D3E7B
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Mar 2026 19:25:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 882BB361DB8;
-	Fri, 27 Mar 2026 19:25:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 54FF9372ED5;
+	Fri, 27 Mar 2026 19:25:34 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0D8832C08C4;
-	Fri, 27 Mar 2026 19:25:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.172
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 29CD72C08C4;
+	Fri, 27 Mar 2026 19:25:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774639528; cv=none; b=QvSLIVpp6LW6LKOAIEQjjY9ydHHBgQLXHNT7KY8OWiyhzrvtQu5N6LxyIqSNT0DsQTrCKJ3uIwzbvurWAiSpy8CR+cZNgIjVjn8cJcsPuGG1mKQVqmtO2XDZeMq8nvZwfYekSCoPy0KzSmUyeFqJ5fNU4dWUOjSNvmT9p91j+aI=
+	t=1774639534; cv=none; b=ZuGKC6vtkKKqbbvDHqyaV3iT28yVDtV9ioru9f75TE9Ah6wHjdVyClkWXZcgqi4LyEMlJYDwnGKnvac0frRNSUsdSy1ttPKVep+taaFv6k17kwyjWL3Y8j0X8zP8qxVShf32GDKRsObyjjfKRIGCCad95hJiEL7+ZKSXi42zOe8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774639528; c=relaxed/simple;
-	bh=k20QgwAZWpnA6b/c6C/RuK+r57jBn1z7ZB26K2C79vM=;
+	s=arc-20240116; t=1774639534; c=relaxed/simple;
+	bh=C8UOKn2Aaay6QDnHkkKDWhYI4S0mNqduFiz3PCnt7Ws=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=sRS7L33NFAZbVzPST+U+N1f2hFxLsFxr/zw/ZZBUPOJ3X1R+jdf/sAmA3axq12q7I2Vd/Drj3aO8VUIEMkCZWrDVzMGMsXCDTRmwHQzr0pUNd2NfF//pl11gdKhDhv5aA2+QVbNYDdyTlzZC9F1xGSHIB1VmBDh27jZ1zEqJ2Os=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; arc=none smtp.client-ip=210.160.252.172
+	 MIME-Version; b=XtETYBHja0ZcE9K1Du18LxmGQvzLuhAwQyaycYlU9scEuaL0XNmhVj03JZp0y2dzpRTtXUStvjr0kOAEYhgn45d1N1/tn4hWok0R2f2gb1SebhM/PFJmMDEhRdeU0kjQP1l/sKTjRoDm5YDYFWrdr9u5/XbYwRaBlbWCwqJG44M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; arc=none smtp.client-ip=210.160.252.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
-X-CSE-ConnectionGUID: OF5gT5nQRQmSZn25Mwi/bA==
-X-CSE-MsgGUID: oglNec5SRGqnks0lUZLWiw==
+X-CSE-ConnectionGUID: o0hheJO/TgabA47BVGm9Rw==
+X-CSE-MsgGUID: DMMOtvOCS8ivCTg9g1S2Rg==
 Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie6.idc.renesas.com with ESMTP; 28 Mar 2026 04:25:24 +0900
+  by relmlie5.idc.renesas.com with ESMTP; 28 Mar 2026 04:25:31 +0900
 Received: from demon-pc.localdomain (unknown [10.226.93.36])
-	by relmlir5.idc.renesas.com (Postfix) with ESMTP id B63094014C3F;
-	Sat, 28 Mar 2026 04:25:19 +0900 (JST)
+	by relmlir5.idc.renesas.com (Postfix) with ESMTP id 295144015D6E;
+	Sat, 28 Mar 2026 04:25:25 +0900 (JST)
 From: Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>
 To: Biju Das <biju.das.jz@bp.renesas.com>,
 	Daniel Lezcano <daniel.lezcano@kernel.org>,
@@ -56,9 +56,9 @@ Cc: linux-iio@vger.kernel.org,
 	devicetree@vger.kernel.org,
 	linux-clk@vger.kernel.org,
 	Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>
-Subject: [PATCH 01/11] clk: renesas: r9a09g077: add MTU3 module clock
-Date: Fri, 27 Mar 2026 21:24:15 +0200
-Message-ID: <20260327192425.438263-2-cosmin-gabriel.tanislav.xa@renesas.com>
+Subject: [PATCH 02/11] mfd: rz-mtu3: use device-managed reset deassert
+Date: Fri, 27 Mar 2026 21:24:16 +0200
+Message-ID: <20260327192425.438263-3-cosmin-gabriel.tanislav.xa@renesas.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260327192425.438263-1-cosmin-gabriel.tanislav.xa@renesas.com>
 References: <20260327192425.438263-1-cosmin-gabriel.tanislav.xa@renesas.com>
@@ -74,7 +74,7 @@ X-Spamd-Result: default: False [1.64 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	MID_CONTAINS_FROM(1.00)[];
 	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	DMARC_POLICY_SOFTFAIL(0.10)[renesas.com : SPF not aligned (relaxed), No valid DKIM,none];
@@ -84,7 +84,7 @@ X-Spamd-Result: default: False [1.64 / 15.00];
 	RCVD_COUNT_FIVE(0.00)[5];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-30482-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-30483-lists,linux-renesas-soc=lfdr.de];
 	RCPT_COUNT_TWELVE(0.00)[18];
 	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
@@ -93,36 +93,99 @@ X-Spamd-Result: default: False [1.64 / 15.00];
 	NEURAL_HAM(-0.00)[-1.000];
 	FROM_NEQ_ENVFROM(0.00)[cosmin-gabriel.tanislav.xa@renesas.com,linux-renesas-soc@vger.kernel.org];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,renesas.com:email,renesas.com:mid]
-X-Rspamd-Queue-Id: 6D7A334A3C5
+	DBL_BLOCKED_OPENRESOLVER(0.00)[renesas.com:email,renesas.com:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: F34D434A265
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-The Renesas RZ/T2H (R9A09G077) and RZ/N2H (R9A09G087) SoCs have a MTU3
-block connected to the PCLKH and with a module clock controlled by
-register 0x308, bit 0.
+Replace devm_reset_control_get_exclusive() and the manual
+reset_control_deassert()/reset_control_assert() with handling by
+devm_reset_control_get_exclusive_deasserted().
 
-Add support for the module clock.
+While at it, remove struct rz_mtu3_priv::rstc and use a local variable
+for it as it is not needed inside rz_mtu3_reset_assert().
+
+Rename rz_mtu3_reset_assert() to rz_mtu3_mfd_remove() to accurately
+describe its usage since it no longer calls reset_control_assert().
 
 Signed-off-by: Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>
 ---
- drivers/clk/renesas/r9a09g077-cpg.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/mfd/rz-mtu3.c | 23 +++++++----------------
+ 1 file changed, 7 insertions(+), 16 deletions(-)
 
-diff --git a/drivers/clk/renesas/r9a09g077-cpg.c b/drivers/clk/renesas/r9a09g077-cpg.c
-index 93b15e06a19b..f777601a23b9 100644
---- a/drivers/clk/renesas/r9a09g077-cpg.c
-+++ b/drivers/clk/renesas/r9a09g077-cpg.c
-@@ -257,6 +257,7 @@ static const struct mssr_mod_clk r9a09g077_mod_clks[] __initconst = {
- 	DEF_MOD("spi0", 104, CLK_SPI0ASYNC),
- 	DEF_MOD("spi1", 105, CLK_SPI1ASYNC),
- 	DEF_MOD("spi2", 106, CLK_SPI2ASYNC),
-+	DEF_MOD("mtu3", 200, R9A09G077_CLK_PCLKH),
- 	DEF_MOD("adc0", 206, R9A09G077_CLK_PCLKH),
- 	DEF_MOD("adc1", 207, R9A09G077_CLK_PCLKH),
- 	DEF_MOD("adc2", 225, R9A09G077_CLK_PCLKM),
+diff --git a/drivers/mfd/rz-mtu3.c b/drivers/mfd/rz-mtu3.c
+index 9cdfef610398..6b9c6831dffa 100644
+--- a/drivers/mfd/rz-mtu3.c
++++ b/drivers/mfd/rz-mtu3.c
+@@ -21,7 +21,6 @@
+ 
+ struct rz_mtu3_priv {
+ 	void __iomem *mmio;
+-	struct reset_control *rstc;
+ 	spinlock_t lock;
+ };
+ 
+@@ -301,13 +300,9 @@ void rz_mtu3_disable(struct rz_mtu3_channel *ch)
+ }
+ EXPORT_SYMBOL_GPL(rz_mtu3_disable);
+ 
+-static void rz_mtu3_reset_assert(void *data)
++static void rz_mtu3_mfd_remove(void *data)
+ {
+-	struct rz_mtu3 *mtu = dev_get_drvdata(data);
+-	struct rz_mtu3_priv *priv = mtu->priv_data;
+-
+ 	mfd_remove_devices(data);
+-	reset_control_assert(priv->rstc);
+ }
+ 
+ static const struct mfd_cell rz_mtu3_devs[] = {
+@@ -321,6 +316,7 @@ static const struct mfd_cell rz_mtu3_devs[] = {
+ 
+ static int rz_mtu3_probe(struct platform_device *pdev)
+ {
++	struct reset_control *rstc;
+ 	struct rz_mtu3_priv *priv;
+ 	struct rz_mtu3 *ddata;
+ 	unsigned int i;
+@@ -340,15 +336,14 @@ static int rz_mtu3_probe(struct platform_device *pdev)
+ 	if (IS_ERR(priv->mmio))
+ 		return PTR_ERR(priv->mmio);
+ 
+-	priv->rstc = devm_reset_control_get_exclusive(&pdev->dev, NULL);
+-	if (IS_ERR(priv->rstc))
+-		return PTR_ERR(priv->rstc);
++	rstc = devm_reset_control_get_exclusive_deasserted(&pdev->dev, NULL);
++	if (IS_ERR(rstc))
++		return PTR_ERR(rstc);
+ 
+ 	ddata->clk = devm_clk_get(&pdev->dev, NULL);
+ 	if (IS_ERR(ddata->clk))
+ 		return PTR_ERR(ddata->clk);
+ 
+-	reset_control_deassert(priv->rstc);
+ 	spin_lock_init(&priv->lock);
+ 	platform_set_drvdata(pdev, ddata);
+ 
+@@ -361,14 +356,10 @@ static int rz_mtu3_probe(struct platform_device *pdev)
+ 	ret = mfd_add_devices(&pdev->dev, 0, rz_mtu3_devs,
+ 			      ARRAY_SIZE(rz_mtu3_devs), NULL, 0, NULL);
+ 	if (ret < 0)
+-		goto err_assert;
++		return ret;
+ 
+-	return devm_add_action_or_reset(&pdev->dev, rz_mtu3_reset_assert,
++	return devm_add_action_or_reset(&pdev->dev, rz_mtu3_mfd_remove,
+ 					&pdev->dev);
+-
+-err_assert:
+-	reset_control_assert(priv->rstc);
+-	return ret;
+ }
+ 
+ static const struct of_device_id rz_mtu3_of_match[] = {
 -- 
 2.53.0
 
