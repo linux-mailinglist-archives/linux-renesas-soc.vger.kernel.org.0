@@ -1,42 +1,42 @@
-Return-Path: <linux-renesas-soc+bounces-30488-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-30489-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id +LDpDUjaxmkoPQUAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-30488-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Mar 2026 20:28:08 +0100
+	id aJ16OWDaxmkoPQUAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-30489-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Mar 2026 20:28:32 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACC7334A1C8
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Mar 2026 20:28:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6359234A1D7
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Mar 2026 20:28:32 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id AD2E030CF876
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Mar 2026 19:26:05 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 9010030D8C14
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Mar 2026 19:26:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 84F0737D132;
-	Fri, 27 Mar 2026 19:26:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 688EC37CD22;
+	Fri, 27 Mar 2026 19:26:12 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 91B6537C11E;
-	Fri, 27 Mar 2026 19:26:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 81F5E2236FA;
+	Fri, 27 Mar 2026 19:26:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774639565; cv=none; b=ih0RESFrrp506xrt4lKmE1qr8/75FpAKAOSQqtMsWZPJI0R9cNit/qaucKVPArTibdBn3Xehk5Pqwv2qRKrMHjo+MI92xLZAFMrc/HZRWx8BRmSLroJdVhJaK7i54WTInWJdbQhefQwZgS5uNI1Wit3O6W3DsC0BpgLVC/y+8Cs=
+	t=1774639572; cv=none; b=H3mqDxN7drMHVxWfwz/+shudQ44GqpRyDxzBiRw/jWS6ekdBVZAbW75vA/6n2Q9cV7HmnHabeePem6XE+bx6Sw9XKHAcbjTWVs0cSMPmuNnvIix4tShlTHolaUoBzrGjq4sU53/plzR6pBRtk6vxx3jre9L0Hns/3DJjjBkZM9o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774639565; c=relaxed/simple;
-	bh=yEvuaB8ffjRTYjgdYXLkjKKb4YiN+zeBdEHcqNocKCk=;
+	s=arc-20240116; t=1774639572; c=relaxed/simple;
+	bh=MKteAYJ11I3HusKCzPFOUq6CK/66vQ65zFZG8qpBxBQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=O5EzqShEHUhFcQMarY7uQCV4+KiuApiI4fl7Oqtl4WFPp5/s8clezdA+sVFQhScc30q4rWxmQDTQmWnRbRNQwwBaTviJIELOTbOtqOHGhgAfyTJuyLQlyyT/47HIQexlatfHYbj8HnHm3Gh2qAE9AnhHfl6Tn/I8lsGDJ3TQdKg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; arc=none smtp.client-ip=210.160.252.171
+	 MIME-Version; b=BDnIfyI7pJSbyCGY5EiRPdY973Y6fGygJEH8mEfk9PW1j0DM1fb7kuu0aC9wklA2f1o1aQcdT8XFKiiYmqE+v8kU8aywJLdveabhDSk/MQZj9qPIamygvKu7WBgCetGoxtjL7Fqy5P2HiheCULhppdgkxpnUMcdoF43iL+LT/gs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; arc=none smtp.client-ip=210.160.252.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
-X-CSE-ConnectionGUID: cuGr9sI8SauQWH7G9OEeUg==
-X-CSE-MsgGUID: ShQGxZWVSjewgcpCA7pifA==
+X-CSE-ConnectionGUID: MXOvYkE2TK6Rei3y6frJwA==
+X-CSE-MsgGUID: 8oqvUVWdSCGHhwOobhKMZw==
 Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie5.idc.renesas.com with ESMTP; 28 Mar 2026 04:26:03 +0900
+  by relmlie6.idc.renesas.com with ESMTP; 28 Mar 2026 04:26:09 +0900
 Received: from demon-pc.localdomain (unknown [10.226.93.36])
-	by relmlir5.idc.renesas.com (Postfix) with ESMTP id 138EC4015D6E;
-	Sat, 28 Mar 2026 04:25:57 +0900 (JST)
+	by relmlir5.idc.renesas.com (Postfix) with ESMTP id 841904015D6E;
+	Sat, 28 Mar 2026 04:26:04 +0900 (JST)
 From: Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>
 To: Biju Das <biju.das.jz@bp.renesas.com>,
 	Daniel Lezcano <daniel.lezcano@kernel.org>,
@@ -56,9 +56,9 @@ Cc: linux-iio@vger.kernel.org,
 	devicetree@vger.kernel.org,
 	linux-clk@vger.kernel.org,
 	Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>
-Subject: [PATCH 07/11] dt-bindings: timer: renesas,rz-mtu3: move required resets to conditional
-Date: Fri, 27 Mar 2026 21:24:21 +0200
-Message-ID: <20260327192425.438263-8-cosmin-gabriel.tanislav.xa@renesas.com>
+Subject: [PATCH 08/11] dt-bindings: timer: renesas,rz-mtu3: document RZ/{T2H,N2H}
+Date: Fri, 27 Mar 2026 21:24:22 +0200
+Message-ID: <20260327192425.438263-9-cosmin-gabriel.tanislav.xa@renesas.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260327192425.438263-1-cosmin-gabriel.tanislav.xa@renesas.com>
 References: <20260327192425.438263-1-cosmin-gabriel.tanislav.xa@renesas.com>
@@ -84,7 +84,7 @@ X-Spamd-Result: default: False [1.64 / 15.00];
 	RCVD_COUNT_FIVE(0.00)[5];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-30488-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-30489-lists,linux-renesas-soc=lfdr.de];
 	RCPT_COUNT_TWELVE(0.00)[18];
 	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
@@ -96,46 +96,55 @@ X-Spamd-Result: default: False [1.64 / 15.00];
 	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
 	TO_DN_SOME(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[renesas.com:email,renesas.com:mid,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: ACC7334A1C8
+X-Rspamd-Queue-Id: 6359234A1D7
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-The Renesas RZ/T2H (R9A09G077) and RZ/N2H (R9A09G087) SoCs do not have a
-reset line for the MTU3 block.
+Compared to the previously supported SoCs, the Renesas RZ/T2H and RZ/N2H
+SoCs do not have a reset line.
 
-Prepare for adding support for them by moving the required reset into a
-conditional matching all compatibles except the fallback one.
+Add a new conditional only matching RZ/T2H and RZ/N2H which disables the
+resets property.
+
+Document RZ/T2H and RZ/N2H, and use the generic compatible as a
+fallback, as functionality is the same.
 
 Signed-off-by: Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>
 ---
- .../devicetree/bindings/timer/renesas,rz-mtu3.yaml | 14 +++++++++++++-
- 1 file changed, 13 insertions(+), 1 deletion(-)
+ .../devicetree/bindings/timer/renesas,rz-mtu3.yaml  | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
 diff --git a/Documentation/devicetree/bindings/timer/renesas,rz-mtu3.yaml b/Documentation/devicetree/bindings/timer/renesas,rz-mtu3.yaml
-index 00cd5cbcf6e9..4623f6cddaf0 100644
+index 4623f6cddaf0..410951ca53f8 100644
 --- a/Documentation/devicetree/bindings/timer/renesas,rz-mtu3.yaml
 +++ b/Documentation/devicetree/bindings/timer/renesas,rz-mtu3.yaml
-@@ -231,7 +231,19 @@ required:
-   - interrupt-names
-   - clocks
-   - power-domains
--  - resets
-+
-+allOf:
+@@ -112,6 +112,8 @@ properties:
+           - renesas,r9a07g043-mtu3  # RZ/{G2UL,Five}
+           - renesas,r9a07g044-mtu3  # RZ/G2{L,LC}
+           - renesas,r9a07g054-mtu3  # RZ/V2L
++          - renesas,r9a09g077-mtu3  # RZ/T2H
++          - renesas,r9a09g087-mtu3  # RZ/N2H
+       - const: renesas,rz-mtu3
+ 
+   reg:
+@@ -245,6 +247,17 @@ allOf:
+       required:
+         - resets
+ 
 +  - if:
 +      properties:
 +        compatible:
 +          contains:
 +            enum:
-+              - renesas,r9a07g043-mtu3
-+              - renesas,r9a07g044-mtu3
-+              - renesas,r9a07g054-mtu3
++              - renesas,r9a09g077-mtu3
++              - renesas,r9a09g087-mtu3
 +    then:
-+      required:
-+        - resets
- 
++      properties:
++        resets: false
++
  additionalProperties: false
  
+ examples:
 -- 
 2.53.0
 
