@@ -1,167 +1,175 @@
-Return-Path: <linux-renesas-soc+bounces-30432-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-30433-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 2HjkKSJtxmmkJwUAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-30432-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Mar 2026 12:42:26 +0100
+	id GLiSGtJuxmmkJwUAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-30433-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Mar 2026 12:49:38 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50A23343A25
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Mar 2026 12:42:26 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id B4EEC343C6C
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Mar 2026 12:49:37 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 1CF20304585C
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Mar 2026 11:42:23 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 6C5253070AD6
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Mar 2026 11:43:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 67D01379987;
-	Fri, 27 Mar 2026 11:42:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 11F58379ED2;
+	Fri, 27 Mar 2026 11:43:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="DgRcgvWt"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="k4QvSzox"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 965FD37C10C
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 27 Mar 2026 11:42:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36135375F8E
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 27 Mar 2026 11:43:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774611741; cv=none; b=DYpefHW+KG4tU1x0Uxffb/XD5tLKD4jk6wIlNUyPH5kdq/Dds8KNmL6U9UAT3me9uiE0fExsFt25PJn6OHiQSUa02f4Lpo5aEkB2NXXe7hB+5P6fiQ3v3gmgdZwoJH/zTibtRF8jd4a2icKB9cxhT7n9Lk07VJxC6zoQsaBvBVI=
+	t=1774611809; cv=none; b=t/DTa39DqSRarElYi0Fhk32niLIbWmwHfOrzQc6DIUcMtG7oOsKUJUMcN8XcwWPoFN6ITVxgbgXJsN5NteBdjrDEQw5BNAdVoubQhJNfWeuAk7H/DOyXZbuJ/kDnq/HZeO6o1gOL8lreI7jBgagETc8edYSk4rBPCSNEpM1S8kk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774611741; c=relaxed/simple;
-	bh=0gNNgBVGYh8Ey7dt65ZbDW4KBJ8GG5AJCMvKQ7K41tw=;
+	s=arc-20240116; t=1774611809; c=relaxed/simple;
+	bh=uYAApojvLTIkmyKoZpYwJZCokmKbnpF9c6WhaIacVG4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AgKeHnAtkL6yK8FIRk88E0Hv2G1uDWh89PkE5OSyPSzE3lAy6Cippx6dgIwG+LE3/qsDd5biXrDsg7v6R7RL2c5oX5fPSo4cDGH5160OWgeTihHWPS248SJr2P0WyJ4lHfAYQjiJ/GeF7rRtmxg+yWDQgoVlpiQVKIfHvrK7sIU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=DgRcgvWt; arc=none smtp.client-ip=194.117.254.33
+	 Content-Type:Content-Disposition:In-Reply-To; b=X3c5AhTLaXrL6v94EY7O0RuHSygOCdqhsxLWQx0gju3iPvMiPNHBnWUCDws+GkVvZdyadh2ht2VPsENQ8gyRAtpwD85xZG5cN1fZb2WD2JTi2Y4VcxZps7LLVitjAJqH5CYCqXTPXqndDypJ2MNUD/IfV7248/PLQ8jJPOLaBVk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=k4QvSzox; arc=none smtp.client-ip=194.117.254.33
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=ll7Q
-	PbYcaZzXLDm7R5fAYHXXbyoncQmJhMQ4I8rbyoA=; b=DgRcgvWtvrQy6T2u4jyW
-	AIJDUPHdxYF+rgV0lv2AnV5AzzYCtYehOJYE6w25xVhDYLqM/s6k9FrdGqLvmhrl
-	v6ceSjSaFwln4uGhgavEE/rMAPlvkYL8P43gwNTcLmKA7s3YDm8oW7GuToReqRd4
-	tR2I3V3/7Vdi5aTaZdzpVhWbYY+iqJpdSTBplKkb+yYE6hcO0Pqm7L9Ky4JMMd94
-	89NmCtFfmi1/kbc33N8IM7IYECQ0wNDAXCLAFJZZOeTK2lf56JK5qEjm3CYCkkZJ
-	iIO5bMyvra4wMLQxsXu5i6veunl8mPwuZrHlwbbuxDDwoI48ejpo5/6Vc6SQE8tJ
-	+g==
-Received: (qmail 174297 invoked from network); 27 Mar 2026 12:42:09 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 27 Mar 2026 12:42:09 +0100
-X-UD-Smtp-Session: l3s3148p1@W+C1/f9NQ0JUhsJN
-Date: Fri, 27 Mar 2026 12:42:08 +0100
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=H/mm
+	EvjF+xhmn9Wns9betMD2C6MNmROj8DyAiLE02zM=; b=k4QvSzox0bVkfsfDjzFG
+	LGuc3RY6Nc4A01kHbyNKckXguVBwpBOKFgCosfhLsRsjq4eDoNRYZpMIVCJ0O3hr
+	gfeanKsyTEOWbah1eONyp6cI2lvZTWiinFUqQ1+gY2hdjjx+hPdnLjDCYK70TUJ4
+	aFc/YaBf28GDjSGd7mxe254RWqDfD9attVFCtj8ikS1PeMOzQ7Wq1WpZ9OE7cTEW
+	LWHjg90xTnSXm5laQso2Th3BJmrtN84wxdyQWCBE0l/PveVIj91/BXi11wFJWf4A
+	0Ik6WG0aYRHLixjG/wpRM3UOW+oQhTX4llCiif+gTG5sUZ6tFSGGFUkiiWl6Oq3N
+	Rg==
+Received: (qmail 174700 invoked from network); 27 Mar 2026 12:43:25 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 27 Mar 2026 12:43:25 +0100
+X-UD-Smtp-Session: l3s3148p1@m9s6AgBO++RUhsJN
+Date: Fri, 27 Mar 2026 12:43:24 +0100
 From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: linux-renesas-soc@vger.kernel.org,
-	Marek Vasut <marek.vasut@mailbox.org>, devicetree@vger.kernel.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>
-Subject: Re: [PATCH v2 1/3] dt-bindings: soc: renesas: Document MFIS IP core
-Message-ID: <acZtECu-1kuIuNrx@shikoro>
-References: <20260325110717.17083-1-wsa+renesas@sang-engineering.com>
- <20260325110717.17083-2-wsa+renesas@sang-engineering.com>
- <20260326-magnetic-cautious-earthworm-aee7ec@quoll>
+To: linux-renesas-soc@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Antonio Borneo <antonio.borneo@foss.st.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Boqun Feng <boqun@kernel.org>, Chen-Yu Tsai <wens@kernel.org>,
+	Chunyan Zhang <zhang.lyra@gmail.com>,
+	Danilo Krummrich <dakr@kernel.org>,
+	David Lechner <dlechner@baylibre.com>, driver-core@lists.linux.dev,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Konrad Dybcio <konradybcio@kernel.org>, Lee Jones <lee@kernel.org>,
+	Linus Walleij <linusw@kernel.org>,
+	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-gpio@vger.kernel.org,
+	linux-iio@vger.kernel.org, linux-omap@vger.kernel.org,
+	linux-remoteproc@vger.kernel.org, linux-spi@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-sunxi@lists.linux.dev, Mark Brown <broonie@kernel.org>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Nuno =?utf-8?B?U8Oh?= <nuno.sa@analog.com>,
+	Orson Zhai <orsonzhai@gmail.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Samuel Holland <samuel@sholland.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Srinivas Kandagatla <srini@kernel.org>,
+	Thomas Gleixner <tglx@kernel.org>, Waiman Long <longman@redhat.com>,
+	Wilken Gottwalt <wilken.gottwalt@posteo.net>,
+	Will Deacon <will@kernel.org>
+Subject: Re: [PATCH v5 00/15] hwspinlock: move device alloc into core and
+ refactor includes
+Message-ID: <acZtXL7OiM0ceyMe@shikoro>
+References: <20260319105947.6237-1-wsa+renesas@sang-engineering.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="DwxLgM9CZ9KSlu5e"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260326-magnetic-cautious-earthworm-aee7ec@quoll>
-X-Spamd-Result: default: False [-3.26 / 15.00];
-	SIGNED_PGP(-2.00)[];
+In-Reply-To: <20260319105947.6237-1-wsa+renesas@sang-engineering.com>
+X-Spamd-Result: default: False [0.34 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	MID_RHS_NOT_FQDN(0.50)[];
 	R_DKIM_ALLOW(-0.20)[sang-engineering.com:s=k1];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
-	MIME_GOOD(-0.20)[multipart/signed,text/plain];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-30432-lists,linux-renesas-soc=lfdr.de,renesas];
 	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
 	DMARC_NA(0.00)[sang-engineering.com];
-	FREEMAIL_CC(0.00)[vger.kernel.org,mailbox.org,glider.be,gmail.com,kernel.org];
-	MIME_TRACE(0.00)[0:+,1:+,2:~];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-30433-lists,linux-renesas-soc=lfdr.de,renesas];
+	RCPT_COUNT_TWELVE(0.00)[45];
+	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	DKIM_TRACE(0.00)[sang-engineering.com:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
-	MISSING_XM_UA(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
+	NEURAL_HAM(-0.00)[-0.999];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[wsa@sang-engineering.com,linux-renesas-soc@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[9];
+	FREEMAIL_CC(0.00)[vger.kernel.org,foss.st.com,kernel.org,arndb.de,linux.alibaba.com,gmail.com,baylibre.com,lists.linux.dev,linuxfoundation.org,redhat.com,lwn.net,lists.infradead.org,st-md-mailman.stormreply.com,analog.com,infradead.org,sholland.org,posteo.net];
+	TAGGED_RCPT(0.00)[linux-renesas-soc];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,dt];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,sang-engineering.com:dkim]
-X-Rspamd-Queue-Id: 50A23343A25
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sang-engineering.com:dkim,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,sashiko.dev:url]
+X-Rspamd-Queue-Id: B4EEC343C6C
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
+On Thu, Mar 19, 2026 at 11:59:22AM +0100, Wolfram Sang wrote:
+> Changes since v4:
+> 
+> * update Documentation, too, when ABI gets changed (Thanks Antonio!)
+> * rebased to 7.0-rc4
+> * added more tags (Thanks!)
+> 
+> My ultimate goal is to allow hwspinlock provider drivers outside of the
+> subsystem directory. It turned out that a simple split of the headers
+> files into a public provider and a public consumer header file is not
+> enough because core internal structures need to stay hidden. Even more,
+> their opaqueness could and should even be increased. That would also
+> allow the core to handle the de-/allocation of the hwspinlock device
+> itself.
+> 
+> This series does all that. Patches 1-2 remove the meanwhile unused
+> platform_data to ease further refactoring. Patches 3-9 abstract access
+> to internal structures away using helpers. Patch 10 then moves
+> hwspinlock device handling to the core, simplifying drivers. The
+> remaining patches refactor the headers until the internal one is gone
+> and the public ones are divided into provider and consumer parts. More
+> details are given in the patch descriptions.
+> 
+> One note about using a callback to initialize hwspinlock priv: I also
+> experimented with a dedicated 'set_priv' helper function. It felt a bit
+> clumsy to me. Drivers would need to save the 'bank' pointer again and
+> iterate over it. Because most drivers will only have a simple callback
+> anyhow, it looked leaner to me.
+> 
+> This series has been tested on a Renesas SparrowHawk board (R-Car V4H)
+> with a yet-to-be-upstreamed hwspinlock driver for the MFIS IP core. A
+> branch can be found here (without the MFIS driver currently):
+> 
+> git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git renesas/hwspinlock/refactor-alloc-buildtest
+> 
+> Build bots reported success.
 
---DwxLgM9CZ9KSlu5e
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Sashiko found some valid issues[1], so I am already working on a v6.
 
-Hi Krzysztof,
+[1] https://sashiko.dev/#/patchset/20260319105947.6237-1-wsa%2Brenesas%40sang-engineering.com
 
-> > +  interrupts:
->=20
-> Missing constraints.
-
-Will add.
-
-> > +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> > +    system-controller@189e0000 {
-> > +            compatible =3D "renesas,r8a78000-mfis";
->=20
-> Since I expect next version, one more detail I forgot to ask last time:
->=20
-> Use 4 spaces for example indentation.
-
-Will do.
-
-> > +#define MFIS_CHANNEL_TX (0 << 0)
-> > +#define MFIS_CHANNEL_RX (1 << 0)
->=20
-> No improvements and no answers to comments. Same review, drop, not a
-> binding. If disagree, respond to v1 comments.
-
-I think I did. I explained above in "changes since v1" that I decided to
-keep it because of the existing users in upstream that Geert mentioned.
-Also, you have been added to CC to get the driver this time because you
-were missing that in v1. So, what exactly is missing?
-
-Happy hacking,
-
-   Wolfram
-
---DwxLgM9CZ9KSlu5e
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmnGbQwACgkQFA3kzBSg
-KbZOKA//UTjb+9A+HLfSUB7iGe8jE24Gyeyx2OM/PBdhWhwLjbpNz2/kjOzv5yAz
-w4gsv1KxPUgL8m3eI4kZiuIOQenk8KWZoPl3MU5MC8tW1Qn3tHpLqeCb8TJLK4X5
-EERZAPloCosYPYnAnxHAoOPt+RLuYh3TmZ1hiA8tIawwVF4ZoAioDdjfU6i4ccXH
-dTJinvKDyqvny4Z1kxUj4tpa5riGfEC/wdCAQC4RazpRPNovQTsKGR5kPHzL7yAi
-KD+ayimBZ1k4bN8AL3Pq035bto0RKsVtaytcB3rHanCL927qkIN4rUH8OyXcTQqf
-hxOYaHCE026ImQrzDz48R79qx1VN/RNsUZ6bhQCCTRsAEGcEpThssGuAHJj1JPG/
-sO/lMIS5vMyOnBVgjMGdY+LljI4LryRKP5TjbUlsexL5VGHKPPaZZ5TGRzEZnUvU
-VBEE8UONUptJJm7FLQ8dapE7Mp59dNEo2qGefnyxIlenu7DpTrlOOdHsg59eZfWM
-r3r2uMqmli1GLeeivn6qPllwv6bCQLRV1bdXeov/Vnx1Jgx1mpAX7lEwB1sFEEol
-l8Z9mNCBqvouKoK/nJ2UqzR0obH0CBGXObULjlvTuw+aDvMBp6SyMsz8kC65sHq3
-5eaD05mU1GEHigM7nSD0qBelmyEwKNTInlAYTFntHTs/P6St6wg=
-=/VyW
------END PGP SIGNATURE-----
-
---DwxLgM9CZ9KSlu5e--
 
