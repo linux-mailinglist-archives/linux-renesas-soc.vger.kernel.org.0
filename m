@@ -1,46 +1,46 @@
-Return-Path: <linux-renesas-soc+bounces-30414-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-30415-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id GIFnO4JBxmlRIAUAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-30414-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Mar 2026 09:36:18 +0100
+	id KOSaHF1Axmm7HgUAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-30415-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Mar 2026 09:31:25 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6986A3411A7
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Mar 2026 09:36:18 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CB8C341009
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Mar 2026 09:31:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 2DADB3099B03
+	by sto.lore.kernel.org (Postfix) with ESMTP id 60021305421C
 	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Mar 2026 08:29:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BF6073DBD55;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E50083D75AA;
 	Fri, 27 Mar 2026 08:28:22 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1B33E3DA7C8;
-	Fri, 27 Mar 2026 08:28:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.172
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D45583DA7E7;
+	Fri, 27 Mar 2026 08:28:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774600101; cv=none; b=X43KO3eveOSg8rE2Qg7tZ+71RvZXnhk/CGcqj/UAGBkeOc4hFSl4LFvr93hxvlR1jd/f5ntXxnuyag7YEpoE2/UCZ7zMCn4UqUuLVS1j94No5alaBOdrFSMczRlS3IqDA9ex2pAXxJzl301dPhvXNbGpyZvujSCZcSAwxRTpykI=
+	t=1774600102; cv=none; b=PWph4WFaaN1ADz6Jp8flUSgfZP/TU7GxLi+lexHh/+5odgu7pFrICBTO2AXAGxjTIIAESTs8Zn9CHU85Z+gR1F73htHPjdSktKjsHKJiBWrZ5KjKGXN4X53WqSeJSWsBm9eEWpc1iQcnBIVbMy6Gz9EA5WPC4RbG9JCbnx9FuLk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774600101; c=relaxed/simple;
-	bh=OefNjGkxEG5kTziyf+/8NB1KQyg+CiOUkHHInvBgL+8=;
+	s=arc-20240116; t=1774600102; c=relaxed/simple;
+	bh=F2vS5LObAuXULh9h9IlixD5s5bGmDr1DdYRsZlravzg=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=n9BlcckC1/cvVZwH6hREybx8TsqCLE0QNMH0CH/ujZGWAh5CalRptXzIBYIvbAKKMpmRkWpTJ6aSglBOwOVfS+ztVrFIxQRLbQzvmWp1uTO0EGau87pzL6K4KxrA9YmffM1xrkotm8mc2wmLrlsiYh8HHNrHli9Pden9eg6T95s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; arc=none smtp.client-ip=210.160.252.172
+	 In-Reply-To:To:Cc; b=i/PtgB+TV0IcoB+2g4/Rv5GqbmdlMCKXv/qw8ceL1CZ+ubLv0LRz0+5aIjf1w7ciQXGJmfJroZd6i8AFDtyQm/3h8sjeRZB7tQ1V2OvtepFrez79gtzitSMjKXOTZZrXM+xFJchhWljO92fmCzeL1Dp2wxIsAdDzhFa1FO5loJw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; arc=none smtp.client-ip=210.160.252.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
-X-CSE-ConnectionGUID: u1mWMyWeThaz0CjuaYvWBA==
-X-CSE-MsgGUID: 3wFlpXYUR6GxhApDqzmyPA==
+X-CSE-ConnectionGUID: 6dsPwbYbQLi0zc9/258O+g==
+X-CSE-MsgGUID: FqXBI2v7S9SHZFqPdI5imQ==
 Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie6.idc.renesas.com with ESMTP; 27 Mar 2026 17:28:13 +0900
+  by relmlie5.idc.renesas.com with ESMTP; 27 Mar 2026 17:28:16 +0900
 Received: from [127.0.1.1] (unknown [10.226.78.135])
-	by relmlir5.idc.renesas.com (Postfix) with ESMTP id E1BB14012274;
-	Fri, 27 Mar 2026 17:28:10 +0900 (JST)
+	by relmlir5.idc.renesas.com (Postfix) with ESMTP id F3EBA401225D;
+	Fri, 27 Mar 2026 17:28:13 +0900 (JST)
 From: Michael Dege <michael.dege@renesas.com>
-Date: Fri, 27 Mar 2026 09:27:39 +0100
-Subject: [PATCH net-next v2 09/13] net: renesas: rswitch: update port HW
- init
+Date: Fri, 27 Mar 2026 09:27:40 +0100
+Subject: [PATCH net-next v2 10/13] net: renesas: rswitch: clean up is_rdev
+ rswitch_device checking
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -49,7 +49,7 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260327-rswitch_add_vlans-v2-9-d7f4358ca57a@renesas.com>
+Message-Id: <20260327-rswitch_add_vlans-v2-10-d7f4358ca57a@renesas.com>
 References: <20260327-rswitch_add_vlans-v2-0-d7f4358ca57a@renesas.com>
 In-Reply-To: <20260327-rswitch_add_vlans-v2-0-d7f4358ca57a@renesas.com>
 To: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, 
@@ -59,25 +59,25 @@ To: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
 Cc: netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
  linux-kernel@vger.kernel.org, Michael Dege <michael.dege@renesas.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1774600062; l=2575;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1774600062; l=2714;
  i=michael.dege@renesas.com; s=20251023; h=from:subject:message-id;
- bh=OefNjGkxEG5kTziyf+/8NB1KQyg+CiOUkHHInvBgL+8=;
- b=AUlhcD7FCoOtR2USWvzNR2o3g9YzdbnzzCkytZlXVJdWYyodKIde1jVeQkpmlB5wd6sa/Ybcj
- Uim8cBto8taA3OOn3EzUrgX8IRPp2FMcWWadkSZ4z3Jmacq5LCMU2av
+ bh=F2vS5LObAuXULh9h9IlixD5s5bGmDr1DdYRsZlravzg=;
+ b=ARx6LPvE5SF6KR9RF6x/r9tDye78H7YdXr2BnfuqcnJqLcpLfybdSmEfXU8dkym4R/bvGpIZF
+ l5VzStGAPYnBH4uEGUMjACkTv7BH9crAevUuiM6IjbGG0k/kk/YgUqm
 X-Developer-Key: i=michael.dege@renesas.com; a=ed25519;
  pk=gu1rwIcCrAxNMv2I8fIfiQvt51xzZwnQy4Ua/DscQt8=
 X-Spamd-Result: default: False [0.14 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	DMARC_POLICY_SOFTFAIL(0.10)[renesas.com : SPF not aligned (relaxed), No valid DKIM,none];
 	HAS_LIST_UNSUB(-0.01)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
 	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-30414-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-30415-lists,linux-renesas-soc=lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
 	FROM_HAS_DN(0.00)[];
@@ -90,82 +90,87 @@ X-Spamd-Result: default: False [0.14 / 15.00];
 	R_DKIM_NA(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
 	RCPT_COUNT_SEVEN(0.00)[10];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[renesas.com:email,renesas.com:mid,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 6986A3411A7
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,renesas.com:email,renesas.com:mid]
+X-Rspamd-Queue-Id: 6CB8C341009
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Certain Ethernet and cpu port settings need to be updated for vlan
-support.
+Add null pointer checking for ndev and remove unnecessay
+rswitch_port_check() wrapper function.
 
 Signed-off-by: Michael Dege <michael.dege@renesas.com>
 ---
- drivers/net/ethernet/renesas/rswitch.h      |  4 ----
- drivers/net/ethernet/renesas/rswitch_main.c | 15 ++++++++++++---
- 2 files changed, 12 insertions(+), 7 deletions(-)
+ drivers/net/ethernet/renesas/rswitch_l2.c   | 15 +++++----------
+ drivers/net/ethernet/renesas/rswitch_main.c |  2 +-
+ 2 files changed, 6 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/net/ethernet/renesas/rswitch.h b/drivers/net/ethernet/renesas/rswitch.h
-index ff2a84057f01..42c8bbafa27d 100644
---- a/drivers/net/ethernet/renesas/rswitch.h
-+++ b/drivers/net/ethernet/renesas/rswitch.h
-@@ -766,8 +766,6 @@ enum vlan_egress_mode {
- 	HW_SC_TAG_VLAN,
- };
+diff --git a/drivers/net/ethernet/renesas/rswitch_l2.c b/drivers/net/ethernet/renesas/rswitch_l2.c
+index cabf1f92ad0c..ae3857ef9af6 100644
+--- a/drivers/net/ethernet/renesas/rswitch_l2.c
++++ b/drivers/net/ethernet/renesas/rswitch_l2.c
+@@ -158,11 +158,6 @@ static void rswitch_update_offload_brdev(struct rswitch_private *priv)
+ 	rswitch_update_l2_offload(priv);
+ }
  
--#define EAVCC_VEM_SC_TAG	(0x3 << 16)
+-static bool rswitch_port_check(const struct net_device *ndev)
+-{
+-	return is_rdev(ndev);
+-}
 -
- #define MPIC_PIS		GENMASK(2, 0)
- #define MPIC_PIS_GMII		2
- #define MPIC_PIS_XGMII		4
-@@ -806,8 +804,6 @@ enum rswitch_gwca_mode {
- #define GWMTIRM_MTIOG		BIT(0)
- #define GWMTIRM_MTR		BIT(1)
+ static void rswitch_port_update_brdev(struct net_device *ndev,
+ 				      struct net_device *brdev)
+ {
+@@ -199,7 +194,7 @@ static int rswitch_netdevice_event(struct notifier_block *nb,
+ 	struct netdev_notifier_changeupper_info *info;
+ 	struct net_device *brdev;
  
--#define GWVCC_VEM_SC_TAG	(0x3 << 16)
--
- #define GWARIRM_ARIOG		BIT(0)
- #define GWARIRM_ARR		BIT(1)
+-	if (!rswitch_port_check(ndev))
++	if (!is_rdev(ndev))
+ 		return NOTIFY_DONE;
+ 	if (event != NETDEV_CHANGEUPPER)
+ 		return NOTIFY_DONE;
+@@ -254,12 +249,12 @@ static int rswitch_switchdev_event(struct notifier_block *nb,
  
+ 	if (event == SWITCHDEV_PORT_ATTR_SET) {
+ 		ret = switchdev_handle_port_attr_set(ndev, ptr,
+-						     rswitch_port_check,
++						     is_rdev,
+ 						     rswitch_port_attr_set);
+ 		return notifier_from_errno(ret);
+ 	}
+ 
+-	if (!rswitch_port_check(ndev))
++	if (!is_rdev(ndev))
+ 		return NOTIFY_DONE;
+ 
+ 	return notifier_from_errno(-EOPNOTSUPP);
+@@ -278,11 +273,11 @@ static int rswitch_switchdev_blocking_event(struct notifier_block *nb,
+ 		return -EOPNOTSUPP;
+ 	case SWITCHDEV_PORT_ATTR_SET:
+ 		ret = switchdev_handle_port_attr_set(ndev, ptr,
+-						     rswitch_port_check,
++						     is_rdev,
+ 						     rswitch_port_attr_set);
+ 		break;
+ 	default:
+-		if (!rswitch_port_check(ndev))
++		if (!is_rdev(ndev))
+ 			return NOTIFY_DONE;
+ 		ret = -EOPNOTSUPP;
+ 	}
 diff --git a/drivers/net/ethernet/renesas/rswitch_main.c b/drivers/net/ethernet/renesas/rswitch_main.c
-index ac87175b918e..d1be588fb625 100644
+index d1be588fb625..da984027239c 100644
 --- a/drivers/net/ethernet/renesas/rswitch_main.c
 +++ b/drivers/net/ethernet/renesas/rswitch_main.c
-@@ -735,8 +735,11 @@ static int rswitch_gwca_hw_init(struct rswitch_private *priv)
- 	if (err < 0)
- 		return err;
+@@ -1962,7 +1962,7 @@ static const struct net_device_ops rswitch_netdev_ops = {
  
--	iowrite32(GWVCC_VEM_SC_TAG, priv->addr + GWVCC);
--	iowrite32(0, priv->addr + GWTTFC);
-+	iowrite32(0, priv->addr + GWIRC);
-+	iowrite32(FIELD_PREP(DQD, DES_RAM_DP), priv->addr + GWRDQDC0);
-+	/* Drop frames with unknown tags */
-+	iowrite32(UT, priv->addr + GWTTFC);
-+
- 	iowrite32(lower_32_bits(priv->gwca.linkfix_table_dma), priv->addr + GWDCBAC1);
- 	iowrite32(upper_32_bits(priv->gwca.linkfix_table_dma), priv->addr + GWDCBAC0);
- 	iowrite32(lower_32_bits(priv->gwca.ts_queue.ring_dma), priv->addr + GWTDCAC10);
-@@ -878,6 +881,7 @@ static bool rswitch_rx(struct net_device *ndev, int *quota)
- 	limit = boguscnt;
+ bool is_rdev(const struct net_device *ndev)
+ {
+-	return (ndev->netdev_ops == &rswitch_netdev_ops);
++	return ndev && (ndev->netdev_ops == &rswitch_netdev_ops);
+ }
  
- 	desc = &gq->rx_ring[gq->cur];
-+
- 	while ((desc->desc.die_dt & DT_MASK) != DT_FEMPTY) {
- 		dma_rmb();
- 		skb = rswitch_rx_handle_desc(ndev, gq, desc);
-@@ -1267,7 +1271,12 @@ static int rswitch_etha_hw_init(struct rswitch_etha *etha, const u8 *mac)
- 	if (err < 0)
- 		return err;
- 
--	iowrite32(EAVCC_VEM_SC_TAG, etha->addr + EAVCC);
-+	iowrite32(0, etha->addr + EAIRC);
-+	iowrite32(FIELD_PREP(DQD, DES_RAM_DP), etha->addr + EATDQDC0);
-+
-+	/* Drop frames with unknown tags */
-+	iowrite32(UT, etha->addr + EARTFC);
-+
- 	rswitch_rmac_setting(etha, mac);
- 	rswitch_etha_enable_mii(etha);
- 
+ static int rswitch_get_ts_info(struct net_device *ndev, struct kernel_ethtool_ts_info *info)
 
 -- 
 2.43.0
