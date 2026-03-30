@@ -1,202 +1,170 @@
-Return-Path: <linux-renesas-soc+bounces-30557-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-30558-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id eKvoFhMRymmS4wUAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-30557-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Mar 2026 07:58:43 +0200
+	id qGroIu4nymnX5gUAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-30558-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Mar 2026 09:36:14 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id D22B2355C8F
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Mar 2026 07:58:42 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 82BB53567FF
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Mar 2026 09:36:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 5D6DA3039EC8
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Mar 2026 05:54:37 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 51C6530062DA
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Mar 2026 07:36:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 91CCC385512;
-	Mon, 30 Mar 2026 05:54:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="YJ7lOtVL"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6BA7A37F749;
+	Mon, 30 Mar 2026 07:36:11 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3C772382F01;
-	Mon, 30 Mar 2026 05:54:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from cstnet.cn (smtp81.cstnet.cn [159.226.251.81])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1453363CB;
+	Mon, 30 Mar 2026 07:36:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.81
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774850076; cv=none; b=VrXlcg2vQY9EyEL+h+5H5y5C09Hf5r2FncuyeNwmZv7sFRNsQzbcOpOQpXAuOsa0gIEtwcDcQu7hP5pcv45+9dWI8iWCiWXLjCsMuyAFuSlnlS6OfjhLuuiS3Yd8ucMY4lXzMVPRUMJQE/pXU9f9xYHGDE7kXk/SMdwyQyRHdDI=
+	t=1774856171; cv=none; b=ngHzjLOXqxKRalOfjqCp07DwpDe0TTJCt7g3ca+8wW1aXe98BM3PFmqxwE40kEtNqATDoCEoUdjtxf2dv4D2MORK51Hu/Z+hUitn+Z41HUGr571/IRJHpiNoYuWoX8GVFXSi94Oo9rOf1Z7whE0zROcA0iObMLnYcCDvMBaDCEQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774850076; c=relaxed/simple;
-	bh=dFIflD8J6Bfuj9Sl1pB2+4e1A5GxZPMlNoQIe6/wxQE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qyk0vE0bYPv755rGWIL1EhM3eNK7Bm+Ozl+c40BPo40TxOAiYeP7HbE4xHHvA3ZSxNqa7pVuW4Wlg/DcC2kUTvccH42/W+8byC8TKgMCUGucuF/4RHarUxJEhUl5pV8tkYXU5UeoKZgagv5odFkx5ABCRsorvzG73OzUJnaU/pM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=YJ7lOtVL; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 703491C2B;
-	Sun, 29 Mar 2026 22:54:26 -0700 (PDT)
-Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 0E0B83F641;
-	Sun, 29 Mar 2026 22:54:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1774850072; bh=dFIflD8J6Bfuj9Sl1pB2+4e1A5GxZPMlNoQIe6/wxQE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=YJ7lOtVLOzX2QjKKKD1sjBjhxzV7JBGJOFdMdt7bvVHTOfSMo8+krSsKQYjTce3eO
-	 WsZ8LM3Cd0DIMleAXAFayUS4EZlr58dAA/kNnKbuoi0i/fH+sJr9ZzdK2OU3aKOdlo
-	 jl2v09wVfkWXczr3J0T/FZED7o3pSNep7NXgikGE=
-Date: Mon, 30 Mar 2026 06:54:21 +0100
-From: Cristian Marussi <cristian.marussi@arm.com>
-To: Alexander Stein <alexander.stein@ew.tq-group.com>
-Cc: Marek Szyprowski <m.szyprowski@samsung.com>,
-	Cristian Marussi <cristian.marussi@arm.com>,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	arm-scmi@vger.kernel.org, linux-clk@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org, sudeep.holla@arm.com,
-	philip.radford@arm.com, james.quinlan@broadcom.com,
-	f.fainelli@gmail.com, vincent.guittot@linaro.org,
-	etienne.carriere@foss.st.com, peng.fan@oss.nxp.com,
-	michal.simek@amd.com, dan.carpenter@linaro.org,
-	geert+renesas@glider.be, kuninori.morimoto.gx@renesas.com,
-	marek.vasut+renesas@gmail.com
-Subject: Re: [PATCH v2 08/13] firmware: arm_scmi: Harden clock protocol
- initialization
-Message-ID: <acoQDQ_Ytezv8KPC@pluto>
-References: <20260310184030.3669330-1-cristian.marussi@arm.com>
- <9b574ac5-09fa-4e7a-b2bb-a339fbb319bc@samsung.com>
- <acPUxJ3N0QptmtlJ@pluto>
- <5980695.DvuYhMxLoT@steina-w>
+	s=arc-20240116; t=1774856171; c=relaxed/simple;
+	bh=BQZpotQQK3Cl/Pxr9LOqc/Dgxxytr3uIdxlMtbfR10g=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=USyIa0HIvP1kkuLaXPPwUc81Wsdpw5uzqA+FqBn3BGhddboPajpJHerhb+ZYvCngfwzLy56VPXnjda6RQEIfaYzzO9UBvou58wNWG65EfzCzoYG82o16CBSjF8WgKxpAhw07hncxNQu41ODiHejetqJn4bGdoMQDG0WQ6MSoxCk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.81
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
+Received: from ubuntu.. (unknown [202.112.113.208])
+	by APP-03 (Coremail) with SMTP id rQCowAD3EtrPJ8ppqg5LDA--.43334S2;
+	Mon, 30 Mar 2026 15:35:51 +0800 (CST)
+From: Ma Ke <make24@iscas.ac.cn>
+To: yoshihiro.shimoda.uh@renesas.com,
+	andrew+netdev@lunn.ch,
+	davem@davemloft.net,
+	edumazet@google.com,
+	kuba@kernel.org,
+	pabeni@redhat.com,
+	niklas.soderlund+renesas@ragnatech.se,
+	michael.dege@renesas.com,
+	nikita.yoush@cogentembedded.com,
+	yury.norov@gmail.com,
+	geert+renesas@glider.be
+Cc: netdev@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Ma Ke <make24@iscas.ac.cn>,
+	stable@vger.kernel.org
+Subject: [PATCH] net: renesas: rswitch: Fix memory leak in rswitch_phy_device_init()
+Date: Mon, 30 Mar 2026 15:35:41 +0800
+Message-ID: <20260330073541.2871414-1-make24@iscas.ac.cn>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <5980695.DvuYhMxLoT@steina-w>
-X-Spamd-Result: default: False [-0.16 / 15.00];
+X-CM-TRANSID:rQCowAD3EtrPJ8ppqg5LDA--.43334S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7Zr18Xw45Zw4ktr4rJrWxCrg_yoW8Zw13pF
+	WUGFWrJrykGr1aga18Ga1kJrWruw40kw1furyIy3WrKwn5X3s8ZryvqasxAr43CFZ7ZFy5
+	XFy7Aa4rua4DJFJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUPj14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+	1l84ACjcxK6xIIjxv20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j
+	6r4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
+	Cq3wAac4AC62xK8xCEY4vEwIxC4wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC
+	0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUGVWUXwAv7VC2z280aVAFwI0_Jr0_Gr
+	1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IE
+	rcIFxwACI402YVCY1x02628vn2kIc2xKxwCY1x0262kKe7AKxVWUtVW8ZwCY02Avz4vE14
+	v_GF4l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AK
+	xVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r4a6rW5MIIYrx
+	kI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v2
+	6r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8Jw
+	CI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfUoZ2-UUUU
+	U
+X-CM-SenderInfo: ppdnvj2u6l2u1dvotugofq/
+X-Spamd-Result: default: False [1.54 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[arm.com,none];
-	R_DKIM_ALLOW(-0.20)[arm.com:s=foss];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[samsung.com,arm.com,vger.kernel.org,lists.infradead.org,broadcom.com,gmail.com,linaro.org,foss.st.com,oss.nxp.com,amd.com,glider.be,renesas.com];
-	TAGGED_FROM(0.00)[bounces-30557-lists,linux-renesas-soc=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[16];
+	TAGGED_FROM(0.00)[bounces-30558-lists,linux-renesas-soc=lfdr.de];
+	DMARC_NA(0.00)[iscas.ac.cn];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[arm.com:+];
-	MISSING_XM_UA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[20];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[cristian.marussi@arm.com,linux-renesas-soc@vger.kernel.org];
+	FREEMAIL_TO(0.00)[renesas.com,lunn.ch,davemloft.net,google.com,kernel.org,redhat.com,ragnatech.se,cogentembedded.com,gmail.com,glider.be];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	TO_DN_SOME(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[make24@iscas.ac.cn,linux-renesas-soc@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	R_DKIM_NA(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	TO_DN_SOME(0.00)[]
-X-Rspamd-Queue-Id: D22B2355C8F
+	TAGGED_RCPT(0.00)[linux-renesas-soc,netdev,renesas];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,iscas.ac.cn:email,iscas.ac.cn:mid]
+X-Rspamd-Queue-Id: 82BB53567FF
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Thu, Mar 26, 2026 at 09:55:18AM +0100, Alexander Stein wrote:
-> Hi,
-> 
+rswitch_phy_device_init() calls of_phy_find_device(), which calls
+bus_find_device() to increments the refcount of the returned device.
+The current implementation does not decrement the refcount after the
+reference is no longer needed, causing a memory leak.
 
-Hi,
+Add phy_device_free() to release the reference via put_device() and
+balance the refcount.
 
-> Am Mittwoch, 25. März 2026, 13:27:48 CET schrieb Cristian Marussi:
-> > On Wed, Mar 25, 2026 at 12:02:41PM +0100, Marek Szyprowski wrote:
-> > > On 10.03.2026 19:40, Cristian Marussi wrote:
-> > > > Add proper error handling on failure to enumerate clocks features or
-> > > > rates.
-> > > >
-> > > > Signed-off-by: Cristian Marussi <cristian.marussi@arm.com>
-> > > 
-> > 
-> > Hi Marek,
-> > 
-> > > This patch landed yesterday in linux-next as commit 0d8b0c8068a8 
-> > > ("firmware: arm_scmi: Harden clock protocol initialization"). In my 
-> > > tests I found that it causes a regression on RK3568 Odroid-M1 board 
-> > > (arch/arm64/boot/dts/rockchip/rk3568-odroid-m1.dts), cpufreq and GPU 
-> > > device are not probed properly:
-> > > 
-> > > # dmesg | grep scmi
-> > > scmi_core: SCMI protocol bus registered
-> > > arm-scmi arm-scmi.0.auto: Using scmi_smc_transport
-> > > arm-scmi arm-scmi.0.auto: SCMI max-rx-timeout: 30ms / max-msg-size: 
-> > > 104bytes / max-msg: 20
-> > > scmi_protocol scmi_dev.1: Enabled polling mode TX channel - prot_id:16
-> > > arm-scmi arm-scmi.0.auto: SCMI Notifications - Core Enabled.
-> > > arm-scmi arm-scmi.0.auto: Malformed reply - real_sz:8 calc_sz:4  
-> > > (loop_num_ret:1)
-> > > arm-scmi arm-scmi.0.auto: SCMI Protocol v2.0 'rockchip:' Firmware 
-> > > version 0x0
-> > > arm-scmi arm-scmi.0.auto: Enabling SCMI Quirk 
-> > > [quirk_clock_rates_triplet_out_of_spec]
-> > > scmi-clocks scmi_dev.3: probe with driver scmi-clocks failed with error -22
-> > > 
-> > 
-> > Yes there are multiple reports of issues on this hardening, the series
-> > is on hold and wont go into v7.1 as of now...it needs some basic fixes
-> > and various quirks probably to address non-compliant firmwares...
-> > 
-> > It will be pushed to next again with a few more fixes in the coming
-> > days and then we'll need to figure out how many quirks will be needed on
-> > top of that and if it is acceptable at all...
-> 
-> Just for the records: imx95 (maybe imx94 as well) is also affected by this.
-> My board doesn't boot at all, because all the clocks are provided by SCMI.
-> 
+Found by code review.
 
-Sorry for the late reply, thanks for the report...
+Signed-off-by: Ma Ke <make24@iscas.ac.cn>
+Cc: stable@vger.kernel.org
+Fixes: 0df024d0f1d3 ("net: renesas: rswitch: Add host_interfaces setting")
+---
+ drivers/net/ethernet/renesas/rswitch_main.c | 12 ++++++++----
+ 1 file changed, 8 insertions(+), 4 deletions(-)
 
-> With this diff I can see it's the 'ext' clock
-> -->8---
-> --- a/drivers/firmware/arm_scmi/clock.c
-> +++ b/drivers/firmware/arm_scmi/clock.c
-> @@ -1253,8 +1253,11 @@ static int scmi_clock_protocol_init(const struct scmi_protocol_handle *ph)
->         for (clkid = 0; clkid < cinfo->num_clocks; clkid++) {
->                 cinfo->clkds[clkid].id = clkid;
->                 ret = scmi_clock_attributes_get(ph, clkid, cinfo);
-> -               if (ret)
-> +               if (ret) {
-> +                       dev_warn(ph->dev, "scmi_clock_attributes_get failed for '%s': %d\n",
-> +                                cinfo->clkds->info.name, ret);
->                         return ret;
-> +               }
->  
->                 ret = scmi_clock_describe_rates_get(ph, clkid, cinfo);
->                 if (ret)
-> -->8---
-> > arm-scmi arm-scmi.0.auto: scmi_clock_attributes_get failed for 'ext': -2
-> > scmi-clocks scmi_dev.6: probe with driver scmi-clocks failed with error -2
-> 
-> What's the idea of how to proceeed as apparently several platforms are
-> affected?
-> 
+diff --git a/drivers/net/ethernet/renesas/rswitch_main.c b/drivers/net/ethernet/renesas/rswitch_main.c
+index 6fe964816322..126da0371a19 100644
+--- a/drivers/net/ethernet/renesas/rswitch_main.c
++++ b/drivers/net/ethernet/renesas/rswitch_main.c
+@@ -1459,7 +1459,7 @@ static void rswitch_phy_remove_link_mode(struct rswitch_device *rdev,
+ 
+ static int rswitch_phy_device_init(struct rswitch_device *rdev)
+ {
+-	struct phy_device *phydev;
++	struct phy_device *phydev, *tmp_phydev;
+ 	struct device_node *phy;
+ 	int err = -ENOENT;
+ 
+@@ -1473,14 +1473,18 @@ static int rswitch_phy_device_init(struct rswitch_device *rdev)
+ 	/* Set phydev->host_interfaces before calling of_phy_connect() to
+ 	 * configure the PHY with the information of host_interfaces.
+ 	 */
+-	phydev = of_phy_find_device(phy);
+-	if (!phydev)
++	tmp_phydev = of_phy_find_device(phy);
++	if (!tmp_phydev)
+ 		goto out;
+-	__set_bit(rdev->etha->phy_interface, phydev->host_interfaces);
++	__set_bit(rdev->etha->phy_interface, tmp_phydev->host_interfaces);
+ 	phydev->mac_managed_pm = true;
+ 
+ 	phydev = of_phy_connect(rdev->ndev, phy, rswitch_adjust_link, 0,
+ 				rdev->etha->phy_interface);
++
++	/* Release the temporary reference obtained by of_phy_find_device() */
++	phy_device_free(tmp_phydev);
++
+ 	if (!phydev)
+ 		goto out;
+ 
+-- 
+2.43.0
 
-The series is on hold of course due to some residual bugs and all of
-these reports of misbehaving firmwares...as I was saying elsewhere we
-dont want of course to break existing boards in the wild that will most
-probably never get a FW fix, BUT at the same time we do NOT want to
-legalise/normalize this out of spec behaviour by leaving the kernel
-code as it is...I mean at least we'd like to try to discourage this
-mis-implementations in the future FWs ...
-
-At the end, this could mean some quirks applied to multiple platforms
-and vendors and maybe some relaxation in the checks, certainly some noisy
-annoying logs on the side :P
-
-Thanks,
-Cristian
 
