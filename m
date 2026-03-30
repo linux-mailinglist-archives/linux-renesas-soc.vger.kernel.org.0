@@ -1,138 +1,176 @@
-Return-Path: <linux-renesas-soc+bounces-30573-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-30564-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id aP92MJ1Yymn27gUAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-30573-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Mar 2026 13:03:57 +0200
+	id QCmFL8RVymn27gUAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-30564-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Mar 2026 12:51:48 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE854359E2F
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Mar 2026 13:03:56 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C504359B03
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Mar 2026 12:51:48 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 363C1306F4CE
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Mar 2026 10:49:35 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 3B91530071C6
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Mar 2026 10:44:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B64B53BADBA;
-	Mon, 30 Mar 2026 10:48:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F20D33BE643;
+	Mon, 30 Mar 2026 10:44:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Rj5IQZNH"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from Atcsqr.andestech.com (unknown [60.248.187.195])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1A103C5531;
-	Mon, 30 Mar 2026 10:48:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=60.248.187.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A063B3BE15F
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 30 Mar 2026 10:44:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774867708; cv=none; b=RFfic8xzoVLCv780yZwIVzsuaTOX0GpN0Jdyv3WmVrfTWrOD8g+802esZVgsk3DfrgNCEhPJUbbRwseu+xOXc9X9q9RrPF+ITjn/YGOA0L3NlxXs+uduQ7xuj8qFL8OV1zV6Ibx54HYQCr7emZ+rddubtgDdSOqp4SPq0l4v2Io=
+	t=1774867495; cv=none; b=XDZhShHgpi/kQQIeBOsdDqPPTLCn3HHDCJn05eH0NHfD37WOGW063H3guavlTcbxaEHHuCVnMUhuVkIWvfI1grzts3K4ASEPnvo7862P78mbyOpdS8VSumpy8gtNoMWgVswgmofRvQIOiTGe2x/a1bLM+J+qkPTP3kBZr7C4SG8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774867708; c=relaxed/simple;
-	bh=VbCZEiqH70J7vlJW75wZQYTsamVjQ6zwAHkOmcwBm1U=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=EHA1VMzTvxaJ7KTpwS8xKzh/TXTagbnNG5/Dj9+rYzMqud0SLLX0Juf74/UjeN6/8Dp9lrfpaNWZE0IpJIipU1SfPL0VbgT/xpw/x2e8Q/US1/Vy63a8mwIaZXPxq0UqX+5KpCeqJpVohhmkVfhGVB4rcH9mf4V18Gfda/d2KVU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=permerror header.from=andestech.com; spf=pass smtp.mailfrom=andestech.com; arc=none smtp.client-ip=60.248.187.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=permerror header.from=andestech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=andestech.com
-Received: from Atcsqr.andestech.com (localhost [127.0.0.2] (may be forged))
-	by Atcsqr.andestech.com with ESMTP id 62UATOXY040303;
-	Mon, 30 Mar 2026 18:29:24 +0800 (+08)
-	(envelope-from minachou@andestech.com)
-Received: from mail.andestech.com (ATCPCS34.andestech.com [10.0.1.134])
-	by Atcsqr.andestech.com with ESMTP id 62UASKjA038311;
-	Mon, 30 Mar 2026 18:28:20 +0800 (+08)
-	(envelope-from minachou@andestech.com)
-Received: from swlinux02.andestech.com (10.0.15.183) by ATCPCS34.andestech.com
- (10.0.1.134) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Mon, 30 Mar
- 2026 18:28:20 +0800
-From: Hui Min Mina Chou <minachou@andestech.com>
-To: <pjw@kernel.org>, <palmer@dabbelt.com>, <aou@eecs.berkeley.edu>,
-        <alex@ghiti.fr>, <geert+renesas@glider.be>,
-        <prabhakar.mahadev-lad.rj@bp.renesas.com>, <magnus.damm@gmail.com>,
-        <ben717@andestech.com>, <robh@kernel.org>, <krzk+dt@kernel.org>,
-        <conor+dt@kernel.org>, <jonathan.cameron@huawei.com>,
-        <devicetree@vger.kernel.org>, <linux-riscv@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>
-CC: <tim609@andestech.com>, <alex749@andestech.com>, <az70021@gmail.com>,
-        "Hui
- Min Mina Chou" <minachou@andestech.com>
-Subject: [PATCH 7/7] MAINTAINERS: Add maintainers for Andes cache driver
-Date: Mon, 30 Mar 2026 18:27:24 +0800
-Message-ID: <20260330102724.1012470-8-minachou@andestech.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260330102724.1012470-1-minachou@andestech.com>
-References: <20260330102724.1012470-1-minachou@andestech.com>
+	s=arc-20240116; t=1774867495; c=relaxed/simple;
+	bh=qly5vLYU8cxXp8vltM+i9p9TqXEzr8A/kvll06hSEAg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=MLeV+xE/1zy51bGN7FYeCA+E3bBkOn+sw8ZxrZh46J2f72cLWpxbMrPjmCQhrfCWmAAy6X3Rcs/AeQGiM9N9nUR8eEfmLbTPUq3mg/I2vTZGi6H+pgopAB3H5vMKmh2q6T5TtTyS14wu7H3tl7puj1AT+kOIlR9oz00xDu+jkow=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Rj5IQZNH; arc=none smtp.client-ip=209.85.128.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4873ce69ba9so8124555e9.2
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 30 Mar 2026 03:44:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1774867493; x=1775472293; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Nqv4AprnwJimRofV12+nm6wKeoECG68gUH8nOF/KtJQ=;
+        b=Rj5IQZNHAWD0FUgvqmV/l6fGXaM4PxXOxKJUGAQj9Ur1EHfftgidhicwb+i3dY6s7z
+         ZuLK2Snsld+yE9gkY2wq+EEbHuiXk+volM2RARnaWIIzVAgxYrTAgayuWzefbhWDJdNQ
+         38AWcazR070JTX/VZbwO4o8amXwV2QYNUvIGcZ8Bci9ufxEkaZ2sUM5tfNDbiiVQBG2Z
+         XZGvgL7RBlb/ufNshuFNP8ruit1eO/vrngXr8Rne7SJrEugWJkBro4fvr0bZ3UVD5lrb
+         7CZL8uwZgmwj/fg11YK7HA/V0lR0xL5TdYwh8sBlh98G7QOkLV99Rbgqmmjk71OltjOI
+         D0ZQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774867493; x=1775472293;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Nqv4AprnwJimRofV12+nm6wKeoECG68gUH8nOF/KtJQ=;
+        b=I2wQ9WXOVK7tid0ms5ZeTpwAsvuoeTfQbNgFtfj5Rrli2vreC2ZAsxyykvpDTrIi+x
+         IsZe5Gq8PLlTn6aQsmdoFrmTSz4NC5AQIvkurkYGbLpGItW6rSf71KrGkafrcIworCcH
+         YbFjNVkDwvz93Enfrcp/mJbv+jVVNPBcFWlaoIByf0H84nnzPb+39cijHXCWGKwb8Vl8
+         kcjTuDr5NzJSOyZRE0ufcApPJoC/IhmXTwpj5uaXVJLuDbU4snqHoNKeKa1OOrA0Tqja
+         V1waqK/AhlYFfV4Sk0z1mlB4O3ijc2jRMMnRqNiAaf1D2OghFJPGtOft5tkeiY1lJIns
+         LtaQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXLXXN2T5qrz9bHb585o+LC04nnocdwG/trNJhSSNphHQLQ5ha9kcs9DwAVqsTxXlsmO+fF98IHnAyxF/LPJznlsQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzsR8Gcx3bQG+dVbBlofxUTtnABZRrmotkV4IZbfDlYshwJ1NeV
+	jY7l9gT8z4Tqc3wiaL13QXJYc6biaS7jMak/NOjPRfuTbDDHXdyzWMb2
+X-Gm-Gg: ATEYQzxBd8QVf4TT1fLy8g0ipazsVsxcSAzmbDqzga9SVsI1k4lOrHGdlSBpmwtLeCJ
+	ZV291ffNSxsyv+0AKnZm2oaCHMv6/RWRTYeIq41k3UmZWmZ+6bWieHmQXo4SBO4JCCuN8fTTLD6
+	47hD+qy35BetrtKC4zpMkPjuJrU47UGihbAJCpNqQH4DsX14jJNnxo0qFj0F03BDibWMaTnWZo+
+	ZambEgn7/E3YkzVFwpVZt35lT2aqIU7+0BM+/eEfOtgognXB1SPwf61yjmE4krXLhOq0vXh9sAW
+	jjB8auPajN5x/JCiHFQwwczvtkhV/DZ3kDlwM3HAxryebgSTL5gfjLdrBdfxtfBMZXvmHimVeqA
+	++JZmp/X4fZq6SMi/7Kxb/KGLYSmEXJDvHQJmZlppjinebIixcb4b+h1FTXUJ7pCyYGwR0ufjdy
+	TffvMrGQ++swOgUo3tYrkdY+RDrE8Pcw==
+X-Received: by 2002:a05:600c:c493:b0:487:338:b4f3 with SMTP id 5b1f17b1804b1-48727efad7cmr190825115e9.17.1774867492664;
+        Mon, 30 Mar 2026 03:44:52 -0700 (PDT)
+Received: from biju.lan ([2a00:23c4:a758:8a01:e60:2c8a:54bb:d692])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48727bfc5ecsm185842685e9.1.2026.03.30.03.44.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 30 Mar 2026 03:44:52 -0700 (PDT)
+From: Biju <biju.das.au@gmail.com>
+X-Google-Original-From: Biju <biju.das.jz@bp.renesas.com>
+To: Biju Das <biju.das.jz@bp.renesas.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>
+Cc: Chris Brandt <chris.brandt@renesas.com>,
+	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+	Sam Ravnborg <sam@ravnborg.org>,
+	dri-devel@lists.freedesktop.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	Biju Das <biju.das.au@gmail.com>
+Subject: [PATCH v3 0/3] Improvements on RZ/G2L MIPI DSI driver
+Date: Mon, 30 Mar 2026 11:44:43 +0100
+Message-ID: <20260330104450.128512-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="y"
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: ATCPCS33.andestech.com (10.0.1.100) To
- ATCPCS34.andestech.com (10.0.1.134)
-X-DKIM-Results: atcpcs34.andestech.com; dkim=none;
-X-DNSRBL: 
-X-SPAM-SOURCE-CHECK: pass
-X-MAIL:Atcsqr.andestech.com 62UATOXY040303
-X-Spamd-Result: default: False [3.04 / 15.00];
-	DMARC_POLICY_REJECT(2.00)[andestech.com : SPF not aligned (relaxed), No valid DKIM,reject];
+X-Spamd-Result: default: False [0.84 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	MID_CONTAINS_FROM(1.00)[];
+	MID_CONTAINS_TO(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-30564-lists,linux-renesas-soc=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-30573-lists,linux-renesas-soc=lfdr.de];
-	FREEMAIL_TO(0.00)[kernel.org,dabbelt.com,eecs.berkeley.edu,ghiti.fr,glider.be,bp.renesas.com,gmail.com,andestech.com,huawei.com,vger.kernel.org,lists.infradead.org];
-	RCVD_COUNT_FIVE(0.00)[6];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_TO(0.00)[bp.renesas.com,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch];
 	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[20];
-	FREEMAIL_CC(0.00)[andestech.com,gmail.com];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	RCPT_COUNT_TWELVE(0.00)[15];
+	FREEMAIL_CC(0.00)[renesas.com,ideasonboard.com,ravnborg.org,lists.freedesktop.org,vger.kernel.org,glider.be,bp.renesas.com,gmail.com];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	R_DKIM_NA(0.00)[];
-	NEURAL_HAM(-0.00)[-0.999];
-	FROM_NEQ_ENVFROM(0.00)[minachou@andestech.com,linux-renesas-soc@vger.kernel.org];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,dt];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[andestech.com:email,andestech.com:mid,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,linuxfoundation.org:email,android.com:email]
-X-Rspamd-Queue-Id: BE854359E2F
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[bijudasau@gmail.com,linux-renesas-soc@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	RCVD_COUNT_FIVE(0.00)[5];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
+	NEURAL_HAM(-0.00)[-1.000];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[bp.renesas.com:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,renesas.com:email]
+X-Rspamd-Queue-Id: 1C504359B03
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Here add maintainer information for Andes cache driver.
+From: Biju Das <biju.das.jz@bp.renesas.com>
 
-Signed-off-by: Hui Min Mina Chou <minachou@andestech.com>
----
- MAINTAINERS | 8 ++++++++
- 1 file changed, 8 insertions(+)
+Hi All,
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 23d88c825175..e95efbcd6d39 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1863,6 +1863,14 @@ S:	Supported
- F:	Documentation/devicetree/bindings/spi/andestech,ae350-spi.yaml
- F:	drivers/spi/spi-atcspi200.c
- 
-+ANDES CACHE DRIVER
-+M:	Alex Chun-Ju Lin <alex749@andestech.com>
-+M:	Leo Yu-Chi Liang <ycliang@andestech.com>
-+M:	Mina Hui Min Chou <minachou@andestech.com>
-+S:	Supported
-+F:	Documentation/devicetree/bindings/cache/andestech,andes-llcache.yaml
-+F:	drivers/cache/andes_llcache.c
-+
- ANDROID DRIVERS
- M:	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
- M:	Arve Hjønnevåg <arve@android.com>
+Enhance the RZ/G2L MIPI DSI driver based on section "34.4.2.1 Reset" of
+the RZ/G2L hardware manual Rev.1.50 May 2025. According to this section,
+it is required to wait >= 1 msec after deasserting the CMN_RSTB signal,
+and writing to DSI PHY timing registers and LINK registers should be done
+before deasserting CMN_RSTB.
+Additionally, the hardware manual suggests display timing settings should
+be done after the HS clock is started.
+
+v2->v3:
+ * Merged patch#2 and patch#3 to avoid breakage.
+ * Moved the patch from patch#4 to patch#2.
+ * Added fixes tag for patch#2.
+ * Updated commit description for patch#2 and patch#3.
+v1->v2:
+ * Updated commit header and description
+ * Moved the code from rzg2l_mipi_dsi_dphy_init() to rzg2l_mipi_dsi_startup()
+ * Moved the check before calling reset_control_deassert(), so that it will be
+   skipped for RZ/V2H SoC
+ * Added fixes patch for moving rzg2l_mipi_dsi_set_display_timing()
+ * Added fixes patch for assert of CMN_RSTB signal
+
+Biju Das (3):
+  drm: renesas: rzg2l_mipi_dsi: Move rzg2l_mipi_dsi_set_display_timing()
+  drm: renesas: rzg2l_mipi_dsi: Increase reset deassertion delay
+  drm: renesas: rzg2l_mipi_dsi: Fix deassert/assert of CMN_RSTB signal
+
+ .../gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c    | 34 +++++++++++--------
+ 1 file changed, 19 insertions(+), 15 deletions(-)
+
 -- 
-2.34.1
+2.43.0
 
 
