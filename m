@@ -1,154 +1,159 @@
-Return-Path: <linux-renesas-soc+bounces-30590-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-30592-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id WGCWLvx/ymnX9QUAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-30590-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Mar 2026 15:51:56 +0200
+	id iLNmMFOCymkW9gUAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-30592-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Mar 2026 16:01:55 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12AF835C5A5
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Mar 2026 15:51:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 294B035C813
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Mar 2026 16:01:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id A3098303A5E1
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Mar 2026 13:43:52 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 9A25D304E809
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Mar 2026 13:51:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7EF1A3D5659;
-	Mon, 30 Mar 2026 13:43:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 17A2E3D75A2;
+	Mon, 30 Mar 2026 13:51:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b="SRgF+Wg9"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ua1-f46.google.com (mail-ua1-f46.google.com [209.85.222.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F2C73D47D2
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 30 Mar 2026 13:43:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EAE23A381F
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 30 Mar 2026 13:51:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.9.28.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774878231; cv=none; b=kG0AXvxgnQXvu7zMqNu/vP56Q4hSjhrmJ3Si7wl8KmTZggU9JYk7S70JF0wbLhUuZKQGg2UihC4kbog2+5fajwL0tzkzZVj4xfwiCvW1xZHBdECtxbzBdOVO9zK8ycKQUJxRhw2hbtm++7mjPfexPrHhdQJiTCNKvrCW106O2sc=
+	t=1774878697; cv=none; b=HJk+f40OzHbWWtFlsZK7IDhrqTWvdqpwQs2DvTSufHTVjyJrkVZs0m+nq6XokllxvIPtkvwfuLj6OF4GGN7xkYfrwbkRzWItYMwjmwhoj2aJY39vZkRZOkq+IVCwe4U9of1r/y3vyYxGyRbUl1nI6DBUkREpqoPQ1BGjYMTs/LU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774878231; c=relaxed/simple;
-	bh=LwY5xmZY/IE7X0h8PDYYjDasIhhiQ9s5H+/9EkzpTUY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=gQznK7f1i9wSQlvYgnaXZkLfP124gD4Km1X/Q1en8oU2N/seeJbtp3ekBPmWH75DUaX3D4+AjhCahWOXr73oU7g1dErpUAaPkALYRHvDVqurBUMsStIf432mpDF3jGAuBxqCOOQ2c/HJwmYaYYg73Z6Q3YCcFi8CE9eZ5BSpwDw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ua1-f46.google.com with SMTP id a1e0cc1a2514c-953b9fd8ebdso748828241.1
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 30 Mar 2026 06:43:47 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774878227; x=1775483027;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=zojjIrplT+gpNV1OAKG7fdmSOmBuVtlnIyFAXOobv7A=;
-        b=K6+6dFJlJ6UdXVnDmeQF684/3XGjSlmLAj7VcR9OcmuRYicrtVBocNdDWDaqJgKS24
-         iznxxkIXQL+3gbimcvnRvsx469XCLjxCx+SbG3EqcYL1xwwzMzWocHT1nakT/dJw1DXU
-         nJmmK6YgylIdHka2DbIrsXedY5YS+9WNlg0hhk59OlE+b95Gn3GsoMxBLZs898amsuLU
-         2FhIWSsrD10WOrLMH7NB/28wE4TCXfM8ie1kQkHkmqIPhAmPn/AlOvuelR/gp6OIn56y
-         SHACVlG/T+xfOun1as0v7c6BePtMrPVUnI2kVFvdk6kPtbazCAjv7kMcoVbiPVJYCA0j
-         Xivg==
-X-Forwarded-Encrypted: i=1; AJvYcCV4J3CyE9MOfhjT7M3Dp72BHr1p05Ia846xuGkehBtPASGzY15m1TbIjkD51PvSQpI8F54KaZ7U7Htj8g3ivgXcLQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzSqR6g5b2mAzRjiGlD2X3gJ4tbHZtmiGYi9chSE9QD47ZxN0yI
-	zJt/N/UHgaoFv6LPaGKERK/FnLJtMu2B1zkeeGRAmL3SgqMry151qUH3DdFhdKce
-X-Gm-Gg: ATEYQzwghxibIHTeLblTCkNYXRhQSldR5PZv1WcLC8TiPlxR57A7RrCR0K6qK0Gmc0l
-	D1Ui4/gJnVNY+7ldQL0ARlroKpoGihHtXv50wRlL+Synqqm/ZkbxnUNso5L5kC05cAGOPBkCdb7
-	IwMHBbj6ayxX4a4bYEn8IM8RqXe4DHJ937aV/Wd7VKOaDzBNqPQ+GGs4Mvuxex6unBS8Ctf5tY6
-	Z1i28K8H4IXNYHuEy5v3RS5ZgLSgYalpEEoNVUtjBUZB2PimENqIj3acLwebPrsh/fpdeugCxzE
-	nUYCLqrLK3NFen3utT0UZgCycOQObcQzOWczhBRpA1juD2VkX3Sm8DZ+IUZeNvpsh3pttptNtFi
-	sbne9AJDOI0dbQDs2uxwnxUf9cPuD7VlfNYNIq5S7a47smzcXenBwtm1KbIzqwedR/rY7TuUvLV
-	6pBDoCU9yjeFukDZATWdTKEEZk0iErVnCZ3r35IL0oJMIBpCicnkQl/VpX18IP
-X-Received: by 2002:a05:6102:440c:b0:604:f640:301e with SMTP id ada2fe7eead31-604f90dd722mr4957585137.12.1774878226776;
-        Mon, 30 Mar 2026 06:43:46 -0700 (PDT)
-Received: from mail-ua1-f44.google.com (mail-ua1-f44.google.com. [209.85.222.44])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-9539e440c5asm6938611241.10.2026.03.30.06.43.46
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 30 Mar 2026 06:43:46 -0700 (PDT)
-Received: by mail-ua1-f44.google.com with SMTP id a1e0cc1a2514c-953b85a10bbso748474241.3
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 30 Mar 2026 06:43:46 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCXPAGjyH+lVvqP1/jsp9TpM8RLRY5P9XvHYWqBFiQjAnCjHWxZLd7UD26kRVpenX/bUNybgZmYieBb4FtEKuFSmpQ==@vger.kernel.org
-X-Received: by 2002:a05:6102:26c3:b0:5f7:307e:80d9 with SMTP id
- ada2fe7eead31-604f92dc7e9mr4671146137.28.1774878226000; Mon, 30 Mar 2026
- 06:43:46 -0700 (PDT)
+	s=arc-20240116; t=1774878697; c=relaxed/simple;
+	bh=RpTMoJ07T2k9URxnFok2qO7MiY1POErpQRQTLJ8TE2E=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CkU9w9pfimPKBk+ZCgzcuxUFT28sTkK1fK2aFhyPxFvy1OM06L5xebQOZi1V0rljY5OMDgMddTVyUzNxG6EnbiFDMA0dcaBi6yW9PCRiMt/I0ETPmWgb4Ag/N9FplE8hOKKbBlvy3cCsME1Hp0hpyYo7pDV3WvjsR4uUEV/yTn4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu; spf=pass smtp.mailfrom=mit.edu; dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b=SRgF+Wg9; arc=none smtp.client-ip=18.9.28.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mit.edu
+Received: from macsyma.thunk.org ([104.135.218.80])
+	(authenticated bits=0)
+        (User authenticated as tytso@ATHENA.MIT.EDU)
+	by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 62UDop2Z011337
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 30 Mar 2026 09:50:52 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
+	t=1774878653; bh=Gby/7h3Ke7sH8LKIPI3E1u+BQ5bz9jR7xmEBCvUV8L8=;
+	h=Date:From:Subject:Message-ID:MIME-Version:Content-Type;
+	b=SRgF+Wg9+16nDyavXgdFhPDNtCprorFdwueAdDiY37LY1O3jvk0n+REoQYk1nginc
+	 9s8sMEC+Fshr9qM1V7utRPLYG96i+pKIf5fnEJR5uetQeX0lGzAktJKKXakxLCCrhA
+	 DBD+3fQKD0ASn6T4ejx0uu5ToNuxnhfkt6jO/fXKrfTQPZYdWo3Ncomb3L/PRLGV+E
+	 /Tf0OEd22H8NvyQLFzU+MYzmNqltqStSSh7M9ZHhgR2efrHka13i3FPbjNOaIACqWn
+	 1uvezCddlQUc+1qVnxo96UruzQCqSsKrDv9DI/VofjNA0dwO0juZE8xJ55wFu1VA9+
+	 1CK9JxvghK+Xw==
+Received: by macsyma.thunk.org (Postfix, from userid 15806)
+	id E069360046CD; Mon, 30 Mar 2026 09:50:50 -0400 (EDT)
+Date: Mon, 30 Mar 2026 09:50:50 -0400
+From: "Theodore Tso" <tytso@mit.edu>
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc: Roman Gushchin <roman.gushchin@linux.dev>,
+        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Jassi Brar <jassisinghbrar@gmail.com>,
+        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>
+Subject: Re: Sashiko review feedback (was Re: [PATCH 2/3] soc: renesas: Add
+ Renesas R-Car MFIS driver)
+Message-ID: <20260330135050.GD22278@macsyma.local>
+References: <20260317130638.2804-1-wsa+renesas@sang-engineering.com>
+ <20260317130638.2804-3-wsa+renesas@sang-engineering.com>
+ <ab-vWbjdlAIt1qaX@ninjato>
+ <87a4vyynl2.fsf@linux.dev>
+ <acIsrJp2Zq2ntS5f@shikoro>
+ <87ikalp9b2.fsf@linux.dev>
+ <aco7CM5N3E6A0v8v@shikoro>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260330132349.149391-1-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20260330132349.149391-1-biju.das.jz@bp.renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 30 Mar 2026 15:43:34 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVo6ypHJi9TVqbc+wAmFDU==HQCCG=hEOXuk-66GPXUhg@mail.gmail.com>
-X-Gm-Features: AQROBzBtp_yzyGavzy6mnYDxA573W6U-3D6Ay8n3dxuZTqDsa4ZE-WFADhGn73k
-Message-ID: <CAMuHMdVo6ypHJi9TVqbc+wAmFDU==HQCCG=hEOXuk-66GPXUhg@mail.gmail.com>
-Subject: Re: [PATCH 0/5] clk: renesas: r9a08g046: Add {GPIO,CA55,WDT,SCIF,I2C} clk/resets
-To: Biju <biju.das.au@gmail.com>
-Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
-	Biju Das <biju.das.jz@bp.renesas.com>, linux-renesas-soc@vger.kernel.org, 
-	linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spamd-Result: default: False [0.04 / 15.00];
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aco7CM5N3E6A0v8v@shikoro>
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[mit.edu,none];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[mit.edu:s=outgoing];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	FREEMAIL_CC(0.00)[linux.dev,vger.kernel.org,gmail.com,renesas.com,glider.be];
 	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-30590-lists,linux-renesas-soc=lfdr.de];
-	DMARC_NA(0.00)[linux-m68k.org];
-	FREEMAIL_TO(0.00)[gmail.com];
 	RCVD_TLS_LAST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[geert@linux-m68k.org,linux-renesas-soc@vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-30592-lists,linux-renesas-soc=lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[mit.edu:+];
 	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	NEURAL_HAM(-0.00)[-0.949];
+	MISSING_XM_UA(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[tytso@mit.edu,linux-renesas-soc@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
 	RCPT_COUNT_SEVEN(0.00)[8];
-	R_DKIM_NA(0.00)[];
-	TAGGED_RCPT(0.00)[linux-renesas-soc];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[linux-m68k.org:email,mail.gmail.com:mid,renesas.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 12AF835C5A5
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 294B035C813
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi Biju,
+On Mon, Mar 30, 2026 at 10:57:44AM +0200, Wolfram Sang wrote:
+> 
+> > > Sure thing. Is there a dedicated mailing-list or better email address I
+> > > can add?
+> > 
+> > Not yet, but I think of creating one.
+> 
+> Until that exists, shall I use your email to add Reported-by tags? In
+> another of my series, Sashiko found valid issues which already existed
+> before my series. A tag would be proper, I'd think?
 
-On Mon, 30 Mar 2026 at 15:23, Biju <biju.das.au@gmail.com> wrote:
-> From: Biju Das <biju.das.jz@bp.renesas.com>
->
-> This patch series adds support for {GPIO,CA55,WDT,SCIF,I2C} clk/resets for
-> RZ/G3L SoC.
->
-> This patch series is depend upon [1]
-> [1] https://lore.kernel.org/all/20260326110648.29389-1-biju.das.jz@bp.renesas.com/
->
-> Biju Das (5):
->   clk: renesas: r9a08g046: Add GPIO clocks/resets
->   clk: renesas: r9a08g046: Add CA55 core clocks
->   clk: renesas: r9a08g046: Add WDT clocks/reset
->   clk: renesas: r9a08g046: Add SCIF{1..5} clocks/reset
->   clk: renesas: r9a08g046: Add I2C clocks/reset
+I was thinking about proposing some tagging convention such as:
 
-Note that you already have submitted 60% of the patches in this series
-as part of other series...
+   Suggested-by: Sashiko:Gemini 3.1 Pro
+or
+   Reviewed-by: Sashiko:Gemini 3.1 Pro
 
-Gr{oetje,eeting}s,
+to Documentation/process/coding-assistants.rst.  Alas, neither is
+perfect.
 
-                        Geert
+Suggested-by: is generlly used when someone inspires a particular
+commit.  This might apply if Sashiko found a problem as an incidental
+finding, which we then fixed in a subsequent commit.  An example of
+this might be[1], or in the case which you suggested above.  But what
+if we just fixed one of the issues raised by Sashiko in an earlier
+version of the commit.  In that case, Suggested-by: doesn't seem to be
+a perfect fit.
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+[1] https://lore.kernel.org/r/20260327063330.1312426-1-tytso@mit.edu/
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Reviewed-by: is generally only applicable once *all* of the issues
+identified by the reviewer has been resolved, and it's not clear this
+is applicable if not all of the issues rasied by Sashiko were
+resolved.  In some cases, these might be false positives, but in the
+case of a human reviewer, the human reviewer agrees before saying,
+"You can add Reviewed-by: ..." to the commit.  Unfortunately, it will
+probably be a while before LLM's have that kind of agency / consciousness.  :-)
+
+What do folks think?  How should we codify a way of giving Sashiko
+credit for issues that it has raised?  (Assuming we should, but
+hopefully that's not controversial.)
+
+          	     		       	      - Ted
+
+
+
 
