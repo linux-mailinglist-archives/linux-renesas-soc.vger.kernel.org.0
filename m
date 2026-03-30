@@ -1,50 +1,50 @@
-Return-Path: <linux-renesas-soc+bounces-30609-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-30610-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id eJPBMuufymmg+QUAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-30609-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Mar 2026 18:08:11 +0200
+	id mJS6HRmgymmg+QUAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-30610-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Mar 2026 18:08:57 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2695A35E690
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Mar 2026 18:08:10 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id E3A3235E6CE
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Mar 2026 18:08:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id E9E5B30138BC
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Mar 2026 16:08:09 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 53EE7301440C
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Mar 2026 16:08:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 92A7B379ED8;
-	Mon, 30 Mar 2026 16:04:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BB01E387346;
+	Mon, 30 Mar 2026 16:06:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VC0iAUrP"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EtfqK31+"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E0CC37997E;
-	Mon, 30 Mar 2026 16:04:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96C2B386576;
+	Mon, 30 Mar 2026 16:06:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774886670; cv=none; b=OpBhKPUAwYH7YHt1YcHDiq3jO/qqNqbbhlryOtjg3R0B3sv2xlrJ4KUi2k0QKVo94biiFXKBhJ/WVgy8GP0/DdEvseertvPnlsVt+AGiwjOLB9rnbRDBRP1x+aXGCj0N281+PVOeeTjldG/AQv5CuipWRN5NVCwZzDm+SDzyTk0=
+	t=1774886762; cv=none; b=X4d/V2t9OAdklwWxdMjf+PxyKJZPPq51iMrIGKJxYAvFp/NeUTe/W9ZegID2aOwcsXA9P5lTQdKsuWJMHxJJHKWiu0yKozT6fvnmb6ScR3EVWig8fGftx6pdczpjKNdmxluAyvoV10jh6T0mre1Isksi3T8FViJ2fC6jw/VgDgg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774886670; c=relaxed/simple;
-	bh=owNCY5NrXXCi7Gi47uvNRkPcUBD4vZPhSUHEWfE+QDM=;
+	s=arc-20240116; t=1774886762; c=relaxed/simple;
+	bh=3KmiI1lPn7iSBaliwjqcS6nkGR19lrJfQ+T5KRXeUJU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MiudBfGolsl7Hm12Z38mQW3+jdKWQPcN3tUoXbfyjChgOb77y1NjkJHwpLf0klnKrR1Jrnv1HhS9KwVrDZpbe40ORdLjlR4AZWYGBQg7+xOvtpPB/PgzTB1GcvaZcCUaqz25uNVMGerBAqEFWicGnqQLWEpqMB9tAYd4l9PWPpA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VC0iAUrP; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 85FB6C4CEF7;
-	Mon, 30 Mar 2026 16:04:26 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=CDpgPrncNr4EMcbCcPB52Iq9ssbczMXUbpomax+TYrYAau/kealFJi2LW6YX915ABA5N77yAC80Kkvi4fIB6DH5cez72HrdrpCnjKy5kDu1dZi1T/rm4uOnwno6wnCYW6C45DxwAyJboWe7ucdSu5S7ikUGXg8Rc3YiKzoG7GYg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EtfqK31+; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 74EAAC4CEF7;
+	Mon, 30 Mar 2026 16:05:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774886670;
-	bh=owNCY5NrXXCi7Gi47uvNRkPcUBD4vZPhSUHEWfE+QDM=;
+	s=k20201202; t=1774886762;
+	bh=3KmiI1lPn7iSBaliwjqcS6nkGR19lrJfQ+T5KRXeUJU=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=VC0iAUrPFUKXwdCr0/Owz+hUIBfcN8/LHgpvAwPtrhGm3W+5mmhjwA6e/8+c6rYLE
-	 A1VKcytW9oH2X/YJZUk031Y7nO27Tv/6wLqcT7MOtDw1dGHF7/J+ExVvMFY1BlEc5T
-	 ZilnacoTQ8nfzxA21Mz9hgZef7TUqDN/Vi+gay7Tte31xhB9pdXTV/oh8ZSE/cv4IM
-	 v/cpbHDiuWbR45bCLxqTjiaSXJmsoosNilecVPQTVKTzaJIsJJ2AL0/X271XjZkwzr
-	 elsLZXbKZlJnD/mzaeKbkdcGfzQwWwgslKg42I/3nRa2nre0sC9nziGp9oChIVgx8C
-	 t00S/FP9F5D5g==
-Date: Mon, 30 Mar 2026 17:04:24 +0100
+	b=EtfqK31+p3ceD6qtEJo2zlJwoNdBpD4IShTTmFnLsidWjHJucJl/TTvUjyei7I4XW
+	 4I9gYj2w6asg4hjFgQlmHNGPgI8qSmdUFvGJMW+d1cag2vGP8yUu4O8VC1b3nyfie9
+	 iTqMv+A9FYP7iOPbqQXWkEWG5SOlQdSqvJED32X0A2XJ3dmJy8dJoa6S7pGnksrR4+
+	 ynTPH+62aOX30vuGNqj/u3zTsbwyW0IfY3d4KCCTtoQI1Sjnt9MhcdUtOk5nOHr1Wm
+	 dTLnBE84FyCsEiHU43cwVunV9nnFIyfOJG/AmJu66XO34Q4QSzJsWTmI1of+6QZB3Y
+	 C9NeEBwkJojTA==
+Date: Mon, 30 Mar 2026 17:05:56 +0100
 From: Conor Dooley <conor@kernel.org>
 To: Hui Min Mina Chou <minachou@andestech.com>
 Cc: pjw@kernel.org, palmer@dabbelt.com, aou@eecs.berkeley.edu,
@@ -54,13 +54,12 @@ Cc: pjw@kernel.org, palmer@dabbelt.com, aou@eecs.berkeley.edu,
 	conor+dt@kernel.org, jonathan.cameron@huawei.com,
 	devicetree@vger.kernel.org, linux-riscv@lists.infradead.org,
 	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	tim609@andestech.com, alex749@andestech.com, az70021@gmail.com,
-	Leo Yu-Chi Liang <ycliang@andestech.com>
-Subject: Re: [PATCH 3/7] cache: andes_llcache: improve performance of LLC
- operation
-Message-ID: <20260330-snowbound-obtrusive-92ff63549bad@spud>
+	tim609@andestech.com, alex749@andestech.com, az70021@gmail.com
+Subject: Re: [PATCH 2/7] cache: andes_llcache: refactor initialization and
+ cache operations
+Message-ID: <20260330-profane-blighted-ac25a752164e@spud>
 References: <20260330102724.1012470-1-minachou@andestech.com>
- <20260330102724.1012470-4-minachou@andestech.com>
+ <20260330102724.1012470-3-minachou@andestech.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -68,9 +67,9 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="A56KgNt4UDiuDCQI"
+	protocol="application/pgp-signature"; boundary="ZBMHEz/e3KVIxzdl"
 Content-Disposition: inline
-In-Reply-To: <20260330102724.1012470-4-minachou@andestech.com>
+In-Reply-To: <20260330102724.1012470-3-minachou@andestech.com>
 X-Spamd-Result: default: False [-2.26 / 15.00];
 	SIGNED_PGP(-2.00)[];
 	SUSPICIOUS_RECIPS(1.50)[];
@@ -79,16 +78,16 @@ X-Spamd-Result: default: False [-2.26 / 15.00];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	MIME_GOOD(-0.20)[multipart/signed,text/plain];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-30609-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-30610-lists,linux-renesas-soc=lfdr.de];
 	FROM_HAS_DN(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+,1:+,2:~];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[21];
+	RCPT_COUNT_TWELVE(0.00)[20];
 	FREEMAIL_CC(0.00)[kernel.org,dabbelt.com,eecs.berkeley.edu,ghiti.fr,glider.be,bp.renesas.com,gmail.com,andestech.com,huawei.com,vger.kernel.org,lists.infradead.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
@@ -97,130 +96,178 @@ X-Spamd-Result: default: False [-2.26 / 15.00];
 	FROM_NEQ_ENVFROM(0.00)[conor@kernel.org,linux-renesas-soc@vger.kernel.org];
 	DKIM_TRACE(0.00)[kernel.org:+];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,dt];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[andestech.com:email,andestech.com:url,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 2695A35E690
+	DBL_BLOCKED_OPENRESOLVER(0.00)[andestech.com:email,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: E3A3235E6CE
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
 
---A56KgNt4UDiuDCQI
+--ZBMHEz/e3KVIxzdl
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Mar 30, 2026 at 06:27:20PM +0800, Hui Min Mina Chou wrote:
-> Eliminate get_cpu() on !CONFIG_SMP and switch readl/writel to their
+On Mon, Mar 30, 2026 at 06:27:19PM +0800, Hui Min Mina Chou wrote:
+> This patch cleans up the Andes LLC cache driver:
+>  - improved error handling in andes_cache_init() by using goto labels
 
-Where is the get_cpu() that you're talking about eliminating here?
+I don't agree that this is an improvement. There's no meaningful
+teardown shared.
 
-> relaxed variants to remove unnecessary fence instructions on I/O
-> memory access. The platform specification defines all I/O regions are
-> on channel 0 (point-to-point strongly ordered), so explicit fences are
-> not required [1][2][3]. Explicit memory barriers (mb) are added before
-> and after the CCTL loop to ensure overall memory consistency.
+>  - updated andes_dma_cache_inv/wback() to check for !size instead of
+>    start =3D=3D end
+>  - cache-line-size mismatch from an error to a warning
+>  - Use ALIGN and ALIGN_DOWN helpers instead of the alignment logic in
+>    andes_dma_cache_inv() and andes_dma_cache_wback().
 >=20
-
-> Also fix hart ID mapping by switching to cpuid_to_hartid_map() instead
-> of using the logical CPU ID directly. In AMP setups (e.g. Linux on
-> Hart 1, RTOS on Hart 0), Linux sees itself as CPU 0 but must access
-> Hart 1's CCTL registers, so using the logical ID would cause accidental
-> interference with other cores.
-
-This seems like it should be a separate fix for sure.
-
->=20
-> [1] platform spec 2.1.1: https://github.com/riscvarchive/riscv-platform-s=
-pecs/blob/main/riscv-platform-spec.adoc?plain=3D1#L169
-> [2] privileged spec 3.6.5: https://github.com/riscv/riscv-isa-manual/blob=
-/main/src/machine.adoc?plain=3D1#L2835
-> [3] riscv: asm/mmio.h: https://gitea.andestech.com/RD-SW/linux/src/branch=
-/ast-v5_4_0-branch/arch/riscv/include/asm/mmio.h#L105
->=20
-> Signed-off-by: Leo Yu-Chi Liang <ycliang@andestech.com>
 > Signed-off-by: Hui Min Mina Chou <minachou@andestech.com>
 > ---
->  drivers/cache/andes_llcache.c | 18 ++++++++++++++----
->  1 file changed, 14 insertions(+), 4 deletions(-)
+>  drivers/cache/andes_llcache.c | 56 ++++++++++++++++++-----------------
+>  1 file changed, 29 insertions(+), 27 deletions(-)
 >=20
 > diff --git a/drivers/cache/andes_llcache.c b/drivers/cache/andes_llcache.c
-> index d318b8009f7f..57f666bc537a 100644
+> index d5e382f3c801..d318b8009f7f 100644
 > --- a/drivers/cache/andes_llcache.c
 > +++ b/drivers/cache/andes_llcache.c
-> @@ -66,7 +66,7 @@ static struct andes_priv andes_priv;
->  /* LLC operations */
->  static inline uint32_t andes_cpu_llc_get_cctl_status(void)
+> @@ -111,21 +111,17 @@ static void andes_dma_cache_inv(phys_addr_t paddr, =
+size_t size)
 >  {
-> -	return readl(andes_priv.llc_base + ANDES_LLC_REG_CCTL_STATUS_OFFSET_C0);
-> +	return readl_relaxed(andes_priv.llc_base + ANDES_LLC_REG_CCTL_STATUS_OF=
-FSET_C0);
+>  	unsigned long start =3D (unsigned long)phys_to_virt(paddr);
+>  	unsigned long end =3D start + size;
+> -	unsigned long line_size;
+> +	unsigned long line_size =3D andes_priv.andes_cache_line_size;
+>  	unsigned long flags;
+> =20
+> -	if (unlikely(start =3D=3D end))
+> +	if (unlikely(!size))
+>  		return;
+> =20
+> -	line_size =3D andes_priv.andes_cache_line_size;
+> -
+> -	start =3D start & (~(line_size - 1));
+> -	end =3D ((end + line_size - 1) & (~(line_size - 1)));
+> +	start =3D ALIGN_DOWN(start, line_size);
+> +	end =3D ALIGN(end, line_size);
+> =20
+>  	local_irq_save(flags);
+> -
+>  	andes_cpu_dcache_inval_range(start, end);
+> -
+>  	local_irq_restore(flags);
 >  }
 > =20
->  static void andes_cpu_cache_operation(unsigned long start, unsigned long=
- end,
-> @@ -74,16 +74,22 @@ static void andes_cpu_cache_operation(unsigned long s=
-tart, unsigned long end,
+> @@ -133,15 +129,15 @@ static void andes_dma_cache_wback(phys_addr_t paddr=
+, size_t size)
 >  {
->  	unsigned long line_size =3D andes_priv.andes_cache_line_size;
->  	void __iomem *base =3D andes_priv.llc_base;
-> -	int mhartid =3D smp_processor_id();
->  	unsigned long pa;
-> +	int mhartid =3D 0;
+>  	unsigned long start =3D (unsigned long)phys_to_virt(paddr);
+>  	unsigned long end =3D start + size;
+> -	unsigned long line_size;
+> +	unsigned long line_size =3D andes_priv.andes_cache_line_size;
+>  	unsigned long flags;
 > =20
-> +	if (IS_ENABLED(CONFIG_SMP))
-> +		mhartid =3D cpuid_to_hartid_map(get_cpu());
-
-But I dunno why this dance is required. Can't you just retain the call
-to smp_processor_id() and pass the result unconditionally to
-cpuid_to_hartid_map()? Or just make it a oneliner with
-cpuid_to_hartid_map(smp_processor_id())?
-
-> +	else
-> +		mhartid =3D cpuid_to_hartid_map(0);
+> -	if (unlikely(start =3D=3D end))
+> +	if (unlikely(!size))
+>  		return;
+> =20
+> -	line_size =3D andes_priv.andes_cache_line_size;
+> -	start =3D start & (~(line_size - 1));
+> -	end =3D ((end + line_size - 1) & (~(line_size - 1)));
+> +	start =3D ALIGN_DOWN(start, line_size);
+> +	end =3D ALIGN(end, line_size);
 > +
-> +	mb(); /* complete earlier memory accesses before the cache flush */
->  	while (end > start) {
->  		csr_write(CSR_UCCTLBEGINADDR, start);
->  		csr_write(CSR_UCCTLCOMMAND, l1_op);
+>  	local_irq_save(flags);
+>  	andes_cpu_dcache_wb_range(start, end);
+>  	local_irq_restore(flags);
+> @@ -159,14 +155,13 @@ static int andes_get_llc_line_size(struct device_no=
+de *np)
 > =20
->  		pa =3D virt_to_phys((void *)start);
-> -		writel(pa, base + ANDES_LLC_REG_CCTL_ACC_OFFSET_BY_CORE(mhartid));
-> -		writel(llc_op, base + ANDES_LLC_REG_CCTL_CMD_OFFSET_BY_CORE(mhartid));
-> +		writel_relaxed(pa, base + ANDES_LLC_REG_CCTL_ACC_OFFSET_BY_CORE(mharti=
-d));
-> +		writel_relaxed(llc_op, base + ANDES_LLC_REG_CCTL_CMD_OFFSET_BY_CORE(mh=
-artid));
->  		while ((andes_cpu_llc_get_cctl_status() &
->  			ANDES_LLC_CCTL_STATUS_MASK_BY_CORE(mhartid)) !=3D
->  			ANDES_LLC_CCTL_STATUS_IDLE)
-> @@ -91,6 +97,10 @@ static void andes_cpu_cache_operation(unsigned long st=
-art, unsigned long end,
-> =20
->  		start +=3D line_size;
+>  	ret =3D of_property_read_u32(np, "cache-line-size", &andes_priv.andes_c=
+ache_line_size);
+>  	if (ret) {
+> -		pr_err("Failed to get cache-line-size, defaulting to 64 bytes\n");
+> +		pr_err("Cache: Failed to get cache-line-size\n");
+>  		return ret;
 >  	}
-> +	mb(); /* issue later memory accesses after the cache flush */
-> +
-> +	if (IS_ENABLED(CONFIG_SMP))
-> +		put_cpu();
->  }
 > =20
->  /* Write-back L1 and LLC entry */
+>  	if (andes_priv.andes_cache_line_size !=3D ANDES_CACHE_LINE_SIZE) {
+> -		pr_err("Expected cache-line-size to be 64 bytes (found:%u)\n",
+> -		       andes_priv.andes_cache_line_size);
+> -		return -EINVAL;
+> +		pr_warn("Cache: Expected cache-line-size to be 64 bytes (found:%u)\n",
+> +			andes_priv.andes_cache_line_size);
+>  	}
+> =20
+>  	return 0;
+> @@ -186,16 +181,18 @@ static const struct of_device_id andes_cache_ids[] =
+=3D {
+>  static int __init andes_cache_init(void)
+>  {
+>  	struct resource res;
+> -	int ret;
+> +	int ret =3D 0;
+> =20
+>  	struct device_node *np __free(device_node) =3D
+>  		of_find_matching_node(NULL, andes_cache_ids);
+> -	if (!of_device_is_available(np))
+> -		return -ENODEV;
+> +	if (!of_device_is_available(np)) {
+> +		ret =3D -ENODEV;
+> +		goto err_ret;
+> +	}
+> =20
+>  	ret =3D of_address_to_resource(np, 0, &res);
+>  	if (ret)
+> -		return ret;
+> +		goto err_ret;
+> =20
+>  	/*
+>  	 * If IOCP is present on the Andes AX45MP core riscv_cbom_block_size
+> @@ -208,17 +205,22 @@ static int __init andes_cache_init(void)
+>  		return 0;
+> =20
+>  	andes_priv.llc_base =3D ioremap(res.start, resource_size(&res));
+> -	if (!andes_priv.llc_base)
+> -		return -ENOMEM;
+> +	if (!andes_priv.llc_base) {
+> +		ret =3D -ENOMEM;
+> +		goto err_ret;
+> +	}
+> =20
+>  	ret =3D andes_get_llc_line_size(np);
+> -	if (ret) {
+> -		iounmap(andes_priv.llc_base);
+> -		return ret;
+> -	}
+> +	if (ret)
+> +		goto err_unmap;
+> =20
+>  	riscv_noncoherent_register_cache_ops(&andes_cmo_ops);
+> =20
+>  	return 0;
+> +
+> +err_unmap:
+> +	iounmap(andes_priv.llc_base);
+> +err_ret:
+> +	return ret;
+>  }
+>  early_initcall(andes_cache_init);
 > --=20
 > 2.34.1
 >=20
 
---A56KgNt4UDiuDCQI
+--ZBMHEz/e3KVIxzdl
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCacqfCAAKCRB4tDGHoIJi
-0hxrAPsFopm3rlVHdGdGWrZBgZ2VVCjgEhwQ655QHUxzHVCa2wEAg6oe7w0BdhmL
-L3ERf7rF84HDlqz73WtNqaR3tMixowE=
-=rsx9
+iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCacqfZAAKCRB4tDGHoIJi
+0kz6AP4/zEmts2e0+M/fAroAyx+sLV51S7xrbbnjNktcQtOHYAEAk4e7IdDPibBJ
+S85lySDSCIasXH72w3gC7DVKQ97pWwQ=
+=Ys/x
 -----END PGP SIGNATURE-----
 
---A56KgNt4UDiuDCQI--
+--ZBMHEz/e3KVIxzdl--
 
