@@ -1,250 +1,214 @@
-Return-Path: <linux-renesas-soc+bounces-30611-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-30612-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 6B+WAgbHymnw/wUAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-30611-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Mar 2026 20:55:02 +0200
+	id 4PYSLxHzymlaBwYAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-30612-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 31 Mar 2026 00:02:57 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55DD5360004
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Mar 2026 20:55:01 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 56EC0361B97
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 31 Mar 2026 00:02:57 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 48B323013EDE
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Mar 2026 18:55:00 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 9E94330175E7
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Mar 2026 22:02:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A44AC2FDC57;
-	Mon, 30 Mar 2026 18:54:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C17933A782B;
+	Mon, 30 Mar 2026 22:02:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T3qAk3db"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com [209.85.222.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37DE73DFC88
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 30 Mar 2026 18:54:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32CC4393DC0;
+	Mon, 30 Mar 2026 22:02:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774896898; cv=none; b=qk/BALwgedtB6mPbQo17o+8BhLB1kuHYW7s4IYI/wpv23zWxS6dGTugXJ2oa9WJ8OCfU0//Ca5dEJtQCC1IywCNqgkd4o6VYaU+EUNAFUMe8vGKrJbXX1l3TGnOxi6nnVIIiFqlz1c5wFi+fDXltMie0P3QpcoR1OiJLoKB9noY=
+	t=1774908175; cv=none; b=JZkzx7E2f0Kp8Cz4srWrVNM2FSQCh3F7LdtFV9OLQRE6k4w/GLJOhn1UOMoS8pRRUoc7sNN2j3oXH4KBHekqAbdCwpm0gWwL7pxubX3pZLThF9dzS0KHuX3BebnPbPMILOZYZcCHG8qX8jUEpt/+WNTmkNiLTc1xLFZ4Q3ojfdA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774896898; c=relaxed/simple;
-	bh=PZJA8OYSHkcjEb6yeCr4bU8DRy/2gacrQ+n6Z6q9zPk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Mq4c5JHOXDBNZGbqSgIWVbE7N8TzvYghzT3WQVhkrJKznv8o3oG6pxWzVkeurDcd+E4/nq7z9V3ghZNgEGUWCPQnfQ5dTnjanG1NT9HBx+rJHwDUvnsUTnhkIOMkYzs7rcG/3vQvYxDxE8GBPfnNmL5C8UEA+q2Te2O37hgBMLY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qk1-f176.google.com with SMTP id af79cd13be357-8cfc3ca1922so549894985a.1
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 30 Mar 2026 11:54:56 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774896896; x=1775501696;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=gmbdfERIdYVjSOaA8rBMP7lXVvFsi5yyzuqKEhnFPsQ=;
-        b=skRJOPcWe6oKcy5rYGRykHVVdjCkmiwtMDCoZJCwOKRfiHWa6D/jXmxevtO0n2RAvO
-         ruCNn0bQ7yNC+3EGJZBwQ98h1vl9BURdjWylCZffVjZgC64f2hgal+SEjpojQ/yOYw1e
-         CsCCZ8gP0c1q7BsP0RVZec/smwJOlCsETTpKeT6cUDF09mfxzVSfGP4x9F7yjxmG5MvB
-         LW7wamLW+kIQt4XsMTX3TPCbj4reSyAlYt7GRC/GK2lR7ZLBhwOv11O6eG2tKZcTRDG2
-         2kn1JDhl+Gz4f8vjxblc83m0Cp3TP74kVp04luSG3leDbYePl0OYkYvextnF9WMtRO5L
-         NlEg==
-X-Forwarded-Encrypted: i=1; AJvYcCVm4FCmIKV9f88d1vc88E51aTviCQ9gUYdfF8Y6slEFIihyt8V65xqViiU1/w1AuHQ2JpjS8ObAVOXvpe1VaCT//Q==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz0+GoPbHGbBIJh0ruycQK/wuCiHwkAyM5Odoos63xlQedhFJD1
-	U4g+Ou9lwZICGMT9hpUwCtAsiRgmyinwL+7q4SxYCzSUHFrA1V8ga0iEXff/Rn62
-X-Gm-Gg: ATEYQzxKaLxyBIqUtUy6oy58b363PxjF7dCDfF8Vnjm5k2VhDMqLwVQy2pd0iaDDz/p
-	527mjRNZmXhJNRcwslP+1iRhoe5BPt1qUYy0fpDU4K88F4uwYBwenFmVc+4fWzulWXZMrhaqyXS
-	FKul469Vc6Au2QxgdcGLkC2rZ1v8iPm2ooVKoQyDWhxcpKJSjS4Jc4fJj74b5F0lNSRKWoA7aad
-	q0YRYnkJwXDxLML6rrfMKIdTUUeFQv+1nt0q+IppZgvWmyuP3wnGBjH0F6KUAqfNDQlyd80fhM3
-	iL2LRZRRZa5pXPNe1P2+p24oThmNlsgVvk2x69nsJonXczrZomdyLN0T0BfA1LZ7AptiYNiWpC+
-	fvV1vD8eM/VOd+d/Pr/XGTcNvHFQ1nta/IJHTM6CY2LwLjZeVarJkxAA0W0FEWW9LE9dw1DQWs8
-	/A9iV8hFSeQx+/wdaOteFX40gPRjvvLhNoGs+P6riW4R8aB5Ku+hH83bh7l4KL
-X-Received: by 2002:a05:6214:5286:b0:89c:d57f:18b6 with SMTP id 6a1803df08f44-8a2cba69a9dmr9581836d6.27.1774896896065;
-        Mon, 30 Mar 2026 11:54:56 -0700 (PDT)
-Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com. [209.85.219.51])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-89ecf281b2asm71564066d6.23.2026.03.30.11.54.55
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 30 Mar 2026 11:54:55 -0700 (PDT)
-Received: by mail-qv1-f51.google.com with SMTP id 6a1803df08f44-8a068db9989so16537206d6.0
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 30 Mar 2026 11:54:55 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCXXdCrXhwwY1YBr+SJFzq1WNgBE/UXtYo/hVHRqYPB+2XA1cyfKJ6w6UUGqdFf1Jk7tgm9IsaHeAY6NRSyHUhYEnQ==@vger.kernel.org
-X-Received: by 2002:a05:6122:21a7:b0:56a:ed84:e2 with SMTP id
- 71dfb90a1353d-56d7bf9a1a3mr395634e0c.1.1774896484928; Mon, 30 Mar 2026
- 11:48:04 -0700 (PDT)
+	s=arc-20240116; t=1774908175; c=relaxed/simple;
+	bh=0a/qTJ6Z6SLzYReYiecSbgx8In0wkAtWXm6TRVfoSvY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fezGdsDI69JneeZMsK8YZm9z9nKonQ2ZcXEBvQTDzbK2/lu9cHJHMNwJlS9/qSd1O1XBE2hyE5CHMNgGnQJ8YP3/67QaeGuz3JDHMg0Y8x8+NNIEIjcJNKmj9m9XQh2OeUK5mgVrG0KNj58MIQF1I1RYRQaAJ13nhVTKEjcBsr8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=T3qAk3db; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1774908174; x=1806444174;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=0a/qTJ6Z6SLzYReYiecSbgx8In0wkAtWXm6TRVfoSvY=;
+  b=T3qAk3dbYN4z5fuR6iBhwXzLg89ylG2cJGCaXhTgi0YLpLnTv7gpEbF0
+   nlzVJT27m/QIokrc9spT2MJ7+TSUbaw/fUKgfnInNapvx8vh2fGc4sxId
+   wPgf+lKMPpqAS4TSg3f/pfs7N+RCSGl3603XI9gOGBufkrueMz42991cL
+   /LrfgVQoMAEbC0aIHMDma18hb7P6ZG4Ov0/GjHtEsSt+Y7rFRDP/Uqk3M
+   75+Xo8smwZFGPgkyo8XWxH1wutYaM/OY/1zKqqF60ASutD0geZC7tNMCf
+   PZGB6Sj0HZbAj4aGQA7lX6323IzTFuBKHpb+n8LlzN/HqO2U0zIdCvNp2
+   w==;
+X-CSE-ConnectionGUID: E25wVTJTT2W1uecRbdNsYQ==
+X-CSE-MsgGUID: uCucRZF1RJyHdRpSLawXXQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11744"; a="86530364"
+X-IronPort-AV: E=Sophos;i="6.23,150,1770624000"; 
+   d="scan'208";a="86530364"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2026 15:02:53 -0700
+X-CSE-ConnectionGUID: 4F9eCnT+T2S7Jx4SnsHesA==
+X-CSE-MsgGUID: Jp+P6fSSR+KZjuQgYb8ZkA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,150,1770624000"; 
+   d="scan'208";a="230980195"
+Received: from lkp-server01.sh.intel.com (HELO 283bf2e1b94a) ([10.239.97.150])
+  by fmviesa005.fm.intel.com with ESMTP; 30 Mar 2026 15:02:49 -0700
+Received: from kbuild by 283bf2e1b94a with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1w7Kh4-000000001ll-1KrN;
+	Mon, 30 Mar 2026 22:02:46 +0000
+Date: Tue, 31 Mar 2026 06:01:49 +0800
+From: kernel test robot <lkp@intel.com>
+To: Ma Ke <make24@iscas.ac.cn>, yoshihiro.shimoda.uh@renesas.com,
+	andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
+	kuba@kernel.org, pabeni@redhat.com,
+	niklas.soderlund+renesas@ragnatech.se, michael.dege@renesas.com,
+	nikita.yoush@cogentembedded.com, yury.norov@gmail.com,
+	geert+renesas@glider.be
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Ma Ke <make24@iscas.ac.cn>,
+	stable@vger.kernel.org
+Subject: Re: [PATCH] net: renesas: rswitch: Fix memory leak in
+ rswitch_phy_device_init()
+Message-ID: <202603310514.S572gcNU-lkp@intel.com>
+References: <20260330073541.2871414-1-make24@iscas.ac.cn>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260319155334.51278-1-john.madieu.xa@bp.renesas.com>
- <20260319155334.51278-8-john.madieu.xa@bp.renesas.com> <20260320-peculiar-cat-of-acumen-c6f6b3@quoll>
- <TY6PR01MB173775E9970A41ED3A7FFF1DAFF52A@TY6PR01MB17377.jpnprd01.prod.outlook.com>
-In-Reply-To: <TY6PR01MB173775E9970A41ED3A7FFF1DAFF52A@TY6PR01MB17377.jpnprd01.prod.outlook.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 30 Mar 2026 20:47:51 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdW6Ac_=BugNJaqWnazdDsuzBB765jpzXt8fUasbypXFxg@mail.gmail.com>
-X-Gm-Features: AQROBzBY2yW50P7_EhVQZxwFTstX-3Z9DxWPu0ijoIOHvrdSgZhFLZHzJwI06ec
-Message-ID: <CAMuHMdW6Ac_=BugNJaqWnazdDsuzBB765jpzXt8fUasbypXFxg@mail.gmail.com>
-Subject: Re: [PATCH 07/22] ASoC: dt-bindings: renesas,rsnd: Add RZ/G3E support
-To: John Madieu <john.madieu.xa@bp.renesas.com>
-Cc: Krzysztof Kozlowski <krzk@kernel.org>, Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
-	Vinod Koul <vkoul@kernel.org>, Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Michael Turquette <mturquette@baylibre.com>, 
-	Stephen Boyd <sboyd@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Frank Li <Frank.Li@kernel.org>, 
-	Liam Girdwood <lgirdwood@gmail.com>, "magnus.damm" <magnus.damm@gmail.com>, 
-	Thomas Gleixner <tglx@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, "Claudiu.Beznea" <claudiu.beznea@tuxon.dev>, 
-	Biju Das <biju.das.jz@bp.renesas.com>, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
-	John Madieu <john.madieu@gmail.com>, 
-	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>, 
-	"linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>, 
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-	"dmaengine@vger.kernel.org" <dmaengine@vger.kernel.org>, 
-	"linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spamd-Result: default: False [0.04 / 15.00];
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260330073541.2871414-1-make24@iscas.ac.cn>
+X-Spamd-Result: default: False [0.34 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[kernel.org,renesas.com,baylibre.com,gmail.com,perex.cz,suse.com,pengutronix.de,tuxon.dev,bp.renesas.com,vger.kernel.org];
-	DMARC_NA(0.00)[linux-m68k.org];
-	RCPT_COUNT_TWELVE(0.00)[28];
-	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-30611-lists,linux-renesas-soc=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MISSING_XM_UA(0.00)[];
+	TAGGED_FROM(0.00)[bounces-30612-lists,linux-renesas-soc=lfdr.de];
+	FREEMAIL_TO(0.00)[iscas.ac.cn,renesas.com,lunn.ch,davemloft.net,google.com,kernel.org,redhat.com,ragnatech.se,cogentembedded.com,gmail.com,glider.be];
+	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[geert@linux-m68k.org,linux-renesas-soc@vger.kernel.org];
+	RCPT_COUNT_TWELVE(0.00)[19];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[6];
-	R_DKIM_NA(0.00)[];
-	NEURAL_HAM(-0.00)[-0.999];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,dt];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[renesas.com:email,mail.gmail.com:mid,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,linux-m68k.org:email]
-X-Rspamd-Queue-Id: 55DD5360004
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[lkp@intel.com,linux-renesas-soc@vger.kernel.org];
+	DKIM_TRACE(0.00)[intel.com:+];
+	NEURAL_HAM(-0.00)[-1.000];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,netdev,renesas];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 56EC0361B97
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi John,
+Hi Ma,
 
-On Mon, 30 Mar 2026 at 17:40, John Madieu <john.madieu.xa@bp.renesas.com> wrote:
-> > From: Krzysztof Kozlowski <krzk@kernel.org>
-> > > RZ/G3E has a different audio architecture from R-Car Gen2/Gen3/Gen4,
-> > > with additional clocks and resets:
-> > > - Per-SSI ADG clocks (adg.ssi.0-9)
-> > > - SCU related clocks (scu, scu_x2, scu_supply)
-> > > - SSIF supply clock
-> > > - AUDMAC peri-peri clock
-> > > - ADG clock
-> > > - Additional resets for SCU, ADG, and AUDMAC peri-peri
-> > >
-> > > RZ/G3E has 5 DMA controllers that can all be used by audio peripherals.
-> > > To allow the DMA core to distribute channels across all available
-> > > controllers, increase the maximum number of DMA entries in DVC, SRC,
-> > > and SSIU sub-nodes so that multiple providers can be listed with
-> > > repeated channel names.
-> > >
-> > > Signed-off-by: John Madieu <john.madieu.xa@bp.renesas.com>
+kernel test robot noticed the following build warnings:
 
-> > > b/Documentation/devicetree/bindings/sound/renesas,rsnd.yaml
-> > > index e8a2acb92646..bc8885c4fa24 100644
-> > > --- a/Documentation/devicetree/bindings/sound/renesas,rsnd.yaml
-> > > +++ b/Documentation/devicetree/bindings/sound/renesas,rsnd.yaml
-> > > @@ -58,6 +58,7 @@ properties:
-> > >            - renesas,rcar_sound-gen2
-> > >            - renesas,rcar_sound-gen3
-> > >            - renesas,rcar_sound-gen4
-> > > +          - renesas,rcar_sound-r9a09g047     # RZ/G3E
-> >
-> > Do not use underscores in compatibles. Previously used wrong style is not
-> > the excuse here, just like previously poor code, mistakes, bugs,
-> > unreadable approches is not justification to repeat the same.
->
-> Got it.
->
-> > >    reg:
-> > >      minItems: 1
-> > > @@ -97,20 +98,22 @@ properties:
-> > >
-> > >    resets:
-> > >      minItems: 1
-> > > -    maxItems: 11
-> > > +    maxItems: 14
-> > >
-> > >    reset-names:
-> > >      minItems: 1
-> > > -    maxItems: 11
-> > > +    maxItems: 14
-> > >
-> > >    clocks:
-> > >      description: References to SSI/SRC/MIX/CTU/DVC/AUDIO_CLK clocks.
-> > >      minItems: 1
-> > > -    maxItems: 31
-> > > +    maxItems: 47
-> > >
-> > >    clock-names:
-> > >      description: List of necessary clock names.
-> > >      # details are defined below
-> > > +    minItems: 1
-> > > +    maxItems: 47
-> > >
-> > >    # ports is below
-> > >    port:
-> > > @@ -136,9 +139,17 @@ properties:
-> > >
-> > >          properties:
-> > >            dmas:
-> > > -            maxItems: 1
-> > > +            description:
-> > > +              Must contain unique DMA specifiers, one per available
-> > > +              DMAC. On RZ/G3E, up to 5 for transmission.
-> > > +            minItems: 1
-> > > +            maxItems: 5
-> > >            dma-names:
-> > > -            const: tx
-> > > +            minItems: 1
-> > > +            maxItems: 5
-> > > +            items:
-> > > +              enum:
-> > > +                - tx
-> >
-> > Multiple levels, multiple if:then: (further) - I don't find this binding
-> > manageable/readable. You should split it, with common binding defining
-> > common part of hardware or interface if there is such.
->
-> I as you suggested, I'll split it. Just to double check, should I fix
-> any bug found in there (like existing compatible strings having underscore
-> separators) ? Or should I just split and make sure only new SoC support is
-> bug free ?
+[auto build test WARNING on net-next/main]
+[also build test WARNING on net/main linus/master v7.0-rc6 next-20260327]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-You cannot just change existing compatible values, as they are part
-of the DT ABI.
+url:    https://github.com/intel-lab-lkp/linux/commits/Ma-Ke/net-renesas-rswitch-Fix-memory-leak-in-rswitch_phy_device_init/20260330-214200
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20260330073541.2871414-1-make24%40iscas.ac.cn
+patch subject: [PATCH] net: renesas: rswitch: Fix memory leak in rswitch_phy_device_init()
+config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20260331/202603310514.S572gcNU-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260331/202603310514.S572gcNU-lkp@intel.com/reproduce)
 
-When you split RZ/G3E off into a separate file, please drop the
-"rcar"-part[*] in its compatible value, and move the SoC-specific part
-right after the comma.  Perhaps "renesas,r9a09g047-sound"?
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603310514.S572gcNU-lkp@intel.com/
 
-[*] Disclaimer: I haven't read the RZ/G3E audio chapter yet.
+All warnings (new ones prefixed by >>):
 
-Gr{oetje,eeting}s,
+>> drivers/net/ethernet/renesas/rswitch_main.c:1480:2: warning: variable 'phydev' is uninitialized when used here [-Wuninitialized]
+    1480 |         phydev->mac_managed_pm = true;
+         |         ^~~~~~
+   drivers/net/ethernet/renesas/rswitch_main.c:1462:27: note: initialize the variable 'phydev' to silence this warning
+    1462 |         struct phy_device *phydev, *tmp_phydev;
+         |                                  ^
+         |                                   = NULL
+   1 warning generated.
 
-                        Geert
+
+vim +/phydev +1480 drivers/net/ethernet/renesas/rswitch_main.c
+
+3590918b5d07aa drivers/net/ethernet/renesas/rswitch.c      Yoshihiro Shimoda 2022-10-31  1459  
+c16a5033f77b9e drivers/net/ethernet/renesas/rswitch.c      Yoshihiro Shimoda 2023-02-01  1460  static int rswitch_phy_device_init(struct rswitch_device *rdev)
+3590918b5d07aa drivers/net/ethernet/renesas/rswitch.c      Yoshihiro Shimoda 2022-10-31  1461  {
+142f4caaa41b9c drivers/net/ethernet/renesas/rswitch_main.c Ma Ke             2026-03-30  1462  	struct phy_device *phydev, *tmp_phydev;
+c16a5033f77b9e drivers/net/ethernet/renesas/rswitch.c      Yoshihiro Shimoda 2023-02-01  1463  	struct device_node *phy;
+0df024d0f1d3e5 drivers/net/ethernet/renesas/rswitch.c      Yoshihiro Shimoda 2023-02-01  1464  	int err = -ENOENT;
+3590918b5d07aa drivers/net/ethernet/renesas/rswitch.c      Yoshihiro Shimoda 2022-10-31  1465  
+b46f1e5793298c drivers/net/ethernet/renesas/rswitch.c      Yoshihiro Shimoda 2023-02-01  1466  	if (!rdev->np_port)
+3590918b5d07aa drivers/net/ethernet/renesas/rswitch.c      Yoshihiro Shimoda 2022-10-31  1467  		return -ENODEV;
+3590918b5d07aa drivers/net/ethernet/renesas/rswitch.c      Yoshihiro Shimoda 2022-10-31  1468  
+c16a5033f77b9e drivers/net/ethernet/renesas/rswitch.c      Yoshihiro Shimoda 2023-02-01  1469  	phy = of_parse_phandle(rdev->np_port, "phy-handle", 0);
+c16a5033f77b9e drivers/net/ethernet/renesas/rswitch.c      Yoshihiro Shimoda 2023-02-01  1470  	if (!phy)
+c16a5033f77b9e drivers/net/ethernet/renesas/rswitch.c      Yoshihiro Shimoda 2023-02-01  1471  		return -ENODEV;
+c16a5033f77b9e drivers/net/ethernet/renesas/rswitch.c      Yoshihiro Shimoda 2023-02-01  1472  
+0df024d0f1d3e5 drivers/net/ethernet/renesas/rswitch.c      Yoshihiro Shimoda 2023-02-01  1473  	/* Set phydev->host_interfaces before calling of_phy_connect() to
+0df024d0f1d3e5 drivers/net/ethernet/renesas/rswitch.c      Yoshihiro Shimoda 2023-02-01  1474  	 * configure the PHY with the information of host_interfaces.
+0df024d0f1d3e5 drivers/net/ethernet/renesas/rswitch.c      Yoshihiro Shimoda 2023-02-01  1475  	 */
+142f4caaa41b9c drivers/net/ethernet/renesas/rswitch_main.c Ma Ke             2026-03-30  1476  	tmp_phydev = of_phy_find_device(phy);
+142f4caaa41b9c drivers/net/ethernet/renesas/rswitch_main.c Ma Ke             2026-03-30  1477  	if (!tmp_phydev)
+0df024d0f1d3e5 drivers/net/ethernet/renesas/rswitch.c      Yoshihiro Shimoda 2023-02-01  1478  		goto out;
+142f4caaa41b9c drivers/net/ethernet/renesas/rswitch_main.c Ma Ke             2026-03-30  1479  	__set_bit(rdev->etha->phy_interface, tmp_phydev->host_interfaces);
+35b78409e1c7ff drivers/net/ethernet/renesas/rswitch.c      Yoshihiro Shimoda 2023-10-17 @1480  	phydev->mac_managed_pm = true;
+0df024d0f1d3e5 drivers/net/ethernet/renesas/rswitch.c      Yoshihiro Shimoda 2023-02-01  1481  
+c16a5033f77b9e drivers/net/ethernet/renesas/rswitch.c      Yoshihiro Shimoda 2023-02-01  1482  	phydev = of_phy_connect(rdev->ndev, phy, rswitch_adjust_link, 0,
+c16a5033f77b9e drivers/net/ethernet/renesas/rswitch.c      Yoshihiro Shimoda 2023-02-01  1483  				rdev->etha->phy_interface);
+142f4caaa41b9c drivers/net/ethernet/renesas/rswitch_main.c Ma Ke             2026-03-30  1484  
+142f4caaa41b9c drivers/net/ethernet/renesas/rswitch_main.c Ma Ke             2026-03-30  1485  	/* Release the temporary reference obtained by of_phy_find_device() */
+142f4caaa41b9c drivers/net/ethernet/renesas/rswitch_main.c Ma Ke             2026-03-30  1486  	phy_device_free(tmp_phydev);
+142f4caaa41b9c drivers/net/ethernet/renesas/rswitch_main.c Ma Ke             2026-03-30  1487  
+c16a5033f77b9e drivers/net/ethernet/renesas/rswitch.c      Yoshihiro Shimoda 2023-02-01  1488  	if (!phydev)
+0df024d0f1d3e5 drivers/net/ethernet/renesas/rswitch.c      Yoshihiro Shimoda 2023-02-01  1489  		goto out;
+3590918b5d07aa drivers/net/ethernet/renesas/rswitch.c      Yoshihiro Shimoda 2022-10-31  1490  
+c16a5033f77b9e drivers/net/ethernet/renesas/rswitch.c      Yoshihiro Shimoda 2023-02-01  1491  	phy_set_max_speed(phydev, SPEED_2500);
+c16a5033f77b9e drivers/net/ethernet/renesas/rswitch.c      Yoshihiro Shimoda 2023-02-01  1492  	phy_remove_link_mode(phydev, ETHTOOL_LINK_MODE_10baseT_Half_BIT);
+c16a5033f77b9e drivers/net/ethernet/renesas/rswitch.c      Yoshihiro Shimoda 2023-02-01  1493  	phy_remove_link_mode(phydev, ETHTOOL_LINK_MODE_10baseT_Full_BIT);
+c16a5033f77b9e drivers/net/ethernet/renesas/rswitch.c      Yoshihiro Shimoda 2023-02-01  1494  	phy_remove_link_mode(phydev, ETHTOOL_LINK_MODE_100baseT_Half_BIT);
+c16a5033f77b9e drivers/net/ethernet/renesas/rswitch.c      Yoshihiro Shimoda 2023-02-01  1495  	phy_remove_link_mode(phydev, ETHTOOL_LINK_MODE_1000baseT_Half_BIT);
+c16a5033f77b9e drivers/net/ethernet/renesas/rswitch.c      Yoshihiro Shimoda 2023-02-01  1496  	rswitch_phy_remove_link_mode(rdev, phydev);
+3590918b5d07aa drivers/net/ethernet/renesas/rswitch.c      Yoshihiro Shimoda 2022-10-31  1497  
+c16a5033f77b9e drivers/net/ethernet/renesas/rswitch.c      Yoshihiro Shimoda 2023-02-01  1498  	phy_attached_info(phydev);
+3590918b5d07aa drivers/net/ethernet/renesas/rswitch.c      Yoshihiro Shimoda 2022-10-31  1499  
+0df024d0f1d3e5 drivers/net/ethernet/renesas/rswitch.c      Yoshihiro Shimoda 2023-02-01  1500  	err = 0;
+0df024d0f1d3e5 drivers/net/ethernet/renesas/rswitch.c      Yoshihiro Shimoda 2023-02-01  1501  out:
+0df024d0f1d3e5 drivers/net/ethernet/renesas/rswitch.c      Yoshihiro Shimoda 2023-02-01  1502  	of_node_put(phy);
+0df024d0f1d3e5 drivers/net/ethernet/renesas/rswitch.c      Yoshihiro Shimoda 2023-02-01  1503  
+0df024d0f1d3e5 drivers/net/ethernet/renesas/rswitch.c      Yoshihiro Shimoda 2023-02-01  1504  	return err;
+3590918b5d07aa drivers/net/ethernet/renesas/rswitch.c      Yoshihiro Shimoda 2022-10-31  1505  }
+3590918b5d07aa drivers/net/ethernet/renesas/rswitch.c      Yoshihiro Shimoda 2022-10-31  1506  
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
