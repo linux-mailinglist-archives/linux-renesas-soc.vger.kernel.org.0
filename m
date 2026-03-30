@@ -1,52 +1,63 @@
-Return-Path: <linux-renesas-soc+bounces-30562-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-30568-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id uMUKDgxJymkQ7QUAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-30562-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Mar 2026 11:57:32 +0200
+	id wD35CN5Vymn27gUAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-30568-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Mar 2026 12:52:14 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5791358B1B
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Mar 2026 11:57:31 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id B6322359B2D
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Mar 2026 12:52:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 5621A304EA7C
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Mar 2026 09:51:44 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 1890D30532F9
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Mar 2026 10:48:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C35B33B47C4;
-	Mon, 30 Mar 2026 09:51:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PRgV8pj/"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8BC8A3C2772;
+	Mon, 30 Mar 2026 10:47:55 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from Atcsqr.andestech.com (exmail.andestech.com [60.248.187.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0789389E07
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 30 Mar 2026 09:51:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD14E3C3BFC;
+	Mon, 30 Mar 2026 10:47:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=60.248.187.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774864300; cv=none; b=H5XWDwncQCYIq0fXWaXYL5yCCj0tV9q8rXYgyVsMGq9aaGBU2UAt4HqAQoOTxqwINs/AgVi4N8Fs3OdNeBnMwr5MZebR2/HlI0arxit/8bBTSMsssHM2PvJgR3kqBBxDswEmDUyP44h4Gh0ian8Rhn4JHNYYl1Tr0K2GoE5ZDE8=
+	t=1774867675; cv=none; b=pnnhfv4TqEDHkrLHXAqfc/m4enYg+bEoER9WXvbEQN1sAjfeTk1AqWEBf7wczWyK4ZXQCJ72oE0zTIzgqO0ybF1F7cDFEmr3USkH1uUy6pw0QFvrItmhaLwoL6oK9PKwxV2gutXh+OYXSvDuls8AzhfUhKNHuxyAz5LCzX663kA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774864300; c=relaxed/simple;
-	bh=OXNX/Ug2x6/gTt6PsDQ14KtrtSsY4bi054mDLVzJZXo=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:To; b=H/rw+/Awn3jUMUXmCfBnmsNPvPJZYCJfzYLfXlDgm22MYoVbkVnVPrAc5fBhMCg3PGibso1QYXSXnDyKoTLdPh+p+6UNEi8dT6o2uz1KyiuIeMATFULA+Z9VSQyTwGDIyPizHESoeryoTPyRJCMByybd7jLMdPT8tPsUh1E7dy4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PRgV8pj/; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 48784C2BCB1
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 30 Mar 2026 09:51:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774864300;
-	bh=OXNX/Ug2x6/gTt6PsDQ14KtrtSsY4bi054mDLVzJZXo=;
-	h=Subject:From:Date:To:From;
-	b=PRgV8pj/iupl+WYm/ikdqHQDnsZsRPAps3s11SW/N7ROYiKle8A1oWb1f2Xa8tYID
-	 bCUuWz4AVkBCyOlqIY6eySq82xUS2eunUX7VyTnJ3hLMqviLRpFsIjeiNrEk0RSa95
-	 Ce2VRvPN0ahHi2URWF7/CqgT1L3aVX2r/giIyrZLYv2uUZOTJlUKaHSAvQO7IQmoWJ
-	 Capz3bKpAR4bAzMwsIFGAPT14HZmMbyZXDF0K/XLUdHlptAIYSvIIq8EdnIqYHoGPj
-	 yWn3ag2JoDBkRAhiflLb6+G8nemQRg2zFz60wOoG94WYNjMj/VHePgFz8iAcgkAdhD
-	 3ouJZRKijr1wA==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id BCD5C392FFC4
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 30 Mar 2026 09:51:25 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	s=arc-20240116; t=1774867675; c=relaxed/simple;
+	bh=zrHDITLakLIpn0eicQi7YjWpbVQ6gGg7UH0uPpSZxgI=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=nMYDvsAKYxgGh4hcAfucuN2kyY4aZ63qcOfBtCztZwf4QBgObersu6pq0WToMbmVZQ0lLcrwdvsRuBLTbGHdTkGsLm7laW1wzYRDReyuVJsZ5ecMjzkqUmJ6gbAOaEpYlHj6TCQUQtunLAHtSQt0+OMWyi1/tBIDC1q9XlKBHT4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=permerror header.from=andestech.com; spf=pass smtp.mailfrom=andestech.com; arc=none smtp.client-ip=60.248.187.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=permerror header.from=andestech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=andestech.com
+Received: from Atcsqr.andestech.com (localhost [127.0.0.2] (may be forged))
+	by Atcsqr.andestech.com with ESMTP id 62UASprB039458;
+	Mon, 30 Mar 2026 18:28:51 +0800 (+08)
+	(envelope-from minachou@andestech.com)
+Received: from mail.andestech.com (ATCPCS34.andestech.com [10.0.1.134])
+	by Atcsqr.andestech.com with ESMTP id 62UARlIT038029;
+	Mon, 30 Mar 2026 18:27:47 +0800 (+08)
+	(envelope-from minachou@andestech.com)
+Received: from swlinux02.andestech.com (10.0.15.183) by ATCPCS34.andestech.com
+ (10.0.1.134) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Mon, 30 Mar
+ 2026 18:27:47 +0800
+From: Hui Min Mina Chou <minachou@andestech.com>
+To: <pjw@kernel.org>, <palmer@dabbelt.com>, <aou@eecs.berkeley.edu>,
+        <alex@ghiti.fr>, <geert+renesas@glider.be>,
+        <prabhakar.mahadev-lad.rj@bp.renesas.com>, <magnus.damm@gmail.com>,
+        <ben717@andestech.com>, <robh@kernel.org>, <krzk+dt@kernel.org>,
+        <conor+dt@kernel.org>, <jonathan.cameron@huawei.com>,
+        <devicetree@vger.kernel.org>, <linux-riscv@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>
+CC: <tim609@andestech.com>, <alex749@andestech.com>, <az70021@gmail.com>,
+        "Hui
+ Min Mina Chou" <minachou@andestech.com>
+Subject: [PATCH 0/7] refactor Andes cache driver for generic platform support
+Date: Mon, 30 Mar 2026 18:27:17 +0800
+Message-ID: <20260330102724.1012470-1-minachou@andestech.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -54,61 +65,105 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Patchwork summary for: linux-renesas-soc
-From: patchwork-bot+linux-renesas-soc@kernel.org
-Message-Id: 
- <177486428423.1080314.14947368629452795068.git-patchwork-summary@kernel.org>
-Date: Mon, 30 Mar 2026 09:51:24 +0000
-To: linux-renesas-soc@vger.kernel.org
-X-Spamd-Result: default: False [-2.16 / 15.00];
+Content-Type: text/plain
+X-ClientProxiedBy: ATCPCS33.andestech.com (10.0.1.100) To
+ ATCPCS34.andestech.com (10.0.1.134)
+X-DKIM-Results: atcpcs34.andestech.com; dkim=none;
+X-DNSRBL: 
+X-SPAM-SOURCE-CHECK: pass
+X-MAIL:Atcsqr.andestech.com 62UASprB039458
+X-Spamd-Result: default: False [3.54 / 15.00];
+	DMARC_POLICY_REJECT(2.00)[andestech.com : SPF not aligned (relaxed), No valid DKIM,reject];
+	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_MISSING_CHARSET(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
+	TAGGED_FROM(0.00)[bounces-30568-lists,linux-renesas-soc=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	TAGGED_FROM(0.00)[bounces-30562-lists,linux-renesas-soc=lfdr.de,linux-renesas-soc];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_ONE(0.00)[1];
-	FROM_NO_DN(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[patchwork-bot@kernel.org,linux-renesas-soc@vger.kernel.org];
+	FREEMAIL_TO(0.00)[kernel.org,dabbelt.com,eecs.berkeley.edu,ghiti.fr,glider.be,bp.renesas.com,gmail.com,andestech.com,huawei.com,vger.kernel.org,lists.infradead.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TO_DN_NONE(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
+	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[20];
+	FREEMAIL_CC(0.00)[andestech.com,gmail.com];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
 	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-renesas-soc];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: D5791358B1B
+	DBL_BLOCKED_OPENRESOLVER(0.00)[andestech.com:mid,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns];
+	FROM_NEQ_ENVFROM(0.00)[minachou@andestech.com,linux-renesas-soc@vger.kernel.org];
+	R_DKIM_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,dt];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	RCVD_COUNT_FIVE(0.00)[6]
+X-Rspamd-Queue-Id: B6322359B2D
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hello:
+This series refactors the Andes cache driver from an AX45MP-specific
+implementation to a generic Last Level Cache (LLC) driver that supports
+a broader range of Andes CPU cores.
 
-The following patches were marked "mainlined", because they were applied to
-geert/renesas-devel.git (master):
+The main motivation is to decouple the driver from AX45MP-specific
+naming and assumptions, making it easier to support future Andes
+platforms without duplicating code.
 
-Series: configs: cleanup obsolete or incorrect assignments
-  Submitter: Vincent Mailhol (Arm) <mailhol@kernel.org>
-  Committer: Nathan Chancellor <nathan@kernel.org>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=1067836
-  Lore link: https://lore.kernel.org/r/20260317-arm_defconf_cleanup-v1-0-8eecb7fdd24d@kernel.org
-    Patches: [1/9] scripts: kconfig: merge_config.sh: use POSIX '=' in test
+Changes in this series:
+
+- Refactor the ax45mp_cache driver into a generic andes_llcache driver,
+  introducing support for multiple Andes CPU cores and updating the
+  compatible strings accordingly
+
+- Improve initialization by centralizing cache operations
+
+- Improve LLC operation performance by switching to relaxed I/O
+  accessors and eliminating unnecessary fence instructions on I/O
+  memory, leveraging the platform's point-to-point strongly ordered
+  channel guarantee. Also fix hart ID mapping to use
+  cpuid_to_hartid_map() for correct behavior in AMP setups
+
+- Centralize cache operations and adopt native WBINVAL support,
+  simplifying the cache flush/invalidate path
+
+- Rename DT binding schema from andestech,ax45mp-cache to
+  andestech,llcache and update all compatible strings in the RISC-V DTS
+  files accordingly
+
+- Add MAINTAINERS entry for the Andes cache driver
 
 
-Total patches: 1
+Hui Min Mina Chou (7):
+  cache: ax45mp_cache: refactor cache driver for generic Andes platform
+    support
+  cache: andes_llcache: refactor initialization and cache operations
+  cache: andes_llcache: improve performance of LLC operation
+  cache: andes_llcache: centralize cache ops and use native WBINVAL
+  dt-bindings: cache: ax45mp-cache: rename ax45mp-cache to llcache
+  dts: riscv: update cache compatible strings to LLC
+  MAINTAINERS: Add maintainers for Andes cache driver
+
+ ...ache.yaml => andestech,andes-llcache.yaml} |  20 +-
+ MAINTAINERS                                   |   8 +
+ arch/riscv/Kconfig.errata                     |   2 +-
+ arch/riscv/boot/dts/andes/qilai.dtsi          |   4 +-
+ arch/riscv/boot/dts/renesas/r9a07g043f.dtsi   |   2 +-
+ drivers/cache/Kconfig                         |   6 +-
+ drivers/cache/Makefile                        |   2 +-
+ drivers/cache/andes_llcache.c                 | 215 +++++++++++++++++
+ drivers/cache/ax45mp_cache.c                  | 217 ------------------
+ drivers/soc/renesas/Kconfig                   |   2 +-
+ include/linux/soc/andes/csr.h                 |  12 +
+ 11 files changed, 254 insertions(+), 236 deletions(-)
+ rename Documentation/devicetree/bindings/cache/{andestech,ax45mp-cache.yaml => andestech,andes-llcache.yaml} (76%)
+ create mode 100644 drivers/cache/andes_llcache.c
+ delete mode 100644 drivers/cache/ax45mp_cache.c
+ create mode 100644 include/linux/soc/andes/csr.h
 
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
+2.34.1
 
 
