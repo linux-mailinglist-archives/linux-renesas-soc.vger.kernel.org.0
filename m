@@ -1,51 +1,51 @@
-Return-Path: <linux-renesas-soc+bounces-30580-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-30581-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id KBYPKyR2ymmB9AUAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-30580-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Mar 2026 15:09:56 +0200
+	id YLVLMGp2ymnZ9AUAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-30581-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Mar 2026 15:11:06 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15B6935BA91
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Mar 2026 15:09:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AC3735BB16
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Mar 2026 15:11:06 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 0D5613053BB5
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Mar 2026 13:02:18 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 9629F302979D
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Mar 2026 13:03:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A1D573CD8B4;
-	Mon, 30 Mar 2026 13:02:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1D4263D34B5;
+	Mon, 30 Mar 2026 13:03:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ToBj58cw"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="l+4o+hVu"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D7D81FF1C7;
-	Mon, 30 Mar 2026 13:02:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB76F3CFF6E;
+	Mon, 30 Mar 2026 13:03:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774875737; cv=none; b=MDiZHCH9FAzIWvkAHMCi6kVWxqAIxyC2uKAPpwYdj7nB3sbbzPAw2ZssLVT1F7FE6usWlrr4WFR/2CJP+5S/jpwANxtP6T1g8RDnYNdufDJLmZSoCf0aVKZB16MXqQvDZAjqZ6eT3RQAof7AuIRgaXnmNutPNdqywMkafjpdP5c=
+	t=1774875792; cv=none; b=Rbt3vFRAhO2TE5+a352uuevsQMdNVM0Qe+WoAjWj0sXRBo5MUIiqdTqr7QnCL1MzIl5HtolNun/MUtJnAT5UfVw/prgZnjIDTb066gAsloUlQ1BDrbId0n4AI3YTPIeq9awBjX6rVfohVyDV6DhxvG+aYIN/iI8wx/LFRW8IYys=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774875737; c=relaxed/simple;
-	bh=kw6JkL3fkTeQ2AvlrTTSoLDXGz1GhOI3fV5Nyp70Uls=;
+	s=arc-20240116; t=1774875792; c=relaxed/simple;
+	bh=buW5ym+8RQaRtIvbELFiYVgvwj/WNdl9xTYdSHbICn4=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=a6mEFB8zwYYpOAnFIy6y0THmJri1oqRkZipiko6DTg6/jtLI3Ue00iX1wyKDtoleQFq2Hf6fUF62zEJSaMp/cZ8PXBpuN2iQQcVufrd/GjLLMsBMwHBCEIrTgQwRhi2RsPnerRlQFtxvb84zk02LPOHUGflLGEyGxM/m/W/4s3g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ToBj58cw; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2E77DC4CEF7;
-	Mon, 30 Mar 2026 13:02:12 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=I3J4LVKa9WYWzb3WWM+JLv0ASahy5sTLTrkYxK2Z/uxXuJy/GwL5tUZDfgGUKq4B1Ptgq5Ke9QpSu7E+FX4NJuM6RhCVjSbaKvL8R/Vd9AVwwji8n5tWiiG9gBp3rPqrrmYuXYsBN8hcpS4Fg8GrgAcwOy4xwXNfwK2iEePYKOs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=l+4o+hVu; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C5AB6C4CEF7;
+	Mon, 30 Mar 2026 13:03:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774875737;
-	bh=kw6JkL3fkTeQ2AvlrTTSoLDXGz1GhOI3fV5Nyp70Uls=;
+	s=k20201202; t=1774875791;
+	bh=buW5ym+8RQaRtIvbELFiYVgvwj/WNdl9xTYdSHbICn4=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=ToBj58cwIW9MtOjqy2f1q/neD+/R79uMrsKv+YY90AnbI9gyPb/FgUSOo1MiC/tYE
-	 1QcijRB3YbGPtj+zmrVqgeZxzdll+ULPi3XcsqkzSMkeBtzLmfVk3AEK7wu9A+UB8W
-	 NSbFeQE7CkuiHwjvZHBNId0ujCtpwFpx1+h7kOSmP7ibT5aO0/KyodVNCweoJYlp4o
-	 oJwoUVZ7GyMasjSaEckWqF5I31Qbp1RDsgH+Wc1n3tF4oIqFNynzRexdG6OWkHjeEV
-	 JQ56v+7YDRhCq/Gjkcg4hO95DwGdAH0T93W+Ej/6989UvxJLonuMSsL41V+fav+qXu
-	 V5sSh6o1N+RXg==
-Message-ID: <8c01c910-21b4-4a16-98e4-197c20883d23@kernel.org>
-Date: Mon, 30 Mar 2026 15:02:11 +0200
+	b=l+4o+hVuGg84UyWGcBU55bHC2VHtto/ovSeHge18YcY8YOfWEE1tXApIxUf2UMXn1
+	 yBOE7OGxVVpLwtGD9/zVyHvMpd/eRhUEg128J/DxUabhGRpDGxi9dBMmad6U3NVEUd
+	 bcolMqNTf93CApKIX6xkgFq+yjDJ6EAppmrEWBFnUC4y+7YbJxtizp0k8pFxIAQCXE
+	 I2yFy0FXt4ZbtYMvwMDn/hqif4T0JxiyzM6/Nm9p0g1d2+JOSKttuZU3yJEsTL8920
+	 Ha+BcbWEW54C7l8gzgCWQ4OISWV+0izOHCegtKLGrhHH0bnDb7TFVEG7NWJ2rIzFWf
+	 QhtrHxrrvD+Gg==
+Message-ID: <bef394b6-00a6-4cab-be39-437a5d39bde5@kernel.org>
+Date: Mon, 30 Mar 2026 15:03:06 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -53,8 +53,7 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/7] cache: andes_llcache: refactor initialization and
- cache operations
+Subject: Re: [PATCH 6/7] dts: riscv: update cache compatible strings to LLC
 To: Hui Min Mina Chou <minachou@andestech.com>, pjw@kernel.org,
  palmer@dabbelt.com, aou@eecs.berkeley.edu, alex@ghiti.fr,
  geert+renesas@glider.be, prabhakar.mahadev-lad.rj@bp.renesas.com,
@@ -64,7 +63,7 @@ To: Hui Min Mina Chou <minachou@andestech.com>, pjw@kernel.org,
  linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org
 Cc: tim609@andestech.com, alex749@andestech.com, az70021@gmail.com
 References: <20260330102724.1012470-1-minachou@andestech.com>
- <20260330102724.1012470-3-minachou@andestech.com>
+ <20260330102724.1012470-7-minachou@andestech.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -110,7 +109,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <20260330102724.1012470-3-minachou@andestech.com>
+In-Reply-To: <20260330102724.1012470-7-minachou@andestech.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spamd-Result: default: False [-0.66 / 15.00];
@@ -123,7 +122,7 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-30580-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-30581-lists,linux-renesas-soc=lfdr.de];
 	FROM_HAS_DN(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
@@ -141,22 +140,43 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,dt];
 	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 15B6935BA91
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,0.3.13.64:email,andestech.com:email,0.1.134.160:email]
+X-Rspamd-Queue-Id: 1AC3735BB16
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
 On 30/03/2026 12:27, Hui Min Mina Chou wrote:
-> This patch cleans up the Andes LLC cache driver:
->  - improved error handling in andes_cache_init() by using goto labels
->  - updated andes_dma_cache_inv/wback() to check for !size instead of
->    start == end
->  - cache-line-size mismatch from an error to a warning
->  - Use ALIGN and ALIGN_DOWN helpers instead of the alignment logic in
->    andes_dma_cache_inv() and andes_dma_cache_wback().
+> Update the cache driver compatible strings from ax45mp-cache to llcache
 
-Please read submitting patches document. One thing per commit with
-proper rationale WHY you are doing this.
+Driver? DTS is for hardware.
+
+> for both Qilai and RZ/Five platforms.
+> This follows the Andes cache driver refactoring to use more generic
+
+Nope, driver changes cannot be the reason to change DTS.
+
+> Last Level Cache (LLC) naming.
+> 
+> Signed-off-by: Hui Min Mina Chou <minachou@andestech.com>
+> ---
+>  arch/riscv/boot/dts/andes/qilai.dtsi        | 4 ++--
+>  arch/riscv/boot/dts/renesas/r9a07g043f.dtsi | 2 +-
+>  2 files changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/arch/riscv/boot/dts/andes/qilai.dtsi b/arch/riscv/boot/dts/andes/qilai.dtsi
+> index de3de32f8c39..a7436cbf6f69 100644
+> --- a/arch/riscv/boot/dts/andes/qilai.dtsi
+> +++ b/arch/riscv/boot/dts/andes/qilai.dtsi
+> @@ -137,8 +137,8 @@ plmt: timer@100000 {
+>  		};
+>  
+>  		l2_cache: cache-controller@200000 {
+> -			compatible = "andestech,qilai-ax45mp-cache",
+> -				     "andestech,ax45mp-cache", "cache";
+> +			compatible = "andestech,qilai-llcache",
+> +				     "andestech,llcache", "cache";
+
+NAK, actual impact on users.
 
 Best regards,
 Krzysztof
