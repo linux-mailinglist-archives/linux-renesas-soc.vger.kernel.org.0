@@ -1,265 +1,306 @@
-Return-Path: <linux-renesas-soc+bounces-30597-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-30598-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id sIT+EhaTymnF+AUAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-30597-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Mar 2026 17:13:26 +0200
+	id GDlQLCWTymnF+AUAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-30598-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Mar 2026 17:13:41 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDE4535D951
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Mar 2026 17:13:24 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1143A35D967
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Mar 2026 17:13:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 13ABD30D663D
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Mar 2026 14:48:25 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 7A80C3157594
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Mar 2026 14:48:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8718F3271FD;
-	Mon, 30 Mar 2026 14:47:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0B33F324B23;
+	Mon, 30 Mar 2026 14:48:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="l5UtPOCp"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="BrEPOcJi";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="K8q6oQhJ"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from TYVP286CU001.outbound.protection.outlook.com (mail-japaneastazon11011021.outbound.protection.outlook.com [52.101.125.21])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F001431F984;
-	Mon, 30 Mar 2026 14:47:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.125.21
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774882049; cv=fail; b=pCQ/q3/VVjZ+c8C6zK1WwnHRvNM43kpyLVFSJc8ZJH5/MIHtJdy68qZTvo0kMiRCA/RHp0Ab/37tGxsXpeC45xIlLYqC9p/u4+Jd8d4mouOrXiSZJN9NCFmfbT8bFojXiX6Zst7mPoXS7zXRKV1ytthIk0HPBrvZV1Xm90Rs0Z8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774882049; c=relaxed/simple;
-	bh=DFZSrKrsECTUfBPfL0xPJB6/Og/FXY2CkCdnkdlu4Fw=;
-	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=b93Ew/7ZX7dkXNSp5qzhIg92f59lC9w50rHEpkWMFi9QpLzjYm4ctWXqfOgsaoZGCsXiRwKSkGjNI7MWLLk4/h49h56CIPb+L6KHJ6BgmCk+MI9q3eXuOI0WwLzRTB1spWBqYU9sTVR5U/0ahmGxg111KQKxq6dLRc+1cmBxwz0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=l5UtPOCp; arc=fail smtp.client-ip=52.101.125.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=SyuHqsvkPQbNiSZvxvMBgXEf0WBgmljR6GtR29ugbNL4nwrx6EDRSKW1DXN3DI7PzhchdXBwSoPlz+VkP55F7QVqYyMPBkEPQ7agSXxvD1N6Fw6T4lkJOHOwAK7I33ZSC9mzr4fIQ4Rj6vuFW2KNmiujii8V/nowlAcp2htdGIIPQbVDlOfVqmx0ykSzjHngxMMuqvIW7wdUNzfrBSzU5Q49uiJxFRypnmYZPKfMc+9OGH9iPIhRnxkVjRR7EUc7A7ZJbKhsBb8cvyaFWyKYaq4oE8nB7n8a98Lcl4D8aoPwWWziw7JJiKodD+IC5lX/E+pu8piBOsLIj27wCrKb6Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Rwti3xDulfhBsqdQX2B6FQPNrGbFDNHazu+SYXII8fM=;
- b=iVyeSXXz94ndEWKk6CnghYSeTIscmyz1+SHMKddyWTVBgt9Qlzpwyz6KYbCwj12gn+lmMwOOjnr7JVmo4+auPSyayKK7dMwugecVyIqvzt8KsX4WIKv0HoXmTDxopJFyJfY70LVp3EQuw2KUkXRfverHzPY6WgIBMItbIO2cxer9F86nGVpxhULfBUSioS+ElYB7vypfvlZ7wKOr/XvZe6cpxH0lmNk5zKFNNlZ/cffNaQcljupg/ivmvP2FxtjFlMNWapu/pOHoNSchXzS/XFqvIpCZjQvyQdTb+SSggVSC3tdS4bHAbe/zYBaLPbIrTr16kQsCOu8GsK4PNbQ/TQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Rwti3xDulfhBsqdQX2B6FQPNrGbFDNHazu+SYXII8fM=;
- b=l5UtPOCpJKQMJ2SOomOFEpW7Q5/UVVCgfDWI/xTrNy+fx8976EJ9BN1EYKYoGfQctsQ6uTdWLIc3mQODM+e/L3x8KuZXYQ9a4DG6l2tJNesxzrdpbhMxwKAwwx20aXyqDBkFFfHEBHchGQR/BaHHgc3BMaPQ0DJGIado+ThkIcM=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-Received: from TYCPR01MB11947.jpnprd01.prod.outlook.com (2603:1096:400:3e1::6)
- by TYTPR01MB11067.jpnprd01.prod.outlook.com (2603:1096:400:39a::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9745.28; Mon, 30 Mar
- 2026 14:47:25 +0000
-Received: from TYCPR01MB11947.jpnprd01.prod.outlook.com
- ([fe80::33f1:f7cd:46be:e4d8]) by TYCPR01MB11947.jpnprd01.prod.outlook.com
- ([fe80::33f1:f7cd:46be:e4d8%5]) with mapi id 15.20.9745.027; Mon, 30 Mar 2026
- 14:47:24 +0000
-From: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
-To: tomm.merciai@gmail.com,
-	geert@linux-m68k.org,
-	laurent.pinchart@ideasonboard.com
-Cc: linux-renesas-soc@vger.kernel.org,
-	biju.das.jz@bp.renesas.com,
-	Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org,
-	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Subject: [PATCH v2] drm: rz-du: Ensure correct suspend/resume ordering with VSP
-Date: Mon, 30 Mar 2026 16:46:47 +0200
-Message-ID: <20260330144651.817338-1-tommaso.merciai.xr@bp.renesas.com>
-X-Mailer: git-send-email 2.43.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: FR2P281CA0068.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:9a::12) To TYCPR01MB11947.jpnprd01.prod.outlook.com
- (2603:1096:400:3e1::6)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9154F3242D5
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 30 Mar 2026 14:48:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774882124; cv=none; b=NEYE/GmAZWuKamrRSzKI1iixrxXld0C5SB9zXCZKGEzB0E2jxeRQpIQFwTTM3YD2bL/dem2r4TtZsHYjcy9XzQkhdTMH0vpaYtNXPKXB+pfCZSG6gC4cSaxCzsJzWxgReiL4se3woRF9GQbs395ISQyw1wTEKIVacw12+E9/UsM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774882124; c=relaxed/simple;
+	bh=qRDMpKJX27w2zrmAyfZnBYRp0iKrPs7epsHO9Ew4my8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZDJYzRwSG67JIiNkGpjMnTvqis5Pkx7aO6PWGpBCLu4X50GKFp6XTvOpHmcE+NRlRX5MR6+MSTHUuxOSBLu0vnvp7cNdP/4ZbeTyV5shfI0/IZrHt0B+sOmTUVynHBLby1Z8WLksRUmSNgIi6RMPhvuTkPY7touxspbZ6pHI++E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=BrEPOcJi; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=K8q6oQhJ; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1774882122;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ZPJMgxubQOT61Bt8c1TkmO+q4Ej7bdY+pNKwDemJ1Jo=;
+	b=BrEPOcJiBgKyawOW84vRe/2aaKHprKqX3AeT8xQvqyUdq26gDqzfFaE53ePL46sNJOnQ8k
+	Yf5vLuPFGKS5Fn2EfGsEjROl8Dl0gMNT7TD4D3QAgNQbIvWaoNEkawF9DRABFOGCgVkSpT
+	Rba2pLhQShN+d+br+Au/UrTmEDY1ObY=
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
+ [209.85.160.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-416-ZFBHyjVLNbq7yZXlck8xMA-1; Mon, 30 Mar 2026 10:48:41 -0400
+X-MC-Unique: ZFBHyjVLNbq7yZXlck8xMA-1
+X-Mimecast-MFC-AGG-ID: ZFBHyjVLNbq7yZXlck8xMA_1774882120
+Received: by mail-qt1-f200.google.com with SMTP id d75a77b69052e-5093025ffecso144875611cf.0
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 30 Mar 2026 07:48:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=redhat.com; s=google; t=1774882120; x=1775486920; darn=vger.kernel.org;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ZPJMgxubQOT61Bt8c1TkmO+q4Ej7bdY+pNKwDemJ1Jo=;
+        b=K8q6oQhJEx3pnwO+3jLG8oJBEAddLRbv0kk5jno3mj2g50QrUs8oKawg8K8da2ZIwd
+         r4FGXvNMTUtzI9qHaKsVrKsdVWtsD+aLqLhfwYxYl2kCKb4Bo6lUWbSZZJMHu2xlpL3k
+         UIfg6GSawlT1jqE6TNlL/UHG1VOTBy1eeTbVwKrX9xjDjzDXLb56gtWQSQGo0WrVm4pU
+         FG3yLZZ+JLOp6K+w2tfrKqpfnmsIyYN/6jM/Getsw7KqmzGl+ve5otXG3t7twa9P7Z1T
+         b/DUjJ0vHwffMFZKlBwbe/721THxHotSdu6rpCmZty8sdZhcoy0NpHVGAWYWnoMgbMte
+         RScQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774882120; x=1775486920;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=ZPJMgxubQOT61Bt8c1TkmO+q4Ej7bdY+pNKwDemJ1Jo=;
+        b=npZKoDGx8xLcUVYZuEChB/KxTDH/vznTHe8vek3tLOyxkSqNWosGJHU2kM2/+bClHl
+         oK1snAMIcydCT/CbixgdFPCsT8nMPNUQq08NSNbRDyJZfBROuCTFD2i75abOMmLOjzoB
+         MGum/xaau++Q4S+J1o5RRVFg+61EEEBxcyjUr8ALeWARyFQg3RVJs2bPVh6CcHac3Ji1
+         UcWegxECi5Py4EzVPAg7uLKYCFe4wjGND1jEe6t8joeu1yGBeA8r+oHrUwjgxZJ/RnMe
+         6ruerAwsdclkSgfIq15Ac5Vmqu5ZsUYIpAjGdbbIfD2K/DCHjs2zmMkIjvZ3zmQCx8js
+         aTaw==
+X-Forwarded-Encrypted: i=1; AJvYcCWs3RnpwmUD6gqzOLHQF6wf5vdSYCGa+cWQa83WOlGA7dwl6OrtYE2QIJZaGeSM+YjM1UNG5jMGkDKvh3Jz9wU6JA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzfw/baLF6P0JVn068IslO3zBNkWpvVF0ZTzYKHQvnrrYqNAsb+
+	7SlZ3HHbKSfXoY5wqZhIYL4+i6Yu3ETF3rsVdpjRI1TDLWEPsOnL8yq03BulwgATxKzBH8gMKNn
+	aWTQ0ZlfsEwV5ajL5ufKqzdkw0fivHCV9pgcR+m/lf+q0mhaLGA/U+Psl769O6+brByczKmxp
+X-Gm-Gg: ATEYQzw9RFI7IXBXUseP9n4jywNGqSApGsH+9/K9v3m0les0DI8IO+89ypGbMDgaUnJ
+	eE61VfC3Tz8nncIYhal7T5mmtIRu2zx3adgb0HIGA3UNufVjnvfNBfCFTd576Er1BSAA2VNNoyt
+	UYJtzQfoNFu+70qKqSgYpfRT4KRYkglhNq178MbVh0Gj6c9UfeRccIDehZW0mrrjuBc5aXOy0pe
+	V/4KZz1L+AzbUpp6Yuyx6oYKtUfGiIQ6OeAjXiBIreLA9sFhLEU8rIxIsKg0ISBSUOUafmxUn4K
+	b01ZLZOfyAF7IxQEUe4hF+CsmlmUXrWoNSqA87ieOG9ej9t1ktbZmF7/NE1I8Ux3eCxUS0V4Zaz
+	81MgiZKawbfvG5IkNtTaYD6pfeHMM9aZm0IZd/1EMLLChtwuWqB6dst/q
+X-Received: by 2002:ac8:5710:0:b0:509:23c5:3291 with SMTP id d75a77b69052e-50ba39bae24mr162437941cf.65.1774882120184;
+        Mon, 30 Mar 2026 07:48:40 -0700 (PDT)
+X-Received: by 2002:ac8:5710:0:b0:509:23c5:3291 with SMTP id d75a77b69052e-50ba39bae24mr162437351cf.65.1774882119419;
+        Mon, 30 Mar 2026 07:48:39 -0700 (PDT)
+Received: from redhat.com (c-73-183-52-120.hsd1.pa.comcast.net. [73.183.52.120])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-50bb2dd8b81sm66397621cf.16.2026.03.30.07.48.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 30 Mar 2026 07:48:38 -0700 (PDT)
+Date: Mon, 30 Mar 2026 10:48:37 -0400
+From: Brian Masney <bmasney@redhat.com>
+To: "Miquel Raynal (Schneider Electric)" <miquel.raynal@bootlin.com>
+Cc: Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Olivia Mackall <olivia@selenic.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	Jayesh Choudhary <j-choudhary@ti.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Christian Marangi <ansuelsmth@gmail.com>,
+	Antoine Tenart <atenart@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	Pascal EBERHARD <pascal.eberhard@se.com>,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-crypto@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	Chen-Yu Tsai <wenst@chromium.org>
+Subject: Re: [PATCH 06/16] clk: tests: Add clk_parse_clkspec() Kunit testing
+Message-ID: <acqNRVLrPxABvecZ@redhat.com>
+References: <20260327-schneider-v7-0-rc1-crypto-v1-0-5e6ff7853994@bootlin.com>
+ <20260327-schneider-v7-0-rc1-crypto-v1-6-5e6ff7853994@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TYCPR01MB11947:EE_|TYTPR01MB11067:EE_
-X-MS-Office365-Filtering-Correlation-Id: b04f8f8c-8c23-43eb-5b3e-08de8e6b4167
-X-LD-Processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
- BCL:0;ARA:13230040|7416014|52116014|376014|366016|1800799024|38350700014|18002099003|56012099003;
-X-Microsoft-Antispam-Message-Info:
- SuKNazvisGgEToj9j5PEoMC4o4t7ffw+kbeg809LOx4qqxMm6HMZPIDIH0zFLOcVCWLfWYCUOa3f5SBUwyc4mCNcx45SE4scRw3f9Xe9oMLyi7rIGkibmzrSEbyrgEL41elu6+b7Z6pFIF/ervJstf5POpm6ItxhCtzucEvKHfJN3gFGwQlWsOnpRdK5jgs2UglHndsWfeM3xcqHVgoeljzT1cXfUjk57PG+Bz7LERQuC0cY8su822p79JqQ9cwgBNazSRq+9qz9NkTiHIaWD+MxiY1BAu18hsTRRio1bFUstCdIddEV10oLVj1lgwhPfgm1GgVyqIGXeOMO+Nsdyytt+8oUt7NNVDmcZjUN7OW/3GcV9JkrKGCvu1HAzs7udi0eMtsg901my4umf/9hwoPYrqXw+DBjIvzmdXkeGJUbDWbBe8aDHNv8DxdeMtt8eByN4t5B4D1XJtexuYvjdzHOl6dgF/cofWCXvT8gBgTz0DJSPukLukDMNoTsvD64acC9ubjxUqnBh0CPJvQX3LzuF5kyvmGHAoL0HqCOJ55Uea+jplCKDUM6jlwc/Fobsgy1ck2C3KxJ0pImoRaDUmnBoz0vhOuzFt4tM9AhjWUOdXXSg2feXBBzryYrczf2wpeSd97GT+Vgl4wb0EcCHKs9vfd7pPpSb/N8vG1bmzVz8GmTNXr4moYmm42i/gO2mKTu/1XU9mq4v7/xfMpDQQY/hprYRrDXJLaPCER4RorOPkBDVaPjXMej5o78bQ+ytCv3xwpkfp085TvRgIaG4eKehswCrVX/V6yTzwqKopQ=
-X-Forefront-Antispam-Report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB11947.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(52116014)(376014)(366016)(1800799024)(38350700014)(18002099003)(56012099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
- =?us-ascii?Q?ia6wgK82cp0dlg0ADhGWYtRQFEgv77VKk4lZVNqbQGT1lMALNdCVamnx9hWN?=
- =?us-ascii?Q?zlZX1KC5zoDGEtwsEIiWqFpstEdcwpiJQHIUb3cBECnOJ8azorfRWCLzLb6s?=
- =?us-ascii?Q?dEBu3hZCwzsrHCRQFP64lT9m1Pp/fLRRWZpffcayIbMHN/lPThJeeITjfbbd?=
- =?us-ascii?Q?3QZ51/McWCvMwDfMIJAQzxCtPmFpJMSoehPby6/QskAUUL57hT2odVFstEhq?=
- =?us-ascii?Q?5FaS0P1+rDygvMkRaE36RYoqDx/tmr96XOmTx5A8Szk6oAvTH3HQ+2DpXEfi?=
- =?us-ascii?Q?TF0/Vcx63gWgCp3YwPaXJ6POAJd8O6j3gpn9DCBqrC0EU0KWay76G/wO2Loq?=
- =?us-ascii?Q?HgkW+c53c8ReWs5fLNsWWy/1SNGZ44b9wgnLsrhJeZasJEKmVvO4aTFdBnr5?=
- =?us-ascii?Q?9LlD4HGSjQHynt6k+AkmPYbAnQaiT1OHRpUpnJ4pCcYb21cnPLg1u2j50a53?=
- =?us-ascii?Q?HEnAnIGXCg2OV2SymtdOJ7ZTRbsxCnIDrNUbRiapxUGFHkHk8gFvPaUrx1IU?=
- =?us-ascii?Q?BR6AOeabxWBJuI/SZRRW/XfJM+Iy0lficTobM7/ipJxjITDGnEBmtWxMij0k?=
- =?us-ascii?Q?ZyiS+EIZKe9KfXZRgG7SANGCoBJVCoMy06MZgMJw8e1CkQjZMVtTH+7c8dvq?=
- =?us-ascii?Q?OR1PVHZliGOjfEKw3FQDGLTCbv+pmHKb/9M/NtkZkDSemeV2WZodxb+XVSfv?=
- =?us-ascii?Q?6CZn7m1W3OIFtXbCx6w3uLSkxKiDeD1bsXEtP2+vGVpXl7E1oDehg7Bfz4e1?=
- =?us-ascii?Q?SjBIjllY3r7svIBig4zX1AjhZtoNpH5Aq2MP5lXyy0+XMuuapjGyyzPvw2Uu?=
- =?us-ascii?Q?099p5TPfQaB5C8uexjghkGh0jCstbzO+B9vrc2M644nhPGM2e5TeJvNHAd1U?=
- =?us-ascii?Q?tot9TiWy0sN+brRBR+Wtxrz/y9jDUw9QGuc8W3H0OEHIW0eFWffPuKrXLSaP?=
- =?us-ascii?Q?NU0WjhwMKHRzoxJy8PlYKMQ+TzVBM+BAZT2oLbCUkwg7YLhcpxrCzi6odr5I?=
- =?us-ascii?Q?ALzMTbwnTZhEXcRUOB33sQlaYsVYfDfZQvVLVpq2YDd3Y/VNdBWfnbuIzR2m?=
- =?us-ascii?Q?RDZsRIIILXRldtulR1OiMsqNmKqmoWHCyHftkhFzAqLlvPORo4l6Hfb42OJ/?=
- =?us-ascii?Q?r9IlfAtX/61xrtaAZAMd9rGxoyR8h8DlLfm20phLhhYUrI28/bvZRa5w/7og?=
- =?us-ascii?Q?Eieh19LvbSP1xk+Lj7V3To2QOXE5LJS56IWORogcc/DfuiOQveb/hGbCoqWM?=
- =?us-ascii?Q?ZFgCu/3kwiUzF0OpEwteTF/D/+t6lyXiIFT17Dmr1otpBG9+/yBeN/YUPkEe?=
- =?us-ascii?Q?CET0S8CwztZGcQOyVRCGmpHXpYNe6PWXltA6x9jqiFwFEbXmP/my9iUu/4/l?=
- =?us-ascii?Q?O9tGtDjZILfM3uHW3GhJSxIcLy4v7OmJiLtzYQyBF5wJh+ELh5YEgtsaKpc8?=
- =?us-ascii?Q?W7vTK8hqs5lA3bFjhSWlrM/5SQti8SYVRDWU2/WsCbXu88aF8i3adH+epiJd?=
- =?us-ascii?Q?3oiZLeOz5RXbWGIHgCSEGAhDy1OokMRyQqs5x9Gcy3G752Lg9QsiEK4rRhLr?=
- =?us-ascii?Q?vsvXPG7KbIYgjRFPCyDu5G0XqtxuTuC9bkJrEFneaHCmnKrlmbFtfjrojBaI?=
- =?us-ascii?Q?c5/PaBQ4TxE2U0mbY7gLCGfznibaWFBa51mhqPwe3Ewz8BfcMqiyV2a/6JYm?=
- =?us-ascii?Q?/OkZNVqbi/nmeVL+0XVEOyLOU2mTfChC5C7doFTdcpqBOLdKXBpro/S+WEj4?=
- =?us-ascii?Q?fqYm5vAtU+6ix17uJ9dP4kVVNEvL+RAygAu+WVescxlvON/7m5qn?=
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b04f8f8c-8c23-43eb-5b3e-08de8e6b4167
-X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB11947.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Mar 2026 14:47:24.7189
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: AGP+LamC3IJ/3h/GtpjSlbN1EvQ7Il+7KzUMgI17DfnDsGc/u2sG3qST9wFmCwvMFjqwF4phS89P20S49bkvyZnptWgYHefLdCmyBS/GckUzgf42FQJlnRJ+WJ/WXS73
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYTPR01MB11067
-X-Spamd-Result: default: False [2.84 / 15.00];
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260327-schneider-v7-0-rc1-crypto-v1-6-5e6ff7853994@bootlin.com>
+User-Agent: Mutt/2.3.0 (2026-01-25)
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_REJECT(1.00)[cv is fail on i=2];
-	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[renesas.com,none];
-	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[bp.renesas.com:s=selector1];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[redhat.com,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_DKIM_ALLOW(-0.20)[redhat.com:s=mimecast20190719,redhat.com:s=google];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_TWELVE(0.00)[14];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-30597-lists,linux-renesas-soc=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com,linux-m68k.org,ideasonboard.com];
-	FREEMAIL_CC(0.00)[vger.kernel.org,bp.renesas.com,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,lists.freedesktop.org,ideasonboard.com];
-	DKIM_TRACE(0.00)[bp.renesas.com:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[tommaso.merciai.xr@bp.renesas.com,linux-renesas-soc@vger.kernel.org];
+	FREEMAIL_CC(0.00)[baylibre.com,kernel.org,selenic.com,gondor.apana.org.au,ti.com,davemloft.net,gmail.com,glider.be,bootlin.com,se.com,sang-engineering.com,vger.kernel.org,chromium.org];
+	TAGGED_FROM(0.00)[bounces-30598-lists,linux-renesas-soc=lfdr.de];
 	FROM_HAS_DN(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[24];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[redhat.com:+];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
+	RCVD_COUNT_FIVE(0.00)[6];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[bmasney@redhat.com,linux-renesas-soc@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[renesas.com:email,bp.renesas.com:dkim,bp.renesas.com:mid,ideasonboard.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: EDE4535D951
+	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[bootlin.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 1143A35D967
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-The VSP serves as an interface to memory and a compositor to the DU. It
-therefore needs to be suspended after and resumed before the DU, to be
-properly stopped and restarted in a controlled fashion driven by the DU
-driver. This currently works by chance. Avoid relying on luck by
-enforcing the correct suspend/resume ordering with device links.
+Hi Miquel,
 
-Based on similar work done by Laurent Pinchart for R-Car DU.
-commit db5be3a7d6bd ("drm: rcar-du: Ensure correct suspend/resume
-ordering with VSP")
+On Fri, Mar 27, 2026 at 09:09:28PM +0100, Miquel Raynal (Schneider Electric) wrote:
+> Create a new set of kunit tests to make sure clk_parse_clkspec() is
+> working as expected. We currently verify if we get a proper device when
+> using indexes and names. If we make an out of bounds request we expect
+> an error.
+> 
+> For testing purposes, we must ensure of_clk_get_hw()'s symbol is
+> exported.
+> 
+> Suggested-by: Stephen Boyd <sboyd@kernel.org>
+> Signed-off-by: Miquel Raynal (Schneider Electric) <miquel.raynal@bootlin.com>
+> ---
+>  drivers/clk/Makefile                     |   1 +
+>  drivers/clk/clk.c                        |   1 +
+>  drivers/clk/clk_test.c                   | 124 +++++++++++++++++++++++++++++++
+>  drivers/clk/kunit_clk_parse_clkspec.dtso |  21 ++++++
+>  4 files changed, 147 insertions(+)
+> 
+> diff --git a/drivers/clk/Makefile b/drivers/clk/Makefile
+> index f7bce3951a30..97b621456bf5 100644
+> --- a/drivers/clk/Makefile
+> +++ b/drivers/clk/Makefile
+> @@ -19,6 +19,7 @@ clk-test-y			:= clk_test.o \
+>  				   kunit_clk_assigned_rates_zero.dtbo.o \
+>  				   kunit_clk_assigned_rates_zero_consumer.dtbo.o \
+>  				   kunit_clk_hw_get_dev_of_node.dtbo.o \
+> +				   kunit_clk_parse_clkspec.dtbo.o \
+>  				   kunit_clk_parent_data_test.dtbo.o
+>  obj-$(CONFIG_COMMON_CLK)	+= clk-divider.o
+>  obj-$(CONFIG_COMMON_CLK)	+= clk-fixed-factor.o
+> diff --git a/drivers/clk/clk.c b/drivers/clk/clk.c
+> index 47093cda9df3..1795246b10a0 100644
+> --- a/drivers/clk/clk.c
+> +++ b/drivers/clk/clk.c
+> @@ -5312,6 +5312,7 @@ struct clk_hw *of_clk_get_hw(struct device_node *np, int index,
+>  
+>  	return hw;
+>  }
+> +EXPORT_SYMBOL_GPL(of_clk_get_hw);
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
----
-v1->v2:
- - Collected Laurent Pinchart tag.
- - Added commit id of the similar work on R-Car DU.
+So that we don't unnecessarily broaden the API that's available to the
+clk providers, you can use EXPORT_SYMBOL_IF_KUNIT so that this is only
+available to the kunit tests.
 
- drivers/gpu/drm/renesas/rz-du/rzg2l_du_vsp.c | 16 ++++++++++++++++
- drivers/gpu/drm/renesas/rz-du/rzg2l_du_vsp.h |  2 ++
- 2 files changed, 18 insertions(+)
+Note that Chen-Yu posted a separate patch to add the includes for a
+separate test. The two patches will conflict since Stephen hasn't picked
+this up yet.
 
-diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_vsp.c b/drivers/gpu/drm/renesas/rz-du/rzg2l_du_vsp.c
-index bd486377f037..eb626c3cc421 100644
---- a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_vsp.c
-+++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_du_vsp.c
-@@ -20,6 +20,7 @@
- #include <drm/drm_vblank.h>
- 
- #include <linux/bitops.h>
-+#include <linux/device.h>
- #include <linux/dma-mapping.h>
- #include <linux/of_platform.h>
- #include <linux/platform_device.h>
-@@ -293,6 +294,9 @@ static void rzg2l_du_vsp_cleanup(struct drm_device *dev, void *res)
- {
- 	struct rzg2l_du_vsp *vsp = res;
- 
-+	if (vsp->link)
-+		device_link_del(vsp->link);
-+
- 	put_device(vsp->vsp);
- }
- 
-@@ -317,6 +321,18 @@ int rzg2l_du_vsp_init(struct rzg2l_du_vsp *vsp, struct device_node *np,
- 	if (ret < 0)
- 		return ret;
- 
-+	/*
-+	 * Enforce suspend/resume ordering between the DU (consumer) and the
-+	 * VSP (supplier). The DU will be suspended before and resume after the
-+	 * VSP.
-+	 */
-+	vsp->link = device_link_add(rcdu->dev, vsp->vsp, DL_FLAG_STATELESS);
-+	if (!vsp->link) {
-+		dev_err(rcdu->dev, "Failed to create device link to VSP %s\n",
-+			dev_name(vsp->vsp));
-+		return -EINVAL;
-+	}
-+
- 	ret = vsp1_du_init(vsp->vsp);
- 	if (ret < 0)
- 		return ret;
-diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_vsp.h b/drivers/gpu/drm/renesas/rz-du/rzg2l_du_vsp.h
-index 322eb80dcbaf..a22aaf0843ed 100644
---- a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_vsp.h
-+++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_du_vsp.h
-@@ -15,6 +15,7 @@
- #include <linux/scatterlist.h>
- 
- struct device;
-+struct device_link;
- struct drm_framebuffer;
- struct rzg2l_du_device;
- struct rzg2l_du_format_info;
-@@ -29,6 +30,7 @@ struct rzg2l_du_vsp_plane {
- struct rzg2l_du_vsp {
- 	unsigned int index;
- 	struct device *vsp;
-+	struct device_link *link;
- 	struct rzg2l_du_device *dev;
- };
- 
--- 
-2.43.0
+https://lore.kernel.org/linux-clk/20260225083413.3384950-1-wenst@chromium.org/
+
+>  
+>  static struct clk *__of_clk_get(struct device_node *np,
+>  				int index, const char *dev_id,
+> diff --git a/drivers/clk/clk_test.c b/drivers/clk/clk_test.c
+> index a268d7b5d4cb..b814b45f1f7e 100644
+> --- a/drivers/clk/clk_test.c
+> +++ b/drivers/clk/clk_test.c
+> @@ -3541,10 +3541,134 @@ static struct kunit_suite clk_hw_get_dev_of_node_test_suite = {
+>  	.test_cases = clk_hw_get_dev_of_node_test_cases,
+>  };
+>  
+> +static const struct clk_init_data clk_parse_clkspec_1_init_data = {
+> +	.name = "clk_parse_clkspec_1",
+> +	.ops = &empty_clk_ops,
+> +};
+> +
+> +static const struct clk_init_data clk_parse_clkspec_2_init_data = {
+> +	.name = "clk_parse_clkspec_2",
+> +	.ops = &empty_clk_ops,
+> +};
+> +
+> +static struct clk_hw *kunit_clk_get(struct of_phandle_args *clkspec, void *data)
+> +{
+> +	return (struct clk_hw *)data;
+> +}
+> +
+> +struct clk_parse_clkspec_ctx {
+> +	struct device_node *prov1_np;
+> +	struct device_node *prov2_np;
+> +	struct device_node *cons_np;
+> +};
+> +
+> +static int clk_parse_clkspec_init(struct kunit *test)
+> +{
+> +	struct clk_parse_clkspec_ctx *ctx;
+> +	struct clk_hw *hw1, *hw2;
+> +
+> +	ctx = kunit_kzalloc(test, sizeof(*ctx), GFP_KERNEL);
+> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ctx);
+> +	test->priv = ctx;
+> +
+> +	KUNIT_ASSERT_EQ(test, 0, of_overlay_apply_kunit(test, kunit_clk_parse_clkspec));
+> +
+> +	/* Register provider 1 */
+> +	hw1 = kunit_kzalloc(test, sizeof(*hw1), GFP_KERNEL);
+> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, hw1);
+> +	hw1->init = &clk_parse_clkspec_1_init_data;
+> +
+> +	ctx->prov1_np = of_find_compatible_node(NULL, NULL, "test,clock-provider1");
+> +	KUNIT_ASSERT_NOT_NULL(test, ctx->prov1_np);
+> +
+> +	KUNIT_ASSERT_EQ(test, 0, of_clk_hw_register_kunit(test, ctx->prov1_np, hw1));
+> +	of_clk_add_hw_provider(ctx->prov1_np, kunit_clk_get, hw1);
+
+Can you just use of_clk_hw_simple_get() and drop kunit_clk_get() above?
+
+> +	of_node_put(ctx->prov1_np);
+> +
+> +	/* Register provider 2 */
+> +	hw2 = kunit_kzalloc(test, sizeof(*hw2), GFP_KERNEL);
+> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, hw2);
+> +	hw2->init = &clk_parse_clkspec_2_init_data;
+> +
+> +	ctx->prov2_np = of_find_compatible_node(NULL, NULL, "test,clock-provider2");
+> +	KUNIT_ASSERT_NOT_NULL(test, ctx->prov2_np);
+> +
+> +	KUNIT_ASSERT_EQ(test, 0, of_clk_hw_register_kunit(test, ctx->prov2_np, hw2));
+> +	of_clk_add_hw_provider(ctx->prov2_np, kunit_clk_get, hw2);
+> +	of_node_put(ctx->prov2_np);
+> +
+> +	ctx->cons_np = of_find_compatible_node(NULL, NULL, "test,clock-consumer");
+> +	KUNIT_ASSERT_NOT_NULL(test, ctx->cons_np);
+> +
+> +	return 0;
+> +}
+> +
+> +static void clk_parse_clkspec_exit(struct kunit *test)
+> +{
+> +	struct clk_parse_clkspec_ctx *ctx = test->priv;
+> +
+> +	of_node_put(ctx->prov1_np);
+> +	of_node_put(ctx->prov2_np);
+
+Is there a double free of prov1_np and prov2_np? If this is dropped from
+the test exit, then they should't need to be in the ctx struct.
+
+Brian
 
 
