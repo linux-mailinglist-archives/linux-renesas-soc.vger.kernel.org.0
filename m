@@ -1,149 +1,114 @@
-Return-Path: <linux-renesas-soc+bounces-30561-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-30562-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id cNLGAIg9ymnD6gUAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-30561-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Mar 2026 11:08:24 +0200
+	id uMUKDgxJymkQ7QUAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-30562-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Mar 2026 11:57:32 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49961357D7D
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Mar 2026 11:08:23 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id D5791358B1B
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Mar 2026 11:57:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 47D26300D31D
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Mar 2026 08:57:58 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 5621A304EA7C
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Mar 2026 09:51:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DDA533AE709;
-	Mon, 30 Mar 2026 08:57:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C35B33B47C4;
+	Mon, 30 Mar 2026 09:51:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="K2NhQP66"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PRgV8pj/"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 955DC3ACEE1
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 30 Mar 2026 08:57:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0789389E07
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 30 Mar 2026 09:51:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774861077; cv=none; b=r3Ql+/s2TS5SPZGN87ZMYaJvmIfZbKPl7AdWIDx484AyfHw3yQw2r4uFg3a4y3EbZtdr4aR6jL2cszp/B53kkp/l4/atNO0N5nw1aj6msv+DBGfxRq79nRiOcix8XebmCYfsXjpn5tMvBAX0Ch8HT1t12Ypik9nRCn8SLOaFEaM=
+	t=1774864300; cv=none; b=H5XWDwncQCYIq0fXWaXYL5yCCj0tV9q8rXYgyVsMGq9aaGBU2UAt4HqAQoOTxqwINs/AgVi4N8Fs3OdNeBnMwr5MZebR2/HlI0arxit/8bBTSMsssHM2PvJgR3kqBBxDswEmDUyP44h4Gh0ian8Rhn4JHNYYl1Tr0K2GoE5ZDE8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774861077; c=relaxed/simple;
-	bh=PiuJ4NPKm2leaIla21yUHpUv0jC6jrC8cGAcxXurbYM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YFrU0HDQJHtDYHgcNp2R5eb0aSQT4ShXdQzoybmWu5tjfzCHzRGRUOYm7MR5/1x7hZ5bm2fm6XKss2hAVfacLENDsi8/EHWGKq0+Jdrvms82Ltx19YNNy57gDF1rR/Onl6P2xapd71MUF0efXgqeiXwTQAzrlx7XHHTBo6x+izc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=K2NhQP66; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=PiuJ
-	4NPKm2leaIla21yUHpUv0jC6jrC8cGAcxXurbYM=; b=K2NhQP66jiaRD191B3NQ
-	Og06GXhV39NEm+iNeBJuoE0E1R91ZmT9nRTj+t6ieCq785ZZJSoD6cxo8DSOJ8NC
-	UeiJD+fok1r8Od4fLeqomYaLXt9GIsiOmvr/NLtRU6eUh5f7kL0Y0bJ5nJ6iy2KY
-	x/O5V/rB+NhzHX7TSn19G5KIpRmr50Xl0FGBt0kzeXxqgARN35Y8n+8lBrI6awRQ
-	ChAxT7hHW9OiyT4+5yXDU2qQjmwxaacRNo5tc5FXJrR+uEE5WcbcWfMK+nYBo/TX
-	63LPP+wsYM5N55OU96GIUlnyKk3wGHRjjQcdfjzrajZjkGSoWwbZdnA2vH9k7uKD
-	BQ==
-Received: (qmail 1198637 invoked from network); 30 Mar 2026 10:57:44 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 30 Mar 2026 10:57:44 +0200
-X-UD-Smtp-Session: l3s3148p1@sDZHCzpO1Osujns6
-Date: Mon, 30 Mar 2026 10:57:44 +0200
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Roman Gushchin <roman.gushchin@linux.dev>
-Cc: linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Jassi Brar <jassisinghbrar@gmail.com>,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>
-Subject: Re: Sashiko review feedback (was Re: [PATCH 2/3] soc: renesas: Add
- Renesas R-Car MFIS driver)
-Message-ID: <aco7CM5N3E6A0v8v@shikoro>
-References: <20260317130638.2804-1-wsa+renesas@sang-engineering.com>
- <20260317130638.2804-3-wsa+renesas@sang-engineering.com>
- <ab-vWbjdlAIt1qaX@ninjato>
- <87a4vyynl2.fsf@linux.dev>
- <acIsrJp2Zq2ntS5f@shikoro>
- <87ikalp9b2.fsf@linux.dev>
+	s=arc-20240116; t=1774864300; c=relaxed/simple;
+	bh=OXNX/Ug2x6/gTt6PsDQ14KtrtSsY4bi054mDLVzJZXo=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:To; b=H/rw+/Awn3jUMUXmCfBnmsNPvPJZYCJfzYLfXlDgm22MYoVbkVnVPrAc5fBhMCg3PGibso1QYXSXnDyKoTLdPh+p+6UNEi8dT6o2uz1KyiuIeMATFULA+Z9VSQyTwGDIyPizHESoeryoTPyRJCMByybd7jLMdPT8tPsUh1E7dy4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PRgV8pj/; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 48784C2BCB1
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 30 Mar 2026 09:51:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774864300;
+	bh=OXNX/Ug2x6/gTt6PsDQ14KtrtSsY4bi054mDLVzJZXo=;
+	h=Subject:From:Date:To:From;
+	b=PRgV8pj/iupl+WYm/ikdqHQDnsZsRPAps3s11SW/N7ROYiKle8A1oWb1f2Xa8tYID
+	 bCUuWz4AVkBCyOlqIY6eySq82xUS2eunUX7VyTnJ3hLMqviLRpFsIjeiNrEk0RSa95
+	 Ce2VRvPN0ahHi2URWF7/CqgT1L3aVX2r/giIyrZLYv2uUZOTJlUKaHSAvQO7IQmoWJ
+	 Capz3bKpAR4bAzMwsIFGAPT14HZmMbyZXDF0K/XLUdHlptAIYSvIIq8EdnIqYHoGPj
+	 yWn3ag2JoDBkRAhiflLb6+G8nemQRg2zFz60wOoG94WYNjMj/VHePgFz8iAcgkAdhD
+	 3ouJZRKijr1wA==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id BCD5C392FFC4
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 30 Mar 2026 09:51:25 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="5FeGGYkkWdRlJwZp"
-Content-Disposition: inline
-In-Reply-To: <87ikalp9b2.fsf@linux.dev>
-X-Spamd-Result: default: False [-1.76 / 15.00];
-	SIGNED_PGP(-2.00)[];
-	SUSPICIOUS_RECIPS(1.50)[];
+Content-Transfer-Encoding: 8bit
+Subject: Patchwork summary for: linux-renesas-soc
+From: patchwork-bot+linux-renesas-soc@kernel.org
+Message-Id: 
+ <177486428423.1080314.14947368629452795068.git-patchwork-summary@kernel.org>
+Date: Mon, 30 Mar 2026 09:51:24 +0000
+To: linux-renesas-soc@vger.kernel.org
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[sang-engineering.com:s=k1];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	MIME_GOOD(-0.20)[multipart/signed,text/plain];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-30561-lists,linux-renesas-soc=lfdr.de,renesas];
-	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	DMARC_NA(0.00)[sang-engineering.com];
-	MIME_TRACE(0.00)[0:+,1:+,2:~];
-	FREEMAIL_CC(0.00)[vger.kernel.org,gmail.com,renesas.com,glider.be];
-	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	RCVD_TLS_LAST(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	TAGGED_FROM(0.00)[bounces-30562-lists,linux-renesas-soc=lfdr.de,linux-renesas-soc];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_ONE(0.00)[1];
+	FROM_NO_DN(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[patchwork-bot@kernel.org,linux-renesas-soc@vger.kernel.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	TO_DN_NONE(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[wsa@sang-engineering.com,linux-renesas-soc@vger.kernel.org];
-	DKIM_TRACE(0.00)[sang-engineering.com:+];
-	RCPT_COUNT_SEVEN(0.00)[7];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[linux-renesas-soc];
+	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
-	TO_DN_SOME(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sang-engineering.com:dkim,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 49961357D7D
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: D5791358B1B
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
+Hello:
 
---5FeGGYkkWdRlJwZp
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+The following patches were marked "mainlined", because they were applied to
+geert/renesas-devel.git (master):
 
-
-> > Sure thing. Is there a dedicated mailing-list or better email address I
-> > can add?
->=20
-> Not yet, but I think of creating one.
-
-Until that exists, shall I use your email to add Reported-by tags? In
-another of my series, Sashiko found valid issues which already existed
-before my series. A tag would be proper, I'd think?
+Series: configs: cleanup obsolete or incorrect assignments
+  Submitter: Vincent Mailhol (Arm) <mailhol@kernel.org>
+  Committer: Nathan Chancellor <nathan@kernel.org>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=1067836
+  Lore link: https://lore.kernel.org/r/20260317-arm_defconf_cleanup-v1-0-8eecb7fdd24d@kernel.org
+    Patches: [1/9] scripts: kconfig: merge_config.sh: use POSIX '=' in test
 
 
---5FeGGYkkWdRlJwZp
-Content-Type: application/pgp-signature; name="signature.asc"
+Total patches: 1
 
------BEGIN PGP SIGNATURE-----
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmnKOwQACgkQFA3kzBSg
-KbbAQw/+K+sNhSViCAdjwONQjsludmtw5zTk4O14XLhb4U5MITsCqVRx6SCwcQAv
-DvwooBgBO8LWPTdGErjCR5vY+k9bjtcdZPZZcnIHYHITmy9tGXu7hLnvaNkDK2LO
-oEpl4KT4wfwUJTvWn5vZYe1N2uEDRVXUocpYvHvPPaTZcPdkbb8dKsCjDuZUmcGq
-uwZhQe9eYJ3hs5yhe4MQOymyZt8y6z22Xn0fF8W802QsnzSgELJThhMuiwviSsFQ
-+RlnTtwuLKVG2CJ5w+qFGaW2tGZkSLL6YHRmjfFLBQ1uiv/NSa+FM+BLFvvnkEmb
-J4ff8HCiMjAq4sgy0nvOlbz0JmS8C/UTD1bj0p/zmGH/JD51aakHLt4OmtkLfUyf
-CXnEOvviHf+332JM3kjc08YvsKQGnPBBTINOA7cHbJ9fsDP6Uviv0qF9Y14rmdwQ
-sdQ684JQKqERUE8hSBLpf9bQ4cqlLfd3qeCD+3e2SfAwhAagev4MG8+FHzqsd/PJ
-WVneRPPUhaCGt1dmKvqzYXEeQWTmFS5SXWYp6p+krob1GRZVOcuf5SceYc3v3QK/
-leithhZ/AqDL2YRvRDaptzejmf0YzvC3dh1jtQ8nx49Lw/9fC9DjFU4225HEOBB2
-IY/ONpJSglqfCqTjE//tb28va7eo7k5cFeZOi2dyrp+0tkMsVko=
-=MPZI
------END PGP SIGNATURE-----
 
---5FeGGYkkWdRlJwZp--
 
