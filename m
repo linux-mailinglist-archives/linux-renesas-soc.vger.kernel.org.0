@@ -1,172 +1,173 @@
-Return-Path: <linux-renesas-soc+bounces-30622-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-30623-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id eB34OkR9y2mLIQYAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-30622-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 31 Mar 2026 09:52:36 +0200
+	id 2EECKnB/y2mLIQYAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-30623-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 31 Mar 2026 10:01:52 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61C8336584A
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 31 Mar 2026 09:52:36 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id CA86A365AED
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 31 Mar 2026 10:01:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 4AF6A303E77B
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 31 Mar 2026 07:45:02 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 48C04309671B
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 31 Mar 2026 07:50:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0AD8F3CA4A2;
-	Tue, 31 Mar 2026 07:44:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BC0AF3CF034;
+	Tue, 31 Mar 2026 07:50:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gO1gvtqh"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ua1-f54.google.com (mail-ua1-f54.google.com [209.85.222.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCAE83CEBA6
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 31 Mar 2026 07:44:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 964853CE48F;
+	Tue, 31 Mar 2026 07:50:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774943098; cv=none; b=LrEX8he2p3aoqLQA05AgQ3Ekn5ypp0T9Ja0bK4xCGyOEQ7ejVX0lJk/YnZc8ne2TZ3QhbNrqTUAlJ2x7KwYZ6S9hemayJuDASgZf1mwBhSzJLXyOWTjj8lbQQme//NAT+GVJrAlVZ8bX3xVH+sqPLXlBkJN0sZDONLPvfWIyasI=
+	t=1774943414; cv=none; b=UQ7A0gPzuEIsltSifQF1euC2aLJ/x+3cHVWo+St7eraYx5JqODNV9sfI0f/iY/zP0tX5Mc9ZptDBgdtejqmpOWap6A91BZ5DQZxkTrhMnv19uO1oMKpBwcY0wV6f1s7FLC91CRltIRX1wMnlsjvReH/IyUAWgm4EgE/C/cbibMY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774943098; c=relaxed/simple;
-	bh=nKmyEyb7D7X36SQfOAdROYfUNgUvsyP0yfSF1pdMOHw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=s9GY2UzyD4sfho4mFqzRbs2vp4rJ7vzTn7VG9kyQtGvEZBE/UhJvpuLU3F+pTnU56SdJGV9VHtadI8idWXmlzIoeGJwEqxQJ8R3w6jC71WwR+TcyFibCt+Mg/1NfjFjpaAtYZPZnsnc5NMvG9r2/F846j4oMx2Yk9+CJ+HkxxAQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ua1-f54.google.com with SMTP id a1e0cc1a2514c-953ac1602f8so1647967241.1
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 31 Mar 2026 00:44:55 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774943094; x=1775547894;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=UCnU+44uyO1qnSG/QzkF9pVqHllgFD/vqjs6wXakTZE=;
-        b=lcVLFP9BgMgOEJriZjQvEhm7VyPMHMp+oEu4V5JfL7FEaf4KNQSxEzZHafbXvHt0UX
-         kuJq4Y08b5XmCe/ryKZVOuTXhxeOUdV+ELvR8G/hNd8f903GH/AEBe5Yyf5UeEZ141Xi
-         A3WsFFhhc4tf9zZn5sf+OrPtRPLvnSHi7rbgwXzYyS3FzeSUxbgqZdxRX5AEvA1XZeNo
-         QAPWTDqmUbm7ARxyLfRIWFOmQg+EXw2WsHkRn4yEMJycje5V3hoHhCbR6PnkfLPJSL6R
-         JtGj2lmGr1e07IuHjOkfLW79N5VQkN/i3Wb9V1qSr1YB5gBzr03QYUFOMc1LwgtJNcJn
-         brsg==
-X-Forwarded-Encrypted: i=1; AJvYcCWM0c07KLuKZO39pKbIP+hi/6twHMAna2m61F+XdvbLpxjazuhW7Zr+bMmmWdmYnoWp6lHy1FUUzfFL+LQhre6NlA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzzhZ3ZXF+8kSnGHtxZWbYevYKeTS/E8x1t8rGKdnVjj9nUbwbZ
-	rSIkswxBQUomjF7TAqjvJtSDJjbzFq+15iFfyylNQ7js3YW7OCiVLDYrAz+DX+bY
-X-Gm-Gg: ATEYQzwvPCRp8nQ0c5vENGb94vx4msyqTWM1VqCv/LaT8TKAcYk17WVcIi1WZIkxPjL
-	xZq6nuQjj6NDvxXUb05lLxjwANmpgYuqdG+O8fNM/2HiQErkWw/gmx9S7ACmN6nWnMa0N8DrEJt
-	IBetuMJjs/1+QN121HNjWIHEhJf2IUAkiLHYDig5lBeZe0SYg4Ma5HjNr6S42PgXmEaTGKgIN7s
-	4vL9JK/51do+REQ+SJcVmq7MELGiFbEFV6Hcm4gnEltT94AO++fsjf4KNHSmoriGv3t/EkG/aBm
-	kxULNVB8ZkLpSmFmMVxlwT+cnDfwPoiOp6v5Dsokv9LOjxG0ciHjJvOTm4liLwdxnVEceTjjJNI
-	XxQrlrSvRUltmRnKVEMgbOmuz9MGJAcLDGRTVnE9nac0XjdxDwPaQciCQ8Eq71Sl58zRp8ikxGJ
-	JmPLr1ptkLHdHH/zGHqjaBi7pg91Y24hzk7zvzIOUcxpIkOEBVzlFeptcvr4GbItzz
-X-Received: by 2002:a05:6102:6c6:b0:603:1ebc:2632 with SMTP id ada2fe7eead31-6054fd620efmr921736137.6.1774943094376;
-        Tue, 31 Mar 2026 00:44:54 -0700 (PDT)
-Received: from mail-vk1-f174.google.com (mail-vk1-f174.google.com. [209.85.221.174])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-60512a4eb23sm11078703137.5.2026.03.31.00.44.53
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 31 Mar 2026 00:44:54 -0700 (PDT)
-Received: by mail-vk1-f174.google.com with SMTP id 71dfb90a1353d-56ccdd0044dso4520655e0c.0
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 31 Mar 2026 00:44:53 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVw5+d3mKhDhcLczc4fbfkuw/SvL8win1rEwSDDXg/KFrgp/28qZUI8Y/paMzW23vtG2Y39WOSmK+3PgpIR4Q6Mnw==@vger.kernel.org
-X-Received: by 2002:a05:6102:1612:b0:5ff:c40b:27eb with SMTP id
- ada2fe7eead31-6054fad1639mr1014244137.3.1774943093640; Tue, 31 Mar 2026
- 00:44:53 -0700 (PDT)
+	s=arc-20240116; t=1774943414; c=relaxed/simple;
+	bh=4LwdDJj1gGAd/pnFRYNpEqlt81AT1HxH4MeVZTzN6b8=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=bTdgDoHarLehFhpHI8mLOika9FGqZ0ncFRMT+706YfWvza4mfPP/OaJOJJyUWq26zipE8NpWi3JrDWvdMcMpH5zLlo2nO7jeWJYLWjmkDpiw1x1Fv7FjsAUlxQhunZe4p5RL6IOvdkYsvl+Ec8bV0zRegtgFPG2ZIXt4Wup+bTU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gO1gvtqh; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2A932C19423;
+	Tue, 31 Mar 2026 07:50:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774943414;
+	bh=4LwdDJj1gGAd/pnFRYNpEqlt81AT1HxH4MeVZTzN6b8=;
+	h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
+	b=gO1gvtqhfj+J8iL4E68QwPlCEq/9XRctzWCsYyLPdyvbFUheoNCT5QuNYOrU/BljX
+	 j5CBKXkm6fI0N6HnslOxzJUoAqSZpXeEE7Cm2XsCk3NXcUG19ybYLxhOPhHsrlYPkt
+	 6nMMCyfOdwnTAOfgagSnzchqg1Q8yTXlTg/d+gfi/JS4+0rnaGNnSb3lf7l9namZIr
+	 abRUcN4G1KD5D8l2hfcaTia/9B2Mvr3+ZUvi0HjstDjmHifZE1SAZfbFrOGwLwFGNB
+	 sq2X5naJbPlIJNMQ2RvMOP9Z4HreF8tsUVq7aKChY8d/7DfYy03yLxo2FgggfBehA0
+	 Y8Xdh2NcroMEg==
+Message-ID: <cfee8254-8573-4106-b71f-293073b64c89@kernel.org>
+Date: Tue, 31 Mar 2026 09:50:10 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260317130638.2804-1-wsa+renesas@sang-engineering.com>
- <20260317130638.2804-3-wsa+renesas@sang-engineering.com> <ab-vWbjdlAIt1qaX@ninjato>
- <87a4vyynl2.fsf@linux.dev> <acIsrJp2Zq2ntS5f@shikoro> <87ikalp9b2.fsf@linux.dev>
- <aco7CM5N3E6A0v8v@shikoro> <20260330135050.GD22278@macsyma.local> <act1L-2tQV4fHyU7@shikoro>
-In-Reply-To: <act1L-2tQV4fHyU7@shikoro>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 31 Mar 2026 09:44:42 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUP+pQwFuZDLV6LSYc2EBK-R2di8hzi1GA=jFYSigZDfw@mail.gmail.com>
-X-Gm-Features: AQROBzCR6aKRoB9Ee50lh5NCZXLipl3ougC2vqJW_UoKb9r6jVHt12x4oHiJeb0
-Message-ID: <CAMuHMdUP+pQwFuZDLV6LSYc2EBK-R2di8hzi1GA=jFYSigZDfw@mail.gmail.com>
-Subject: Re: Sashiko review feedback (was Re: [PATCH 2/3] soc: renesas: Add
- Renesas R-Car MFIS driver)
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/3] dt-bindings: soc: renesas: Document MFIS IP core
+From: Krzysztof Kozlowski <krzk@kernel.org>
 To: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: Theodore Tso <tytso@mit.edu>, Roman Gushchin <roman.gushchin@linux.dev>, 
-	linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Jassi Brar <jassisinghbrar@gmail.com>, 
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spamd-Result: default: False [0.04 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+Cc: linux-renesas-soc@vger.kernel.org, Marek Vasut <marek.vasut@mailbox.org>,
+ devicetree@vger.kernel.org, Geert Uytterhoeven <geert+renesas@glider.be>,
+ Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
+References: <20260325110717.17083-1-wsa+renesas@sang-engineering.com>
+ <20260325110717.17083-2-wsa+renesas@sang-engineering.com>
+ <20260326-magnetic-cautious-earthworm-aee7ec@quoll>
+ <acZtECu-1kuIuNrx@shikoro> <dd3587eb-f91e-4a9a-8a0b-b55bfba2c23a@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <dd3587eb-f91e-4a9a-8a0b-b55bfba2c23a@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[mit.edu,linux.dev,vger.kernel.org,gmail.com,renesas.com,glider.be];
-	FROM_HAS_DN(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	DMARC_NA(0.00)[linux-m68k.org];
-	TAGGED_FROM(0.00)[bounces-30622-lists,linux-renesas-soc=lfdr.de];
-	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[vger.kernel.org,mailbox.org,glider.be,gmail.com,kernel.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-30623-lists,linux-renesas-soc=lfdr.de];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	RCVD_TLS_LAST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
+	NEURAL_HAM(-0.00)[-1.000];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[geert@linux-m68k.org,linux-renesas-soc@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	NEURAL_HAM(-0.00)[-0.352];
+	FROM_NEQ_ENVFROM(0.00)[krzk@kernel.org,linux-renesas-soc@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	MID_RHS_MATCH_FROM(0.00)[];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,dt];
 	RCPT_COUNT_SEVEN(0.00)[9];
-	R_DKIM_NA(0.00)[];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,sang-engineering.com:email,mail.gmail.com:mid,linux-m68k.org:email]
-X-Rspamd-Queue-Id: 61C8336584A
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: CA86A365AED
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi Wolfram,
+On 31/03/2026 09:15, Krzysztof Kozlowski wrote:
+> On 27/03/2026 12:42, Wolfram Sang wrote:
+>>>> +#define MFIS_CHANNEL_TX (0 << 0)
+>>>> +#define MFIS_CHANNEL_RX (1 << 0)
+>>>
+>>> No improvements and no answers to comments. Same review, drop, not a
+>>> binding. If disagree, respond to v1 comments.
+>>
+>> I think I did. I explained above in "changes since v1" that I decided to
+>> keep it because of the existing users in upstream that Geert mentioned.
+> 
+> Same review as in v1. Not a binding. I asked what Linux ABI are you here
+> binding. Point me to Linux code using these. This is the ABI.
+> 
+> You replied something about device, so how does it matter? It is not the
+> answer to the question.
 
-On Tue, 31 Mar 2026 at 09:18, Wolfram Sang
-<wsa+renesas@sang-engineering.com> wrote:
-> > I was thinking about proposing some tagging convention such as:
-> >
-> >    Suggested-by: Sashiko:Gemini 3.1 Pro
-> > or
-> >    Reviewed-by: Sashiko:Gemini 3.1 Pro
-> >
-> > to Documentation/process/coding-assistants.rst.  Alas, neither is
-> > perfect.
->
-> Yes, maybe an email is not so much needed and the information about
-> Sashiko and Gemini is much more relevant.
->
-> > Suggested-by: is generlly used when someone inspires a particular
-> > commit.  This might apply if Sashiko found a problem as an incidental
-> > finding, which we then fixed in a subsequent commit.  An example of
-> > this might be[1], or in the case which you suggested above.  But what
->
-> What about Reported-by? The required closes by would then link to the
-> actual report:
->
-> Reported-by: Sashiko:Gemini 3.1 Pro
-> Closes: https://sashiko.dev/#/patchset/20260319105947.6237-1-wsa%2Brenesas%40sang-engineering.com
->
-> The drawback currently is that only the whole report for the patchset
-> can be linked. But probably Sashiko-reports could have some more HTML
-> tags to reference only the paragraph needed.
+You made the posting unnecessarily complicated - this patch went to my
+DT address, but the rest to non-DT. Why not using b4 which gets it
+correct without effort? Plus it gives you much more like changelog with
+lore links and trailers handling?
 
-And the Closes-tag can only be used when the issue is closed in full.
-You can still add a normal Link-tag.
+So now I found the driver (in different place...) and indeed you use
+some of the constants, so this is an ABI. It was so easy in v1 to just
+point me to usage of the ABI when I asked how do you use this in Linux...
 
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Best regards,
+Krzysztof
 
