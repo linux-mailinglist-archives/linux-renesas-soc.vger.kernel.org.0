@@ -1,179 +1,176 @@
-Return-Path: <linux-renesas-soc+bounces-30618-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-30619-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id F8lUCe92y2mUIAYAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-30618-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 31 Mar 2026 09:25:35 +0200
+	id wE/QOKp2y2k3HwYAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-30619-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 31 Mar 2026 09:24:26 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B0B83651F8
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 31 Mar 2026 09:25:34 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FBA9365188
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 31 Mar 2026 09:24:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id ACB58306B2EA
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 31 Mar 2026 07:18:06 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id AA614304057D
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 31 Mar 2026 07:18:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3EBBC39657E;
-	Tue, 31 Mar 2026 07:18:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0EB093A3E61;
+	Tue, 31 Mar 2026 07:18:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SFVZlbkF"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="J9Tuh0Or"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A388BA34;
-	Tue, 31 Mar 2026 07:18:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D1D1396598
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 31 Mar 2026 07:18:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774941486; cv=none; b=Y85tE8p0Eh+BG8JDT7v1QePm5YoDP2+syoT0lpLQrl4O5R2m78WP0hMBH9pZuzXqAm//Xj4pl0Qb5bBjX+f64L0JEUU6qf06X5gDIZ6/3STyHCjGCOk5CNXg+debzAL8M5nHOjwUgYuvcQmpzTHY9Y4Y7dzZa/5wjNpFZai6NSY=
+	t=1774941490; cv=none; b=OYsVaTprVWe1EdpxSrW8YN2svFEmtwB/fg7+DGRVUDmHPpY/VzPPNfpYvv3jQXt1a5f2RGXlCib56nCcMBWnRBBtWqB1f50+bnr28IXiBLEQ0hZdgJt3vAAWHbQjCPMYqs6Xh4I8QwVYKJo/u0vXLK4yhENxWPU9IfMQafSnGRs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774941486; c=relaxed/simple;
-	bh=j8uxtGTpntBQ6T6FbsDXUIgFTKkW9eKnTw9GVXMPJ8A=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=cTb7V+/r8kF7CX+JEyt0FNZ8c+S6Mg33LSJAkw/tA7X0AqjGdQM0tyNNcIbbNsw0WEJKwIXEQDUouSzApz6WS6I5KG9qRanbBUXPfPoA0HJRAq2Rzscwo7gTw+IhMPq/CDmwqssMkzFs0Vp4j2KU4d+v72bjeV9X8mMSjGkWY5k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SFVZlbkF; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4211AC19423;
-	Tue, 31 Mar 2026 07:18:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774941485;
-	bh=j8uxtGTpntBQ6T6FbsDXUIgFTKkW9eKnTw9GVXMPJ8A=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=SFVZlbkFdEoqPJJikLTS/GgB3UNLqNA/LVdkjvrAxrB6gfcWAC7ukVXF5nvmIqRfJ
-	 bImicNzQG6bpNXw7wTsDX0NtPDU+/yTn8DrEjpxm5iTOu0zJdhUTFrznRQYntFjzM8
-	 A6ka23oXIvN+9wWlvqC1itUUdZP9OtO0TCz1ifn6X5AqwuKrvGqgaOo5AajkCp6x3Z
-	 hlpnwZT6IMHxVEtWCOl7Vpcg/L3sHv5Z/KmHqNCNGj0P4VfFm3esZduh4O6w/qJYs1
-	 hELhOlDawiawDXlHn3CVofymDAY1Y/R5RQatYAuk/mEJZiK4VpW1D84reKRF7fiFH/
-	 kUGg3C+W8cJhA==
-Message-ID: <28396df7-bb9f-4a6a-963c-0b56c66fb3cd@kernel.org>
-Date: Tue, 31 Mar 2026 09:18:01 +0200
+	s=arc-20240116; t=1774941490; c=relaxed/simple;
+	bh=cimXkWUdkk5b9oxVceiRqqigTs5T3aol9/4LoAcBTWQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ztu2Q66WIIAp3ZRb6mshZDFygsHTbdI1nbLNao31Rk1q3YHZ02s0/HF1KohPJEH9q+h7qd6VaUE08M2DkHQqIqtCKzwIvrpGhrAE89Z+lJIndkcqW8ChaLAvreysLriihLbiE3PQbIJcRMusW90G3t5ft7yvLdNGLz/0HvopTvw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=J9Tuh0Or; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=date:from:to:cc:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=9NzM
+	r6W8TQkI0N4T4AOLc0N2j7MJivziyDU9EpcgLI8=; b=J9Tuh0Or0PZDTm7zOd66
+	PEs7JDQDBU/g7iGrxvr5ZwlFq7WE3Z4bkGUrpqpke/FsibkJNP0VvW66s3lgSvlS
+	6/4zaiyXRGppBuOctfIFL9MRWG4yD19vbCitJ+lsgmZJTa26KvasbfuoPphVGE7Q
+	QsgmwCY0YrUI6rlotaZFgtTbpn9ATH8idZwxSiRFRmjlM4x05TAbDCyzK3dgJMLN
+	1Hw/6EB3+26j6/hL40QKncF1r3A5dHOTIVySFxOfXsG/KJxyvnnvl5MohyQnq7J8
+	62cXLJa3oUMuF/N9Im6OD7JkeuL56/4OX7TCud9f9OE26dWBkGMmAALAl/exyC7x
+	kQ==
+Received: (qmail 1580210 invoked from network); 31 Mar 2026 09:18:07 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 31 Mar 2026 09:18:07 +0200
+X-UD-Smtp-Session: l3s3148p1@Jw7YxExORLsujnu8
+Date: Tue, 31 Mar 2026 09:18:07 +0200
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: Theodore Tso <tytso@mit.edu>
+Cc: Roman Gushchin <roman.gushchin@linux.dev>,
+	linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Jassi Brar <jassisinghbrar@gmail.com>,
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>
+Subject: Re: Sashiko review feedback (was Re: [PATCH 2/3] soc: renesas: Add
+ Renesas R-Car MFIS driver)
+Message-ID: <act1L-2tQV4fHyU7@shikoro>
+References: <20260317130638.2804-1-wsa+renesas@sang-engineering.com>
+ <20260317130638.2804-3-wsa+renesas@sang-engineering.com>
+ <ab-vWbjdlAIt1qaX@ninjato>
+ <87a4vyynl2.fsf@linux.dev>
+ <acIsrJp2Zq2ntS5f@shikoro>
+ <87ikalp9b2.fsf@linux.dev>
+ <aco7CM5N3E6A0v8v@shikoro>
+ <20260330135050.GD22278@macsyma.local>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/3] dt-bindings: soc: renesas: add MFIS binding
- documentation
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: Geert Uytterhoeven <geert@linux-m68k.org>,
- linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
- Jassi Brar <jassisinghbrar@gmail.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, devicetree@vger.kernel.org
-References: <20260317130638.2804-1-wsa+renesas@sang-engineering.com>
- <20260317130638.2804-2-wsa+renesas@sang-engineering.com>
- <20260318-camouflaged-umber-oxpecker-b2b29e@quoll>
- <CAMuHMdX=DRnFWG1ky8wT7mK=LHeJ6LduL28nYd19QpASrn6mew@mail.gmail.com>
- <c46357c9-8cf4-45ec-8b48-8cf979de2e98@kernel.org> <actzUSIKKzcDmBCT@shikoro>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <actzUSIKKzcDmBCT@shikoro>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spamd-Result: default: False [-2.16 / 15.00];
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="Ej5xfyCnwyWtSpC/"
+Content-Disposition: inline
+In-Reply-To: <20260330135050.GD22278@macsyma.local>
+X-Spamd-Result: default: False [-1.76 / 15.00];
+	SIGNED_PGP(-2.00)[];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[sang-engineering.com:s=k1];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	MIME_GOOD(-0.20)[multipart/signed,text/plain];
 	MAILLIST(-0.15)[generic];
-	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[linux-m68k.org,vger.kernel.org,gmail.com,glider.be,kernel.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-30618-lists,linux-renesas-soc=lfdr.de];
-	DKIM_TRACE(0.00)[kernel.org:+];
+	TAGGED_FROM(0.00)[bounces-30619-lists,linux-renesas-soc=lfdr.de,renesas];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DMARC_NA(0.00)[sang-engineering.com];
+	MIME_TRACE(0.00)[0:+,1:+,2:~];
+	FREEMAIL_CC(0.00)[linux.dev,vger.kernel.org,gmail.com,renesas.com,glider.be];
+	MISSING_XM_UA(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-0.993];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[krzk@kernel.org,linux-renesas-soc@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,dt];
-	RCPT_COUNT_SEVEN(0.00)[11];
+	FROM_NEQ_ENVFROM(0.00)[wsa@sang-engineering.com,linux-renesas-soc@vger.kernel.org];
+	DKIM_TRACE(0.00)[sang-engineering.com:+];
+	RCPT_COUNT_SEVEN(0.00)[8];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 9B0B83651F8
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
+	TO_DN_SOME(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sashiko.dev:url,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,sang-engineering.com:dkim]
+X-Rspamd-Queue-Id: 0FBA9365188
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On 31/03/2026 09:10, Wolfram Sang wrote:
-> 
->> I did not get the driver so I cannot verify that. What sort of Linux ABI
->> does this bind?
-> 
-> In case you mean this as unanswered questions to v1: This describes the
-> device specific second mbox cell. Like Tegra does it here (even with
-> shifts instead of plain numbers):
-> 
-> include/dt-bindings/mailbox/tegra186-hsp.h
-> 
-> But all this has been said before and you got the driver as well in v2.
-> I really have no idea what is still missing?
 
-And look when my question was asked:
-19th of Match:
-"I did not get the driver so I cannot verify that. What sort of Linux
-ABI does this bind?"
+--Ej5xfyCnwyWtSpC/
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-You ignore it and on 23rd of Match you send v2.
+Hi Ted,
 
-And now you reply that "you got driver as well in v2". Seriously? How
-can I move from 19th Match into the future of 23rd to get the email from
-the future? And some answers from the future?
+> I was thinking about proposing some tagging convention such as:
+>=20
+>    Suggested-by: Sashiko:Gemini 3.1 Pro
+> or
+>    Reviewed-by: Sashiko:Gemini 3.1 Pro
+>=20
+> to Documentation/process/coding-assistants.rst.  Alas, neither is
+> perfect.
 
-Respond to review instead of ignoring it and sending v2.
+Yes, maybe an email is not so much needed and the information about
+Sashiko and Gemini is much more relevant.
 
-Best regards,
-Krzysztof
+> Suggested-by: is generlly used when someone inspires a particular
+> commit.  This might apply if Sashiko found a problem as an incidental
+> finding, which we then fixed in a subsequent commit.  An example of
+> this might be[1], or in the case which you suggested above.  But what
+
+What about Reported-by? The required closes by would then link to the
+actual report:
+
+Reported-by: Sashiko:Gemini 3.1 Pro
+Closes: https://sashiko.dev/#/patchset/20260319105947.6237-1-wsa%2Brenesas%=
+40sang-engineering.com
+
+The drawback currently is that only the whole report for the patchset
+can be linked. But probably Sashiko-reports could have some more HTML
+tags to reference only the paragraph needed.
+
+Happy hacking,
+
+   Wolfram
+
+
+--Ej5xfyCnwyWtSpC/
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmnLdS8ACgkQFA3kzBSg
+KbZNPw//UHS9gnCVAVr3OK8QPCczPsu2z6A5LsMZ4Fvq8uzoLGznzbJQDtOR5he5
+ZLBJTKBQEEsLbgVQBYR6GDo7oTJtROxyCc5jFIqd7Yfl4JRXYtlAJZWlUrqhsGkq
+LMsyBZYm7w1nly71ePp8Uy2RMlURTPwAK9f+vymj5Q80hBGxqwuOwlexWaZ3tUgp
+wCE415N/bfWAOV0RoQZ7vZElUcFAfzWWZSuNd0IZVyxeHhoUMmmbvi1ZZJAUwsfb
+V8k5/eH1JO+5O9W/u4TyKl05BWt2rA1ZfFa/kdzswqb1Ypu5pi9qYGkh7DbPSln8
+c/XrQ6jkgkixSIsGF2twIAR96FXPMpIeMTK5go10t3ONwQiTQCihf/T+8mYJh6F7
+s4CdrhYAywOYBJ/0NJ3/m/BWh8HUYtFaRPOYJpZX/U1HU0LqVQl0jkPhtfZTY1oQ
+rAKN1ZncpoRsGyqqVVJltun/6lhMhk5vwPg+G2Pb1chlBF60P/7jnZO+qZED976z
+tKWfgyAnHXpOXj7zNYuhuUscl7yohJKDUkxfGt0Yv9P07hhirmTJCDAxbZxw+Xh+
+NtdeBNbT19nAub8z0giZE4vfCWTpKGGO/BKIEZ/XD9w0fomK/qQGFxyBx9EJMSkp
+8EWCtMHhfeg0j7LcwP5PcGbsjI5Rh6oubCu//2UtIhQnwO6ml+I=
+=ZyVC
+-----END PGP SIGNATURE-----
+
+--Ej5xfyCnwyWtSpC/--
 
