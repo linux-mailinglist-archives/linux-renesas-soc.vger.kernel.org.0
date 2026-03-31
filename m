@@ -1,198 +1,148 @@
-Return-Path: <linux-renesas-soc+bounces-30652-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-30653-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id +O8bOMXfy2m0MAYAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-30652-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 31 Mar 2026 16:52:53 +0200
+	id OPjXAZPly2myMQYAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-30653-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 31 Mar 2026 17:17:39 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id D349036B36C
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 31 Mar 2026 16:52:52 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 58F1336B8B3
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 31 Mar 2026 17:17:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 596ED3009F25
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 31 Mar 2026 14:52:40 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id A720A301225A
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 31 Mar 2026 15:14:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 76CA93F9F31;
-	Tue, 31 Mar 2026 14:52:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F077E3F54D0;
+	Tue, 31 Mar 2026 15:14:42 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3CF8C3FF890;
-	Tue, 31 Mar 2026 14:52:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6712B3F9F5E
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 31 Mar 2026 15:14:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774968758; cv=none; b=NZAIvIKhTgOYn6RgU53T+ArSK2bS3KR5ahqzEIurPQS8p8qDduQtSS9W4Z4deZRoW23OsI8dhRMUAWnNvpt40977DPluyPnd4jfbLXFhL0uLoIe+CyJxC/L7Qspi7+ge/b/jpFwI5iMz3hEmX+sMcsaSqsvGgwXB7XgBhS3C29Y=
+	t=1774970082; cv=none; b=avIKPEgO6puwrrU+tWWBhhmEOAlsfzgBcKz+NL8dft9cHyCg1TJ9SlC5a1GgIQtgaPcUYW4EuMrCYkkaIUi2BrrYzRVE3RysKfE0YM4N4yjQhYQmSQ/EaZTuQnN0WCjlpCBnwzhG5jUylqijysL739MQJuR/HdChCiUkv6TgDFY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774968758; c=relaxed/simple;
-	bh=NQaVxmfcqTeFxpUYUeCfJOIcQ1OBkiQyo82UX8yL1qQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=tW6DI49jmmvHobdk25LvUzUQC93qOuUiE/g0HNffDp9blfsSZeKlTMxT+Gn+dRtUkPEm6/2np1wryoC0Z/fdz2B7Dzm9Zy8s372aDK4CdxB/c4xOs4qbPr1ud1D6MCCAKq5lbZx77091zKJ72LdRIxHb8Yg00BWGdvbIt5hsElA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; arc=none smtp.client-ip=210.160.252.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
-X-CSE-ConnectionGUID: Tcx395gARCK8VW8Ydq0Mdg==
-X-CSE-MsgGUID: 7dAj3FM/SxSYPU62XqYzCg==
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 31 Mar 2026 23:52:35 +0900
-Received: from mind-2s.example.org (unknown [10.226.37.207])
-	by relmlir6.idc.renesas.com (Postfix) with ESMTP id CB7224209849;
-	Tue, 31 Mar 2026 23:52:31 +0900 (JST)
-From: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>
-Cc: Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	linux-renesas-soc@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH] arm64: dts: renesas: rzt2h-n2h-evk: Configure eMMC/SDHI pins
-Date: Tue, 31 Mar 2026 15:52:18 +0100
-Message-ID: <20260331145221.7974-1-fabrizio.castro.jz@renesas.com>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1774970082; c=relaxed/simple;
+	bh=ROUNo/tHRd68I8Ifwz6YahJR1eZKJhCOZB6ug5FK4jE=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=tzonFfucqqKtcAfxl/Iq4mqVbPtZhkpmf2J2lT8+HxAzAX1a8p/NxnAK/qIF1JbWE5YRzmbQxRWLxDbq8rxGmK4xWyWep/LxeDwT6w4Pn2adXiu2iA9+Tl2xMWmdu7x4AWQ+8Ul8+qdS80lrabEhNLfd5Ov2NbFjt8hDd5tF9pw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <p.zabel@pengutronix.de>)
+	id 1w7anM-0006b0-Ku; Tue, 31 Mar 2026 17:14:20 +0200
+Received: from lupine.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::4e] helo=lupine)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <p.zabel@pengutronix.de>)
+	id 1w7anL-0033uI-0H;
+	Tue, 31 Mar 2026 17:14:19 +0200
+Received: from pza by lupine with local (Exim 4.98.2)
+	(envelope-from <p.zabel@pengutronix.de>)
+	id 1w7anK-00000000EmP-464Y;
+	Tue, 31 Mar 2026 17:14:18 +0200
+Message-ID: <e7c92eeffd66ed1d4b03f312bd3033451cbd0185.camel@pengutronix.de>
+Subject: Re: [PATCH v8 4/5] reset: rzv2h-usb2phy: Keep PHY clock enabled for
+ entire device lifetime
+From: Philipp Zabel <p.zabel@pengutronix.de>
+To: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>, 
+	tomm.merciai@gmail.com, peda@axentia.se
+Cc: linux-renesas-soc@vger.kernel.org, biju.das.jz@bp.renesas.com, Fabrizio
+ Castro <fabrizio.castro.jz@renesas.com>, Lad Prabhakar
+ <prabhakar.mahadev-lad.rj@bp.renesas.com>,  Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>,  Geert Uytterhoeven <geert+renesas@glider.be>,
+ Magnus Damm <magnus.damm@gmail.com>, Ulf Hansson <ulf.hansson@linaro.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Josua Mayer
+ <josua@solid-run.com>, Arnd Bergmann <arnd@arndb.de>, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org
+Date: Tue, 31 Mar 2026 17:14:18 +0200
+In-Reply-To: <6584aed8dc4fddb28c2184c83b92b4f3b419bc31.1773319566.git.tommaso.merciai.xr@bp.renesas.com>
+References: <cover.1773319566.git.tommaso.merciai.xr@bp.renesas.com>
+	 <6584aed8dc4fddb28c2184c83b92b4f3b419bc31.1773319566.git.tommaso.merciai.xr@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2-0+deb13u1 
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [0.14 / 15.00];
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: p.zabel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
+X-Spamd-Result: default: False [0.04 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
-	DMARC_POLICY_SOFTFAIL(0.10)[renesas.com : SPF not aligned (relaxed), No valid DKIM,none];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-30652-lists,linux-renesas-soc=lfdr.de];
-	RCVD_COUNT_FIVE(0.00)[5];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	FREEMAIL_TO(0.00)[glider.be,gmail.com,kernel.org];
+	TAGGED_FROM(0.00)[bounces-30653-lists,linux-renesas-soc=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_TO(0.00)[bp.renesas.com,gmail.com,axentia.se];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DMARC_NA(0.00)[pengutronix.de];
+	RCPT_COUNT_TWELVE(0.00)[19];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
-	FROM_NEQ_ENVFROM(0.00)[fabrizio.castro.jz@renesas.com,linux-renesas-soc@vger.kernel.org];
-	R_DKIM_NA(0.00)[];
-	NEURAL_HAM(-0.00)[-0.968];
+	FREEMAIL_CC(0.00)[vger.kernel.org,bp.renesas.com,renesas.com,kernel.org,glider.be,gmail.com,linaro.org,linuxfoundation.org,solid-run.com,arndb.de];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	NEURAL_SPAM(0.00)[0.879];
+	RCVD_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[11];
+	FROM_NEQ_ENVFROM(0.00)[p.zabel@pengutronix.de,linux-renesas-soc@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	R_DKIM_NA(0.00)[];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
+	MID_RHS_MATCH_FROM(0.00)[];
 	TO_DN_SOME(0.00)[];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,dt];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,renesas.com:email,renesas.com:mid]
-X-Rspamd-Queue-Id: D349036B36C
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,pengutronix.de:mid,pengutronix.de:url,renesas.com:email]
+X-Rspamd-Queue-Id: 58F1336B8B3
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-The HW user manual for the Renesas RZ/T2H and the RZ/N2H state
-that for SDR104, SDR50, and HS200 to work properly the eMMC/SDHI
-interface pins have to be configured as specified below:
-* SDn_CLK pin - drive strength: Ultra High, slew rate: fast
-* Other SDn_* pins: drive strength: High, slew rate: fast,
-  Schmitt trigger: disabled (not applicable to SDn_RST pins).
+On Do, 2026-03-12 at 15:50 +0100, Tommaso Merciai wrote:
+> The driver was disabling the USB2 PHY clock immediately after register
+> initialization in probe() and after each reset operation. This left the
+> PHY unclocked even though it must remain active for USB functionality.
+>=20
+> The behavior appeared to work only when another driver
+> (e.g., USB controller) had already enabled the clock, making operation
+> unreliable and hardware-dependent. In configurations where this driver
+> is the sole clock user, USB functionality would fail.
+>=20
+> Fix this by:
+> - Enabling the clock once in probe() via pm_runtime_resume_and_get()
+> - Removing all pm_runtime_put() calls from assert/deassert/status
+> - Registering a devm cleanup action to release the clock at removal
+> - Removed rzv2h_usbphy_assert_helper() and its call in
+>   rzv2h_usb2phy_reset_probe()
+>=20
+> This ensures the PHY clock remains enabled for the entire device lifetime=
+,
+> preventing instability and aligning with hardware requirements.
+>=20
+> Cc: stable@vger.kernel.org
+> Fixes: e3911d7f865b ("reset: Add USB2PHY port reset driver for Renesas RZ=
+/V2H(P)")
+> Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
 
-Adjust the pin definitions accordingly.
+Applied patch 4 to reset/next, thanks!
 
-Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
----
- .../dts/renesas/rzt2h-n2h-evk-common.dtsi     | 54 ++++++++++++++++---
- 1 file changed, 46 insertions(+), 8 deletions(-)
+[4/5] reset: rzv2h-usb2phy: Keep PHY clock enabled for entire device lifeti=
+me
+      https://git.pengutronix.de/cgit/pza/linux/commit/?id=3D8889b289ce1b
 
-diff --git a/arch/arm64/boot/dts/renesas/rzt2h-n2h-evk-common.dtsi b/arch/arm64/boot/dts/renesas/rzt2h-n2h-evk-common.dtsi
-index f87c2492f414..3fae950db603 100644
---- a/arch/arm64/boot/dts/renesas/rzt2h-n2h-evk-common.dtsi
-+++ b/arch/arm64/boot/dts/renesas/rzt2h-n2h-evk-common.dtsi
-@@ -275,12 +275,28 @@ data-pins {
- 				 <RZT2H_PORT_PINMUX(12, 7, 0x29)>, /* SD0_DATA5 */
- 				 <RZT2H_PORT_PINMUX(13, 0, 0x29)>, /* SD0_DATA6 */
- 				 <RZT2H_PORT_PINMUX(13, 1, 0x29)>; /* SD0_DATA7 */
-+			drive-strength-microamp = <9000>;
-+			slew-rate = <1>;
-+			input-schmitt-disable;
- 		};
- 
--		ctrl-pins {
--			pinmux = <RZT2H_PORT_PINMUX(12, 0, 0x29)>, /* SD0_CLK */
--				 <RZT2H_PORT_PINMUX(12, 1, 0x29)>, /* SD0_CMD */
--				 <RZT2H_PORT_PINMUX(13, 2, 0x29)>; /* SD0_RST# */
-+		clk-pins {
-+			pinmux = <RZT2H_PORT_PINMUX(12, 0, 0x29)>; /* SD0_CLK */
-+			drive-strength-microamp = <11800>;
-+			slew-rate = <1>;
-+		};
-+
-+		cmd-pins {
-+			pinmux = <RZT2H_PORT_PINMUX(12, 1, 0x29)>; /* SD0_CMD */
-+			drive-strength-microamp = <9000>;
-+			slew-rate = <1>;
-+			input-schmitt-disable;
-+		};
-+
-+		rst-pins {
-+			pinmux = <RZT2H_PORT_PINMUX(13, 2, 0x29)>; /* SD0_RST# */
-+			drive-strength-microamp = <9000>;
-+			slew-rate = <1>;
- 		};
- 	};
- 
-@@ -299,12 +315,23 @@ data-pins {
- 				 <RZT2H_PORT_PINMUX(12, 3, 0x29)>, /* SD0_DATA1 */
- 				 <RZT2H_PORT_PINMUX(12, 4, 0x29)>, /* SD0_DATA2 */
- 				 <RZT2H_PORT_PINMUX(12, 5, 0x29)>; /* SD0_DATA3 */
-+			drive-strength-microamp = <9000>;
-+			slew-rate = <1>;
-+			input-schmitt-disable;
-+		};
-+
-+		clk-pins {
-+			pinmux = <RZT2H_PORT_PINMUX(12, 0, 0x29)>; /* SD0_CLK */
-+			drive-strength-microamp = <11800>;
-+			slew-rate = <1>;
- 		};
- 
- 		ctrl-pins {
--			pinmux = <RZT2H_PORT_PINMUX(12, 0, 0x29)>, /* SD0_CLK */
--				 <RZT2H_PORT_PINMUX(12, 1, 0x29)>, /* SD0_CMD */
-+			pinmux = <RZT2H_PORT_PINMUX(12, 1, 0x29)>, /* SD0_CMD */
- 				 <RZT2H_PORT_PINMUX(22, 5, 0x29)>; /* SD0_CD */
-+			drive-strength-microamp = <9000>;
-+			slew-rate = <1>;
-+			input-schmitt-disable;
- 		};
- 	};
- 
-@@ -323,12 +350,23 @@ data-pins {
- 				 <RZT2H_PORT_PINMUX(17, 0, 0x29)>, /* SD1_DATA1 */
- 				 <RZT2H_PORT_PINMUX(17, 1, 0x29)>, /* SD1_DATA2 */
- 				 <RZT2H_PORT_PINMUX(17, 2, 0x29)>; /* SD1_DATA3 */
-+			drive-strength-microamp = <9000>;
-+			slew-rate = <1>;
-+			input-schmitt-disable;
-+		};
-+
-+		clk-pins {
-+			pinmux = <RZT2H_PORT_PINMUX(16, 5, 0x29)>; /* SD1_CLK */
-+			drive-strength-microamp = <11800>;
-+			slew-rate = <1>;
- 		};
- 
- 		ctrl-pins {
--			pinmux = <RZT2H_PORT_PINMUX(16, 5, 0x29)>, /* SD1_CLK */
--				 <RZT2H_PORT_PINMUX(16, 6, 0x29)>, /* SD1_CMD */
-+			pinmux = <RZT2H_PORT_PINMUX(16, 6, 0x29)>, /* SD1_CMD */
- 				 <RZT2H_PORT_PINMUX(17, 4, 0x29)>; /* SD1_CD */
-+			drive-strength-microamp = <9000>;
-+			slew-rate = <1>;
-+			input-schmitt-disable;
- 		};
- 	};
- };
--- 
-2.34.1
-
+regards
+Philipp
 
