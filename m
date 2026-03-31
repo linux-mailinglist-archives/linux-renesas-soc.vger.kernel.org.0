@@ -1,51 +1,51 @@
-Return-Path: <linux-renesas-soc+bounces-30623-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-30624-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 2EECKnB/y2mLIQYAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-30623-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 31 Mar 2026 10:01:52 +0200
+	id CLK4MkaAy2kKIgYAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-30624-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 31 Mar 2026 10:05:26 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA86A365AED
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 31 Mar 2026 10:01:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB3B4365BE6
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 31 Mar 2026 10:05:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 48C04309671B
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 31 Mar 2026 07:50:15 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id D732B30B1DD5
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 31 Mar 2026 07:53:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BC0AF3CF034;
-	Tue, 31 Mar 2026 07:50:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B0DBA3D8904;
+	Tue, 31 Mar 2026 07:52:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gO1gvtqh"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FrZ16Ij7"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 964853CE48F;
-	Tue, 31 Mar 2026 07:50:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D0813D5656;
+	Tue, 31 Mar 2026 07:52:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774943414; cv=none; b=UQ7A0gPzuEIsltSifQF1euC2aLJ/x+3cHVWo+St7eraYx5JqODNV9sfI0f/iY/zP0tX5Mc9ZptDBgdtejqmpOWap6A91BZ5DQZxkTrhMnv19uO1oMKpBwcY0wV6f1s7FLC91CRltIRX1wMnlsjvReH/IyUAWgm4EgE/C/cbibMY=
+	t=1774943538; cv=none; b=cJWdXTrKFEcK5BYScrPuqWrgqkWCuWbEaIafypry0opzWhBsXnDPjBtSir//aVEcpFdacfGdMy9iHynzJuRtrCzSDwKL7Z0Px5iQFjEgMyE5+JdDUUFD7mQvGJ370sKIM5K9bhgn0ugOwaYcrJ6iEGRjCnnYwnEdhu++uZ6HFQw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774943414; c=relaxed/simple;
-	bh=4LwdDJj1gGAd/pnFRYNpEqlt81AT1HxH4MeVZTzN6b8=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=bTdgDoHarLehFhpHI8mLOika9FGqZ0ncFRMT+706YfWvza4mfPP/OaJOJJyUWq26zipE8NpWi3JrDWvdMcMpH5zLlo2nO7jeWJYLWjmkDpiw1x1Fv7FjsAUlxQhunZe4p5RL6IOvdkYsvl+Ec8bV0zRegtgFPG2ZIXt4Wup+bTU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gO1gvtqh; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2A932C19423;
-	Tue, 31 Mar 2026 07:50:11 +0000 (UTC)
+	s=arc-20240116; t=1774943538; c=relaxed/simple;
+	bh=TXXZqyOfXzSwUt6NRYCFwgfR+C5ajY2e6cvWF8zXI1Q=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=JKiIffzn2xlNyucG797tl62wxQVbrKMUFR2r7LujTHdkJhrrmbclpkHEvowQl3E1iaV4S+c6aijDbil/nIllfyR1/PsKWEuu9D307pLSH6JkNs6DnoeRr+3FU3AEhUo/jy1UtAB2dNsAEaGZpWR5QySHU0Jz7bEFJLxv4+5B+co=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FrZ16Ij7; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D8462C2BCB2;
+	Tue, 31 Mar 2026 07:52:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774943414;
-	bh=4LwdDJj1gGAd/pnFRYNpEqlt81AT1HxH4MeVZTzN6b8=;
-	h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
-	b=gO1gvtqhfj+J8iL4E68QwPlCEq/9XRctzWCsYyLPdyvbFUheoNCT5QuNYOrU/BljX
-	 j5CBKXkm6fI0N6HnslOxzJUoAqSZpXeEE7Cm2XsCk3NXcUG19ybYLxhOPhHsrlYPkt
-	 6nMMCyfOdwnTAOfgagSnzchqg1Q8yTXlTg/d+gfi/JS4+0rnaGNnSb3lf7l9namZIr
-	 abRUcN4G1KD5D8l2hfcaTia/9B2Mvr3+ZUvi0HjstDjmHifZE1SAZfbFrOGwLwFGNB
-	 sq2X5naJbPlIJNMQ2RvMOP9Z4HreF8tsUVq7aKChY8d/7DfYy03yLxo2FgggfBehA0
-	 Y8Xdh2NcroMEg==
-Message-ID: <cfee8254-8573-4106-b71f-293073b64c89@kernel.org>
-Date: Tue, 31 Mar 2026 09:50:10 +0200
+	s=k20201202; t=1774943538;
+	bh=TXXZqyOfXzSwUt6NRYCFwgfR+C5ajY2e6cvWF8zXI1Q=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=FrZ16Ij7HWlzeChy/r+lOapI+8qXHXNuBBC24XdwjFwHSfFrRAwOlg9ZZb8Xai8XD
+	 Mf0djReJqMuRxSRyaCzqFLJCwu5kSSnz5VS0IToQHa+hrmtwNesNGf5ztlAC0HzwNV
+	 5RaMnTaTmiBV5X21vojfknTucTZsyj5lnfzXhsYaftOtsI0BprrDKhdVrd9iNps6D8
+	 B57Qs7bFoX1enKR2OPuwgqRPHbp7jR9VE8FbLSRQRlM263D4PnSaHSS23O/3/yp86O
+	 HsCrCYg8Jm36tpDvpxRoAzc+m2AW1LR3Jdoa5ciew12Z4APmLSCxwP8POuy59t6Dxj
+	 1wxUwp+Fzm4ew==
+Message-ID: <3915fd13-1b0b-4faf-81f2-0acb97880766@kernel.org>
+Date: Tue, 31 Mar 2026 09:52:13 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -53,17 +53,23 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/3] dt-bindings: soc: renesas: Document MFIS IP core
-From: Krzysztof Kozlowski <krzk@kernel.org>
+Subject: Re: [PATCH 1/3] dt-bindings: soc: renesas: add MFIS binding
+ documentation
 To: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: linux-renesas-soc@vger.kernel.org, Marek Vasut <marek.vasut@mailbox.org>,
- devicetree@vger.kernel.org, Geert Uytterhoeven <geert+renesas@glider.be>,
+Cc: Geert Uytterhoeven <geert@linux-m68k.org>,
+ linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Jassi Brar <jassisinghbrar@gmail.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
  Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
-References: <20260325110717.17083-1-wsa+renesas@sang-engineering.com>
- <20260325110717.17083-2-wsa+renesas@sang-engineering.com>
- <20260326-magnetic-cautious-earthworm-aee7ec@quoll>
- <acZtECu-1kuIuNrx@shikoro> <dd3587eb-f91e-4a9a-8a0b-b55bfba2c23a@kernel.org>
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, devicetree@vger.kernel.org
+References: <20260317130638.2804-1-wsa+renesas@sang-engineering.com>
+ <20260317130638.2804-2-wsa+renesas@sang-engineering.com>
+ <20260318-camouflaged-umber-oxpecker-b2b29e@quoll>
+ <CAMuHMdX=DRnFWG1ky8wT7mK=LHeJ6LduL28nYd19QpASrn6mew@mail.gmail.com>
+ <c46357c9-8cf4-45ec-8b48-8cf979de2e98@kernel.org> <actzUSIKKzcDmBCT@shikoro>
+ <8988012f-b006-4aa8-bb8f-571b8526a15c@kernel.org> <act6gTgkYE6Az5hK@shikoro>
+From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -108,7 +114,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <dd3587eb-f91e-4a9a-8a0b-b55bfba2c23a@kernel.org>
+In-Reply-To: <act6gTgkYE6Az5hK@shikoro>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spamd-Result: default: False [-2.16 / 15.00];
@@ -119,54 +125,62 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,mailbox.org,glider.be,gmail.com,kernel.org];
+	FREEMAIL_CC(0.00)[linux-m68k.org,vger.kernel.org,gmail.com,glider.be,kernel.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-30623-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-30624-lists,linux-renesas-soc=lfdr.de];
 	DKIM_TRACE(0.00)[kernel.org:+];
 	RCVD_TLS_LAST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
+	NEURAL_HAM(-0.00)[-0.999];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[krzk@kernel.org,linux-renesas-soc@vger.kernel.org];
 	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
 	MID_RHS_MATCH_FROM(0.00)[];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,dt];
-	RCPT_COUNT_SEVEN(0.00)[9];
+	RCPT_COUNT_SEVEN(0.00)[11];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: CA86A365AED
+X-Rspamd-Queue-Id: CB3B4365BE6
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On 31/03/2026 09:15, Krzysztof Kozlowski wrote:
-> On 27/03/2026 12:42, Wolfram Sang wrote:
->>>> +#define MFIS_CHANNEL_TX (0 << 0)
->>>> +#define MFIS_CHANNEL_RX (1 << 0)
->>>
->>> No improvements and no answers to comments. Same review, drop, not a
->>> binding. If disagree, respond to v1 comments.
+On 31/03/2026 09:40, Wolfram Sang wrote:
+> 
+>>> In case you mean this as unanswered questions to v1: This describes the
+>>> device specific second mbox cell. Like Tegra does it here (even with
 >>
->> I think I did. I explained above in "changes since v1" that I decided to
->> keep it because of the existing users in upstream that Geert mentioned.
+>> I asked Linux ABI. Device specific numbers is not Linux ABI, because
+>> Linux is not device.
 > 
-> Same review as in v1. Not a binding. I asked what Linux ABI are you here
-> binding. Point me to Linux code using these. This is the ABI.
+> I have no idea what you want here. I see it like this: DT is OS
+
+DT, but we talk about bindings. Bindings is not DT. Bindings bind the SW
+and DTS.
+
+> agnostic. So, the flags are to describe the hardware. The Linux driver
+
+Well, then no. Bindings headers do not describe the hardware.
+
+
+> then does the proper things according to these flags. Other OS driver
+> might do other things.
 > 
-> You replied something about device, so how does it matter? It is not the
-> answer to the question.
+>>> shifts instead of plain numbers):
+>>>
+>>> include/dt-bindings/mailbox/tegra186-hsp.h
+> 
+> And I still have no idea why my header is different than the Tegra one.
+> 
 
-You made the posting unnecessarily complicated - this patch went to my
-DT address, but the rest to non-DT. Why not using b4 which gets it
-correct without effort? Plus it gives you much more like changelog with
-lore links and trailers handling?
+No clue what is there. I am not going even to investigate, because this
+is argument of "I found a bug somewhere, so I can implement same bug".
 
-So now I found the driver (in different place...) and indeed you use
-some of the constants, so this is an ABI. It was so easy in v1 to just
-point me to usage of the ABI when I asked how do you use this in Linux...
+I responded to this *MULTIPLE* times already on the lists. I explained
+the rationale, I even provided old messages from Arnd and other people.
 
 Best regards,
 Krzysztof
