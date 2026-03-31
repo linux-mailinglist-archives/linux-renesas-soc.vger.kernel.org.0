@@ -1,51 +1,51 @@
-Return-Path: <linux-renesas-soc+bounces-30617-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-30618-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id WJXqIvh0y2k3HwYAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-30617-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 31 Mar 2026 09:17:12 +0200
+	id F8lUCe92y2mUIAYAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-30618-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 31 Mar 2026 09:25:35 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A794364F48
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 31 Mar 2026 09:17:12 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B0B83651F8
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 31 Mar 2026 09:25:34 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 479D530101FD
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 31 Mar 2026 07:15:57 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id ACB58306B2EA
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 31 Mar 2026 07:18:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 90F8539478E;
-	Tue, 31 Mar 2026 07:15:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3EBBC39657E;
+	Tue, 31 Mar 2026 07:18:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hQgynRvp"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SFVZlbkF"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D651284B25;
-	Tue, 31 Mar 2026 07:15:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A388BA34;
+	Tue, 31 Mar 2026 07:18:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774941355; cv=none; b=MHjzbVPcAaq9MLj1nuFtdUmBbc7VodJUGx1iKshvMXn813+eTZIt1AL6Ea8xJJjGFmvqds2ZqQjOimgzVL9uWOCHvOGyezhSgq+DBSZGpDxsS90dEpxj9kQdoMNtrbSA5JQPwRXc9TIzwOmvqNlVBAN0tpltM50HLdUZ5fvH0sc=
+	t=1774941486; cv=none; b=Y85tE8p0Eh+BG8JDT7v1QePm5YoDP2+syoT0lpLQrl4O5R2m78WP0hMBH9pZuzXqAm//Xj4pl0Qb5bBjX+f64L0JEUU6qf06X5gDIZ6/3STyHCjGCOk5CNXg+debzAL8M5nHOjwUgYuvcQmpzTHY9Y4Y7dzZa/5wjNpFZai6NSY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774941355; c=relaxed/simple;
-	bh=NXMSlVIDxUI1Y9EcLIMTCQ05pwHcZJh0czxGyqfgjwQ=;
+	s=arc-20240116; t=1774941486; c=relaxed/simple;
+	bh=j8uxtGTpntBQ6T6FbsDXUIgFTKkW9eKnTw9GVXMPJ8A=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=fXjQrVEcUwvH0S/II5OetO43VP0ohMMPsiNrGIdpZUh67Z+ZUzgT1DZyze4vigMamCjz/GJ8XFd3ZRp4qXa0pGBncbcaAt2RV9TWXIsYN9xikmn3AuZOw38vn+LuTFGrOc7uHiTu7JsfDQw4V6ph8hZM8ibb9XUcdT6xq4Oo9UY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hQgynRvp; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 485EFC19423;
-	Tue, 31 Mar 2026 07:15:53 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=cTb7V+/r8kF7CX+JEyt0FNZ8c+S6Mg33LSJAkw/tA7X0AqjGdQM0tyNNcIbbNsw0WEJKwIXEQDUouSzApz6WS6I5KG9qRanbBUXPfPoA0HJRAq2Rzscwo7gTw+IhMPq/CDmwqssMkzFs0Vp4j2KU4d+v72bjeV9X8mMSjGkWY5k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SFVZlbkF; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4211AC19423;
+	Tue, 31 Mar 2026 07:18:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774941355;
-	bh=NXMSlVIDxUI1Y9EcLIMTCQ05pwHcZJh0czxGyqfgjwQ=;
+	s=k20201202; t=1774941485;
+	bh=j8uxtGTpntBQ6T6FbsDXUIgFTKkW9eKnTw9GVXMPJ8A=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=hQgynRvpUsKtiQ9B/lrFxcElBlDO2Zvb182gwCTzA/7FxmcMjWcYTsLYhEsvOok2I
-	 8wXY+WYpL/WvZ5vucp8zMiplIOojKEEXFkXHROeVAEwHyndECZP1MBIxMmPfv+LzDY
-	 lmBCMWYy5qwmfY7nV20G2nIOgzW4nVbfPxg0DymL2vo4G/t3WSJ2xyxMAqk/RVTL9r
-	 w+sv+GNEdIXiRfmMGzZbqP2dP3HhJORTNH3sW4UGc9I0K3V1drtLCk3ydKtckwePEa
-	 l08fpJxvPAWnRqw6WOskmsvJJUzU5yVy8Qxj2hl9B8IXSGUizb7+245+ivSVuOXH/8
-	 f3S/+ayuBNo9g==
-Message-ID: <dd3587eb-f91e-4a9a-8a0b-b55bfba2c23a@kernel.org>
-Date: Tue, 31 Mar 2026 09:15:51 +0200
+	b=SFVZlbkFdEoqPJJikLTS/GgB3UNLqNA/LVdkjvrAxrB6gfcWAC7ukVXF5nvmIqRfJ
+	 bImicNzQG6bpNXw7wTsDX0NtPDU+/yTn8DrEjpxm5iTOu0zJdhUTFrznRQYntFjzM8
+	 A6ka23oXIvN+9wWlvqC1itUUdZP9OtO0TCz1ifn6X5AqwuKrvGqgaOo5AajkCp6x3Z
+	 hlpnwZT6IMHxVEtWCOl7Vpcg/L3sHv5Z/KmHqNCNGj0P4VfFm3esZduh4O6w/qJYs1
+	 hELhOlDawiawDXlHn3CVofymDAY1Y/R5RQatYAuk/mEJZiK4VpW1D84reKRF7fiFH/
+	 kUGg3C+W8cJhA==
+Message-ID: <28396df7-bb9f-4a6a-963c-0b56c66fb3cd@kernel.org>
+Date: Tue, 31 Mar 2026 09:18:01 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -53,16 +53,21 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/3] dt-bindings: soc: renesas: Document MFIS IP core
+Subject: Re: [PATCH 1/3] dt-bindings: soc: renesas: add MFIS binding
+ documentation
 To: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: linux-renesas-soc@vger.kernel.org, Marek Vasut <marek.vasut@mailbox.org>,
- devicetree@vger.kernel.org, Geert Uytterhoeven <geert+renesas@glider.be>,
+Cc: Geert Uytterhoeven <geert@linux-m68k.org>,
+ linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Jassi Brar <jassisinghbrar@gmail.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
  Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
-References: <20260325110717.17083-1-wsa+renesas@sang-engineering.com>
- <20260325110717.17083-2-wsa+renesas@sang-engineering.com>
- <20260326-magnetic-cautious-earthworm-aee7ec@quoll>
- <acZtECu-1kuIuNrx@shikoro>
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, devicetree@vger.kernel.org
+References: <20260317130638.2804-1-wsa+renesas@sang-engineering.com>
+ <20260317130638.2804-2-wsa+renesas@sang-engineering.com>
+ <20260318-camouflaged-umber-oxpecker-b2b29e@quoll>
+ <CAMuHMdX=DRnFWG1ky8wT7mK=LHeJ6LduL28nYd19QpASrn6mew@mail.gmail.com>
+ <c46357c9-8cf4-45ec-8b48-8cf979de2e98@kernel.org> <actzUSIKKzcDmBCT@shikoro>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -108,21 +113,21 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <acZtECu-1kuIuNrx@shikoro>
+In-Reply-To: <actzUSIKKzcDmBCT@shikoro>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,mailbox.org,glider.be,gmail.com,kernel.org];
+	FREEMAIL_CC(0.00)[linux-m68k.org,vger.kernel.org,gmail.com,glider.be,kernel.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-30617-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-30618-lists,linux-renesas-soc=lfdr.de];
 	DKIM_TRACE(0.00)[kernel.org:+];
 	RCVD_TLS_LAST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
@@ -132,31 +137,42 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	NEURAL_HAM(-0.00)[-1.000];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[krzk@kernel.org,linux-renesas-soc@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	MID_RHS_MATCH_FROM(0.00)[];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,dt];
-	RCPT_COUNT_SEVEN(0.00)[9];
+	RCPT_COUNT_SEVEN(0.00)[11];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 3A794364F48
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 9B0B83651F8
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On 27/03/2026 12:42, Wolfram Sang wrote:
->>> +#define MFIS_CHANNEL_TX (0 << 0)
->>> +#define MFIS_CHANNEL_RX (1 << 0)
->>
->> No improvements and no answers to comments. Same review, drop, not a
->> binding. If disagree, respond to v1 comments.
+On 31/03/2026 09:10, Wolfram Sang wrote:
 > 
-> I think I did. I explained above in "changes since v1" that I decided to
-> keep it because of the existing users in upstream that Geert mentioned.
+>> I did not get the driver so I cannot verify that. What sort of Linux ABI
+>> does this bind?
+> 
+> In case you mean this as unanswered questions to v1: This describes the
+> device specific second mbox cell. Like Tegra does it here (even with
+> shifts instead of plain numbers):
+> 
+> include/dt-bindings/mailbox/tegra186-hsp.h
+> 
+> But all this has been said before and you got the driver as well in v2.
+> I really have no idea what is still missing?
 
-Same review as in v1. Not a binding. I asked what Linux ABI are you here
-binding. Point me to Linux code using these. This is the ABI.
+And look when my question was asked:
+19th of Match:
+"I did not get the driver so I cannot verify that. What sort of Linux
+ABI does this bind?"
 
-You replied something about device, so how does it matter? It is not the
-answer to the question.
+You ignore it and on 23rd of Match you send v2.
+
+And now you reply that "you got driver as well in v2". Seriously? How
+can I move from 19th Match into the future of 23rd to get the email from
+the future? And some answers from the future?
+
+Respond to review instead of ignoring it and sending v2.
 
 Best regards,
 Krzysztof
