@@ -1,46 +1,46 @@
-Return-Path: <linux-renesas-soc+bounces-30638-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-30639-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id CP6CK1Sey2loJgYAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-30638-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 31 Mar 2026 12:13:40 +0200
+	id gGqrBWiey2loJgYAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-30639-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 31 Mar 2026 12:14:00 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47F40367AFD
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 31 Mar 2026 12:13:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 545DB367B2B
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 31 Mar 2026 12:13:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 1937930C0286
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 31 Mar 2026 10:05:08 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 6178930A617E
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 31 Mar 2026 10:05:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E55033E95A6;
-	Tue, 31 Mar 2026 10:04:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 86ED43783A2;
+	Tue, 31 Mar 2026 10:04:30 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0F7323F0A9E;
-	Tue, 31 Mar 2026 10:04:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DDBF03F1662;
+	Tue, 31 Mar 2026 10:04:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774951466; cv=none; b=CqiZ81ilkyNoSr7NCeup9Jc+4FcPhIpLDrq3G2w6rDUmdDA1WwCzeTrk9zq4NR1RDLxoFsjFlQVeLTdtthPB+9R+v3AgsYV7I7yJz+sMwTJFWSzy19Y9GUz+X5Tvy+3EYrCa+IXXEUJIHi6NzfMvFUZ278hzfyeZ7Pq/SXum65s=
+	t=1774951470; cv=none; b=eAXea/yjUVBPauhO6/3ll80xdvdLyfPzpyw2PBY945GVPesXncY5wuutj9Fa5KRd3WTLu89wmava2UwdEG596i0QdSho3sEwqh37w778wd/tOSodhR7voaOgFd12Phi06AZDV2tTcVLD8uKVB5ShM4bOsCvWEIn1ABi1GvYPGoE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774951466; c=relaxed/simple;
-	bh=NIXrzKvYkeIbWECbz0RwNchfNNumhL29gSB9oSILpRY=;
+	s=arc-20240116; t=1774951470; c=relaxed/simple;
+	bh=iNxe+78/8LfJp0QgyF9JQQuVKOLxeDUsKgyPSJLqbQ0=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=h80FZjMV0QjGcLIhFYjaHfm6wD3/6kWpWztTvDfy/AFjko3S+hP/AviywkUyyE78SM8/mMUt5cSYxKj8VA2qW3p+j1IY/ua3s3Id3VdvvIPfLgTal9Ri0Q8X6alY9S2+niJZxTFHOj6pwv/XjHFyFKOQ7rMimq3NQLsZBPOsxQs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; arc=none smtp.client-ip=210.160.252.171
+	 In-Reply-To:To:Cc; b=CBZlutz5LUS7ALLj4J7qFAYGM8ytLHHAdkRNcHMxRJS/csQ6A5dQCqN3S/T2MVLujCF5Nl8N2yDkVzBDrF1XlE+txezfrZqFqrz+oEVsRFl02i949Qj7+RMZ5ThXqpVQ5fZidofFX6fxTKu2AQzsXbU9RS3gRhi8XhTtODd5Wsk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; arc=none smtp.client-ip=210.160.252.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
-X-CSE-ConnectionGUID: UEdiFsCTTJGhfZC38w4Ohw==
-X-CSE-MsgGUID: lPw4jlY0QrOs8B/YPx00hg==
+X-CSE-ConnectionGUID: Do6nEv58T+W3Y6r9x4SA1g==
+X-CSE-MsgGUID: 3U9RsP6pT4+jIyxhm2dm6w==
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 31 Mar 2026 19:04:24 +0900
+  by relmlie6.idc.renesas.com with ESMTP; 31 Mar 2026 19:04:27 +0900
 Received: from [127.0.1.1] (unknown [10.226.78.135])
-	by relmlir6.idc.renesas.com (Postfix) with ESMTP id 31ACF416C39F;
-	Tue, 31 Mar 2026 19:04:20 +0900 (JST)
+	by relmlir6.idc.renesas.com (Postfix) with ESMTP id BAFD4416C39F;
+	Tue, 31 Mar 2026 19:04:24 +0900 (JST)
 From: Michael Dege <michael.dege@renesas.com>
-Date: Tue, 31 Mar 2026 12:03:59 +0200
-Subject: [PATCH net-next v3 05/13] net: renesas: rswitch: add exception
- path for packets with unknown dst MAC
+Date: Tue, 31 Mar 2026 12:04:00 +0200
+Subject: [PATCH net-next v3 06/13] net: renesas: rswitch: add forwarding
+ rules for gwca
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -49,7 +49,7 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260331-rswitch_add_vlans-v3-5-c37f41b1c556@renesas.com>
+Message-Id: <20260331-rswitch_add_vlans-v3-6-c37f41b1c556@renesas.com>
 References: <20260331-rswitch_add_vlans-v3-0-c37f41b1c556@renesas.com>
 In-Reply-To: <20260331-rswitch_add_vlans-v3-0-c37f41b1c556@renesas.com>
 To: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, 
@@ -61,11 +61,11 @@ To: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
 Cc: netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
  linux-kernel@vger.kernel.org, Michael Dege <michael.dege@renesas.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1774951442; l=7215;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1774951442; l=1614;
  i=michael.dege@renesas.com; s=20251023; h=from:subject:message-id;
- bh=NIXrzKvYkeIbWECbz0RwNchfNNumhL29gSB9oSILpRY=;
- b=VqQsy+7k4S1GCoWVm73R6cv9uQsvoDr3DLkm0R4i+V5opvkCiDeJYsn2YeFvVS0/K2dFViVLY
- WTY97fONsKaBD8z4zhbwIH1/rNvSQfiQkprnOZz+XO+SJWXUQZwQ31j
+ bh=iNxe+78/8LfJp0QgyF9JQQuVKOLxeDUsKgyPSJLqbQ0=;
+ b=Cy0fN8GLSdKuAI8N3y0cz88KRZaFVlthY+KiH4LruqgwEE/aGeMO4dvM+PakWe41UpGd0Xjua
+ wKXW+t3xYkkC0N1+TCihUXz+2TwMHYEpFeaGvqxpoYVAgm2uBFmPWd6
 X-Developer-Key: i=michael.dege@renesas.com; a=ed25519;
  pk=gu1rwIcCrAxNMv2I8fIfiQvt51xzZwnQy4Ua/DscQt8=
 X-Spamd-Result: default: False [0.14 / 15.00];
@@ -78,7 +78,7 @@ X-Spamd-Result: default: False [0.14 / 15.00];
 	HAS_LIST_UNSUB(-0.01)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	RCPT_COUNT_TWELVE(0.00)[12];
-	TAGGED_FROM(0.00)[bounces-30638-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-30639-lists,linux-renesas-soc=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
@@ -90,199 +90,58 @@ X-Spamd-Result: default: False [0.14 / 15.00];
 	TO_DN_SOME(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
 	R_DKIM_NA(0.00)[];
-	NEURAL_HAM(-0.00)[-0.958];
+	NEURAL_HAM(-0.00)[-0.962];
 	MID_RHS_MATCH_FROM(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[renesas.com:email,renesas.com:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 47F40367AFD
+X-Rspamd-Queue-Id: 545DB367B2B
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Packets with unknown MAC address cannot be handled by the HW forwarding.
-These need to be forwarded, via an exception path, to the network driver.
-
-Creates a queue for the exeption path. Packets received with unknown
-src/dst address need to be passed to the CPU. The received packet does not
-have the correct source port information, this is derived from the
-descriptor and added to the new queue. The received packet is added to the
-new queue and sent to the CPU for MAC learning. The CPU will broadcast the
-received packet, to all ports. This is how the HW learns the new MAC
-address.
+Add rules to forward packets from the Ethernet ports to the CPU port (GWCA)
+using L2 forwarding instead of port forwarding.
 
 Signed-off-by: Michael Dege <michael.dege@renesas.com>
 ---
- drivers/net/ethernet/renesas/rswitch.h      |  1 +
- drivers/net/ethernet/renesas/rswitch_main.c | 80 ++++++++++++++++++++++++++---
- 2 files changed, 74 insertions(+), 7 deletions(-)
+ drivers/net/ethernet/renesas/rswitch_l2.c | 22 ++++++++++++++++++++++
+ 1 file changed, 22 insertions(+)
 
-diff --git a/drivers/net/ethernet/renesas/rswitch.h b/drivers/net/ethernet/renesas/rswitch.h
-index 15d3fa48b0e3..bf123b564ed1 100644
---- a/drivers/net/ethernet/renesas/rswitch.h
-+++ b/drivers/net/ethernet/renesas/rswitch.h
-@@ -1148,6 +1148,7 @@ struct rswitch_gwca {
- 	struct rswitch_gwca_queue *queues;
- 	int num_queues;
- 	struct rswitch_gwca_queue ts_queue;
-+	struct rswitch_gwca_queue *l2_shared_rx_queue;
- 	DECLARE_BITMAP(used, RSWITCH_MAX_NUM_QUEUES);
- 	u32 tx_irq_bits[RSWITCH_NUM_IRQ_REGS];
- 	u32 rx_irq_bits[RSWITCH_NUM_IRQ_REGS];
-diff --git a/drivers/net/ethernet/renesas/rswitch_main.c b/drivers/net/ethernet/renesas/rswitch_main.c
-index d404bc41bd1e..3c142fa3c810 100644
---- a/drivers/net/ethernet/renesas/rswitch_main.c
-+++ b/drivers/net/ethernet/renesas/rswitch_main.c
-@@ -680,6 +680,34 @@ static int rswitch_rxdmac_init(struct rswitch_private *priv, unsigned int index)
- 	return rswitch_gwca_queue_ext_ts_format(ndev->dev.parent, priv, rdev->rx_queue);
- }
- 
-+static int rswitch_shared_rx_queue_alloc(struct rswitch_private *priv)
-+{
-+	struct rswitch_gwca *gwca = &priv->gwca;
-+	struct device *dev = &priv->pdev->dev;
-+
-+	int err;
-+
-+	gwca->l2_shared_rx_queue = rswitch_gwca_get(priv);
-+	if (!gwca->l2_shared_rx_queue)
-+		return -EBUSY;
-+
-+	err = rswitch_gwca_queue_alloc(NULL, priv, gwca->l2_shared_rx_queue, false, RX_RING_SIZE);
-+	if (err < 0) {
-+		rswitch_gwca_put(priv, gwca->l2_shared_rx_queue);
-+		return err;
-+	}
-+
-+	return rswitch_gwca_queue_ext_ts_format(dev, priv, gwca->l2_shared_rx_queue);
-+}
-+
-+static void rswitch_shared_rx_queue_free(struct rswitch_private *priv)
-+{
-+	struct rswitch_gwca *gwca = &priv->gwca;
-+
-+	rswitch_gwca_queue_free(&priv->pdev->dev, gwca->l2_shared_rx_queue);
-+	rswitch_gwca_put(priv, gwca->l2_shared_rx_queue);
-+}
-+
- static int rswitch_gwca_hw_init(struct rswitch_private *priv)
- {
- 	unsigned int i;
-@@ -717,6 +745,12 @@ static int rswitch_gwca_hw_init(struct rswitch_private *priv)
- 			return err;
+diff --git a/drivers/net/ethernet/renesas/rswitch_l2.c b/drivers/net/ethernet/renesas/rswitch_l2.c
+index 709524c8a5c4..cabf1f92ad0c 100644
+--- a/drivers/net/ethernet/renesas/rswitch_l2.c
++++ b/drivers/net/ethernet/renesas/rswitch_l2.c
+@@ -93,10 +93,32 @@ static void rswitch_update_l2_hw_forwarding(struct rswitch_private *priv)
  	}
- 
-+	err = rswitch_shared_rx_queue_alloc(priv);
-+	if (err < 0) {
-+		rswitch_shared_rx_queue_free(priv);
-+		return err;
-+	}
-+
- 	return rswitch_gwca_change_mode(priv, GWMC_OPC_OPERATION);
  }
  
-@@ -940,6 +974,7 @@ static int rswitch_poll(struct napi_struct *napi, int budget)
- 			rswitch_enadis_data_irq(priv, rdev->tx_queue->index, true);
- 			rswitch_enadis_data_irq(priv, rdev->rx_queue->index, true);
- 		}
-+		rswitch_enadis_data_irq(priv, priv->gwca.l2_shared_rx_queue->index, true);
- 		spin_unlock_irqrestore(&priv->lock, flags);
- 	}
- 
-@@ -952,15 +987,31 @@ static int rswitch_poll(struct napi_struct *napi, int budget)
- 	return 0;
- }
- 
--static void rswitch_queue_interrupt(struct net_device *ndev)
-+static void rswitch_queue_interrupt(struct rswitch_private *priv, struct rswitch_gwca_queue *gq)
- {
--	struct rswitch_device *rdev = netdev_priv(ndev);
-+	struct rswitch_ext_ts_desc *desc;
++static void rswitch_update_l2_hw_forwarding_gwca(struct rswitch_private *priv)
++{
 +	struct rswitch_device *rdev;
-+	struct net_device *ndev;
-+	u32 spn;
++	u32 fwpc0_set, fwpc0_clr, fwpc2_set, fwpc2_clr;
 +
-+	if (gq->index == priv->gwca.l2_shared_rx_queue->index) {
-+		desc = &gq->rx_ring[gq->cur];
-+		spn = FIELD_GET(SPN, desc->info1);
-+		ndev = priv->rdev[spn]->ndev;
-+		rdev = netdev_priv(ndev);
-+		gq->ndev = ndev;
-+		rdev->rx_queue = gq;
-+	} else {
-+		rdev = netdev_priv(gq->ndev);
++	fwpc0_clr = FWPC0_MACSSA | FWPC0_MACDSA | FWPC0_MACRUDA;
++	fwpc0_set = fwpc0_clr;
++	fwpc2_clr = FIELD_PREP(FWPC2_LTWFW, BIT(AGENT_INDEX_GWCA));
++	fwpc2_set = fwpc2_clr;
++
++	(priv->offload_brdev) ? (fwpc0_clr = 0, fwpc2_set = 0)
++			      : (fwpc0_set = 0, fwpc2_set = 0);
++
++	rswitch_modify(priv->addr, FWPC0(AGENT_INDEX_GWCA), fwpc0_clr, fwpc0_set);
++
++	rswitch_for_all_ports(priv, rdev) {
++		rswitch_modify(priv->addr, FWPC2(rdev->etha->index),
++			       fwpc2_clr, fwpc2_set);
 +	}
-+
- 
- 	if (napi_schedule_prep(&rdev->napi)) {
--		spin_lock(&rdev->priv->lock);
--		rswitch_enadis_data_irq(rdev->priv, rdev->tx_queue->index, false);
--		rswitch_enadis_data_irq(rdev->priv, rdev->rx_queue->index, false);
--		spin_unlock(&rdev->priv->lock);
-+		spin_lock(&priv->lock);
-+		rswitch_enadis_data_irq(priv, rdev->tx_queue->index, false);
-+		rswitch_enadis_data_irq(priv, rdev->rx_queue->index, false);
-+		rswitch_enadis_data_irq(priv, priv->gwca.l2_shared_rx_queue->index, false);
-+		spin_unlock(&priv->lock);
- 		__napi_schedule(&rdev->napi);
- 	}
- }
-@@ -978,7 +1029,7 @@ static irqreturn_t rswitch_data_irq(struct rswitch_private *priv, u32 *dis)
- 			continue;
- 
- 		rswitch_ack_data_irq(priv, gq->index);
--		rswitch_queue_interrupt(gq->ndev);
-+		rswitch_queue_interrupt(priv, gq);
- 	}
- 
- 	return IRQ_HANDLED;
-@@ -1513,6 +1564,14 @@ static int rswitch_serdes_set_params(struct rswitch_device *rdev)
- 	return phy_set_speed(rdev->serdes, rdev->etha->speed);
- }
- 
-+static void rswitch_etha_set_exception_path(struct rswitch_private *priv)
-+{
-+	iowrite32(FDMACUFEF, priv->addr + FWCEPRC2);
-+	iowrite32(FIELD_PREP(EPCS, GWCA_INDEX) |
-+		  FIELD_PREP(EPCSD, priv->gwca.l2_shared_rx_queue->index),
-+		  priv->addr + FWCEPTC);
 +}
 +
- static int rswitch_ether_port_init_one(struct rswitch_device *rdev)
+ void rswitch_update_l2_offload(struct rswitch_private *priv)
  {
- 	int err;
-@@ -1566,6 +1625,8 @@ static int rswitch_ether_port_init_all(struct rswitch_private *priv)
- 	unsigned int i;
- 	int err;
+ 	rswitch_update_l2_hw_learning(priv);
+ 	rswitch_update_l2_hw_forwarding(priv);
++	rswitch_update_l2_hw_forwarding_gwca(priv);
+ }
  
-+	rswitch_etha_set_exception_path(priv);
-+
- 	rswitch_for_each_enabled_port(priv, i) {
- 		err = rswitch_ether_port_init_one(priv->rdev[i]);
- 		if (err)
-@@ -1616,6 +1677,7 @@ static int rswitch_open(struct net_device *ndev)
- 	bitmap_set(rdev->priv->opened_ports, rdev->port, 1);
- 	rswitch_enadis_data_irq(rdev->priv, rdev->tx_queue->index, true);
- 	rswitch_enadis_data_irq(rdev->priv, rdev->rx_queue->index, true);
-+	rswitch_enadis_data_irq(rdev->priv, rdev->priv->gwca.l2_shared_rx_queue->index, true);
- 	spin_unlock_irqrestore(&rdev->priv->lock, flags);
- 
- 	phy_start(ndev->phydev);
-@@ -1642,6 +1704,7 @@ static int rswitch_stop(struct net_device *ndev)
- 	spin_lock_irqsave(&rdev->priv->lock, flags);
- 	rswitch_enadis_data_irq(rdev->priv, rdev->tx_queue->index, false);
- 	rswitch_enadis_data_irq(rdev->priv, rdev->rx_queue->index, false);
-+	rswitch_enadis_data_irq(rdev->priv, rdev->priv->gwca.l2_shared_rx_queue->index, false);
- 	bitmap_clear(rdev->priv->opened_ports, rdev->port, 1);
- 	spin_unlock_irqrestore(&rdev->priv->lock, flags);
- 
-@@ -2166,6 +2229,9 @@ static int renesas_eth_sw_probe(struct platform_device *pdev)
- 	priv->gwca.index = AGENT_INDEX_GWCA;
- 	priv->gwca.num_queues = min(RSWITCH_NUM_PORTS * NUM_QUEUES_PER_NDEV,
- 				    RSWITCH_MAX_NUM_QUEUES);
-+	/* One extra queue for L2 switch reception */
-+	priv->gwca.num_queues = min(priv->gwca.num_queues + 1,
-+				    RSWITCH_MAX_NUM_QUEUES);
- 	priv->gwca.queues = devm_kcalloc(&pdev->dev, priv->gwca.num_queues,
- 					 sizeof(*priv->gwca.queues), GFP_KERNEL);
- 	if (!priv->gwca.queues)
+ static void rswitch_update_offload_brdev(struct rswitch_private *priv)
 
 -- 
 2.43.0
