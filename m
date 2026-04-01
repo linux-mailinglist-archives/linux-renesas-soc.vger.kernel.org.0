@@ -1,328 +1,216 @@
-Return-Path: <linux-renesas-soc+bounces-30688-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-30689-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id INiUIo4OzWnhZgYAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-30688-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 01 Apr 2026 14:24:46 +0200
+	id kDOPLwolzWlkaQYAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-30689-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 01 Apr 2026 16:00:42 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00C1237A64F
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 01 Apr 2026 14:24:45 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D75837BBF1
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 01 Apr 2026 16:00:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 99D6530AD4B9
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  1 Apr 2026 11:45:10 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id D357A300B462
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  1 Apr 2026 13:56:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5DE6A3F99E4;
-	Wed,  1 Apr 2026 11:45:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7D3DA1C84BB;
+	Wed,  1 Apr 2026 13:55:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="POuV7vQ6"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="WkKjBctV";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="NsHhGQUH"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B38BD3F99EF
-	for <linux-renesas-soc@vger.kernel.org>; Wed,  1 Apr 2026 11:45:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB9AD2C15BE
+	for <linux-renesas-soc@vger.kernel.org>; Wed,  1 Apr 2026 13:55:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775043910; cv=none; b=EUA9bUTLLlgFCoulEe71vOLmYa2fhUXl+K0RePiDujDbHJ/D1hgFAOpdPSmRWPXQmqYj4EWr3WrTbZqc+foiGoXbagW1aaAGgwY8UlI0SwJPJIoTJIyfsgJKcGH4Ng+ke1bs+cpk+vzb/6D3DEeIHRHL2ve2PiwDqAIqRatf7xQ=
+	t=1775051759; cv=none; b=b4JSkfpFzN1TCKlTGR538fKp8t4XQou+ioT8pWCGvIrKLS1apDL4ZQyFFkrD3zTWsH1XlWLoHYPUzFDek363jf0CG+kgoxor4v7t25OCGrqNFlJeK/dSBuyQov5sAL5pLoDxwJTSrGFRY0PgVl8/WOV4gLaI8GWyzYZIIMpptzk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775043910; c=relaxed/simple;
-	bh=sX5Q9psoDkwYFXjEwonbSRbV7XcMncEJKqJRvvOhEXw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=HjAVRIjVvVJ37juXGc/+AkDann/Ha44iJLNhM2jQAZLPk++HgeXhBimD0hdm/9uacKfLWWV5xTNt/EaGS3jk7YdLVB9hVEH57oF4bWiHWd+yADkbX8BWauVXrC9O+vb5b17SYpXIUos/apks88Cq++lrHhuqWd7rOl7FB+zg7R4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=POuV7vQ6; arc=none smtp.client-ip=209.85.128.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-48702d51cd0so80048495e9.2
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 01 Apr 2026 04:45:08 -0700 (PDT)
+	s=arc-20240116; t=1775051759; c=relaxed/simple;
+	bh=3PXNhSJ6bUXpoMEX2fDn34qnDX+e44HuWuIur7Zph68=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HbqwPnzDyPvAgUtOas94zL8DGGC22Rh7CDwEh3JHin6a7EXSpNRlKVbe67xxpvYf4OHb0qMJ4l33bwdeXrq5Xby6GxZU6as0Pd5Wqh5U8jZaLcIfhl4LheUqe0Y3a4HG6qhjOKcTeSi6OyoWAwYTa9Oi6O74O81x/11gJGkxKzg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=WkKjBctV; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=NsHhGQUH; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1775051757;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=quxJoJV99aTQ23EktQqX4tlfqV2G+rFHJBvPV0aOlpo=;
+	b=WkKjBctVXCVl5RQxebthsfCsDjqGaokR8Dki7Eoumdj2XJ3KrprgtGHrX51Y/KBLIvZM+i
+	g1MekN47vkz+4zlgO7I2u8mr3eJL+2f0Vm/dXvR8Gn7VKQ6iueMwCzf6J90geQtxxVBOK7
+	jAwXQat0u15eijp8r3ukxn/xcCFEIC0=
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
+ [209.85.160.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-100-8PySqjh0OiK5zsn_ifmqSQ-1; Wed, 01 Apr 2026 09:55:56 -0400
+X-MC-Unique: 8PySqjh0OiK5zsn_ifmqSQ-1
+X-Mimecast-MFC-AGG-ID: 8PySqjh0OiK5zsn_ifmqSQ_1775051755
+Received: by mail-qt1-f198.google.com with SMTP id d75a77b69052e-5093b92f327so216057281cf.1
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 01 Apr 2026 06:55:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775043907; x=1775648707; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=S7tUhnKJfryQMq8UMuwWIK2pWGEPPiKybIC2U2jfHfs=;
-        b=POuV7vQ6tfGXaLs10P2zpDyc8tEjP50iFNEa5iKHkmNHc/dcC2Bq4MF17UXFKiKzPw
-         Asr6qj1JMJOstas7NBW9p17pD77HcpyPBrw1ROC/u+SdewH/mTYpzvIRaLwScsYIrf7R
-         WRfBDy65hiMKGeJ2pEAUNxDI5KxqB5PF1yCsYDCYU7afvYLgad4a3ReSPYDR+7OJEPwY
-         C0Qy+C9KBOLqnzI79Nkz3u+N8TUyGCzYAiC95EnfwpiMthhqsazkafGRoJ8LukXcy6R3
-         49TDqHTxezpxMc4BJ3RPZJTAVffSfEJZ+LYBtd9P0vBo0bq0jnNg0MoqDXilWW2QqMbn
-         yL2w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775043907; x=1775648707;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=redhat.com; s=google; t=1775051755; x=1775656555; darn=vger.kernel.org;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=S7tUhnKJfryQMq8UMuwWIK2pWGEPPiKybIC2U2jfHfs=;
-        b=HnBiubv5Bt56LXE91MNEQzlYMPWOQkR9fz8GvIpYTcElDjOiZc6ZtmMQFEBqypc1dN
-         ZYMxKaN8s9HmZadZI2qTTMCV5nmzgEloAUo1luazncTd0z5mcwR6Fsk55tf96udcmkVY
-         kGdvSJpG+eWDZU0S+cFEbWfEMV8PiooqEWzjcaS+LYoemoUi3aTuDuOE1Y1FHOEZP8n0
-         LLEMHLEUlaOk5mRgLbTz3/ztBRq+YxrSG+ewwKGCbViVqdDEb03Q0cDJbnQAkl+bOpUV
-         E0NWTmJsExyuIdY/mu9IWbk9ai6Goro0vJWb9zq+9fIYHMH9iY+QFsZ8SKgWTnTxEv/6
-         IGrw==
-X-Forwarded-Encrypted: i=1; AJvYcCVpMQA3ZdXr7F9CvUYTut7XoDZWNXA7rj1WJdtLLQK69/R3ZD4i54pg/1yqTTN4eS1j9PMDIoA5zW8AtMP5gicacA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyXE7b9JNUIZTm5kdAMV5IIMyM27P+SP9GdtzyYTHpfNwYwBldT
-	QVhPh+/f0MgACzY0dgw9ikCfA3Ngvq+srSoTD4A/kMwVtsRnm1TxIJzt
-X-Gm-Gg: ATEYQzyDT4Adt4DIzoHOkcwaHFhL6s6PWhPnfu9fYdBx5Rq0jdkM/n70n+7TKbynXvT
-	gZ4O4+5BLFXG+rCfVrJcmm96sI1G4YdyRzHnzp9X4XxkHImpiSJpN0zqnTTZPy+xS9UsEpEi3UR
-	6A9ZU6BtowZdHa3hIg5RRMTJwP398Qoze9vKqrPb5mKjeKtdjDcgO0LdMm9V5Eu/GtEvbcM7Ytj
-	yqXilQ1xuRyfr3scrYtFwErgOpSsN0qO8W4BeiPurg9eHs8Pv8SQoplhNlwQ43SXX/VFAOcH6K1
-	SaHLdaNDJqepZr5iwyVhYoWKEI0vayMaSEv++LEx8m/s3o62QKrOOTqEeJnaropXFtJ7mRCJFJA
-	l8LhiwfOzphdeS+Lh577ImhmqqYvtjM5orMPvllaCLwpI/MS3RC3sN43XUbIHkkBc2FbPvNAOnq
-	Ph1EzPe/gSS5Djuf/SBkZrdKiyWXHAupd+4HrrtHjKjgUHxXSW
-X-Received: by 2002:a05:6000:40dd:b0:439:b60a:b400 with SMTP id ffacd0b85a97d-43d150bd4acmr6289232f8f.31.1775043906853;
-        Wed, 01 Apr 2026 04:45:06 -0700 (PDT)
-Received: from localhost.localdomain ([2a00:23c4:a758:8a01:cd6c:7c48:e40b:4bf3])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43cf330872asm32929035f8f.17.2026.04.01.04.45.06
+        bh=quxJoJV99aTQ23EktQqX4tlfqV2G+rFHJBvPV0aOlpo=;
+        b=NsHhGQUH5Sw6CQE+fw81ILPfHpXVVqRJFnLgHyQdchJ/pM82dADnXkwVQPpo55cmjM
+         cEy3rcV7gsK6bax5aOIHMP2k5FgEWw2paBUMKPT1lw2p2rbX7LWqSKffK7eCI6YYVAQL
+         vruJSlTKsxgx0A2rItHXWq5fHo3J1Et6OT5Wo2JOLVrlNVtrqp8KCAPoIfKQspRo37oO
+         ZbXS8cABSJe7XheQMTmd49AiZevB/bDNlGzPa1MV/V5oRhWSKrvam/mIXW9pPNj7ubSt
+         ZT8L6dg1rF0nxlrQbC5nx3st6rTg7klhtER+/+kz2hAxpe25sVwVPl+k+waFq2lXPMUn
+         Weaw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775051755; x=1775656555;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=quxJoJV99aTQ23EktQqX4tlfqV2G+rFHJBvPV0aOlpo=;
+        b=qLjunMFJO+Q00rSGT1PPVlxJc6rc7zgLrnoelDJduafaHbyag4sTVh76YGiZuBYVOJ
+         6MvS1HZIawIMS4uFux8fDQeNkoDMC7Sfn0u2klz8cCBdTyU1ynQUlwAJop81WccrrZKz
+         SoiLcbh2+8kBKmXGzWDeIcUhpj4sVjCosSgu7iCUn/GFHVehgp7Yl1Yf9LvTHbYBiuaW
+         UVGY9BvmfMo9pCZDvH6aMgv1y8BnFPXOJha3C5+wEjZ1PJyez93T3fRa/NFThmCTvFgu
+         tfV0l0F436UmB8h9Pk8uvXtULn+kf5Gswn15TiLl42dbClUMRGUiqK6jfJfKgiqXgqiL
+         5pJA==
+X-Forwarded-Encrypted: i=1; AJvYcCW2qOYuj+yjrMMo+WucOVmjvt/2wC4ko+JBWCVB22N+2GBlUwTkSCycYl5y1nvD3q3aJl4BZyDMqkWMmGGK82+AVA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxb+eiNOZHhEH3/q8KWYo0uIN8H7lkcK/NaxSlGIDWhjwNpp76x
+	jCjiYkBKeBwffHIttLkv/vg+HBvHJsw/LtjR6xPLYxKdhn2Rt1hpK01AUi3BuN3opuhwppnB+cN
+	emWyS0c0thbyJHj+coHvkEHGA3JVWk0iyBvRcVYNzXT3f9171iR2I0rvjMuhcNlCb/d99Cemxf3
+	EP8bJ/
+X-Gm-Gg: ATEYQzx4C4XiFtPsv8nU6Gjut+C/LIDmTyrmUqNg36Vju0jwbzj4PjCnUMI5o4efHS8
+	32WH0EOvZKimbVLRlmOrmdJfbqfVWgxpBDTOJ0Q9NBptcO7I/18WnH72cEDx9FYTVcpkMTRTR4H
+	26JDb9je4wBWE5ZWTRUiBbrzN4HnvFN6hc26Uhwm7XpwqQ82DiWq2lAj9pjQM3x+83YZheJmvz4
+	gheG/GnCDUfuG6HYOVCSKzSX0M8qBNwdHVk9NwN04By5bhnmE/3lBykZ0hxVWwJnM7YU9riglzN
+	cmq6Otiuk+girNmVY52xFDGkp66FFgk9PT5VKJiJMnG5wIs0YvrcImvQxNItjt+64m2b84G4DTw
+	zbJ44zAFF0fhPaHvL5eZbLyI8kyE5ve9jKiWmAT926S8ywisqef4i8G8c
+X-Received: by 2002:ac8:5d8a:0:b0:50b:829e:44fe with SMTP id d75a77b69052e-50d3bccce67mr52030421cf.37.1775051755251;
+        Wed, 01 Apr 2026 06:55:55 -0700 (PDT)
+X-Received: by 2002:ac8:5d8a:0:b0:50b:829e:44fe with SMTP id d75a77b69052e-50d3bccce67mr52030111cf.37.1775051754759;
+        Wed, 01 Apr 2026 06:55:54 -0700 (PDT)
+Received: from redhat.com (c-73-183-52-120.hsd1.pa.comcast.net. [73.183.52.120])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-50bb2e43587sm145843331cf.28.2026.04.01.06.55.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Apr 2026 04:45:06 -0700 (PDT)
-From: Biju <biju.das.au@gmail.com>
-X-Google-Original-From: Biju <biju.das.jz@bp.renesas.com>
-To: Thomas Gleixner <tglx@kernel.org>
-Cc: Biju Das <biju.das.jz@bp.renesas.com>,
-	linux-kernel@vger.kernel.org,
+        Wed, 01 Apr 2026 06:55:53 -0700 (PDT)
+Date: Wed, 1 Apr 2026 09:55:51 -0400
+From: Brian Masney <bmasney@redhat.com>
+To: Miquel Raynal <miquel.raynal@bootlin.com>
+Cc: Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Olivia Mackall <olivia@selenic.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	Jayesh Choudhary <j-choudhary@ti.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Christian Marangi <ansuelsmth@gmail.com>,
+	Antoine Tenart <atenart@kernel.org>,
 	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Biju Das <biju.das.au@gmail.com>,
-	linux-renesas-soc@vger.kernel.org
-Subject: [PATCH v2] irqchip/renesas-rzg2l: Add NMI support
-Date: Wed,  1 Apr 2026 12:45:00 +0100
-Message-ID: <20260401114504.332825-1-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.43.0
+	Magnus Damm <magnus.damm@gmail.com>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	Pascal EBERHARD <pascal.eberhard@se.com>,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-crypto@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	Chen-Yu Tsai <wenst@chromium.org>
+Subject: Re: [PATCH 06/16] clk: tests: Add clk_parse_clkspec() Kunit testing
+Message-ID: <ac0j5401vyjIvjCo@redhat.com>
+References: <20260327-schneider-v7-0-rc1-crypto-v1-0-5e6ff7853994@bootlin.com>
+ <20260327-schneider-v7-0-rc1-crypto-v1-6-5e6ff7853994@bootlin.com>
+ <acqNRVLrPxABvecZ@redhat.com>
+ <87mrzn6opj.fsf@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-1.66 / 15.00];
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87mrzn6opj.fsf@bootlin.com>
+User-Agent: Mutt/2.3.0 (2026-01-25)
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	DMARC_POLICY_ALLOW(-0.50)[redhat.com,quarantine];
+	R_DKIM_ALLOW(-0.20)[redhat.com:s=mimecast20190719,redhat.com:s=google];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	FREEMAIL_CC(0.00)[baylibre.com,kernel.org,selenic.com,gondor.apana.org.au,ti.com,davemloft.net,gmail.com,glider.be,bootlin.com,se.com,sang-engineering.com,vger.kernel.org,chromium.org];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-30688-lists,linux-renesas-soc=lfdr.de];
-	FREEMAIL_CC(0.00)[bp.renesas.com,vger.kernel.org,glider.be,gmail.com];
-	PRECEDENCE_BULK(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[redhat.com:+];
+	TAGGED_FROM(0.00)[bounces-30689-lists,linux-renesas-soc=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	FROM_NEQ_ENVFROM(0.00)[bijudasau@gmail.com,linux-renesas-soc@vger.kernel.org];
-	NEURAL_HAM(-0.00)[-1.000];
-	RCVD_COUNT_FIVE(0.00)[5];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[7];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[24];
+	RCVD_COUNT_FIVE(0.00)[6];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[bmasney@redhat.com,linux-renesas-soc@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	NEURAL_HAM(-0.00)[-0.999];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
+	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[bp.renesas.com:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,renesas.com:email]
-X-Rspamd-Queue-Id: 00C1237A64F
+	TO_DN_SOME(0.00)[]
+X-Rspamd-Queue-Id: 1D75837BBF1
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-From: Biju Das <biju.das.jz@bp.renesas.com>
+Hi Miquel,
 
-The RZ/G2L SoC has an NMI interrupt. Add support for the NMI interrupt.
+On Wed, Apr 01, 2026 at 10:59:20AM +0200, Miquel Raynal wrote:
+> >> +	of_node_put(ctx->prov1_np);
+> >> +
+> >> +	/* Register provider 2 */
+> >> +	hw2 = kunit_kzalloc(test, sizeof(*hw2), GFP_KERNEL);
+> >> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, hw2);
+> >> +	hw2->init = &clk_parse_clkspec_2_init_data;
+> >> +
+> >> +	ctx->prov2_np = of_find_compatible_node(NULL, NULL, "test,clock-provider2");
+> >> +	KUNIT_ASSERT_NOT_NULL(test, ctx->prov2_np);
+> >> +
+> >> +	KUNIT_ASSERT_EQ(test, 0, of_clk_hw_register_kunit(test, ctx->prov2_np, hw2));
+> >> +	of_clk_add_hw_provider(ctx->prov2_np, kunit_clk_get, hw2);
+> >> +	of_node_put(ctx->prov2_np);
+> >> +
+> >> +	ctx->cons_np = of_find_compatible_node(NULL, NULL, "test,clock-consumer");
+> >> +	KUNIT_ASSERT_NOT_NULL(test, ctx->cons_np);
+> >> +
+> >> +	return 0;
+> >> +}
+> >> +
+> >> +static void clk_parse_clkspec_exit(struct kunit *test)
+> >> +{
+> >> +	struct clk_parse_clkspec_ctx *ctx = test->priv;
+> >> +
+> >> +	of_node_put(ctx->prov1_np);
+> >> +	of_node_put(ctx->prov2_np);
+> >
+> > Is there a double free of prov1_np and prov2_np? If this is dropped from
+> > the test exit, then they should't need to be in the ctx struct.
+> 
+> These two calls increment the refcount on the node:
+> - of_find_compatible_node()
+> - of_clk_add_hw_provider()
+> 
+> However this makes me realize maybe I should call of_clk_del_provider()
+> in the exit() function. In any case, I believe keeping a reference over
+> the nodes during the test is correct and if there is an of_node_put()
+> call to remove, it should be the on in the _init().
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
-v1->v2:
- * Added a comment in rzg2l_clear_nmi_int() and dropped the lock in the
-   caller as it is not an RMW operation.
- * Added the macro NSCR_NSTAT to indicate the NMI status bit.
- * Dropped the function parameter hwirq in rzg2l_clear_nmi_int().
- * Updated the commit description from RZ/G3L to RZ/G2L to cover all SoCs.
----
- drivers/irqchip/irq-renesas-rzg2l.c | 91 ++++++++++++++++++++++++++++-
- 1 file changed, 90 insertions(+), 1 deletion(-)
+Take a look at drivers/clk/clk_kunit_helpers.c.
+of_clk_add_hw_provider_kunit() will call of_clk_del_provider() for you
+via of_clk_del_provider_wrapper.
 
-diff --git a/drivers/irqchip/irq-renesas-rzg2l.c b/drivers/irqchip/irq-renesas-rzg2l.c
-index 199b3c6b02c8..b94949987ae3 100644
---- a/drivers/irqchip/irq-renesas-rzg2l.c
-+++ b/drivers/irqchip/irq-renesas-rzg2l.c
-@@ -20,11 +20,14 @@
- #include <linux/spinlock.h>
- #include <linux/syscore_ops.h>
- 
-+#define IRQC_NMI			0
- #define IRQC_IRQ_START			1
- #define IRQC_TINT_COUNT			32
- #define IRQC_SHARED_IRQ_COUNT		8
- #define IRQC_IRQ_SHARED_START		(IRQC_IRQ_START + IRQC_SHARED_IRQ_COUNT)
- 
-+#define NSCR				0x0
-+#define NITSR				0x4
- #define ISCR				0x10
- #define IITSR				0x14
- #define TSCR				0x20
-@@ -43,6 +46,10 @@
- #define TSSR_OFFSET(n)			((n) % 4)
- #define TSSR_INDEX(n)			((n) / 4)
- 
-+#define NSCR_NSTAT			0
-+#define NITSR_NTSEL_EDGE_FALLING	0
-+#define NITSR_NTSEL_EDGE_RISING		1
-+
- #define TITSR_TITSEL_EDGE_RISING	0
- #define TITSR_TITSEL_EDGE_FALLING	1
- #define TITSR_TITSEL_LEVEL_HIGH		2
-@@ -63,11 +70,13 @@
- 
- /**
-  * struct rzg2l_irqc_reg_cache - registers cache (necessary for suspend/resume)
-+ * @nitsr: NITSR register
-  * @iitsr: IITSR register
-  * @inttsel: INTTSEL register
-  * @titsr: TITSR registers
-  */
- struct rzg2l_irqc_reg_cache {
-+	u32	nitsr;
- 	u32	iitsr;
- 	u32	inttsel;
- 	u32	titsr[2];
-@@ -116,6 +125,23 @@ static struct rzg2l_irqc_priv *irq_data_to_priv(struct irq_data *data)
- 	return data->domain->host_data;
- }
- 
-+static void rzg2l_clear_nmi_int(struct rzg2l_irqc_priv *priv)
-+{
-+	u32 bit = BIT(NSCR_NSTAT);
-+	u32 reg;
-+
-+	/* Writing is allowed only when NSTAT is 1 */
-+	reg = readl_relaxed(priv->base + NSCR);
-+	if (reg & bit) {
-+		writel_relaxed(reg & ~bit, priv->base + NSCR);
-+		/*
-+		 * Enforce that the posted write is flushed to prevent that the
-+		 * just handled interrupt is raised again.
-+		 */
-+		readl_relaxed(priv->base + NSCR);
-+	}
-+}
-+
- static void rzg2l_clear_irq_int(struct rzg2l_irqc_priv *priv, unsigned int hwirq)
- {
- 	unsigned int hw_irq = hwirq - IRQC_IRQ_START;
-@@ -155,6 +181,14 @@ static void rzg2l_clear_tint_int(struct rzg2l_irqc_priv *priv, unsigned int hwir
- 	}
- }
- 
-+static void rzg2l_irqc_nmi_eoi(struct irq_data *d)
-+{
-+	struct rzg2l_irqc_priv *priv = irq_data_to_priv(d);
-+
-+	rzg2l_clear_nmi_int(priv);
-+	irq_chip_eoi_parent(d);
-+}
-+
- static void rzg2l_irqc_irq_eoi(struct irq_data *d)
- {
- 	struct rzg2l_irqc_priv *priv = irq_data_to_priv(d);
-@@ -341,6 +375,29 @@ static void rzg2l_irqc_tint_enable(struct irq_data *d)
- 	irq_chip_enable_parent(d);
- }
- 
-+static int rzg2l_nmi_set_type(struct irq_data *d, unsigned int type)
-+{
-+	struct rzg2l_irqc_priv *priv = irq_data_to_priv(d);
-+	u32 sense;
-+
-+	switch (type & IRQ_TYPE_SENSE_MASK) {
-+	case IRQ_TYPE_EDGE_FALLING:
-+		sense = NITSR_NTSEL_EDGE_FALLING;
-+		break;
-+
-+	case IRQ_TYPE_EDGE_RISING:
-+		sense = NITSR_NTSEL_EDGE_RISING;
-+		break;
-+
-+	default:
-+		return -EINVAL;
-+	}
-+
-+	writel_relaxed(sense, priv->base + NITSR);
-+
-+	return 0;
-+}
-+
- static int rzg2l_irq_set_type(struct irq_data *d, unsigned int type)
- {
- 	struct rzg2l_irqc_priv *priv = irq_data_to_priv(d);
-@@ -467,11 +524,23 @@ static int rzg2l_irqc_tint_set_type(struct irq_data *d, unsigned int type)
- 	return irq_chip_set_type_parent(d, IRQ_TYPE_LEVEL_HIGH);
- }
- 
-+static int rzg2l_irqc_nmi_set_type(struct irq_data *d, unsigned int type)
-+{
-+	int ret;
-+
-+	ret = rzg2l_nmi_set_type(d, type);
-+	if (ret)
-+		return ret;
-+
-+	return irq_chip_set_type_parent(d, IRQ_TYPE_LEVEL_HIGH);
-+}
-+
- static int rzg2l_irqc_irq_suspend(void *data)
- {
- 	struct rzg2l_irqc_reg_cache *cache = &rzg2l_irqc_data->cache;
- 	void __iomem *base = rzg2l_irqc_data->base;
- 
-+	cache->nitsr = readl_relaxed(base + NITSR);
- 	cache->iitsr = readl_relaxed(base + IITSR);
- 	if (rzg2l_irqc_data->info.shared_irq_cnt)
- 		cache->inttsel = readl_relaxed(base + INTTSEL);
-@@ -496,6 +565,7 @@ static void rzg2l_irqc_irq_resume(void *data)
- 	if (rzg2l_irqc_data->info.shared_irq_cnt)
- 		writel_relaxed(cache->inttsel, base + INTTSEL);
- 	writel_relaxed(cache->iitsr, base + IITSR);
-+	writel_relaxed(cache->nitsr, base + NITSR);
- }
- 
- static const struct syscore_ops rzg2l_irqc_syscore_ops = {
-@@ -507,6 +577,23 @@ static struct syscore rzg2l_irqc_syscore = {
- 	.ops = &rzg2l_irqc_syscore_ops,
- };
- 
-+static const struct irq_chip rzg2l_irqc_nmi_chip = {
-+	.name			= "rzg2l-irqc",
-+	.irq_eoi		= rzg2l_irqc_nmi_eoi,
-+	.irq_mask		= irq_chip_mask_parent,
-+	.irq_unmask		= irq_chip_unmask_parent,
-+	.irq_disable		= irq_chip_disable_parent,
-+	.irq_enable		= irq_chip_enable_parent,
-+	.irq_get_irqchip_state	= irq_chip_get_parent_state,
-+	.irq_set_irqchip_state	= irq_chip_set_parent_state,
-+	.irq_retrigger		= irq_chip_retrigger_hierarchy,
-+	.irq_set_type		= rzg2l_irqc_nmi_set_type,
-+	.irq_set_affinity	= irq_chip_set_affinity_parent,
-+	.flags			= IRQCHIP_MASK_ON_SUSPEND |
-+				  IRQCHIP_SET_TYPE_MASKED |
-+				  IRQCHIP_SKIP_SET_WAKE,
-+};
-+
- static const struct irq_chip rzg2l_irqc_irq_chip = {
- 	.name			= "rzg2l-irqc",
- 	.irq_eoi		= rzg2l_irqc_irq_eoi,
-@@ -662,7 +749,9 @@ static int rzg2l_irqc_alloc(struct irq_domain *domain, unsigned int virq,
- 	 * from 16-31 bits. TINT from the pinctrl driver needs to be programmed
- 	 * in IRQC registers to enable a given gpio pin as interrupt.
- 	 */
--	if (hwirq > priv->info.irq_count) {
-+	if (hwirq == IRQC_NMI) {
-+		chip = &rzg2l_irqc_nmi_chip;
-+	} else if (hwirq > priv->info.irq_count) {
- 		tint = TINT_EXTRACT_GPIOINT(hwirq);
- 		hwirq = TINT_EXTRACT_HWIRQ(hwirq);
- 		chip = priv->tint_chip;
--- 
-2.43.0
+Brian
 
 
