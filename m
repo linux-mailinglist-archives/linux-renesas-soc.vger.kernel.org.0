@@ -1,316 +1,177 @@
-Return-Path: <linux-renesas-soc+bounces-30698-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-30699-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 4H2VIME6zWnnawYAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-30698-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 01 Apr 2026 17:33:21 +0200
+	id SMovDgQ/zWkkbAYAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-30699-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 01 Apr 2026 17:51:32 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id F206537D2F1
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 01 Apr 2026 17:33:20 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 990F137D79F
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 01 Apr 2026 17:51:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id A49983165FB3
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  1 Apr 2026 15:18:54 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 6633F313E351
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  1 Apr 2026 15:22:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 40F234779B8;
-	Wed,  1 Apr 2026 15:17:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EA90D3B47DF;
+	Wed,  1 Apr 2026 15:22:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="HZsscGbz"
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="FeJx3dzc"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from TYVP286CU001.outbound.protection.outlook.com (mail-japaneastazon11011062.outbound.protection.outlook.com [52.101.125.62])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2A9B4779B0;
-	Wed,  1 Apr 2026 15:17:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.125.62
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775056635; cv=fail; b=rbR4mZXZ7ss6q1cv77Lj5p1F6h2vQaLaoW3FGQPl9m+vWVzxLrSg35stpebKnJ9fvt/sTBeXBfxBBxAmCTaE9yAYSAkJ7Z/1hx4vmSjOCbav6I50QG57alc1PHh6h4wZVnNDW0T12D0xSAbYZWP0Wj1poxDar/4XBtPKqK3MV6c=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775056635; c=relaxed/simple;
-	bh=p6xKfsxHRhUCl4fpDZJzs8fnMDcQ9b5clTuP2ploz8g=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=hRP5OAnyeCnPDt770Ga1iX4/yzEkRXIANOS71q2Kv5/UYETVQsx9W4oJp4WumGQPx8hc2/0ckSMcAgkp2ObyO0AeJgCoGqMM+nDTWGKMhsveokNGrmUw11A6vxjSCri8hwT7c5UKs0gAaYYkCf2oiSo10WULXKy0KFCWRUiyrMk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=HZsscGbz; arc=fail smtp.client-ip=52.101.125.62
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=KxMEZZp+7sb1dgpfqR6t6QZRHmZV5nxRk7rM94eAaEPUUjnDcioPiqA4fwGKbqQkZE5C3r+EK/INZmqhx0ZqOwCx9hWQm+hS+CiBz3ro18G6rcHBRs3EdSoQqGJR+jJfVi5WZ2sVkV0Ewlkck81yp17TVr+ytsh9M5h59GVhv0ajYKeVN1hEE9K2DeQTuh+avPir64eBLHG6nXUlRLnpYufbyvnInHQUKJQ8WP9b85LcQBrfILeaKB3PNgFpPDulJ5iOU3weAB/TRD6s84dB6OfR/Cm5cBXIxBDV1nX8IvH9rwCRuiNpNZ3qXfYjhuMOPqpO0EeJ8bcsY51klrcToA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=69n78nJJyFMUz1b15yMdmLqFhAtwmZRAXm7a7esNIbk=;
- b=uJCQKxOxdmTc9HUeoMjPFGwCL3WDurmNjIiFfLpkJCb4OHcSvFhvVQGoWX6g+xQahtMsdOe3PDaOxnHTiNig+nKJbNpkDvV6ITfJ0h0SPooMpf1h8OMbYDVcG7oc05owGLCFLmoyIA7zLSYR0VDRSsKOEyWkUYfNdfjcF7GDJT+l5pLep1P2MIWlYtPRk70DCjsPFmbCKNtT0KDM3P4W3y+WDLeGrfQSSvI2dbruRxdV7BnZglxmtJZDetebsSSRiPE6lezFRq+qZmc5klVNzO95XfqY0v9Z7DjQK9f/fgDBa8r7z/ohu3qO3TIpgeGUI8arUvkObxKtNaZzU7lbww==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=69n78nJJyFMUz1b15yMdmLqFhAtwmZRAXm7a7esNIbk=;
- b=HZsscGbzGWmLk73nlIjovK3O/hJOjw6bgiftMwcgA24KwSUs9ORf7GXMC7JYD04gpkq5VDXxIeiv/SyYCJqNGDKLWUxpUjMuAB+dY8T3IeZ0fhfxWPGWs8LPjguwsOKZS/wBFVAMucMEgu8B5WqvwZqemkKz+XffU4xhB1VS1vc=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-Received: from TYCPR01MB11947.jpnprd01.prod.outlook.com (2603:1096:400:3e1::6)
- by OS3PR01MB9993.jpnprd01.prod.outlook.com (2603:1096:604:1de::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.17; Wed, 1 Apr
- 2026 15:17:11 +0000
-Received: from TYCPR01MB11947.jpnprd01.prod.outlook.com
- ([fe80::33f1:f7cd:46be:e4d8]) by TYCPR01MB11947.jpnprd01.prod.outlook.com
- ([fe80::33f1:f7cd:46be:e4d8%5]) with mapi id 15.20.9769.016; Wed, 1 Apr 2026
- 15:17:11 +0000
-From: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
-To: tomm.merciai@gmail.com,
-	peda@axentia.se,
-	p.zabel@pengutronix.de
-Cc: linux-renesas-soc@vger.kernel.org,
-	biju.das.jz@bp.renesas.com,
-	Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Ulf Hansson <ulf.hansson@linaro.org>,
-	Josua Mayer <josua@solid-run.com>,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v10 5/5] reset: rzv2h-usb2phy: Add support for VBUS mux controller registration
-Date: Wed,  1 Apr 2026 17:16:11 +0200
-Message-ID: <46461d37dd5c8151a1e9a4fbf76c2a64fabd58dd.1775047175.git.tommaso.merciai.xr@bp.renesas.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <cover.1775047175.git.tommaso.merciai.xr@bp.renesas.com>
-References: <cover.1775047175.git.tommaso.merciai.xr@bp.renesas.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: FR3P281CA0186.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:a4::13) To TYCPR01MB11947.jpnprd01.prod.outlook.com
- (2603:1096:400:3e1::6)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AC7C36AB5E
+	for <linux-renesas-soc@vger.kernel.org>; Wed,  1 Apr 2026 15:22:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775056936; cv=none; b=BariQf9xtEzAcDnW82zKb3GskcWkcMGfYeXzLsk2WWzNGzbnkx5igGpzGKV1uad2wOEWHiQcPOjRxhz81OKmkQAfsuqiTqwEb+UgwttVLbppA+ZzM30nLoRBT9MOw4PGuMvD/7HrUbzm3DtHraW5EOT+UJXQF7fDb7H8RDz5Iyo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775056936; c=relaxed/simple;
+	bh=mz/6XSKEQvWVakb/B9VwWSerZa3ZCo7z3B8Ucb8XDsk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=mxZDys/8zO14t2UyhlT0PFB1EYeefgAtv5D9guTyDlu/yOw4k95IXeZnfM+wVnEeVC9elvMkF5aDt6a7SeWsQAGkOlc/vB5UvQhcVWlGgmtIn8+jVNSKkhciJxhY2sN/GPnSTXF+RkjDCI9EH29Nlr88RvsC3DQuEDWxr60uTvg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=FeJx3dzc; arc=none smtp.client-ip=209.85.128.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-486b9675d36so57756435e9.0
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 01 Apr 2026 08:22:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=tuxon.dev; s=google; t=1775056933; x=1775661733; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=BOBGuHFIMrZTBevCjGxHETGuPLUyx6fAMEiWAck+cW4=;
+        b=FeJx3dzcz7qq0PDzbTPJYYEXLLVefoaIOsVhFqQMA1NUHvUYX47D2XxMviTaynX+/l
+         tjfrBsVWdTGkfHahpgYQdICgBj5b1NRFmQPY2uBCOnsCdas/r0KnXuQw//ouQjRUufIx
+         X4j4+efwrAD40xS4txHkAkaYrRHxJFceKD5FbMy6ipEpBZL4TNrm+Ah15qA4Bayl9Rmq
+         CO76wvBk+HbNg2jQdvH6gC2V2wB/8oD5cDYkF1yHaMPYIaL4c1Mflg88ZSpb4QPK8IPo
+         QyC26bKR+wMB7xDSve0NPGhEZfTt4vM7DXq5hr8Vs2acmvOEVgu6qpkDhcJSfqqcpiUM
+         c5ow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775056933; x=1775661733;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=BOBGuHFIMrZTBevCjGxHETGuPLUyx6fAMEiWAck+cW4=;
+        b=ZpkruNE7illtsvwfPLm8mkKrEsIfiv/herbD4gHlPP8IBY9EjpPk9Vk6qL9iwZDfhA
+         D1VKdux3mq8eaPTlqplFwFEG/0C0GIKuY00ZsO4/OyjFpHjcAj97RHleVO8FPaR72nNL
+         tiqQswiAwwj4JR0MBOJBHB4tXL/qUVxENLT92anEzTSTcMK3TfuPTRPaX4+baLCQglZ5
+         ggGruHdTztLYuchmI4bZFTFP/xSk65se579MqiM9Z/mUhTRDdJtaK1WuKusrAifcelhm
+         ltVrKbZbvGbdz284iWhAnRW/am/yKF8PhfVrrLDrcyCjclVIjd1vU8DWaXvdoFrTHz7O
+         27mw==
+X-Forwarded-Encrypted: i=1; AJvYcCXONbKM8URt9vVIu49deYrgV3LSrqzMT2bzY4X5e1cpE/cm/1set8SebGHg7j9mhV5GLdFRBx9zEJVQV3su9VrNZQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwMinB7xroqFW2VNmttmN7NjmDmT1+hyVtMLu2kj+0wHQU0ZAQd
+	N9vhw3sl7D8hNJ8xmPV036icxK3mfXc6cN1AZREEguOXTtlcJDxxxFwjsvh5tGfViEM=
+X-Gm-Gg: ATEYQzxNlS6UzTDN9zXOhT7C9oCjJsbZaInTUB5iFP/mugEn7cfkRdysCSfiruePHWC
+	Q85bWnttEmDedvS4Es7x/Up857jQ4mKWShcC29lIM65oPfBPTZSQN6ApFMH5kvX5kFiuDbXRgQf
+	m64xdMy4774IWpKRMlQvU2SXzDN0FPPcE4KDaBdQL6OBytARuZ7e99CLIr6gDCVaMlM1buwqwaw
+	/fqT701j+UGnrPTgk10At1jiuSufbW8ZGP3UGdiNwcsxUIZuKts9KCe/I3oi0GA1lm9205gsaW+
+	FgxAbxDu18Hx/XIQi9kYKjICi93d/7DlZaqFEcc5CEYLARXs7Vn/9FAow4fVg6juZCpXztJY8/V
+	rofb3+4pJLp5FWcCBXCvI4Wb+upG0GChvqqyLceyCAMbIC4ajUv3pS2kkXjNxj1dFyvytlfGWFS
+	TUTgK1bwBmzt2yzMNRqDfSFu9tGB07vXHNcYBU23x/pA==
+X-Received: by 2002:a05:600c:45d0:b0:485:2f4a:6ae6 with SMTP id 5b1f17b1804b1-4888355ec51mr65757245e9.6.1775056932471;
+        Wed, 01 Apr 2026 08:22:12 -0700 (PDT)
+Received: from [192.168.50.4] ([82.78.167.248])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4888a63c963sm5807005e9.4.2026.04.01.08.22.11
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 01 Apr 2026 08:22:12 -0700 (PDT)
+Message-ID: <532d1691-f5b6-4fbf-8236-8861e3853ae6@tuxon.dev>
+Date: Wed, 1 Apr 2026 18:22:10 +0300
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TYCPR01MB11947:EE_|OS3PR01MB9993:EE_
-X-MS-Office365-Filtering-Correlation-Id: ef0101fd-905c-4324-a1ed-08de9001bf5d
-X-LD-Processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|7416014|1800799024|52116014|376014|38350700014|56012099003|22082099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	Qasq7qRxS6v7XjuA7sFT12M1q08Asi4ioxUR/Rwksj2jRlPExXU6/F7onoY3iS79JyrGhBiePf+8ppSSGj7L0GQMAr1HuKFqHNwkKe3Nqqj3SvI6JIoe7Ty6BGHgFNjKCX3OD/4qEweE2heOct8WbN3l0JIuq3O24k7hGPqFBfQ00bhvaKaiQfZVuVy+MEpI5e3WQMheuWIZ/GsRE1q3+Vhb8K7q+UZu06e/bPYMw1QH6kAd0eoSFekNhldDRuxPTbcNZgD1qstje3sTnq2GU9+HsA8xjXP3+re7VvRgjCxhkhCWgpmbxY5R4AIsnxXdlLy6qaYLeR82IEx2AKFTHkKae4h3GYYPu50nSaF5AhuTtzduw7KpPrkBH+ysDsMj03P76ZNGMRnfBMc3lT+ibKSLaZQaud8uoSspzPL+E9dHb9vPrO6ypy8hSXhtO8Jc8sA2I1f95I4cvk3DYV+kco/ekwublCZD1esVGs0NEOealzubzVLBOGRjUSyUVWw8YYpFBqqNIW3Txpf2uQMWV9QtCuYsr3Y7btj/UI5d6YIaQQpQGJ/l1qbS2mL1sxTWZTGVGpmqO1hw52wTBIr1wG/qCWcqXbLlOIipfX/562nectWbrZRufPzsskbpHgFY2W1N0+wSf//g0jjPeqZhXeKJPPpw0ovcMaNlaP/BRU8ssdzX+j8X2I94VybVJIhYb6kdVrQ516v5R4LbrfmRW4DKIn1dPSVA0pJsD1LQbKkhpTjFHibjeQVWScRbKNTOMITU3jIcjCnn5s4DYoN1MBvSXzVCbwEpVWg1kr8VU6c=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB11947.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(1800799024)(52116014)(376014)(38350700014)(56012099003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?XL7QrQ0845okgD+SaJ6xRG4wuCVq8ZoXMFP8h9C4zwGL+ougtp9uedD2Zrl4?=
- =?us-ascii?Q?9hgEqupGdEDjA+EtrGl6+CYSwk52HS4PI0eS4cAjPNSs5IcZz9/Nf3+uVU42?=
- =?us-ascii?Q?5PLH42+hZGC01sFPpFax/Hfqrp7jYV0T48mpqXTje+O0bobIWz4BWrVqHGiY?=
- =?us-ascii?Q?7EkgPdvh9azFM+iOOp5UoBUTZb0q0pvHzoI+lb0Dnzq7pdGuD68qTGW4QX6D?=
- =?us-ascii?Q?6HgcaUcIXTNcU1gWSbp1HEeJVWXziIZuo5jrO5MTFuehpyzdklUuArq6BRYK?=
- =?us-ascii?Q?eWLMKewAMBHRPUxNPI6Kr6vBc569lxL9C+YviHg3Zq0liz/5bNxm6y0PPAg4?=
- =?us-ascii?Q?vIs8+UIydk0e4WToBmbNZKvauAgScJ1Yz2idIfgtQNwJFktlay1pzlKSeg/+?=
- =?us-ascii?Q?d8NHPqPIuAXMHq/dZYmT8cWBrjdLyG8XqxCKeo77cM3T1Gup2pTrNHxhKHud?=
- =?us-ascii?Q?q7NpfRI71RVXV+03nCyq2bdUqs/oTGa6ybmIPlmXBfs8WF0pJ+fpjz8LJu1q?=
- =?us-ascii?Q?+9G1bZYkwt1rcV8e640OcoCseO8n7XfnuwgcHzZe9d9Ibst6SO5dFaJYKFtE?=
- =?us-ascii?Q?bSpu5SMg53EK+ybT+t6Mhmx9lK9jpOsT7tBLElHa8enC5KpPuMU+VbQNdxns?=
- =?us-ascii?Q?IdGj1As2JpEm7vpuXfZWHcXK9xmi2DGnHnHyPkHwH15r5fQZqRtg3/CgifNX?=
- =?us-ascii?Q?RkuCmrBNJkIc7ndr3Z6SxaHM9DjkyXtWuSuavTVzlURcR5jmTFIEoCmPhiV4?=
- =?us-ascii?Q?Xspl9TLFNrDv/vInPlpAn5u+KKIMg2vXBDTwKk2ckhYjhFsdrcF7DzGvAyCa?=
- =?us-ascii?Q?0TFnQ1/gABx8q9vlVuBETs9TtYGrsqLzi8jvFRK6QxoccVkTv5Cjb1ergyRh?=
- =?us-ascii?Q?MPugUW2ANcG1rr4oRLFMyV+14xt/lSw+uLowt+MOPpuj3JIzWq0pMj2insTo?=
- =?us-ascii?Q?w56Kno+ihSR2SXeJ4huIohvX9pgXNZIIBPyfrmR4BZAQKaDAMVgdTVnhzKNO?=
- =?us-ascii?Q?0iWt/o3CMWj+4ojmUqrt1YKd4zjpamSA/yFHzG4O2qyEA12/FFu7sAcHEgRJ?=
- =?us-ascii?Q?KUP4l3XWAExr6i1BULM38Rg7t0fwbfuNTzlBE6cB/IrnPHW01BKSiOvRkrt6?=
- =?us-ascii?Q?wLVOugb4GbK3xyW01dINEagvoqeFH5lzse8fxaClzwkZUfcq0Nw3K1+vrm5Z?=
- =?us-ascii?Q?hZsVvy/uN7ghNQz71GUP14zH2EjozE+Ayvi6v0IAX0i9wkHStK5f0EGXW9yH?=
- =?us-ascii?Q?1hDq17R3MhW5AfzqDqRuRMxeiFxXOpxuyhux57+Q3LnA+FL/2X8kXz6MOHIP?=
- =?us-ascii?Q?GRh6Zpmy83DgvkaGrMYZ5GosKyoJkVpx4LPFBpOJ1TE8obkmmg0bIXABfMQe?=
- =?us-ascii?Q?3MlWDinYARwzeWq+eBFTaeOCKVWo0PLU8Z/I9q4qy53cQV8f8yxRXoZs1DrB?=
- =?us-ascii?Q?QzPHnZqnASOqNcL9a3vJ2Y7abVfr13/mv9qVFfdvT7vHsCxIDZef8p7Z4Qwg?=
- =?us-ascii?Q?vJ7W4gDwJwpReXvjutkRsTjyr5Vm9ABYVNsXAc18O/oA3pFUQx0bpyaNnnBO?=
- =?us-ascii?Q?nHRvQOb7iMTkXZ09cdr3AdEkb5IXzuBFN1ZQzjJLTejZK8vlDdzxr4wILdDD?=
- =?us-ascii?Q?p787p4znmMGvHFaURAhQI/jajfQ/EOmIHTNyamqC3NWwYuuEazmEO+lPJZie?=
- =?us-ascii?Q?rgOcUup10XhwXAA5FvC4irVYfam1fYYGKLGERLxZ+sam1VL8yDHeIEN0++8V?=
- =?us-ascii?Q?mGsh0Uh7hvXS0d4tGaLMOQEDeQNi0SgvBlJvvvXAxtGvRGYFcuy6?=
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ef0101fd-905c-4324-a1ed-08de9001bf5d
-X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB11947.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Apr 2026 15:17:11.4571
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: tgCJcX/XSe4dZ4+IpU+10xhdRY8RJk4Y3wKQKvYWuioZlorSVB0NeuvO2rkeLiqiqeT0BJrl7OodJyZmAn6JNUWXo2+j3IulXQY+dDaAA7SRdaatiCSimj1KhP4/6JaG
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS3PR01MB9993
-X-Spamd-Result: default: False [2.84 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_REJECT(1.00)[cv is fail on i=2];
-	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[renesas.com,none];
-	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
-	R_DKIM_ALLOW(-0.20)[bp.renesas.com:s=selector1];
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] PCI: rzg3s-host: Treat link-down as -ENODEV instead of
+ error
+To: John Madieu <john.madieu.xa@bp.renesas.com>,
+ claudiu.beznea.uj@bp.renesas.com, lpieralisi@kernel.org,
+ kwilczynski@kernel.org, mani@kernel.org
+Cc: robh@kernel.org, john.madieu@gmail.org, bhelgaas@google.com,
+ linux-pci@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20260401143347.8463-1-john.madieu.xa@bp.renesas.com>
+Content-Language: en-US
+From: Claudiu Beznea <claudiu.beznea@tuxon.dev>
+In-Reply-To: <20260401143347.8463-1-john.madieu.xa@bp.renesas.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spamd-Result: default: False [-1.66 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64];
+	R_DKIM_ALLOW(-0.20)[tuxon.dev:s=google];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_TWELVE(0.00)[18];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-30698-lists,linux-renesas-soc=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com,axentia.se,pengutronix.de];
-	FREEMAIL_CC(0.00)[vger.kernel.org,bp.renesas.com,renesas.com,kernel.org,glider.be,gmail.com,arndb.de,linaro.org,solid-run.com];
-	DKIM_TRACE(0.00)[bp.renesas.com:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[tommaso.merciai.xr@bp.renesas.com,linux-renesas-soc@vger.kernel.org];
+	DKIM_TRACE(0.00)[tuxon.dev:+];
+	TAGGED_FROM(0.00)[bounces-30699-lists,linux-renesas-soc=lfdr.de];
 	FROM_HAS_DN(0.00)[];
+	DMARC_NA(0.00)[tuxon.dev];
+	RCVD_TLS_LAST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-renesas-soc];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[claudiu.beznea@tuxon.dev,linux-renesas-soc@vger.kernel.org];
 	TO_DN_SOME(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
-	NEURAL_HAM(-0.00)[-0.998];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[pengutronix.de:email,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,renesas.com:email,bp.renesas.com:dkim,bp.renesas.com:mid]
-X-Rspamd-Queue-Id: F206537D2F1
+	MID_RHS_MATCH_FROM(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,tuxon.dev:dkim,tuxon.dev:mid,renesas.com:email]
+X-Rspamd-Queue-Id: 990F137D79F
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-The RZ/V2H USB2 PHY requires control of the VBUS selection line
-(VBENCTL) through a mux controller described in the device tree as
-"mux-controller". This change adds support for registering the
-rzv2h-usb-vbenctl auxiliary driver during probe.
+Hi, John,
 
-This enables proper management of USB2.0 VBUS source selection on
-platforms using the RZ/V2H SoC.
+On 4/1/26 17:33, John Madieu wrote:
+> rzg3s_pcie_host_init() failing to establish a PCIe link does not
+> necessarily indicate a hardware or driver error; it may simply mean no
+> card is inserted. Demote the message from dev_err_probe() to dev_info()
+> and return -ENODEV so the driver defers gracefully rather than printing
+> a spurious error.
+> 
+> Signed-off-by: John Madieu <john.madieu.xa@bp.renesas.com>
+> ---
+>   drivers/pci/controller/pcie-rzg3s-host.c | 7 ++++---
+>   1 file changed, 4 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/pci/controller/pcie-rzg3s-host.c b/drivers/pci/controller/pcie-rzg3s-host.c
+> index bfc210e696ed..03be10aa5b54 100644
+> --- a/drivers/pci/controller/pcie-rzg3s-host.c
+> +++ b/drivers/pci/controller/pcie-rzg3s-host.c
+> @@ -1653,9 +1653,10 @@ rzg3s_pcie_host_setup(struct rzg3s_pcie_host *host,
+>   	if (ret)
+>   		return dev_err_probe(dev, ret, "Failed to init IRQ domain\n");
+>   
+> -	ret = rzg3s_pcie_host_init(host);
+> -	if (ret) {
+> -		dev_err_probe(dev, ret, "Failed to initialize the HW!\n");
+> +	/* Failure to get a link might just be that no cards are inserted */
+> +	if (rzg3s_pcie_host_init(host)) {
 
-Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
-Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
----
-v9->v10:
- - No changes.
+However rzg3s_pcie_host_init() can return other error codes not related to a 
+link being down. In that case the error will be masked.
 
-v8->v9:
- - Drop linux/reset/reset_rzv2h_usb2phy.h dependecy as the driver
-   is now based on regmap and does not need the reset driver's
-   private header, update driver accordingly.
- - Collected PZabel tag.
+If this link down message is necessary then maybe move it in 
+rzg3s_pcie_host_init() itself or move the link up specific code outside of 
+rzg3s_pcie_host_init().
 
-v7->v8:
- - No changes
+Thank you,
+Claudiu
 
-v6->v7:
- - No changes
-
-v5->v6:
- - No changes
-
-v4->v5:
- - Update mux_name to "vbenctl" to match the driver name.
- - Updated commit message.
-
-v3->v4:
- - No changes.
-
-v2->v3:
- - Use __devm_auxiliary_device_create() to create the auxiliary device.
-
-v1->v2:
- - New patch
-
- drivers/reset/Kconfig               |  1 +
- drivers/reset/reset-rzv2h-usb2phy.c | 35 +++++++++++++++++++++++++++++
- 2 files changed, 36 insertions(+)
-
-diff --git a/drivers/reset/Kconfig b/drivers/reset/Kconfig
-index c539ca88518f..62b2c3919613 100644
---- a/drivers/reset/Kconfig
-+++ b/drivers/reset/Kconfig
-@@ -257,6 +257,7 @@ config RESET_RZG2L_USBPHY_CTRL
- config RESET_RZV2H_USB2PHY
- 	tristate "Renesas RZ/V2H(P) (and similar SoCs) USB2PHY Reset driver"
- 	depends on ARCH_RENESAS || COMPILE_TEST
-+	select AUXILIARY_BUS
- 	select REGMAP_MMIO
- 	help
- 	  Support for USB2PHY Port reset Control found on the RZ/V2H(P) SoC
-diff --git a/drivers/reset/reset-rzv2h-usb2phy.c b/drivers/reset/reset-rzv2h-usb2phy.c
-index c79bf72602e8..d96042e28cd5 100644
---- a/drivers/reset/reset-rzv2h-usb2phy.c
-+++ b/drivers/reset/reset-rzv2h-usb2phy.c
-@@ -5,7 +5,9 @@
-  * Copyright (C) 2025 Renesas Electronics Corporation
-  */
- 
-+#include <linux/auxiliary_bus.h>
- #include <linux/delay.h>
-+#include <linux/idr.h>
- #include <linux/io.h>
- #include <linux/module.h>
- #include <linux/of.h>
-@@ -15,6 +17,8 @@
- #include <linux/reset.h>
- #include <linux/reset-controller.h>
- 
-+static DEFINE_IDA(auxiliary_ids);
-+
- struct rzv2h_usb2phy_reset_of_data {
- 	const struct reg_sequence *init_seq;
- 	unsigned int init_nseq;
-@@ -84,6 +88,33 @@ static int rzv2h_usb2phy_reset_of_xlate(struct reset_controller_dev *rcdev,
- 	return 0;
- }
- 
-+static void rzv2h_usb2phy_reset_ida_free(void *data)
-+{
-+	struct auxiliary_device *adev = data;
-+
-+	ida_free(&auxiliary_ids, adev->id);
-+}
-+
-+static int rzv2h_usb2phy_reset_mux_register(struct device *dev,
-+					    const char *mux_name)
-+{
-+	struct auxiliary_device *adev;
-+	int id;
-+
-+	id = ida_alloc(&auxiliary_ids, GFP_KERNEL);
-+	if (id < 0)
-+		return id;
-+
-+	adev = __devm_auxiliary_device_create(dev, dev->driver->name,
-+					      mux_name, NULL, id);
-+	if (!adev) {
-+		ida_free(&auxiliary_ids, id);
-+		return -ENOMEM;
-+	}
-+
-+	return devm_add_action_or_reset(dev, rzv2h_usb2phy_reset_ida_free, adev);
-+}
-+
- static const struct regmap_config rzv2h_usb2phy_reset_regconf = {
- 	.reg_bits = 32,
- 	.val_bits = 32,
-@@ -153,6 +184,10 @@ static int rzv2h_usb2phy_reset_probe(struct platform_device *pdev)
- 	if (error)
- 		return dev_err_probe(dev, error, "could not register reset controller\n");
- 
-+	error = rzv2h_usb2phy_reset_mux_register(dev, "vbenctl");
-+	if (error)
-+		return dev_err_probe(dev, error, "could not register aux mux\n");
-+
- 	return 0;
- }
- 
--- 
-2.43.0
+> +		dev_info(dev, "PCIe link down!\n");
+> +		ret = -ENODEV;
+>   		goto teardown_irqdomain;
+>   	}
+>   
 
 
