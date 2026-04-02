@@ -1,34 +1,34 @@
-Return-Path: <linux-renesas-soc+bounces-30737-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-30739-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id GI7lN19jzmmXnQYAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-30737-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 02 Apr 2026 14:38:55 +0200
+	id uNQnKPpjzmmXnQYAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-30739-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 02 Apr 2026 14:41:30 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1ABC38926E
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 02 Apr 2026 14:38:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C4AF3892A7
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 02 Apr 2026 14:41:30 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id CE7FE3068A05
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  2 Apr 2026 12:34:34 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 48C2B302D5A6
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  2 Apr 2026 12:35:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CD3093CCA02;
-	Thu,  2 Apr 2026 12:34:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1E3B73D566A;
+	Thu,  2 Apr 2026 12:35:38 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 969D43D75DA
-	for <linux-renesas-soc@vger.kernel.org>; Thu,  2 Apr 2026 12:34:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1016344D85
+	for <linux-renesas-soc@vger.kernel.org>; Thu,  2 Apr 2026 12:35:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775133271; cv=none; b=uJARD92j8kEqd2zZA5ma/YBMOwyecC6qmqRnuQy5l78I5/FskM3ZPopJBLIX+xqGupnKtbCZJ2T+Gdc81q7DhinwNYbsiZYE89Mt7a9zRtvxCadPXwRZ84XQxa1kUZ8uFp+NWC/g++LB+w0GraK3qEJmBneYRn4+Cwdvz4Mh4wQ=
+	t=1775133337; cv=none; b=LVAcWO+6zNEX6QzancC915j8uyfIrvzQQ5LNzYNmpqJB0zYN0VwdSm29XXhBcO6LvZqpR6wXf0tXQAl0UW3YCIjFfq4zNzeh4yRqTdXsx9YMMULXb5DUXBiS+rNMss8mss/x2BITQKy0Yof3cYDcsTTykACXKoZZmem0JL03vXk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775133271; c=relaxed/simple;
-	bh=vBVr1hY9zmi6eTqZ1irgBj8oY02q9+mPcGyT8biDgPk=;
+	s=arc-20240116; t=1775133337; c=relaxed/simple;
+	bh=sJdvW6MLp8yBgH3UDvbpSEu67skPh2aEa5Orm+cvDOY=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=IkMGC6uk0ueJPJVlPojzzTAb4zkowbIOZYQ2N2xRswWtbHpeeJwPB0LIpNwatKv63Vrem0dDS3vbPdtKqsudG6QODseGjgw9u8jYoghG4suTL2wU9HVn6MXIv0h5T++4fsL0+ODNWjoNZly7WGglfXUhG1rOwOoUwcJgMG3LgLU=
+	 Content-Type:MIME-Version; b=W0C2T3pO1Us6KJIR+en9YxRk6bM85XYeUtXsuTE9HlpqNPa+HflfnKZKBB4IsWJO/OC3pzLnOaadRwx66MtlfAR5cobB6qHc5XDTsu92lbcpcYl5BQ5UfxbpP2dWH5tmhQAWDHHoS8bdd+Y/MmYO3AUZaGPs0fA5G52O5X2M+UU=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
@@ -36,19 +36,20 @@ Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
 	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
 	(Exim 4.92)
 	(envelope-from <p.zabel@pengutronix.de>)
-	id 1w8HFR-0004fG-Cz; Thu, 02 Apr 2026 14:34:09 +0200
+	id 1w8HGY-0004sU-7C; Thu, 02 Apr 2026 14:35:18 +0200
 Received: from lupine.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::4e] helo=lupine)
 	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.96)
 	(envelope-from <p.zabel@pengutronix.de>)
-	id 1w8HFP-003NFN-36;
-	Thu, 02 Apr 2026 14:34:07 +0200
+	id 1w8HGX-003NKC-1q;
+	Thu, 02 Apr 2026 14:35:17 +0200
 Received: from pza by lupine with local (Exim 4.98.2)
 	(envelope-from <p.zabel@pengutronix.de>)
-	id 1w8HFP-000000009U5-3YvQ;
-	Thu, 02 Apr 2026 14:34:07 +0200
-Message-ID: <2ff25486a332ee3bfae1b30147445a44b11ff42e.camel@pengutronix.de>
-Subject: Re: [PATCH v10 4/5] reset: rzv2h-usb2phy: Convert to regmap API
+	id 1w8HGX-000000009WP-1xQg;
+	Thu, 02 Apr 2026 14:35:17 +0200
+Message-ID: <be36f3adb1cc0391035d45d273e132b95caa506d.camel@pengutronix.de>
+Subject: Re: [PATCH v10 0/5] Add USB2.0 VBUS mux driver and extend
+ rzv2h-usb2phy reset for RZ/G3E support
 From: Philipp Zabel <p.zabel@pengutronix.de>
 To: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>, 
 	tomm.merciai@gmail.com, peda@axentia.se
@@ -60,10 +61,9 @@ Cc: linux-renesas-soc@vger.kernel.org, biju.das.jz@bp.renesas.com, Fabrizio
  Magnus Damm <magnus.damm@gmail.com>, Arnd Bergmann <arnd@arndb.de>, Ulf
  Hansson <ulf.hansson@linaro.org>, Josua Mayer <josua@solid-run.com>,
  devicetree@vger.kernel.org, 	linux-kernel@vger.kernel.org
-Date: Thu, 02 Apr 2026 14:34:07 +0200
-In-Reply-To: <0732e1c53f21671b3a1a78db99fbbe3b78016d52.1775047175.git.tommaso.merciai.xr@bp.renesas.com>
+Date: Thu, 02 Apr 2026 14:35:17 +0200
+In-Reply-To: <cover.1775047175.git.tommaso.merciai.xr@bp.renesas.com>
 References: <cover.1775047175.git.tommaso.merciai.xr@bp.renesas.com>
-	 <0732e1c53f21671b3a1a78db99fbbe3b78016d52.1775047175.git.tommaso.merciai.xr@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.56.2-0+deb13u1 
@@ -84,49 +84,55 @@ X-Spamd-Result: default: False [0.04 / 15.00];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-30737-lists,linux-renesas-soc=lfdr.de];
+	FROM_HAS_DN(0.00)[];
+	TAGGED_FROM(0.00)[bounces-30739-lists,linux-renesas-soc=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	DMARC_NA(0.00)[pengutronix.de];
 	FREEMAIL_TO(0.00)[bp.renesas.com,gmail.com,axentia.se];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,bp.renesas.com,renesas.com,kernel.org,glider.be,gmail.com,arndb.de,linaro.org,solid-run.com];
+	DMARC_NA(0.00)[pengutronix.de];
 	RCPT_COUNT_TWELVE(0.00)[17];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
+	FREEMAIL_CC(0.00)[vger.kernel.org,bp.renesas.com,renesas.com,kernel.org,glider.be,gmail.com,arndb.de,linaro.org,solid-run.com];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	NEURAL_SPAM(0.00)[0.080];
 	RCVD_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[p.zabel@pengutronix.de,linux-renesas-soc@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	NEURAL_HAM(-0.00)[-0.264];
-	MID_RHS_MATCH_FROM(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	R_DKIM_NA(0.00)[];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[pengutronix.de:email,pengutronix.de:mid,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,renesas.com:email]
-X-Rspamd-Queue-Id: A1ABC38926E
+	MID_RHS_MATCH_FROM(0.00)[];
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[pengutronix.de:mid,pengutronix.de:url,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 1C4AF3892A7
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
 On Mi, 2026-04-01 at 17:16 +0200, Tommaso Merciai wrote:
-> Replace raw MMIO accesses (readl/writel) with regmap_read() and
-> regmap_multi_reg_write() via devm_regmap_init_mmio().
-> Drop the manual spinlock as regmap provides internal locking.
+> Dear All,
 >=20
-> Replace the custom rzv2h_usb2phy_regval struct with the standard
-> reg_sequence, and encode assert/deassert sequences as reg_sequence
-> arrays rather than individual scalar fields in the of_data
-> descriptor.
+> The series adds:
+>  - A new mux driver for RZ/V2H USB VBENCTL VBUS_SEL
+>  - Updates to the rzv2h-usb2phy reset driver/bindings to support RZ/G3E.
 >=20
-> Use the reg_sequence .delay_us field to encode the 11 =C2=B5s post-assert
-> delay, replacing the explicit usleep_range(11, 20) call in
-> rzv2h_usbphy_reset_assert().
+> Merge strategy, if any:
 >=20
-> Select REGMAP_MMIO in Kconfig.
->=20
-> Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+> - patches 1/5 can go through the MUX tree
+> - patches 2-5/5 can go through the Reset tree
 
-Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
+Patches 2-5 applied to reset/next, thanks!
+
+[2/5] dt-bindings: reset: renesas,rzv2h-usb2phy: Add '#mux-state-cells' pro=
+perty
+      https://git.pengutronix.de/cgit/pza/linux/commit/?id=3D6a1b6f7e56dc
+[3/5] dt-bindings: reset: renesas,rzv2h-usb2phy: Document RZ/G3E USB2PHY re=
+set
+      https://git.pengutronix.de/cgit/pza/linux/commit/?id=3D63be00249dd9
+[4/5] reset: rzv2h-usb2phy: Convert to regmap API
+      https://git.pengutronix.de/cgit/pza/linux/commit/?id=3D890628c8d0f1
+[5/5] reset: rzv2h-usb2phy: Add support for VBUS mux controller registratio=
+n
+      https://git.pengutronix.de/cgit/pza/linux/commit/?id=3Df62fcdf8ab82
 
 regards
 Philipp
