@@ -1,195 +1,149 @@
-Return-Path: <linux-renesas-soc+bounces-30785-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-30786-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id kF1MOSGbzmnfowYAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-30785-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 02 Apr 2026 18:36:49 +0200
+	id uCEHGuebzmnfowYAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-30786-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 02 Apr 2026 18:40:07 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9220238BF9F
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 02 Apr 2026 18:36:49 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 28A6938C0B5
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 02 Apr 2026 18:40:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 23B0A3113D00
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  2 Apr 2026 16:28:21 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id C9FDE30EF6F0
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  2 Apr 2026 16:32:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E62E93F23B9;
-	Thu,  2 Apr 2026 16:27:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="RgQaQsPz"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0B3873F0774;
+	Thu,  2 Apr 2026 16:32:27 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48F3E3F1646
-	for <linux-renesas-soc@vger.kernel.org>; Thu,  2 Apr 2026 16:27:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D76073E5EF8;
+	Thu,  2 Apr 2026 16:32:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775147271; cv=none; b=IdKlmupCifylid0o27/IDu+17FgxgasCZsdZyf2Iwqpi5C/NR5p0zJUo6FE9i0s1AzHRmpIKJ/ys7P0Iuf/Ms8kctUe4aiUE6SNLO2iaSWbfxm/G2plS4ikW/eUO6neeBMa2VBePgd/wDDDJ4m4DMT/YoIapFxfA0+pv0wFKPDY=
+	t=1775147546; cv=none; b=Ag01ekfb5SQlA3oDQp9kzOBX0U4tBTnxdxeOBiANiyoWvLUPkjRipkjiFtiuJgW3sma9rjUm70Bkw+KTuxeATyXYr46tIKhp40MwAkHOT0NRusz62HEf20Olc1DoZ65AZQd/mqLCo7U64oYkb9FzroT8y3PHJN9fI92V2aC0aJg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775147271; c=relaxed/simple;
-	bh=1u532q42fUwRFhVkdE0Q2Hq9LNvaZw+mAxBWSN7guBA=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=K1Uakzo67hMoLN6G9ba2VRXeGD2bUc/kJNMSDEXS+PseOBTpPqq0G+Ot1l1K2MvKGHWYEWLbLyIf4u6ShfY3vlvw5V1vcDmHaBK+pNPJvWyHCXSg2Ip143iyyHYD1q0mMTOYMVFseHJrhUZdV5eTV6RC8F7Jdb07y3Mqjry5DOI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=RgQaQsPz; arc=none smtp.client-ip=185.171.202.116
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id 9A653C59F45;
-	Thu,  2 Apr 2026 16:28:20 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 1A9DE602CD;
-	Thu,  2 Apr 2026 16:27:49 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 5021910450295;
-	Thu,  2 Apr 2026 18:27:44 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1775147267; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=gw9IiX9wHuJVqEPWrO12es2autsBEVAbQ9Q/0yqHv7s=;
-	b=RgQaQsPzK15bu3MyXO1lc4O1Seil08CyL4AFtMHWNWNSkpT48ND8fPW/DOUiqtWOUUDssZ
-	/xWUDeo86E8F8nbNFVNaz8UhM8pV9IRrEoW4QRyGQOhHuf7bGYdyKBRvJWssEfzkvvVStJ
-	/4RV/dHGufPf+SjapeYH61SZ0StucBf4FTUswz0/F/xoEgnI4M6X33OwbwFIQSb5GgnaFu
-	p3imtV3vetF6wY9SRPo4w0UdgAj7u9qV53f55fK/1C4TwRB7u+u9rKUMhVUnBMIYL8lld+
-	RMDx8D19SqM5H3nGNaf7eRL4juSclmBKQ4wdKXC+Zc9I5ANnj63nJfUUBc2ycQ==
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Thu, 02 Apr 2026 18:27:20 +0200
-Subject: [PATCH v4 4/4] drm/omap: dss: convert to
- of_drm_find_and_get_bridge()
+	s=arc-20240116; t=1775147546; c=relaxed/simple;
+	bh=JfPELk6GvBo8vHl8pZaX95JevV2WAcPS3fc+/aivuE4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=J/cdfwf1K9mDD4AdNjGlDGqFNF+FGMEmN5FS5Ei/NhAQsD24PuxpT+g6V5Yzt+F9QnY8kJR7+KdwkFfqrN9z8Qb3BIHthjXcVzBwcib93D5lB60kk8gL2RdDmzAiUImLXZSfy/0HbPv0BUYrRKoXZ4WoWjpSt50wdPwx1Mvl6S4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
+X-CSE-ConnectionGUID: BvnOBxnCR1C7zq3SipcGGw==
+X-CSE-MsgGUID: 8rPdQcn7Tz2Cqg/vyAUT4w==
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie6.idc.renesas.com with ESMTP; 03 Apr 2026 01:32:24 +0900
+Received: from ubuntu.adwin.renesas.com (unknown [10.226.92.38])
+	by relmlir5.idc.renesas.com (Postfix) with ESMTP id 2BBF94009A30;
+	Fri,  3 Apr 2026 01:32:19 +0900 (JST)
+From: John Madieu <john.madieu.xa@bp.renesas.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Magnus Damm <magnus.damm@gmail.com>
+Cc: Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	john.madieu@gmail.com,
+	linux-renesas-soc@vger.kernel.org,
+	linux-clk@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	John Madieu <john.madieu.xa@bp.renesas.com>
+Subject: [PATCh v3 0/8] arm64: dts: renesas: Add RZ/G3E audio enablement
+Date: Thu,  2 Apr 2026 18:31:18 +0200
+Message-ID: <20260402163126.12135-1-john.madieu.xa@bp.renesas.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260402-drm-bridge-alloc-getput-drm_of_find_bridge-4-v4-4-421781c8c061@bootlin.com>
-References: <20260402-drm-bridge-alloc-getput-drm_of_find_bridge-4-v4-0-421781c8c061@bootlin.com>
-In-Reply-To: <20260402-drm-bridge-alloc-getput-drm_of_find_bridge-4-v4-0-421781c8c061@bootlin.com>
-To: Biju Das <biju.das.jz@bp.renesas.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Anitha Chrisanthus <anitha.chrisanthus@intel.com>, 
- Linus Walleij <linusw@kernel.org>, 
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
- Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, 
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
- Geert Uytterhoeven <geert+renesas@glider.be>, 
- Magnus Damm <magnus.damm@gmail.com>, 
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: Hui Pu <Hui.Pu@gehealthcare.com>, Ian Ray <ian.ray@gehealthcare.com>, 
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
- dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Luca Ceresoli <luca.ceresoli@bootlin.com>
-X-Mailer: b4 0.15.1
-X-Last-TLS-Session-Version: TLSv1.3
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [0.14 / 15.00];
+	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[bootlin.com,reject];
-	R_DKIM_ALLOW(-0.20)[bootlin.com:s=dkim];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_MISSING_CHARSET(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
+	DMARC_POLICY_SOFTFAIL(0.10)[renesas.com : SPF not aligned (relaxed), No valid DKIM,none];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-30785-lists,linux-renesas-soc=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
-	FREEMAIL_TO(0.00)[bp.renesas.com,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,intel.com,ideasonboard.com,glider.be];
-	RCVD_TLS_LAST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	TAGGED_FROM(0.00)[bounces-30786-lists,linux-renesas-soc=lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[bootlin.com:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	RCPT_COUNT_TWELVE(0.00)[21];
-	RCVD_COUNT_FIVE(0.00)[6];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_CC(0.00)[kernel.org,bp.renesas.com,gmail.com,vger.kernel.org];
+	FREEMAIL_TO(0.00)[glider.be,baylibre.com,kernel.org,gmail.com];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[luca.ceresoli@bootlin.com,linux-renesas-soc@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[john.madieu.xa@bp.renesas.com,linux-renesas-soc@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[]
-X-Rspamd-Queue-Id: 9220238BF9F
+	RCVD_COUNT_FIVE(0.00)[5];
+	R_DKIM_NA(0.00)[];
+	NEURAL_HAM(-0.00)[-0.734];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,dt];
+	FROM_HAS_DN(0.00)[]
+X-Rspamd-Queue-Id: 28A6938C0B5
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-of_drm_find_bridge() is deprecated. Move to its replacement
-of_drm_find_and_get_bridge() which gets a bridge reference, and ensure it
-is put when done.
+Add device tree support and board enablement for audio on the
+RZ/G3E SMARC EVK with a Dialog DA7212 codec.
 
-omapdss_device_init_output() can take one bridge pointer in out->bridge or
-two pointers in out->bridge and out->next_bridge. Ensure each has a
-corresponding drm_bridge_get() and add drm_bridge_put() calls in the
-cleanup code.
+This series includes:
+  - CPG clock binding update for optional audio clock inputs
+  - CPG driver support for RZ/G3E audio clocks and resets
+  - Audio clock input nodes for RZ/V2H family DTSIs
+  - R-Car Sound node for RZ/G3E SoC DTSI
+  - Board-level enablement: I2C1, Versa3 clock generator, audio
+    pinmux, and DA7212 codec on SMARC EVK
 
-Also slightly change the initial code assigning out->panel and out->bridge
-to ensure and clarify that either out->panel or out->bridge is set in the
-function prologue, not both. If both were set, the 'if (out->panel){...}'
-code that follows would overwrite out->bridge without having put the
-reference.
+Audio configuration on SMARC EVK:
+  - Codec: Dialog DA7212 on I2C1
+  - Playback: SSI3
+  - Capture: SSI4 -> SRC0 -> DVC0
+  - MCLK: 12.288MHz from Versa3 clock generator
+  - Format: I2S, R-Car Sound as clock master
+  - SSI4 shares clock pins with SSI3 (shared-pin)
 
-Finally, take a reference in case a panel_bridge is added using
-drm_panel_bridge_add(). This ensures we always need to put a reference,
-which came either from of_drm_find_and_get_bridge() or by the
-drm_panel_bridge_add+drm_bridge_get() branch.
+Changes:
 
-Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
----
- drivers/gpu/drm/omapdrm/dss/output.c | 11 ++++++++---
- 1 file changed, 8 insertions(+), 3 deletions(-)
+v3:
+ - Splitout from v2 [1]
+ - No code changes
 
-diff --git a/drivers/gpu/drm/omapdrm/dss/output.c b/drivers/gpu/drm/omapdrm/dss/output.c
-index 7378e855c278..ca891aba3820 100644
---- a/drivers/gpu/drm/omapdrm/dss/output.c
-+++ b/drivers/gpu/drm/omapdrm/dss/output.c
-@@ -30,11 +30,13 @@ int omapdss_device_init_output(struct omap_dss_device *out,
- 		return 0;
- 	}
- 
--	out->bridge = of_drm_find_bridge(remote_node);
- 	out->panel = of_drm_find_panel(remote_node);
- 	if (IS_ERR(out->panel))
- 		out->panel = NULL;
- 
-+	if (!out->panel)
-+		out->bridge = of_drm_find_and_get_bridge(remote_node);
-+
- 	of_node_put(remote_node);
- 
- 	if (out->panel) {
-@@ -49,7 +51,7 @@ int omapdss_device_init_output(struct omap_dss_device *out,
- 			goto error;
- 		}
- 
--		out->bridge = bridge;
-+		out->bridge = drm_bridge_get(bridge);
- 	}
- 
- 	if (local_bridge) {
-@@ -59,7 +61,7 @@ int omapdss_device_init_output(struct omap_dss_device *out,
- 		}
- 
- 		out->next_bridge = out->bridge;
--		out->bridge = local_bridge;
-+		out->bridge = drm_bridge_get(local_bridge);
- 	}
- 
- 	if (!out->bridge) {
-@@ -79,6 +81,9 @@ void omapdss_device_cleanup_output(struct omap_dss_device *out)
- 	if (out->bridge && out->panel)
- 		drm_panel_bridge_remove(out->next_bridge ?
- 					out->next_bridge : out->bridge);
-+
-+	drm_bridge_put(out->next_bridge);
-+	drm_bridge_put(out->bridge);
- }
- 
- void dss_mgr_set_timings(struct omap_dss_device *dssdev,
+v2:
+ - Fix Rob's comment on  maxItems not needed with items lists.
+ - Drop DMA ACK second cell from DT specifier
+
+[1]: https://lore.kernel.org/all/20260402090524.9137-1-john.madieu.xa@bp.renesas.com/
+
+John Madieu (8):
+  dt-bindings: clock: renesas: Add audio clock inputs for RZ/V2H family
+  clk: renesas: r9a09g047: Add audio clock and reset support
+  arm64: dts: renesas: rzv2h: Add audio clock inputs
+  arm64: dts: renesas: r9a09g047: Add RZ/G3E Sound support
+  arm64: dts: renesas: rzg3e-smarc-som: Add Versa3 clock generator
+  arm64: dts: renesas: rzg3e-smarc-som: Add I2C1 support
+  arm64: dts: renesas: rzg3e-smarc-som: add audio pinmux definitions
+  arm64: dts: renesas: r9a09g047e57-smarc: add DA7212 audio codec
+    support
+
+ .../bindings/clock/renesas,rzv2h-cpg.yaml     |   8 +
+ arch/arm64/boot/dts/renesas/r9a09g047.dtsi    | 529 +++++++++++++++++-
+ .../boot/dts/renesas/r9a09g047e57-smarc.dts   | 114 ++++
+ arch/arm64/boot/dts/renesas/r9a09g056.dtsi    |  27 +-
+ arch/arm64/boot/dts/renesas/r9a09g057.dtsi    |  27 +-
+ .../boot/dts/renesas/rzg3e-smarc-som.dtsi     |  44 ++
+ drivers/clk/renesas/r9a09g047-cpg.c           | 129 ++++-
+ 7 files changed, 871 insertions(+), 7 deletions(-)
 
 -- 
-2.53.0
+2.25.1
 
 
