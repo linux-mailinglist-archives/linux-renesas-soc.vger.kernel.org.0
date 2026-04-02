@@ -1,51 +1,51 @@
-Return-Path: <linux-renesas-soc+bounces-30754-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-30755-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id WLewCFtuzmkCnwYAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-30754-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 02 Apr 2026 15:25:47 +0200
+	id IKaiKCZxzmnxngYAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-30755-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 02 Apr 2026 15:37:42 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC92D389ABE
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 02 Apr 2026 15:25:46 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id D3061389D9A
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 02 Apr 2026 15:37:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id AD0513020A5B
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  2 Apr 2026 13:24:43 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id C80EC3011C50
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  2 Apr 2026 13:26:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AB6952FDC3C;
-	Thu,  2 Apr 2026 13:24:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 26D48303CB0;
+	Thu,  2 Apr 2026 13:26:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dM1JSwkU"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="X13C5CPs"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87F972FC01B;
-	Thu,  2 Apr 2026 13:24:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02ACE2FF657;
+	Thu,  2 Apr 2026 13:26:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775136282; cv=none; b=ge9cbsJBylNlKuIkkIVlFm5kQ/Io/+wx6Nx5iQoQFcTXkCG+8jn+Q2f3lPt+/k62mtNgQN/9aON4LQP0hkbmdcyx1mULdClNonI62UW33mKxQtKMwDC6onUaphAYl7JvgpZCQH5984Ti8dRESVARZwW2lRL478dYno9C5NWtVOU=
+	t=1775136408; cv=none; b=HMkovY3TYA9WeVeXelb4XMYpKB/isnAv02jODM0JGUmnG+DwE895iQVTiAPL879xlSscrZBCoV+l0ThELQXxPc96gwY+swLethNBmqNHxNWQ6jN6Ef5p7a+k4NT9Xf699sIqr4qBtg+VGueavPt9UQv08r+cfMGii30Rr+bhSp4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775136282; c=relaxed/simple;
-	bh=qiL6VfygehgqDeaL8ap9JpsjYBX31d9Y22d1Qh1pZNo=;
+	s=arc-20240116; t=1775136408; c=relaxed/simple;
+	bh=b+daOJIYgWbHD4TWM7HIYu2EbZnd+YU+/Q8r7DCoeXk=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=SB964PAazsDG70w2G2Y/71XFgshSkLsjknVaMTfs3WXpWxEVGKZFm3MgD6c0/nWtZMyqGMempWEYiif3ng7ywi1AtdEMGbgDL0ITBOSVEjiXnzR7VoOMfW82IO3LciHVr4Q+OPOgp42N1FPo92/WnH5iM2ArL2aeacjDzdCsWJY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dM1JSwkU; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BC55DC116C6;
-	Thu,  2 Apr 2026 13:24:40 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=GDYI2p9bNY+PjA9zcVc31QI9TyxlmljIV0MgfjtBQ0ZY8iWKhCcuAy8EJTYzVgE1CLh5N2EBWG3N8EJAOiydiUcoQGspGwM0ezWvhJqg4iE+NNUBXgTfH0BF0m/5o+f93ULACRed27GGur1pUS4/S2leasQQoGumL2dA8cA3FXk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=X13C5CPs; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1EFF1C116C6;
+	Thu,  2 Apr 2026 13:26:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775136282;
-	bh=qiL6VfygehgqDeaL8ap9JpsjYBX31d9Y22d1Qh1pZNo=;
+	s=k20201202; t=1775136407;
+	bh=b+daOJIYgWbHD4TWM7HIYu2EbZnd+YU+/Q8r7DCoeXk=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=dM1JSwkU1Qx+GnsDYCFPXWOZmhvqnA6GCmYP8nmVvS1hDyPqG0sGGpTvON//aOAJC
-	 UsW1sw3lH5LR/nipcpLtpsD/CoxFl5Ryf9PRDwuIQTughfOP9Bq9ZWS3i6GoFHH+f8
-	 9gm82pLRLzr/5SOLk9RLtaqd3AEs/YYDWDXj0lZ8rUD4NHVT4G1PUtNgAoC9MIDtmZ
-	 4xv9BV2gPGr9InobvLAPnHlmn0CB0RlmoPAkA+Ztk+JsVU/CBSP54Nu8xexmSgWMGy
-	 frDmcWtRubQuCnY2bY8DecSn8ZiCr6OCsrt0PwHY7YUEsQEp75iri2Ze93gIxSFNyc
-	 QprWAGrfzXaBg==
-Message-ID: <c2095c20-834d-4f52-aa82-07f0cd6fb228@kernel.org>
-Date: Thu, 2 Apr 2026 15:24:39 +0200
+	b=X13C5CPsODl+XdO7QphKK/uvKhoD4VIzOlVlqdSCTlhV3yh2B2t//QGF3UtyyKr+5
+	 Ic0LWAekEoCllclIiIh7MaD5OqiEDWbf9t1GosXhEK/c8IEeeQ0DAfcfvVUFeJdgsB
+	 G89q2HNp3EDBCXANuYkpb2myaOyB0EKozvM6GNHyW1tcnvTTXls+cBW7IvBK01NHq2
+	 +E+6rV6lK7a24Y3f+jNIbhLg811agzRwxl7qSMCF30b8c8cn8N7J4FxpLlyK4HTPdP
+	 ldtPwNIzPVSre9WoCBfdtLvooGaVmXDFxEHvnPuwvcbq4F5uJdkntLE1nTp/IVcB9X
+	 zxXCP52csMIhQ==
+Message-ID: <1cdf4e0f-81c5-49b6-b05f-27cefc197c70@kernel.org>
+Date: Thu, 2 Apr 2026 15:26:44 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -111,20 +111,20 @@ Content-Transfer-Encoding: 7bit
 X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-30754-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-30755-lists,linux-renesas-soc=lfdr.de];
 	FROM_HAS_DN(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
 	DKIM_TRACE(0.00)[kernel.org:+];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	RCPT_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[krzk@kernel.org,linux-renesas-soc@vger.kernel.org];
@@ -133,8 +133,8 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,dt];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: BC92D389ABE
+	DBL_BLOCKED_OPENRESOLVER(0.00)[c1000000:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: D3061389D9A
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
@@ -145,51 +145,11 @@ On 02/04/2026 14:27, Wolfram Sang wrote:
 > mailbox_test_send_to_recv@c1000000 {
 >         compatible = "mailbox-test";
 >         broken-usage-of-incorrect-compatible;
->         reg = <0x0 0xc1000000 0x0 0x100>;
->         mboxes = <&mfis 0 (MFIS_CHANNEL_IICR | MFIS_CHANNEL_TX)>,
->                  <&mfis 0 (MFIS_CHANNEL_EICR | MFIS_CHANNEL_RX)>;
->         mbox-names = "tx", "rx";
->  };
-> 
-> So, allow additional properties to prevent:
-> 
-> .../arch/arm64/boot/dts/renesas/r8a78000-ironhide.dtb: mailbox_test_send_to_recv@c1000000 (mailbox-test): 'broken-usage-of-incorrect-compatible', 'mbox-names', 'mboxes', 'reg' do not match any of the regexes: '^pinctrl-[0-9]+$'
-> 
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
-And with your patch how does the warning look like?
-
-This solves nothing - the entire point is to have warning for
-'broken-usage-of-incorrect-compatible'. If there are warnings for
-mboxes, does not really matter.
-
-
-> ---
-> 
-> Maybe this is not worth the hazzle because these testing bindings should
-> never be used in production DTs. During development, however, this is
-> useful because it reduces noise, so real bugs become more visible.
-> 
-> If this is not applicable for reasons I overlooked, another approach
-> could be to use 'broken-usage-of-incorrect-compatible' as an early exit
-> in fixup_node_props() of the validator?
-> 
-> RFC because of all of the above. Is this worth it?
-> 
->  Documentation/devicetree/bindings/incomplete-devices.yaml | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/incomplete-devices.yaml b/Documentation/devicetree/bindings/incomplete-devices.yaml
-> index 4bb6c0141e9f..8f6df738f5e9 100644
-> --- a/Documentation/devicetree/bindings/incomplete-devices.yaml
-> +++ b/Documentation/devicetree/bindings/incomplete-devices.yaml
-> @@ -282,4 +282,4 @@ required:
->    - compatible
->    - broken-usage-of-incorrect-compatible
->  
-> -additionalProperties: false
-> +additionalProperties: true
-
+Ah, and this part of your code should stop you right there. You cannot
+have broken incorrect usage of DTS and claim that is reason to do any
+change. The property is pretty clear - your DTS has broken way of using
+incorrect compatible :).
 
 Best regards,
 Krzysztof
