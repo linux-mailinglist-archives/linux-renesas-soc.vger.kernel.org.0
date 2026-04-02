@@ -1,222 +1,158 @@
-Return-Path: <linux-renesas-soc+bounces-30749-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-30750-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 7GMwFnpszmnsngYAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-30749-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 02 Apr 2026 15:17:46 +0200
+	id aPlHOGpuzmkCnwYAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-30750-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 02 Apr 2026 15:26:02 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5186389870
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 02 Apr 2026 15:17:45 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 49FFA389ACD
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 02 Apr 2026 15:26:02 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 2622C3153794
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  2 Apr 2026 13:09:57 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 1910131B5B0C
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  2 Apr 2026 13:10:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 13EB03E0C7E;
-	Thu,  2 Apr 2026 13:09:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D1AB43E6381;
+	Thu,  2 Apr 2026 13:10:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="AEhKIvLf"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="d8DoEkLO"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from OS0P286CU010.outbound.protection.outlook.com (mail-japanwestazon11011057.outbound.protection.outlook.com [40.107.74.57])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B1B83D5226;
-	Thu,  2 Apr 2026 13:09:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.74.57
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775135361; cv=fail; b=dKlJ0LvK64XS9tcpXdn11ZPj+8CWSyq9WdsaldNEVsql1tj6qX6d44evbM6nnS/huwXN1NLFDguF/UHaphf94tasajp4OG1f50IfHq3esqlFfcXeB9n4uYVETIriBYhwxJsZdJAfMDL39ocn4V43sWXxlmStFAnY5OzHGIut2+Q=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775135361; c=relaxed/simple;
-	bh=CxFbPvDh1jJsfNIcNZP4hhJ0Dms1bJHMeijPPcFkJHU=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=HYUo420ao1S8df/7ZyDvfy5YP4v3rleXpZHfrp5dXK46d1K4Asi7/ln0WqtWtgbeEqYju6cj+iPYCtd7DdJMwnnCA8wmFMiMs2eH1PhDpaAaZ9tPzqf5CBrSPF8tkbH/zlNayvJVo4eeJJqFvTxA3ioFUvLsqqzAy6BFsRn+IeE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=AEhKIvLf; arc=fail smtp.client-ip=40.107.74.57
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=P6ZnO3H7V21Jlq7BxAi8OcUfPa6UoVFN35biTWncKl6GHu+nEDss7UfnmMWInNdilXCYX9f1E9+WSs/IqjAdTg7FgLgmGBkwRJy88JMWk6S/PlFJuEtSORvpHe06WAINek7Xq/+uk8O/Hbs7CkvxB0m4mODknYxYfNzHCyoMpRY5ab0mNaYrIeh4NAOistYsR7pZrT7Dqrt3qPIZolKLxKs7v7zQLk2ngWH8L3Ml0KHDDv5/xqddIP+UVS8CzSsg5IGQQZYDggmTMpt9YRorpdB2nQnemOh6xZVyQUNlXlFL9ElI6a1E+c6zjg9lLkQ5729SOBLuD5ERuJ6qrz0xFw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=pCUpdpnQCv/1C2hBiNTE5FfqJ/yKaAbPhQjY+DXOI1Y=;
- b=ND4RO7s9dsbQZguZkwQR1MamUvpgX0ozh+zsVpdHMVf3NUtODXYiyPJvmvXUjP7AdI/0ZdYUZDJ6ZxK3xRf7O7QQwxFLErFVqsY/h6Rl3c4FMKwSxYtjKe67QIL0kmPrg446eFtBctTd9YEtBFmTU/zg8Zc/UKkuNukdycJiJnhIxwDfToQBUIioTfOBkoPTuM/Oss3MsqyEoG9TzQashA+A2y4CNBbPmVC2/qCcTJTHkAhQ/ZgaEB2QdyO7UdV4NtKYO+HBwTqOsmZDGvCMMEih/GL7vsPGxuvWsi2F8huJhweyTbo9zggmfC/TMOtYcr6XCUcSv/+aUgNmFI3PCw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=pCUpdpnQCv/1C2hBiNTE5FfqJ/yKaAbPhQjY+DXOI1Y=;
- b=AEhKIvLfyZis+7zF7HmA6Fb3gz+5Q64uh36sxaQlNbvqWFCShQtjyTdMEE6SVAy2hLXcVcuC2/tG2LOjEUytt4Frbdh/WmzT5auPspUtcHZfihfwevo3GDRUHPU8+IRlPRnBt40TCRedU7fpyD1OebAlgabQqPlcBLFVMOZT9A8=
-Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com (2603:1096:400:3d0::7)
- by TYYPR01MB8046.jpnprd01.prod.outlook.com (2603:1096:400:f8::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.17; Thu, 2 Apr
- 2026 13:09:14 +0000
-Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com
- ([fe80::87d1:4928:d55:97de]) by TY3PR01MB11346.jpnprd01.prod.outlook.com
- ([fe80::87d1:4928:d55:97de%4]) with mapi id 15.20.9769.017; Thu, 2 Apr 2026
- 13:09:14 +0000
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: biju.das.au <biju.das.au@gmail.com>, Fabrizio Castro
-	<fabrizio.castro.jz@renesas.com>, Mark Brown <broonie@kernel.org>, Rob
- Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor
- Dooley <conor+dt@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>,
-	magnus.damm <magnus.damm@gmail.com>
-CC: "linux-spi@vger.kernel.org" <linux-spi@vger.kernel.org>,
-	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, Prabhakar
- Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, biju.das.au
-	<biju.das.au@gmail.com>
-Subject: RE: [PATCH 0/2] Add Renesas RZ/G3L RSPI support
-Thread-Topic: [PATCH 0/2] Add Renesas RZ/G3L RSPI support
-Thread-Index: AQHcq6tn0LK2JKDugkSgDHRkkiWo8rXL6eUQgAACUQA=
-Date: Thu, 2 Apr 2026 13:09:14 +0000
-Message-ID:
- <TY3PR01MB1134661E2391CD46899B516848651A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-References: <20260304074907.9697-1-biju.das.jz@bp.renesas.com>
- <TY3PR01MB1134614237922A87C70AA685C8651A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-In-Reply-To:
- <TY3PR01MB1134614237922A87C70AA685C8651A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TY3PR01MB11346:EE_|TYYPR01MB8046:EE_
-x-ms-office365-filtering-correlation-id: 1ba195ce-a2e2-4d50-62e9-08de90b90a0c
-x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|366016|1800799024|7416014|376014|38070700021|56012099003|18002099003|22082099003;
-x-microsoft-antispam-message-info:
- yjTk/+raOwg3SmvNivQACjmfQAAS4t5h6Y/0l92ED6l97ADSGpBqeX9hVmwg8qWYZ9vaiRsa1rKzh/a5A5SjbyfEihx7YkbZjaU5WNZOzWwAp+39yFUDs0lwNdUTs9+sZ0dIiO+ZDtVb1+/pEzgWKE7ciyH8s41g2QhWFCkMKXK3r72ni/uF3j3EX3NLmH3uCKbos+BDpjxuDpCpVcnBmi+jN8joz+JrDme5vW+OVUueizAuUTPmXybZZL6wjk0fT1OwSW2U0UQSERo+9AR0E2Z3wMtmUsBlpquxwySmIt5vH3JoS7NWYIZge4r5OSlvr46vYp9hQGVOTLQSd3e9LUemp/6IeWhDMewmem5dwle+SGcM/tU1Sa8Plqr3lJigTZta+z0kCyElzWIfwTgcXE/ZHHtvE2W05yefnnkVNWHTaMcU81APVD+AccwjCKXBxlj94gW20HBoj1axt3S5fIDKJvOTKDehLifEjAVAG6SIpz+hEhg56IP3l1afoCF3MDeTlMIIQ30VO5/UZHk1bihU1ZCv2oDKZi9ksoW4OBhnSUiSiGuTRIEZYXRyKrM/3rpvN15N3IVRpGi8O25ghOavJa8clenW9I2lBUc1evqvF40Uz43KdYYA70Zs07wMhsMUczS0BsqkCUQIN2OTFv5Ue1n5hlD8ww7ItPJ7nQ3lwTxw7H4Ixki3qnRv83dGr8yTFdq2rFh+7QI2ABiKPAk/0LsCZuVSnawt3tZzXPpM4AKghLoF0aelM0p+KBN+EHXOgHZFCJoijTt3EU3cWe3j8aRJPgriDlIgU8yFlYo=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB11346.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(376014)(38070700021)(56012099003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?GL8Zj400vbDNSaIe8ox6GT6jbj1SaRFIFvdfz5PV2+mN9+e8fakfIHPB9faa?=
- =?us-ascii?Q?YI2wPOZlZGiL6XzZHxNlEbcRbHRl3fyiuKxeRTB/H8G/lm6x/CoF7RekoXXC?=
- =?us-ascii?Q?PDBqrL33igkeQe5UbO0tnqy+4ElkEbZ7lqWvPtpkrpAvgPu3UT21qHFaSLgD?=
- =?us-ascii?Q?x+N53ThFYldoMcZE154U+tf6rLsQOKiPqsXsPic00Kq8eQeAD3xKpYm31z87?=
- =?us-ascii?Q?RokzETf+gWTRdm56F1FCn7sIkoyytdrm4h6zRy/VOq1Gf5mIKAzz7ZAbFzAJ?=
- =?us-ascii?Q?jFi4ydfTp4zaPtaGFJDmzjdlBXlHbPtfpq3aPKk1cVcur/8r2ThlJdgSXR/V?=
- =?us-ascii?Q?J3lN3XvH/A1bzCb8FtIqYtYEl3zjyv6tmkftM1eJ7DHd+p/8KLLZVegn4pQc?=
- =?us-ascii?Q?yWEsjYhG2TOD5dz+fNm1tSb747DH5B2L10LEW8tBTqAppepUTE+vqxPi1uUI?=
- =?us-ascii?Q?AhcmhCEUlo37iCmAZmv/OT0ch9QetqWytj/iIUP/Hh2xbLK3oebC9E1hKyFT?=
- =?us-ascii?Q?b4OPqq0OB8QoojdEwQh/pawfM/TjQwbmJtLte1H9shUM2HdTfoHfuHTcrbd/?=
- =?us-ascii?Q?LlL7Ggrc6omgwCyl5zWDtgFw0+WrxVrc09Vo2Ey97kWbHuKKH3qzqwkvFSmx?=
- =?us-ascii?Q?ApGcD9KSJxCqWBfy1kNuu64n5IOAj3NKmFudk+/ybyXRkaH9KLm9v6luKmNn?=
- =?us-ascii?Q?G0OGdgLA+fSJJy+tf+f5lzP7Ns4mECJXwgeNW5sFls2/bnlP7ZkRJYSb7bKR?=
- =?us-ascii?Q?ne22mlwo0JRDdXxOUegnVI1nAryaglL44DH5rqYqPILqgPChqOvFNnF7PbKn?=
- =?us-ascii?Q?No5rt8EmAQMl7+Yf8OAyUgezJH/UDGCpynEHGJU6UcUFO8nizJ/KznfZ0yfw?=
- =?us-ascii?Q?r7IK8kiPh2Yvjh232ERgUz6XtYG5z7WP4m/UIDYU2639iohs06Idpsrw2q0f?=
- =?us-ascii?Q?wY5BQ19a2NrR8PxDKt7dr4IfC1zlQIbh2I4DJizORjBpGjOZvCSrY9Yo3y4J?=
- =?us-ascii?Q?awWWZkihyMUGzX39bK0LN3VfiFTrXJEZHuSGVDySdG6PV3biZlocp3omJvH5?=
- =?us-ascii?Q?CzmUYCTE9sWjuNOzgp6aXqiq55M2WJUfyV2wrGNlw8R0zQZuLJN1YKANA2Ha?=
- =?us-ascii?Q?RH8c3FVmRKCQdZaoC8BUx6QF4at6LrxMyX0AjT431tBkwmTDyvayCbfFUEsF?=
- =?us-ascii?Q?0LHKH/F3HuqEmV3lxVSuBM/POyjiRYECSilcPoB71gIpDExPNF6N0v5fr9Eu?=
- =?us-ascii?Q?fT3GbqbnjZqk7fcH98+X7cuxFt2L2vCJpRnKpmgroJ7j9meCOqRlRT/n38RH?=
- =?us-ascii?Q?w1LyELVTy7M5jPqBaBSmoecuBl0yKAxFbZ/q2kl1rm2hB4iUIhPtjF70cN0c?=
- =?us-ascii?Q?h5uXYa0ZLzgV9IHJZ/6qaKwdMEW+PtcXlRc1Kh1zdGNQ9+Z1puvkoaPRUZYQ?=
- =?us-ascii?Q?8eZmHeYK0sHiF/bg1+ox9FMU89PItAv31w6Z73rbvkYu8EyO+KVPI80Il761?=
- =?us-ascii?Q?Ied6GwF4zM2dIbBbVqske14uJ9Gdi8xJbTR8dQJLRUi8ZfGHiCje7zp5GEOK?=
- =?us-ascii?Q?7wkMWeotHaw7zMvdFHYz/8a0BhRM36XKo7CFh9zW3EETjYy6WGY2n+9Ml1CT?=
- =?us-ascii?Q?+oomLTutGpC33OEtvGM55p46dnILl9JcIZd/p0xwueggpWQAa3VzxI7cHIwH?=
- =?us-ascii?Q?nIDKtLyxsljsoJEZHndqTKGcQbMZDGgk4CmjnZL1ygta4IpaphjN1gLniIEg?=
- =?us-ascii?Q?CZepRvREaw=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA5B2296BB6
+	for <linux-renesas-soc@vger.kernel.org>; Thu,  2 Apr 2026 13:10:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775135428; cv=none; b=IVZDByBm0bvLlPB6WGui4NUlZysuLlq9n1IUoTYDEF9mRCsqKb1TYBw4INP9yqop7BtJagtFtgiPcOxmoTZRfFQCCbCb7qImxW/eipELokXI/jQj0uEgunJJU+gffi216oekoCEQWdJKJLJUJ+ZEp0QlXVjrvYajYItigxv+NYU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775135428; c=relaxed/simple;
+	bh=1vEf0BRhl/MMI0N0/twBdeKMK2gmS8AmhOfkU9TNxzA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=GJlaC6ExBLi6l9nUNG2NZBkknlLaWzeZyiOwWxmediLyIKlJZKrCEzU+UMZVh3/bayg9UHQ8Q1c9bq33OOvk9rdrN++9+Q+/K92xl5qadTCgwEY9n9c85Svg2DGYTj1TRTPuv73lwOgbqJKoWMYzmKPfzrpJcAkTd0LvrBSZg0E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=d8DoEkLO; arc=none smtp.client-ip=209.85.128.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-483487335c2so8253125e9.2
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 02 Apr 2026 06:10:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1775135424; x=1775740224; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=gPbDVvADwWlesPGPPMz9fai2gIb9UfzDS6sF/3W+70k=;
+        b=d8DoEkLO8QymT0reYKVmFr0OFWeb2fOlcz7YSZldzi8D5mv7sRZXZGvFqhRJgpGMc8
+         VQDkdULkT4/sx4VxAN2YNBMJ/MFvIGbjRS3o0R4YwpJstOHI+TAYuskf+x+o7BFdOCFi
+         79Xm7DlqO4GBGA5begA5aQEXJuYpxzqiCUJ6lCCTIpWtjYOIpekDQWGvAuAC9uXlN/90
+         gZ5ehopOgEhsVlX2ZoKtjQOugcH4pDhqIqc6sozujllgnplJGpmebIcyJwEjJRxKuy0R
+         Te0BfcnZXuK9PhuM9XZyx1mbabVqVRVRL3A/LrIhwk56RNxiXJLXj2cgaprjIUuseP/g
+         yz3g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775135424; x=1775740224;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=gPbDVvADwWlesPGPPMz9fai2gIb9UfzDS6sF/3W+70k=;
+        b=qyKMFFxs9TdKFg6FNrJ0H76g4D1CoE/lzZrmMvzGh00gzyCUCm9jLZj3dolvszcTos
+         TIcTB+mrFC4LDxQRJE9T1wZ0RvvMDMwd08FpBVxqF63E0aQ4VHbuVyYJ+IH/BTDlNlHF
+         vDQzY+ElRZ/LxOOHizlbcfmtj+euK4vw88yA86um/N2NIj+WUTzlqPPRjnbGDd9p4ENY
+         BNMQY2PGZeeSyYQ13yM0TvRzow9LU6H2ySbwWsQUt7IM6wbibNK6gYjz03CsPHzzPK64
+         Sq0MK6ZfJ5LT4mltiG3zg9HLoYWw44PQeCd5C7i/dBU3SsEUz9diKk22CcE0aVhawz2K
+         MIbg==
+X-Forwarded-Encrypted: i=1; AJvYcCUE4LycTlANWgsB05mc8csctYcobX+GyhYT9oI/WpTZ5BXgid4zrVGM/HY6TxJles+lsGKNOMDZNCgTbp5mGNed2w==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyUPKy3cw00p6K295EafDJ8FwWvHN+f0mt3pVUhly1NfLMb3+wq
+	PUkHLyox7CFFYEX+zKoLmh5IJtFiaoIZwJhF3LFl+f9TC0oWAptuykCPk77p9w==
+X-Gm-Gg: ATEYQzx8ZCrugbKlROPfcei01QZacHB7SURX/okktf0IdHjEsaItIMgZMyLrnM/Fh6R
+	AJsPX53SbjkhPN8X+1SAS3abha4HaIFzH3UHLCTqjK9jjDKTTzOvKDDEfi4tLEWbVsaWOzgrhnh
+	CnLdH/JsfiyvxfQJuoIub7zzIKOUfYYOFaw/x0P1KB4rvsdmzj8i5S3bUvqDyzVKVVIOuunJvPc
+	RVRqPCsk8myMQbYn/QSbktgbVXyQo7twd3Z/6SvzScTFQUjdcO/c8bmJy3XkSeLSKrBxon79/cp
+	Zkm4HjBTGdaAQDf5QuGv4OZL2LsRidRQSeHOFI84b5W78+qOPMDPClEA93YnVNgSxKTsU0LVSGw
+	X/JZHi6BnSMTc4UT9vct73kC1S+RRm2fNPQGFeNrYsyD3YcdEUxAO0R/BPOiLbhq4g3gcHsAJb6
+	Zyd4v2irp2Uf7dAmPfrZyOSJ0s1WjzhTy68FP4k98Bk0dInlOH
+X-Received: by 2002:a05:600c:890c:b0:488:7a24:9ddf with SMTP id 5b1f17b1804b1-488835b792amr98024345e9.28.1775135423525;
+        Thu, 02 Apr 2026 06:10:23 -0700 (PDT)
+Received: from localhost.localdomain ([2a00:23c4:a758:8a01:1526:47aa:5ab6:5a85])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43d1e2a720dsm8040753f8f.4.2026.04.02.06.10.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 02 Apr 2026 06:10:23 -0700 (PDT)
+From: Biju <biju.das.au@gmail.com>
+X-Google-Original-From: Biju <biju.das.jz@bp.renesas.com>
+To: Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Mark Brown <broonie@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>
+Cc: Biju Das <biju.das.jz@bp.renesas.com>,
+	linux-spi@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	Biju Das <biju.das.au@gmail.com>
+Subject: [PATCH v2 0/2] Add Renesas RZ/G3L RSPI support
+Date: Thu,  2 Apr 2026 14:10:15 +0100
+Message-ID: <20260402131020.143123-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11346.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1ba195ce-a2e2-4d50-62e9-08de90b90a0c
-X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Apr 2026 13:09:14.5046
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: dJPQjsC5I8ta14sG3HmzxON15rTz0UDSGXRon7EP2LdCvDElRia/S9eqTx78D4aALoaPYViwJucbhpcwj8s+Uf8th7879AyrTiR6UPsrSqo=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYYPR01MB8046
-X-Spamd-Result: default: False [1.34 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_REJECT(1.00)[cv is fail on i=2];
-	DMARC_POLICY_ALLOW(-0.50)[renesas.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
-	R_DKIM_ALLOW(-0.20)[bp.renesas.com:s=selector1];
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-1.66 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-30749-lists,linux-renesas-soc=lfdr.de];
-	RCPT_COUNT_TWELVE(0.00)[14];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com,renesas.com,kernel.org,glider.be];
 	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,bp.renesas.com,gmail.com];
+	TAGGED_FROM(0.00)[bounces-30750-lists,linux-renesas-soc=lfdr.de];
+	FREEMAIL_FROM(0.00)[gmail.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_TO(0.00)[renesas.com,kernel.org,glider.be,gmail.com];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	FREEMAIL_CC(0.00)[bp.renesas.com,vger.kernel.org,gmail.com];
+	MIME_TRACE(0.00)[0:+];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[biju.das.jz@bp.renesas.com,linux-renesas-soc@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[bijudasau@gmail.com,linux-renesas-soc@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[bp.renesas.com:+];
+	DKIM_TRACE(0.00)[gmail.com:+];
 	RCVD_COUNT_FIVE(0.00)[5];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
-	NEURAL_HAM(-0.00)[-0.998];
-	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,TY3PR01MB11346.jpnprd01.prod.outlook.com:mid,bp.renesas.com:dkim,renesas.com:email]
-X-Rspamd-Queue-Id: B5186389870
+	NEURAL_HAM(-0.00)[-1.000];
+	TO_DN_SOME(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,bp.renesas.com:mid,renesas.com:email]
+X-Rspamd-Queue-Id: 49FFA389ACD
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
+From: Biju Das <biju.das.jz@bp.renesas.com>
 
+This patch series adds binding and driver support for RSPI IP found on the
+RZ/G3L SoC. The RSPI is compatible with RZ/V2H RSPI, but has 2 clocks
+compared to 3 on RZ/V2H.
 
-> -----Original Message-----
-> From: Biju Das
-> Sent: 02 April 2026 14:00
-> Subject: RE: [PATCH 0/2] Add Renesas RZ/G3L RSPI support
->=20
-> Hi All,
->=20
-> > -----Original Message-----
-> > From: Biju <biju.das.au@gmail.com>
-> > Sent: 04 March 2026 07:49
-> > Subject: [PATCH 0/2] Add Renesas RZ/G3L RSPI support
-> >
-> > From: Biju Das <biju.das.jz@bp.renesas.com>
-> >
-> > This patch series adds binding and driver support for RSPI IP found on
-> > the RZ/G3L SoC. The RSPI is compatible with RZ/V2H RSPI, but has 2 cloc=
-ks compared to 3 on RZ/V2H.
-> >
-> > Biju Das (2):
-> >   dt-bindings: spi: renesas,rzv2h-rspi: Document RZ/G3L SoC
-> >   spi: rzv2h-rspi: Add support for RZ/G3L (R9A08G046)
-> >
-> >  .../bindings/spi/renesas,rzv2h-rspi.yaml      | 26 +++++++++++++++++++
-> >  drivers/spi/spi-rzv2h-rspi.c                  |  8 ++++++
-> >  2 files changed, 34 insertions(+)
-> >
-> > --
-> > 2.43.0
->=20
-> Gentle ping.
+v1->v2:
+ * Rebased to next
+ * Collected tags
 
-Better I will rebase and send new series with tags collected.
+Biju Das (2):
+  dt-bindings: spi: renesas,rzv2h-rspi: Document RZ/G3L SoC
+  spi: rzv2h-rspi: Add support for RZ/G3L (R9A08G046)
 
-Cheers,
-Biju
+ .../bindings/spi/renesas,rzv2h-rspi.yaml      | 26 +++++++++++++++++++
+ drivers/spi/spi-rzv2h-rspi.c                  |  8 ++++++
+ 2 files changed, 34 insertions(+)
+
+-- 
+2.43.0
+
 
