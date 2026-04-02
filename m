@@ -1,42 +1,42 @@
-Return-Path: <linux-renesas-soc+bounces-30727-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-30728-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id cLOMDqg1zmmAmAYAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-30727-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 02 Apr 2026 11:23:52 +0200
+	id OHu9L200zmk8mAYAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-30728-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 02 Apr 2026 11:18:37 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3063E386D9D
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 02 Apr 2026 11:23:51 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 62592386B82
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 02 Apr 2026 11:18:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id A77C830C3B47
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  2 Apr 2026 09:11:46 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 876EB310D3C8
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  2 Apr 2026 09:11:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 80A2036DA00;
-	Thu,  2 Apr 2026 09:10:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B328E372696;
+	Thu,  2 Apr 2026 09:10:38 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8205836DA0C;
-	Thu,  2 Apr 2026 09:10:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C79F236F41C;
+	Thu,  2 Apr 2026 09:10:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775121029; cv=none; b=cx9oz7thRa6GFFPwKvyRvWUMFGgS6N1P1F3TxV7uPPRcbhCGV1d2yQKQr6Z0ibagLiMO4+N52Rtab99c3Rd4K/oP9eF3/7a2sNZX6UntOmLpCfYNS73H/j8OC19HDihDQjLNd9X8FibKmF2xZHlGJWOOYny26iB7qcI+uPbb+Jo=
+	t=1775121038; cv=none; b=N0EAo88SawF0PttlOrBHT7hqjwRWafed/MM6aLGhpfIEi9pDNjvMYG4TMnIJ3fO0rJKSQJ2KhLfgdF6c1muO1wiw/q4pmObMtc5jzsoyfyKMEWcXk6jDjYSl+rtV3kSU/T7PSCbZZuwGah5ehXZLO2CSsH7igTLmk/KGI1clTlE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775121029; c=relaxed/simple;
-	bh=k3jfmWj3A5YHeVcd+1l/lBTq88edPwoOjjeHwmcGj2E=;
+	s=arc-20240116; t=1775121038; c=relaxed/simple;
+	bh=odtl+jf2kYMFISoRKoWdgDUEZ70XVVGPlRghynRovno=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Fz1qVxYIGQYkvh35N/c/5YCGx2kerYjXQFr+LMxh2xEExQfwGifi0nVDsFyG473bRl3/V3yFP/hFAVdHdCpi9hk+tdJRX9nS+TRoCl4meup1VQFpLl0WTHUs3g1hswJrzO1K+FX7+GAEXbByvWKTOPbUAqZOljVxQ6p2BVKOnyo=
+	 MIME-Version; b=Ty+FMnHDxFBAFqAor1Y/R0foqbtBSp3JAOV5PPtiSEJJ1W4+XFIZzSzgv5XWXjq2GkUrnFBFzpGpYLbzoVTMswYoT6xq/jKHfdlEqhQs+C6XaT/XMEzyrnm/400Y+0Mh8uYeqfh5H66CqebpcnEOTNQ0FDjcHYUK060ev5E44K8=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-X-CSE-ConnectionGUID: VId0plT2TQKK08zsBjpPsQ==
-X-CSE-MsgGUID: tvnjzpCeRbaekkkCboZoYw==
+X-CSE-ConnectionGUID: aW59KSgXSFK3DtSBXm3Pug==
+X-CSE-MsgGUID: lyngML5OTcG4KAeGa37U1w==
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 02 Apr 2026 18:10:26 +0900
+  by relmlie6.idc.renesas.com with ESMTP; 02 Apr 2026 18:10:36 +0900
 Received: from ubuntu.adwin.renesas.com (unknown [10.226.92.136])
-	by relmlir6.idc.renesas.com (Postfix) with ESMTP id AFB1B40E1DDD;
-	Thu,  2 Apr 2026 18:10:17 +0900 (JST)
+	by relmlir6.idc.renesas.com (Postfix) with ESMTP id 4052340E1DDD;
+	Thu,  2 Apr 2026 18:10:26 +0900 (JST)
 From: John Madieu <john.madieu.xa@bp.renesas.com>
 To: Geert Uytterhoeven <geert+renesas@glider.be>,
 	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
@@ -66,9 +66,9 @@ Cc: Michael Turquette <mturquette@baylibre.com>,
 	dmaengine@vger.kernel.org,
 	linux-sound@vger.kernel.org,
 	John Madieu <john.madieu.xa@bp.renesas.com>
-Subject: [PATCH v2 22/24] arm64: dts: renesas: rzg3e-smarc-som: Add I2C1 support
-Date: Thu,  2 Apr 2026 11:05:21 +0200
-Message-ID: <20260402090524.9137-23-john.madieu.xa@bp.renesas.com>
+Subject: [PATCH v2 23/24] arm64: dts: renesas: rzg3e-smarc-som: add audio pinmux definitions
+Date: Thu,  2 Apr 2026 11:05:22 +0200
+Message-ID: <20260402090524.9137-24-john.madieu.xa@bp.renesas.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260402090524.9137-1-john.madieu.xa@bp.renesas.com>
 References: <20260402090524.9137-1-john.madieu.xa@bp.renesas.com>
@@ -84,7 +84,7 @@ X-Spamd-Result: default: False [1.64 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	DMARC_POLICY_SOFTFAIL(0.10)[renesas.com : SPF not aligned (relaxed), No valid DKIM,none];
@@ -94,24 +94,26 @@ X-Spamd-Result: default: False [1.64 / 15.00];
 	RCVD_TLS_LAST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	FREEMAIL_CC(0.00)[baylibre.com,kernel.org,gmail.com,perex.cz,suse.com,pengutronix.de,tuxon.dev,bp.renesas.com,renesas.com,vger.kernel.org];
-	TAGGED_FROM(0.00)[bounces-30727-lists,linux-renesas-soc=lfdr.de];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	TAGGED_FROM(0.00)[bounces-30728-lists,linux-renesas-soc=lfdr.de];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
 	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[john.madieu.xa@bp.renesas.com,linux-renesas-soc@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
 	R_DKIM_NA(0.00)[];
-	NEURAL_HAM(-0.00)[-0.981];
+	NEURAL_HAM(-0.00)[-0.978];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,dt];
 	FROM_HAS_DN(0.00)[]
-X-Rspamd-Queue-Id: 3063E386D9D
+X-Rspamd-Queue-Id: 62592386B82
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Add and enable I2C1 controller support with pin configuration.
-The I2C1 bus is routed to the carrier board and used for peripherals
-such as the audio codec.
+Add pinmux definitions for SSI3/SSI4 audio interface on RZ/G3E SMARC SoM:
+
+- sound_clk_pins: AUDIO_CLKB and AUDIO_CLKC clock outputs
+- sound_pins: SSI3_SCK, SSI3_WS, SSI3_SDATA (playback) and
+  SSI4_SDATA (capture)
 
 Signed-off-by: John Madieu <john.madieu.xa@bp.renesas.com>
 ---
@@ -124,42 +126,28 @@ v2: No changes
  1 file changed, 12 insertions(+)
 
 diff --git a/arch/arm64/boot/dts/renesas/rzg3e-smarc-som.dtsi b/arch/arm64/boot/dts/renesas/rzg3e-smarc-som.dtsi
-index 89428c804efb..493f6783d583 100644
+index 493f6783d583..f4532a06cc31 100644
 --- a/arch/arm64/boot/dts/renesas/rzg3e-smarc-som.dtsi
 +++ b/arch/arm64/boot/dts/renesas/rzg3e-smarc-som.dtsi
-@@ -32,6 +32,7 @@ / {
- 	aliases {
- 		ethernet0 = &eth0;
- 		ethernet1 = &eth1;
-+		i2c1 = &i2c1;
- 		i2c2 = &i2c2;
- 		mmc0 = &sdhi0;
- 		mmc2 = &sdhi2;
-@@ -118,6 +119,12 @@ &gpu {
- 	mali-supply = <&reg_vdd0p8v_others>;
- };
- 
-+&i2c1 {
-+	pinctrl-0 = <&i2c1_pins>;
-+	pinctrl-names = "default";
-+	status = "okay";
-+};
-+
- &i2c2 {
- 	pinctrl-0 = <&i2c2_pins>;
- 	pinctrl-names = "default";
-@@ -255,6 +262,11 @@ ctrl {
+@@ -353,6 +353,18 @@ sd2-pwen {
  		};
  	};
  
-+	i2c1_pins: i2c1 {
-+		pinmux = <RZG3E_PORT_PINMUX(3, 2, 1)>, /* SCL1 */
-+			 <RZG3E_PORT_PINMUX(3, 3, 1)>; /* SDA1 */
++	sound_clk_pins: sound_clk {
++		pinmux = <RZG3E_PORT_PINMUX(4, 2, 8)>, /* AUDIO_CLKB */
++			 <RZG3E_PORT_PINMUX(4, 3, 8)>; /* AUDIO_CLKC */
 +	};
 +
- 	i2c2_pins: i2c {
- 		pinmux = <RZG3E_PORT_PINMUX(3, 4, 1)>, /* SCL2 */
- 			 <RZG3E_PORT_PINMUX(3, 5, 1)>; /* SDA2 */
++	sound_pins: sound {
++		pinmux = <RZG3E_PORT_PINMUX(0, 3, 9)>, /* SSI3_SCK */
++			 <RZG3E_PORT_PINMUX(0, 4, 9)>, /* SSI3_WS */
++			 <RZG3E_PORT_PINMUX(0, 2, 9)>, /* SSI3_SDATA */
++			 <RZG3E_PORT_PINMUX(0, 5, 9)>; /* SSI4_SDATA */
++	};
++
+ 	xspi_pins: xspi0 {
+ 		pinmux = <RZG3E_PORT_PINMUX(M, 0, 0)>, /* XSPI0_IO0 */
+ 			 <RZG3E_PORT_PINMUX(M, 1, 0)>, /* XSPI0_IO1 */
 -- 
 2.25.1
 
