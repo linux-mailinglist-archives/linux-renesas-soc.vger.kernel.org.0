@@ -1,59 +1,59 @@
-Return-Path: <linux-renesas-soc+bounces-30784-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-30785-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id QEgHFh6bzmnfowYAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-30784-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 02 Apr 2026 18:36:46 +0200
+	id kF1MOSGbzmnfowYAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-30785-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 02 Apr 2026 18:36:49 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABE8838BF97
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 02 Apr 2026 18:36:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9220238BF9F
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 02 Apr 2026 18:36:49 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id B09C331120A6
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  2 Apr 2026 16:28:15 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 23B0A3113D00
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  2 Apr 2026 16:28:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 18ED93346A8;
-	Thu,  2 Apr 2026 16:27:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E62E93F23B9;
+	Thu,  2 Apr 2026 16:27:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="Oa4FKRXy"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="RgQaQsPz"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 977B03F2118
-	for <linux-renesas-soc@vger.kernel.org>; Thu,  2 Apr 2026 16:27:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48F3E3F1646
+	for <linux-renesas-soc@vger.kernel.org>; Thu,  2 Apr 2026 16:27:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775147270; cv=none; b=GYO2rUa19dlqhAT5ReqyF3E3puf6dS6YJU3J1Ay0CX/vT781RByj+mmqd643p7mWHFfnGpsOWN+0iA6FEWHvl4OnucMziSsV9bG4RbdfyFiLXDfN1LUrgotFMJWZCAWwcqIcpUqb6DR6atYYwSOwMluJonVI34DxnAWJWKG1lc0=
+	t=1775147271; cv=none; b=IdKlmupCifylid0o27/IDu+17FgxgasCZsdZyf2Iwqpi5C/NR5p0zJUo6FE9i0s1AzHRmpIKJ/ys7P0Iuf/Ms8kctUe4aiUE6SNLO2iaSWbfxm/G2plS4ikW/eUO6neeBMa2VBePgd/wDDDJ4m4DMT/YoIapFxfA0+pv0wFKPDY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775147270; c=relaxed/simple;
-	bh=IYXOrG/+3uBj2hIMhe0kTePdyXzsCJP+V295ORoxR0s=;
+	s=arc-20240116; t=1775147271; c=relaxed/simple;
+	bh=1u532q42fUwRFhVkdE0Q2Hq9LNvaZw+mAxBWSN7guBA=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=QAQ7U7dNgorVcOE435cyW7vC4w+NWXBtEEuBohzGUiJC0PJ/CLVy4Ikjm+heguw61M9zgj3UvQAEODgMBjNFF+gTw2nLOyd5floIHzUpmpLgtl6BwlEGQ2snJKfXPcdDkDhpDvoyruDlmmHaLuuzvKxINPo2A3aAmotsAZJ4xJ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=Oa4FKRXy; arc=none smtp.client-ip=185.246.85.4
+	 In-Reply-To:To:Cc; b=K1Uakzo67hMoLN6G9ba2VRXeGD2bUc/kJNMSDEXS+PseOBTpPqq0G+Ot1l1K2MvKGHWYEWLbLyIf4u6ShfY3vlvw5V1vcDmHaBK+pNPJvWyHCXSg2Ip143iyyHYD1q0mMTOYMVFseHJrhUZdV5eTV6RC8F7Jdb07y3Mqjry5DOI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=RgQaQsPz; arc=none smtp.client-ip=185.171.202.116
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id 5CAFA4E428BE;
-	Thu,  2 Apr 2026 16:27:46 +0000 (UTC)
+	by smtpout-04.galae.net (Postfix) with ESMTPS id 9A653C59F45;
+	Thu,  2 Apr 2026 16:28:20 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 2C3D1602CD;
-	Thu,  2 Apr 2026 16:27:46 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 96B3D10450283;
-	Thu,  2 Apr 2026 18:27:41 +0200 (CEST)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 1A9DE602CD;
+	Thu,  2 Apr 2026 16:27:49 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 5021910450295;
+	Thu,  2 Apr 2026 18:27:44 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1775147264; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	t=1775147267; h=from:subject:date:message-id:to:cc:mime-version:content-type:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=C3ap1efkTHusKYEyUwETvQqh16L9W0xpTrFdAWkH6o4=;
-	b=Oa4FKRXySgrGEj0daSZLnIts3m0Rilbo3ZpHuJPfRQj69PxK3I9iaFFr40nB0QAYLdaU9W
-	i53TswMsKyBGYlDPAsI+FiaDDcrEVKrxr7/EDngAOD4rqJLXtdBcKPB7BsxhL9Er3c5Trs
-	9ffFFlYl2WlphtZh9K3o8gABJmhGFDuqUxjgO9ltF5GEbXhAMzdWDQdAn+ogHNnREylaUs
-	UsytKqfFFC0gvJu7xlG28v2tpfH2fWoZVg+Jhk7vFqONLtaznZAld30V3F31Z4QoR5NzY4
-	R5JajzJYd6jO/VA8Q1qc0Vy2QGN8J9fi5F96mQ+jRXMVPP0TcreETvdeQ6IS0g==
+	bh=gw9IiX9wHuJVqEPWrO12es2autsBEVAbQ9Q/0yqHv7s=;
+	b=RgQaQsPzK15bu3MyXO1lc4O1Seil08CyL4AFtMHWNWNSkpT48ND8fPW/DOUiqtWOUUDssZ
+	/xWUDeo86E8F8nbNFVNaz8UhM8pV9IRrEoW4QRyGQOhHuf7bGYdyKBRvJWssEfzkvvVStJ
+	/4RV/dHGufPf+SjapeYH61SZ0StucBf4FTUswz0/F/xoEgnI4M6X33OwbwFIQSb5GgnaFu
+	p3imtV3vetF6wY9SRPo4w0UdgAj7u9qV53f55fK/1C4TwRB7u+u9rKUMhVUnBMIYL8lld+
+	RMDx8D19SqM5H3nGNaf7eRL4juSclmBKQ4wdKXC+Zc9I5ANnj63nJfUUBc2ycQ==
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Thu, 02 Apr 2026 18:27:19 +0200
-Subject: [PATCH v4 3/4] drm: rcar-du: encoder: convert to
+Date: Thu, 02 Apr 2026 18:27:20 +0200
+Subject: [PATCH v4 4/4] drm/omap: dss: convert to
  of_drm_find_and_get_bridge()
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
@@ -63,7 +63,7 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260402-drm-bridge-alloc-getput-drm_of_find_bridge-4-v4-3-421781c8c061@bootlin.com>
+Message-Id: <20260402-drm-bridge-alloc-getput-drm_of_find_bridge-4-v4-4-421781c8c061@bootlin.com>
 References: <20260402-drm-bridge-alloc-getput-drm_of_find_bridge-4-v4-0-421781c8c061@bootlin.com>
 In-Reply-To: <20260402-drm-bridge-alloc-getput-drm_of_find_bridge-4-v4-0-421781c8c061@bootlin.com>
 To: Biju Das <biju.das.jz@bp.renesas.com>, 
@@ -93,7 +93,7 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-30784-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-30785-lists,linux-renesas-soc=lfdr.de];
 	FROM_HAS_DN(0.00)[];
 	RECEIVED_HELO_LOCALHOST(0.00)[];
 	FREEMAIL_TO(0.00)[bp.renesas.com,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,intel.com,ideasonboard.com,glider.be];
@@ -112,7 +112,7 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TO_DN_SOME(0.00)[]
-X-Rspamd-Queue-Id: ABE8838BF97
+X-Rspamd-Queue-Id: 9220238BF9F
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
@@ -120,127 +120,74 @@ of_drm_find_bridge() is deprecated. Move to its replacement
 of_drm_find_and_get_bridge() which gets a bridge reference, and ensure it
 is put when done.
 
-We need to handle the two cases: when a panel_bridge is added and when it
-isn't. So:
+omapdss_device_init_output() can take one bridge pointer in out->bridge or
+two pointers in out->bridge and out->next_bridge. Ensure each has a
+corresponding drm_bridge_get() and add drm_bridge_put() calls in the
+cleanup code.
 
- * in the 'else' case a panel_bridge is not added and bridge is found: use
-   of_drm_find_and_get_bridge() to get a reference to the found bridge
- * in the 'then' case a panel_bridge is found using a devm function which
-   already takes a refcount and will put it on removal, but we need to take
-   another so the following code in this function always get exactly one
-   reference that it needs to put
+Also slightly change the initial code assigning out->panel and out->bridge
+to ensure and clarify that either out->panel or out->bridge is set in the
+function prologue, not both. If both were set, the 'if (out->panel){...}'
+code that follows would overwrite out->bridge without having put the
+reference.
 
-In order to put the reference, add the needed drm_bridge_put() calls in the
-existing cleanup function.
+Finally, take a reference in case a panel_bridge is added using
+drm_panel_bridge_add(). This ensures we always need to put a reference,
+which came either from of_drm_find_and_get_bridge() or by the
+drm_panel_bridge_add+drm_bridge_get() branch.
 
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-
 ---
+ drivers/gpu/drm/omapdrm/dss/output.c | 11 ++++++++---
+ 1 file changed, 8 insertions(+), 3 deletions(-)
 
-Changes in v4:
-- fixed conflict after commit 3bce3fdd1ff2 ("drm: rcar-du: Don't leak
-  device_link to CMM")
-- Use ARRAY_SIZE() instead of define
-- Unsigned variable for never-negative variable
-- Added comment to clarify the additional drm_bridge_get() in the
-  panel_bridge case
-- Coding style (C comments, line wrap at 80)
----
- drivers/gpu/drm/renesas/rcar-du/rcar_du_encoder.c | 35 +++++++++++++++++++----
- drivers/gpu/drm/renesas/rcar-du/rcar_du_encoder.h |  1 +
- drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c     |  2 ++
- 3 files changed, 32 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_du_encoder.c b/drivers/gpu/drm/renesas/rcar-du/rcar_du_encoder.c
-index 7ecec7b04a8d..0ae06edf3066 100644
---- a/drivers/gpu/drm/renesas/rcar-du/rcar_du_encoder.c
-+++ b/drivers/gpu/drm/renesas/rcar-du/rcar_du_encoder.c
-@@ -51,7 +51,7 @@ int rcar_du_encoder_init(struct rcar_du_device *rcdu,
- {
- 	struct rcar_du_encoder *renc;
- 	struct drm_connector *connector;
--	struct drm_bridge *bridge;
-+	struct drm_bridge *bridge __free(drm_bridge_put) = NULL;
- 	int ret;
- 
- 	/*
-@@ -69,20 +69,33 @@ int rcar_du_encoder_init(struct rcar_du_device *rcdu,
- 
- 		bridge = devm_drm_panel_bridge_add_typed(rcdu->dev, panel,
- 							 DRM_MODE_CONNECTOR_DPI);
--		if (IS_ERR(bridge))
--			return PTR_ERR(bridge);
-+		if (IS_ERR(bridge)) {
-+			/* Inhibit the cleanup action on an ERR_PTR */
-+			ret = PTR_ERR(bridge);
-+			bridge = NULL;
-+			return ret;
-+		}
-+
-+		/*
-+		 * The reference taken by devm_drm_panel_bridge_add_typed() is
-+		 * released automatically. Take a second one for the __free()
-+		 * when this function will return.
-+		 */
-+		drm_bridge_get(bridge);
- 	} else {
--		bridge = of_drm_find_bridge(enc_node);
-+		bridge = of_drm_find_and_get_bridge(enc_node);
- 		if (!bridge)
- 			return -EPROBE_DEFER;
- 
- 		if (output == RCAR_DU_OUTPUT_LVDS0 ||
- 		    output == RCAR_DU_OUTPUT_LVDS1)
--			rcdu->lvds[output - RCAR_DU_OUTPUT_LVDS0] = bridge;
-+			rcdu->lvds[output - RCAR_DU_OUTPUT_LVDS0] =
-+				drm_bridge_get(bridge);
- 
- 		if (output == RCAR_DU_OUTPUT_DSI0 ||
- 		    output == RCAR_DU_OUTPUT_DSI1)
--			rcdu->dsi[output - RCAR_DU_OUTPUT_DSI0] = bridge;
-+			rcdu->dsi[output - RCAR_DU_OUTPUT_DSI0] =
-+				drm_bridge_get(bridge);
+diff --git a/drivers/gpu/drm/omapdrm/dss/output.c b/drivers/gpu/drm/omapdrm/dss/output.c
+index 7378e855c278..ca891aba3820 100644
+--- a/drivers/gpu/drm/omapdrm/dss/output.c
++++ b/drivers/gpu/drm/omapdrm/dss/output.c
+@@ -30,11 +30,13 @@ int omapdss_device_init_output(struct omap_dss_device *out,
+ 		return 0;
  	}
  
- 	/*
-@@ -135,3 +148,13 @@ int rcar_du_encoder_init(struct rcar_du_device *rcdu,
+-	out->bridge = of_drm_find_bridge(remote_node);
+ 	out->panel = of_drm_find_panel(remote_node);
+ 	if (IS_ERR(out->panel))
+ 		out->panel = NULL;
  
- 	return drm_connector_attach_encoder(connector, &renc->base);
- }
++	if (!out->panel)
++		out->bridge = of_drm_find_and_get_bridge(remote_node);
 +
-+void rcar_du_encoder_cleanup(struct rcar_du_device *rcdu)
-+{
-+	unsigned int i;
-+
-+	for (i = 0; i < ARRAY_SIZE(rcdu->lvds); i++)
-+		drm_bridge_put(rcdu->lvds[i]);
-+	for (i = 0; i < ARRAY_SIZE(rcdu->dsi); i++)
-+		drm_bridge_put(rcdu->dsi[i]);
-+}
-diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_du_encoder.h b/drivers/gpu/drm/renesas/rcar-du/rcar_du_encoder.h
-index e5ec8fbb3979..b2b5e93f30f8 100644
---- a/drivers/gpu/drm/renesas/rcar-du/rcar_du_encoder.h
-+++ b/drivers/gpu/drm/renesas/rcar-du/rcar_du_encoder.h
-@@ -25,5 +25,6 @@ struct rcar_du_encoder {
- int rcar_du_encoder_init(struct rcar_du_device *rcdu,
- 			 enum rcar_du_output output,
- 			 struct device_node *enc_node);
-+void rcar_du_encoder_cleanup(struct rcar_du_device *rcdu);
+ 	of_node_put(remote_node);
  
- #endif /* __RCAR_DU_ENCODER_H__ */
-diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c b/drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c
-index b2d0e4651e35..1119c84e5fe9 100644
---- a/drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c
-+++ b/drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c
-@@ -832,6 +832,8 @@ static void rcar_du_modeset_cleanup(struct drm_device *dev, void *res)
+ 	if (out->panel) {
+@@ -49,7 +51,7 @@ int omapdss_device_init_output(struct omap_dss_device *out,
+ 			goto error;
+ 		}
  
- 		put_device(cmm->dev);
+-		out->bridge = bridge;
++		out->bridge = drm_bridge_get(bridge);
  	}
+ 
+ 	if (local_bridge) {
+@@ -59,7 +61,7 @@ int omapdss_device_init_output(struct omap_dss_device *out,
+ 		}
+ 
+ 		out->next_bridge = out->bridge;
+-		out->bridge = local_bridge;
++		out->bridge = drm_bridge_get(local_bridge);
+ 	}
+ 
+ 	if (!out->bridge) {
+@@ -79,6 +81,9 @@ void omapdss_device_cleanup_output(struct omap_dss_device *out)
+ 	if (out->bridge && out->panel)
+ 		drm_panel_bridge_remove(out->next_bridge ?
+ 					out->next_bridge : out->bridge);
 +
-+	rcar_du_encoder_cleanup(rcdu);
++	drm_bridge_put(out->next_bridge);
++	drm_bridge_put(out->bridge);
  }
  
- int rcar_du_modeset_init(struct rcar_du_device *rcdu)
+ void dss_mgr_set_timings(struct omap_dss_device *dssdev,
 
 -- 
 2.53.0
