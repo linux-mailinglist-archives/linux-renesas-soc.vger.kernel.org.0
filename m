@@ -1,42 +1,42 @@
-Return-Path: <linux-renesas-soc+bounces-30773-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-30774-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id QJ+cGlmazmnfowYAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-30773-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 02 Apr 2026 18:33:29 +0200
+	id CJe0KXqazmnfowYAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-30774-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 02 Apr 2026 18:34:02 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0545638BED4
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 02 Apr 2026 18:33:28 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 20D7538BEEB
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 02 Apr 2026 18:34:01 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 4B3C4313629C
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  2 Apr 2026 16:26:08 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id EDFF330A994A
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  2 Apr 2026 16:26:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7D92A3F23C5;
-	Thu,  2 Apr 2026 16:25:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CB6A03F0AB1;
+	Thu,  2 Apr 2026 16:25:55 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 73E723F0A84;
-	Thu,  2 Apr 2026 16:25:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.172
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 13E303F0A9F;
+	Thu,  2 Apr 2026 16:25:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775147150; cv=none; b=QXqkAHmCjyw1QUVUnYuzd9aTz7uQaYLfKq7TB8se+tdL1its0AFrx614VYS4OT8tLtqhNLtEsw+l2qpBcBTJaM4bVp6LUmVyRkxw+v1wCB2Z1HA0k0+NsjUiWkMxOMjb5GbIXtd+PZDATsQxLnfGrWid4DReOfapANp34laNKlw=
+	t=1775147155; cv=none; b=dJn5EAknJCxmbaTLddwvpJmxEv1xHJzUKbSNenlutnLp+yyVIQF0rxDdBFIQLDTjBS/bfjkDSeMTkqb4QWPbZK/V702QiXy2AjvQFa6gsvYdw6gZmBs1dzQTtdOHx+8n9YQzJR0qcTrf81aiTeawFR+ApibLQdfWhJaBPbjl/1M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775147150; c=relaxed/simple;
-	bh=D6u2srRCJyjc2MIj/qAPQ+xoymTmg13jHA3UeNc8SMo=;
+	s=arc-20240116; t=1775147155; c=relaxed/simple;
+	bh=ZS6QaeCHyPuuakh+cH9LVhh4E2RkktdcpTTULoFEq94=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=BWiHDf9oZ+gYwUXNpGt4j3+4TzEv+/cUS1v96D8qdF/lYTGJCQ0aS/6IWz73HtM5CIptJsEH/xgeR0rjER3WJkpHBtav9XSoE3HqHDh3SzFUSGFOMOQzDF3BZXF+NyJN/aLYLufF8tm7n5zJMK4O/MmbZLHsBpH2NLBfC7sily8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.172
+	 MIME-Version; b=VAqsPFUt81ow2pOX5qV1J0Lkzc82Hz6MF5e64JKJmzoJqjl7ncvJQpXMDzYEMtGYliqfVFt/v/PRpbLM3iJbdP+HV1Uk7q04GiDqWlI+Ll7ywOO/3FGNPaNgwNW7S2vlngs6ZuJ0eXJxqWnFHi2R0S/DIQRqOwvkSr5kwhd3MQc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-X-CSE-ConnectionGUID: iZIcDgb2Sb6U60jJjSI0hA==
-X-CSE-MsgGUID: xU0Bl0QDRbOsrU+eEMx4+w==
+X-CSE-ConnectionGUID: W5EmyZXdTZKp7y09o+IUag==
+X-CSE-MsgGUID: HtUAafzOQ4yBavdWqqdsJg==
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 03 Apr 2026 01:25:47 +0900
+  by relmlie5.idc.renesas.com with ESMTP; 03 Apr 2026 01:25:53 +0900
 Received: from ubuntu.adwin.renesas.com (unknown [10.226.92.38])
-	by relmlir6.idc.renesas.com (Postfix) with ESMTP id 3A5924018E95;
-	Fri,  3 Apr 2026 01:25:41 +0900 (JST)
+	by relmlir6.idc.renesas.com (Postfix) with ESMTP id 1F5594018E95;
+	Fri,  3 Apr 2026 01:25:47 +0900 (JST)
 From: John Madieu <john.madieu.xa@bp.renesas.com>
 To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
 	Mark Brown <broonie@kernel.org>,
@@ -57,9 +57,9 @@ Cc: Rob Herring <robh@kernel.org>,
 	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	John Madieu <john.madieu.xa@bp.renesas.com>
-Subject: [PATCh v3 07/14] ASoC: rsnd: ssui: Add RZ/G3E SSIU BUSIF support
-Date: Thu,  2 Apr 2026 18:24:29 +0200
-Message-ID: <20260402162436.12059-8-john.madieu.xa@bp.renesas.com>
+Subject: [PATCh v3 08/14] ASoC: rsnd: Add SSI reset support for RZ/G3E platforms
+Date: Thu,  2 Apr 2026 18:24:30 +0200
+Message-ID: <20260402162436.12059-9-john.madieu.xa@bp.renesas.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260402162436.12059-1-john.madieu.xa@bp.renesas.com>
 References: <20260402162436.12059-1-john.madieu.xa@bp.renesas.com>
@@ -75,53 +75,45 @@ X-Spamd-Result: default: False [1.64 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	DMARC_POLICY_SOFTFAIL(0.10)[renesas.com : SPF not aligned (relaxed), No valid DKIM,none];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-30773-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-30774-lists,linux-renesas-soc=lfdr.de];
 	FREEMAIL_TO(0.00)[renesas.com,kernel.org,gmail.com,glider.be];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
 	RCPT_COUNT_TWELVE(0.00)[19];
 	MIME_TRACE(0.00)[0:+];
 	FREEMAIL_CC(0.00)[kernel.org,perex.cz,suse.com,gmail.com,pengutronix.de,tuxon.dev,bp.renesas.com,vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
 	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[john.madieu.xa@bp.renesas.com,linux-renesas-soc@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
 	R_DKIM_NA(0.00)[];
-	NEURAL_HAM(-0.00)[-0.880];
+	NEURAL_HAM(-0.00)[-0.898];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,dt];
 	FROM_HAS_DN(0.00)[]
-X-Rspamd-Queue-Id: 0545638BED4
+X-Rspamd-Queue-Id: 20D7538BEEB
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Add support for the SSIU found on the Renesas RZ/G3E SoC, which
-provides a different BUSIF layout compared to earlier generations:
+Add SSI reset support for the Renesas RZ/G3E SoC, which differs from earlier
+generations in several ways:
 
- - SSI0-SSI4: 4 BUSIF instances each (BUSIF0-3)
- - SSI5-SSI8: 1 BUSIF instance each (BUSIF0 only)
- - SSI9: 4 BUSIF instances (BUSIF0-3)
- - Total: 28 BUSIFs
+ - The SSI block always operates in BUSIF mode; RZ/G3E does not implement
+   the SSITDR/SSIRDR registers used by R-Car Gen2/Gen3/Gen4 for direct SSI
+   DMA. Consequently, all audio data must pass through BUSIF.
+ - Each SSI instance has its own reset line, exposed using per-SSI names
+   such as "ssi0", "ssi1", etc., rather than a single shared reset.
 
-RZ/G3E also differs from Gen2/Gen3 implementations in that only two
-pairs of BUSIF error-status registers are available instead of four,
-and the SSI always operates in BUSIF mode with no PIO fallback.
-
-Rather than scattering SoC-specific checks across functional code,
-introduce an extra capability flags in the match data:
-
- - RSND_SSIU_BUSIF_STATUS_COUNT_2: only two BUSIF error-status
-   register pairs are present. Used in rsnd_ssiu_busif_err_irq_ctrl()
-   and rsnd_ssiu_busif_err_status_clear() to limit register iteration.
-
-Future SoCs sharing these constraints can set the flags without
-requiring code changes.
+To support these differences, rsnd_ssi_use_busif() always return 1 on
+RZ/G3E, ensuring that the driver consistently selects the BUSIF DMA path.
+While at it, update the reset acquisition logic to request the appropriate
+per-SSI reset controller based on the SSI instance name.
 
 Signed-off-by: John Madieu <john.madieu.xa@bp.renesas.com>
 ---
@@ -129,187 +121,52 @@ Signed-off-by: John Madieu <john.madieu.xa@bp.renesas.com>
 Changes:
 
 v3: No changes
-
 v2:
- - Droped RSND_SSI_ALWAYS_BUSIF flag; PIO is only enabled explicitly,
-   so no guard needed; use direct rsnd_is_rzg3e() check for skipping
-   SSI_MODE0 instead
+ - Drop rsnd_dma_detach() from rsnd_ssi_common_remove() upon NULL pointer
+   dereference on R-Car Gen3/Gen4 (reported by Geert)
+ - Drop RSND_SSI_ALWAYS_BUSIF flag; use direct rsnd_is_rzg3e() check instead
 
- sound/soc/renesas/rcar/core.c |  4 ++-
- sound/soc/renesas/rcar/rsnd.h |  2 ++
- sound/soc/renesas/rcar/ssiu.c | 47 +++++++++++++++++++++--------------
- 3 files changed, 34 insertions(+), 19 deletions(-)
+ sound/soc/renesas/rcar/ssi.c | 13 ++++++++++++-
+ 1 file changed, 12 insertions(+), 1 deletion(-)
 
-diff --git a/sound/soc/renesas/rcar/core.c b/sound/soc/renesas/rcar/core.c
-index 8d0c5440cb70..d85c614af598 100644
---- a/sound/soc/renesas/rcar/core.c
-+++ b/sound/soc/renesas/rcar/core.c
-@@ -107,7 +107,8 @@ static const struct of_device_id rsnd_of_match[] = {
- 	{ .compatible = "renesas,rcar_sound-gen4", .data = (void *)RSND_GEN4 },
- 	/* Special Handling */
- 	{ .compatible = "renesas,rcar_sound-r8a77990", .data = (void *)(RSND_GEN3 | RSND_SOC_E) },
--	{ .compatible = "renesas,r9a09g047-sound", .data = (void *)(RSND_RZ3 | RSND_RZG3E) },
-+	{ .compatible = "renesas,r9a09g047-sound", .data = (void *)(RSND_RZ3 | RSND_RZG3E |
-+								RSND_SSIU_BUSIF_STATUS_COUNT_2) },
- 	{},
- };
- MODULE_DEVICE_TABLE(of, rsnd_of_match);
-@@ -1960,6 +1961,7 @@ static int rsnd_probe(struct platform_device *pdev)
+diff --git a/sound/soc/renesas/rcar/ssi.c b/sound/soc/renesas/rcar/ssi.c
+index c06cebb36170..c65435551283 100644
+--- a/sound/soc/renesas/rcar/ssi.c
++++ b/sound/soc/renesas/rcar/ssi.c
+@@ -1158,6 +1158,7 @@ int __rsnd_ssi_is_pin_sharing(struct rsnd_mod *mod)
  
- 	priv->pdev	= pdev;
- 	priv->flags	= (unsigned long)of_device_get_match_data(dev);
-+	priv->ssiu_busif_count = rsnd_flags_has(priv, RSND_SSIU_BUSIF_STATUS_COUNT_2) ? 2 : 4;
- 	spin_lock_init(&priv->lock);
- 
- 	/*
-diff --git a/sound/soc/renesas/rcar/rsnd.h b/sound/soc/renesas/rcar/rsnd.h
-index 4ff410a96336..5c5be0f64cb1 100644
---- a/sound/soc/renesas/rcar/rsnd.h
-+++ b/sound/soc/renesas/rcar/rsnd.h
-@@ -631,6 +631,7 @@ struct rsnd_priv {
- 	struct reset_control *audmapp_rstc;
- 
- 	spinlock_t lock;
-+	unsigned int ssiu_busif_count;
- 	unsigned long flags;
- #define RSND_GEN_MASK	(0xF << 0)
- #define RSND_GEN1	(1 << 0)
-@@ -642,6 +643,7 @@ struct rsnd_priv {
- #define RSND_RZ_MASK	(0xFF << 8)
- #define RSND_RZ3	(3 << 8)
- #define RSND_RZG3E	(1 << 12)
-+#define RSND_SSIU_BUSIF_STATUS_COUNT_2	BIT(16) /* Only 2 BUSIF error-status register pairs */
- 	/*
- 	 * below value will be filled on rsnd_gen_probe()
- 	 */
-diff --git a/sound/soc/renesas/rcar/ssiu.c b/sound/soc/renesas/rcar/ssiu.c
-index 0cfa84fe5ea8..f377d9414633 100644
---- a/sound/soc/renesas/rcar/ssiu.c
-+++ b/sound/soc/renesas/rcar/ssiu.c
-@@ -29,31 +29,32 @@ struct rsnd_ssiu {
- 	     i++)
- 
- /*
-- *	SSI	Gen2		Gen3		Gen4
-- *	0	BUSIF0-3	BUSIF0-7	BUSIF0-7
-- *	1	BUSIF0-3	BUSIF0-7
-- *	2	BUSIF0-3	BUSIF0-7
-- *	3	BUSIF0		BUSIF0-7
-- *	4	BUSIF0		BUSIF0-7
-- *	5	BUSIF0		BUSIF0
-- *	6	BUSIF0		BUSIF0
-- *	7	BUSIF0		BUSIF0
-- *	8	BUSIF0		BUSIF0
-- *	9	BUSIF0-3	BUSIF0-7
-- *	total	22		52		8
-+ *	SSI	Gen2		Gen3		Gen4		RZ/G3E
-+ *	0	BUSIF0-3	BUSIF0-7	BUSIF0-7	BUSIF0-3
-+ *	1	BUSIF0-3	BUSIF0-7			BUSIF0-3
-+ *	2	BUSIF0-3	BUSIF0-7			BUSIF0-3
-+ *	3	BUSIF0		BUSIF0-7			BUSIF0-3
-+ *	4	BUSIF0		BUSIF0-7			BUSIF0-3
-+ *	5	BUSIF0		BUSIF0				BUSIF0
-+ *	6	BUSIF0		BUSIF0				BUSIF0
-+ *	7	BUSIF0		BUSIF0				BUSIF0
-+ *	8	BUSIF0		BUSIF0				BUSIF0
-+ *	9	BUSIF0-3	BUSIF0-7			BUSIF0-3
-+ *	total	22		52		8		28
-  */
- static const int gen2_id[] = { 0, 4,  8, 12, 13, 14, 15, 16, 17, 18 };
- static const int gen3_id[] = { 0, 8, 16, 24, 32, 40, 41, 42, 43, 44 };
- static const int gen4_id[] = { 0 };
-+static const int rzg3e_id[] = { 0, 4, 8, 12, 16, 20, 21, 22, 23, 24 };
- 
- /* enable busif buffer over/under run interrupt. */
- #define rsnd_ssiu_busif_err_irq_enable(mod)  rsnd_ssiu_busif_err_irq_ctrl(mod, 1)
- #define rsnd_ssiu_busif_err_irq_disable(mod) rsnd_ssiu_busif_err_irq_ctrl(mod, 0)
- static void rsnd_ssiu_busif_err_irq_ctrl(struct rsnd_mod *mod, int enable)
+ int rsnd_ssi_probe(struct rsnd_priv *priv)
  {
-+	struct rsnd_priv *priv = rsnd_mod_to_priv(mod);
- 	int id = rsnd_mod_id(mod);
- 	int shift, offset;
--	int i;
- 
- 	switch (id) {
- 	case 0:
-@@ -72,7 +73,7 @@ static void rsnd_ssiu_busif_err_irq_ctrl(struct rsnd_mod *mod, int enable)
- 		return;
- 	}
- 
--	for (i = 0; i < 4; i++) {
-+	for (unsigned int i = 0; i < priv->ssiu_busif_count; i++) {
- 		enum rsnd_reg reg = SSI_SYS_INT_ENABLE((i * 2) + offset);
- 		u32 val = 0xf << (shift * 4);
- 		u32 sys_int_enable = rsnd_mod_read(mod, reg);
-@@ -87,10 +88,10 @@ static void rsnd_ssiu_busif_err_irq_ctrl(struct rsnd_mod *mod, int enable)
- 
- bool rsnd_ssiu_busif_err_status_clear(struct rsnd_mod *mod)
- {
-+	struct rsnd_priv *priv = rsnd_mod_to_priv(mod);
- 	bool error = false;
- 	int id = rsnd_mod_id(mod);
- 	int shift, offset;
--	int i;
- 
- 	switch (id) {
- 	case 0:
-@@ -109,7 +110,7 @@ bool rsnd_ssiu_busif_err_status_clear(struct rsnd_mod *mod)
- 		goto out;
- 	}
- 
--	for (i = 0; i < 4; i++) {
-+	for (unsigned int i = 0; i < priv->ssiu_busif_count; i++) {
- 		u32 reg = SSI_SYS_STATUS(i * 2) + offset;
- 		u32 status = rsnd_mod_read(mod, reg);
- 		u32 val = 0xf << (shift * 4);
-@@ -160,7 +161,8 @@ static int rsnd_ssiu_init(struct rsnd_mod *mod,
- 	/*
- 	 * SSI_MODE0
- 	 */
--	rsnd_mod_bset(mod, SSI_MODE0, (1 << id), !use_busif << id);
-+	if (!rsnd_is_rzg3e(priv))
-+		rsnd_mod_bset(mod, SSI_MODE0, (1 << id), !use_busif << id);
- 
- 	/*
- 	 * SSI_MODE1 / SSI_MODE2
-@@ -510,6 +512,7 @@ int rsnd_ssiu_probe(struct rsnd_priv *priv)
- {
- 	struct device *dev = rsnd_priv_to_dev(priv);
- 	struct device_node *node __free(device_node) = rsnd_ssiu_of_node(priv);
 +	struct reset_control *rstc;
- 	struct rsnd_ssiu *ssiu;
+ 	struct device_node *node;
+ 	struct device *dev = rsnd_priv_to_dev(priv);
  	struct rsnd_mod_ops *ops;
- 	const int *list = NULL;
-@@ -558,12 +561,20 @@ int rsnd_ssiu_probe(struct rsnd_priv *priv)
- 		} else if (rsnd_is_gen4(priv)) {
- 			list	= gen4_id;
- 			nr	= ARRAY_SIZE(gen4_id);
-+		} else if (rsnd_is_rzg3e(priv)) {
-+			list	= rzg3e_id;
-+			nr	= ARRAY_SIZE(rzg3e_id);
- 		} else {
- 			dev_err(dev, "unknown SSIU\n");
- 			return -ENODEV;
+@@ -1207,6 +1208,16 @@ int rsnd_ssi_probe(struct rsnd_priv *priv)
+ 			goto rsnd_ssi_probe_done;
  		}
- 	}
  
-+	/* Acquire shared reset once for all SSIU modules */
-+	rstc = devm_reset_control_get_optional_shared(dev, "ssi-all");
-+	if (IS_ERR(rstc))
-+		rstc = NULL;
++		/*
++		 * RZ/G3E uses per-SSI reset controllers.
++		 * R-Car platforms typically don't have SSI reset controls.
++		 */
++		rstc = devm_reset_control_get_optional(dev, name);
++		if (IS_ERR(rstc)) {
++			ret = PTR_ERR(rstc);
++			goto rsnd_ssi_probe_done;
++		}
 +
- 	for_each_rsnd_ssiu(ssiu, priv, i) {
- 		int ret;
+ 		if (of_property_read_bool(np, "shared-pin"))
+ 			rsnd_flags_set(ssi, RSND_SSI_CLK_PIN_SHARE);
  
-@@ -586,7 +597,7 @@ int rsnd_ssiu_probe(struct rsnd_priv *priv)
- 		}
+@@ -1225,7 +1236,7 @@ int rsnd_ssi_probe(struct rsnd_priv *priv)
+ 			ops = &rsnd_ssi_dma_ops;
  
- 		ret = rsnd_mod_init(priv, rsnd_mod_get(ssiu),
--				    ops, NULL, NULL, RSND_MOD_SSIU, i);
-+				    ops, NULL, rstc, RSND_MOD_SSIU, i);
+ 		ret = rsnd_mod_init(priv, rsnd_mod_get(ssi), ops, clk,
+-				    NULL, RSND_MOD_SSI, i);
++				    rstc, RSND_MOD_SSI, i);
  		if (ret)
- 			return ret;
- 	}
+ 			goto rsnd_ssi_probe_done;
+ 
 -- 
 2.25.1
 
