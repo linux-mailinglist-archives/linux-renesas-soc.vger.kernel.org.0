@@ -1,183 +1,206 @@
-Return-Path: <linux-renesas-soc+bounces-30815-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-30816-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id cJwhHTduz2kTwQYAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-30815-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 03 Apr 2026 09:37:27 +0200
+	id aJG0Bm14z2kewgYAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-30816-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 03 Apr 2026 10:21:01 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E3E6391C58
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 03 Apr 2026 09:37:26 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 79F9B39205A
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 03 Apr 2026 10:21:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id CFA7330315F0
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  3 Apr 2026 07:37:08 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 679D9305DA7D
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  3 Apr 2026 08:16:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B92F426ED45;
-	Fri,  3 Apr 2026 07:37:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3688336C0DC;
+	Fri,  3 Apr 2026 08:16:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="IufqW9wT"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f181.google.com (mail-vk1-f181.google.com [209.85.221.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51818374E7A
-	for <linux-renesas-soc@vger.kernel.org>; Fri,  3 Apr 2026 07:37:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A10D42E62B3;
+	Fri,  3 Apr 2026 08:16:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775201828; cv=none; b=ZvotnLrno9i2YIB1w80g7xj2PeIaLrFmQWsucL8MyO7zB7qmQT+FXJ9s+5abvTi8oiR2M1NYnHVpuZ10UqyLl6t+NkJ5vol6KuENtpkxm8IuS1znkJx9aMHMIMIxu9q4WVHh9TOOrY4QvdUN30RMPzX8omDMm2UUUU06lEOTn80=
+	t=1775204164; cv=none; b=R0G7jIebjh8PYEyHBVrInJn8OcOZwH0eFzfRBh23NtUeIqc8QATKDAZN63R2SLfkmrYljREi8Thh4tg+ruo2NOpbnsIrlFb5DwxU1AW3sQ6RLdyN00xIBE2SrYNsWS1XA2Q1N97mCINjIQCQU+KvQeY4TneE0fuk3XplaKxtZ/s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775201828; c=relaxed/simple;
-	bh=RQFIDvkQ6UcLgwztbD8oBHl4tS+ZCKb3aINkg7VeBsY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=bQEGkpJPvP2xbGKOYSR7mweR+y94sdNZbCH7eL/ahQCFTjq3HrS7ZzdNHDk9NaBN3LvCnC2Qr4pTH7Iu3DlOxo7HsgjysT3qXZt+XdzzXXd4sENA+Tf7Et11CmNqa4pS7MNJULCLBmTKVO1Ce2U0C8HOcLVm+NprLreFlpm7xnA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f181.google.com with SMTP id 71dfb90a1353d-56b6c7c8d00so1280304e0c.3
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 03 Apr 2026 00:37:06 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775201825; x=1775806625;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=d4N0YKA/XUUd7O8Nr0votH0EtcIVeq9XRBqx9j9NkIk=;
-        b=OAT51Ps138hzrbFOy2F5K1x79m7a0fvXr1BCNRblpOVaHHCPdk9LUbtIEIwNVPSH0c
-         IaSSBKeElnGHasurX9P+v98gxAnb12lB/jqd4L2/rjNDKOgHAUns70t+rQ+bjShh1dan
-         5yosqQksY5w/mMIdW7t+1JQIv9XNjrfGPu0BsVgWwLsPhzyHPE6ZSv+6B0Ioy7hUniA3
-         1dKcs/2oYfIwnanwrgMfz0K6bK92oviPQGuDk6RDo4IUvT64udaUgnZh+ORNdH6EvOBX
-         VRcdaUd2zlKFU8wYritS9STxBhBTiv6vOV/n1NtjszmU6bvXK+Mf7LXcJPpE0G+hAHEJ
-         G1jQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWFft9TijQvtrlGF+Gj9wcXvXhFE3w279BfrxxjKCkKaHER+Ft9AZKL5z+FkdG+DTc2sVwEY1XqPV1yEV8lolqQbg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzDc47j9j48oYgfP22PcaFizffLTIcL55oyLNzmuCleZJRrVkNz
-	tGttYcxP6aDC31YJAdPzNKgzYF0ENUp0xvZFrVh4MGKbOS/Y5/c+kyy3XKDIuQcQ
-X-Gm-Gg: AeBDietcM7q01I/toFSe6B6KjXKU2WJJjdnCSGUbxRb/0ci5OLbek62VX9b+sZJpf1/
-	sfkQccu16sXXKIAbfT6jI7V2LmkR4y/ysVkGT4nGCXggd6yxLvmF0VFaE1+JDxjybK+1TWgWzFe
-	Klg2wrXYbpIwFhqgLfonbYxhL3Pm4IPqdI2zRBOAnUZyTI5nvAp5bo//jTp/AQfXhBEbxoDLZO9
-	qYxL1QsFEnsKczlTTkWElTpbq4rxtjBaNyJgA3RpIAC6gtKU76bW0WqXMF9NrXIxouRZffWtuAK
-	PqcDc9VwZDz7jCS6ESlJ+/QWnpK9Oe3OYFqyhEeb7P2XjSLxgFzUrP8lAkj1CP+y+H9fQA977he
-	MdxgtACTJiEWmxAxeGtN1J2YfmhFRRih5WFtK98CSSYmxEYPb9zch5hL1dPDXaHbVwCdZJxalaU
-	ks6pCUFkGi/jDHDCzh7A1g3Y3/cNxH/pEcCF6aPhyjHjyTRk5y5fA32jtS5BI+
-X-Received: by 2002:a05:6122:4d03:b0:56b:815c:961d with SMTP id 71dfb90a1353d-56dab86ed80mr765343e0c.5.1775201825227;
-        Fri, 03 Apr 2026 00:37:05 -0700 (PDT)
-Received: from mail-vs1-f54.google.com (mail-vs1-f54.google.com. [209.85.217.54])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-56d9ba81b53sm6108788e0c.4.2026.04.03.00.37.03
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 03 Apr 2026 00:37:04 -0700 (PDT)
-Received: by mail-vs1-f54.google.com with SMTP id ada2fe7eead31-605a8c4ebc6so323674137.2
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 03 Apr 2026 00:37:03 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUfGU+uw1Taq7HSPfxBiwxqot4ROKgF+n2AkE36nadenWgiGTdnNybBk4xrJDeiuIGJhB30PcbNjraWU4at92a0ug==@vger.kernel.org
-X-Received: by 2002:a05:6102:f0d:b0:605:315f:49f7 with SMTP id
- ada2fe7eead31-605a4d81988mr717338137.6.1775201823680; Fri, 03 Apr 2026
- 00:37:03 -0700 (PDT)
+	s=arc-20240116; t=1775204164; c=relaxed/simple;
+	bh=/Fk0k/nSlFoURHZ44wQ7caQik297I+7jIw8PN8V0mws=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=O1A0Jz00ir85c/fF0QgzxotYnUQTA7+usd0Qu2hjEpcwV1zalKQEu/sJSGxBDB0UdNuYqY3Z+KH5EqU9KEmceTJO6sLkW1YEjJ2Jwr5H/KLgA7dkZnXC5I9n0TRI0zXOtAeV1MFAKK2KUFHzyoZ5ls7jx6WukhzYkaIec+u0mkw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=IufqW9wT; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from ideasonboard.com (static.170.20.224.46.clients.your-server.de [46.224.20.170])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 619C2143C;
+	Fri,  3 Apr 2026 10:14:36 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1775204076;
+	bh=/Fk0k/nSlFoURHZ44wQ7caQik297I+7jIw8PN8V0mws=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=IufqW9wTjvds+3kYS6U0gl9vJyRhgj4TBviBz/FzTxXdXJJyR5HvUn/i1imOgVno5
+	 pFeysj+RdI8oZZXdn68vztcYe+FU47BN9T8x/vFi5gKsupLAGPe0RZF36ymUZKeh29
+	 Gg5JDyonq7ur1mDGNhf+2ZQx50WVoSSoXmf2MgqM=
+Date: Fri, 3 Apr 2026 10:15:57 +0200
+From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To: Prabhakar <prabhakar.csengg@gmail.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, Hans Verkuil <hverkuil@kernel.org>, 
+	Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>, Daniel Scally <dan.scally+renesas@ideasonboard.com>, 
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	Biju Das <biju.das.jz@bp.renesas.com>, Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>, Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH] media: rzg2l-cru: Switch to v4l2_subdev_get_frame_desc()
+Message-ID: <ac91IOZe4SZbm537@zed>
+References: <20260330150639.272174-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260402162436.12059-1-john.madieu.xa@bp.renesas.com> <20260402162436.12059-10-john.madieu.xa@bp.renesas.com>
-In-Reply-To: <20260402162436.12059-10-john.madieu.xa@bp.renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 3 Apr 2026 09:36:51 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUHzcq_f8t0hi-FjiG2FByNmx8k2sz9-QEqzroLSWqXNg@mail.gmail.com>
-X-Gm-Features: AQROBzCXZAB5loNy5rsTC4EAiI9aKFN2pLERVORaR-uHChRoGZT6taMr9lCmLJs
-Message-ID: <CAMuHMdUHzcq_f8t0hi-FjiG2FByNmx8k2sz9-QEqzroLSWqXNg@mail.gmail.com>
-Subject: Re: [PATCh v3 09/14] ASoC: rsnd: Add ADG reset support for RZ/G3E
-To: John Madieu <john.madieu.xa@bp.renesas.com>
-Cc: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, Mark Brown <broonie@kernel.org>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Magnus Damm <magnus.damm@gmail.com>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
-	Biju Das <biju.das.jz@bp.renesas.com>, john.madieu@gmail.com, 
-	linux-sound@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spamd-Result: default: False [0.04 / 15.00];
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260330150639.272174-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Spamd-Result: default: False [-0.16 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[renesas.com,kernel.org,gmail.com,perex.cz,suse.com,pengutronix.de,tuxon.dev,bp.renesas.com,vger.kernel.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-30815-lists,linux-renesas-soc=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	DMARC_NA(0.00)[linux-m68k.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MISSING_XM_UA(0.00)[];
+	TAGGED_FROM(0.00)[bounces-30816-lists,linux-renesas-soc=lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[13];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_TO(0.00)[gmail.com];
+	RCVD_COUNT_THREE(0.00)[4];
 	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[18];
-	RCVD_COUNT_FIVE(0.00)[6];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
+	NEURAL_HAM(-0.00)[-0.997];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[geert@linux-m68k.org,linux-renesas-soc@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	NEURAL_HAM(-0.00)[-0.335];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,dt];
-	R_DKIM_NA(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[jacopo.mondi@ideasonboard.com,linux-renesas-soc@vger.kernel.org];
+	DKIM_TRACE(0.00)[ideasonboard.com:+];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[]
-X-Rspamd-Queue-Id: 0E3E6391C58
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[ideasonboard.com:dkim,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,renesas.com:email]
+X-Rspamd-Queue-Id: 79F9B39205A
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi John,
+Hi Prabhakar
 
-On Thu, 2 Apr 2026 at 18:53, John Madieu <john.madieu.xa@bp.renesas.com> wrote:
-> RZ/G3E requires the ADG reset line to be deasserted for the audio
-> subsystem to operate. The ADG module clock is already managed via
-> rsnd_adg_clk_enable/disable() through adg->adg, so no additional
-> clock handling is needed.
+On Mon, Mar 30, 2026 at 04:06:39PM +0100, Prabhakar wrote:
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 >
-> Add support for the optional "adg" reset control on Renesas RZ/G3E SoC.
+> Replace direct v4l2_subdev_call() invocations of the get_frame_desc pad
+> operation with the new v4l2_subdev_get_frame_desc() helper in both
+> rzg2l-csi2 and rzg2l-video.
 >
-> Signed-off-by: John Madieu <john.madieu.xa@bp.renesas.com>
+> Drop the -ENOIOCTLCMD handling and frame descriptor type validation as
+> these are redundant after switching to v4l2_subdev_get_frame_desc().
+> Set fd.type to V4L2_MBUS_FRAME_DESC_TYPE_CSI2 before calling the helper
+> as required by its API contract.
+>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> ---
+> Note, this patch depends on the patch [0] posted by Sakari which adds
+> the v4l2_subdev_get_frame_desc() helper.
+>
+> [0] https://lore.kernel.org/all/20260329195625.2840728-1-sakari.ailus@linux.intel.com/
+> ---
+>  .../platform/renesas/rzg2l-cru/rzg2l-csi2.c    |  5 +++--
+>  .../platform/renesas/rzg2l-cru/rzg2l-video.c   | 18 +++++++-----------
+>  2 files changed, 10 insertions(+), 13 deletions(-)
+>
+> diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c
+> index 6dc4b53607b4..1fdd423f6e6c 100644
+> --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c
+> +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c
 
-Thanks for your patch!
+There is one thing I'm missing here.
 
-> --- a/sound/soc/renesas/rcar/adg.c
-> +++ b/sound/soc/renesas/rcar/adg.c
-> @@ -771,6 +771,7 @@ void rsnd_adg_clk_dbg_info(struct rsnd_priv *priv, struct seq_file *m)
+The media topology I see on V2H is:
+
+"CRU output" -> "cru-ip" -> "cru" -> sensor
+
+With the 'output' being the video device.
+
+The handling of the get_frame_desc call chain is implemented in the
+video device rzg2l-video.c and in the "cru" subdevice (rzg2l-csi2.c)
+while the "ip" subdev doesn't implement get_frame_desc at all
+
+static const struct v4l2_subdev_pad_ops rzg2l_cru_ip_pad_ops = {
+	.enum_mbus_code = rzg2l_cru_ip_enum_mbus_code,
+	.enum_frame_size = rzg2l_cru_ip_enum_frame_size,
+	.get_fmt = v4l2_subdev_get_fmt,
+	.set_fmt = rzg2l_cru_ip_set_format,
+};
+
+Have I missed how the call chain is propagated from the video device
+to the sensor through the 'ip' block maybe ?
+
+> @@ -737,8 +737,9 @@ static int rzg2l_csi2_get_frame_desc(struct v4l2_subdev *sd, unsigned int pad,
+>  			csi2->remote_source->name, remote_pad);
+>  		return PTR_ERR(remote_pad);
+>  	}
+> -	return v4l2_subdev_call(csi2->remote_source, pad, get_frame_desc,
+> -				remote_pad->index, fd);
+> +	fd->type = V4L2_MBUS_FRAME_DESC_TYPE_CSI2;
+> +	return v4l2_subdev_get_frame_desc(csi2->remote_source,
+> +					  remote_pad->index, fd);
+>  }
 >
->  int rsnd_adg_probe(struct rsnd_priv *priv)
+>  static const struct v4l2_subdev_video_ops rzg2l_csi2_video_ops = {
+> diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
+> index 162e2ace6931..e701a591ce8a 100644
+> --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
+> +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
+> @@ -406,24 +406,20 @@ void rzg2l_cru_stop_image_processing(struct rzg2l_cru_dev *cru)
+>
+>  static int rzg2l_cru_get_virtual_channel(struct rzg2l_cru_dev *cru)
+
 >  {
-> +       struct reset_control *rstc;
->         struct rsnd_adg *adg;
->         struct device *dev = rsnd_priv_to_dev(priv);
->         int ret;
-> @@ -779,8 +780,13 @@ int rsnd_adg_probe(struct rsnd_priv *priv)
->         if (!adg)
->                 return -ENOMEM;
+> -	struct v4l2_mbus_frame_desc fd = { };
+> +	struct v4l2_mbus_frame_desc fd = {
+> +		.type = V4L2_MBUS_FRAME_DESC_TYPE_CSI2,
+> +	};
+>  	struct media_pad *remote_pad;
+>  	int ret;
 >
-> +       rstc = devm_reset_control_get_optional_exclusive(dev, "adg");
-> +       if (IS_ERR(rstc))
-> +               return dev_err_probe(dev, PTR_ERR(rstc),
-> +                                    "failed to get adg reset\n");
-
-Given this file already uses lines longer than 80 characters, the
-above statement would fit on a single line.
-
+>  	remote_pad = media_pad_remote_pad_unique(&cru->ip.pads[RZG2L_CRU_IP_SINK]);
+> -	ret = v4l2_subdev_call(cru->ip.remote, pad, get_frame_desc, remote_pad->index, &fd);
+> -	if (ret < 0 && ret != -ENOIOCTLCMD) {
 > +
->         ret = rsnd_mod_init(priv, &adg->mod, &adg_ops,
-> -                     NULL, NULL, 0, 0);
-> +                     NULL, rstc, 0, 0);
-
-This one fits for sure.
-
->         if (ret)
->                 return ret;
+> +	ret = v4l2_subdev_get_frame_desc(cru->ip.remote,
+> +					 remote_pad->index, &fd);
+> +	if (ret < 0) {
+>  		dev_err(cru->dev, "get_frame_desc failed on IP remote subdev\n");
+>  		return ret;
+>  	}
+> -	/* If remote subdev does not implement .get_frame_desc default to VC0. */
+> -	if (ret == -ENOIOCTLCMD)
+> -		return 0;
+> -
+> -	if (fd.type != V4L2_MBUS_FRAME_DESC_TYPE_CSI2) {
+> -		dev_err(cru->dev, "get_frame_desc returned invalid bus type %d\n", fd.type);
+> -		return -EINVAL;
+> -	}
 >
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+>  	if (!fd.num_entries) {
+>  		dev_err(cru->dev, "get_frame_desc returned zero entries\n");
+> --
+> 2.53.0
+>
+>
 
