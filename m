@@ -1,210 +1,157 @@
-Return-Path: <linux-renesas-soc+bounces-30846-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-30847-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id KC/TG2qkz2mZyQYAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-30846-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 03 Apr 2026 13:28:42 +0200
+	id mMCbGnClz2mZyQYAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-30847-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 03 Apr 2026 13:33:04 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D2BC393AD0
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 03 Apr 2026 13:28:42 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id BD5CD393B70
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 03 Apr 2026 13:33:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 02F1B303F3F1
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  3 Apr 2026 11:28:04 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 623B0302172C
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  3 Apr 2026 11:32:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E111A3009D4;
-	Fri,  3 Apr 2026 11:27:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4B0E13B776D;
+	Fri,  3 Apr 2026 11:32:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="O9pCyO1P"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ccxMQBML"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61D913B19D1
-	for <linux-renesas-soc@vger.kernel.org>; Fri,  3 Apr 2026 11:27:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E34E3B894D;
+	Fri,  3 Apr 2026 11:32:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775215671; cv=none; b=kt6Y67s3TJMKiYg9UPGzOrfPheVw0AK2J0Mv1s0fX4PgxAObyRiJ3jcbJ/yrL2I/NjQOr6XtrsgpUPVbXyKzOo6boBiojnMJcDt3TOuSlFOwqOlsAId7eAqQeDZT9bxU5Ft3bXAYUB04bFEkvBZOu5I65XS85blaHKSi86Gie3A=
+	t=1775215976; cv=none; b=Tw/fJ3IuUokV8MtomIw32f+Lo9AwHlS+jn2vzxdQbbqccs3VeONv1xOG43yZyOYQB3Fw+OluH6yifDSw99C9FHW0ky56RuBoueod0guhzgoLzvEqMCKi/Uyo1xsdDAMb09RCmlymytOyPTgiEgBKs0ATZfzhtI2Weem4UhS/wdQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775215671; c=relaxed/simple;
-	bh=BVteWb/phfOhOywch6JtszRF/l+CN+UQyrXxfcmY7BE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=XCOS8aE2gmv1v4nB5nG6zn2/6CbDXq5QEFdQnHFAkUTrdV1RmnuMt9a4M/htpEroaZYwp1UH9T5CiSXiPIWs2zayZcbppTNBkCDMjO7hEjgEtags0fjCUyVnRhBmvawt+bF+IiZwOltEf7jihcXchocQu1bWSH7s/v9ooSxAG8Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=O9pCyO1P; arc=none smtp.client-ip=209.85.210.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-82cef263bedso882975b3a.0
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 03 Apr 2026 04:27:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775215662; x=1775820462; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=z7WBGw3HYIKasCGZa6UoZqUVbnabzZNeOPFe5FYqFjk=;
-        b=O9pCyO1PADi8rd6HfOFS5Zrua0Y6TPixSAZao6hbAqIlyfstz8FEWNURkxyOVQ8XOl
-         oI5KowzbD9ncDz7PlYdz3II0LFIAP/+iAhcQZw6gAwU3wKWmhbkcAabwVzpayVNWOqB0
-         rNGFd/GPA/dZqTMO9GqewuNEBknrawo4S2evKLd6uxhJ0VffPt5pAQ6CJF9zqCMVETAo
-         6lxT6t4EmBeGe8u/GcF7F4n1O23oAk74uwj7dffBNlPhy0gP+jJi7mgFacRRiB8cF3RH
-         kovG/EtPlEHsmlgvULN/Qe46NtGQd8pa8UYLFmMTFFxVFwSmwY7TNQ04IjC936prDq0r
-         ZHUA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775215662; x=1775820462;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=z7WBGw3HYIKasCGZa6UoZqUVbnabzZNeOPFe5FYqFjk=;
-        b=KksEpXb9m4fFdDPvEL0Hz0U2vFpn9raTasBgI/3CQrhlAHlMPeLeKsjsGT3W4i8y8l
-         j6l18NwZit0B1KHd2DxDe/uqHelrnbjnkhYdIgX3oZug+WKa9Zpt4caMXEcB/mPVFv2B
-         BCTVaLjNPO2bced7J2e98KdPPqz1jwkNXyq/7TLgt2ue951JPeuyBuAbIS4hOxTZGluu
-         Q5Z0pkOJ7Xt82SUiYbjhKcrkjRDnC0NETZFYta+4hpKcM54KcMvEzG956HuYqq6iIg9I
-         JRPcf8YMuS4+cjR1moqOV/fibwRpXZb+qdk9lmC2mJv5BpFec2dfT4c5wMqjqWLZqGUv
-         hZbQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWHaCOeB+eRghqaIcTDowkw2q4rCQQoRPZXfEZJ25iDaPeorI3QajERBXA82SU4D8GHqJgYyWY3lv12zFdcClEi6Q==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwXhQdmCX3iLVdLhBCspA9bXeW6y5AB5XMLvmojediFm2OwRZq/
-	I8mlW5nrDvBpnUbNyoNMc9dOwWGaryqBI3b6T7NlaMVeKHNPL4Nb1wkD
-X-Gm-Gg: AeBDiethWVZh4p3dpwesIGPpcI94LDmKTF2ZMcGeCnnuWLV5qy+HXPJXSGQ5VhIZL9x
-	p3DtA50qMpYwPpAKxrggESZl2v6T6aZOFL6pxRJeb1+pfpOSsK68x+Lkt9GKRiBUf1Anm+4DxQW
-	BgIVuoCJ66ONk/neWPu9Scym0xceNsl2P2vu/fKJUXOymtEzgkRQkmFiEGc6GaEBXzJ3UK9amH2
-	UP/pIR8+FLrZtUOaSgvBLAuNR/QMd0gf+p33xz7XCTx2MQyQmhe1ZKSPrpVs3l9Ckyr15fu/BmQ
-	QRTcUWf7M4cgBIHN/USMx38oWelFbMylQHlDO8zg9PTMdIMwPY2JGnmm041LSGyJUK5bKHeX8E6
-	ryHyuxnymZ6FgnXZb4y0LP+RDIxQewY+LHkUJqFKxKGR6KqosvWMWkRAvFQWIQ5DFz5wNecs13a
-	GXZtn/s2oA2xNS9ePimey7Gklq9wa6JPvdVpqRPdkreTf2Nowq5dk5BHtCcQ==
-X-Received: by 2002:a05:6a00:3d56:b0:82c:d7c4:4c6b with SMTP id d2e1a72fcca58-82d0da2e1ffmr2446985b3a.11.1775215661982;
-        Fri, 03 Apr 2026 04:27:41 -0700 (PDT)
-Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82cf9b6113dsm5202251b3a.23.2026.04.03.04.27.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Apr 2026 04:27:41 -0700 (PDT)
-From: phucduc.bui@gmail.com
-To: kuninori.morimoto.gx@renesas.com,
-	broonie@kernel.org
-Cc: lgirdwood@gmail.com,
-	robh@kernel.org,
-	krzk+dt@kernel.org,
-	conor+dt@kernel.org,
-	geert+renesas@glider.be,
-	magnus.damm@gmail.com,
-	perex@perex.cz,
-	tiwai@suse.com,
-	linux-sound@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH 3/3] ASoC: renesas: fsi: Fix hang by enabling SPU clock
-Date: Fri,  3 Apr 2026 18:26:55 +0700
-Message-ID: <20260403112655.167593-4-phucduc.bui@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260403112655.167593-1-phucduc.bui@gmail.com>
-References: <20260403112655.167593-1-phucduc.bui@gmail.com>
+	s=arc-20240116; t=1775215976; c=relaxed/simple;
+	bh=lE8a+mYfWMdkTa09vzd+bOH6CMIeb1HCqK44Fql+uV4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kgUFgbWiwlQptgQsGEkCI7uwQNCV3k+1oWZZmhEHsYZVHb8N/qfncDQg/x0OPkuHNot2CFAYmqkf/QgtHMtsstEHd/ywcRrqLrvKEBR+EmUh3hP4LNbVd4FNpy4nyhtwwrWWnr5Zkb/u3eL9j3Bu/9UG+H3VangNlBEap5kTS4Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ccxMQBML; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F0A71C4CEF7;
+	Fri,  3 Apr 2026 11:32:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1775215976;
+	bh=lE8a+mYfWMdkTa09vzd+bOH6CMIeb1HCqK44Fql+uV4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ccxMQBMLj6NwJLvT33fALrHA8wN7C/DqX1un5zy+2aYV10jTorPgueTHUUUGb5N1V
+	 t0qYVeh32go82uUY9OZmSZjQyanKSqoz9cqE/tZHi/zNGGtpe70hnrt7eGwXWI8XDl
+	 orx9vONSQF4VG7X2J4O3yUS+sJzSKyb+LiWTu4kylUxpgV+ealnIATkXw/H8PHo+oa
+	 Z9GPo4p+4bCliUQiInCnJirQT1SVY7KxVyvL7tYJ41Atxa08cWSMpE6BB1DVWFyQwI
+	 cYb1GA/90kNs4Gq34+K372K+lh0niOKpweRWoS525BWncyx7jrmG8k9AKdhHfgKwqH
+	 QPd35Lye40zWg==
+Date: Fri, 3 Apr 2026 12:32:45 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: John Madieu <john.madieu.xa@bp.renesas.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+	Biju Das <biju.das.jz@bp.renesas.com>, john.madieu@gmail.com,
+	linux-sound@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCh v3 07/14] ASoC: rsnd: ssui: Add RZ/G3E SSIU BUSIF support
+Message-ID: <91a44b9e-b82c-49af-8c52-c876d271baa6@sirena.org.uk>
+References: <20260402162436.12059-1-john.madieu.xa@bp.renesas.com>
+ <20260402162436.12059-8-john.madieu.xa@bp.renesas.com>
+ <a457c427-95bf-43be-84db-02144fcc2bd6@sirena.org.uk>
+ <87jyuog7u9.wl-kuninori.morimoto.gx@renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-0.16 / 15.00];
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="IGWz7nPE7XurPHlI"
+Content-Disposition: inline
+In-Reply-To: <87jyuog7u9.wl-kuninori.morimoto.gx@renesas.com>
+X-Cookie: The Korean War must have been fun.
+X-Spamd-Result: default: False [-2.76 / 15.00];
+	SIGNED_PGP(-2.00)[];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	MIME_GOOD(-0.20)[multipart/signed,text/plain];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
-	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[gmail.com,kernel.org,glider.be,perex.cz,suse.com,vger.kernel.org];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	RCPT_COUNT_TWELVE(0.00)[15];
-	TAGGED_FROM(0.00)[bounces-30846-lists,linux-renesas-soc=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-30847-lists,linux-renesas-soc=lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	FROM_NO_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[phucducbui@gmail.com,linux-renesas-soc@vger.kernel.org];
+	FREEMAIL_CC(0.00)[bp.renesas.com,gmail.com,glider.be,kernel.org,perex.cz,suse.com,pengutronix.de,tuxon.dev,vger.kernel.org];
+	RCPT_COUNT_TWELVE(0.00)[18];
+	MIME_TRACE(0.00)[0:+,1:+,2:~];
+	FROM_HAS_DN(0.00)[];
+	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
-	MID_RHS_MATCH_FROM(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[broonie@kernel.org,linux-renesas-soc@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,dt];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 2D2BC393AD0
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: BD5CD393B70
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-From: bui duc phuc <phucduc.bui@gmail.com>
 
-The FSI on r8a7740 requires the SPU clock to be enabled
-before accessing its registers.
-Without this clock, register access may lead to a system
-hang.
-Retrieve the "spu" clock in probe and enable it during
-DAI startup. Disable the clock on shutdown to match the
-audio stream lifecycle.
-This ensures safe register access and prevents system
-hangs during audio playback.
-This is required even if the FSI functional clock is
-enabled, as internal units depend on the SPU clock.
+--IGWz7nPE7XurPHlI
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
----
- sound/soc/renesas/fsi.c | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+On Fri, Apr 03, 2026 at 01:18:07AM +0000, Kuninori Morimoto wrote:
 
-diff --git a/sound/soc/renesas/fsi.c b/sound/soc/renesas/fsi.c
-index 1491c2f2cc96..44bd1c1e6294 100644
---- a/sound/soc/renesas/fsi.c
-+++ b/sound/soc/renesas/fsi.c
-@@ -292,6 +292,7 @@ struct fsi_master {
- 	void __iomem *base;
- 	struct fsi_priv fsia;
- 	struct fsi_priv fsib;
-+	struct clk *clk_spu;
- 	const struct fsi_core *core;
- 	spinlock_t lock;
- };
-@@ -1554,6 +1555,11 @@ static int fsi_dai_startup(struct snd_pcm_substream *substream,
- 			   struct snd_soc_dai *dai)
- {
- 	struct fsi_priv *fsi = fsi_get_priv(substream);
-+	int ret;
-+
-+	ret = clk_prepare_enable(fsi->master->clk_spu);
-+	if (ret)
-+		return ret;
- 
- 	fsi_clk_invalid(fsi);
- 
-@@ -1566,6 +1572,7 @@ static void fsi_dai_shutdown(struct snd_pcm_substream *substream,
- 	struct fsi_priv *fsi = fsi_get_priv(substream);
- 
- 	fsi_clk_invalid(fsi);
-+	clk_disable_unprepare(fsi->master->clk_spu);
- }
- 
- static int fsi_dai_trigger(struct snd_pcm_substream *substream, int cmd,
-@@ -1963,6 +1970,13 @@ static int fsi_probe(struct platform_device *pdev)
- 	master->core		= core;
- 	spin_lock_init(&master->lock);
- 
-+	/* SPU clock is required for FSI register access */
-+	master->clk_spu = devm_clk_get(&pdev->dev, "spu");
-+	if (IS_ERR(master->clk_spu)) {
-+		dev_err(&pdev->dev, "Failed to get spu clock\n");
-+		return PTR_ERR(master->clk_spu);
-+	}
-+
- 	/* FSI A setting */
- 	fsi		= &master->fsia;
- 	fsi->base	= master->base;
--- 
-2.43.0
+> > > @@ -160,7 +161,8 @@ static int rsnd_ssiu_init(struct rsnd_mod *mod,
+> > >  	/*
+> > >  	 * SSI_MODE0
+> > >  	 */
+> > > -	rsnd_mod_bset(mod, SSI_MODE0, (1 << id), !use_busif << id);
+> > > +	if (!rsnd_is_rzg3e(priv))
+> > > +		rsnd_mod_bset(mod, SSI_MODE0, (1 << id), !use_busif << id);
 
+> > Perhaps should be a capability flag like the changelog said?
+
+> Have or not have registers are depending on the each SoC, and (probably)
+> there's no regularity to it.
+> And SoC special handling is needed not only for the register settings.
+
+> There is no clear rule on this driver for now.
+> Handling it by flag is one the idea, but rsnd_is_xxx() is enough for now.
+> Because it is easy to find SoC specific handling part by "grep rsnd_is_"
+
+To be clear I don't mind either way, it's just that the changelog and
+the change don't line up.
+
+--IGWz7nPE7XurPHlI
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmnPpVwACgkQJNaLcl1U
+h9C1nQf/eoowzhKjAjgdBAkzUCpG6HqqnzbQWfDtFLVfufwo8Tc+w8hvY/mRg6Wg
+SA8pulGLmsSQzq5KWrD2l+ZeMytMvGzd0IuH5CQLXEbiabf+WqH646PC1d9T4I44
+13i5z8TMMWRKicFDBJD7YkbJCGQ8Q1yjojzDSYP/ZzWHJCen54cWN6rP+WXZ3b6s
+6/QdMNnSaXXc3ihRGs5lzR9XgX6sWJiiI4SdomfvQLb47CW9vM44RB2mnNBNzj2R
+9iTCiuPnAwwsSI3f5kMD3Ih9AxzDGDzxHAc7m5kT6TwD1Gh+k15FppIyutnYa4qf
+2vtVMKAhMozTL8zRYkQll+RVR6z37Q==
+=nvm5
+-----END PGP SIGNATURE-----
+
+--IGWz7nPE7XurPHlI--
 
