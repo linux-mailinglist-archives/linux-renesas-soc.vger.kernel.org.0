@@ -1,140 +1,139 @@
-Return-Path: <linux-renesas-soc+bounces-30867-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-30868-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id S0drC0ruz2mt1wYAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-30867-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 03 Apr 2026 18:43:54 +0200
+	id UHs5N1Tvz2mt1wYAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-30868-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 03 Apr 2026 18:48:20 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D0C13968B5
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 03 Apr 2026 18:43:52 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 85E69396952
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 03 Apr 2026 18:48:20 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 67C32304A8DD
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  3 Apr 2026 16:30:58 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 4AFCB3047422
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  3 Apr 2026 16:45:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6FBFA3CD8B7;
-	Fri,  3 Apr 2026 16:30:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C87BB3CCFBB;
+	Fri,  3 Apr 2026 16:45:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="P3zW/p0D"
+	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="hUVMVvp0"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from TY3P286CU002.outbound.protection.outlook.com (mail-japaneastazon11010043.outbound.protection.outlook.com [52.101.229.43])
+Received: from TYVP286CU001.outbound.protection.outlook.com (mail-japaneastazon11011010.outbound.protection.outlook.com [52.101.125.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 747363CE482;
-	Fri,  3 Apr 2026 16:30:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.229.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64BFE3CB2C1;
+	Fri,  3 Apr 2026 16:45:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.125.10
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775233854; cv=fail; b=jbtUlqzrHNNWSVq5QQyThw9fpvk/dMhFozPUPRDAAEar8ajeptDWz0be6L2LaasmqofPVECe6X3DfaIs1kMWT7MjzELwaup1PGWD6dpSC6ipCJm1pPMUgPLsre42uzgTBJ8LGzmBGEMgFWOZLyNw+/Mh6JRHappKyxM8OoRHV64=
+	t=1775234726; cv=fail; b=uiEJQ5/V44+liN1i/dBkC/urkA1bHd8Y5floxb3/+M73TMKKvyR32MQxWoWabxu4rRXYYZFTQuWfm+3djNz9Z90dyseZxlznv1oDeUpcE4R2tKhs3/Cx1FvtWUU6rjm4efBpr9S1sOf4QcfVdEURsgBns0yiSoGKBBYqbBz1uc0=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775233854; c=relaxed/simple;
-	bh=lCrY3qf+8LsMCN05zBc9GRJ4gKD7l0uAmTiqMpjhDjU=;
+	s=arc-20240116; t=1775234726; c=relaxed/simple;
+	bh=17FInFN6VaU0jSsmLmeiJk5WW+7VRvgEHlutXS6orLg=;
 	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=nZSUwgAGEzWPxyEqEo6TsO81ga9pJCs6K/f8klgf61U7bMO6uzj5DBv2fE5FwkIjprNcXlCypdEYgEDWU6Y9rlpM6sLfgSKyfBvdDuUleXQeqABYyigcNdUa4L3aS3YSIK0sq12XUKhJr6lFqKYN5c7Joa1r44W1Wl6c8yqbsgg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=P3zW/p0D; arc=fail smtp.client-ip=52.101.229.43
+	 Content-Type:MIME-Version; b=XWw+csjtE/Ev3XWS5kRb0Gky1bjLwVaSScEFUbWAroWesU26KhSgLOdj975pICkzATQcSxcCZieHM02y7RrcOMKQRkeJvMhd5ANxvtcgRhPl37PmBC+Wu8ZUBVw5Kn/oxidDQhQlLaPWBemP2tI/J57rwZD/a1pj6GARuAquQYQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=hUVMVvp0; arc=fail smtp.client-ip=52.101.125.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=aNloNTEVawGmT2T5qLWvgqsKlBRH2Ygk/YAmSuFjmhxMP60Wy3KzwG9FmKc0sMXipCiPK1Rzb/FLjL55stYkPTymdD/DNJpsRe7wcmSLgAMm+VIZlV0TanFORxAnQXB6QqKRS38DUwMlWzeKXkg0d8mgJIce+svXSFA1HktN/2NwoWN4WlsR9QorJKJKDbxg7+weWwcF85/7LYWZ3u2V2fbx8vtOOygfCh/yxdFBXHrKoT8Qsf4RbpN26/1S53SvXkdqJ8OelimCrcGQqiVSWgcGmBKbVeeONJ11uKMMR+iYXHQC7Zd22ze8Qog0NsNRmHwFkz0YdcOnd34MnvecLA==
+ b=KUT92gIxXd887slFXk05RsAcn9RKEDe2efA3PSXI7yGfTi3hgDVSlqD6DgCmEO0GJZOKJB6skXljYjQIKZ9t6snOqkB98yXP5L5hKXoJQoMQT7c4/VahaKQh6Def957LJH/UZOSKZUQ+Xh9q+LN6pit4IzH8ar6NI1LOIDkQD3eduvQb9iQ5pCmaS04HiVKO85XT/JbSVu01Ewk0sHx8qAtRykS+CAr++dC/9kI73r/Ebksl11Mlw8fGw1oUmxVHTciiEpqPAShL+QDIpJItu6dtQVojnIN+iJjKakXaWVCe/LRsKC83e8VQh1JNhVdMHC0/7NzOBbYS73QXoYiITQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=lHLHg+W3P/DEO4cxlnjMWCczTiAy3+UXA35H451sywE=;
- b=N/xbztOnpKESk1SS4OoLvsNCKGFvC2Bvtqmac850Hw6+hCB81FwFGLJ5v7UFGpyPEp5VnIC+jlCtHkC7kWxcugUmEk/c6QT4ReDResGiPtH278j/JZDJc2Gay6xq5A8HszNzjnZyzw62rHuDCAAmVP3BTZwG3g5zBhQDmqj0cL8nhq/LmKCdqqKU52oB06c3jSjaFPvn8r4CFsDoA110yqN8IXpTp8mV7H3JfmWymIBVgxeEibM0uDNqNlKZuyMR4iqPyoDjRT+01HWJ2yqhLE/5hVDCKSDFjZ9RXcxHGat51VlFCeSIJGoCUZMpSmAcaxY7x1M18g1iIl7IGoNTrw==
+ bh=sf0hVozdBd5GxOqBe0Po9Ecwtd/RDpWIlcil/HVt7Kw=;
+ b=RLRAwbj0XHwcxeuXPzTgmgjRwvkJrXnQARdEnhqwllyRF2bHwHiZiWKgrJqSGfccYlFy4+60YnkEYntPbPNk2k1yZf24rrGPMdZSDsFBKI15T2hs8MOpUgezPaCVD8fuT54lP6PqUcg44dvh/UV2DPJMznVBJrQPEBCrtB8w3Uao8HDAM46Nwt3jP0HbDXtyiwmW7LFcBuBuN8uOaY10T4pL1R2N87bMeBiMudoJBfGslV+bxJPYWYUOKtOTahvgmt/IFr6Ypoy8pUfaEHXPBLXNSUWYYvIPJzJRBbTPivsgkZ53UQHPU3rfsFGknW3vvow1rkmWEFqFdW0LLcN3+g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
  header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=lHLHg+W3P/DEO4cxlnjMWCczTiAy3+UXA35H451sywE=;
- b=P3zW/p0DIZcicTGmB84YfT32kycp7CCssvqLILO0o3LomGO9pcex6Z/ZHIz2HRcLsqODOVPk9ZQe771zt2WBNwLr3Hnmx5wvfkdmYAKFsd2NRAkDsMfkmmNOUHRWoOKdQU4VPLocHwVfSmD07WWNMX5ex/OAGWGX+Nlj9nbH2Ps=
-Received: from TYCPR01MB11332.jpnprd01.prod.outlook.com (2603:1096:400:3c0::7)
- by OS7PR01MB15384.jpnprd01.prod.outlook.com (2603:1096:604:389::9) with
+ bh=sf0hVozdBd5GxOqBe0Po9Ecwtd/RDpWIlcil/HVt7Kw=;
+ b=hUVMVvp0QrIjFjvqPTpRFThXOZAnLYhIUYOKyzvIlBuFDmUErxhP0xfLsgIB2a5n3odnekmbhh0MUQlJLuXakUCUN7JAIPCPQIZyfPScWXCk/tgYd3c+oMJJD7voxY4a2yALa/dDZswJI4ZwPAk6EIcSul7iNli/89nvycAObLs=
+Received: from TY6PR01MB17377.jpnprd01.prod.outlook.com (2603:1096:405:35b::6)
+ by TY6PR01MB17409.jpnprd01.prod.outlook.com (2603:1096:405:362::7) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.18; Fri, 3 Apr
- 2026 16:30:49 +0000
-Received: from TYCPR01MB11332.jpnprd01.prod.outlook.com
- ([fe80::2511:10cd:e497:4d97]) by TYCPR01MB11332.jpnprd01.prod.outlook.com
- ([fe80::2511:10cd:e497:4d97%5]) with mapi id 15.20.9769.020; Fri, 3 Apr 2026
- 16:30:49 +0000
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Ovidiu Panait <ovidiu.panait.rb@renesas.com>, "andrew@lunn.ch"
-	<andrew@lunn.ch>, "hkallweit1@gmail.com" <hkallweit1@gmail.com>,
-	"linux@armlinux.org.uk" <linux@armlinux.org.uk>, "davem@davemloft.net"
-	<davem@davemloft.net>, "edumazet@google.com" <edumazet@google.com>,
-	"kuba@kernel.org" <kuba@kernel.org>, "pabeni@redhat.com" <pabeni@redhat.com>,
-	Russell King <linux@armlinux.org.uk>
-CC: "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>
-Subject: RE: [PATCH net] net: phy: micrel: Fix MMD register access during SPD
- in ksz9131_resume()
-Thread-Topic: [PATCH net] net: phy: micrel: Fix MMD register access during SPD
- in ksz9131_resume()
-Thread-Index:
- AQHcw1uOXzjJ5f4us0+uUd80lAj1i7XNRYKggAANrwCAAAEosIAABp6AgAAfibCAAAtSMIAAAY3g
-Date: Fri, 3 Apr 2026 16:30:49 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.21; Fri, 3 Apr
+ 2026 16:45:21 +0000
+Received: from TY6PR01MB17377.jpnprd01.prod.outlook.com
+ ([fe80::f373:26d6:86c4:6aa3]) by TY6PR01MB17377.jpnprd01.prod.outlook.com
+ ([fe80::f373:26d6:86c4:6aa3%4]) with mapi id 15.20.9769.016; Fri, 3 Apr 2026
+ 16:45:21 +0000
+From: John Madieu <john.madieu.xa@bp.renesas.com>
+To: Mark Brown <broonie@kernel.org>
+CC: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, Liam Girdwood
+	<lgirdwood@gmail.com>, Geert Uytterhoeven <geert+renesas@glider.be>, Rob
+ Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor
+ Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai
+	<tiwai@suse.com>, magnus.damm <magnus.damm@gmail.com>, Philipp Zabel
+	<p.zabel@pengutronix.de>, Claudiu.Beznea <claudiu.beznea@tuxon.dev>, Biju Das
+	<biju.das.jz@bp.renesas.com>, "john.madieu@gmail.com"
+	<john.madieu@gmail.com>, "linux-sound@vger.kernel.org"
+	<linux-sound@vger.kernel.org>, "linux-renesas-soc@vger.kernel.org"
+	<linux-renesas-soc@vger.kernel.org>, "devicetree@vger.kernel.org"
+	<devicetree@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>
+Subject: RE: [PATCh v3 03/14] ASoC: rsnd: Add reset controller support to
+ rsnd_mod
+Thread-Topic: [PATCh v3 03/14] ASoC: rsnd: Add reset controller support to
+ rsnd_mod
+Thread-Index: AQHcwr1R5VPrlEh4ikOWMufBbz7llbXMCboAgAGCgyA=
+Date: Fri, 3 Apr 2026 16:45:21 +0000
 Message-ID:
- <TYCPR01MB1133240A73BD311130F4C32C5865EA@TYCPR01MB11332.jpnprd01.prod.outlook.com>
-References: <20260403111738.37749-1-ovidiu.panait.rb@renesas.com>
- <TYCPR01MB11332623A3F7FF4601FE8C35C865EA@TYCPR01MB11332.jpnprd01.prod.outlook.com>
- <TY7P301MB198462DF309670467625AD40D35EA@TY7P301MB1984.JPNP301.PROD.OUTLOOK.COM>
- <TYCPR01MB113320392754A3B42F78A9FC5865EA@TYCPR01MB11332.jpnprd01.prod.outlook.com>
- <TY7P301MB198479332A7A0C00451120EDD35EA@TY7P301MB1984.JPNP301.PROD.OUTLOOK.COM>
- <TYCPR01MB1133228575528380F6F8D1CFF865EA@TYCPR01MB11332.jpnprd01.prod.outlook.com>
- <TYCPR01MB11332125932E37C2E2A124CF5865EA@TYCPR01MB11332.jpnprd01.prod.outlook.com>
-In-Reply-To:
- <TYCPR01MB11332125932E37C2E2A124CF5865EA@TYCPR01MB11332.jpnprd01.prod.outlook.com>
-Accept-Language: en-GB, en-US
+ <TY6PR01MB17377D2EC3745B2B06B3D353FFF5EA@TY6PR01MB17377.jpnprd01.prod.outlook.com>
+References: <20260402162436.12059-1-john.madieu.xa@bp.renesas.com>
+ <20260402162436.12059-4-john.madieu.xa@bp.renesas.com>
+ <9d1e09af-ca2a-462f-90e0-ce7557f361d0@sirena.org.uk>
+In-Reply-To: <9d1e09af-ca2a-462f-90e0-ce7557f361d0@sirena.org.uk>
+Accept-Language: en-US, en-GB
 Content-Language: en-US
 X-MS-Has-Attach:
 X-MS-TNEF-Correlator:
 authentication-results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=bp.renesas.com;
 x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TYCPR01MB11332:EE_|OS7PR01MB15384:EE_
-x-ms-office365-filtering-correlation-id: ee27cb7e-5fe6-47b2-d40a-08de919e5dca
+x-ms-traffictypediagnostic: TY6PR01MB17377:EE_|TY6PR01MB17409:EE_
+x-ms-office365-filtering-correlation-id: 67cb6c50-dc64-4303-c0af-08de91a06532
+x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam:
- BCL:0;ARA:13230040|366016|7416014|1800799024|376014|18002099003|56012099003|22082099003|38070700021;
+ BCL:0;ARA:13230040|7416014|376014|1800799024|366016|38070700021|56012099003|18002099003|22082099003;
 x-microsoft-antispam-message-info:
- aG3ZfZ0dKrOSlkXoyRzkt0pCRX7/IWG9imlhZMqWYV59Xd5I4qUDpyUSn/dr5zPdFYIRN/qr4LI3GqmbgCuxdqZBL1zxJEmJw+5YtWQ2wH4v9Y8Phb8Vmz8IY9zP0+i6GhTYXv7TPv+/3PkriuwC783yE82sF2UBbOPvOhsd2heXAH3xo/66J1Q/tu5s3AyQfXD8yQtS87hFRwjZmYujT763ArKV7pfb3JDBZJtT4CM4sS6mqOekJ7g1rMs2TsVJJaoEeKLBREGBIYplZyEUoP5HThJgypiQNILT9DGQb+3IIFjoHgrRaBSgo8OpUzJ03h34XW/xO8bAL+15QWlqfJyNSbdQzcygH/pEz9TXLdYpuBVLgwsLQbdHUqmsRd8suS/Y1il3d3uASt5gcv6CsO6lxppwGcl5R2KFirMG7rav3KINz3cAZVPCnB0vhxLo6r719Gp5aif1k+jL7ww8tnzb+VSK2HJaXmgNFviSrkRd5aTJPtGCKzaBxnTDXK+ZUdkhqCncN5+msgT3+oAUgxRIEKfHxUUWd3SdiDFmS5AHa87M8pq3Bh1j9i8T+mxBCR/RvaWDQz5i1JrV41j/f+vmEWaEqXoTm6vQDc39OuOjlAz5VzN1vXSjC/7UePoyo+64/qkU/HCDWt1tVITPaUTOQLorBTpGO26pjXNswsk433Z6xIE7UbrZviHc9znPqiOcra4OCMF1Bh5lQzb5MAmoebuv9RwIFrtXJpFsddV75Ihvu3FgP9OO3/3GB+PD6Fkq4XLWr0yXQcH/vdSuspwWCAmbAhp70nMFMZHkpFw=
+ +g3rPdijt7FZ9KyKPE3n3vK1sERW8MfB/4ND5uz/ERB/N/6ISVKSfqVeazH1xTWI/ip7eV00BP/sIpBbz3Jegi4FjpeSOBdBXxFHa+u3dnFtqsktzwhzXWYYSWPHaJwBetItxaLwTngKBZkOv2VsFPGQh4tDAaazMOsBx5ayTyvXmF6/HOjFfsTGDP74kUx2wbQhUaDVIl/VhcZpBmS4INvWL6TcHfATiLLNtA425BsSc+60yLAMkKJZ95Om6x0CCR8Gk6Q5zbdy1A0bVnd2eliYjpzo1x80rUjsmlkMfW/jSf2WypX2oU883d6yQCu+h0ssIH6XYeYIlREwkZBPPyrlPwnQmkHAjldZN8Ih5zbua0Q0LKL20YtSRJzo3Hx2gVJQRIHs3DQzFcdgjfyBp1g1Ey+Lv2jjJeAW4uQw1X0pJToJtYjT2Qm3ayJhRXPrvGLY3TAsg0K8OVif5XM+wlC1EMA4Go/wX8tb2WlIJiAbE25lGZ0gWFF7k0uy+T4tKCFuGoJFm++9dgFH7xqQf+vCGNbWF0eNbNHsYzXZ2Y9Wkk7xPEB/7b5L7RDIKwMFtIA+0L3z6v0ef/nZO+wVIM1OKrDARCqAp8cTtWURA7dj2pVBc3+3atX1RxeEJaW9ucYAGbIml/Jbm4QVdOP6/yoZaFS3guqNgSvMgZtaPk6AnHjPetTWWuspn4zAIAne3oDgeTYrLbJYc1DXGyj0TeJZyEHEXG6RAJ1r1FYWOCtX1PL24BLo8kKu+WJKFukhpeycy2+0llNbCz4x4zTw/nuXl0kOdaenfNxGN2ywats=
 x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB11332.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(1800799024)(376014)(18002099003)(56012099003)(22082099003)(38070700021);DIR:OUT;SFP:1101;
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY6PR01MB17377.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(366016)(38070700021)(56012099003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
 x-ms-exchange-antispam-messagedata-chunkcount: 1
 x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?xttYyepVj2PD6IM2SoOYmI3FX/dWEJatOcOw+R0tBQEvp54QJsChpcHbqtRe?=
- =?us-ascii?Q?JJH6HC0RNNk/g2J/N8KZNqeuXj9Fuf32JX30czjT0ljhyzjSWGWEfhbHnE4s?=
- =?us-ascii?Q?SNVC+vDMW6ZZNtqxrYQuiw71W6uuc4B+ZIRD9kyJR/urACEhzotqm5TN7C6p?=
- =?us-ascii?Q?EYgvKnAHJx5xax2Stq5bP6zwGpDOXU/79+KZdJvMj/HcycKX0RFU9b0NZCOE?=
- =?us-ascii?Q?OhBkA6e4mkqufo+8rs5mKCKVIRpM50pra6vztELbffUXtkB6TFZYjUdKXao2?=
- =?us-ascii?Q?DV5NR59YTmhj9Lz9hQpRDx4PSc3NEl6NiTVt7Jp1zN+JGyCsgpWrSZE2XZIu?=
- =?us-ascii?Q?Uyil5OwlLI5bpgylDRUJH0X+CNTrEIZcDn5P+OXsYUCdW5qPwA0YOEiSNA5U?=
- =?us-ascii?Q?8NQnlmlGBLEHHRamLDvdIwAdcxsd7HPcs/HX5j7cDKfwXyO6NEfv+9W0Neuh?=
- =?us-ascii?Q?buP1PbjkXWgoTDq1p+8Avu0KUh87eFD45P6tu9lZLjHVx4EfkprGncDEewUR?=
- =?us-ascii?Q?kaPs1AuU8JwyisXklEm0xYFBpbCWfM1HRT9jCZ4rH6h0+6WPJxaDOV6TkjSB?=
- =?us-ascii?Q?3zDmVCXsbzUgCrT5YBYgzqq4tS8C1kwtEhoynMjm+hIUWVDIbe97kykZCg7n?=
- =?us-ascii?Q?Y8cI9Az7kB68C1bTwAMrlhGPsINw1zmGROJQJ7la3lcrkASbMENeDseCy7pJ?=
- =?us-ascii?Q?IrwFthlaAMrmVbNeAtanpR3BwgbC5pO2xbZyxRkQyKj+2YRCGfG5n3TbYW03?=
- =?us-ascii?Q?bLx/mmpk4R9uA68R4Dv6d6BdNKBFcQqaD84S92AVvVUpFaPRo3EQi+/RYlYM?=
- =?us-ascii?Q?k4lzombO4gK+XfHIrt4GViFmstdlPIqtNyw1+3WwX6oMrVorEmts6pXaEO3p?=
- =?us-ascii?Q?pr5rY4BFBIaS84CY7LGPLuQ1mb7VLw8CEe9liBN1AAUsJUFLbP81mv6K6pKT?=
- =?us-ascii?Q?yX4srxcUEeklKxg5n03UHNInb19nl4ME4XK0RBWEXTJAxnyY2IvsWRTQB37G?=
- =?us-ascii?Q?vRWBCGi+uXoJHIntbg1K/OHfecknNrxBQCvekIjB5MqRh9sVUHG4FvqhxzxQ?=
- =?us-ascii?Q?ocPsW9TxmuH1BNlJpA/+F+uDTJJrtqPCaA/uieDx3SSfGNTDub8AEN4CCGrp?=
- =?us-ascii?Q?+A/jWFr41wmSNsr2M9hiBqPnJ7IYmDhB49lv+3qA1gN4oiDKIViiKZQ0Xhxn?=
- =?us-ascii?Q?vW1gyO35TFq7N4ONWEZqz+R3C6+nCwyhKGGxUmNevDo4vNe9gARkOT2v0B9y?=
- =?us-ascii?Q?JxkRsYHk4HcYksaWZV1lRxt4zADNa+V621BxrI1/7ZM5BCJqwy7nNR6cwPKy?=
- =?us-ascii?Q?B+wZ2Bt+ACEZvhxgcUj43hbUobSY71lbNY/NNcamq3lXlZ2xUtpzkq9JfQ84?=
- =?us-ascii?Q?Ec6juDxEjlRakXeZCrAQLFQ2HlJXKQPByxEPnHxUGMx3Xvbgw3yIoXDP8gdp?=
- =?us-ascii?Q?F0jo71pdmUbNuv6ynopdG0Wi+TRkp8ydbMCPI9WLeu6dekSyiYjKcFxkEzIG?=
- =?us-ascii?Q?BwiOVngXGmhE/JS9FcWxVAQ1nUI9OfRZPpBaUwtaVdf6UZ5dwJBIBDu45ATZ?=
- =?us-ascii?Q?boQKaVTSfTibV1EaMzNO0KeMd+zmjUiN1Pjb40QmR8SLCSEGF6YrTY48HY5p?=
- =?us-ascii?Q?NgOlLsd2KEEaS7l49yLgY4CQf6Pcetbyw7gTeuej2hacgfCzaW1Z8ZtiC7zh?=
- =?us-ascii?Q?HdWJutbwYL3VtdYWtKGh/55iTbuX9ew4lLXE438Wp4zdKClFG+D7PelRoSnv?=
- =?us-ascii?Q?WmAHy4FOdg=3D=3D?=
+ =?us-ascii?Q?u1ZyvyhYc50ly529IhkagPnGTo1OWH3vz0rip2pLDtjl8zVP+wc/lx1/K8/1?=
+ =?us-ascii?Q?9lEePbZky2X4biICbiCFUt4x2Tq2ldUFRHTkK0X/ELpPgMTLhjmrFwo3oyQH?=
+ =?us-ascii?Q?Wafmju4S5c1eZLSRwD7iseebtS7PHk/xIC6HcBjbqMZwqXAamCZCnsbVZWWd?=
+ =?us-ascii?Q?NTBwmd5G/9M5pjJ/mX8Z2dXP3yCedB8Ya5XL2MfPAgiHrSahp0eSUj0smxij?=
+ =?us-ascii?Q?dl1JiZR5nSrlDQYiWvjdy+W8p76zzLTAw6OBRbD4WFrGtOaoNCOmJVl06ZYD?=
+ =?us-ascii?Q?zaTr1klj/A5bhQllcLsBO1bAa4h/UUScmH3KKWOkzDGx8kHL4ukuIOUAS0SK?=
+ =?us-ascii?Q?BLD8R6YcnIKuTHoaivebTu0kuxOPVU2+3fpg4hbe/OAZwD+IzW1HnHtWU/rl?=
+ =?us-ascii?Q?Scy+XhtWYyTxExsrtEVD9hVWS6YXcKXGeGW7P/I1iMZMu3axesxE+I1TQqs8?=
+ =?us-ascii?Q?cuBOfnuqVPmV72LDJrjfe1iKhk9WX/1N/O5R4OuDTERQHLDTqofX22/CRC55?=
+ =?us-ascii?Q?rRJAEncqHwlS2PdcY4K27Y/Kxd8RngFGZ0JPxAjyZZ5ObEZOyFVhv0bcrBzo?=
+ =?us-ascii?Q?98YHYwwZCLG74cB3XkqSpXTHS5yskAQ171Bmoqe2ngnviJs3RLoRlGsFvkX1?=
+ =?us-ascii?Q?XkBPO4bebSzTyHX9yt0z+1yuKrWn6RYDEIObY5Zdu15u2XvKgtIaWNl7UFSJ?=
+ =?us-ascii?Q?rUGlNZh3p2azMCv3pYTmoODQo/Rd3T4HmEUL1zxArqkvtgjsebjNKBuZF5SC?=
+ =?us-ascii?Q?CLGzQD7AnCba98Zvw1mufPOexDz97OuLwJCocxKYIt76Pbzn7mrU5gtPO/df?=
+ =?us-ascii?Q?9cNqbHFfKmp+fCxuPJNXN7Ty3lIO5IaPs3E/F8SOatWlh1IgxMvtANrfZP4J?=
+ =?us-ascii?Q?GTYOqZt6OP7ScjYpbT6use+jG/vosLzwUtJqPdFmxFJQn9ZRQKVxUDhfdoKw?=
+ =?us-ascii?Q?8/y4Yb5Tfj7BO9QafbwNDHP75G6WeOrj/8r/V0QNv38V7iI779Sr6zlZp3AW?=
+ =?us-ascii?Q?8IYCE7giy7Zb2sluRhw5hl2Cw9GpUxR4g/cjyiqI7YcsclEKSdbjhFBRz2l/?=
+ =?us-ascii?Q?hBtV4GVVfkEoAhOzRmiChoggTUojEZUlKd3iUGaif4NwWzqdIvakq7NgRfaD?=
+ =?us-ascii?Q?gVw+QlY4faTzsHVykTttIiwEZOcyjwKwxwtt+CDrqvkclSju4a9sAdBl5pTd?=
+ =?us-ascii?Q?gEGLGCB9C0O1GHNuCcRUglq9HvVYZmgpH++XKcGkB7MocVbId6NXmykcFSWA?=
+ =?us-ascii?Q?FaRqdRR7X0Lz9hManRe0RlS3UMRm1rdGRvfb2f60elFlcsWxLLHpopqrDQGH?=
+ =?us-ascii?Q?o85vNlWNwaHFFyfNRVGmDYmdlMQ/VVNwWGg3lHnnLPh/K6dNQs0XMyNbY+55?=
+ =?us-ascii?Q?5AGGZzl67Xp3UddtCUMYqNFR4awih6vrJSq5waQUTUNJCMTpv4Z+Q3Q0rdF/?=
+ =?us-ascii?Q?WouMfN77UIaQmR0iQ1ggvFqJljT/KBA+Z30np64lG5Kuxw66q2TRTB2SaovK?=
+ =?us-ascii?Q?owvu5slfoNFgVDnhn2wN4JBb88eZudF0pgdAqbcd3Q1k/zJWHYU/iXYIe1W+?=
+ =?us-ascii?Q?BGFotNTRxzmYjtoj5fKX5dY4e6KYmKrrNRgEmgJwY3iAJihf7LidQ73ItYTY?=
+ =?us-ascii?Q?tS2Jj3Xdbn8Okl2NtA21vAIS9hgLYxAtfP7TxlWDrBpje7HXwudm2DygnkRq?=
+ =?us-ascii?Q?v7tjkVexg+XvdO5/8Jr4ZjkNi4x+jkZhX85UjO58cFdkUNlyDTRlVpWGXu1b?=
+ =?us-ascii?Q?/AwAVuYqDo33itxZwaWKccIMH38mgQE=3D?=
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
@@ -145,170 +144,76 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-OriginatorOrg: bp.renesas.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB11332.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ee27cb7e-5fe6-47b2-d40a-08de919e5dca
-X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Apr 2026 16:30:49.7588
+X-MS-Exchange-CrossTenant-AuthSource: TY6PR01MB17377.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 67cb6c50-dc64-4303-c0af-08de91a06532
+X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Apr 2026 16:45:21.1411
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 15sIO0ZCuCyzWMvCECORZmAGF7AbXIOwDOuyo7E54ESostwKasLZvN9AiDzpniqsQfrrGU5jOL8IbKitvZrw7lhXZS8BmaoUSxs8uQB07aU=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS7PR01MB15384
-X-Spamd-Result: default: False [-0.16 / 15.00];
+X-MS-Exchange-CrossTenant-userprincipalname: uUQzUdLgsE3W00eiDaTbwa73FC6noXk5IsLnowlJEuIU+WW+0DLgBhFeNFMantwnGHr5NW4RrLhsyIV+dVgu7L52eA6mX6BP+4grBNVrG8Y=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY6PR01MB17409
+X-Spamd-Result: default: False [1.34 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_REJECT(1.00)[cv is fail on i=2];
 	DMARC_POLICY_ALLOW(-0.50)[renesas.com,none];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
 	R_DKIM_ALLOW(-0.20)[bp.renesas.com:s=selector1];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-30867-lists,linux-renesas-soc=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	FREEMAIL_TO(0.00)[renesas.com,lunn.ch,gmail.com,armlinux.org.uk,davemloft.net,google.com,kernel.org,redhat.com];
-	RCPT_COUNT_TWELVE(0.00)[12];
 	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[bp.renesas.com:+];
-	MISSING_XM_UA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[18];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-30868-lists,linux-renesas-soc=lfdr.de];
+	FREEMAIL_CC(0.00)[renesas.com,gmail.com,glider.be,kernel.org,perex.cz,suse.com,pengutronix.de,tuxon.dev,bp.renesas.com,vger.kernel.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[biju.das.jz@bp.renesas.com,linux-renesas-soc@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[john.madieu.xa@bp.renesas.com,linux-renesas-soc@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[bp.renesas.com:+];
 	RCVD_COUNT_FIVE(0.00)[5];
-	TAGGED_RCPT(0.00)[linux-renesas-soc];
-	NEURAL_HAM(-0.00)[-0.998];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[renesas.com:email,TYCPR01MB11332.jpnprd01.prod.outlook.com:mid,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,microchip.com:url,bp.renesas.com:dkim]
-X-Rspamd-Queue-Id: 0D0C13968B5
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,dt];
+	NEURAL_HAM(-0.00)[-1.000];
+	MISSING_XM_UA(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,bp.renesas.com:dkim,renesas.com:email]
+X-Rspamd-Queue-Id: 85E69396952
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
+Hi Mark,
 
+Thanks for your review.
 
 > -----Original Message-----
-> From: Biju Das <biju.das.jz@bp.renesas.com>
-> Sent: 03 April 2026 17:29
-> Subject: RE: [PATCH net] net: phy: micrel: Fix MMD register access during=
- SPD in ksz9131_resume()
+> From: Mark Brown <broonie@kernel.org>
+> Sent: Thursday, April 2, 2026 7:39 PM
+> To: John Madieu <john.madieu.xa@bp.renesas.com>
+> Subject: Re: [PATCh v3 03/14] ASoC: rsnd: Add reset controller support to
+> rsnd_mod
 >=20
-> Hi Ovidiu Panait,
+> On Thu, Apr 02, 2026 at 06:24:25PM +0200, John Madieu wrote:
 >=20
-> > -----Original Message-----
-> > From: Biju Das <biju.das.jz@bp.renesas.com>
-> > > Subject: RE: [PATCH net] net: phy: micrel: Fix MMD register access
-> > > during SPD in ksz9131_resume()
-> > >
-> > >
-> > > > >
-> > > > > Hi,
-> > > > >
-> > > > > >
-> > > > > > Hi Ovidiu Panait,
-> > > > > >
-> > > > > > Thanks for the patch.
-> > > > > >
-> > > > > > > -----Original Message-----
-> > > > > > > From: Ovidiu Panait <ovidiu.panait.rb@renesas.com>
-> > > > > > > Sent: 03 April 2026 12:18
-> > > > > > > Subject: [PATCH net] net: phy: micrel: Fix MMD register
-> > > > > > > access during
-> > > > > > SPD in ksz9131_resume()
-> > > > > > >
-> > > > > > > During system suspend, phy_suspend() puts the PHY into
-> > > > > > > Software
-> > > > > > > Power-
-> > > > > > Down
-> > > > > > > (SPD) by setting the BMCR_PDOWN bit in MII_BMCR. According
-> > > > > > > to the
-> > > > > > KSZ9131 datasheet, MMD register
-> > > > > > > access is restricted during SPD:
-> > > > > > >
-> > > > > > >   - Only access to the standard registers (0 through 31) is
-> > > > supported.
-> > > > > > >   - Access to MMD address spaces other than MMD address space=
- 1 is
-> > > > > > >     possible if the spd_clock_gate_override bit is set.
-> > > > > > >   - Access to MMD address space 1 is not possible.
-> > > > > > >
-> > > > > > > However, ksz9131_resume() calls ksz9131_config_rgmii_delay()
-> > > > > > > before
-> > > > > > > kszphy_resume() clears BMCR_PDOWN. This means MMD registers
-> > > > > > > are accessed
-> > > > > > while the PHY is still in SPD,
-> > > > > > > contrary to the datasheet.
-> > > > > >
-> > > > > > SPD mode: This mode is used to power down the device when it
-> > > > > > is not in use after power-up.
-> > > > > >           Previous register settings are maintained during and
-> > > > > > following the removal of SPD.
-> > > > > >
-> > > > > > Suspend to Idle case, it is in SPD mode and the MMD register
-> > > > > > values are retained.
-> > > > > >
-> > > > >
-> > > > > On resume from s2idle, ksz9131_resume() calls
-> > > > ksz9131_config_rgmii_delay() which does MMD accesses,
-> > > > > while the PHY is in SPD. According to the datasheet, it
-> > > > > shouldn't
-> > > > happen. See commit e398822c4751
-> > > > > ("net: phy: micrel: populate .soft_reset for KSZ9131") which
-> > > > > fixes the
-> > > > same issue.
-> > > >
-> > > > On my board, while s2idle in SPD mode, it does not hang. The
-> > > > datasheet does not explain the behaviour when it is SPD mode. But
-> > > > it states that it retains all previous register values when it is o=
-ut of SPD mode.
-> > > >
-> > >
-> > > According to the KSZ9131 datasheet ([1]):
-> > >
-> > > 4.17.3 SOFTWARE POWER-DOWN MODE (SPD) ...
-> > > The following remain operational during SPD:
-> > > MII Management Interface
-> > > - Only access to the standard registers (0 through 31) is supported.
-> > > - Access to MMD address spaces other than MMD address space 1 is
-> > >   possible if the spd_clock_gate_override bit is set.
-> > > - Access to MMD address space 1 is not possible.
-> > >
-> > >
-> > > The spd_clock_gate_override bit is not used in the KSZ9131 driver.
-> > >
-> > > While the datasheet does not specify exactly what happens if register=
-s
-> > > from an unsupported address space are accessed while the PHY is in
-> > > SPD, I think it is correct for the driver to not do it in the first p=
-lace.
-> > >
-> > > [1]
-> > > https://ww1.microchip.com/downloads/aemDocuments/documents/UNG/Produc=
-t
-> > > Documents/DataSheets/00002841D.pd
-> > > f
-> >
-> > For s2idlecase: ie, PHY is in software power down state you don't need =
-to restore MMD register, as
-> > exiting software power down will restore those registers.
-> >
-> > You need only restore MMD registers, when PHY loses power ie, suspend t=
-o RAM case.
+> > @@ -196,18 +197,29 @@ int rsnd_mod_init(struct rsnd_priv *priv,
 >=20
+> > +	ret =3D reset_control_deassert(rstc);
+> > +	if (ret) {
+> > +		clk_disable_unprepare(clk);
+> > +		return ret;
+> > +	}
 >=20
-> I believe, You really don't need to call phy_init_hw() at all
->=20
-> SuspendtoRAM case: ###### ksz9131_resume 1140, software power down state =
-is 0 (Normal mode)
-> SuspendtoIdle case: ###### ksz9131_resume 1940, software power down state=
-  is 1 (SPD mode)
->=20
-> If (phydev->suspended && Normal mode)
->   	Restore PHY specific MMD registers.
+> I'm not seeing a call to reverse this anywhere, I'd expect one on remove
+> for symmetry and safety.
+
+You are right. I'll address that with reset_control_assert() in
+rsnd_mod_quit() to mirror the deassert done in init.
+
+Regards,
+John
 
 
-Please ignore the above, as I am not an expert in PHY sub system.
-
-Cheers,
-Biju
 
