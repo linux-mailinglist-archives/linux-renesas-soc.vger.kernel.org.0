@@ -1,37 +1,37 @@
-Return-Path: <linux-renesas-soc+bounces-30818-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-30819-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id ADyoDB1+z2mvwgYAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-30818-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 03 Apr 2026 10:45:17 +0200
+	id qKAcBC5+z2mvwgYAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-30819-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 03 Apr 2026 10:45:34 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81DF1392457
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 03 Apr 2026 10:45:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A508B392484
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 03 Apr 2026 10:45:33 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id AF216307C489
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  3 Apr 2026 08:41:40 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 7710330900B2
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  3 Apr 2026 08:41:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BED6F37B023;
-	Fri,  3 Apr 2026 08:41:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 979B937B023;
+	Fri,  3 Apr 2026 08:41:41 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A596A221F1C;
-	Fri,  3 Apr 2026 08:41:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CCCB37B015;
+	Fri,  3 Apr 2026 08:41:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775205699; cv=none; b=LWxnapjU5nERNCbpcPAwBNy6XCobTB/45ywwg0YRnmmj3gKvL/PpShNPuRWXEv/IhGn5poN1P+GP/AI5YR2yBBj4Uu+jv8m2/liOR9q4ZKKlhGG8l+LlgRTAX7fnn3LMD3kwmYTFx3C1gz9LEWAG6aMelwGhvjjs4gFEs8SRGrc=
+	t=1775205701; cv=none; b=lHuGyzGaVYSZIAbLOXDCVoSEGqWYraYDWwIWLiprMIBpGIBsysjDQzwFXtYZw9g0P2BbpGMBjB39KVqPUEXj6CHtraXtXz1oySNdaGkoy8tmQc89YdeN3WlAgGPiRNUIKsS0JWjJECTB4zPT7Hawb2hds7suIrecVkiPiOt1zkE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775205699; c=relaxed/simple;
-	bh=GJCjT7eGZY4sK0vCjxgZOtBBvIPmTND+u7YkTQZbDpA=;
+	s=arc-20240116; t=1775205701; c=relaxed/simple;
+	bh=7wjxYJzwscJWaUI33eJgaxfLaeMOwgiru0820OAGtP4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=CBmBo3B+RZ5mlBcWEbZYoj3li9O5kvti4/jxaDlGHB5sfq1sHtA11H+73nub81lTva4emGc1Iu7TCFWNd3pYM757ma7bB1AU6LhLJ12G6jfXCT9qZaqUausBDAjkuQiwu29Vh26J92DE6wegzKSAkE2a9fUmtWMKIO4I3uW/yzg=
+	 MIME-Version; b=QysKL/oUo7ak09mwag5vSB5zWv2QErt3Pmdi8GMYNIrR3p4HXRckEQuNmqZUcjNGvh3Fv0MhvXwXb+IqCYvnXQiGPi1lqMsb5DswjrizgbsyXHDICPU8PoAVr/O/Ql2qSztuYAYhsgZHVzDNFx/GUHvsNZfDSFn3LLlh+N5B2Qk=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D21C1C19423;
-	Fri,  3 Apr 2026 08:41:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B6D9FC4CEF7;
+	Fri,  3 Apr 2026 08:41:39 +0000 (UTC)
 From: Geert Uytterhoeven <geert+renesas@glider.be>
 To: Sudeep Holla <sudeep.holla@kernel.org>,
 	Cristian Marussi <cristian.marussi@arm.com>,
@@ -40,9 +40,9 @@ Cc: arm-scmi@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-renesas-soc@vger.kernel.org,
 	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH 1/3] firmware: arm_scmi: quirk: Improve quirk range parsing
-Date: Fri,  3 Apr 2026 10:41:29 +0200
-Message-ID: <fe257b3b7b7b5c17fd0e5727bb9746c731bd7e3c.1775205358.git.geert+renesas@glider.be>
+Subject: [PATCH 2/3] firmware: arm_scmi: quirk: Simplify quirk table iteration
+Date: Fri,  3 Apr 2026 10:41:30 +0200
+Message-ID: <8577f4b103cf04420c3b67dcaad528daff867287.1775205358.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1775205358.git.geert+renesas@glider.be>
 References: <cover.1775205358.git.geert+renesas@glider.be>
@@ -61,7 +61,7 @@ X-Spamd-Result: default: False [0.54 / 15.00];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-30818-lists,linux-renesas-soc=lfdr.de,renesas];
+	TAGGED_FROM(0.00)[bounces-30819-lists,linux-renesas-soc=lfdr.de,renesas];
 	FROM_HAS_DN(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
 	DMARC_NA(0.00)[glider.be];
@@ -80,48 +80,37 @@ X-Spamd-Result: default: False [0.54 / 15.00];
 	MID_RHS_MATCH_FROM(0.00)[];
 	TO_DN_SOME(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[glider.be:email,glider.be:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 81DF1392457
+X-Rspamd-Queue-Id: A508B392484
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-When a range contains only an end ("-X"), the number string is parsed
-twice, as both "sep == first" and "sep != last" are true.  Fix this by
-dropping the superfluous number parsing for "sep == first".
+The current table entry is assigned in both the init and loop
+expressions of the for-statement.  Merge this into a single assignment
+in the conditional expression, to simplify the code.
 
-This does have a harmless functional impact for the unbounded range:
-"-" is now accepted, while it was rejected before.
+While at it, make the loop counter unsigned and loop-local.
 
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
- drivers/firmware/arm_scmi/quirks.c | 11 +++++------
- 1 file changed, 5 insertions(+), 6 deletions(-)
+ drivers/firmware/arm_scmi/quirks.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
 diff --git a/drivers/firmware/arm_scmi/quirks.c b/drivers/firmware/arm_scmi/quirks.c
-index 03848283c2a07b72..b1d9cd9fa2427879 100644
+index b1d9cd9fa2427879..2b38ba3f59a13c9e 100644
 --- a/drivers/firmware/arm_scmi/quirks.c
 +++ b/drivers/firmware/arm_scmi/quirks.c
-@@ -238,16 +238,15 @@ static int scmi_quirk_range_parse(struct scmi_quirk *quirk)
- 	if (sep)
- 		*sep = '\0';
+@@ -258,10 +258,8 @@ static int scmi_quirk_range_parse(struct scmi_quirk *quirk)
+ void scmi_quirks_initialize(void)
+ {
+ 	struct scmi_quirk *quirk;
+-	int i;
  
--	if (sep == first) /* -X */
--		ret = kstrtouint(first + 1, 0, &quirk->end_range);
--	else /* X OR X- OR X-y */
-+	if (sep != first) /* X OR X- OR X-y */ {
- 		ret = kstrtouint(first, 0, &quirk->start_range);
--	if (ret)
--		return ret;
-+		if (ret)
-+			return ret;
-+	}
+-	for (i = 0, quirk = scmi_quirks_table[0]; quirk;
+-	     i++, quirk = scmi_quirks_table[i]) {
++	for (unsigned int i = 0; (quirk = scmi_quirks_table[i]); i++) {
+ 		int ret;
  
- 	if (!sep)
- 		quirk->end_range = quirk->start_range;
--	else if (sep != last) /* x-Y */
-+	else if (sep != last) /* -X OR x-Y */
- 		ret = kstrtouint(sep + 1, 0, &quirk->end_range);
- 
- 	if (quirk->start_range > quirk->end_range)
+ 		ret = scmi_quirk_range_parse(quirk);
 -- 
 2.43.0
 
