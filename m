@@ -1,59 +1,62 @@
-Return-Path: <linux-renesas-soc+bounces-30893-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-30894-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 2CZLKatH0WkyHQcAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-30893-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 04 Apr 2026 19:17:31 +0200
+	id cGvlFgwQ0mkSTAcAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-30894-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 05 Apr 2026 09:32:28 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2045439BEE9
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 04 Apr 2026 19:17:30 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id B1AF939DA2B
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 05 Apr 2026 09:32:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id CC72530068E7
-	for <lists+linux-renesas-soc@lfdr.de>; Sat,  4 Apr 2026 17:17:29 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 0115A3009534
+	for <lists+linux-renesas-soc@lfdr.de>; Sun,  5 Apr 2026 07:32:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 327152367CF;
-	Sat,  4 Apr 2026 17:17:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 549FA33A9C1;
+	Sun,  5 Apr 2026 07:32:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TJ4WCcNq"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Xon4QGKn"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F2B313E02A;
-	Sat,  4 Apr 2026 17:17:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29824DDCD;
+	Sun,  5 Apr 2026 07:32:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775323049; cv=none; b=u9SW7+3C4smB33ZwdPC7+4iCtY3zuKKJ0DySmdrEcatOksB64wfdFNaPVgg1mTZME6/u1N6VhJ5sbxYRNSHSlAidVWkSjUmTPa6svAXBmdHOpIM94Pmw0wheAVLm5Z14AeO5bsXNgvQG7quG0OVYSbatrzEerhT19nIL5J3ebkc=
+	t=1775374343; cv=none; b=RktOteMcMyUJdQTaPK9GHQB1fOuUVYpqwZ+fZK9VnuuhN2mppoIWSFizZ5v4+a7csmKaC5EeMu7Axf1SvJ0DWAPriONxmVOk/AacdNR9A7h+Kk/rDqB24dfUgSLib9/C+R5WQeNvRzzuhqADqf1Rxhjio770ZP5E0DjM26PLvtk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775323049; c=relaxed/simple;
-	bh=da1o/c7ma2TlBTpWGEu3dVWxcf6TfZVrfN83A7BX1uU=;
+	s=arc-20240116; t=1775374343; c=relaxed/simple;
+	bh=0EOmgSmZQHdpU9boeuf7jKexVd54Hiw/ztad9oO6RD8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qE9nDakYJV/A43NUFwbJYW64U552os38Umg1swIA91/pWaZWWnhNnKoz3YbgWwhhZDjPCjQpNduffFbfxS/Nfv5w8bY2mTiKMHREfxbVkh48lz2FnTzM4lDp7yGXkeeZuLilRZx4tTtANZISVwfUXaa3wcp68Ez01uIjH+MCH6k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TJ4WCcNq; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D858FC19421;
-	Sat,  4 Apr 2026 17:17:25 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=lAyNDYPsVW1BMx0TK4jGwXGokDKGN4kVSMm2H+kvVQAG/7WXKnKQew6Yljn1o8cS84tfDsmE5bz8IvogWuDIvTQYpbDz4bKYrsooNOc8AulcdbgCoWKEUcScPfFTu5lfo4AbtlR0ihIG5eqMBGETwXbucaVUZw1pnmzUKbWkxMg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Xon4QGKn; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 30663C116C6;
+	Sun,  5 Apr 2026 07:32:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775323048;
-	bh=da1o/c7ma2TlBTpWGEu3dVWxcf6TfZVrfN83A7BX1uU=;
+	s=k20201202; t=1775374342;
+	bh=0EOmgSmZQHdpU9boeuf7jKexVd54Hiw/ztad9oO6RD8=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=TJ4WCcNqWifc0dOa/DeiVnX47sVhr7gCFPdaEQLs0oDM+uarbvpqPHbo9lCQE3xR1
-	 uT3s60c+Rq6993F1Z60Y+DAFKVky2pEcZi6wC9xQKbTlpsrXrJeFBt8+Ti3jokFB2w
-	 5ohA1vRgoG3krc529qFJeCrEnR+H24G0jeg9OJ9qzQxV07tKCE/XSmgfRtGzCA9dvd
-	 0uhGFSyqoI2nVBap/IxUpRK7oUNxuYEqd2Hb6CIi6yq2V+3VMYCPdcQ5EDCKa1NF33
-	 kJC8d4/BlA7ic232+n6hVrjyVDBLte3F/umpIFfac30imgjHehylnCtsiJEU54rkDo
-	 39VSuqViwOzmA==
-Date: Sat, 4 Apr 2026 22:47:17 +0530
-From: Manivannan Sadhasivam <mani@kernel.org>
-To: John Madieu <john.madieu.xa@bp.renesas.com>
-Cc: claudiu.beznea.uj@bp.renesas.com, lpieralisi@kernel.org, 
-	kwilczynski@kernel.org, robh@kernel.org, john.madieu@gmail.com, bhelgaas@google.com, 
-	linux-pci@vger.kernel.org, linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] PCI: rzg3s-host: Treat link-down as -ENODEV instead
- of error
-Message-ID: <e7ligkrj2jtak6rqivayvhryhovbjeozbinmu2g43k4b2nz34i@npmvltf7agkq>
-References: <20260402182354.12515-1-john.madieu.xa@bp.renesas.com>
+	b=Xon4QGKnOkxjtFC5zcuw9kpWZap0n6ZN2XUrGurQbL+NO1QkB8pGBVoldRFGOWD3v
+	 TWchyvzq+El1vBk8Tiw92xzvhVDCbxWFBSw5qYQWjn+LqGHaWzuHhCKhl63Dqhlffa
+	 ma0y8plj62wEzfJlZsi8Tl7mc1FzlaGwP0EBvuXgtOW8SdaR8LnWYDH4kWDaWQ2RYV
+	 qrwrHpUCW93IRk7gEO342eNJGHWJgFpvJ3+NgMjmYmx4XTYZ9WfbWz+D60LH5wyj5J
+	 REqyb/VPPB9VRK7Pp9L1ko5GsKTwkHqwBOVS7pBwHBkVoqiB4rvNaPg/0nsA90u8/5
+	 ECU8dRQrXUJpg==
+Date: Sun, 5 Apr 2026 09:32:20 +0200
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: phucduc.bui@gmail.com
+Cc: kuninori.morimoto.gx@renesas.com, broonie@kernel.org, 
+	lgirdwood@gmail.com, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
+	geert+renesas@glider.be, magnus.damm@gmail.com, perex@perex.cz, tiwai@suse.com, 
+	linux-sound@vger.kernel.org, linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/3] dt-bindings: sound: renesas,fsi: Add support for
+ multiple clocks
+Message-ID: <20260405-ultramarine-orangutan-of-wholeness-bbcc6b@quoll>
+References: <20260403112655.167593-1-phucduc.bui@gmail.com>
+ <20260403112655.167593-2-phucduc.bui@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -62,93 +65,87 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260402182354.12515-1-john.madieu.xa@bp.renesas.com>
-X-Spamd-Result: default: False [-1.66 / 15.00];
+In-Reply-To: <20260403112655.167593-2-phucduc.bui@gmail.com>
+X-Spamd-Result: default: False [-0.16 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	MID_RHS_NOT_FQDN(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[bp.renesas.com,kernel.org,gmail.com,google.com,vger.kernel.org];
-	TAGGED_FROM(0.00)[bounces-30893-lists,linux-renesas-soc=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	MISSING_XM_UA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[mani@kernel.org,linux-renesas-soc@vger.kernel.org];
+	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-30894-lists,linux-renesas-soc=lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_CC(0.00)[renesas.com,kernel.org,gmail.com,glider.be,perex.cz,suse.com,vger.kernel.org];
+	FREEMAIL_TO(0.00)[gmail.com];
+	RCVD_COUNT_THREE(0.00)[4];
+	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[10];
+	RCPT_COUNT_TWELVE(0.00)[15];
+	TO_DN_NONE(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[krzk@kernel.org,linux-renesas-soc@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	NEURAL_HAM(-0.00)[-0.997];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-renesas-soc];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 2045439BEE9
+	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
+	MISSING_XM_UA(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[bootlin.com:url,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: B1AF939DA2B
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Thu, Apr 02, 2026 at 08:23:53PM +0200, John Madieu wrote:
-> rzg3s_pcie_host_init() failing to establish a PCIe link does not
-> necessarily indicate a hardware or driver error; it may simply mean no
-> card is inserted. Demote the message from dev_err_probe() to dev_info()
-> and return -ENODEV so the driver defers gracefully rather than printing
-> a spurious error.
+On Fri, Apr 03, 2026 at 06:26:53PM +0700, phucduc.bui@gmail.com wrote:
+> From: bui duc phuc <phucduc.bui@gmail.com>
 > 
-> Signed-off-by: John Madieu <john.madieu.xa@bp.renesas.com>
+> The FSI on r8a7740 requires the SPU clock to be enabled
+> before accessing its registers.
+> Without this clock, register access may lead to a system
+> hang.
+> Add support for the "spu" clock so it can be managed by
+> the driver.
+> The binding is also extended to allow additional clocks,
+> as FSIB may require more clock inputs, while FSIA
+> typically uses fewer.
+
+Please wrap commit message according to Linux coding style / submission
+process (neither too early nor over the limit):
+https://elixir.bootlin.com/linux/v6.4-rc1/source/Documentation/process/submitting-patches.rst#L597
+
+And not after every sentece, BTW.
+
+> Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
 > ---
+>  .../devicetree/bindings/sound/renesas,fsi.yaml       | 12 ++++++++++--
+>  1 file changed, 10 insertions(+), 2 deletions(-)
 > 
-> Changes in v2:
->  - Dropped Rb tag from Geert as patch structure changed
->  - Moved link-down handling into rzg3s_pcie_host_init() instead of
->    masking all errors in rzg3s_pcie_host_setup() (Claudiu)
->  - Kept dev_err_probe() for real init failures, only suppress for
->    -ENODEV (link down)
-> 
-> v1:
->   - https://lore.kernel.org/all/20260401143347.8463-1-john.madieu.xa@bp.renesas.com/
-> 
->  drivers/pci/controller/pcie-rzg3s-host.c | 9 +++++++--
->  1 file changed, 7 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/pci/controller/pcie-rzg3s-host.c b/drivers/pci/controller/pcie-rzg3s-host.c
-> index d86e7516dcc2..0acc21981ee9 100644
-> --- a/drivers/pci/controller/pcie-rzg3s-host.c
-> +++ b/drivers/pci/controller/pcie-rzg3s-host.c
-> @@ -1384,8 +1384,11 @@ static int rzg3s_pcie_host_init(struct rzg3s_pcie_host *host)
->  				 PCIE_LINK_WAIT_SLEEP_MS * MILLI,
->  				 PCIE_LINK_WAIT_SLEEP_MS * MILLI *
->  				 PCIE_LINK_WAIT_MAX_RETRIES);
-> -	if (ret)
-> +	if (ret) {
-> +		dev_info(host->dev, "PCIe link down!\n");
-> +		ret = -ENODEV;
->  		goto config_deinit_post;
-> +	}
+> diff --git a/Documentation/devicetree/bindings/sound/renesas,fsi.yaml b/Documentation/devicetree/bindings/sound/renesas,fsi.yaml
+> index df91991699a7..225cd8d369bb 100644
+> --- a/Documentation/devicetree/bindings/sound/renesas,fsi.yaml
+> +++ b/Documentation/devicetree/bindings/sound/renesas,fsi.yaml
+> @@ -38,7 +38,11 @@ properties:
+>      maxItems: 1
 >  
->  	val = readl_relaxed(host->axi + RZG3S_PCI_PCSTAT2);
->  	dev_info(host->dev, "PCIe link status [0x%x]\n", val);
-> @@ -1655,7 +1658,9 @@ rzg3s_pcie_host_setup(struct rzg3s_pcie_host *host,
->  
->  	ret = rzg3s_pcie_host_init(host);
->  	if (ret) {
-> -		dev_err_probe(dev, ret, "Failed to initialize the HW!\n");
-> +		if (ret != -ENODEV)
-> +			dev_err_probe(dev, ret, "Failed to initialize the HW!\n");
+>    clocks:
+> -    maxItems: 1
+> +    minItems: 1
+> +    maxItems: 8
 
-Well, probe() should not fail in the case of LDn unless the controller doesn't
-support hotplug.
+Needs valid descriptions.
 
-- Mani
+> +
+> +  clock-names:
+> +    description: List of necessary clock names.
 
--- 
-மணிவண்ணன் சதாசிவம்
+Instead constrain it. See also writing-bindings, writing-schema or
+example-schema documents.
+
+Best regards,
+Krzysztof
+
 
