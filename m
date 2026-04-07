@@ -1,74 +1,74 @@
-Return-Path: <linux-renesas-soc+bounces-30908-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-30909-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id WIiXCi7K1GmHxgcAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-30908-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 07 Apr 2026 11:11:10 +0200
+	id yGQ5AwXM1GmtxgcAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-30909-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 07 Apr 2026 11:19:01 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 313BF3ABC3B
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 07 Apr 2026 11:11:09 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 28FB93ABD78
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 07 Apr 2026 11:19:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id B26973006953
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  7 Apr 2026 09:11:07 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 4406D3003BF7
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  7 Apr 2026 09:18:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 608FB39A7F3;
-	Tue,  7 Apr 2026 09:11:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 06F1539934E;
+	Tue,  7 Apr 2026 09:18:55 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f171.google.com (mail-vk1-f171.google.com [209.85.221.171])
+Received: from mail-ua1-f42.google.com (mail-ua1-f42.google.com [209.85.222.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5FAF3043DE
-	for <linux-renesas-soc@vger.kernel.org>; Tue,  7 Apr 2026 09:11:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6D7831353B
+	for <linux-renesas-soc@vger.kernel.org>; Tue,  7 Apr 2026 09:18:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775553067; cv=none; b=hSP6JDNWlA8Q6xfu+RSSqDg51zc5aJiuadi97ZNkOMJ9xlvd/f+UonlnZw7mLLCSWqkkUJ1NoS2du2uLsqkkrerUtfPE10aetxq4hahaCxWJw9cLflA2N+X1U5dsd43pRBPq87fMK1qE6+rgf3iY5JVasrMeuKLBTP2kejCGyDo=
+	t=1775553534; cv=none; b=HYOdOHwJeHoJZLWsFYgwLNTfWMDzc7bhilLNfJMQiN0+L/qyeC4uZ0hg39ddyxicKxE9T/ZIcxi+soMmWtzYKlSoIs79UgdqppwhD99JZT/GptpzlDvUOx8l+egFJ5pDPgcxDGDZlkDynAZMc/KVSfgl3CmbGionytTVcQmCdmM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775553067; c=relaxed/simple;
-	bh=ZoWFiZnQEr/wzTAfTm9vf40+kbmEMYDXV819UTBRZwE=;
+	s=arc-20240116; t=1775553534; c=relaxed/simple;
+	bh=1OHP9BR/GOroMzF7dgkqtD1IzaTBfVuKG0kgMkciu50=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=O73qWi90zTq4RdrCmECPIi+LuOwj0FoCPqHdSuhlV+kIbhvkjeiLhQoG+zzMUsY5b1LGERP+faORwLRojA/q/Wyd92D2pdB1kGJgnSK8vRSIStQNSNkr1EUT0ofSa9mRlBjxMoEzh2wyo5835G4OzcslW1Fh+caVmeJaC2EntZI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.171
+	 To:Cc:Content-Type; b=QCWd0mIdPzVXRjrI2+FAXnFtO5hea5EzP5x9pKX9n5qTgfvMAPaRjbxW6NitK+kHlkzd/cUlDl53MEd/m2QH9rQc+e11fsJ89aqE+yKaVR1gYmkFgFBr0a6sOI91v4nUINT5zPcc1i2LuNHcDWId2Sofxa2x4CC3PKXHRKyjGCQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f171.google.com with SMTP id 71dfb90a1353d-56d9ed609d2so1373606e0c.1
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 07 Apr 2026 02:11:05 -0700 (PDT)
+Received: by mail-ua1-f42.google.com with SMTP id a1e0cc1a2514c-951c5ac6253so1564323241.0
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 07 Apr 2026 02:18:53 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775553064; x=1776157864;
+        d=1e100.net; s=20251104; t=1775553532; x=1776158332;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=lNZASjgqAlCAiE4mw8qwv/Flo+VjivMPygkU64fW+o0=;
-        b=Y4YvF2nRY1CCz+csAFoEpKElAwUrmxs8dE8706rBszLgtpmRNYHAd4GEMWpk69Wa7H
-         1LHv713M8T1EZ4R357iZBb1ueNVdYpAo2aHkGfD2hRyD3/46+2WM5k1z/LqeaYuxkONm
-         1fnDi+qw6IYo5mXWcymHgluU2zrb4kGNZGvTZy3lRluswoJWkmgHwD7pTg1QlJ0d3Sl6
-         xTXuXaF7KW5LZqeT06jEA4bxiYb3lpdhh+ck5EBB4hYC5imQJd414aAODBgsQtsw3wQf
-         +2oX0ONdRc5KsyAylWYLUznT5zm2YqR2apmgKOdhmrAuPLQhNF8ojPUF47+64lwbF3AF
-         nYqw==
-X-Forwarded-Encrypted: i=1; AJvYcCUcF/6jMb/O2UZFRSyW4kZCFLx4JSsSoVBM7zfguhBS5VvtMZ1ei55fLEkJg2EG84ic5EXajJCFzeEO0iLh4gStWQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywti36a9ka9+msqmSEuk5+ziTlAWNCx9x9SW6zh3w8hqxZlCGob
-	4baBH2UtHX1qQKX2L7TEOW7D2+kJbJHZDnYuCngLpCJNLjOj7TFvdbTDCRJUe2Oq
-X-Gm-Gg: AeBDiev/2n775QgRuhsy3hDWAMwI2JrfBhWw//2DWDubpK6yqo5sI1wwrbfOHQw9c/m
-	bw76s6rK8V/qa3G1HkvJqeljp8zP036ryL9ZDkmXeZFRb+WJp77eudVjFY5LjWu6JriU6BVFV0i
-	XdeHBcqrKKj/hRt/gzDwmbDVMR85jiRxH6kEmYhF9NqDiLw1X728A8PY6ElgeiMkRCpbxnapZvy
-	par5AlLrhIkYgJkAWhET00zFm3V+KQ6Ea7eViZzM4rDkh2KdQZS2c3Fy23K+aF4BZZa8rxsX0PR
-	maWxVS3yneSGpsJ2jZQSy1IUrkNiJab1A6/ob/FbNZwz2MLOybuFp8b9H9de8juzV2ZK5oK6IfW
-	qy5Mb8nOfAIpbYRxj2bn4xvk1HomKnqbPu6JjeWtdhIIz0JJXvi0GQ2MwkqF7Pi0AaMVFTiqDMc
-	ST0w6gtp7o5WYSPB8xu0ke3F6dnsB+VEre30Vl3gS1xoJ2Wdfsm6D/RxC/LOjSULGL
-X-Received: by 2002:a05:6122:698d:b0:56c:d81a:5863 with SMTP id 71dfb90a1353d-56dab9461b8mr5339904e0c.8.1775553064437;
-        Tue, 07 Apr 2026 02:11:04 -0700 (PDT)
-Received: from mail-vk1-f169.google.com (mail-vk1-f169.google.com. [209.85.221.169])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-56d9bae1117sm18395889e0c.7.2026.04.07.02.11.03
+        bh=cR9HGabiBXNm33M/l0GZLFmidathx2ZfsEf0OcHHACY=;
+        b=tHLTYLihKCnu8a1QMr7qli2sWuJ2bTyToe9ZvRSbYxIo6ZmRKXFXUlsemGnFsfFuFU
+         QjyJqHLzrRZDxTqsFn7Zomq2VnQOkRejTMqurzgt4PxuMMolYX9AAcpU3pF8U7I++h9g
+         mfmP2oxwhLd6Bj9bdxY4RMs2FFqp9hBY6+8HT0LshEapUd68vEihBKOhLfGak1A/L1M7
+         eFBzuI9BMOZP+2nS/43avBtt7oxJdvLUY8e4JPShHOX04IZomnuB4BKJzta+WTQk9Rnz
+         By0q5AddWANElt4oaVlUzMf2yBAGTxX2bc7Ak9AIhUMAfGvt1Jr9OQD/dKv5+8Ab1GCy
+         YW6Q==
+X-Forwarded-Encrypted: i=1; AJvYcCUJVm6QOkImTx3NOwRpiVKsxhtXjQLPm55c2Z+VoRh084+C/GkIFVPNTx7pCxvYOSxUNp98I7Z2/h41sFAtSZ4yHQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxVNunoGVJGfKeZ0cpVrwsVHnlGu5899rSazPBLVZm0zCabufg/
+	cqwSfcAtz32Ht/kqEDF5a5RfnX1ANTHTczu/NACy4UzjJoed7Kz0PyfWf5+2ndid
+X-Gm-Gg: AeBDieuWlCXdMdSJSgoD80vjW+muZC6QZBNCeY2rw5czuo/VyCgmVseYsq+BemcELen
+	k5uvlxchCF5hN7Pg9HiDpzDPY4m0IisPc6Vohe9E4lNqFVtzKEkmJ9lQZSM9UtfMDaY7uFb6XYZ
+	4GdDxGhjCASDEThM7sYzHIhPI5pn9m0+Z2r22u5Fd2iLnLxiaHxbh+UtpjiTM7Uwsn4Ri4RTzz4
+	T1hyLUBVemnY8deu/d7WS92ZAqoFGjgHR5v7c8JAW6MGkI3Qtq9tKmvequ//Xg3D4q4lBOn7rj5
+	NBVgBzrLYVpOsZks6kcKN796koLm0PwSMcqhVHovslqMYICNNPLriJViU7yKLngYgOm5BcgUSjM
+	0yGyhKx6aQyfU6uap2csqEvIjFo4W+0y66BPql6kpKl4s3HaR55ITZf/RXaL4Z72GMCiXdcAJhx
+	oeiRcROgtvhRaSZ532vcPl0dbdU0iDr7Y2JPL9cmkiCI5Hjlwv7OPHbxPAWg+xg7cX
+X-Received: by 2002:a05:6102:5345:b0:602:ab63:b0ca with SMTP id ada2fe7eead31-605a4c9970bmr4755195137.1.1775553532497;
+        Tue, 07 Apr 2026 02:18:52 -0700 (PDT)
+Received: from mail-vk1-f170.google.com (mail-vk1-f170.google.com. [209.85.221.170])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-60582e730e9sm18887551137.6.2026.04.07.02.18.52
         for <linux-renesas-soc@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 07 Apr 2026 02:11:04 -0700 (PDT)
-Received: by mail-vk1-f169.google.com with SMTP id 71dfb90a1353d-56d9ed609d2so1373602e0c.1
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 07 Apr 2026 02:11:03 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUIkdar1ZcGhEw2k50t1+YNSa2P+GC1ZinqCkYBUZqA/cMDLwKdCDPpmUzlybbJWSqLMxxgpPskAlnPoljyVjoSzw==@vger.kernel.org
-X-Received: by 2002:a05:6102:5cc1:b0:605:57f5:6d26 with SMTP id
- ada2fe7eead31-605a4c9a0cdmr5737340137.5.1775553063692; Tue, 07 Apr 2026
- 02:11:03 -0700 (PDT)
+        Tue, 07 Apr 2026 02:18:52 -0700 (PDT)
+Received: by mail-vk1-f170.google.com with SMTP id 71dfb90a1353d-56d9ed609d2so1375669e0c.1
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 07 Apr 2026 02:18:52 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUGsbs0k7uK1Z3xc6lYTVQf+n0GaW9+DJRMQNNTUrYiYWfDYaKxBeprcEU8eK7kjOL1hTbgMljnNd0wFRYeIwcSVg==@vger.kernel.org
+X-Received: by 2002:a05:6122:1d15:b0:56c:ca50:e963 with SMTP id
+ 71dfb90a1353d-56daba4441amr5183687e0c.14.1775553531657; Tue, 07 Apr 2026
+ 02:18:51 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -76,13 +76,13 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 References: <20260323164526.2292491-1-laurent.pinchart+renesas@ideasonboard.com>
- <20260323164526.2292491-5-laurent.pinchart+renesas@ideasonboard.com>
-In-Reply-To: <20260323164526.2292491-5-laurent.pinchart+renesas@ideasonboard.com>
+ <20260323164526.2292491-5-laurent.pinchart+renesas@ideasonboard.com> <CAMuHMdXomz9GFDqkBjGX9Sda_GLccPcrihvFbOz0GAitDVNTbw@mail.gmail.com>
+In-Reply-To: <CAMuHMdXomz9GFDqkBjGX9Sda_GLccPcrihvFbOz0GAitDVNTbw@mail.gmail.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 7 Apr 2026 11:10:52 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXomz9GFDqkBjGX9Sda_GLccPcrihvFbOz0GAitDVNTbw@mail.gmail.com>
-X-Gm-Features: AQROBzA1sHxPH0RAVNNk6u3T6X_CdwB9koc1lAfq-_hUfXtBdCfv_IjKKIEuZmo
-Message-ID: <CAMuHMdXomz9GFDqkBjGX9Sda_GLccPcrihvFbOz0GAitDVNTbw@mail.gmail.com>
+Date: Tue, 7 Apr 2026 11:18:39 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWLcat1BegoTH_=ir9svJ2CECw2g672pfz-5CGg6xtWuA@mail.gmail.com>
+X-Gm-Features: AQROBzDsnfwxgRbWuNYO6rWIlZEto2LwHPdqUIPoMgm27H9bZD6G-qlMJsPH2Ss
+Message-ID: <CAMuHMdWLcat1BegoTH_=ir9svJ2CECw2g672pfz-5CGg6xtWuA@mail.gmail.com>
 Subject: Re: [PATCH v2 4/4] drm: rcar-du: Don't leak device_link to CMM
 To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 Cc: dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org, 
@@ -92,13 +92,13 @@ Content-Type: text/plain; charset="UTF-8"
 X-Spamd-Result: default: False [0.04 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	MIME_TRACE(0.00)[0:+];
 	TO_DN_SOME(0.00)[];
-	TAGGED_FROM(0.00)[bounces-30908-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-30909-lists,linux-renesas-soc=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	DMARC_NA(0.00)[linux-m68k.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
@@ -109,191 +109,41 @@ X-Spamd-Result: default: False [0.04 / 15.00];
 	RCVD_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[geert@linux-m68k.org,linux-renesas-soc@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	NEURAL_HAM(-0.00)[-0.614];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	NEURAL_HAM(-0.00)[-0.271];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
 	R_DKIM_NA(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,linux-m68k.org:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 313BF3ABC3B
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,ideasonboard.com:email,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,linux-m68k.org:email]
+X-Rspamd-Queue-Id: 28FB93ABD78
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi Laurent,
-
-On Mon, 23 Mar 2026 at 18:22, Laurent Pinchart
-<laurent.pinchart+renesas@ideasonboard.com> wrote:
-> The DU driver creates device_link instances between the DU and CMMs, but
-> never deletes them. Fix it by introducing a rcar_du_cmm structure to
-> group the CMM device and device_link, and deleting the links at cleanup
-> time.
+On Tue, 7 Apr 2026 at 11:10, Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> On Mon, 23 Mar 2026 at 18:22, Laurent Pinchart
+> <laurent.pinchart+renesas@ideasonboard.com> wrote:
+> > The DU driver creates device_link instances between the DU and CMMs, but
+> > never deletes them. Fix it by introducing a rcar_du_cmm structure to
+> > group the CMM device and device_link, and deleting the links at cleanup
+> > time.
+> >
+> > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 >
-> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> Thanks for your patch, which is now commit 3bce3fdd1ff2ba24 ("drm:
+> rcar-du: Don't leak device_link to CMM") in drm-misc/for-linux-next.
+>
+> This causes koelsch to hang during boot when a display is already
+> connected before boot:
+>
+>       [drm] Initialized rcar-du 1.0.0 for feb00000.display on minor 0
+>       rcar-du feb00000.display: [drm] Device feb00000.display probed
+>
+> When no display is connected, the system boots fine.
+>
+> While looking into this, I noticed that hotplug after boot crashes,
+> but I haven't bisected that. It definitely worked a few months ago:
 
-Thanks for your patch, which is now commit 3bce3fdd1ff2ba24 ("drm:
-rcar-du: Don't leak device_link to CMM") in drm-misc/for-linux-next.
-
-This causes koelsch to hang during boot when a display is already
-connected before boot:
-
-      [drm] Initialized rcar-du 1.0.0 for feb00000.display on minor 0
-      rcar-du feb00000.display: [drm] Device feb00000.display probed
-
-When no display is connected, the system boots fine.
-
-While looking into this, I noticed that hotplug after boot crashes,
-but I haven't bisected that. It definitely worked a few months ago:
-
-    Unable to handle kernel NULL pointer dereference at virtual
-address 00000000 when read
-    [00000000] *pgd=00000000
-    Internal error: Oops: 5 [#1] SMP ARM
-    CPU: 1 UID: 0 PID: 43 Comm: kworker/1:3 Not tainted
-7.0.0-rc3-shmobile-00734-g3bce3fdd1ff2 #2454 VOLUNTARY
-    Hardware name: Generic R-Car Gen2 (Flattened Device Tree)
-    Workqueue: events adv7511_hpd_work
-    PC is at rcar_du_crtc_atomic_enable+0x14/0xa4
-    LR is at drm_atomic_helper_commit_crtc_enable+0xb0/0xd4
-    pc : [<c0534700>]    lr : [<c05145f8>]    psr: a0000013
-    sp : f0939b88  ip : fffffff8  fp : c1fe25b8
-    r10: c21d01ac  r9 : c0c7862b  r8 : c0a99acc
-    r7 : c21d000c  r6 : c2e1c800  r5 : c21d0000  r4 : c21d0398
-    r3 : 00000000  r2 : 00000000  r1 : c24ed800  r0 : c21d0398
-    Flags: NzCv  IRQs on  FIQs on  Mode SVC_32  ISA ARM  Segment none
-    Control: 10c5387d  Table: 4231006a  DAC: 00000051
-    Register r0 information: non-slab/vmalloc memory
-    Register r1 information: slab kmalloc-64 start c24ed800 pointer
-offset 0 size 64
-    Register r2 information: NULL pointer
-    Register r3 information: NULL pointer
-    Register r4 information: non-slab/vmalloc memory
-    Register r5 information: non-slab/vmalloc memory
-    Register r6 information: slab kmalloc-512 start c2e1c800 pointer
-offset 0 size 512
-    Register r7 information: non-slab/vmalloc memory
-    Register r8 information: non-slab/vmalloc memory
-    Register r9 information: non-slab/vmalloc memory
-    Register r10 information: non-slab/vmalloc memory
-    Register r11 information: slab kmalloc-128 start c1fe2580 pointer
-offset 56 size 128
-    Register r12 information: non-paged memory
-    Process kworker/1:3 (pid: 43, stack limit = 0xdcd99ef9)
-    Stack: (0xf0939b88 to 0xf093a000)
-    9b80:                   c21d0398 00000000 c24ed800 c05145f8
-00000048 c1fde6c0
-    9ba0: c2f7c680 c21d000c c24ed800 46818964 00000009 c0a9bf18
-c24ed800 c0515350
-    9bc0: c24ed800 c21d000c 46818964 c0535aac c24ed800 00000000
-46818964 c05187dc
-    9be0: 00000000 c24ed800 c21d000c 00000000 c21d000c c05189a4
-c24ed800 c21d000c
-    9c00: c15bac10 00000001 c21d000c c04de554 c24ed800 c22d1400
-c21d1000 c0109fdc
-    9c20: 00000000 c15bac10 00000000 00000000 00000000 00000000
-00000000 c0109fdc
-    9c40: 00000000 c15bac10 00000000 00000000 00000000 00000000
-00000000 ff6cd0a0
-    9c60: 00000000 f0939c80 c1542a00 c050e368 00000000 c21d01b0
-00000000 00000000
-    9c80: c1c30000 00000008 0000000e 00000000 00000000 00000000
-c1ce8f24 c21d35a8
-    9ca0: 00000000 ff6cd0a0 ffffffff c21d000c c1542a18 c1542a00
-c1542ab8 000000f0
-    9cc0: 00000043 000000f0 00000001 c050e470 c1c30000 c095df28
-c21d0058 c21d0058
-    9ce0: c21d0058 c1542a00 c21d000c 00000000 c1542ab8 000000f0
-00000043 c050e5a4
-    9d00: 00000000 c1542a00 00000000 c0521a44 00000000 c2d89000
-c1514c00 c1077124
-    9d20: 000000f0 c0521a7c c14b2800 c047f16c 00000000 c14df800
-00000043 00000000
-    9d40: 00000000 c14b2800 c14b2958 00000000 00000000 0000003e
-c0a81464 00000000
-    9d60: 00000001 c04c0688 c14b2800 c10798fc 00000000 c04c2654
-c1079918 c0a81464
-    9d80: c0a814b8 00000001 0000003e c1079918 c0a81464 00000000
-00000000 0000003e
-    9da0: 00000001 c1079a18 00000000 c04c298c c0fe6d84 c0c6f88c
-00000001 00000001
-    9dc0: c0fe491c c1076f84 c1076f84 00000000 c0fe491c c0a96a00
-00000000 c047d3e8
-    9de0: c0f04ff8 00000000 c1076f84 c047f974 c2d89000 c0f059d4
-c2d891cc c0f059d4
-    9e00: c21d000c c0a96a00 00000000 c0478508 60000013 00000000
-00000000 00000780
-    9e20: 00000438 00000000 00000000 00000000 00000000 00000000
-00000000 00000000
-    9e40: 00000000 00000000 00000020 ff6cd0a0 c1542ab8 c1542a00
-c2d89000 00000000
-    9e60: 00000000 c0521674 00000000 c24f05c0 c102cee8 c0944738
-00000cc0 00000000
-    9e80: c1542a18 00000001 c141f505 00000000 00000000 00000780
-00000438 00000780
-    9ea0: 00000438 00000020 00000018 ff6cd0a0 c1542ab8 c1542a00
-c1542a00 c21d000c
-    9ec0: c17d81b8 c10349c0 c141f505 61c88647 c17d81bc c050d594
-c1542a00 00000000
-    9ee0: c21d00a8 c1542a00 c21d0094 c050d948 c17d81c8 00000001
-c17d8278 c04e2f44
-    9f00: c17d81b8 c141f500 ef7cd600 c053dba8 000000d0 ff6cd0a0
-c1cede80 c0143f50
-    9f20: c0a01828 00000000 c1c30000 ff6cd0a0 c1c30000 c1c30000
-ef7cd620 ef7cd600
-    9f40: c014424c c1cede80 ef7cd620 ef7cd600 c014424c c1c30000
-c1cedeac c1034ee0
-    9f60: 00000000 c01443bc 00000000 c1d00780 c169eac0 c1c30000
-c014424c c1cede80
-    9f80: f08fdecc 00000000 00000000 c014b654 c169eac0 c014b558
-00000000 00000000
-    9fa0: 00000000 00000000 00000000 c010014c 00000000 00000000
-00000000 00000000
-    9fc0: 00000000 00000000 00000000 00000000 00000000 00000000
-00000000 00000000
-    9fe0: 00000000 00000000 00000000 00000000 00000013 00000000
-00000000 00000000
-    Call trace:
-     rcar_du_crtc_atomic_enable from
-drm_atomic_helper_commit_crtc_enable+0xb0/0xd4
-     drm_atomic_helper_commit_crtc_enable from
-drm_atomic_helper_commit_modeset_enables+0x10/0x38
-     drm_atomic_helper_commit_modeset_enables from
-rcar_du_atomic_commit_tail+0x54/0xb8
-     rcar_du_atomic_commit_tail from commit_tail+0x6c/0x138
-     commit_tail from drm_atomic_helper_commit+0xf4/0x104
-     drm_atomic_helper_commit from drm_atomic_commit+0xbc/0xec
-     drm_atomic_commit from drm_client_modeset_commit_atomic+0x190/0x214
-     drm_client_modeset_commit_atomic from
-drm_client_modeset_commit_locked+0x3c/0x148
-     drm_client_modeset_commit_locked from drm_client_modeset_commit+0x28/0x3c
-     drm_client_modeset_commit from
-__drm_fb_helper_restore_fbdev_mode_unlocked+0xa4/0xac
-     __drm_fb_helper_restore_fbdev_mode_unlocked from
-drm_fb_helper_set_par+0x2c/0x38
-     drm_fb_helper_set_par from fbcon_init+0x2c8/0x460
-     fbcon_init from visual_init+0x98/0xe4
-     visual_init from do_bind_con_driver+0x1f0/0x260
-     do_bind_con_driver from do_take_over_console+0x12c/0x174
-     do_take_over_console from do_fbcon_takeover+0x4c/0xb0
-     do_fbcon_takeover from fbcon_fb_registered+0xf4/0x160
-     fbcon_fb_registered from register_framebuffer+0x1f8/0x21c
-     register_framebuffer from
-__drm_fb_helper_initial_config_and_unlock+0x468/0x534
-     __drm_fb_helper_initial_config_and_unlock from drm_client_hotplug+0x50/0x94
-     drm_client_hotplug from drm_client_dev_hotplug+0x80/0x8c
-     drm_client_dev_hotplug from drm_bridge_hpd_notify+0x30/0x3c
-     drm_bridge_hpd_notify from adv7511_hpd_work+0x74/0xb4
-     adv7511_hpd_work from process_scheduled_works+0x1d8/0x324
-     process_scheduled_works from worker_thread+0x170/0x208
-     worker_thread from kthread+0xfc/0x108
-     kthread from ret_from_fork+0x14/0x28
-    Exception stack(0xf0939fb0 to 0xf0939ff8)
-    9fa0:                                     00000000 00000000
-00000000 00000000
-    9fc0: 00000000 00000000 00000000 00000000 00000000 00000000
-00000000 00000000
-    9fe0: 00000000 00000000 00000000 00000000 00000013 00000000
-    Code: e1a04000 e5903520 e5906468 e59054d8 (e5930000)
-    ---[ end trace 0000000000000000 ]---
+I am feeling lucky: reverting this commit fixes HDMI hotplug, too ;-)
 
 Gr{oetje,eeting}s,
 
