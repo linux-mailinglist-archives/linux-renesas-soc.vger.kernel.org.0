@@ -1,212 +1,271 @@
-Return-Path: <linux-renesas-soc+bounces-30945-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-30946-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id YVgVNLol1WnB1gcAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-30945-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 07 Apr 2026 17:41:46 +0200
+	id KNvOHv5S1Wkf4wcAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-30946-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 07 Apr 2026 20:54:54 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FC3E3B12EF
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 07 Apr 2026 17:41:46 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C72B3B3167
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 07 Apr 2026 20:54:53 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 4882630A3548
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  7 Apr 2026 15:35:48 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 5E5F83015715
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  7 Apr 2026 18:54:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0577B3C2788;
-	Tue,  7 Apr 2026 15:35:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6C0EC25A321;
+	Tue,  7 Apr 2026 18:54:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="vgS96QEZ"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="aLK/AW+Z";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="HK9Js6nR"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from OS0P286CU010.outbound.protection.outlook.com (mail-japanwestazon11011003.outbound.protection.outlook.com [40.107.74.3])
+Received: from fhigh-b8-smtp.messagingengine.com (fhigh-b8-smtp.messagingengine.com [202.12.124.159])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 865FB3A5450;
-	Tue,  7 Apr 2026 15:35:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.74.3
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775576141; cv=fail; b=Nx3lTJXXiGkhatio5P66OlIEwMHMNXzuAujRERQaHh+QkmywIa0SscFwWFaXOvsdXc8ug2gJj5Hs3HlJHQqz1LZJCKXsZbq7fzpZKs4BW8rWnYBQd95wqa4JXGuM7yrQnkYEWW7GzStd8bdLkdMc2IIJwSFnevYmzjQCFXPGdGc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775576141; c=relaxed/simple;
-	bh=8a6Z2FEsNuGkiQzDYH2w4O9kyuYNJEQu4aIgFkqaHTw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=VmZcY7Ax3Ouxx8LgKForOtxfbJRRXaHIreHiOKAYJIrB7RjyrJbsbJxV/3RUClb7Vkyi/So3QBEOiEP5h9/h0GJS6T2G4vlR/GumSj8jUWyIzEtHw7RCBLgRSUX4cqe+VCDQoVnLPnpJZsXHAJ+z8WGhHJzxeIf/sw84r+pFiQ8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=vgS96QEZ; arc=fail smtp.client-ip=40.107.74.3
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=sMOaZkaGSB7Tkb2wOuboHfGnNS6rBoM5gmWtPMhw8qdB+gY6/y98Fg+ihtzH1rgeyJHCEpxyL7xX4imA9ThBH6Yf79ncUpR7Maj8yXbO9OapjJ+4l2yagvWZOEhzYZ7Tbj2kl4HhrRU4CDrI5q1JHy8XeWNAZDeaubIThpyKrGOBl7F5Wi/xrVmtvUdyJAiOcqIVvJSv+VbOZ6xZBfNNgA2JliH2lTz+6PkAG2GuoUU+YpGtEXpWLiohsC8X2B0fnKlOjyeuZvzvWOQ3+TfBW9PPojppsyewaSx6myr04XIu3h+vOZptdax4IPK1itkIzbBxCPwx1asnm0SS2FVSwA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=zgKuc/zQeX88azUfnfyOcE0Koo7qf8sfynnNwVQUOmo=;
- b=lROIoLuG31ZkgG7hNwgdXnfkp2I5p4xsnXy4Hqf9FgjzPFF9UIqlJvWujhewcVm8nwEXUlHgTGliRX4zL8/XP/5duEON78bwnEzAMxlSE7G+W+WrJiHSPh6NRSBJXanmWsYXy7MqWbc3iiRBcRDgSPHReJ8ymJB8iAFLZb5FSgsphAP5rZVLvEKN8bydMBDpW9a3LFYFNaQv7CmnzSRg7eMpWz8JbDKXsc13n3X0XQqSbs979ltNr1Zw1Y2VU7Xm6zTs40XYw+BCZsILIVvsBKb/DGRo/6G4+nRalRGOxM7AlnwiESNV459Ao/TF69RjMVXw3tLFm7fOOSfVDVp/Zw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=zgKuc/zQeX88azUfnfyOcE0Koo7qf8sfynnNwVQUOmo=;
- b=vgS96QEZYhEjI9Poce+uC32eQIOuT9HEdDf/953jvY5o/Ni7a7QS39lb/DxcNZKnrrjFk2mENqoiey7Nfw6TMezrQENJrj4odeQdgjmf/n0j2Hd06pQNyhIfRxLj6lD0xvQAasj6hFkM2cregzCi8ut/D6IOhy90e2B53O/D9c4=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-Received: from TYCPR01MB11947.jpnprd01.prod.outlook.com (2603:1096:400:3e1::6)
- by TYWPR01MB11104.jpnprd01.prod.outlook.com (2603:1096:400:3f1::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.21; Tue, 7 Apr
- 2026 15:35:22 +0000
-Received: from TYCPR01MB11947.jpnprd01.prod.outlook.com
- ([fe80::33f1:f7cd:46be:e4d8]) by TYCPR01MB11947.jpnprd01.prod.outlook.com
- ([fe80::33f1:f7cd:46be:e4d8%5]) with mapi id 15.20.9769.017; Tue, 7 Apr 2026
- 15:35:22 +0000
-From: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
-To: tomm.merciai@gmail.com,
-	peda@axentia.se,
-	p.zabel@pengutronix.de
-Cc: linux-renesas-soc@vger.kernel.org,
-	biju.das.jz@bp.renesas.com,
-	Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] arm64: dts: renesas: r9a09g056: Add #mux-state-cells to usb20phyrst
-Date: Tue,  7 Apr 2026 17:34:29 +0200
-Message-ID: <31210e05f7189b466b30eedbdda3d11726dac279.1775575276.git.tommaso.merciai.xr@bp.renesas.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <cover.1775575276.git.tommaso.merciai.xr@bp.renesas.com>
-References: <cover.1775575276.git.tommaso.merciai.xr@bp.renesas.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: FR3P281CA0013.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:1d::18) To TYCPR01MB11947.jpnprd01.prod.outlook.com
- (2603:1096:400:3e1::6)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C1DC234994;
+	Tue,  7 Apr 2026 18:54:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.159
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775588090; cv=none; b=LkjRLODGjGFchVTtrjHGAw6tQMAaIXr1jd2pHZdZzQxRP6VnFA+bJ8fonFu4OwQFfgI1Cd8stV4o/Y1HzPAtXA0EItpqI6NKEsfKbbIc5jITgKWTCRx+OSjqd3APRc6+NKCK+2TmfTp3pHQuytNGzKafw1ekxX0Av1uOFQe73mM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775588090; c=relaxed/simple;
+	bh=7h7ZUS1F0VwC6u1mT9Y30ZU1RNZkR1Wt3LA15D6mfZo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gFaVMq/6eMWstBjxj2O1bCH87YD/a+Yh0PSXLZK1P+DiFH+BcdWXYgLdRrkn362vNUHzx9Jz1WKB6fSeaHRepLAog/IMQynLmlCQJWG4n7N9VK0FmTNqT4WZiXBdVnSMS37lMSY+rmG4on57txYyyMFocReeQg14krsv3lflCh8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=aLK/AW+Z; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=HK9Js6nR; arc=none smtp.client-ip=202.12.124.159
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
+Received: from phl-compute-07.internal (phl-compute-07.internal [10.202.2.47])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id 100B47A01D4;
+	Tue,  7 Apr 2026 14:54:46 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-07.internal (MEProxy); Tue, 07 Apr 2026 14:54:47 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1775588086;
+	 x=1775674486; bh=eYSepH2p/VYUSUdSvxsdSkN+OMjdCOmDx3IMbk8+4Qo=; b=
+	aLK/AW+ZDTn0JnyHpOe0UzpXjbJm5qyTNuaXGqA04D3uXl64O0ZXSLbA9Nawt5cQ
+	KDVecD6X+rAtwiGoAauhBgMeDz18we+u3vI/0z11WFfGfl23hAjy2R5mTALyFksQ
+	CYbTer3HdJ15XtffGrUvhEM3CsYWyNkctGWH6c2E13jle0JBaxWV6ataCQHf9lTn
+	L+vYCNq1fq9BaSoQtrtIZswDXJzo2Px+ssWN+/5tL82hQFMBkyWySOSleUABLAx3
+	Sd3oIug3jNB6hcE29B0l67HdA0mP/ldEWBzPZg55ox0HtnjwD+2sSgj0+1/1CDba
+	0MnqgPRviTCoB4H0vAXbdg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1775588086; x=
+	1775674486; bh=eYSepH2p/VYUSUdSvxsdSkN+OMjdCOmDx3IMbk8+4Qo=; b=H
+	K9Js6nRZUIIjHnP6KnUX0sLp2hv6xq8DxpXONNNRTf6JT1mAmyuDigGTFDjoTj6I
+	a4cHRfVSvG2GPejsCHOCQkq0HIKz7cFtUNnWPqXCUh/1c9xmVmJUzkiro3YCwdYK
+	0b05hoDdbv78gF9fXog0LpE9O+gNMn52hzSmkXaZNzcYMskO6UvUwmUjPsX9pX0C
+	UbQACM4CaL/p7Ft41WpCsmKei5gTO2EslwZHh1/iqL2Wq8TFehoBFyBt4HlavAWN
+	b9IsaSwROXzAbjUIcXu2y+nfNDfWNWGWvUAZSYaKv2C65Sd/oA7V4GNqdKoeiXHP
+	pZCxUfNWFq9hc/QpRslyw==
+X-ME-Sender: <xms:9VLVacQC46YV35VnqTP7OG_2SuHTiKrKU96DtdF7N3Vm_H7rne3Yww>
+    <xme:9VLVac1GSbgnJLxKlr3GbVCrKzy2r-dO76tPO4S-mb__d6W2DJXj57iURCshoQKsr
+    dR_GuurPUdXNIAufSSCZCDiCctvoNqasXx17OqHM1U8uSKWjs0wsPk>
+X-ME-Received: <xmr:9VLVaUcr6bPb1TtFm0Iv7Aw7Erbisnw78RaTCczidPVrTM0NC0VGoiBevyYCmuQm6v1vc-2ApnwOHrrnuwwTgtwAGbHv5N-nPZwC>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgddvudegfecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
+    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
+    hrpeffhffvvefukfhfgggtugfgjgesthekredttddtjeenucfhrhhomheppfhikhhlrghs
+    ucfunpguvghrlhhunhguuceonhhikhhlrghsrdhsohguvghrlhhunhguodhrvghnvghsrg
+    hssehrrghgnhgrthgvtghhrdhsvgeqnecuggftrfgrthhtvghrnhepkeegveffvdejheff
+    ieduleffkeeiteegieehkeetgeethefhvdfgkeetfeeuhfeknecuffhomhgrihhnpeguth
+    hsrdhimhenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhm
+    pehnihhklhgrshdrshhouggvrhhluhhnugdorhgvnhgvshgrshesrhgrghhnrghtvggthh
+    drshgvpdhnsggprhgtphhtthhopedutddpmhhouggvpehsmhhtphhouhhtpdhrtghpthht
+    ohepghgvvghrtheslhhinhhugidqmheikehkrdhorhhgpdhrtghpthhtohephihoshhhih
+    hhihhrohdrshhhihhmohgurgdruhhhsehrvghnvghsrghsrdgtohhmpdhrtghpthhtohep
+    phgruhhlsehpsggrrhhkvghrrdguvghvpdhrtghpthhtoheprghnughrvgifodhnvghtug
+    gvvheslhhunhhnrdgthhdprhgtphhtthhopegurghvvghmsegurghvvghmlhhofhhtrdhn
+    vghtpdhrtghpthhtohepvgguuhhmrgiivghtsehgohhoghhlvgdrtghomhdprhgtphhtth
+    hopehkuhgsrgeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepphgrsggvnhhisehrvggu
+    hhgrthdrtghomhdprhgtphhtthhopehnvghtuggvvhesvhhgvghrrdhkvghrnhgvlhdroh
+    hrgh
+X-ME-Proxy: <xmx:9VLVacOun2fxu6BgNW9nKe-I_wPLprLr2YlFfjxGNlWKCmzrVBVstg>
+    <xmx:9VLVaQUEhV97Zwoty7kGHEE5Ar0-0vtkVI9V2eK57lNNFdqsKNVf6A>
+    <xmx:9VLVacxETfp_hpQEO4XAWXM2dcWwJp_gZUlBNbT2R4TB_-oMUfzSnA>
+    <xmx:9VLVaf9UQNx7vIqUv1aDPtaHLDdLr_cesxdFaoT8Xq4qOHvKTwpW3A>
+    <xmx:9lLVaXZij-Yc-sbt_20BfIL17T6x2i69Zz1m1xic8fnbgT2w_NZ8zNfW>
+Feedback-ID: i80c9496c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 7 Apr 2026 14:54:45 -0400 (EDT)
+Date: Tue, 7 Apr 2026 20:54:43 +0200
+From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+	Paul Barker <paul@pbarker.dev>, Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [net-next] net: ethernet: ravb: Suspend and resume the
+ transmission flow
+Message-ID: <20260407185443.GC2551274@ragnatech.se>
+References: <20260401183608.1852225-1-niklas.soderlund+renesas@ragnatech.se>
+ <CAMuHMdWnjV=HGE1o08zLhUfTgOSene5fYx1J5GG10mB+Toq8qg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TYCPR01MB11947:EE_|TYWPR01MB11104:EE_
-X-MS-Office365-Filtering-Correlation-Id: d81b2429-fb1c-443e-c403-08de94bb4816
-X-LD-Processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|1800799024|376014|52116014|7416014|18002099003|38350700014|22082099003|56012099003;
-X-Microsoft-Antispam-Message-Info:
-	/9Rmu4Lwp6liHz06/Wsjl0IqUwvGaHgLEfet7SUfTuG3y7DE1ez/Ygfgm7aDDGIcYPT9CZ0bGfCoSfrDqDvvrbhdF/IdeGvPPTrPeS/5jMD2gg1ERTol8+NMcrB1K5Mbuv5+FQ8czMCmdDl9YwE169HU2JPifuMix6/fJTcIAw0arGJ3jzl9F6dZIIHnjZNbh/DHISGmwW2xQe8qVARFLFcclLgb5Fey3YBvNjLD1TWRYvxHBRcsa+kBbMQijHFPK3d4TvTonNw3oIZ4kv2/cjDORh3+0+AImMq/+yhXW7kvSUjGpXydlDTX7SpDqC10OmYMjJDuoDnScRJyByLjdNsUPsBqCsI5bYCDZRznVAw6ZwaZJK+pY8cUnjuRzBXfYRDYbbJY5V5a+xInkfQlySDY+LGi2PeBymMhe+OtLu6RF5jy7868GhA97UlNUFOTBGP15nPsfl4aVF/t5hkvMlNH7ol6pS8+5MWunJkSo9i8SoMtlfADzrubygewyxW8PVEDpM59h/L678/Se02PfJKyguDJ4l0yV8Mkv8ZK8VKQX+1k9TRZePRpdZcjzR0/BmFpFhEoEORTZhGXP9bz9HOITau796NwSxdLWrgrKWX44GWdEjeabpMQWEZDly4XsNoqqEFz4vFAqGWpDmOCHf7SBKKxhR889VdQb7yBNIprh3l1heWH/OmqzkeRTUiBJ0qwMsO2QN9WqWWGCVAG+pujea4KXlfRHhZ7+jHR5WHh8fY54DopP2vRi4TzUtwYcz+Hb9NdMskrzCq/z4WdOMiksd4T+2qslQMOMgSPgdU=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB11947.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(52116014)(7416014)(18002099003)(38350700014)(22082099003)(56012099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?YlwNpHvgJVju5YqI/nNtb6Sc9on3/9Tyd2QIDIgHZWnbuB7bQtBe+ENimsx8?=
- =?us-ascii?Q?sTdplsy2PptdnR1ZOHq2cmm4VuyyIS0sKyOu8QsJY6/eMU/o60X7vlliA7cO?=
- =?us-ascii?Q?/6QMcF+TNK4lgDXnfOdklhD2NFMROaBzH4xgr8TUz5FBzWF8USUx8sqs5RHG?=
- =?us-ascii?Q?4FsIIqgg/dcwm83Rj/mHnew7HmEM/l9JOtWbxPajODupiF4ThJSlzvn8NTlK?=
- =?us-ascii?Q?SS20G3XimTJrp2rpb42i4WRl+5mHrdyyRqvqv+xDF3IR1y3fwMpMbb369MF+?=
- =?us-ascii?Q?wxK0y5VMq0hB7zy3jpySplb74bG/aZuAlYtO7qB2zgF3/EmEWeQJo8QhdFIB?=
- =?us-ascii?Q?Qg0LxQHbSF9kCWEul/vImMidJEMSIgCIWHsKs6a41U8shYZO/N3YWEv2FLv4?=
- =?us-ascii?Q?PAhpFuhC3vhxcJUHauU7sCMxme+x91iiRYBtUe1N/PM1eYl+eITIv4OJF+Ar?=
- =?us-ascii?Q?e8+F4S0rUkU0C1Ym0NcKvaFuSLTRN/xTijn0d6iROWgpAanLDSWCOUxTQrOZ?=
- =?us-ascii?Q?WU35CmatJqxnjaJ8RuCYFjLD7TBbuCwXNaGCrxH1wZTIaIEbATu+PUV/V9HR?=
- =?us-ascii?Q?8U4IRH21cGQkSupnv5nJmc3DaCCKce6hxK4zSoX5mQTl+Sr4RBaFVe/EdSNb?=
- =?us-ascii?Q?2tpwnxeMtq2OORUkN5hh4Zh0piO+xEuzD1aVPwBAEACwTFwy5YRQvx/iHU1T?=
- =?us-ascii?Q?OZTVGKbhSK5N28vSVnFu2mul33WI3lWMLCbm/+/+qBXYYoY5KAj8dcM8u4T3?=
- =?us-ascii?Q?FthY/Q82mA2x3k0eVOwWwjvSxQPfat5X2SvRoF7A06NOB+mfe8p0ZBpj5Ywu?=
- =?us-ascii?Q?yk5WuXtw9pOq58v2OUrIZxWSKg+ePS5cIcCMs68i/T68XqF1MuUfSewb9qkv?=
- =?us-ascii?Q?Cww1/F02N1ms/AWdteaosE3NoOb6xD0GL/Q/FWsxrxFqhLzaJR9rIWJN7F7V?=
- =?us-ascii?Q?eH5Q+jaK/DpxLBqJYK4E4adfDUwAbo8kTXF+g6JGR4+f3iCi1MIqXr7Uxehs?=
- =?us-ascii?Q?socqMkxjqmXblyU02ku8vHAb8PNA1U2VjpFoakTGz2ROL856wXE1CJAAd3vD?=
- =?us-ascii?Q?Xh29sPZjrtAU9Et27RPcw/0bR5cwxZIfhTb1m7cmjyrpDrrTP6SrHdczZoY2?=
- =?us-ascii?Q?WfqFVbuVHj5FupZK7sjyOXCf86MNCVMczVUytinRdCsDWjbr7TPsWiwV3VXr?=
- =?us-ascii?Q?qII4/XrHL821MDmFqCmMAA7gxPvx6qHlwp8NrLce6xwsEhDrE9fplnJwMU67?=
- =?us-ascii?Q?tNes5T08AnYioE8kk/khcGA5XIknPnTj6A8bfh9+Y3kgH7d43qlkrupwalJv?=
- =?us-ascii?Q?3p4rV/JEfQVqTOYpqzZCKyBmwJfQ08gUxUPusOwmn8vL/3SmI+5hIsE6sClA?=
- =?us-ascii?Q?FkcpROaTDgSJo9Lw6Z4cO62uCWlN4cT7BIr+UUO0ufjlJYgy0Nhrn4OJCtym?=
- =?us-ascii?Q?CyQDH9prKyt9BoSMv3xDwU5CZ0qru/zFza9fE0N2+cb3OiTXgi06ngBwOkeK?=
- =?us-ascii?Q?C3MGUdE4O6XkfL/M8SKcKzTXD7CwiFCPBsCBvqxT0O0/pbzg/z38KdUUJWEG?=
- =?us-ascii?Q?HNkzSKt77+NAboqGbZYk5s3BTrooXXGMWuaFrKVi8466jRfUhvZf98tLu3H4?=
- =?us-ascii?Q?Wl1ikm9NigS6KIfezNfKsF011J9jsf1LuhnNMEwx265Lcr8vByt6LD1ueNO2?=
- =?us-ascii?Q?B3aLFJ5M4lmCGe2P/la8rbQ71OcbJI5LCsKfux0HM8LDv/AwINOJnBAhZA9g?=
- =?us-ascii?Q?XtqZEG/lXqzOKVSmsXPo3k/0/hWAc/IM2tfTlWQNGeYT8D6cZqEm?=
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d81b2429-fb1c-443e-c403-08de94bb4816
-X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB11947.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Apr 2026 15:35:22.3457
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: gpIdcuN6wIGYXlZ9G8ODoj1z9HALFvlJUBnIDd0UG8Zf5bOPgQ2oG9kF7WDslWJfGnuGm0pq3YrTI9dHQwzT01w15+LHJcxo1nPUpEaua8O710VEleLAUtB56S54OtcH
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYWPR01MB11104
-X-Spamd-Result: default: False [2.84 / 15.00];
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAMuHMdWnjV=HGE1o08zLhUfTgOSene5fYx1J5GG10mB+Toq8qg@mail.gmail.com>
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_REJECT(1.00)[cv is fail on i=2];
-	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[renesas.com,none];
-	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[bp.renesas.com:s=selector1];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[ragnatech.se,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[ragnatech.se:s=fm1,messagingengine.com:s=fm2];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_TO(0.00)[gmail.com,axentia.se,pengutronix.de];
-	FREEMAIL_CC(0.00)[vger.kernel.org,bp.renesas.com,glider.be,gmail.com,kernel.org];
+	DKIM_TRACE(0.00)[ragnatech.se:+,messagingengine.com:+];
 	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[13];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-30945-lists,linux-renesas-soc=lfdr.de];
-	DKIM_TRACE(0.00)[bp.renesas.com:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[tommaso.merciai.xr@bp.renesas.com,linux-renesas-soc@vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-30946-lists,linux-renesas-soc=lfdr.de,renesas];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	MISSING_XM_UA(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
+	RCVD_COUNT_FIVE(0.00)[6];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[niklas.soderlund@ragnatech.se,linux-renesas-soc@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	NEURAL_HAM(-0.00)[-0.999];
-	DBL_PROHIBIT(0.00)[0.241.139.240:email];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,dt];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,renesas.com:email,bp.renesas.com:dkim,bp.renesas.com:mid]
-X-Rspamd-Queue-Id: 6FC3E3B12EF
+	RCPT_COUNT_SEVEN(0.00)[10];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,netdev];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,linux-m68k.org:email,ragnatech.se:dkim,ragnatech.se:email,ragnatech.se:mid]
+X-Rspamd-Queue-Id: 9C72B3B3167
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-The renesas,rzv2h-usb2phy-reset binding schema defines #mux-state-cells
-as a required property. Add it to the usb20phyrst node to fix the
-following warnings:
+Hi Geert,
 
-"arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk.dtb: usb20phy-reset@15830000 (renesas,r9a09g056-usb2phy-reset): '#mux-state-cells' is a required property"
-"arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk-cn15-emmc.dtb: usb20phy-reset@15830000 (renesas,r9a09g056-usb2phy-reset): '#mux-state-cells' is a required property"
-"arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk-cn15-sd.dtb: usb20phy-reset@15830000 (renesas,r9a09g056-usb2phy-reset): '#mux-state-cells' is a required property"
+Thanks for your report.
 
-Fixes: 6a1b6f7e56dc ("dt-bindings: reset: renesas,rzv2h-usb2phy: Add '#mux-state-cells' property")
-Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
----
- arch/arm64/boot/dts/renesas/r9a09g056.dtsi | 1 +
- 1 file changed, 1 insertion(+)
+On 2026-04-07 11:03:38 +0200, Geert Uytterhoeven wrote:
+> Hi Niklas, Shimoda-san,
+> 
+> On Wed, 1 Apr 2026 at 20:39, Niklas Söderlund
+> <niklas.soderlund+renesas@ragnatech.se> wrote:
+> >
+> > From: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+> >
+> > The current driver does not follow the latest datasheet and does not
+> > suspend the flow when stopping DMA and resume it when starting. Update
+> > the driver to do so.
+> >
+> > Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+> > [Niklas: Rebase from BSP and reword commit message]
+> > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> 
+> Thanks for your patch, which is now commit 353d8e7989b6babe ("net:
+> ethernet: ravb: Suspend and resume the transmission flow") in
+> linux-next/master net-next.
+> 
+> > --- a/drivers/net/ethernet/renesas/ravb_main.c
+> > +++ b/drivers/net/ethernet/renesas/ravb_main.c
+> > @@ -694,6 +694,9 @@ static int ravb_dmac_init(struct net_device *ndev)
+> >         const struct ravb_hw_info *info = priv->info;
+> >         int error;
+> >
+> > +       /* Clear transmission suspension */
+> > +       ravb_modify(ndev, CCC, CCC_DTSR, 0);
+> > +
+> >         /* Set CONFIG mode */
+> >         error = ravb_set_opmode(ndev, CCC_OPC_CONFIG);
+> >         if (error)
+> > @@ -1103,6 +1106,12 @@ static int ravb_stop_dma(struct net_device *ndev)
+> >         if (error)
+> >                 return error;
+> >
+> > +       /* Request for transmission suspension */
+> > +       ravb_modify(ndev, CCC, CCC_DTSR, CCC_DTSR);
+> > +       error = ravb_wait(ndev, CSR, CSR_DTS, CSR_DTS);
+> > +       if (error)
+> > +               netdev_err(ndev, "failed to stop AXI BUS\n");
+> 
+> This error message is printed during resume from s2idle or s2ram on
+> e.g. Salvator-XS and Gray Hawk Single.  Ethernet (nfsroot) still works
+> fine, though.
 
-diff --git a/arch/arm64/boot/dts/renesas/r9a09g056.dtsi b/arch/arm64/boot/dts/renesas/r9a09g056.dtsi
-index 40525470194e..7ccddd6a4a9a 100644
---- a/arch/arm64/boot/dts/renesas/r9a09g056.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r9a09g056.dtsi
-@@ -1327,6 +1327,7 @@ usb20phyrst: usb20phy-reset@15830000 {
- 			resets = <&cpg 0xaf>;
- 			power-domains = <&cpg>;
- 			#reset-cells = <0>;
-+			#mux-state-cells = <1>;
- 			status = "disabled";
- 		};
- 
+I was not able to reproduce this on M3N (r8a77965-salvator-xs.dts) nor 
+Sparrow Hawk (r8a779g3-sparrow-hawk.dts). I'm using the following to 
+test, is your test-case different?
+
+  # echo enabled > /sys/class/tty/ttySC0/power/wakeup
+  # echo s2idle > /sys/power/mem_sleep
+  # echo 0 > /sys/module/printk/parameters/console_suspend
+  # echo mem > /sys/power/state
+
+Console log from M3N (console wakeup)
+
+[  149.278623] Freezing user space processes
+[  149.287951] Freezing user space processes completed (elapsed 0.005 seconds)
+[  149.295439] OOM killer disabled.
+[  149.298796] Freezing remaining freezable tasks
+[  149.305367] Freezing remaining freezable tasks completed (elapsed 0.002 seconds)
+[  149.364876] ravb e6800000.ethernet end0: Link is Down
+[  149.701951] usb usb2: root hub lost power or was reset
+[  149.708295] usb usb1: root hub lost power or was reset
+[  149.793871] usb usb3: root hub lost power or was reset
+[  149.799174] usb usb4: root hub lost power or was reset
+[  149.931707] Micrel KSZ9031 Gigabit PHY e6800000.ethernet-ffffffff:00: attached PHY driver (mii_bus:phy_addr=e6800000.ethernet-ffffffff:00, irq=170)
+[  150.008695] OOM killer enabled.
+[  150.012003] Restarting tasks: Starting
+[  150.020596] Restarting tasks: Done
+[  150.024234] random: crng reseeded on system resumption
+[  150.036191] PM: suspend exit
+[  150.235966] ata1: link resume succeeded after 1 retries
+[  150.344391] ata1: SATA link down (SStatus 0 SControl 300)
+[  156.499184] ravb e6800000.ethernet end0: Link is Up - 1Gbps/Full - flow control off
+
+Console log from V4H (console wakeup)
+
+[   64.982935] Filesystems sync: 0.000 seconds
+[   64.992414] Freezing user space processes
+[   64.996111] Freezing user space processes completed (elapsed 0.002 seconds)
+[   64.997280] OOM killer disabled.
+[   64.997711] Freezing remaining freezable tasks
+[   65.000580] Freezing remaining freezable tasks completed (elapsed 0.002 seconds)
+[   65.012959] ravb e6800000.ethernet end0: Link is Down
+[   65.167569] Micrel KSZ9031 Gigabit PHY e6800000.ethernet-ffffffff:00: attached PHY driver (mii_bus:phy_addr=e6800000.ethernet-ffffffff:00, irq=108)
+[   65.190614] OOM killer enabled.
+[   65.191058] Restarting tasks: Starting
+[   65.195133] Restarting tasks: Done
+[   65.195743] random: crng reseeded on system resumption
+[   65.201052] PM: suspend exit
+[   71.305027] ravb e6800000.ethernet end0: Link is Up - 1Gbps/Full - flow control off
+
+> 
+> > +
+> >         /* Stop AVB-DMAC process */
+> >         return ravb_set_opmode(ndev, CCC_OPC_CONFIG);
+> >  }
+> 
+> Gr{oetje,eeting}s,
+> 
+>                         Geert
+> 
+> -- 
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+> 
+> In personal conversations with technical people, I call myself a hacker. But
+> when I'm talking to journalists I just say "programmer" or something like that.
+>                                 -- Linus Torvalds
+
 -- 
-2.43.0
-
+Kind Regards,
+Niklas Söderlund
 
