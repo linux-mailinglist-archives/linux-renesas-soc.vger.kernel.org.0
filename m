@@ -1,81 +1,81 @@
-Return-Path: <linux-renesas-soc+bounces-30923-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-30924-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id MH8VGGUJ1WnMzgcAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-30923-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 07 Apr 2026 15:40:53 +0200
+	id EOgKNJMJ1WnMzgcAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-30924-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 07 Apr 2026 15:41:39 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id C34693AF51B
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 07 Apr 2026 15:40:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4944F3AF548
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 07 Apr 2026 15:41:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 701A830812FA
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  7 Apr 2026 13:36:05 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 0459A309409C
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  7 Apr 2026 13:36:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 75A2A3B9619;
-	Tue,  7 Apr 2026 13:35:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5300E3B7B99;
+	Tue,  7 Apr 2026 13:35:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="gcNCLCsv"
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="l+sATYvk"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E9973B8BCC
-	for <linux-renesas-soc@vger.kernel.org>; Tue,  7 Apr 2026 13:35:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A93A3B960F
+	for <linux-renesas-soc@vger.kernel.org>; Tue,  7 Apr 2026 13:35:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775568936; cv=none; b=ql9hxo4V1Iit6Lgt6c3T/aukFkfcWQBVCt5ygvkfwAemzJ62O3I2ExN+KoCw2AUij4Qy/K/bW9qDVvIbj4q0lr14Yyb9F2NttiV6NyPaZ2FqTXedIQZJBZE1lyTUVfOA3thgewB6bvAeHp1lkHyzalBKFUsFYuq+t6L1GPkNhf4=
+	t=1775568939; cv=none; b=WH2zKhp+I0xcy2r8AJiMx5tmc4iGwEhQ8MHpmAFHcJKdn0On+w9bHOWL7a5XtZtP6FlGV97mlCpHe38ONM+2p7KJfpPFZiyOVZIFb/c4So6V9Iqdz2UchtHg1u7ripKXrVVwxhnZSNd9tFshp4KYvStUXq03W3UMddYdUVslOkc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775568936; c=relaxed/simple;
-	bh=oXhP19nSq9V9gIPK7p49JTqQS9Nh248cIFDTun6vI78=;
+	s=arc-20240116; t=1775568939; c=relaxed/simple;
+	bh=wlgiHcw/Rk80blgSRKmBaac9zbE36CHj3pI+3DwhduA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=RuvNI7AzG4+PX0/ldf0u729a2fMJzxwfxvTTwmuBQblpgu2F3o7e6FgL0b1JeaZcmBVzPpyXLCCy0jnHCp/UQmF9BC4B0+BgYBmyzF3CX036Jo8lMutUodZwd+d/HUS2k0H9KEtNuK2NN8cmAdf/9ysq4cGahTTax5SC7lu+v6Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=gcNCLCsv; arc=none smtp.client-ip=209.85.128.45
+	 MIME-Version; b=G0iyogrTmAWWCxZMHQyQCsQUgFp7CIqRfco4HKAe2dPBsHd+40OpBQRZ9gyA22a+dZfHzNOwnm19oKVPouDtSZxHCp9MKpOympE2UMoXI99aVHznJGD9w/JzI9fPP0Hvbfg0Wd36uxkt9hQ9nsRV8gPgHSWjb3UBi3AD7Y8v82k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=l+sATYvk; arc=none smtp.client-ip=209.85.221.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-488ba6366a7so13869705e9.0
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 07 Apr 2026 06:35:34 -0700 (PDT)
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-43cf8d550bdso4656223f8f.0
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 07 Apr 2026 06:35:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1775568933; x=1776173733; darn=vger.kernel.org;
+        d=tuxon.dev; s=google; t=1775568935; x=1776173735; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=lPqjlgjOWitVthnX/i/FGgn586vKfxcqfC7axGBVgqQ=;
-        b=gcNCLCsvstMJhU7Yd6LjAalshRtcbicMDcUMv5j7b9rMrtwjR/zwOWq81lYMq/EoNt
-         07wsyRSRbnFH7e7cFi5GvpWG7/QVbzmdG+UQUFx8vwrnquuc5UZW28InAE7ZMJjeYiXW
-         OdfICJj17gCNg9MZHJZhKc54KFUlr6G1yoQv8C+fppA3mpjTKeOaHYziluwfScCZnsAN
-         zL3E0IJLjyHy1/dnzO+P3Ega8vOOug5Sd2ABqm1vi8Hyt+eGXU9ch3KgGXhpG2TUmV8T
-         kVw5vGRC+yLmsK0PBquGlE2X3wF+aEZnfp4eagHig9NgUZQklgdifxYdMFCGJSIoHe43
-         tH7Q==
+        bh=CTJu85pQngl59MNDpS68s7UI0YBuMw9BWj2f+iVnYOc=;
+        b=l+sATYvkvpwAyWBkV456ZreNDwKAqQXW58CplwrCTzkqJ+DQKpIHT60q20zwd+pzDd
+         eFqJUckAiVGJXpwV05ky94WIJitohLI/a7jqvTHxmVlpMKQExsCaakDqylGOXIbhA5e0
+         F7pPcDU5ZKE61CGudJ2rUYCpKijaMEBIV9jkRe7wg2ymZsWtpBsKsA/CwPnToYR5binA
+         FA5RjiKlOcXl0QHxC/7wWSIGtCHOO6V0cUgamc0tYk+2iYtqxnSXExDGkHzO8UBkDvy4
+         rgYqXmq8ZfIH1+frnYpIfX8eSjSZPWHgwvKMvl6YRQRzNp420xNSh8YjNc5F3CFUSsRC
+         IG/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775568933; x=1776173733;
+        d=1e100.net; s=20251104; t=1775568935; x=1776173735;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=lPqjlgjOWitVthnX/i/FGgn586vKfxcqfC7axGBVgqQ=;
-        b=J8ZTyNIVVLAenGQWDiXaSdzX1iG8PC+0xa6RWuKsdfLAIs/M6ZoLVnopOsSy8ZSp5z
-         pxL/P+560d4xQT3GIG6X+1TfwMejppk113MhhZ7N5bWQ4P71P86QKq643zbqIandcFGb
-         byt0KbspJX7ji2uEZ52WZPoGqZHorKUI8rmz1+zYFWdJVeywTJubwcAOtq4uzxvwvB8Z
-         3/ym9W4rDm/epfSxgQc+BUtHvaRtXYBjxEPJbha2GivnIoRU/kqg8sMJxBAhgQCEHfYT
-         OxL/g2lQzp47GiEEK9BQqANOb693svgBPpIVkg3uMikIVhcTk55byJmfkLMS903u3VXz
-         9Ihw==
-X-Forwarded-Encrypted: i=1; AJvYcCWJsPv8wEO1CGP01jzeQlNxC/z98mkr8RKCBY3A6WyCC/0Ev8hMbab+p3/7W2N/t4iMH9l2gI7lY+J+oVbf5PNWGg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YytEm/xD0UrCTbBScnJAVauYiwa5hFfZsPshBvttu/q6CsG/nnR
-	oAVcZQF/Rum9qvtz61jO9wPAXE+dqdISpBmKjgNxStiVlXqf7Jzsa0lgWCX0T9a1AIw=
-X-Gm-Gg: AeBDies5HTPGiNIfNr3tFkrF7VDxjrjVRuVzKFvWHeAdT65y3u8nriDowTWOcZXaA2t
-	Ecig8vASaMin6NtuUx5MU079q8uiRXhqqe8Vb175J/ROFn4bGMfm2QE+QhtMGejY09/ghxILRzf
-	fv3VI1EUQ4o7xxK3OQkucaZ2FeurU41yjFnD479gykD+pEaCpgUB4rX1Ug1imvokdGn7S5tZqvC
-	7KD3sK/sRVR9eAPkgjiDzDYRROhv/ivmcZRopw3eSKM0hHSKg+ln6jnvorl+4EE9Xi775D7UK01
-	HTD6+pLMly2Bev0ILdFKc0re9zmp3Uc3NdERUGSk2g+FZLdhejYOUjy78Vw2/lUNAyeRg9l/l+y
-	5EE4WCUl6XuqwpQGCoUvbmOj70aAOmJ4Hu+Cn54tX+wJAT7+7XP8Mp9C2im7+3hobOAXvoDdwI8
-	SVyk1BBwMvB1UbItZdjxhpJdHfa9GOXhqsW514yKyxjXZaRRcXoVZE
-X-Received: by 2002:a05:600c:a306:b0:488:c014:34da with SMTP id 5b1f17b1804b1-488c01436b4mr22396015e9.26.1775568933020;
-        Tue, 07 Apr 2026 06:35:33 -0700 (PDT)
+        bh=CTJu85pQngl59MNDpS68s7UI0YBuMw9BWj2f+iVnYOc=;
+        b=a5rKwYd7IVGnoje8sriX2/xNMDl4WMsklUajIwpMC9T87j++3gm1AVGJACucqYiIDQ
+         y/FmH4VQIqh/QWaw+u0BEymDKjUfnYLekGjRWBE3jMlLHxvZFb+a0BjHRkPKWrQZBIcF
+         6Fpxa4ZqtFU+GV6n8NBgScCKtykDB7VV0TBqAJ/4SOM8Ka4rq+rF31hCdcPSoqpfLv0H
+         2mxYUjc4jE6dmX9WPmHc4czqaZhuwPtQ9agAiy3Z8j3m1P+swV/XbaqYcVAZcgWKfo8P
+         E+FBPvLuNsFaSV+9BHhoSKFu5iHSdmrj6fhdEXit4oqKMHW7WlHdJQY3cUehkSh+iVGF
+         0AZg==
+X-Forwarded-Encrypted: i=1; AJvYcCUjN4IHujhxn0HpJcGwl8endClTIGPD4cRd83zCKX/+d3EE2/4CzkNf1wAqA81IzE6y+476O0Hcm7zoVkBVZRiVsA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz0gKnOsqtggEgdrUsLhfFRh/L69EYurw/fEkTlu4XlQdCMiITg
+	XkBrdj6IKNYYqQK4zyvsDr3M3SeDP1xcq1n/OmJopvWNoUjSv8gGYMFIWmdaZ7QChc0=
+X-Gm-Gg: AeBDietgEOy7Mod/QaRNNekMTpa4Xw3PEirx/YQw7Kr32DHJhfmsXM8PW5/xzasF4Vl
+	UoYhll65f+uLiC1FJv4XqoNWxYyhN4BxRsFpl79rNsE07rt8M9wNfYMdFo15efbdxY+SpfzaJI/
+	TEmhRqbIBxquhiZhoCD3Y+hcp6NZsOJ1fztHgNDf2PNC/yBWnDxlMmX1UMjt+Ul7KL2mNU9lwY8
+	nG7BRmI5npogHlCFh57PDJ0c/j1QcnsjLKXmISK23WtSIbu1i+0kCYW361vk8be8tvqumEbEKxV
+	NIgvWuWUkLkl+1lJuEhhGEPElRNbRT0N4zQgOA1GD0XLizmm9aCYt3Fw3HH0ySpZof8nBsGerWr
+	cH6cptDLnS6Y/IhOr/XhCPsue4YH5upAzJ5PoJSP9bMUzzin+N26U/2IFz1kaishZ4ydG58Z7DI
+	LSFdCJ/5CSI+EOiBBH/MR7pZELv8dFAy2EVYuns2keu+IYp0uMhQn0
+X-Received: by 2002:a05:600c:46d5:b0:486:fdba:f5db with SMTP id 5b1f17b1804b1-488995d5fa9mr245123205e9.0.1775568934551;
+        Tue, 07 Apr 2026 06:35:34 -0700 (PDT)
 Received: from claudiu-X670E-Pro-RS.. ([82.78.167.248])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488a91686f9sm285777675e9.10.2026.04.07.06.35.31
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488a91686f9sm285777675e9.10.2026.04.07.06.35.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Apr 2026 06:35:32 -0700 (PDT)
+        Tue, 07 Apr 2026 06:35:34 -0700 (PDT)
 From: Claudiu <claudiu.beznea@tuxon.dev>
 X-Google-Original-From: Claudiu <claudiu.beznea.uj@bp.renesas.com>
 To: vkoul@kernel.org,
@@ -95,9 +95,9 @@ Cc: claudiu.beznea@tuxon.dev,
 	linux-sound@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org,
 	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Subject: [PATCH v3 04/15] dmaengine: sh: rz-dmac: Add helper to compute the lmdesc address
-Date: Tue,  7 Apr 2026 16:34:56 +0300
-Message-ID: <20260407133507.887404-5-claudiu.beznea.uj@bp.renesas.com>
+Subject: [PATCH v3 05/15] dmaengine: sh: rz-dmac: Save the start LM descriptor
+Date: Tue,  7 Apr 2026 16:34:57 +0300
+Message-ID: <20260407133507.887404-6-claudiu.beznea.uj@bp.renesas.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260407133507.887404-1-claudiu.beznea.uj@bp.renesas.com>
 References: <20260407133507.887404-1-claudiu.beznea.uj@bp.renesas.com>
@@ -118,7 +118,7 @@ X-Spamd-Result: default: False [0.34 / 15.00];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-30923-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-30924-lists,linux-renesas-soc=lfdr.de];
 	RCPT_COUNT_TWELVE(0.00)[17];
 	MIME_TRACE(0.00)[0:+];
 	DMARC_NA(0.00)[tuxon.dev];
@@ -136,15 +136,15 @@ X-Spamd-Result: default: False [0.34 / 15.00];
 	NEURAL_HAM(-0.00)[-1.000];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,tuxon.dev:dkim,renesas.com:email,bp.renesas.com:mid]
-X-Rspamd-Queue-Id: C34693AF51B
+X-Rspamd-Queue-Id: 4944F3AF548
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
 From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 
-Add a helper function to compute the lmdesc address. This makes the
-code easier to understand, and the helper will be used in subsequent
-patches.
+Save the start LM descriptor to avoid looping through the entire
+channel's LM descriptor list when computing the residue. This avoids
+unnecessary iterations.
 
 Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 ---
@@ -152,37 +152,60 @@ Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 Changes in v3:
 - none, this patch is new
 
- drivers/dma/sh/rz-dmac.c | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
+ drivers/dma/sh/rz-dmac.c | 11 ++++++++---
+ 1 file changed, 8 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/dma/sh/rz-dmac.c b/drivers/dma/sh/rz-dmac.c
-index 34c00f3ffd4c..ef775ffa1099 100644
+index ef775ffa1099..cd639aa9186a 100644
 --- a/drivers/dma/sh/rz-dmac.c
 +++ b/drivers/dma/sh/rz-dmac.c
-@@ -272,6 +272,12 @@ static void rz_dmac_lmdesc_recycle(struct rz_dmac_chan *channel)
- 	channel->lmdesc.head = lmdesc;
+@@ -58,6 +58,7 @@ struct rz_dmac_desc {
+ 	/* For slave sg */
+ 	struct scatterlist *sg;
+ 	unsigned int sgcount;
++	struct rz_lmdesc *start_lmdesc;
+ };
+ 
+ #define to_rz_dmac_desc(d)	container_of(d, struct rz_dmac_desc, vd)
+@@ -343,6 +344,8 @@ static void rz_dmac_prepare_desc_for_memcpy(struct rz_dmac_chan *channel)
+ 	struct rz_dmac_desc *d = channel->desc;
+ 	u32 chcfg = CHCFG_MEM_COPY;
+ 
++	d->start_lmdesc = lmdesc;
++
+ 	/* prepare descriptor */
+ 	lmdesc->sa = d->src;
+ 	lmdesc->da = d->dest;
+@@ -377,6 +380,7 @@ static void rz_dmac_prepare_descs_for_slave_sg(struct rz_dmac_chan *channel)
+ 	}
+ 
+ 	lmdesc = channel->lmdesc.tail;
++	d->start_lmdesc = lmdesc;
+ 
+ 	for (i = 0, sg = sgl; i < sg_len; i++, sg = sg_next(sg)) {
+ 		if (d->direction == DMA_DEV_TO_MEM) {
+@@ -693,9 +697,10 @@ rz_dmac_get_next_lmdesc(struct rz_lmdesc *base, struct rz_lmdesc *lmdesc)
+ 	return next;
  }
  
-+static u32 rz_dmac_lmdesc_addr(struct rz_dmac_chan *channel, struct rz_lmdesc *lmdesc)
-+{
-+	return channel->lmdesc.base_dma +
-+	       (sizeof(struct rz_lmdesc) * (lmdesc - channel->lmdesc.base));
-+}
-+
- static void rz_dmac_enable_hw(struct rz_dmac_chan *channel)
+-static u32 rz_dmac_calculate_residue_bytes_in_vd(struct rz_dmac_chan *channel, u32 crla)
++static u32 rz_dmac_calculate_residue_bytes_in_vd(struct rz_dmac_chan *channel,
++						 struct rz_dmac_desc *desc, u32 crla)
  {
+-	struct rz_lmdesc *lmdesc = channel->lmdesc.head;
++	struct rz_lmdesc *lmdesc = desc->start_lmdesc;
  	struct dma_chan *chan = &channel->vc.chan;
-@@ -284,9 +290,7 @@ static void rz_dmac_enable_hw(struct rz_dmac_chan *channel)
+ 	struct rz_dmac *dmac = to_rz_dmac(chan->device);
+ 	u32 residue = 0, i = 0;
+@@ -794,7 +799,7 @@ static u32 rz_dmac_chan_get_residue(struct rz_dmac_chan *channel,
+ 	 * Calculate number of bytes transferred in processing virtual descriptor.
+ 	 * One virtual descriptor can have many lmdesc.
+ 	 */
+-	return crtb + rz_dmac_calculate_residue_bytes_in_vd(channel, crla);
++	return crtb + rz_dmac_calculate_residue_bytes_in_vd(channel, current_desc, crla);
+ }
  
- 	rz_dmac_lmdesc_recycle(channel);
- 
--	nxla = channel->lmdesc.base_dma +
--		(sizeof(struct rz_lmdesc) * (channel->lmdesc.head -
--					     channel->lmdesc.base));
-+	nxla = rz_dmac_lmdesc_addr(channel, channel->lmdesc.head);
- 
- 	chstat = rz_dmac_ch_readl(channel, CHSTAT, 1);
- 	if (!(chstat & CHSTAT_EN)) {
+ static enum dma_status rz_dmac_tx_status(struct dma_chan *chan,
 -- 
 2.43.0
 
