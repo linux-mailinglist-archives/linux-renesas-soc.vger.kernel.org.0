@@ -1,289 +1,148 @@
-Return-Path: <linux-renesas-soc+bounces-31007-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-31008-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id aBAeLehM1ml8DQgAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-31007-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 08 Apr 2026 14:41:12 +0200
+	id WInZOkNO1mm8DQgAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-31008-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 08 Apr 2026 14:46:59 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D42C3BC4BF
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 08 Apr 2026 14:41:12 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 635BB3BC5CC
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 08 Apr 2026 14:46:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 4F59C311783E
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Apr 2026 12:31:16 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 22FA3305E9D3
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Apr 2026 12:42:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 674932580CF;
-	Wed,  8 Apr 2026 12:31:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2AC453793AA;
+	Wed,  8 Apr 2026 12:42:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="TkzgO8vu"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ROEfoJDw"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C247202F71;
-	Wed,  8 Apr 2026 12:31:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C49A737D134
+	for <linux-renesas-soc@vger.kernel.org>; Wed,  8 Apr 2026 12:42:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775651467; cv=none; b=Yl/KcHkaEQfS9HnyM/naEGZ0MaD4DavVDhpiT4S9MijVCc9wl090hQzxMdYex1uDOM/hC9CRCzh3HeEC+exDWFNYtO8hyBT1rXdnRTXKF52/6EOr/I5vru6aAsfewaGHoP2q3OFCCy1X9bE63fL7v0CZho9tVsj6X+q+ma0rd+Q=
+	t=1775652132; cv=none; b=FSthu3RT0ku/TooqDAjIPhFQSzFOoHOdjOlgblD6b5FGImO8j2ahCeKlQEt9xQDta81yr27ma+YchaRzdQckfCxyQPo1lRZS3HlBYJxqUHHYtEMXkSK2WAa6kWe+uOj79ce39PTpnccBYuEpLq65RmoyUnD0wQTerVFF8iXAJGI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775651467; c=relaxed/simple;
-	bh=xHzscXGH/lQNWkxTBdZz39ABdMikVXRXgTqBI1UpVxM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mCQDM6diAhEF8blXWKgptNtuNTXbAE4oqj4KxnK7o79qvcB9N25qOR8VvWtXKzzSoYHlBl+Vp7dlh8B29gm/qycztU/72/upeATZbsQzbxkN8rhvaTJ1MusbNG4/NTNY7vSvyO3OknICoxD2IfInRrK5dpLi25NYJ1YvY+Ytt4w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=TkzgO8vu; arc=none smtp.client-ip=213.167.242.64
+	s=arc-20240116; t=1775652132; c=relaxed/simple;
+	bh=sfyYf39sm08Vy2f5kjydzUWGnUXTWqP0LYw7KB55p2k=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=G+xyVWLFf5ms5uHnpnvN6S8YG7flBncrjnZTVREmr1yQeP48H21ieoM367jHzIVOWHV6AxJceeud5oOMZ2kvZbzLkBQxWQKRWtzQIFUQFl5f8zeRrZ6Ibnx6VHzzeqlH3QMnabXxZzaoJ27NmYYa014r2xJbE5t5rupqv7kkanA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=ROEfoJDw; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from killaraus.ideasonboard.com (2001-14ba-703d-e500--2a1.rev.dnainternet.fi [IPv6:2001:14ba:703d:e500::2a1])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id B257A1121;
-	Wed,  8 Apr 2026 14:29:35 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 1DF8E236;
+	Wed,  8 Apr 2026 14:40:39 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1775651375;
-	bh=xHzscXGH/lQNWkxTBdZz39ABdMikVXRXgTqBI1UpVxM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=TkzgO8vuRkeg1oEPdFOETfOPxH2g+26+/Dfgn6BxRN2r2iDmp61K53SWL4nMb/XRj
-	 e5kEdGBWvB+0OrUJvTQHz/4TigaLGP/cem+CwxJs8+xIrFyZdjvRLlWnEpZOi/s+Jo
-	 D3oYxlVpln0Ee2B906FwaQt7WMOHwTIAFOYW1Dg8=
-Date: Wed, 8 Apr 2026 15:31:02 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
-Cc: tomm.merciai@gmail.com, geert@linux-m68k.org,
-	linux-renesas-soc@vger.kernel.org, biju.das.jz@bp.renesas.com,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Magnus Damm <magnus.damm@gmail.com>,
+	s=mail; t=1775652039;
+	bh=sfyYf39sm08Vy2f5kjydzUWGnUXTWqP0LYw7KB55p2k=;
+	h=From:To:Cc:Subject:Date:From;
+	b=ROEfoJDwBVVhhCl7bFfmOcrtNI/M92yazwzrYSn0tjZjc52P/9wy/NWqtnsG6h65q
+	 gbkLXoSRAJSgogx8n0gf50AeSJa3H0Xof+y/7O+y9XOkjNPuOjSxJBvwhqHy/CCs4n
+	 r4NQduGP7DlUwRwbAXaIS1P7BvdDqcoEED5n0BLU=
+From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+To: dri-devel@lists.freedesktop.org
+Cc: linux-renesas-soc@vger.kernel.org,
 	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org
-Subject: Re: [PATCH v6 13/21] drm: renesas: rz-du: mipi_dsi: Add
- RZ_MIPI_DSI_FEATURE_GPO0R feature
-Message-ID: <20260408123102.GA1960713@killaraus.ideasonboard.com>
-References: <cover.1775636898.git.tommaso.merciai.xr@bp.renesas.com>
- <9e0f64dd5e1efb0d27219416121c91a19da96ebd.1775636898.git.tommaso.merciai.xr@bp.renesas.com>
+	Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH] drm: rcar-du: Fix crash when no CMM is available
+Date: Wed,  8 Apr 2026 15:42:05 +0300
+Message-ID: <20260408124205.1962448-1-laurent.pinchart+renesas@ideasonboard.com>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <9e0f64dd5e1efb0d27219416121c91a19da96ebd.1775636898.git.tommaso.merciai.xr@bp.renesas.com>
-X-Spamd-Result: default: False [-0.66 / 15.00];
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-0.16 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
 	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-31007-lists,linux-renesas-soc=lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[gmail.com,linux-m68k.org,vger.kernel.org,bp.renesas.com,linux.intel.com,kernel.org,suse.de,ffwll.ch,glider.be,baylibre.com,ideasonboard.com,lists.freedesktop.org];
-	RCPT_COUNT_TWELVE(0.00)[22];
 	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-0.999];
+	TAGGED_FROM(0.00)[bounces-31008-lists,linux-renesas-soc=lfdr.de,renesas];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	RCPT_COUNT_THREE(0.00)[4];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[laurent.pinchart@ideasonboard.com,linux-renesas-soc@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
 	DKIM_TRACE(0.00)[ideasonboard.com:+];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[killaraus.ideasonboard.com:mid,renesas.com:email,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,ideasonboard.com:dkim]
-X-Rspamd-Queue-Id: 4D42C3BC4BF
+	NEURAL_HAM(-0.00)[-0.999];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
+	MID_RHS_MATCH_FROM(0.00)[];
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[ideasonboard.com:dkim,ideasonboard.com:email,ideasonboard.com:mid,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,glider.be:email,linux-m68k.org:email]
+X-Rspamd-Queue-Id: 635BB3BC5CC
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Wed, Apr 08, 2026 at 12:36:58PM +0200, Tommaso Merciai wrote:
-> The MIPI DSI ip found in the RZ/G3E SoC select the video input clock
-> based on the DU instance actually connected using the GPO0R register.
-> 
-> Add this feature to the driver using `RZ_MIPI_DSI_FEATURE_GPO0R`, update
-> the code accordingly to manage the vclk selection with the introduction
-> of `rzg2l_mipi_dsi_get_input_port()`.
-> 
-> Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
-> ---
-> v5->v6:
->  - Moved rzg2l_mipi_dsi_link_write() into rzv2h_mipi_dsi_dphy_init()
->    + comments from HW Manual.
-> 
-> v4->v5:
->  - No changes.
-> 
-> v3->v4:
->  - No changes.
-> 
-> v2->v3:
->  - No changes.
-> 
-> v1->v2:
->  - No changes.
-> 
->  .../gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c    | 71 +++++++++++++++++--
->  .../drm/renesas/rz-du/rzg2l_mipi_dsi_regs.h   |  3 +
->  2 files changed, 68 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
-> index be6dbf19a24e..947c8e15fc4b 100644
-> --- a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
-> +++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
-> @@ -37,7 +37,9 @@ MODULE_IMPORT_NS("RZV2H_CPG");
->  
->  #define RZG2L_DCS_BUF_SIZE	128 /* Maximum DCS buffer size in external memory. */
->  
-> +#define RZ_MIPI_DSI_MAX_INPUT	2
->  #define RZ_MIPI_DSI_FEATURE_16BPP	BIT(0)
-> +#define RZ_MIPI_DSI_FEATURE_GPO0R	BIT(1)
->  
->  struct rzg2l_mipi_dsi;
->  
-> @@ -81,13 +83,14 @@ struct rzg2l_mipi_dsi {
->  	struct drm_bridge bridge;
->  	struct drm_bridge *next_bridge;
->  
-> -	struct clk *vclk;
-> +	struct clk *vclk[RZ_MIPI_DSI_MAX_INPUT];
->  	struct clk *lpclk;
->  
->  	enum mipi_dsi_pixel_format format;
->  	unsigned int num_data_lanes;
->  	unsigned int lanes;
->  	unsigned long mode_flags;
-> +	u8 vclk_idx;
->  
->  	struct rzv2h_dsi_mode_calc mode_calc;
->  
-> @@ -543,8 +546,8 @@ static int rzg2l_dphy_conf_clks(struct rzg2l_mipi_dsi *dsi, unsigned long mode_f
->  	unsigned long vclk_rate;
->  	unsigned int bpp;
->  
-> -	clk_set_rate(dsi->vclk, mode_freq * KILO);
-> -	vclk_rate = clk_get_rate(dsi->vclk);
-> +	clk_set_rate(dsi->vclk[dsi->vclk_idx], mode_freq * KILO);
-> +	vclk_rate = clk_get_rate(dsi->vclk[dsi->vclk_idx]);
->  	if (vclk_rate != mode_freq * KILO)
->  		dev_dbg(dsi->dev, "Requested vclk rate %lu, actual %lu mismatch\n",
->  			mode_freq * KILO, vclk_rate);
-> @@ -687,6 +690,19 @@ static int rzv2h_mipi_dsi_dphy_init(struct rzg2l_mipi_dsi *dsi,
->  	rzg2l_mipi_dsi_phy_write(dsi, PLLCLKSET1R,
->  				 FIELD_PREP(PLLCLKSET1R_PLL_K, dsi_parameters->k));
->  
-> +	/*
-> +	 * From RZ/G3E HW manual (Rev.1.15) section 9.5.3 Operation,
-> +	 * 9.5.3.1 Power on Reset and Initial Settings for All Operations.
-> +	 * Figure 9.5-4 Power On/Off Sequence show that after writing to
-> +	 * GPO0R.VICH register we need to wait for more than 1 x tp before
-> +	 * writing to PLLENR.PLLEN.
-> +	 *
-> +	 * Note: GPO0R is a link register, not a PHY register. This setting
-> +	 * is specific to RZ/G3E.
-> +	 */
-> +	if (dsi->info->features & RZ_MIPI_DSI_FEATURE_GPO0R)
-> +		rzg2l_mipi_dsi_link_write(dsi, GPO0R, dsi->vclk_idx);
-> +
->  	/*
->  	 * From RZ/V2H HW manual (Rev.1.20) section 9.5.3 Operation,
->  	 * (C) After write to D-PHY registers we need to wait for more than 1 x tp
-> @@ -1005,6 +1021,37 @@ static int rzg2l_mipi_dsi_stop_video(struct rzg2l_mipi_dsi *dsi)
->  	return ret;
->  }
->  
-> +static int rzg2l_mipi_dsi_get_input_port(struct rzg2l_mipi_dsi *dsi)
-> +{
-> +	struct device_node *np = dsi->dev->of_node;
-> +	struct device_node *remote_ep, *ep_node;
-> +	struct of_endpoint ep;
-> +	bool ep_enabled;
-> +	int in_port;
-> +
-> +	/* DSI can have only one port enabled */
+Commit 3bce3fdd1ff2 ("drm: rcar-du: Don't leak device_link to CMM")
+refactored CMM handling, and introduced an incorrect test for CMM
+availability. When no CMM is present, the rcrtc->cmm field is NULL,
+testing rcrtc->cmm->dev causes a NULL pointer dereference. This slipped
+through testing as all tests were run with the CMM present.
 
-Why is that ? The hardware supports dynamic input selection, why can't
-it be supported at runtime ?
+Fix this issue by correctly testing for rcrtc->cmm.
 
-> +	for_each_endpoint_of_node(np, ep_node) {
-> +		of_graph_parse_endpoint(ep_node, &ep);
-> +		if (ep.port >= RZ_MIPI_DSI_MAX_INPUT)
-> +			break;
-> +
-> +		remote_ep = of_graph_get_remote_endpoint(ep_node);
-> +		ep_enabled = of_device_is_available(remote_ep);
-> +		of_node_put(remote_ep);
-> +
-> +		if (ep_enabled) {
-> +			in_port = ep.port;
-> +			break;
-> +		}
-> +	}
-> +
-> +	if (!ep_enabled)
-> +		return -EINVAL;
-> +
-> +	dev_dbg(dsi->dev, "input port@%d\n", in_port);
-> +	return in_port;
-> +}
-> +
->  /* -----------------------------------------------------------------------------
->   * Bridge
->   */
-> @@ -1425,9 +1472,21 @@ static int rzg2l_mipi_dsi_probe(struct platform_device *pdev)
->  	if (IS_ERR(dsi->mmio))
->  		return PTR_ERR(dsi->mmio);
->  
-> -	dsi->vclk = devm_clk_get(dsi->dev, "vclk");
-> -	if (IS_ERR(dsi->vclk))
-> -		return PTR_ERR(dsi->vclk);
-> +	dsi->vclk[0] = devm_clk_get(dsi->dev, "vclk");
-> +		if (IS_ERR(dsi->vclk[0]))
-> +			return PTR_ERR(dsi->vclk[0]);
-> +
-> +	if (dsi->info->features & RZ_MIPI_DSI_FEATURE_GPO0R) {
-> +		dsi->vclk[1] = devm_clk_get(dsi->dev, "vclk2");
-> +		if (IS_ERR(dsi->vclk[1]))
-> +			return PTR_ERR(dsi->vclk[1]);
-> +
-> +		ret = rzg2l_mipi_dsi_get_input_port(dsi);
-> +		if (ret < 0)
-> +			return dev_err_probe(dsi->dev, -EINVAL,
-> +					     "No available input port\n");
-> +		dsi->vclk_idx = ret;
-> +	}
->  
->  	dsi->lpclk = devm_clk_get(dsi->dev, "lpclk");
->  	if (IS_ERR(dsi->lpclk))
-> diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi_regs.h b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi_regs.h
-> index 2bef20566648..cee2e0bc5dc5 100644
-> --- a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi_regs.h
-> +++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi_regs.h
-> @@ -83,6 +83,9 @@
->  #define LINKSR_SQCHRUN1			BIT(4)
->  #define LINKSR_SQCHRUN0			BIT(0)
->  
-> +/* RZ/G3E General Purpose Output 0 Register */
-> +#define GPO0R				0xc0
-> +
->  /* Tx Set Register */
->  #define TXSETR				0x100
->  #define TXSETR_NUMLANECAP		(0x3 << 16)
+Fixes: 3bce3fdd1ff2 ("drm: rcar-du: Don't leak device_link to CMM")
+Reported-by: Geert Uytterhoeven <geert@linux-m68k.org>
+Closes: https://lore.kernel.org/dri-devel/CAMuHMdXomz9GFDqkBjGX9Sda_GLccPcrihvFbOz0GAitDVNTbw@mail.gmail.com
+Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+ drivers/gpu/drm/renesas/rcar-du/rcar_du_crtc.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
+diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_du_crtc.c b/drivers/gpu/drm/renesas/rcar-du/rcar_du_crtc.c
+index 7c36c30a75b6..1a246ebbfc61 100644
+--- a/drivers/gpu/drm/renesas/rcar-du/rcar_du_crtc.c
++++ b/drivers/gpu/drm/renesas/rcar-du/rcar_du_crtc.c
+@@ -513,7 +513,7 @@ static void rcar_du_cmm_setup(struct drm_crtc *crtc)
+ 	struct rcar_du_crtc *rcrtc = to_rcar_crtc(crtc);
+ 	struct rcar_cmm_config cmm_config = {};
+ 
+-	if (!rcrtc->cmm->dev)
++	if (!rcrtc->cmm)
+ 		return;
+ 
+ 	if (drm_lut)
+@@ -667,7 +667,7 @@ static void rcar_du_crtc_stop(struct rcar_du_crtc *rcrtc)
+ 	if (rcar_du_has(rcrtc->dev, RCAR_DU_FEATURE_VSP1_SOURCE))
+ 		rcar_du_vsp_disable(rcrtc);
+ 
+-	if (rcrtc->cmm->dev)
++	if (rcrtc->cmm)
+ 		rcar_cmm_disable(rcrtc->cmm->dev);
+ 
+ 	/*
+@@ -726,7 +726,7 @@ static void rcar_du_crtc_atomic_enable(struct drm_crtc *crtc,
+ 	struct rcar_du_crtc_state *rstate = to_rcar_crtc_state(crtc->state);
+ 	struct rcar_du_device *rcdu = rcrtc->dev;
+ 
+-	if (rcrtc->cmm->dev)
++	if (rcrtc->cmm)
+ 		rcar_cmm_enable(rcrtc->cmm->dev);
+ 	rcar_du_crtc_get(rcrtc);
+ 
+
+base-commit: dc2d30e7db8321a6696d266838f7af7e9d1c7155
 -- 
 Regards,
 
 Laurent Pinchart
+
 
