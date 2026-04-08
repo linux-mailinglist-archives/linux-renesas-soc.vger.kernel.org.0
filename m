@@ -1,307 +1,176 @@
-Return-Path: <linux-renesas-soc+bounces-31019-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-31021-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id kDdrJ31j1mnIEwgAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-31019-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 08 Apr 2026 16:17:33 +0200
+	id 6P/gJ25l1mnIEwgAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-31021-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 08 Apr 2026 16:25:50 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 964243BD894
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 08 Apr 2026 16:17:32 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 027F73BDA0F
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 08 Apr 2026 16:25:49 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 032C13002B5F
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Apr 2026 14:17:26 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 918E530417AC
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Apr 2026 14:21:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F331E3D092A;
-	Wed,  8 Apr 2026 14:17:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EBA3F3D3007;
+	Wed,  8 Apr 2026 14:21:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="s6qyK+i3"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="phAkUg1R"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 504B52DA75A;
-	Wed,  8 Apr 2026 14:17:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 333283D0917
+	for <linux-renesas-soc@vger.kernel.org>; Wed,  8 Apr 2026 14:21:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775657843; cv=none; b=Dcpr8ab0nBbHtVOK9TciLiOA4P0Vf4DyKjuZMMF+/bgyg9fOfq9qyD4YZDpUlopohP6MpZBdA+/BiYb2o+Q+h2jENunKNzzMF2+NZAsu3b4XPjnF8oE0DNzCp9/0mEzuSIM/N8PGXNzn6SM3igCrOqcsQreCgSgpQzzh67mTTxQ=
+	t=1775658072; cv=none; b=uKeOIa83ssvcHrLau+YWgQ42fTid4lib7xS7bojnABryLFb51uSrwOU3wUkAhb5NRex6pfRqwiWAdRSYPYKTpRWpa1Ko2imVBESQSSUhsfhMhEqD+pPCELhyd9TWpZoNdJzpuZX2TnD7BuPue5g4PxWaEpaCwKgz/XMXUL9V69Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775657843; c=relaxed/simple;
-	bh=3Bho4NJWklVctZpJLKGEsl+8sJES/JA2KlTVUBMWy2Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bkK7WCewDXX7NioPZrQQzz6v1OGgbxhPLfoRYVCF7DK33L4w2VpuoubJeUoTROut7LF4rdK6VSgas3PRNM3NtDQnfUoQffPRc9ROksBMz0f88YHY0pG63KK/oORph0BAkxATrTbctUFDp89ZVFioQ5CNl9hj1uaTDmkSRdHFUzw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=s6qyK+i3; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from killaraus.ideasonboard.com (2001-14ba-703d-e500--2a1.rev.dnainternet.fi [IPv6:2001:14ba:703d:e500::2a1])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 35CD41121;
-	Wed,  8 Apr 2026 16:15:52 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1775657752;
-	bh=3Bho4NJWklVctZpJLKGEsl+8sJES/JA2KlTVUBMWy2Q=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=s6qyK+i326qO08HC3hIQWV1w2TkGa+M1Pa/oQFq2qN5Pso0oAj+SjdIY6wBJmm2a1
-	 oMoeCEO3R2YPj1qPTF0RbGJmA67i9x9KRd0M7Y6UeUxRx9McSTupJboolwWMW6SlZv
-	 H+ye5vU/K2OWTzQjHSxPVM9dGbrIgGVRldgc+870=
-Date: Wed, 8 Apr 2026 17:17:19 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
-Cc: tomm.merciai@gmail.com, geert@linux-m68k.org,
-	linux-renesas-soc@vger.kernel.org, biju.das.jz@bp.renesas.com,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
+	s=arc-20240116; t=1775658072; c=relaxed/simple;
+	bh=GEsOH353p/1G/JzP0djxYvZlTie3JSvCRDJMrIeAh+s=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=m9w+oFvu69NAt12YSpwen25kUfTNgUZfE0b/VESyOhW2LX2VySTscrT37WNAfjtxJw4WzMudqc6XQ/251d+6BxnK7esqck24dyY9SOY9YQnoa79kZc7TZakyk1v/6yH80WeyPRnjVUH2zrFTaS2xXNK8lAdK1ZUtagzfksFKlSI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=phAkUg1R; arc=none smtp.client-ip=209.85.221.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-43cf8d550bdso5827794f8f.0
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 08 Apr 2026 07:21:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1775658068; x=1776262868; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=CMF6apjPFsM64OzbUJQDdgH7IQW/+yy5CdRNlHUwV6U=;
+        b=phAkUg1RnGbO7UHtnqFdsWio3AHfh+tRYGPMEP0cwVV4GsIM43eU7bDqTGGluv7rZy
+         UJ+IcLxfLmQQTRKByWo/VdVmkETTltwhI2vk5SCrbobEGu1sIH0kE11q+uLrWMAA8K2b
+         i+I5yemRg4ziTvcmTkID4Cwf0bV1h6lMhkkMyTKwI+Mg+G+B/pfLEBrSGLJmvtz+lxdG
+         FFpRrhr/SJ/OZgy+84Q7QdMs6S11nK1ripAA9GtvMob7AORt/6uik+jz/lgS0cwvqO4R
+         2skR/oTcGsUrRk42iFW+ymG89G/Cpu9anMcShs6gpaebNxewKGOjaVyu3Va4i+jKQaJP
+         O4qw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775658068; x=1776262868;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=CMF6apjPFsM64OzbUJQDdgH7IQW/+yy5CdRNlHUwV6U=;
+        b=moKTh5Ksvd395bpEGxhNUNsiqzRw73enygg9VA7ORIZz5YT+qzRUjt6qsMFcsaMNwv
+         yKtVgTWZiC1ZLjF2IzY1YFmCAxWOXmfRb4zkKj1JP8XqPs5yoTf2/t/CcsCmE8nKJnGO
+         9gD4jktSyuTmGb1+PLNqPCJJEiBsuLcIgoqoPQb31gtAwGcBGvXlAvz2YIxOLoikXDLI
+         XvJ4hmUNqA7WwPw82LBzzwEkry3MmVOmW30PEOQ4yxmSBDLxojtJfNHjfmVEEqPmuj8s
+         qJfCJKmuIf1TYRQMkyyoy0hhJw9hyZRSRi34oy5dX0y9YFsnzPF18XPRxkNBBtB4sdIM
+         bibg==
+X-Forwarded-Encrypted: i=1; AJvYcCUHyz3nkjVnIRmhdivc58aIDs/1BgkCN3sjVOaokCDTHa2y9fqenZqaodsH0s49oyNzgzdUS9gsd7jxWYJt9MxaVg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxEY2IagX5XUfQBtAC1xCyt72FzAdQNp/3XL163UbwX8Ix2gWh1
+	wS4JZ+foTtVctuZDE5fZ8jBZs6ER2L5WpuAhkFwYhXURNNR+/nqvo8ru
+X-Gm-Gg: AeBDiesx05Hi0OCv/pjIV47ajpKeLKBgrQ+fD7/iQqK45vJF9HzIO/s865SXl3g4F7r
+	YAm7BlUrngtPaBcrRZwwqrvfc3tym3loANQ3AZFViLZagGs8bPgqNhbE5oFBBD5/jF7KCEYgRCW
+	ps/belZDR1XPOtrlsfm2lzm+qCf+fjNWWNdT5tHlMyjhgoqB0KeurvHsTK4TUz3hdDupCWFLTe7
+	jC2gpJnj6CuZ1/uEQUEihRKuFJrBZLK7EiUyQLBbBulVrlvQ0KxfNgXSFBnaq5x7F7iyVuDS2eg
+	DFF5jybu1hNLFeN+nqICevC58sfKLAtb7ubi2lTjZFLnsOWRIr0trbeJv8VtB32vAZWyY6EJE0K
+	ii4ldIh7cfoWL14UQXcqn6lGSXeM6L+RbYSaALhVAvB3nreJja8Hng9fc4y43gS/7ThZb/SEqbV
+	NTd0qqzrVLGS41AYdwu0/osgvgW/j/+XEYjL0aRG2efnd7azI=
+X-Received: by 2002:a5d:5f85:0:b0:43c:f7f6:6016 with SMTP id ffacd0b85a97d-43d292daa51mr31326678f8f.32.1775658068345;
+        Wed, 08 Apr 2026 07:21:08 -0700 (PDT)
+Received: from localhost.localdomain ([2a00:23c4:a758:8a01:f65c:8080:131a:202])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43d1e1fe0b0sm60474467f8f.0.2026.04.08.07.21.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 08 Apr 2026 07:21:08 -0700 (PDT)
+From: Biju <biju.das.au@gmail.com>
+X-Google-Original-From: Biju <biju.das.jz@bp.renesas.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jiri Slaby <jirislaby@kernel.org>
+Cc: Biju Das <biju.das.jz@bp.renesas.com>,
 	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org
-Subject: Re: [PATCH v6 13/21] drm: renesas: rz-du: mipi_dsi: Add
- RZ_MIPI_DSI_FEATURE_GPO0R feature
-Message-ID: <20260408141719.GB1965119@killaraus.ideasonboard.com>
-References: <cover.1775636898.git.tommaso.merciai.xr@bp.renesas.com>
- <9e0f64dd5e1efb0d27219416121c91a19da96ebd.1775636898.git.tommaso.merciai.xr@bp.renesas.com>
- <20260408123102.GA1960713@killaraus.ideasonboard.com>
- <b8ded729-5c22-4a47-bfb7-8bffeed76e98@bp.renesas.com>
+	Thierry Bultel <thierry.bultel.yh@bp.renesas.com>,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	linux-kernel@vger.kernel.org,
+	linux-serial@vger.kernel.org,
+	Biju Das <biju.das.au@gmail.com>,
+	linux-renesas-soc@vger.kernel.org
+Subject: [PATCH v2 0/2] serial: sh-sci/rsci: Fix divide by zero and clean up baud rate logic
+Date: Wed,  8 Apr 2026 15:20:57 +0100
+Message-ID: <20260408142105.310210-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <b8ded729-5c22-4a47-bfb7-8bffeed76e98@bp.renesas.com>
-X-Spamd-Result: default: False [-0.66 / 15.00];
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-0.16 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
-	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_MISSING_CHARSET(0.50)[];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-31019-lists,linux-renesas-soc=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[gmail.com,linux-m68k.org,vger.kernel.org,bp.renesas.com,linux.intel.com,kernel.org,suse.de,ffwll.ch,glider.be,baylibre.com,ideasonboard.com,lists.freedesktop.org];
-	RCPT_COUNT_TWELVE(0.00)[22];
-	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DBL_PROHIBIT(0.00)[0.0.0.1:email];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[laurent.pinchart@ideasonboard.com,linux-renesas-soc@vger.kernel.org];
-	DKIM_TRACE(0.00)[ideasonboard.com:+];
-	NEURAL_HAM(-0.00)[-0.999];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
+	TAGGED_FROM(0.00)[bounces-31021-lists,linux-renesas-soc=lfdr.de];
+	RCVD_COUNT_FIVE(0.00)[5];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[bp.renesas.com,glider.be,sang-engineering.com,vger.kernel.org,gmail.com];
 	TO_DN_SOME(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[0.0.0.0:email,ideasonboard.com:dkim,renesas.com:email,killaraus.ideasonboard.com:mid,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 964243BD894
+	FROM_NEQ_ENVFROM(0.00)[bijudasau@gmail.com,linux-renesas-soc@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	NEURAL_HAM(-0.00)[-0.973];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[renesas.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,bp.renesas.com:mid]
+X-Rspamd-Queue-Id: 027F73BDA0F
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Wed, Apr 08, 2026 at 04:12:22PM +0200, Tommaso Merciai wrote:
-> Hi Laurent,
-> Thanks for your review.
-> 
-> On 4/8/26 14:31, Laurent Pinchart wrote:
-> > On Wed, Apr 08, 2026 at 12:36:58PM +0200, Tommaso Merciai wrote:
-> >> The MIPI DSI ip found in the RZ/G3E SoC select the video input clock
-> >> based on the DU instance actually connected using the GPO0R register.
-> >>
-> >> Add this feature to the driver using `RZ_MIPI_DSI_FEATURE_GPO0R`, update
-> >> the code accordingly to manage the vclk selection with the introduction
-> >> of `rzg2l_mipi_dsi_get_input_port()`.
-> >>
-> >> Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
-> >> ---
-> >> v5->v6:
-> >>   - Moved rzg2l_mipi_dsi_link_write() into rzv2h_mipi_dsi_dphy_init()
-> >>     + comments from HW Manual.
-> >>
-> >> v4->v5:
-> >>   - No changes.
-> >>
-> >> v3->v4:
-> >>   - No changes.
-> >>
-> >> v2->v3:
-> >>   - No changes.
-> >>
-> >> v1->v2:
-> >>   - No changes.
-> >>
-> >>   .../gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c    | 71 +++++++++++++++++--
-> >>   .../drm/renesas/rz-du/rzg2l_mipi_dsi_regs.h   |  3 +
-> >>   2 files changed, 68 insertions(+), 6 deletions(-)
-> >>
-> >> diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
-> >> index be6dbf19a24e..947c8e15fc4b 100644
-> >> --- a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
-> >> +++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
-> >> @@ -37,7 +37,9 @@ MODULE_IMPORT_NS("RZV2H_CPG");
-> >>   
-> >>   #define RZG2L_DCS_BUF_SIZE	128 /* Maximum DCS buffer size in external memory. */
-> >>   
-> >> +#define RZ_MIPI_DSI_MAX_INPUT	2
-> >>   #define RZ_MIPI_DSI_FEATURE_16BPP	BIT(0)
-> >> +#define RZ_MIPI_DSI_FEATURE_GPO0R	BIT(1)
-> >>   
-> >>   struct rzg2l_mipi_dsi;
-> >>   
-> >> @@ -81,13 +83,14 @@ struct rzg2l_mipi_dsi {
-> >>   	struct drm_bridge bridge;
-> >>   	struct drm_bridge *next_bridge;
-> >>   
-> >> -	struct clk *vclk;
-> >> +	struct clk *vclk[RZ_MIPI_DSI_MAX_INPUT];
-> >>   	struct clk *lpclk;
-> >>   
-> >>   	enum mipi_dsi_pixel_format format;
-> >>   	unsigned int num_data_lanes;
-> >>   	unsigned int lanes;
-> >>   	unsigned long mode_flags;
-> >> +	u8 vclk_idx;
-> >>   
-> >>   	struct rzv2h_dsi_mode_calc mode_calc;
-> >>   
-> >> @@ -543,8 +546,8 @@ static int rzg2l_dphy_conf_clks(struct rzg2l_mipi_dsi *dsi, unsigned long mode_f
-> >>   	unsigned long vclk_rate;
-> >>   	unsigned int bpp;
-> >>   
-> >> -	clk_set_rate(dsi->vclk, mode_freq * KILO);
-> >> -	vclk_rate = clk_get_rate(dsi->vclk);
-> >> +	clk_set_rate(dsi->vclk[dsi->vclk_idx], mode_freq * KILO);
-> >> +	vclk_rate = clk_get_rate(dsi->vclk[dsi->vclk_idx]);
-> >>   	if (vclk_rate != mode_freq * KILO)
-> >>   		dev_dbg(dsi->dev, "Requested vclk rate %lu, actual %lu mismatch\n",
-> >>   			mode_freq * KILO, vclk_rate);
-> >> @@ -687,6 +690,19 @@ static int rzv2h_mipi_dsi_dphy_init(struct rzg2l_mipi_dsi *dsi,
-> >>   	rzg2l_mipi_dsi_phy_write(dsi, PLLCLKSET1R,
-> >>   				 FIELD_PREP(PLLCLKSET1R_PLL_K, dsi_parameters->k));
-> >>   
-> >> +	/*
-> >> +	 * From RZ/G3E HW manual (Rev.1.15) section 9.5.3 Operation,
-> >> +	 * 9.5.3.1 Power on Reset and Initial Settings for All Operations.
-> >> +	 * Figure 9.5-4 Power On/Off Sequence show that after writing to
-> >> +	 * GPO0R.VICH register we need to wait for more than 1 x tp before
-> >> +	 * writing to PLLENR.PLLEN.
-> >> +	 *
-> >> +	 * Note: GPO0R is a link register, not a PHY register. This setting
-> >> +	 * is specific to RZ/G3E.
-> >> +	 */
-> >> +	if (dsi->info->features & RZ_MIPI_DSI_FEATURE_GPO0R)
-> >> +		rzg2l_mipi_dsi_link_write(dsi, GPO0R, dsi->vclk_idx);
-> >> +
-> >>   	/*
-> >>   	 * From RZ/V2H HW manual (Rev.1.20) section 9.5.3 Operation,
-> >>   	 * (C) After write to D-PHY registers we need to wait for more than 1 x tp
-> >> @@ -1005,6 +1021,37 @@ static int rzg2l_mipi_dsi_stop_video(struct rzg2l_mipi_dsi *dsi)
-> >>   	return ret;
-> >>   }
-> >>   
-> >> +static int rzg2l_mipi_dsi_get_input_port(struct rzg2l_mipi_dsi *dsi)
-> >> +{
-> >> +	struct device_node *np = dsi->dev->of_node;
-> >> +	struct device_node *remote_ep, *ep_node;
-> >> +	struct of_endpoint ep;
-> >> +	bool ep_enabled;
-> >> +	int in_port;
-> >> +
-> >> +	/* DSI can have only one port enabled */
-> > 
-> > Why is that ? The hardware supports dynamic input selection, why can't
-> > it be supported at runtime ?
-> 
-> For runtime/dynamic you mean using DT overlay??
-> like, remove:
-> 
-> Removing - DU0 --> DSI (input 0 | port@0 ) overlay and
-> install  - DU1 --> DSI (input 1 | port@1 ) overlay and
-> viceversa?
+From: Biju Das <biju.das.jz@bp.renesas.com>
 
-No, I mean configurable by userspace, with two CRTCs sharing one DSI
-encoder.
+This series fixes a divide-by-zero in the sh-sci and rsci serial drivers
+and follows up with a cleanup of the baud rate clock selection logic in
+rsci that the fix exposed as unnecessarily complex.
 
-> >> +	for_each_endpoint_of_node(np, ep_node) {
-> >> +		of_graph_parse_endpoint(ep_node, &ep);
-> >> +		if (ep.port >= RZ_MIPI_DSI_MAX_INPUT)
-> >> +			break;
-> >> +
-> >> +		remote_ep = of_graph_get_remote_endpoint(ep_node);
-> >> +		ep_enabled = of_device_is_available(remote_ep);
-> >> +		of_node_put(remote_ep);
-> >> +
-> >> +		if (ep_enabled) {
-> >> +			in_port = ep.port;
-> >> +			break;
-> >> +		}
-> >> +	}
-> >> +
-> >> +	if (!ep_enabled)
-> >> +		return -EINVAL;
-> >> +
-> >> +	dev_dbg(dsi->dev, "input port@%d\n", in_port);
-> >> +	return in_port;
-> >> +}
-> >> +
-> >>   /* -----------------------------------------------------------------------------
-> >>    * Bridge
-> >>    */
-> >> @@ -1425,9 +1472,21 @@ static int rzg2l_mipi_dsi_probe(struct platform_device *pdev)
-> >>   	if (IS_ERR(dsi->mmio))
-> >>   		return PTR_ERR(dsi->mmio);
-> >>   
-> >> -	dsi->vclk = devm_clk_get(dsi->dev, "vclk");
-> >> -	if (IS_ERR(dsi->vclk))
-> >> -		return PTR_ERR(dsi->vclk);
-> >> +	dsi->vclk[0] = devm_clk_get(dsi->dev, "vclk");
-> >> +		if (IS_ERR(dsi->vclk[0]))
-> >> +			return PTR_ERR(dsi->vclk[0]);
-> >> +
-> >> +	if (dsi->info->features & RZ_MIPI_DSI_FEATURE_GPO0R) {
-> >> +		dsi->vclk[1] = devm_clk_get(dsi->dev, "vclk2");
-> >> +		if (IS_ERR(dsi->vclk[1]))
-> >> +			return PTR_ERR(dsi->vclk[1]);
-> >> +
-> >> +		ret = rzg2l_mipi_dsi_get_input_port(dsi);
-> >> +		if (ret < 0)
-> >> +			return dev_err_probe(dsi->dev, -EINVAL,
-> >> +					     "No available input port\n");
-> >> +		dsi->vclk_idx = ret;
-> >> +	}
-> >>   
-> >>   	dsi->lpclk = devm_clk_get(dsi->dev, "lpclk");
-> >>   	if (IS_ERR(dsi->lpclk))
-> >> diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi_regs.h b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi_regs.h
-> >> index 2bef20566648..cee2e0bc5dc5 100644
-> >> --- a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi_regs.h
-> >> +++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi_regs.h
-> >> @@ -83,6 +83,9 @@
-> >>   #define LINKSR_SQCHRUN1			BIT(4)
-> >>   #define LINKSR_SQCHRUN0			BIT(0)
-> >>   
-> >> +/* RZ/G3E General Purpose Output 0 Register */
-> >> +#define GPO0R				0xc0
-> >> +
-> >>   /* Tx Set Register */
-> >>   #define TXSETR				0x100
-> >>   #define TXSETR_NUMLANECAP		(0x3 << 16)
+Patch 1 guards both uart_update_timeout() call sites in sci_set_termios()
+and rsci_set_termios() with a baud != 0 check. uart_update_timeout()
+divides by the baud rate internally, so passing zero causes a divide-by-
+zero fault when the hardware returns an unsupported or invalid rate.
+
+Patch 2 addresses a related issue reported by Pavel Machek: the goto-based
+early-exit pattern in rsci_set_termios() was obscuring the control flow.
+Since RSCI only ever uses a single clock source (SCI_FCK), the multi-clock
+candidate tracking variables (best_clk, min_err, brr1, srr1, cks1) were
+redundant. These are removed and the goto is replaced with a straight
+forward positive conditional block. ccr0_val and ccr4_val are also dropped
+in favour of hardcoded 0 at their writes.
+
+v1->v2:
+ * Add a patch for avoiding divide-by-zero fault.
+ * Dropped the check (abs(err) < abs(min_err) as it is always true.
+ * Dropped variables best_clk and min_err as they are no longer needed.
+ * Dropped intermediate variables brr1, cks1 and srr1; results are now
+   written directly into brr, cks and srr.
+ * Moved dev_dbg() inside the if (baud) block.
+ * Dropped ccr0_val and ccr4_val, replaced with hardcoded 0 at their
+   write sites, as they were never modified from their initial values.
+ * Scoped variables err and srr locally within the if (baud) block.
+ * Updated commit description.
+
+Biju Das (2):
+  serial: sh-sci: Avoid divide by zero
+  serial: rsci: Remove goto and refactor baud rate clock selection
+
+ drivers/tty/serial/rsci.c   | 36 +++++++++++++-----------------------
+ drivers/tty/serial/sh-sci.c |  3 ++-
+ 2 files changed, 15 insertions(+), 24 deletions(-)
 
 -- 
-Regards,
+2.43.0
 
-Laurent Pinchart
 
