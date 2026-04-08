@@ -1,308 +1,163 @@
-Return-Path: <linux-renesas-soc+bounces-31010-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-31009-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id kK8RCaRT1mm8DQgAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-31010-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 08 Apr 2026 15:09:56 +0200
+	id eKpXCDNT1mm8DQgAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-31009-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 08 Apr 2026 15:08:03 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 116A63BC990
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 08 Apr 2026 15:09:54 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AEE43BC924
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 08 Apr 2026 15:08:02 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 03A97300370E
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Apr 2026 13:09:52 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 3F0473013A4E
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Apr 2026 13:08:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0646138A715;
-	Wed,  8 Apr 2026 13:09:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ACCF63CA4B7;
+	Wed,  8 Apr 2026 13:07:59 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from mail-vk1-f178.google.com (mail-vk1-f178.google.com [209.85.221.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FD2F3CAE9A
-	for <linux-renesas-soc@vger.kernel.org>; Wed,  8 Apr 2026 13:09:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A1513CA493
+	for <linux-renesas-soc@vger.kernel.org>; Wed,  8 Apr 2026 13:07:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775653790; cv=none; b=KTcBBDtPY5ntnZ2XjVRs1nHBxX8MyUBuOS9q7zQO2Xixm8XqLxvOXNF1cfhjKb2nJlh1cZ/P30l0Rh0UvXe0K0q2xm+MQhhp8yC6mm7RrvQ4+rrT+U+EchATX7rE/I4Cw4dZPQQAP/pvx8DC46D9y5JYJLDxehR3Re7iqIIFjSo=
+	t=1775653679; cv=none; b=Yb6J33N0jDrXNoCWSQboaQ+oDD+YJn6hpsXVuAuQrdJIwnBCkCDRqwaeeaGXs99o8dySbrA35x46ffOZ1lnUBdNDsC/8gl+uCgXvIeqoGobvBm7a/vY/TxlkK0XYrGWOAN3XEWpkkTGppDtNqr4WBIeOzNt5k95TvVOpNtZI7u4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775653790; c=relaxed/simple;
-	bh=sQmw9lWDcF2d/4KFoX+2MzyqctprsKDF8SgNpypvZGo=;
+	s=arc-20240116; t=1775653679; c=relaxed/simple;
+	bh=2wNTTwVqCeqr8hkgFLfv2QURTJXll89k2pFbxpcF1uI=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=nzS0wMLM1rL5Y6/a93/u8ar35m3uHJFLFf1SUh0gMYuUkUtsda3q/P1t7sEnQbJtfuEXM7ruD6LkRG+zPTZqIDC042GpjK9KjTyfhnObiWzFv0grdwgYUWTxza5NFrmqJRMmRYemrIBL/MeMMgj1J/Ul9NPxI6IQeMKJMiw+/Ao=
+	 To:Cc:Content-Type; b=SaG2sgqPCzhk//UA/5J6JogGBX0T9j+jOGhB+54Cu21ymWQIuo+1QW4Vgnd5HsW35lPj1W/R9E1xTjkEdHnQnO+PNoHRyL7U8I/q6KFtUS99qlc+L9Ma496IHNca6n243+fD6s3gdL2nzRCboi4ImQBE/dzoW71v2RvhKsImRs4=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f178.google.com with SMTP id 71dfb90a1353d-56d958880ecso1775799e0c.2
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 08 Apr 2026 06:09:49 -0700 (PDT)
+Received: by mail-vk1-f178.google.com with SMTP id 71dfb90a1353d-56d9f191ae6so4140639e0c.3
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 08 Apr 2026 06:07:58 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775653788; x=1776258588;
+        d=1e100.net; s=20251104; t=1775653677; x=1776258477;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=H/ehc1JvHivWXa8+tx/BxLqhZP9bLnNS5TsQxkh+zto=;
-        b=b5L5zjX23UZ+KUpxdxkpEv3cQ0IdqdmxQPhc2VOX0kY0nBUHf/eUGDhm2JNlzg8wdZ
-         ZYf0Azpl+Z77bKCu2E4Vk3D128gB88GOXivmrc1JSRvBD5IKsvkfvGML4EvnDxlGEmLF
-         kCWFv9q02XO68AdoLXDq9Y0/hVqefXVqlO1q9e0XTZ5gNrBY/Y6dr3iC+7i4BKqFDbTN
-         rxouoTxd+Ane98Hk9VHu46HPX3UdAiiXiz3o/RCvVeFIVuXSoZI4E1cq2bPK1slwmPDo
-         5xXqSDtYElhF7XyXDaqMJWQNwtFJVORVNlnDmf7hMtwbK6gpwgrYUMqbUr1hf4yieHIP
-         VkFA==
-X-Forwarded-Encrypted: i=1; AJvYcCV7UqeWooeGTtNBnYZgwqKbkvSWTLi2wq1yG4ZwmtMQjgSC39myKNKBrInshuBhizyKohBtDCGhWzC4Ym6Nfwx0sw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzI2eSlcd6E+8ShWJIOUk665o7a3cdqsQXMuViHmfzRqIGPT2Xs
-	7tDYcoxnhd4skZcsPrOR7FAd3Qt4jTxSDstAf2x7GOho7n3ukjvgijt0i3LwVAH+
-X-Gm-Gg: AeBDiesxM0REDz8e0G8GsaL/222RkovDiY3acmyVXiVeFKCdRovtEHcjHDKkMlh6HPV
-	Q3aXNSD0zAmTvZ5HANNEulXRm29j3dxyPdlPXVSSAILJJPhl05cnX898l2AkBWNVxt5/5weeum0
-	GaMZC79RIaP1HwkQbkmh/SKzLMwUjTbEAlegNX71HHN7lwF8Pqicv5uI2FU+wKSpsOy2kiAGc+e
-	9YKC1DaOPpi9WwOq/NS5ueZyM/K37cFN0ZlgKzWVMcblh1wrYhOs54orLdPbIVgzaNoMuUnMcYx
-	HNYyU6XERLXWpXzxHbivN/crAA3Lrut+z3ZRQBQgnBKL+EjmkjcJF8s6X6hTKuB19eXtVD7VEIL
-	5poKtI9pXUz1ngCEUYRFqxcNyWXHrm1n2KU5+zJ6apnM1tLUb4aliavfUuB9V4phwVrsgMayDSi
-	VJCyW6uH/48ygOLTl+Jpy3PPWNtYO5scm6Y36IjMOXdAYpQiiRQKSaeeM3UyJB
-X-Received: by 2002:a05:6122:4893:b0:56f:1c32:bd07 with SMTP id 71dfb90a1353d-56f1c32cbc6mr925246e0c.2.1775653788424;
-        Wed, 08 Apr 2026 06:09:48 -0700 (PDT)
-Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com. [209.85.219.50])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8ac56e3a898sm43657366d6.38.2026.04.08.06.09.48
+        bh=RI+J43qd4H5Anap3izX+byQPpLoUkJOQTO1aaryrRrI=;
+        b=h++PuaZsnEBMI+g7qy0uTxUPcY2LNi1LXAeYSRLGd130KjKP4jyWtLb282N1OaZAPc
+         HJXZyLFPfdblKRrgjqwcFJyjx9kT2dSVkboc335HNUuYyX9ADdf9zl6Vtx6X+i8h7SxB
+         B8ml178gAwF3gWnAUU38Z6oP4PWMqFtq1OQUgj97DyimxSnxYl5f3vu6MLkjtgTz0C7x
+         iLZwlKLHKU6QR50ERdx+LiZeB960W/5iHozejdYhgli8C2JF3t6E8YEaKxfvy0rMC3Bg
+         EWLwOUzbPd9q1VNkoJrFTgwx10KwhMFxGVkTCfcW61rl51ic534/Kyo4fSF42NrOI+c/
+         QTZg==
+X-Forwarded-Encrypted: i=1; AJvYcCW6Pw2IL+h5V8iNLeA7jJ1O3JIvdlG3+47GTTgIPUjpaHiA9Rwm0x6nKKPN4uJ1HZPSf1adYTJuwlPcbpFvQey/HA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yygv+WYVSKo8eqh5lntxzq4bJaVfJZtspjEUDWEX+mnxfLcTr/w
+	cXCEro9LOOeYsikw2TidN3q71Zc9x9satoN7Gc0lz//MQmzOthlz5i25VboByWFE
+X-Gm-Gg: AeBDievP9wgyBp9gJecsBR3s/IMH1NWV9qXoG1PUh8o41OKN/EjUGCSnMpLSdo4DxWI
+	E+QYK8BZlhlQdH2KJf8lrmSZrKngozESAbYXghlSutH1a4rQGbrnTGCXX91ZoEC2ifmaLpKo84Q
+	93OSp/8kSixlEaYRwsD0d5gxV2zrcQpm1AfiLZtwgUe0Kk+QWDvmzximo0XAQabNCU0Jn95is4V
+	MRJUoxjomkIPa3rKzheledrCctWqpbmlXLT4VCxM3HI4ROuQh7ri90icZBLfFHhkliUkMcuTFVH
+	g+uG3RqK78pr5IBjQ3iWmvlL7vizUNMG1OzaBYiAFBwuIbcXURHcjro2O5/HgXeWLFImpw14mGX
+	avbr4yy7f/hl4bkEVkmkn+DslzA5EncrEOCHHDMg0/bZLpaF70Zj6hDb40mLqnZAcAi2s0l8Tfx
+	YVIPg5msC4giXgZKD6cza0Xi/U+XmOrrDGk1GU3kGQ1B4W0pqAshAFSlC3NhyUQ8Ln
+X-Received: by 2002:a05:6122:e469:b0:56b:5952:9157 with SMTP id 71dfb90a1353d-56daba42c24mr9597305e0c.15.1775653677222;
+        Wed, 08 Apr 2026 06:07:57 -0700 (PDT)
+Received: from mail-vk1-f175.google.com (mail-vk1-f175.google.com. [209.85.221.175])
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-953fba6af44sm16551345241.8.2026.04.08.06.07.56
         for <linux-renesas-soc@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 08 Apr 2026 06:09:48 -0700 (PDT)
-Received: by mail-qv1-f50.google.com with SMTP id 6a1803df08f44-89cc797547fso72601606d6.2
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 08 Apr 2026 06:09:48 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUm5VcR7R4J2x9zg4Hpt+XCBW62PqfHV0rX0Fctou5S9PH4KAho7gkPvMG5NRUbFltmOw+bKSQjj0nuJHT1CmzCYA==@vger.kernel.org
-X-Received: by 2002:a05:6122:a05:b0:566:2711:d8ab with SMTP id
- 71dfb90a1353d-56dab90cf81mr7244283e0c.6.1775653285855; Wed, 08 Apr 2026
- 06:01:25 -0700 (PDT)
+        Wed, 08 Apr 2026 06:07:56 -0700 (PDT)
+Received: by mail-vk1-f175.google.com with SMTP id 71dfb90a1353d-56d93355337so4414984e0c.0
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 08 Apr 2026 06:07:56 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUxyhbqXxwDeOgEbin8gjnGfW8O3dLwhmai+3oyECTXv6qLSc//jOF2jYynFgI8uiPzgfq9Tj/KhxtI0koGyF38sg==@vger.kernel.org
+X-Received: by 2002:a05:6122:871c:b0:56d:b4d1:3c1e with SMTP id
+ 71dfb90a1353d-56db4d17398mr4930024e0c.10.1775653676268; Wed, 08 Apr 2026
+ 06:07:56 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1775636898.git.tommaso.merciai.xr@bp.renesas.com> <481fefa0c9f6f0629a663fe3da1fb17e7f4a1a05.1775636898.git.tommaso.merciai.xr@bp.renesas.com>
-In-Reply-To: <481fefa0c9f6f0629a663fe3da1fb17e7f4a1a05.1775636898.git.tommaso.merciai.xr@bp.renesas.com>
+References: <cover.1775575276.git.tommaso.merciai.xr@bp.renesas.com>
+In-Reply-To: <cover.1775575276.git.tommaso.merciai.xr@bp.renesas.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 8 Apr 2026 15:01:13 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWimH9kaOcwVx1LnujT=Lbm8cE50mj+YFxtBQMZCT0N8w@mail.gmail.com>
-X-Gm-Features: AQROBzB38k87n7vfkgAHJ2zbU_998n7zblsjoYLjCSjeXBMYaqe_VAmcFna50bs
-Message-ID: <CAMuHMdWimH9kaOcwVx1LnujT=Lbm8cE50mj+YFxtBQMZCT0N8w@mail.gmail.com>
-Subject: Re: [PATCH v6 21/21] arm64: dts: renesas: r9a09g047e57-smarc: Enable
- DU0 and DSI support
+Date: Wed, 8 Apr 2026 15:07:44 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXHhd150mpUT5-VPcHW0W5Hs-rFC-Bjrc7Z8Szco9P_Xw@mail.gmail.com>
+X-Gm-Features: AQROBzCAgzGrVmv98H9pXphPv--qNykKs0tFH6sDE4aSVcbSsBjA9H5-Jim4uG4
+Message-ID: <CAMuHMdXHhd150mpUT5-VPcHW0W5Hs-rFC-Bjrc7Z8Szco9P_Xw@mail.gmail.com>
+Subject: Re: [PATCH 0/2] arm64: dts: renesas: Add missing #mux-state-cells to
+ usb2phy-reset nodes
 To: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
-Cc: tomm.merciai@gmail.com, laurent.pinchart@ideasonboard.com, 
+Cc: tomm.merciai@gmail.com, peda@axentia.se, p.zabel@pengutronix.de, 
 	linux-renesas-soc@vger.kernel.org, biju.das.jz@bp.renesas.com, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Michael Turquette <mturquette@baylibre.com>, 
-	Stephen Boyd <sboyd@kernel.org>, Magnus Damm <magnus.damm@gmail.com>, 
-	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, dri-devel@lists.freedesktop.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-clk@vger.kernel.org
+	Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 X-Spamd-Result: default: False [0.04 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[gmail.com,ideasonboard.com,vger.kernel.org,bp.renesas.com,linux.intel.com,kernel.org,suse.de,ffwll.ch,glider.be,baylibre.com,lists.freedesktop.org];
-	TAGGED_FROM(0.00)[bounces-31010-lists,linux-renesas-soc=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	DMARC_NA(0.00)[linux-m68k.org];
-	RCPT_COUNT_TWELVE(0.00)[23];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[gmail.com,axentia.se,pengutronix.de,vger.kernel.org,bp.renesas.com,kernel.org];
+	RCPT_COUNT_TWELVE(0.00)[12];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	NEURAL_SPAM(0.00)[0.405];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	TAGGED_FROM(0.00)[bounces-31009-lists,linux-renesas-soc=lfdr.de];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	DMARC_NA(0.00)[linux-m68k.org];
+	MISSING_XM_UA(0.00)[];
+	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[geert@linux-m68k.org,linux-renesas-soc@vger.kernel.org];
-	MISSING_XM_UA(0.00)[];
-	DBL_PROHIBIT(0.00)[0.0.0.1:email];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	DBL_PROHIBIT(0.00)[0.241.139.240:email];
 	R_DKIM_NA(0.00)[];
+	NEURAL_HAM(-0.00)[-0.119];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[3d:email,0.0.0.0:email,renesas.com:email,mail.gmail.com:mid,0.0.0.2:email,0.0.0.12:email,linux-m68k.org:email,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 116A63BC990
+	TAGGED_RCPT(0.00)[linux-renesas-soc,dt];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,linux-m68k.org:email,mail.gmail.com:mid,renesas.com:email,0.241.179.0:email]
+X-Rspamd-Queue-Id: 7AEE43BC924
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
 Hi Tommaso,
 
-On Wed, 8 Apr 2026 at 12:40, Tommaso Merciai
+On Tue, 7 Apr 2026 at 17:35, Tommaso Merciai
 <tommaso.merciai.xr@bp.renesas.com> wrote:
-> Enable DU0, DSI and ADV7535 on RZ/G3E SMARC EVK.
+> The renesas,rzv2h-usb2phy-reset binding schema defines #mux-state-cells as a
+> required property. Add it to the USB2 PHY reset nodes in the RZ/V2H and RZ/V2N
+> device trees to fix dtbs_check warnings.
 >
-> Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
-
-Thanks for your patch!
-
-> --- a/arch/arm64/boot/dts/renesas/rzg3e-smarc-som.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/rzg3e-smarc-som.dtsi
-> @@ -33,6 +33,7 @@ aliases {
->                 ethernet0 = &eth0;
->                 ethernet1 = &eth1;
->                 i2c2 = &i2c2;
-> +               i2c7 = &i2c7;
->                 mmc0 = &sdhi0;
->                 mmc2 = &sdhi2;
->         };
-> @@ -77,12 +78,47 @@ reg_vdd0p8v_others: regulator-vdd0p8v-others {
->                 regulator-always-on;
->         };
+> "arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk.dtb: usb20phy-reset@15830000 (renesas,r9a09g056-usb2phy-reset): '#mux-state-cells' is a required property"
+> "arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk-cn15-emmc.dtb: usb20phy-reset@15830000 (renesas,r9a09g056-usb2phy-reset): '#mux-state-cells' is a required property"
+> "arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk-cn15-sd.dtb: usb20phy-reset@15830000 (renesas,r9a09g056-usb2phy-reset): '#mux-state-cells' is a required property"
+> "arch/arm64/boot/dts/renesas/r9a09g057h44-rzv2h-evk.dtb: usb20phy-reset@15830000 (renesas,r9a09g057-usb2phy-reset): '#mux-state-cells' is a required property"
+> "arch/arm64/boot/dts/renesas/r9a09g057h44-rzv2h-evk.dtb: usb21phy-reset@15840000 (renesas,r9a09g057-usb2phy-reset): '#mux-state-cells' is a required property"
+> "arch/arm64/boot/dts/renesas/r9a09g057h44-rzv2h-evk-cn15-emmc.dtb: usb20phy-reset@15830000 (renesas,r9a09g057-usb2phy-reset): '#mux-state-cells' is a required property"
+> "arch/arm64/boot/dts/renesas/r9a09g057h44-rzv2h-evk-cn15-emmc.dtb: usb21phy-reset@15840000 (renesas,r9a09g057-usb2phy-reset): '#mux-state-cells' is a required property"
+> "arch/arm64/boot/dts/renesas/r9a09g057h44-rzv2h-evk-cn15-sd.dtb: usb20phy-reset@15830000 (renesas,r9a09g057-usb2phy-reset): '#mux-state-cells' is a required property"
+> "arch/arm64/boot/dts/renesas/r9a09g057h44-rzv2h-evk-cn15-sd.dtb: usb21phy-reset@15840000 (renesas,r9a09g057-usb2phy-reset): '#mux-state-cells' is a required property"
 >
-> +       reg_1p8v_adv: regulator-1p8v-adv {
-
-Please preserve sort order (alphabetical, by node name).
-
-> +               compatible = "regulator-fixed";
-> +               regulator-name = "fixed-1.8V";
-> +               regulator-min-microvolt = <1800000>;
-> +               regulator-max-microvolt = <1800000>;
-> +               regulator-boot-on;
-> +               regulator-always-on;
-> +       };
-> +
-> +       reg_3p3v_adv: regulator-3p3v-adv {
-> +               compatible = "regulator-fixed";
-> +               regulator-name = "fixed-3.3V";
-> +               regulator-min-microvolt = <3300000>;
-> +               regulator-max-microvolt = <3300000>;
-> +               regulator-boot-on;
-> +               regulator-always-on;
-> +       };
-
-Why not reusing the existing reg_1p8v and reg_3p3v?
-Note that reg_1p8v driving eMMC and QSPI are also not the same
-physical power rail.
-
-> +
-> +       osc1: cec-clock {
-
-Please preserve sort order (alphabetical, by node name).
-
-> +               compatible = "fixed-clock";
-> +               #clock-cells = <0>;
-> +               clock-frequency = <12000000>;
-> +       };
-> +
->         /* 32.768kHz crystal */
->         x3: x3-clock {
->                 compatible = "fixed-clock";
->                 #clock-cells = <0>;
->                 clock-frequency = <32768>;
->         };
-> +
-> +       dsi-to-hdmi-out {
-
-hdmi-out?
-
-Please preserve sort order (alphabetical, by node name).
-
-> +               compatible = "hdmi-connector";
-> +               type = "d";
-> +
-> +               port {
-> +                       dsi_to_hdmi_out: endpoint {
-> +                               remote-endpoint = <&adv7535_out>;
-> +                       };
-> +               };
-> +       };
->  };
+> Kind Regards,
+> Tommaso
 >
->  &audio_extal_clk {
-> @@ -107,6 +143,37 @@ &eth1 {
->         status = "okay";
->  };
->
-> +&dsi {
+> Tommaso Merciai (2):
+>   arm64: dts: renesas: r9a09g057: Add #mux-state-cells to
+>     usb2{0,1}phyrst
+>   arm64: dts: renesas: r9a09g056: Add #mux-state-cells to usb20phyrst
 
-Please preserve sort-order (alphabetical, by label).
+Does this series supersedes "[PATCH v5 16/22] arm64: dts: renesas:
+r9a09g056: Add USB2.0 VBUS_SEL mux-controller support"[1] and "[PATCH
+v5 17/22] arm64: dts: renesas: r9a09g056: Add USB2.0 PHY VBUS internal
+regulator node"[2]?
 
-> +       status = "okay";
-> +
-> +       ports {
-> +               port@0 {
-> +                       dsi_in0: endpoint {
-> +                               remote-endpoint = <&du0_out_dsi>;
-> +                       };
-> +               };
-> +
-> +               port@2 {
-> +                       dsi_out: endpoint {
-> +                               remote-endpoint = <&adv7535_in>;
-> +                               data-lanes = <1 2 3 4>;
-> +                       };
-> +               };
-> +       };
-> +};
-> +
-> +&du0 {
-> +       status = "okay";
-> +
-> +       ports {
-> +               port@0 {
-> +                       du0_out_dsi: endpoint {
-> +                               remote-endpoint = <&dsi_in0>;
-> +                       };
-> +               };
-> +       };
-> +};
-> +
->  &gpu {
->         status = "okay";
->         mali-supply = <&reg_vdd0p8v_others>;
-> @@ -132,6 +199,48 @@ raa215300: pmic@12 {
->         };
->  };
->
-> +&i2c7 {
-> +       pinctrl-0 = <&i2c7_pins>;
-> +       pinctrl-names = "default";
-> +       status = "okay";
-> +       clock-frequency = <400000>;
-> +
-> +       adv7535: hdmi@3d {
-> +               compatible = "adi,adv7535";
-> +               reg = <0x3d>, <0x4d>, <0x2d>, <0x5d>;
-> +               reg-names = "main", "edid", "cec", "packet";
-> +               clocks = <&osc1>;
-> +               clock-names = "cec";
-> +               avdd-supply = <&reg_1p8v_adv>;
-> +               dvdd-supply = <&reg_1p8v_adv>;
-> +               pvdd-supply = <&reg_1p8v_adv>;
-> +               a2vdd-supply = <&reg_1p8v_adv>;
-> +               v3p3-supply = <&reg_3p3v_adv>;
-> +               v1p2-supply = <&reg_1p8v_adv>;
-> +               adi,dsi-lanes = <4>;
-> +               interrupts-extended = <&pinctrl RZG3E_GPIO(L, 4) IRQ_TYPE_EDGE_FALLING>;
-> +
-> +               ports {
-> +                       #address-cells = <1>;
-> +                       #size-cells = <0>;
-> +
-> +                       port@0 {
-> +                               reg = <0>;
-> +                               adv7535_in: endpoint {
-> +                                       remote-endpoint = <&dsi_out>;
-> +                               };
-> +                       };
-> +
-> +                       port@1 {
-> +                               reg = <1>;
-> +                               adv7535_out: endpoint {
-> +                                       remote-endpoint = <&dsi_to_hdmi_out>;
-> +                               };
-> +                       };
-> +               };
-> +       };
-> +};
-> +
->  &i3c {
->         pinctrl-0 = <&i3c_pins>;
->         pinctrl-names = "default";
+Thanks!
+
+[1] https://lore.kernel.org/c63d0a62d439a78e9ccc0b4176b84bbc32629a8e.1764241212.git.tommaso.merciai.xr@bp.renesas.com
+[2] https://lore.kernel.org/f33b5566511a946e4e909854213e75c12d89a441.1764241212.git.tommaso.merciai.xr@bp.renesas.com
 
 Gr{oetje,eeting}s,
 
