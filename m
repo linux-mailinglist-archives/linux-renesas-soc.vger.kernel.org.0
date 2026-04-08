@@ -1,281 +1,221 @@
-Return-Path: <linux-renesas-soc+bounces-30957-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-30958-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id mBX3BXSL1Wnr7QcAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-30957-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 08 Apr 2026 00:55:48 +0200
+	id wB5NKS/31Wn4/gcAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-30958-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 08 Apr 2026 08:35:27 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 679E13B55E8
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 08 Apr 2026 00:55:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34D053B79BE
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 08 Apr 2026 08:35:23 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 044CD30166CD
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  7 Apr 2026 22:55:46 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 31E01300639E
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Apr 2026 06:33:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 73C20388E61;
-	Tue,  7 Apr 2026 22:55:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 58328364EB6;
+	Wed,  8 Apr 2026 06:33:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="EFP8XNlY"
+	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="Z/93l7r2"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from OS0P286CU011.outbound.protection.outlook.com (mail-japanwestazon11010026.outbound.protection.outlook.com [52.101.228.26])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4526F1A9F86
-	for <linux-renesas-soc@vger.kernel.org>; Tue,  7 Apr 2026 22:55:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775602545; cv=none; b=o4GvXH4ke+xNspupUK7bH/H/LyvZ/k0Q9cgWFVwX0k0AvLK0CC2rHxh5sspXYyK+tneT26L08PmH330MToYyDnL/YI2FKl4pGJhNwHmc0Bty3kKS4650Niwci2I+aZWZp7cJ8vcUWj1x2iXP9ZRXgez60Vds6j4yr0ZQBamH6Ww=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775602545; c=relaxed/simple;
-	bh=ryXTSXcBD56C04vqWZf8CaGltRtiQOsx2nSg1l0oRXc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dkHl3gXfK/35waNkqdW33v+MHAlzqtJxyKZEaFcqWc3RbtV3qDO9bah3rmupGPT+JQhc/SMiSgAzLKBS63bryqOQtv5/asd4tLMQ7Lp6snJ+t0bI+F/aNnjmwoSJl093AfF6TnsF4rrnB7uxlJR49UF1tXhr2+vcUSayEqYrGac=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=EFP8XNlY; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from killaraus.ideasonboard.com (2001-14ba-703d-e500--2a1.rev.dnainternet.fi [IPv6:2001:14ba:703d:e500::2a1])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 41B391121;
-	Wed,  8 Apr 2026 00:54:06 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1775602446;
-	bh=ryXTSXcBD56C04vqWZf8CaGltRtiQOsx2nSg1l0oRXc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=EFP8XNlYHiTLk43zQbfyucXqteHwni31bTPRWlb+vKrW3CdXb7qr3XBZG0Za1+TeU
-	 dmWGYcy5NjFp1pfewwp2K2QViOS9sVVcaG3Rhg96nSZK+Z1raSFfpnnyHCo8LbmY3m
-	 O5yY9dMW7P5nubJP1Gb0nQk5XF6Y8RzARMAAQt40=
-Date: Wed, 8 Apr 2026 01:55:32 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>,
-	Biju Das <biju.das.jz@bp.renesas.com>
-Subject: Re: [PATCH v2 4/4] drm: rcar-du: Don't leak device_link to CMM
-Message-ID: <20260407225532.GC1214579@killaraus.ideasonboard.com>
-References: <20260323164526.2292491-1-laurent.pinchart+renesas@ideasonboard.com>
- <20260323164526.2292491-5-laurent.pinchart+renesas@ideasonboard.com>
- <CAMuHMdXomz9GFDqkBjGX9Sda_GLccPcrihvFbOz0GAitDVNTbw@mail.gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29C8F365A0B;
+	Wed,  8 Apr 2026 06:33:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.228.26
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775630030; cv=fail; b=phU0J59dW+DVAfz7FJwx79QK4WpW6C7j5aLiJW9icYPUcJXljrjcu4QyM32Tp2FAN2HJVbxy/sYMxoSRutQ719ZWqDHBzmCW9Qq8Qv/LSF7iywIuugng7OaOeJuTdt6Y3cMah5zK2YJCXDB3KaMmWXqjrZpbVkIUNTvjshgR3QM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775630030; c=relaxed/simple;
+	bh=x+67nq72DqRIH8Wpw0kALS97raw5cvU8vppLWjQanlc=;
+	h=Message-ID:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
+	 Date:MIME-Version; b=MQ4guaqAK3XCFjPTc3BYzfp9WyFBhmw043qWUeTOdhqcmylXRBJChFHEapOvOngmNCNkKsKntOdml+rzB3GRvN6+m30mTUP81vD1XiGT4fUfjEFUm4/ePqVL7adEB8NpXUB18opWRoEys/jAZbejfQ/QjZfnOg11vIQOlOxeYuY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=Z/93l7r2; arc=fail smtp.client-ip=52.101.228.26
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=YHFT1i3LZpx4MCKZChlPHaIqUtqmxnLodfO06NQ9yJoxQhaLhNupdEOp6gE5HxlWkRgi/EVibBIYUM28uz23bvgH7s1UvZ9TYbD3Y3CXJx+KUjRwVLKJHRGN+Idpr0Dz7iChBr1xq2f3yHzpghjlwrQ1SPuH0g8uqbb/GfgTYqFc7ktdmstwfO+bsnh9ud45iR7Em2ITtXUCStFAcq/IAmg6v19oe/NhVIfgaa5fbXzR3QYjFiTnpn5kBXWO8dqWzFxFlN04akldUvl1KT5KPXs+RBla9GyS/s5KF2TNnhv4w+8FMgk2guj73VEu/L8igcCf5TNxCs9uX0YN1zW7JQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=x+67nq72DqRIH8Wpw0kALS97raw5cvU8vppLWjQanlc=;
+ b=NH+Ya00xbl1WcYJq+JbC/9G9uS9AKHEe5pGYofUzX4pyUtsSLyznQSbMSlnms/c7rCudh7B9f5lLsBoey6bhL5I5mx8rPOqG4/LVHkG/iGT5UUmOvHLKQ0XiVFpPYxN42WphaUKoYAk526nqbq8yglwVa/7hJIsOY25XhIaLEn8JNKMRSkT66RN/n6Q69hlfU1cpWrezYe1wro7hdbmt/MeLn6jO8EzPIDKkfCYvv6SvuJFyjPZ7zHMfnDLw32E7/qQ6d9K0RmRat+2slY5MDtbhdQ1ROA9DfBxQ1Rs5YGv0vzT5ljnsrF/eiLad8CtAMky59Ppmf4hBrEAVbtTPoA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=x+67nq72DqRIH8Wpw0kALS97raw5cvU8vppLWjQanlc=;
+ b=Z/93l7r2OM85ZCu8guhtZHSEEMdFLyJE3dlnCaXJwPumVmPi6+p+4E6lidIu2vT2LjmhYKzwtdBQr4VJqUVZUEzJWxBCcjnkicGySVV9g6CsJ9Vuu4e7UZdL6Z49G3w1LXapFRd2V0xbsV9ucp8cjNuA/1gZs6gsTdoRtNj+qUE=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=renesas.com;
+Received: from TY3PR01MB11797.jpnprd01.prod.outlook.com (2603:1096:400:373::8)
+ by TYWPR01MB10113.jpnprd01.prod.outlook.com (2603:1096:400:1e5::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.17; Wed, 8 Apr
+ 2026 06:33:37 +0000
+Received: from TY3PR01MB11797.jpnprd01.prod.outlook.com
+ ([fe80::1868:c915:c230:a383]) by TY3PR01MB11797.jpnprd01.prod.outlook.com
+ ([fe80::1868:c915:c230:a383%5]) with mapi id 15.20.9769.017; Wed, 8 Apr 2026
+ 06:33:37 +0000
+Message-ID: <87fr56vu4f.wl-kuninori.morimoto.gx@renesas.com>
+From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+To: Bui Duc Phuc <phucduc.bui@gmail.com>
+Cc: broonie@kernel.org,
+	lgirdwood@gmail.com,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	geert+renesas@glider.be,
+	magnus.damm@gmail.com,
+	perex@perex.cz,
+	tiwai@suse.com,
+	linux-sound@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 3/3] ASoC: renesas: fsi: Fix hang by enabling SPU clock
+In-Reply-To: <CAABR9nH-1eBPFxtzVR6QBE1=esDN8x=hZpAkRSCO-TLmn0tRKA@mail.gmail.com>
+References: <20260403112655.167593-1-phucduc.bui@gmail.com>
+	<20260403112655.167593-4-phucduc.bui@gmail.com>
+	<87v7e5t16l.wl-kuninori.morimoto.gx@renesas.com>
+	<CAABR9nGUyTkDmB0SgKAuM1Pp75L=m1q4bLSfhobm98TswDnt8w@mail.gmail.com>
+	<87a4vfu0mz.wl-kuninori.morimoto.gx@renesas.com>
+	<CAABR9nH-1eBPFxtzVR6QBE1=esDN8x=hZpAkRSCO-TLmn0tRKA@mail.gmail.com>
+User-Agent: Wanderlust/2.15.9 Emacs/29.3 Mule/6.0
+Content-Type: text/plain; charset=ISO-8859-7
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 8 Apr 2026 06:33:37 +0000
+X-ClientProxiedBy: TYWP286CA0022.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:400:262::8) To TY3PR01MB11797.jpnprd01.prod.outlook.com
+ (2603:1096:400:373::8)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdXomz9GFDqkBjGX9Sda_GLccPcrihvFbOz0GAitDVNTbw@mail.gmail.com>
-X-Spamd-Result: default: False [-2.16 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TY3PR01MB11797:EE_|TYWPR01MB10113:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7efa1542-7c10-4831-2a66-08de9538c401
+X-LD-Processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|376014|7416014|52116014|366016|38350700014|56012099003|18002099003|22082099003;
+X-Microsoft-Antispam-Message-Info:
+	nRx8vQOXSrSvankNGafIfisGsmukSbafuL2H+C/2SnScJ08zF77sJm+gvWJTlFzUmfs91X8VZ8oQwsuItodybLvcOMeAIcNBVIoRYUXDHqHnxPzxODM2ZZqQ27BAtfFe9n01nGdyFSGD5Anc+F9Lntz38S9LJ859C/VhD4b/dEQz7Z08b0nojStRnavlAY0c6mqbnVAkGAL9xLNqx88Y6e/W6AVZsZYkKzneDD/BTwge5PaBfODPeBIKbQWTup4B6rUEKXljUimsfdDV51l/7q6gbH3O2vll37Grjb/RNdz2lMlZTuFo1shRnZV1BYSVr2lvHyvmvn3aBFPUPWS9ygr1NzBAHaYxvUJO2C+r9EbzM7NknuMcA48lmThP8Cd3VwoPapJik/mFP5SHBDYuuNFBhe+d/ODCxfHatQnyUXZxrItHcAgYiKvBKDFGlSmJ33LiI81JUQwp2d2NYLCOjk56JM9ftRZaf0O8s6ZR+FdcTgT7HpdtLyjldo46dIKtCJ8v1Sxw+oMrWumnDCDcICXYDa+XpC4LkY3bJar9/L6Q/+hLAmXwKX6Guknx0d5m5NEpQj29tfuQtOi4DvsvBbUYhBVYJtSIoXrbzw/6rWgQwEawCVyhTXIHimbuRakyYO4nPsrh2VoGn/jD7mEW9fOF+3W344Ka/azXQNEcmTip400yB+0rYPjR8g+ZauBUE0rOTVIIHK7QFYbOsCs9RkSjEoNNv2WcKiMMyjCgXSYG+C9Z+IbX18cJcV0n2LOk
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB11797.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(7416014)(52116014)(366016)(38350700014)(56012099003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?iso-8859-7?Q?A3epAOyvqpCMf77eOfu/COwPgdfxyi+qfkOXXk4fpzZIS2lFRntKBrbUQH?=
+ =?iso-8859-7?Q?ZjipBXhnovdxXZevLPWkM9IPadBvHe2+7IBMjIqRv7+buv3tz49I2tEHKf?=
+ =?iso-8859-7?Q?bWyIkPeRJYiF9CeB/tEa18Cb9Y73jTiV2VcoVsqw70/MtB5L1IPsf67yLq?=
+ =?iso-8859-7?Q?y7U9/xCkNoBJsBWvP7H7IbXO9YAWN2Km9XN0GgN7t7Tk6LAnxxpEv6fz/2?=
+ =?iso-8859-7?Q?3OmXKL44fdwAPD9QcpdSDKG6z2bmI3fqR+FKtQbMOeyLJqAG3HKi37i/Ui?=
+ =?iso-8859-7?Q?6gFBPCa8t1oczKbj9MmFnAZXczqelR98+A+vfP2gwJod2IEkth50bhPWi+?=
+ =?iso-8859-7?Q?dxFpzxXm3nZMqu3+iAsHWQjKNPjGM3IH0XnD9uPd0XreBz4yhI9qXXL/Lg?=
+ =?iso-8859-7?Q?d88s+Oqso8nN/A4hiBiwlTVSqqwuCt/kRz50z0i5dZxcnQNnZawd8De/Cg?=
+ =?iso-8859-7?Q?BX2w2W/oJRmaguuuJ96uqB7/E3l8JufmQpiOCq7m/5WTNyl98p3Vb0kkWM?=
+ =?iso-8859-7?Q?NrS4AH8OdWmQRjihvZ3bvSs/2G52yySRMDvWfkK8fQiVhAVIhpYujuGRM9?=
+ =?iso-8859-7?Q?0nI3MHsj/tlZQWgnuq9y6Zast2tCf+TLHBH7++LvZnyhZchy84V55eJfhu?=
+ =?iso-8859-7?Q?0h7FiFbUEcI3iJCQ8gMAr2qDlfqwt4NBbFtlnyDgyaMpaehNRn8O+fUv6f?=
+ =?iso-8859-7?Q?tg7XXeO0ajqvyOT9MVLv9i8WpscIwphj+OSib0hgZaVqgkqZNB134hIqnD?=
+ =?iso-8859-7?Q?PcDRgtzWHym2KoLiuaON8dRrQ2KIrNDurZVO05miZz5LWtDFrYjdnUzcQg?=
+ =?iso-8859-7?Q?PQU37cIbJevKPIEHr+ujKCqmU1gKH/VSMqEHTEoiT2rImaI0IVxglPVBQg?=
+ =?iso-8859-7?Q?p40HP6qjmjQe+bYcG9WzXBFmuBF0uSROU7vH+f9GGJOFlMLUOfA6so057U?=
+ =?iso-8859-7?Q?NiXZ07s/onU0zuA6gdwNfADwnVveb8Ud3oyIHKU/+wVlsPxxPgbWQrTsRP?=
+ =?iso-8859-7?Q?bWzUr/ifhZ1wNbBMcRHgmYmrs9YCSGWdkYYcpwgq4MVvjR7iqRai+sm6Ou?=
+ =?iso-8859-7?Q?vIaTp45LIGYlat+ZnN9XOIFI0aaxCWLwLcREPAMVe28gtdnMbWUC0E0jyp?=
+ =?iso-8859-7?Q?a4Ic2QzIYmqojqlapHkQsdOS7yyUWVCdpxB/qS6GGa2PeJkLqy4Obwx59U?=
+ =?iso-8859-7?Q?zhJ087+XcNgX0d8UmQGJd+2w5D+Eifw0TFe8xTNDtn9c3jYVvMoaqqbzSP?=
+ =?iso-8859-7?Q?sW4wU+u7RBplFjWdyKyG9PcwiuskMAVtYEzf5gUtANQc6WjmVsDv+xmxWv?=
+ =?iso-8859-7?Q?8/tT0YNM7IYLY4sDgNEOsicuM4jyeRE7ukqOYz2xmxdNeo4Zk/VcAvXj0N?=
+ =?iso-8859-7?Q?+limS58rClhRj+G1RFxFh+kzbezXCERD32b28QIj3ITQ1MRPTBMbVSdghW?=
+ =?iso-8859-7?Q?GXulg1W0+9Ixz7oiGNjldz3SHtrfuvL78EvGuUgj0dM6VqkXr5A31M+nn0?=
+ =?iso-8859-7?Q?sWpxLUv57VZLe0G0+E2OyXkq4m62OIWzdw9x6i1opkm6hiF6fp+DCM6oKT?=
+ =?iso-8859-7?Q?ULWva7q0PkNcNQi14kSvJXQ1T+wOep+mRIM5TsRY9jvs9zg/6xDn0aBVX4?=
+ =?iso-8859-7?Q?290TeNbOy1OVN0fl6jBlcjlg05/UwyPcO2QwD+nG5amDA0f64nf1YDy22p?=
+ =?iso-8859-7?Q?lRQZQvaqHo95nPVTp9ZgNoQ82cS7t1gMHtz6tA/ZGqJmxxH5Ynke2jrOPa?=
+ =?iso-8859-7?Q?Cjzt34vorgPDP5zlfMpQTZDjh0Ip/GVL7mFIPRshsfaxgySsqb9j6Bup6u?=
+ =?iso-8859-7?Q?iuw0KLYK3Fl44TN/R7o1OZ79nbPNlaZAnreU+vv6RnsRGMsh7/mT?=
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7efa1542-7c10-4831-2a66-08de9538c401
+X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11797.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Apr 2026 06:33:37.4330
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 0SvCdiLeskcHRQmfs4UrQFf9Bx+fFR5xHPqD1baaGkiSN4zQzw12Xs4vqmTL1xxK9xq9cbk7ITn6Te+lrI8vC3ajGTWbE5302TKu9lFOLyMbdk/5F8vpgILJtmbZrRfx
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYWPR01MB10113
+X-Spamd-Result: default: False [2.34 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_REJECT(1.00)[cv is fail on i=2];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[renesas.com,none];
+	R_DKIM_ALLOW(-0.20)[renesas.com:s=selector1];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-30958-lists,linux-renesas-soc=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-30957-lists,linux-renesas-soc=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
+	FREEMAIL_TO(0.00)[gmail.com];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	DKIM_TRACE(0.00)[ideasonboard.com:+];
-	MISSING_XM_UA(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	FREEMAIL_CC(0.00)[kernel.org,gmail.com,glider.be,perex.cz,suse.com,vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[renesas.com:+];
+	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[laurent.pinchart@ideasonboard.com,linux-renesas-soc@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[kuninori.morimoto.gx@renesas.com,linux-renesas-soc@vger.kernel.org];
+	TO_DN_SOME(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-renesas-soc];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
 	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,killaraus.ideasonboard.com:mid]
-X-Rspamd-Queue-Id: 679E13B55E8
+	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,bootlin.com:url,renesas.com:dkim,renesas.com:mid]
+X-Rspamd-Queue-Id: 34D053B79BE
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi Geert,
 
-On Tue, Apr 07, 2026 at 11:10:52AM +0200, Geert Uytterhoeven wrote:
-> On Mon, 23 Mar 2026 at 18:22, Laurent Pinchart wrote:
-> > The DU driver creates device_link instances between the DU and CMMs, but
-> > never deletes them. Fix it by introducing a rcar_du_cmm structure to
-> > group the CMM device and device_link, and deleting the links at cleanup
-> > time.
-> >
-> > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> 
-> Thanks for your patch, which is now commit 3bce3fdd1ff2ba24 ("drm:
-> rcar-du: Don't leak device_link to CMM") in drm-misc/for-linux-next.
-> 
-> This causes koelsch to hang during boot when a display is already
-> connected before boot:
-> 
->       [drm] Initialized rcar-du 1.0.0 for feb00000.display on minor 0
->       rcar-du feb00000.display: [drm] Device feb00000.display probed
-> 
-> When no display is connected, the system boots fine.
-> 
-> While looking into this, I noticed that hotplug after boot crashes,
-> but I haven't bisected that. It definitely worked a few months ago:
+Hi Bui, Geert
 
-Oops. Would you be able to test the following patch ?
+> > Hmm... fsi_dai_trigger() seems strange.
+> > It seems (A) stops clock, and (B) sets register after that.
+> > Is this the reason why you get error ? I think (A) and (B) should be
+> > reversed. The balance between SNDRV_PCM_TRIGGER_START, and with
+> > __fsi_suspend() are also not good.
+> > If so, can you use hw_start/stop() ?
+>=20
+> Thank you for the guidance. After reordering the sequence and moving the
+> SPU power control to fsi_hw_start/shutdown, the system hang is now resolv=
+ed.
 
-commit 6c66826668e73570ce7668069460538f1ab610f7
-Author: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Date:   Wed Apr 8 01:49:40 2026 +0300
+Nice !
 
-    drm: rcar-du: Fix crash when no CMM is available
-    
-    Commit 3bce3fdd1ff2 ("drm: rcar-du: Don't leak device_link to CMM")
-    refactored CMM handling, and introduced an incorrect test for CMM
-    availability. When no CMM is present, the rcrtc->cmm field is NULL,
-    testing rcrtc->cmm->dev causes a NULL pointer dereference. This slipped
-    through testing as all tests were run with the CMM present.
-    
-    Fix this issue by correctly testing for rcrtc->cmm.
-    
-    Fixes: 3bce3fdd1ff2 ("drm: rcar-du: Don't leak device_link to CMM")
-    Reported-by: Geert Uytterhoeven <geert@linux-m68k.org>
-    Closes: https://lore.kernel.org/dri-devel/CAMuHMdXomz9GFDqkBjGX9Sda_GLccPcrihvFbOz0GAitDVNTbw@mail.gmail.com
-    Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> By the way, I=A2d like to discuss the fsidiv clock handling.
+> In the legacy implementation, it was handled here:
+> https://elixir.bootlin.com/linux/v7.0-rc7/source/drivers/sh/clk/cpg.c.
+> Currently, this has not been ported to the Common Clock Framework (CCF) f=
+or
+> R8A7740, and it resides in a different register range from the core CPG.
+> For v2, would you prefer that I implement a small clock provider for
+> fsidiv within
+> the FSI driver, or should it be added under drivers/clk/renesas/?
 
-diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_du_crtc.c b/drivers/gpu/drm/renesas/rcar-du/rcar_du_crtc.c
-index 7c36c30a75b6..1a246ebbfc61 100644
---- a/drivers/gpu/drm/renesas/rcar-du/rcar_du_crtc.c
-+++ b/drivers/gpu/drm/renesas/rcar-du/rcar_du_crtc.c
-@@ -513,7 +513,7 @@ static void rcar_du_cmm_setup(struct drm_crtc *crtc)
- 	struct rcar_du_crtc *rcrtc = to_rcar_crtc(crtc);
- 	struct rcar_cmm_config cmm_config = {};
- 
--	if (!rcrtc->cmm->dev)
-+	if (!rcrtc->cmm)
- 		return;
- 
- 	if (drm_lut)
-@@ -667,7 +667,7 @@ static void rcar_du_crtc_stop(struct rcar_du_crtc *rcrtc)
- 	if (rcar_du_has(rcrtc->dev, RCAR_DU_FEATURE_VSP1_SOURCE))
- 		rcar_du_vsp_disable(rcrtc);
- 
--	if (rcrtc->cmm->dev)
-+	if (rcrtc->cmm)
- 		rcar_cmm_disable(rcrtc->cmm->dev);
- 
- 	/*
-@@ -726,7 +726,7 @@ static void rcar_du_crtc_atomic_enable(struct drm_crtc *crtc,
- 	struct rcar_du_crtc_state *rstate = to_rcar_crtc_state(crtc->state);
- 	struct rcar_du_device *rcdu = rcrtc->dev;
- 
--	if (rcrtc->cmm->dev)
-+	if (rcrtc->cmm)
- 		rcar_cmm_enable(rcrtc->cmm->dev);
- 	rcar_du_crtc_get(rcrtc);
- 
- 
->     Unable to handle kernel NULL pointer dereference at virtual address 00000000 when read
->     [00000000] *pgd=00000000
->     Internal error: Oops: 5 [#1] SMP ARM
->     CPU: 1 UID: 0 PID: 43 Comm: kworker/1:3 Not tainted 7.0.0-rc3-shmobile-00734-g3bce3fdd1ff2 #2454 VOLUNTARY
->     Hardware name: Generic R-Car Gen2 (Flattened Device Tree)
->     Workqueue: events adv7511_hpd_work
->     PC is at rcar_du_crtc_atomic_enable+0x14/0xa4
->     LR is at drm_atomic_helper_commit_crtc_enable+0xb0/0xd4
->     pc : [<c0534700>]    lr : [<c05145f8>]    psr: a0000013
->     sp : f0939b88  ip : fffffff8  fp : c1fe25b8
->     r10: c21d01ac  r9 : c0c7862b  r8 : c0a99acc
->     r7 : c21d000c  r6 : c2e1c800  r5 : c21d0000  r4 : c21d0398
->     r3 : 00000000  r2 : 00000000  r1 : c24ed800  r0 : c21d0398
->     Flags: NzCv  IRQs on  FIQs on  Mode SVC_32  ISA ARM  Segment none
->     Control: 10c5387d  Table: 4231006a  DAC: 00000051
->     Register r0 information: non-slab/vmalloc memory
->     Register r1 information: slab kmalloc-64 start c24ed800 pointer offset 0 size 64
->     Register r2 information: NULL pointer
->     Register r3 information: NULL pointer
->     Register r4 information: non-slab/vmalloc memory
->     Register r5 information: non-slab/vmalloc memory
->     Register r6 information: slab kmalloc-512 start c2e1c800 pointer offset 0 size 512
->     Register r7 information: non-slab/vmalloc memory
->     Register r8 information: non-slab/vmalloc memory
->     Register r9 information: non-slab/vmalloc memory
->     Register r10 information: non-slab/vmalloc memory
->     Register r11 information: slab kmalloc-128 start c1fe2580 pointer offset 56 size 128
->     Register r12 information: non-paged memory
->     Process kworker/1:3 (pid: 43, stack limit = 0xdcd99ef9)
->     Stack: (0xf0939b88 to 0xf093a000)
->     9b80:                   c21d0398 00000000 c24ed800 c05145f8 00000048 c1fde6c0
->     9ba0: c2f7c680 c21d000c c24ed800 46818964 00000009 c0a9bf18 c24ed800 c0515350
->     9bc0: c24ed800 c21d000c 46818964 c0535aac c24ed800 00000000 46818964 c05187dc
->     9be0: 00000000 c24ed800 c21d000c 00000000 c21d000c c05189a4 c24ed800 c21d000c
->     9c00: c15bac10 00000001 c21d000c c04de554 c24ed800 c22d1400 c21d1000 c0109fdc
->     9c20: 00000000 c15bac10 00000000 00000000 00000000 00000000 00000000 c0109fdc
->     9c40: 00000000 c15bac10 00000000 00000000 00000000 00000000 00000000 ff6cd0a0
->     9c60: 00000000 f0939c80 c1542a00 c050e368 00000000 c21d01b0 00000000 00000000
->     9c80: c1c30000 00000008 0000000e 00000000 00000000 00000000 c1ce8f24 c21d35a8
->     9ca0: 00000000 ff6cd0a0 ffffffff c21d000c c1542a18 c1542a00 c1542ab8 000000f0
->     9cc0: 00000043 000000f0 00000001 c050e470 c1c30000 c095df28 c21d0058 c21d0058
->     9ce0: c21d0058 c1542a00 c21d000c 00000000 c1542ab8 000000f0 00000043 c050e5a4
->     9d00: 00000000 c1542a00 00000000 c0521a44 00000000 c2d89000 c1514c00 c1077124
->     9d20: 000000f0 c0521a7c c14b2800 c047f16c 00000000 c14df800 00000043 00000000
->     9d40: 00000000 c14b2800 c14b2958 00000000 00000000 0000003e c0a81464 00000000
->     9d60: 00000001 c04c0688 c14b2800 c10798fc 00000000 c04c2654 c1079918 c0a81464
->     9d80: c0a814b8 00000001 0000003e c1079918 c0a81464 00000000 00000000 0000003e
->     9da0: 00000001 c1079a18 00000000 c04c298c c0fe6d84 c0c6f88c 00000001 00000001
->     9dc0: c0fe491c c1076f84 c1076f84 00000000 c0fe491c c0a96a00 00000000 c047d3e8
->     9de0: c0f04ff8 00000000 c1076f84 c047f974 c2d89000 c0f059d4 c2d891cc c0f059d4
->     9e00: c21d000c c0a96a00 00000000 c0478508 60000013 00000000 00000000 00000780
->     9e20: 00000438 00000000 00000000 00000000 00000000 00000000 00000000 00000000
->     9e40: 00000000 00000000 00000020 ff6cd0a0 c1542ab8 c1542a00 c2d89000 00000000
->     9e60: 00000000 c0521674 00000000 c24f05c0 c102cee8 c0944738 00000cc0 00000000
->     9e80: c1542a18 00000001 c141f505 00000000 00000000 00000780 00000438 00000780
->     9ea0: 00000438 00000020 00000018 ff6cd0a0 c1542ab8 c1542a00 c1542a00 c21d000c
->     9ec0: c17d81b8 c10349c0 c141f505 61c88647 c17d81bc c050d594 c1542a00 00000000
->     9ee0: c21d00a8 c1542a00 c21d0094 c050d948 c17d81c8 00000001 c17d8278 c04e2f44
->     9f00: c17d81b8 c141f500 ef7cd600 c053dba8 000000d0 ff6cd0a0 c1cede80 c0143f50
->     9f20: c0a01828 00000000 c1c30000 ff6cd0a0 c1c30000 c1c30000 ef7cd620 ef7cd600
->     9f40: c014424c c1cede80 ef7cd620 ef7cd600 c014424c c1c30000 c1cedeac c1034ee0
->     9f60: 00000000 c01443bc 00000000 c1d00780 c169eac0 c1c30000 c014424c c1cede80
->     9f80: f08fdecc 00000000 00000000 c014b654 c169eac0 c014b558 00000000 00000000
->     9fa0: 00000000 00000000 00000000 c010014c 00000000 00000000 00000000 00000000
->     9fc0: 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
->     9fe0: 00000000 00000000 00000000 00000000 00000013 00000000 00000000 00000000
->     Call trace:
->      rcar_du_crtc_atomic_enable from drm_atomic_helper_commit_crtc_enable+0xb0/0xd4
->      drm_atomic_helper_commit_crtc_enable from drm_atomic_helper_commit_modeset_enables+0x10/0x38
->      drm_atomic_helper_commit_modeset_enables from rcar_du_atomic_commit_tail+0x54/0xb8
->      rcar_du_atomic_commit_tail from commit_tail+0x6c/0x138
->      commit_tail from drm_atomic_helper_commit+0xf4/0x104
->      drm_atomic_helper_commit from drm_atomic_commit+0xbc/0xec
->      drm_atomic_commit from drm_client_modeset_commit_atomic+0x190/0x214
->      drm_client_modeset_commit_atomic from drm_client_modeset_commit_locked+0x3c/0x148
->      drm_client_modeset_commit_locked from drm_client_modeset_commit+0x28/0x3c
->      drm_client_modeset_commit from __drm_fb_helper_restore_fbdev_mode_unlocked+0xa4/0xac
->      __drm_fb_helper_restore_fbdev_mode_unlocked from drm_fb_helper_set_par+0x2c/0x38
->      drm_fb_helper_set_par from fbcon_init+0x2c8/0x460
->      fbcon_init from visual_init+0x98/0xe4
->      visual_init from do_bind_con_driver+0x1f0/0x260
->      do_bind_con_driver from do_take_over_console+0x12c/0x174
->      do_take_over_console from do_fbcon_takeover+0x4c/0xb0
->      do_fbcon_takeover from fbcon_fb_registered+0xf4/0x160
->      fbcon_fb_registered from register_framebuffer+0x1f8/0x21c
->      register_framebuffer from __drm_fb_helper_initial_config_and_unlock+0x468/0x534
->      __drm_fb_helper_initial_config_and_unlock from drm_client_hotplug+0x50/0x94
->      drm_client_hotplug from drm_client_dev_hotplug+0x80/0x8c
->      drm_client_dev_hotplug from drm_bridge_hpd_notify+0x30/0x3c
->      drm_bridge_hpd_notify from adv7511_hpd_work+0x74/0xb4
->      adv7511_hpd_work from process_scheduled_works+0x1d8/0x324
->      process_scheduled_works from worker_thread+0x170/0x208
->      worker_thread from kthread+0xfc/0x108
->      kthread from ret_from_fork+0x14/0x28
->     Exception stack(0xf0939fb0 to 0xf0939ff8)
->     9fa0:                                     00000000 00000000 00000000 00000000
->     9fc0: 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
->     9fe0: 00000000 00000000 00000000 00000000 00000013 00000000
->     Code: e1a04000 e5903520 e5906468 e59054d8 (e5930000)
->     ---[ end trace 0000000000000000 ]---
+I think it should be under drivers/clk/renesas, but Geert ?
 
--- 
-Regards,
+Thank you for your help !!
 
-Laurent Pinchart
+Best regards
+---
+Kuninori Morimoto
 
