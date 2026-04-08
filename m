@@ -1,50 +1,50 @@
-Return-Path: <linux-renesas-soc+bounces-31018-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-31019-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id kCs9L19j1mnwEwgAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-31018-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 08 Apr 2026 16:17:03 +0200
+	id kDdrJ31j1mnIEwgAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-31019-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 08 Apr 2026 16:17:33 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C5493BD85E
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 08 Apr 2026 16:17:02 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 964243BD894
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 08 Apr 2026 16:17:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 609FF3013B43
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Apr 2026 14:16:45 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 032C13002B5F
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Apr 2026 14:17:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B0D282DA75A;
-	Wed,  8 Apr 2026 14:16:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F331E3D092A;
+	Wed,  8 Apr 2026 14:17:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="jvI+wJGZ"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="s6qyK+i3"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2B8824DD15;
-	Wed,  8 Apr 2026 14:16:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 504B52DA75A;
+	Wed,  8 Apr 2026 14:17:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775657804; cv=none; b=QLFM8YTWT2YmR+Xjc8YKW6ujKGdJVczKgGXK9RHR4q9dkjBKwAAGaa55C/+k4UENOyJt0WvJV0umYB6a1atnRlXiHF0/huvVJsyaHJqtcCpWhLRQ05WxwATgK/vBEYXAwXaBXg2Fn/anYPVBYk32drdcPfEzuKOLQgVrANACLZQ=
+	t=1775657843; cv=none; b=Dcpr8ab0nBbHtVOK9TciLiOA4P0Vf4DyKjuZMMF+/bgyg9fOfq9qyD4YZDpUlopohP6MpZBdA+/BiYb2o+Q+h2jENunKNzzMF2+NZAsu3b4XPjnF8oE0DNzCp9/0mEzuSIM/N8PGXNzn6SM3igCrOqcsQreCgSgpQzzh67mTTxQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775657804; c=relaxed/simple;
-	bh=qcuOff0LWpct5ZxCSD2BgikNfe6ILJK5Y1fSMUb65co=;
+	s=arc-20240116; t=1775657843; c=relaxed/simple;
+	bh=3Bho4NJWklVctZpJLKGEsl+8sJES/JA2KlTVUBMWy2Q=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nRjr6/0qrkrEva3m5Tg6dx02mJ5Habv00/oZTadNO+ax1/lsbct6yQQtmK8qlAHj4XHiiex32EgU7ZYjPJH1MHNXT+PCmv0f2PZ8TjeOvngxGkBBQXLs3L3qr3GT4V6kVVmFGszlDs21YVSOvtlaPSyLSpGGvMvz/Rte3hHQHKE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=jvI+wJGZ; arc=none smtp.client-ip=213.167.242.64
+	 Content-Type:Content-Disposition:In-Reply-To; b=bkK7WCewDXX7NioPZrQQzz6v1OGgbxhPLfoRYVCF7DK33L4w2VpuoubJeUoTROut7LF4rdK6VSgas3PRNM3NtDQnfUoQffPRc9ROksBMz0f88YHY0pG63KK/oORph0BAkxATrTbctUFDp89ZVFioQ5CNl9hj1uaTDmkSRdHFUzw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=s6qyK+i3; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from killaraus.ideasonboard.com (2001-14ba-703d-e500--2a1.rev.dnainternet.fi [IPv6:2001:14ba:703d:e500::2a1])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id E2E251121;
-	Wed,  8 Apr 2026 16:15:11 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 35CD41121;
+	Wed,  8 Apr 2026 16:15:52 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1775657712;
-	bh=qcuOff0LWpct5ZxCSD2BgikNfe6ILJK5Y1fSMUb65co=;
+	s=mail; t=1775657752;
+	bh=3Bho4NJWklVctZpJLKGEsl+8sJES/JA2KlTVUBMWy2Q=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=jvI+wJGZLFOsaLZxq2Bedz+02Y1QmXwvCDf+Hzkv3IYQzx2/IQGKsSFnC1jzssIbH
-	 oj9dteJWdlzJVVnZlzKfIkD6Y89PXP/vagUnZTLAH+1erxwltI2pM0Jcd5xMmbIor/
-	 98YCXf5LzdufJDqCq26NkkPSzFxvbVFL2hMNSdYg=
-Date: Wed, 8 Apr 2026 17:16:38 +0300
+	b=s6qyK+i326qO08HC3hIQWV1w2TkGa+M1Pa/oQFq2qN5Pso0oAj+SjdIY6wBJmm2a1
+	 oMoeCEO3R2YPj1qPTF0RbGJmA67i9x9KRd0M7Y6UeUxRx9McSTupJboolwWMW6SlZv
+	 H+ye5vU/K2OWTzQjHSxPVM9dGbrIgGVRldgc+870=
+Date: Wed, 8 Apr 2026 17:17:19 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
 Cc: tomm.merciai@gmail.com, geert@linux-m68k.org,
@@ -63,13 +63,13 @@ Cc: tomm.merciai@gmail.com, geert@linux-m68k.org,
 	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
 	dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org
-Subject: Re: [PATCH v6 10/21] dt-bindings: display: renesas,rzg2l-du: Add
- support for RZ/G3E SoC
-Message-ID: <20260408141638.GA1965119@killaraus.ideasonboard.com>
+Subject: Re: [PATCH v6 13/21] drm: renesas: rz-du: mipi_dsi: Add
+ RZ_MIPI_DSI_FEATURE_GPO0R feature
+Message-ID: <20260408141719.GB1965119@killaraus.ideasonboard.com>
 References: <cover.1775636898.git.tommaso.merciai.xr@bp.renesas.com>
- <8f814f22ff62dcde6153260e2c8c29a5415c9a89.1775636898.git.tommaso.merciai.xr@bp.renesas.com>
- <20260408122436.GH1928916@killaraus.ideasonboard.com>
- <dafdbdcf-98db-473c-8122-296af1922e6c@bp.renesas.com>
+ <9e0f64dd5e1efb0d27219416121c91a19da96ebd.1775636898.git.tommaso.merciai.xr@bp.renesas.com>
+ <20260408123102.GA1960713@killaraus.ideasonboard.com>
+ <b8ded729-5c22-4a47-bfb7-8bffeed76e98@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -78,17 +78,17 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <dafdbdcf-98db-473c-8122-296af1922e6c@bp.renesas.com>
+In-Reply-To: <b8ded729-5c22-4a47-bfb7-8bffeed76e98@bp.renesas.com>
 X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
 	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-31018-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-31019-lists,linux-renesas-soc=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
@@ -106,172 +106,199 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
 	MID_RHS_MATCH_FROMTLD(0.00)[];
 	TO_DN_SOME(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[0.0.0.3:email,0.0.0.0:email,0.0.0.2:email,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,ideasonboard.com:dkim]
-X-Rspamd-Queue-Id: 3C5493BD85E
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[0.0.0.0:email,ideasonboard.com:dkim,renesas.com:email,killaraus.ideasonboard.com:mid,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 964243BD894
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Wed, Apr 08, 2026 at 04:02:14PM +0200, Tommaso Merciai wrote:
+On Wed, Apr 08, 2026 at 04:12:22PM +0200, Tommaso Merciai wrote:
 > Hi Laurent,
 > Thanks for your review.
 > 
-> On 4/8/26 14:24, Laurent Pinchart wrote:
-> > On Wed, Apr 08, 2026 at 12:36:55PM +0200, Tommaso Merciai wrote:
-> >> The RZ/G3E SoC has 2 LCD controllers (LCDC), each containing a Frame
-> >> Compression Processor (FCPVD), a Video Signal Processor (VSPD), and a
-> >> Display Unit (DU).
+> On 4/8/26 14:31, Laurent Pinchart wrote:
+> > On Wed, Apr 08, 2026 at 12:36:58PM +0200, Tommaso Merciai wrote:
+> >> The MIPI DSI ip found in the RZ/G3E SoC select the video input clock
+> >> based on the DU instance actually connected using the GPO0R register.
 > >>
-> >>   - LCDC0 supports DSI and LVDS (single or dual-channel) outputs.
-> >>   - LCDC1 supports DSI, LVDS (single-channel), and RGB outputs.
-> >>
-> >> Add a new SoC-specific compatible string 'renesas,r9a09g047-du'.
-> >>
-> >> Extend patternProperties from "^port@[0-1]$" to "^port@[0-3]$" to
-> >> allow up to four output ports, and explicitly disable port@2 and port@3
-> >> for existing SoCs that do not expose them.
-> >>
-> >> Describe the four output ports of the RZ/G3E DU:
-> >>
-> >>   - port@0: DSI (available on both LCDC instances)
-> >>   - port@1: DPAD / parallel RGB (LCDC1 only)
-> >>   - port@2: LVDS channel 0 (LCDC0 only)
-> >>   - port@3: LVDS channel 1 (available on both LCDC instances)
+> >> Add this feature to the driver using `RZ_MIPI_DSI_FEATURE_GPO0R`, update
+> >> the code accordingly to manage the vclk selection with the introduction
+> >> of `rzg2l_mipi_dsi_get_input_port()`.
 > >>
 > >> Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
 > >> ---
 > >> v5->v6:
-> >>   - Extend patternProperties from "^port@[0-1]$" to "^port@[0-3]$" and
-> >>     explicitly disable port@2 and port@3 for existing SoCs that do not expose
-> >>     them.
-> >>   - Reworked ports numbering + improved/fixed ports descriptions in the
-> >>     bindings documentation.
-> >>   - Improved commit body.
+> >>   - Moved rzg2l_mipi_dsi_link_write() into rzv2h_mipi_dsi_dphy_init()
+> >>     + comments from HW Manual.
 > >>
 > >> v4->v5:
-> >>   - Dropped renesas,id property and updated bindings
-> >>     accordingly.
+> >>   - No changes.
 > >>
-> >> v2->v3:
+> >> v3->v4:
 > >>   - No changes.
 > >>
 > >> v2->v3:
 > >>   - No changes.
 > >>
 > >> v1->v2:
-> >>   - Use single compatible string instead of multiple compatible strings
-> >>     for the two DU instances, leveraging a 'renesas,id' property to
-> >>     differentiate between DU0 and DU1.
-> >>   - Updated commit message accordingly.
+> >>   - No changes.
 > >>
-> >>   .../bindings/display/renesas,rzg2l-du.yaml    | 30 ++++++++++++++++++-
-> >>   1 file changed, 29 insertions(+), 1 deletion(-)
+> >>   .../gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c    | 71 +++++++++++++++++--
+> >>   .../drm/renesas/rz-du/rzg2l_mipi_dsi_regs.h   |  3 +
+> >>   2 files changed, 68 insertions(+), 6 deletions(-)
 > >>
-> >> diff --git a/Documentation/devicetree/bindings/display/renesas,rzg2l-du.yaml b/Documentation/devicetree/bindings/display/renesas,rzg2l-du.yaml
-> >> index 5add3b832eab..32da0b5ec88c 100644
-> >> --- a/Documentation/devicetree/bindings/display/renesas,rzg2l-du.yaml
-> >> +++ b/Documentation/devicetree/bindings/display/renesas,rzg2l-du.yaml
-> >> @@ -20,6 +20,7 @@ properties:
-> >>         - enum:
-> >>             - renesas,r9a07g043u-du # RZ/G2UL
-> >>             - renesas,r9a07g044-du # RZ/G2{L,LC}
-> >> +          - renesas,r9a09g047-du # RZ/G3E
-> >>             - renesas,r9a09g057-du # RZ/V2H(P)
-> >>         - items:
-> >>             - enum:
-> >> @@ -61,7 +62,7 @@ properties:
-> >>         model-dependent. Each port shall have a single endpoint.
+> >> diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
+> >> index be6dbf19a24e..947c8e15fc4b 100644
+> >> --- a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
+> >> +++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
+> >> @@ -37,7 +37,9 @@ MODULE_IMPORT_NS("RZV2H_CPG");
 > >>   
-> >>       patternProperties:
-> >> -      "^port@[0-1]$":
-> >> +      "^port@[0-3]$":
-> >>           $ref: /schemas/graph.yaml#/properties/port
-> >>           unevaluatedProperties: false
+> >>   #define RZG2L_DCS_BUF_SIZE	128 /* Maximum DCS buffer size in external memory. */
 > >>   
-> >> @@ -103,6 +104,8 @@ allOf:
-> >>               port@0:
-> >>                 description: DPI
-> >>               port@1: false
-> >> +            port@2: false
-> >> +            port@3: false
+> >> +#define RZ_MIPI_DSI_MAX_INPUT	2
+> >>   #define RZ_MIPI_DSI_FEATURE_16BPP	BIT(0)
+> >> +#define RZ_MIPI_DSI_FEATURE_GPO0R	BIT(1)
 > >>   
-> >>             required:
-> >>               - port@0
-> >> @@ -119,6 +122,8 @@ allOf:
-> >>                 description: DSI
-> >>               port@1:
-> >>                 description: DPI
-> >> +            port@2: false
-> >> +            port@3: false
+> >>   struct rzg2l_mipi_dsi;
 > >>   
-> >>             required:
-> >>               - port@0
-> >> @@ -135,9 +140,32 @@ allOf:
-> >>               port@0:
-> >>                 description: DSI
-> >>               port@1: false
-> >> +            port@2: false
-> >> +            port@3: false
+> >> @@ -81,13 +83,14 @@ struct rzg2l_mipi_dsi {
+> >>   	struct drm_bridge bridge;
+> >>   	struct drm_bridge *next_bridge;
 > >>   
-> >>             required:
-> >>               - port@0
-> >> +  - if:
-> >> +      properties:
-> >> +        compatible:
-> >> +          contains:
-> >> +            const: renesas,r9a09g047-du
-> >> +    then:
-> >> +      properties:
-> >> +        ports:
-> >> +          properties:
-> >> +            port@0:
-> >> +              description: DSI
-> >> +            port@1:
-> >> +              description: DPAD
-> >> +            port@2:
-> >> +              description: LVDS, Channel 0
-> >> +            port@3:
-> >> +              description: LVDS, Channel 1
+> >> -	struct clk *vclk;
+> >> +	struct clk *vclk[RZ_MIPI_DSI_MAX_INPUT];
+> >>   	struct clk *lpclk;
+> >>   
+> >>   	enum mipi_dsi_pixel_format format;
+> >>   	unsigned int num_data_lanes;
+> >>   	unsigned int lanes;
+> >>   	unsigned long mode_flags;
+> >> +	u8 vclk_idx;
+> >>   
+> >>   	struct rzv2h_dsi_mode_calc mode_calc;
+> >>   
+> >> @@ -543,8 +546,8 @@ static int rzg2l_dphy_conf_clks(struct rzg2l_mipi_dsi *dsi, unsigned long mode_f
+> >>   	unsigned long vclk_rate;
+> >>   	unsigned int bpp;
+> >>   
+> >> -	clk_set_rate(dsi->vclk, mode_freq * KILO);
+> >> -	vclk_rate = clk_get_rate(dsi->vclk);
+> >> +	clk_set_rate(dsi->vclk[dsi->vclk_idx], mode_freq * KILO);
+> >> +	vclk_rate = clk_get_rate(dsi->vclk[dsi->vclk_idx]);
+> >>   	if (vclk_rate != mode_freq * KILO)
+> >>   		dev_dbg(dsi->dev, "Requested vclk rate %lu, actual %lu mismatch\n",
+> >>   			mode_freq * KILO, vclk_rate);
+> >> @@ -687,6 +690,19 @@ static int rzv2h_mipi_dsi_dphy_init(struct rzg2l_mipi_dsi *dsi,
+> >>   	rzg2l_mipi_dsi_phy_write(dsi, PLLCLKSET1R,
+> >>   				 FIELD_PREP(PLLCLKSET1R_PLL_K, dsi_parameters->k));
+> >>   
+> >> +	/*
+> >> +	 * From RZ/G3E HW manual (Rev.1.15) section 9.5.3 Operation,
+> >> +	 * 9.5.3.1 Power on Reset and Initial Settings for All Operations.
+> >> +	 * Figure 9.5-4 Power On/Off Sequence show that after writing to
+> >> +	 * GPO0R.VICH register we need to wait for more than 1 x tp before
+> >> +	 * writing to PLLENR.PLLEN.
+> >> +	 *
+> >> +	 * Note: GPO0R is a link register, not a PHY register. This setting
+> >> +	 * is specific to RZ/G3E.
+> >> +	 */
+> >> +	if (dsi->info->features & RZ_MIPI_DSI_FEATURE_GPO0R)
+> >> +		rzg2l_mipi_dsi_link_write(dsi, GPO0R, dsi->vclk_idx);
 > >> +
-> >> +          required:
-> >> +            - port@0
-> >> +            - port@3
+> >>   	/*
+> >>   	 * From RZ/V2H HW manual (Rev.1.20) section 9.5.3 Operation,
+> >>   	 * (C) After write to D-PHY registers we need to wait for more than 1 x tp
+> >> @@ -1005,6 +1021,37 @@ static int rzg2l_mipi_dsi_stop_video(struct rzg2l_mipi_dsi *dsi)
+> >>   	return ret;
+> >>   }
+> >>   
+> >> +static int rzg2l_mipi_dsi_get_input_port(struct rzg2l_mipi_dsi *dsi)
+> >> +{
+> >> +	struct device_node *np = dsi->dev->of_node;
+> >> +	struct device_node *remote_ep, *ep_node;
+> >> +	struct of_endpoint ep;
+> >> +	bool ep_enabled;
+> >> +	int in_port;
+> >> +
+> >> +	/* DSI can have only one port enabled */
 > > 
-> > Why are ports 1 and 2 not required ?
+> > Why is that ? The hardware supports dynamic input selection, why can't
+> > it be supported at runtime ?
 > 
-> About this we had a similar discussion on v5[0]
-> We are using the same compatible and:
+> For runtime/dynamic you mean using DT overlay??
+> like, remove:
 > 
-> - LCDC0 supports DSI and LVDS (single or dual-channel) outputs.
-> |
-> --> then has:
-> 	port@0
-> 	port@2
-> 	port@3
-> 	
-> 
->   - LCDC1 supports DSI, LVDS (single-channel), and RGB outputs.
-> |
-> --> then has:
-> 	port@0
-> 	port@1
-> 	port@3
+> Removing - DU0 --> DSI (input 0 | port@0 ) overlay and
+> install  - DU1 --> DSI (input 1 | port@1 ) overlay and
+> viceversa?
 
-Ah yes, I forget there are two LCDC instances with different output
-configurations.
+No, I mean configurable by userspace, with two CRTCs sharing one DSI
+encoder.
 
-Something still looks a bit weird to me though. For LCDC1, which
-supports a single LVDS channel, you use the port described as the second
-LVDS channel. Is there a reason not to use port@2 ?
-
-> Then port@1 is required for DU1 but not for DU0.
-> Same port@2 is required for DU0 but not for DU1.
-> 
-> [0] https://patchwork.kernel.org/project/linux-renesas-soc/patch/ca022fdbba5236c36e0cb3095db4c31e8e0cb1b8.1770996493.git.tommaso.merciai.xr@bp.renesas.com/ 
->
-> >>
-> >>   examples:
-> >>     # RZ/G2L DU
+> >> +	for_each_endpoint_of_node(np, ep_node) {
+> >> +		of_graph_parse_endpoint(ep_node, &ep);
+> >> +		if (ep.port >= RZ_MIPI_DSI_MAX_INPUT)
+> >> +			break;
+> >> +
+> >> +		remote_ep = of_graph_get_remote_endpoint(ep_node);
+> >> +		ep_enabled = of_device_is_available(remote_ep);
+> >> +		of_node_put(remote_ep);
+> >> +
+> >> +		if (ep_enabled) {
+> >> +			in_port = ep.port;
+> >> +			break;
+> >> +		}
+> >> +	}
+> >> +
+> >> +	if (!ep_enabled)
+> >> +		return -EINVAL;
+> >> +
+> >> +	dev_dbg(dsi->dev, "input port@%d\n", in_port);
+> >> +	return in_port;
+> >> +}
+> >> +
+> >>   /* -----------------------------------------------------------------------------
+> >>    * Bridge
+> >>    */
+> >> @@ -1425,9 +1472,21 @@ static int rzg2l_mipi_dsi_probe(struct platform_device *pdev)
+> >>   	if (IS_ERR(dsi->mmio))
+> >>   		return PTR_ERR(dsi->mmio);
+> >>   
+> >> -	dsi->vclk = devm_clk_get(dsi->dev, "vclk");
+> >> -	if (IS_ERR(dsi->vclk))
+> >> -		return PTR_ERR(dsi->vclk);
+> >> +	dsi->vclk[0] = devm_clk_get(dsi->dev, "vclk");
+> >> +		if (IS_ERR(dsi->vclk[0]))
+> >> +			return PTR_ERR(dsi->vclk[0]);
+> >> +
+> >> +	if (dsi->info->features & RZ_MIPI_DSI_FEATURE_GPO0R) {
+> >> +		dsi->vclk[1] = devm_clk_get(dsi->dev, "vclk2");
+> >> +		if (IS_ERR(dsi->vclk[1]))
+> >> +			return PTR_ERR(dsi->vclk[1]);
+> >> +
+> >> +		ret = rzg2l_mipi_dsi_get_input_port(dsi);
+> >> +		if (ret < 0)
+> >> +			return dev_err_probe(dsi->dev, -EINVAL,
+> >> +					     "No available input port\n");
+> >> +		dsi->vclk_idx = ret;
+> >> +	}
+> >>   
+> >>   	dsi->lpclk = devm_clk_get(dsi->dev, "lpclk");
+> >>   	if (IS_ERR(dsi->lpclk))
+> >> diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi_regs.h b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi_regs.h
+> >> index 2bef20566648..cee2e0bc5dc5 100644
+> >> --- a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi_regs.h
+> >> +++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi_regs.h
+> >> @@ -83,6 +83,9 @@
+> >>   #define LINKSR_SQCHRUN1			BIT(4)
+> >>   #define LINKSR_SQCHRUN0			BIT(0)
+> >>   
+> >> +/* RZ/G3E General Purpose Output 0 Register */
+> >> +#define GPO0R				0xc0
+> >> +
+> >>   /* Tx Set Register */
+> >>   #define TXSETR				0x100
+> >>   #define TXSETR_NUMLANECAP		(0x3 << 16)
 
 -- 
 Regards,
