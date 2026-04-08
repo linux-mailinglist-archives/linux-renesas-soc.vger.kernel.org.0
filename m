@@ -1,88 +1,88 @@
-Return-Path: <linux-renesas-soc+bounces-31012-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-31011-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id cFqWNfZX1mlJEAgAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-31012-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 08 Apr 2026 15:28:22 +0200
+	id qCH3JQVX1mn5DwgAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-31011-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 08 Apr 2026 15:24:21 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 501183BCDC5
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 08 Apr 2026 15:28:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CD5E3BCCC8
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 08 Apr 2026 15:24:20 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id F13FF3010244
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Apr 2026 13:27:02 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 1509F301B4DD
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Apr 2026 13:23:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A2AE430FC23;
-	Wed,  8 Apr 2026 13:27:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A49FC33C528;
+	Wed,  8 Apr 2026 13:23:29 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
+Received: from mail-vk1-f174.google.com (mail-vk1-f174.google.com [209.85.221.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38B473890E1
-	for <linux-renesas-soc@vger.kernel.org>; Wed,  8 Apr 2026 13:27:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BC973368AF
+	for <linux-renesas-soc@vger.kernel.org>; Wed,  8 Apr 2026 13:23:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775654821; cv=none; b=mVzDFc/44mEcYiCSLCM83f0+2/kB3lRRi8uabPUrvbhrZrNRsyRECNmvEjGRF30KYExGRN8mvmj3WKwc6mrINofyPoCwum9cR7HQKyz5ntAf0W02VlyrGxOUst4Nyh9RocgV28RKexwjHxRToqVTFSIryG3U5P2lwNyKZmPAeUY=
+	t=1775654609; cv=none; b=VX1y6nAT1Eo7ZZ2qajw4Jy/oJQbzafJq7h6X5XNQakuGgr93BPzi5T2uPEspukw/RVkE0l8or97sV3nrRBhrFeYcLWaVTbuMbBegeNiU8ZYvcjVdj6X3X54tf405h8nloPQLC8ZbiuQWR1B4ByH8QXpD9gHNINeDdkMYJGb6/j4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775654821; c=relaxed/simple;
-	bh=eDPl1BxiRe/fUMVm6v8nPkG76S8YwwEBsYa94mj/dvw=;
+	s=arc-20240116; t=1775654609; c=relaxed/simple;
+	bh=Esa6dVRyYOOr3vJIDSY5cJEBLjvkhKepH2lKClA4ih8=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=r+hM4aSQ8J9I8mtrCFszJnz3ItfOefTEyxvPh8ZkEQcu+fw2vj79q+VKYsALjI+dGaUTnW+tTxiWdMsCl+C8XiBhnJj3mNpznQHDYX1qNKnnVhuSAUMeVLcIPYIMGD+Me+e8CKO4k1QaZqEYr+mm18UQiJG/UqSB60Ppa7zBuZ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.179
+	 To:Cc:Content-Type; b=h+gseUlzaT8KhlAGHCLE6tGAzrGAgKJvB5bqnpUyqe1yvao9Y+3g0oDgkcSgAH7Pc5lLIG+ttpRf1fWXsxxNCofwTe00+WZjtOG24Qy9FXiErjkelnHeTMmsdHOX9lZTOL33xmTrA6W7Pi/sUSDTOOzcR4Jww21qWP1/voczvGE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qk1-f179.google.com with SMTP id af79cd13be357-8cb3bae8d3eso582588785a.1
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 08 Apr 2026 06:27:00 -0700 (PDT)
+Received: by mail-vk1-f174.google.com with SMTP id 71dfb90a1353d-56b8804f37cso2686005e0c.3
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 08 Apr 2026 06:23:27 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775654819; x=1776259619;
+        d=1e100.net; s=20251104; t=1775654606; x=1776259406;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=11iAo9dki9YzQOZbHMLoGuCa0VnV6ePIcYUznc5FWP8=;
-        b=VoQuOa9/Fo4thc11Aqq7qRwtrZn53378h92Iw6ct+EDw2LiLeAg4oFDzYGoJ9KCKlE
-         FK0W03qyNHtUz3fCEdE4bfmj2Pqykj7FrvGoRwHlYKUel5g1cMj91iwFMHYq8zvv4oDv
-         Uln6tUHnipOvelBjX74N1FFlu8dZWlomzYPLE7gsN+59iXWN5oPYPn1QVjNm97CCOnVG
-         H7ERv3u9DbLsqtcM/cekwGtrbUOoi8yGXd8pczeWZzMUXBUg+bnT3+BICT548fXjmphx
-         GnvSnTwGbW/uhUJMb9oiEcN/TBDdElv2Cb3u/ASzf6N3dEO9W37i+OlBRhoJ9g2u+o7W
-         u14g==
-X-Forwarded-Encrypted: i=1; AJvYcCVdYbjGmTo/CUZNrN2H2sGkBQSptBdUoMRzlk6+v0s/y3epGa6lOTHXqFKaGGUreIZSFb2igX49OKpTBZpRrrCpIg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwF1wZWwo+lekEwHkmLKvQmCShleiEtdFbnpJp7OT/Qi00uDm5Y
-	VkCF/TrtCNSD4zkjqIDj2+dn0rJfvz0rgl2zKbjJ8x87xXczJ2fv/XT9BYTjt22C
-X-Gm-Gg: AeBDievYB3ea5ui0MyYU25xJ8ooBPU+3hNofpxGchDQqXVMytSvSPM7J66j8NC1MUTz
-	3n3op8Fi2qof+JHaAn7ZnyEZqStwnGYSqKx6b2iyrok+DvS88UCK8SZA0WQ3Ww/P+B09OQskY+L
-	E2OujXoQHWd03H4DPfIz4uA3IydBJdIiioOmWSoeDYmt9fu0oe/UWohECd0EnUSh4Xqmc/kVz6v
-	jiya9Yaauk962c0W9C1IFb71A0in3GUBTQpUFYPi7rcx/99o2Fd5V5aQDFSPJ4vGViKh/gzuOoQ
-	9THrOpYSTIKrwbehTpfIAW6epAb2kxvNGVFq7G2rmxaj3Z9TvlG5H++RmtgvAo+foUx20Nm0juj
-	m6RE04UyBPO6B8b3Hy0ngVdSv7JUYFzvD0HOVaI/5WjCieWlg3KTu8garq0S3qlJKyOZs3Sef0L
-	ktmqJ+AIgqS2q1LWP6lsB3KKWeF0WVCxkDtib3CG6wtZtlxuBorK5b1/ND3VwJ
-X-Received: by 2002:a05:622a:11c4:b0:50d:a301:2fc0 with SMTP id d75a77b69052e-50da3013857mr97090991cf.26.1775654818889;
-        Wed, 08 Apr 2026 06:26:58 -0700 (PDT)
-Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com. [209.85.219.48])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8aa1c6d5856sm84549396d6.46.2026.04.08.06.26.58
+        bh=8VHgesrf5StiprJKDytJNXvB7R5FJ2lBTM9ZJItFuhE=;
+        b=GLtZCw1TTDeaqvVVwHLthrKdV9d67YRhWHrN+Yv9gCqLP4LCvzIwYo/tlDXdc5FWZY
+         I3AwCf4jlBWgRtqjEIppgWeuv3BcFgzpsI0z7+7ZXLOvbmwUs58cAjrLB+BJtrNGLou+
+         UdxMShD78trxaPfJwh/erBQ/xWg1vUCPJINTyeA5kbTzY7HkFV8vr3RFNw/GN0TnSo+Z
+         oDNhooGYBwej/RKu4B8G64c9i5Nr9nyplrd4wQXLAf7JdXo3LGXYimhcdV093NrfkFE+
+         OENpdf7MVhelX17pPWEzX0CimD2p6Zdrnku5k1wpb3GG4/cz3dBGfs8NfgiYRzL6Wufn
+         bjig==
+X-Forwarded-Encrypted: i=1; AJvYcCUORCt1ZYWt8leAQ2J7/PgkEWCksnP62uaaw3SUDXhIcuzSSEyA9d4diCT2XBUzLyjbVKrMLwzi4QspbiEhpVc71A==@vger.kernel.org
+X-Gm-Message-State: AOJu0YynUEs2iEOTS0QgtmBsaG3pNDHlbfZZGSZX00WjeTAaAw8M5d5E
+	OPWWZvqPsTB9JkGf/Or3pJvy6jJB3bDb1hoBelRJNljGBLifrzr8nX+MIfo22HPQ
+X-Gm-Gg: AeBDievsJ2M3A9RcT9MjJTZZdO2kju/X+AnEAettvTP9LKiMdkb4aQ4o/EDeqEdOvsF
+	RancX3fQg27BhA5uUu4Dcm0mzTwJbLwvTXpDbZfQLXaFkcfNthv1k3RFcBz352m7hMOXVhw60cT
+	iAibUuzJCjhO+VzRJhEpzasQ4DYMZ8fiTIXrUmfG2diQLDZPLHTqGonV0NVViwmXeU0psM1F6Qy
+	OAIDC/gZZMGJtOBI4CJPItLrmFy98rA3pThKuKryydMjlni/QGh0LsitzPIlzi6Bj41h9syqlKs
+	qje4TCgX5x69jCdQEWAwNRTZe4WMd+uGAiviRiS3mOCe46B6wUpsbknZzQGOuGsFHowCKixrR+1
+	7BOTesQKV0Sk9y1sEg/cmPJjtIQ7hb7e71dE6amvO64wTE67FoKt/QXv/VKSgcKZ4Wf4GflE+0w
+	rmYixv/lq281I25V2rqEyntkBH63pyGHVPUHSSGArikL09lsbLW7VEx9YAD1GglAFn
+X-Received: by 2002:a05:6122:4891:b0:56d:9e98:4676 with SMTP id 71dfb90a1353d-56daba1f4famr8435641e0c.13.1775654606446;
+        Wed, 08 Apr 2026 06:23:26 -0700 (PDT)
+Received: from mail-vk1-f180.google.com (mail-vk1-f180.google.com. [209.85.221.180])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-56d9ba8019bsm20172911e0c.1.2026.04.08.06.23.26
         for <linux-renesas-soc@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 08 Apr 2026 06:26:58 -0700 (PDT)
-Received: by mail-qv1-f48.google.com with SMTP id 6a1803df08f44-89cc797547fso72783116d6.2
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 08 Apr 2026 06:26:58 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVbWWlxR6usWVH9EAuLwpaLAISW9gLwjZtaj8PsRCxLj1CosPpiMDW9zDI8/+UWIO20lc5VO4UFUM9UJPrkczM0tw==@vger.kernel.org
-X-Received: by 2002:a05:6122:4b05:b0:56d:3b69:87d2 with SMTP id
- 71dfb90a1353d-56dab9df26emr8767911e0c.11.1775654366102; Wed, 08 Apr 2026
- 06:19:26 -0700 (PDT)
+        Wed, 08 Apr 2026 06:23:26 -0700 (PDT)
+Received: by mail-vk1-f180.google.com with SMTP id 71dfb90a1353d-56db63456d4so1607778e0c.1
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 08 Apr 2026 06:23:26 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWS1Cwg4Yt9fCopjvtpTStZfoEGMnHL4srD+bZmVkBizbZUYTpRLawO8B6oC+kICnOKuT46o1ehqA1jaRVGtDkkvQ==@vger.kernel.org
+X-Received: by 2002:a05:6122:3a03:b0:56f:1a26:563a with SMTP id
+ 71dfb90a1353d-56f1a265761mr1211064e0c.7.1775654605828; Wed, 08 Apr 2026
+ 06:23:25 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1775636898.git.tommaso.merciai.xr@bp.renesas.com> <24d3853ca2522df21e6a071a23e23ba4ca4b7276.1775636898.git.tommaso.merciai.xr@bp.renesas.com>
-In-Reply-To: <24d3853ca2522df21e6a071a23e23ba4ca4b7276.1775636898.git.tommaso.merciai.xr@bp.renesas.com>
+References: <cover.1775636898.git.tommaso.merciai.xr@bp.renesas.com> <9595f56ce8ab120477bfc11eaafb0f2b655d049a.1775636898.git.tommaso.merciai.xr@bp.renesas.com>
+In-Reply-To: <9595f56ce8ab120477bfc11eaafb0f2b655d049a.1775636898.git.tommaso.merciai.xr@bp.renesas.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 8 Apr 2026 15:19:14 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdV-GrDWaKzxf09DRKwDkcY7W_cZrnubBWqD0w1iAYc8Kw@mail.gmail.com>
-X-Gm-Features: AQROBzC36oVu26dy7QAue_JJJeRvfbuifO9CcFeX81T2keIzqU6JIH81ayIbX9M
-Message-ID: <CAMuHMdV-GrDWaKzxf09DRKwDkcY7W_cZrnubBWqD0w1iAYc8Kw@mail.gmail.com>
-Subject: Re: [PATCH v6 01/21] clk: renesas: rzv2h: Add PLLDSI clk mux support
+Date: Wed, 8 Apr 2026 15:23:14 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXr_=E+WhCd0Tfrehn+2Mo3L+GUUUCWX5vc-gunYx_oTw@mail.gmail.com>
+X-Gm-Features: AQROBzCAS3tdwS4I5i1ony0ZYqV2Tos82DINalsSZpND3OxFU3AJc31boq9f15A
+Message-ID: <CAMuHMdXr_=E+WhCd0Tfrehn+2Mo3L+GUUUCWX5vc-gunYx_oTw@mail.gmail.com>
+Subject: Re: [PATCH v6 06/21] clk: renesas: r9a09g047: Add support for SMUX2_DSI{0,1}_CLK
 To: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
 Cc: tomm.merciai@gmail.com, laurent.pinchart@ideasonboard.com, 
 	linux-renesas-soc@vger.kernel.org, biju.das.jz@bp.renesas.com, 
@@ -103,57 +103,42 @@ X-Spamd-Result: default: False [0.04 / 15.00];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FROM_HAS_DN(0.00)[];
-	TAGGED_FROM(0.00)[bounces-31012-lists,linux-renesas-soc=lfdr.de];
+	FREEMAIL_CC(0.00)[gmail.com,ideasonboard.com,vger.kernel.org,bp.renesas.com,linux.intel.com,kernel.org,suse.de,ffwll.ch,baylibre.com,lists.freedesktop.org];
+	TAGGED_FROM(0.00)[bounces-31011-lists,linux-renesas-soc=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	DMARC_NA(0.00)[linux-m68k.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[gmail.com,ideasonboard.com,vger.kernel.org,bp.renesas.com,linux.intel.com,kernel.org,suse.de,ffwll.ch,baylibre.com,lists.freedesktop.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	RCPT_COUNT_TWELVE(0.00)[22];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
 	MISSING_XM_UA(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[geert@linux-m68k.org,linux-renesas-soc@vger.kernel.org];
-	NEURAL_SPAM(0.00)[0.091];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	NEURAL_HAM(-0.00)[-0.050];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
 	R_DKIM_NA(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
-	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,renesas.com:email,glider.be:email,mail.gmail.com:mid,linux-m68k.org:email]
-X-Rspamd-Queue-Id: 501183BCDC5
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,mail.gmail.com:mid,glider.be:email,linux-m68k.org:email]
+X-Rspamd-Queue-Id: 2CD5E3BCCC8
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
 On Wed, 8 Apr 2026 at 12:38, Tommaso Merciai
 <tommaso.merciai.xr@bp.renesas.com> wrote:
-> Add PLLDSI clk mux support to select PLLDSI clock from different clock
-> sources.
+> Add support for the SMUX2_DSI0_CLK and SMUX2_DSI1_CLK clock muxes
+> present on the r9a09g047 SoC.
 >
-> Introduce the DEF_PLLDSI_SMUX() macro to define these muxes and register
-> them in the clock driver.
+> These muxes select between CDIV7_DSI{0,1}_CLK and CSDIV_2to16_PLLDSI{0,1}
+> using the CPG_SSEL3 register (SELCTL0 and SELCTL1 bits).
 >
-> Extend the determine_rate callback to calculate and propagate PLL
-> parameters via rzv2h_get_pll_dtable_pars() when LVDS output is selected,
-> using a new helper function rzv2h_cpg_plldsi_smux_lvds_determine_rate().
->
-> The CLK_SMUX2_DSI{0,1}_CLK clock multiplexers select between two paths
-> with different duty cycles:
->
-> - CDIV7_DSIx_CLK (LVDS path, parent index 0): asymmetric H/L=4/3 duty (4/7)
-> - CSDIV_DSIx (DSI/RGB path, parent index 1): symmetric 50% duty (1/2)
->
-> Implement rzv2h_cpg_plldsi_smux_{get,set}_duty_cycle clock operations to
-> allow the DRM driver to query and configure the appropriate clock path
-> based on the required output duty cycle.
+> According to the hardware manual, when LVDS0 or LVDS1 outputs are used,
+> SELCTL0 or SELCTL1 must be set accordingly.
 >
 > Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
-> ---
-> v5->v6:
->  - Fixed rzv2h_cpg_plldsi_smux_clk_register() removed u8 width, mask
->    variables and replaced with direct use of smux.width and clk_div_mask(smux.width).
 
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
