@@ -1,197 +1,143 @@
-Return-Path: <linux-renesas-soc+bounces-30965-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-30966-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id IMJKKIcQ1mmxAwgAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-30965-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 08 Apr 2026 10:23:35 +0200
+	id QAi/B/4R1mmxAwgAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-30966-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 08 Apr 2026 10:29:50 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 218923B8F35
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 08 Apr 2026 10:23:35 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id B168B3B90B9
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 08 Apr 2026 10:29:49 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id BA75D3023E0C
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Apr 2026 08:22:31 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 2581E3006794
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Apr 2026 08:28:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 86A443A1D05;
-	Wed,  8 Apr 2026 08:22:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A9E3E3A3E83;
+	Wed,  8 Apr 2026 08:28:15 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ua1-f45.google.com (mail-ua1-f45.google.com [209.85.222.45])
+Received: from mail-vk1-f179.google.com (mail-vk1-f179.google.com [209.85.221.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2658139FCC5
-	for <linux-renesas-soc@vger.kernel.org>; Wed,  8 Apr 2026 08:22:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 476BB3A2543
+	for <linux-renesas-soc@vger.kernel.org>; Wed,  8 Apr 2026 08:28:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775636548; cv=none; b=dXtbEDihnNjk3j/9jHOOWckaearjSu2+Mpmq6LO56Uvkij0DN6d4rKVvwEwWhojmXWpjbbtdvIz3DtKG6K6tDWRO7oFhjIp3rmLgSeUo09EN35keV87RR1Ls/B1zgF15Rv6X6/MOwZkk+SpVMuYzWLbGVwdzZcLO1clzlrXnMsc=
+	t=1775636895; cv=none; b=t5M8teSY0uFCpuyEmrfreXpo7e/3GM752flU9GcSJb3xXtCNX6RHaDd6p5EFSK64ybGhBZIcTYhILNayQc1pSG+OPulyEx5PlOZtM1uFiNxgFfjG7zbdwyh1dTlNHbep2uPp+1/hVFFzkBVq2yXssMnz+XPmSSfElRcKaFFqpZA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775636548; c=relaxed/simple;
-	bh=b5sFFFnz7kI/kQaZbsJwv3/XfCSCJbUJYwCMYtZSKa8=;
+	s=arc-20240116; t=1775636895; c=relaxed/simple;
+	bh=o9aFN/oBxjJk7ilLKE+iObF5zpOesxCwPJ4VHcL/xkw=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=jyM3FTJcnc/RyywDLGlttDKGlccV3vesOPThU/Kb6AElj1xhkkwQoB9veBVJqfJJid9HmY9diICa+AQSTLAnLpgG7zonlXnjzrYFyggbBoFL9VEkGsylCxTRS76o2BAX0kwW3VlKMD7DjWRnvM/68OUE3cM90xLGupL+1lC6/6k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.45
+	 To:Cc:Content-Type; b=Hktm8rODx95R9WGHVRP6F0zcq6yKDthAb5BC9Md2ODfub/Azm0ad1USRXdKqK2mOGuuE8krHSzvZxHQubzRpiuZ+/dpNSV1/ni13kkTAH6RS/uL1qC2pkn6ppkbgcORAwCJKqD1nnoDK4syTc6k5G4yqfTP83BCxvHoeRckbBTE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ua1-f45.google.com with SMTP id a1e0cc1a2514c-95464866f51so384080241.1
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 08 Apr 2026 01:22:26 -0700 (PDT)
+Received: by mail-vk1-f179.google.com with SMTP id 71dfb90a1353d-56d89f35940so2058699e0c.2
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 08 Apr 2026 01:28:14 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775636546; x=1776241346;
+        d=1e100.net; s=20251104; t=1775636893; x=1776241693;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=6/OdsvJnqKLpxIUdQmatNy3GAgeQFuXxN4Hc4a44FzU=;
-        b=VlC4VJ8JcW/VYQcN08Ut2USzutwRE8tZMdgPm9uNrZEAquTkOfVvIswfHdZZBB+sUS
-         hYGhuDijgKxwPixbEgLy/Q96YNsykxcQqQ87T57g4v38EqfZXfbhnwepw9ODcB8uaz5Y
-         YNOXWenI5Am1Ioz15qg/nqWn11B+m0p1EbB3LXkWfB8MRuOJexOUILX5MvBnWyKet+3H
-         RwVDdtY3LwNCk79ngrEUQUi6WYpkxtsyQdI1YL2mx3d2IluIaEUu4s+U/+kPcKLCmCyr
-         AKWxKP9/GcbeiudBdCpsfNiWShH18I34wTIvIPg95USt4b5TyHz1+ZDXEu8qFs/GSZKr
-         yQww==
-X-Forwarded-Encrypted: i=1; AJvYcCVssjrFdIVs2ooacP/wIY8gKRuJB89oB/B4NE9eciVgxW5dT8Mxo7D3M08ucA/G1izU2dZhC8awxxSgEFdcTVuHZg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyEBgK+5/l4WB5zxcUMaTw4z+4LgJ8Cj8xGd5HR7eS6aEQ4+kki
-	h52pK6NfvqV0Z/0W9I1cF/KjqbKXBXfkZWcTgfSFv3XIHyfQq9Qp/PsND/q7+nmr
-X-Gm-Gg: AeBDiesU7+uWiZCp51QgTRzpWH3PhqMz4JOaNJXUzV2fKNO4qLu6FJ/7woQwdlkrszU
-	HCReNSvCJJbtth3HQ20zsMa++gzO7GwHssoMRrKyT23VAcXXadbcYRnoVxHpJJVooZVhr/KxSCl
-	6/n9ZqgyIKy3L+cSHTnLUvc5XHP1xrJWNMgV8oV2EqqxRGrQ3wOimhwpuyJhDhr0+9Xp0IVWgtt
-	l22qdWvCU4ejYIgcQLHm4MJUw2r7TG1idy5exYQB5MfP3QZe8lXdEtRy5Kdblh6ULCdG1zrWN6O
-	+cNZRPQwYSVJTbRxSveI0+NTBl5rIFfDXyWINhTJkUgMT1xO2fU2/zloIPXkwyi4Mx1a06EoLPr
-	FkxsfHJcmkduM34zMw9Jx+EB4KPMZ60L3JiJvV4wy3RszR9ms8o//xAH77VQPMdZJUEd+EBVqh/
-	eZbQVwmGKGBO3l6H7K3wJ3gy3jxneueTSTjXC/qsWDjfGa7PeAh93TqWWow9lb
-X-Received: by 2002:a05:6102:3749:b0:602:7a74:fbbe with SMTP id ada2fe7eead31-605a4e92be0mr3973747137.9.1775636546093;
-        Wed, 08 Apr 2026 01:22:26 -0700 (PDT)
-Received: from mail-vs1-f50.google.com (mail-vs1-f50.google.com. [209.85.217.50])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-954206339b0sm10521368241.1.2026.04.08.01.22.24
+        bh=lQpQOf4fWDiiKTZ8RNLIoiaoYNDkkDqXEA0sfJBBI8c=;
+        b=lJuFD9BRex1zIfh0jTlaTW9KdQDoWp0fxlduwi3XW2Ykf17HdzAoMAIO/20yHUnNbD
+         xwpDkuEnl5IOlRiJmKFPBBkDkr7WyuwTMSJsa6SH8vRl41S3xgnqFtNPTWNbBCapEpL2
+         tJN4+Cz8+v+osoDSa9kigBTXk7poutD44sezFfXaIabd+Un/QJpOCnYlb6eBl8p5qau2
+         gdJrGE37GQhLhCtHAOGiUViqf1+yhjGRtlWQ+TKd/Ac55a8gg4U5Kaouuxd5Fh3gqvE2
+         qk34EMySUZqArwis/hIUJtEgzf7lDhO7WBVEiAsztyBZ/J5QG9SplPGJ7fQeVhLFPWAr
+         1hzQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW3067aLDgF852AL7vpypfaKLCUpPHAI75boFybKSunTXn/MgJmGSoIias56q7TjUIHdqOv+AEQHUPAhtoQ3HYFHg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzi4BNy0c+kYZ1HPLFj0HgJXYYTOH8WZ3AbAeciA4bVSp+jcCHe
+	wNCxyMbe+2lXjR8PjH6DJVrOYrSFDwr0H51oQcnDkb6jJvtpa/wZDxDumRmS8QYC
+X-Gm-Gg: AeBDievucTu0CUpB3RFrwpo5zWTIORIyE1hhU8o3PIMDuBLaQe5yignaIj+AAuTs2GZ
+	iaz6y9lugc6TOVIDcd96u6pHgw4VzHFVf+lwI57+4jRms3CmqyVeAyX7Cjq6ZgeGmpPWE3PC5d1
+	wdRLukZADON0yQeoWYhRPDjtjWHUof0Iiwg3yKx5asUrPUaxxsNiXY1XEjThohripJUlb8b7MGW
+	dTrN8a+4Km8Hm2LJ9HAk5n1nn4Ws+nRsvq9jNSErkX6fo2DekweNeDWcr45wL7t18bMM244W8E3
+	6FNjuY58MS3CqkhXhoT/MaZhRPLBg+R5cnI8uruQRrcsRDHy2lKZgbnMmajRw8ohajxED1nMvX0
+	OKVoeemd4SCfRou7ncOBs3cqvl5EM0F16+eKIqsGlL5XL76QqXWUyU7T+f6Klj1Io+3k6vPNLpm
+	271rfhazLTOCV63MXEEfqZQUfdxihOodJ0qgUROtTiX0K0B7YQXxZ8DCdyJgK1
+X-Received: by 2002:a05:6102:2085:b0:607:9d3e:2662 with SMTP id ada2fe7eead31-6079d3e58bbmr385838137.4.1775636893192;
+        Wed, 08 Apr 2026 01:28:13 -0700 (PDT)
+Received: from mail-vs1-f46.google.com (mail-vs1-f46.google.com. [209.85.217.46])
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-953fb897b8dsm15499872241.7.2026.04.08.01.28.12
         for <linux-renesas-soc@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 08 Apr 2026 01:22:25 -0700 (PDT)
-Received: by mail-vs1-f50.google.com with SMTP id ada2fe7eead31-6058a7dc4ebso1895828137.2
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 08 Apr 2026 01:22:24 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCXpMN8oNxHmq6iw3Cwl5AX9oU7PLQ3qqIWwDb7mVT6N4ZlmBg2oBNr2zFLQ9Lq9H/uDU7ZswP1RKy6GdG9OwlCTyQ==@vger.kernel.org
-X-Received: by 2002:a67:e113:0:b0:5ff:ea89:44c8 with SMTP id
- ada2fe7eead31-605a4e20b35mr6740856137.2.1775636544455; Wed, 08 Apr 2026
- 01:22:24 -0700 (PDT)
+        Wed, 08 Apr 2026 01:28:12 -0700 (PDT)
+Received: by mail-vs1-f46.google.com with SMTP id ada2fe7eead31-5ff05af29b4so1980265137.1
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 08 Apr 2026 01:28:12 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWKQ5/6IJfZHOmjJFd4Syl52SL1gOLmb9IRJ4Ut4HsKOSvuOwVCrzYIUHxWxXSUyZai5JECMMvsMSyk7bkqxfdifg==@vger.kernel.org
+X-Received: by 2002:a05:6102:2923:b0:602:8ccb:c993 with SMTP id
+ ada2fe7eead31-605a5013b05mr6453381137.24.1775636891875; Wed, 08 Apr 2026
+ 01:28:11 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260407151210.102693-1-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20260407151210.102693-1-biju.das.jz@bp.renesas.com>
+References: <20260407145753.101840-1-biju.das.jz@bp.renesas.com> <20260407145753.101840-2-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20260407145753.101840-2-biju.das.jz@bp.renesas.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 8 Apr 2026 10:22:13 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVXRKHuV0F4gSu+SsyWAS6RYxhd-XBCjXD1jbYznXup1w@mail.gmail.com>
-X-Gm-Features: AQROBzARKqorIdZHutGTZwD8x9EqzhXv0LaXrwdoOHx-u8Qf3SkhcMvk_8MboGA
-Message-ID: <CAMuHMdVXRKHuV0F4gSu+SsyWAS6RYxhd-XBCjXD1jbYznXup1w@mail.gmail.com>
-Subject: Re: [PATCH] serial: rsci: Remove goto and refactor baud rate clock selection
+Date: Wed, 8 Apr 2026 10:28:00 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVHWxmY7fCue2Q+4Wvf2QbB2ABaQL2yi1Z9koov7tj6Zg@mail.gmail.com>
+X-Gm-Features: AQROBzA34NCraYwlgtVmX6Zb7nvooLN9XjKRAeqpyWsi4l4Jb7X8ZFeX4g2U_rk
+Message-ID: <CAMuHMdVHWxmY7fCue2Q+4Wvf2QbB2ABaQL2yi1Z9koov7tj6Zg@mail.gmail.com>
+Subject: Re: [PATCH v3 1/2] dt-bindings: spi: renesas,rzv2h-rspi: Document
+ RZ/G3L SoC
 To: Biju <biju.das.au@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jiri Slaby <jirislaby@kernel.org>, 
-	Biju Das <biju.das.jz@bp.renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
-	Wolfram Sang <wsa+renesas@sang-engineering.com>, 
-	Thierry Bultel <thierry.bultel.yh@bp.renesas.com>, linux-kernel@vger.kernel.org, 
-	linux-serial@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	Pavel Machek <pavel@nabladev.com>
+Cc: Fabrizio Castro <fabrizio.castro.jz@renesas.com>, Mark Brown <broonie@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Magnus Damm <magnus.damm@gmail.com>, Biju Das <biju.das.jz@bp.renesas.com>, 
+	linux-spi@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Spamd-Result: default: False [0.04 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-1.46 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-30965-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-30966-lists,linux-renesas-soc=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_CC(0.00)[renesas.com,kernel.org,gmail.com,bp.renesas.com,vger.kernel.org];
 	DMARC_NA(0.00)[linux-m68k.org];
 	FREEMAIL_TO(0.00)[gmail.com];
-	RCVD_TLS_LAST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[13];
+	MIME_TRACE(0.00)[0:+];
 	MISSING_XM_UA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[geert@linux-m68k.org,linux-renesas-soc@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	NEURAL_HAM(-0.00)[-0.786];
-	RCPT_COUNT_SEVEN(0.00)[11];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	NEURAL_HAM(-0.00)[-0.974];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,dt];
 	R_DKIM_NA(0.00)[];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[linux-m68k.org:email,mail.gmail.com:mid,nabladev.com:email,renesas.com:email]
-X-Rspamd-Queue-Id: 218923B8F35
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,glider.be:email,mail.gmail.com:mid,linux-m68k.org:email,renesas.com:email]
+X-Rspamd-Queue-Id: B168B3B90B9
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi Biju,
-
-On Tue, 7 Apr 2026 at 17:12, Biju <biju.das.au@gmail.com> wrote:
+On Tue, 7 Apr 2026 at 16:57, Biju <biju.das.au@gmail.com> wrote:
 > From: Biju Das <biju.das.jz@bp.renesas.com>
 >
-> Replace the early-exit goto pattern in rsci_set_termios() with a
-> positive conditional block. When baud rate is zero, the clock
-> selection logic is now simply skipped rather than jumping to a
-> 'done' label, eliminating the goto entirely.
+> Document RSPI IP found on the RZ/G3L SoC. The RSPI IP is compatible with
+> the RZ/V2H RSPI IP, but has 2 clocks compared to 3 on RZ/V2H.
 >
-> No functional change intended.
->
-> Reported-by: Pavel Machek <pavel@nabladev.com>
-> Closes: https://lore.kernel.org/all/abPpZULsXhRmXTX9@duo.ucw.cz/
 > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> ---
+> v2->v3:
+>  * Added ordered DMA names for the dma-names property.
+>  * Dropped the tag
+> v1->v2:
+>  * Collected tag
 
-Thanks for your patch!
-
-> --- a/drivers/tty/serial/rsci.c
-> +++ b/drivers/tty/serial/rsci.c
-> @@ -265,20 +265,18 @@ static void rsci_set_termios(struct uart_port *port, struct ktermios *termios,
->         }
->
->         baud = uart_get_baud_rate(port, termios, old, 0, max_freq);
-> -       if (!baud)
-> -               goto done;
-
-As RSCI has only a single possible input clock for bit rate selection,
-there is indeed no need for the "done" label.
-
-> -
-> -       /* Divided Functional Clock using standard Bit Rate Register */
-> -       err = sci_scbrr_calc(s, baud, &brr1, &srr1, &cks1);
-> -       if (abs(err) < abs(min_err)) {
-> -               best_clk = SCI_FCK;
-> -               ccr0_val = 0;
-> -               min_err = err;
-> -               brr = brr1;
-> -               cks = cks1;
-> +       if (baud) {
-> +               /* Divided Functional Clock using standard Bit Rate Register */
-> +               err = sci_scbrr_calc(s, baud, &brr1, &srr1, &cks1);
-> +               if (abs(err) < abs(min_err)) {
-
-This check is always true.
-
-> +                       best_clk = SCI_FCK;
-
-best_clk can be removed...
-
-> +                       ccr0_val = 0;
-> +                       min_err = err;
-
-... just like min_err...
-
-> +                       brr = brr1;
-> +                       cks = cks1;
-
-and the brr1, srr1, and cks1 intermediaries.
-
-> +               }
->         }
->
-> -done:
->         if (best_clk >= 0)
->                 dev_dbg(port->dev, "Using clk %pC for %u%+d bps\n",
->                         s->clks[best_clk], baud, min_err);
-
-This dev_dbg() can be moved inside the "if (baud)" check.
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
 Gr{oetje,eeting}s,
 
