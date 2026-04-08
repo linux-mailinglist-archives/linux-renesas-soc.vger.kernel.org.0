@@ -1,92 +1,91 @@
-Return-Path: <linux-renesas-soc+bounces-30970-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-30971-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id OA1xHMUj1mklBQgAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-30970-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 08 Apr 2026 11:45:41 +0200
+	id GJfvAeok1mklBQgAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-30971-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 08 Apr 2026 11:50:34 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE6FF3BA12B
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 08 Apr 2026 11:45:40 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 903783BA210
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 08 Apr 2026 11:50:33 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 9CA41301B904
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Apr 2026 09:44:30 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 3C1E73020FDE
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Apr 2026 09:49:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 927D51FDA61;
-	Wed,  8 Apr 2026 09:44:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 698F03ACA4C;
+	Wed,  8 Apr 2026 09:49:01 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
+Received: from mail-oi1-f175.google.com (mail-oi1-f175.google.com [209.85.167.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33CCA363C43
-	for <linux-renesas-soc@vger.kernel.org>; Wed,  8 Apr 2026 09:44:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 030462E7179
+	for <linux-renesas-soc@vger.kernel.org>; Wed,  8 Apr 2026 09:48:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775641469; cv=none; b=IEtQ85XvCXUsTaQJi9ThCi/5zqIdb8Of8/gTizKjmKkkqPU6akJw44WgRo6UeIsh9gjdnO+G2W3M07hza+aufuCJBe+vM2b9NsrCBiQQzCgUY71xZhpUiZLpVnjLg9IIwcUG4MW+dWhDT6w9dGj+1Pwh5PFhZq4ZjTToRHz5j7k=
+	t=1775641740; cv=none; b=pXv6bMcd8x3l3iMrMzvfYdrxFxn6U0Fwb5PbImuJxJQ/ToF+acbTmUkGms3LLOqdIwuvSXMP2aKsZ16qDKDk+13U14sv8WnNpv7Pz1vT8+FCV0dKTapcaNC9f8i/HW8H9JAxrCJpArqnily8+rBqbB5n7AMQ27X/0tRhKC2eils=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775641469; c=relaxed/simple;
-	bh=W4ocsbAken2i1Z0tr+aaOqS3kOkoeXQXKr5uS8XVQrU=;
+	s=arc-20240116; t=1775641740; c=relaxed/simple;
+	bh=O0dPKIPUwqcZQdDhmwfagNKRPoro50YwQ5jiiYuAkY8=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=WewLVT05HpTkeHZn55AENHosKQMQvdBI8SElIgKJyoawpdjelw1j0nRp6yXt1U5RDFMpTIK+E7I8q9bo8JTZRORIaizovCDnh66VupGfHQe68jqBzNF0eKyLIpFJ+7PKPy27SdIjniP8I6HGyHYr9KkUX2Ijm9yndRLi/GXVLm4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.160.180
+	 To:Cc:Content-Type; b=sm6Gy4mZMl6ShIE4dOBPTzjJQFLl1Kz63DU42sC3rmpvk8GSz2sRi41MlxwxMmKXKbtoqZIFEK+HaMVBN90mCRzJuzNnO7h6MYTM6Ou8tNVLt1mL/AL6XnmzidXmq2Sv9DWHURuJjqbwXihKoF0uxYD9YfTxT1PEtXfMFhTsnNw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.167.175
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qt1-f180.google.com with SMTP id d75a77b69052e-50bbc41677dso85244571cf.0
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 08 Apr 2026 02:44:28 -0700 (PDT)
+Received: by mail-oi1-f175.google.com with SMTP id 5614622812f47-46aa216a65aso3263659b6e.1
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 08 Apr 2026 02:48:51 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775641467; x=1776246267;
+        d=1e100.net; s=20251104; t=1775641730; x=1776246530;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ENmHKB8IOhUHnCXPKR1y0jyIBHSgRsTMWLYy39EVq6U=;
-        b=PierVCqmBqyvINwknJG5vuZO4WclJPasOq9aX9rX1U2uNQwy/B3TRJaKQwHzyhwyg/
-         7Msdxh8NhHNDxlVockcgwYUpsA4Z6jubXQy5tIijc2rD0EEb26AswK9GY8wukeSbXyFB
-         DUEfICUtpFrxOOIMNvhi7dsFzHrnkbfHaK7M/sODL143d/41dmvZVipzn3yPaGhayXJ0
-         tfZTF4kBWmnLnAascDukgbuDsUeL6smXJ4aapIYX3HRtZ5vyz5IgTmJIG4lukV4cHfPO
-         VWVaxQNefWTJ77Iv1N8QEVJvlK+jXi3QDu25VUOKPPowFQrmW1EH1oTNoupX0bmeEdF2
-         xmdQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVF8c1hM2EAja9Krac31IP1Z1+LP21Ke0+vp7x5D9bTJOqNmFM7d2af6+dj/ymnB3orwegHXoIqCOY8shS9X9EWvQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyuzhE01hhSRpT+ojOjlPJdqMqtyVab4/jzibz5khDGXfdwN6oc
-	6BZgcd2SdDqew1u8VX/mPiSATa+gGVWQt92qOITGu3fX7NIJ94MSrq5ExKvC/Q==
-X-Gm-Gg: AeBDievEqE8wqDHlXYyA8K6XK3p2gD1qSShDRBSe85/lrjds72HsZv1+BfEY9TCsA7j
-	jcGBAJYAirJONFg4G7YVhFK+ABpXRPEi2BIk5p0oE+FPZm3bHAcI23O4/ocWdybiHrDyHY3NGvZ
-	FJ5X+dtVo02fDfFc6mNWGlbdpXhCZOrmXbFInYkmjnMXCnZDZuJloH70CKBJDEqXTlO6Bf9aB4z
-	/Nmrgn4PQezN/qvKk6aFGfa9D8I9up0W8Z4kpglEqwMddUgKmlB4Nu+x1Qkn2DgD0f20pblvj1J
-	8jObp1PIuYbdzBg3ii7g+WBEQCv0pvtFqqcK/iIX6jK/QXHfEFr8SNBn997IQAJ83wenQqBplqc
-	riVsu5XjkQ+8t5EzmV+FC5Wh77RhpqlEvPUngAxbRc/fXdHt0QRpNdHWzOClZY072HUz8a0ekDA
-	1MikUReRwBIR5urKYENg7E86XXlM6VwIAHHoh/trasR1HLHgpZa9JMis7V0LSrfQEd
-X-Received: by 2002:a05:622a:1e8a:b0:50d:aa29:2b67 with SMTP id d75a77b69052e-50daa293e87mr66946791cf.49.1775641467077;
-        Wed, 08 Apr 2026 02:44:27 -0700 (PDT)
-Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com. [209.85.222.173])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-50d879efe43sm99697311cf.26.2026.04.08.02.44.26
+        bh=quvvcejYXNcTSghIu/ABG/aBBVzSmRl0OrHbMTAKiNc=;
+        b=MCaXAkdciEYdUXZp2wQE9a4SbmytwpO7Mly2xpvmXIodfP+T1fdigvpcdvLeuPSug2
+         49T0/pZvaxV+uV8kGon8KyiR6Ddagfp0j1xD20X5m+XzP5PsZQmaILsDrbIrYU2dUyrK
+         yUhCMPvTdSBSVBHeg/1iPWIryy57WthjYlwe6Bo+19KC6zhkWbLxWN1YLSCBdj8L22wb
+         YNmwq1gNwt3upJ14oAcEjr/rkwNRaVUpcOGUUBN38KeEfBhCU87iE32EoByfq22rBrJh
+         QAXy8Vs3+KtrUVJJXSBiYQcHzCmL96NXpK2qol3/ppQAPjuexdEshwbDbP87eMrD3gTy
+         iuiA==
+X-Forwarded-Encrypted: i=1; AJvYcCVNR8ejANJdf9AM17C3280jUcImppzcVqxsdon1kIgmQttEUV6Hn476nUAt1oQcUC72zOJr4Ft2vv8o3C8S9aZlBA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzHncrj0wXHZqa0kY9qNIm8QHLjuMtgdOET9tPMGmhjp3ymK4i6
+	99Qz3aUdscO2EYY6W0UhuZjBPbxNbXbSEYXo/Gr7mmtrr/2XJIJ//JQlZEU/RkWL
+X-Gm-Gg: AeBDieuzefFszQH1jT1uP4QEANNN/gI9CPOphu7o9XaExVyPpk7GCuCzaa+TEqO4sqc
+	iljVz5k7iC8W40dvMmHONP3f7z7nf3M3X3Wv0UjWoLwaV3vEQwK2con87KxkMuUKWHXJMxpvhma
+	JThJkkZ5a08S7v3bQyu+0dJ4szPabeBp01swHviAaqR7cqn7/2sDU9tNPaZa/hmOj2ZWW4XfI59
+	SHr5PKGhvK3AeHFPL0oPoQSEnGikzXCXkQw0PItwuCNWIoe14tAslzY2n4Kz7178WJpagm/cM9p
+	w6QxXAuzEPxJiYVTgfviDJx6htGuvx6FC8axBmx36MNOnW05bnTXj14BJosPYK7kK343t3BuiaQ
+	IgJXnVJ+jW9P3HjiSALAswyz7NJ/1ODO99ZNb7qaiCosv8p8IAFpCHXFhj2JSn21eXMxHLG+Q6e
+	X6Ld+V2qX8OrIxc+blShN3nmIy7LE6ta1bdY+9VTrlxXe/1ILLazt09HgB9o46
+X-Received: by 2002:a05:6808:5088:b0:450:d471:dce5 with SMTP id 5614622812f47-46ef8e521c7mr10705731b6e.6.1775641730152;
+        Wed, 08 Apr 2026 02:48:50 -0700 (PDT)
+Received: from mail-oa1-f43.google.com (mail-oa1-f43.google.com. [209.85.160.43])
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-4765fe4ca12sm498733b6e.9.2026.04.08.02.48.49
         for <linux-renesas-soc@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 08 Apr 2026 02:44:26 -0700 (PDT)
-Received: by mail-qk1-f173.google.com with SMTP id af79cd13be357-8cb5c9ba82bso943215685a.2
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 08 Apr 2026 02:44:26 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWSGdPA8gPnhb8AJ+v2BsOix+L2VYNVN0a1xgC44iXxjKmcyb/MLuOs5iXf/+L3LcV2cCKROIAi2JkIy7ww/Nvksg==@vger.kernel.org
-X-Received: by 2002:a05:6102:f9a:b0:5df:8f4:61e6 with SMTP id
- ada2fe7eead31-605a50dbbb6mr7039796137.32.1775641100526; Wed, 08 Apr 2026
- 02:38:20 -0700 (PDT)
+        Wed, 08 Apr 2026 02:48:49 -0700 (PDT)
+Received: by mail-oa1-f43.google.com with SMTP id 586e51a60fabf-40ef10ec84cso4474035fac.2
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 08 Apr 2026 02:48:49 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVo7LUDA36FxZuOyPoaIsNsffcT5ld/38on5OGZ9OyyO1sPmuZh6CMT7gaGgSy1SpSsreEel8MGOoM08xR87svFzA==@vger.kernel.org
+X-Received: by 2002:a05:6122:a5c9:10b0:56e:e9cf:7134 with SMTP id
+ 71dfb90a1353d-56ee9cfa0fbmr3844058e0c.3.1775641295235; Wed, 08 Apr 2026
+ 02:41:35 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260402090524.9137-1-john.madieu.xa@bp.renesas.com> <20260402090524.9137-3-john.madieu.xa@bp.renesas.com>
-In-Reply-To: <20260402090524.9137-3-john.madieu.xa@bp.renesas.com>
+References: <20260402090524.9137-1-john.madieu.xa@bp.renesas.com> <20260402090524.9137-25-john.madieu.xa@bp.renesas.com>
+In-Reply-To: <20260402090524.9137-25-john.madieu.xa@bp.renesas.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 8 Apr 2026 11:38:09 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdU+a7cXRY=yEmXQW9=rYnyMCifhZs+je8LDHL6r=mBDMw@mail.gmail.com>
-X-Gm-Features: AQROBzBW_0NoE-RyS2BqqQAlrdl0pZXBq89zZ06PmjJcnH1QXimxqhe4p2F4Ftk
-Message-ID: <CAMuHMdU+a7cXRY=yEmXQW9=rYnyMCifhZs+je8LDHL6r=mBDMw@mail.gmail.com>
-Subject: Re: [PATCH v2 02/24] clk: renesas: r9a09g047: Add audio clock and
- reset support
+Date: Wed, 8 Apr 2026 11:41:23 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVLb3Wj=4qK_5jLsiN28i2LDYPVH9ch91Y6e8XyT+yjjA@mail.gmail.com>
+X-Gm-Features: AQROBzD3bL2aOOG6EzT_imFnbWnAbXmWWZH1UF0TeTlDTbev2ZgK_ZCcpyzlvIk
+Message-ID: <CAMuHMdVLb3Wj=4qK_5jLsiN28i2LDYPVH9ch91Y6e8XyT+yjjA@mail.gmail.com>
+Subject: Re: [PATCH v2 24/24] arm64: dts: renesas: r9a09g047e57-smarc: add
+ DA7212 audio codec support
 To: John Madieu <john.madieu.xa@bp.renesas.com>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>, 
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, Vinod Koul <vkoul@kernel.org>, 
+Cc: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, Vinod Koul <vkoul@kernel.org>, 
 	Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>, 
 	Krzysztof Kozlowski <krzk+dt@kernel.org>, Michael Turquette <mturquette@baylibre.com>, 
 	Stephen Boyd <sboyd@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Frank Li <Frank.Li@kernel.org>, 
@@ -104,156 +103,61 @@ Content-Type: text/plain; charset="UTF-8"
 X-Spamd-Result: default: False [0.04 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	FROM_HAS_DN(0.00)[];
-	TAGGED_FROM(0.00)[bounces-30970-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-30971-lists,linux-renesas-soc=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	DMARC_NA(0.00)[linux-m68k.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[glider.be,renesas.com,kernel.org,baylibre.com,gmail.com,perex.cz,suse.com,pengutronix.de,tuxon.dev,bp.renesas.com,vger.kernel.org];
-	RCPT_COUNT_TWELVE(0.00)[28];
+	FREEMAIL_CC(0.00)[renesas.com,kernel.org,baylibre.com,gmail.com,perex.cz,suse.com,pengutronix.de,tuxon.dev,bp.renesas.com,vger.kernel.org];
+	RCPT_COUNT_TWELVE(0.00)[27];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
 	MISSING_XM_UA(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[geert@linux-m68k.org,linux-renesas-soc@vger.kernel.org];
-	NEURAL_SPAM(0.00)[0.267];
+	NEURAL_SPAM(0.00)[0.001];
 	R_DKIM_NA(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,dt];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,dt];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,linux-m68k.org:email]
-X-Rspamd-Queue-Id: EE6FF3BA12B
+	DBL_BLOCKED_OPENRESOLVER(0.00)[renesas.com:email,mail.gmail.com:mid,linux-m68k.org:email,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 903783BA210
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
 Hi John,
 
-On Thu, 2 Apr 2026 at 11:07, John Madieu <john.madieu.xa@bp.renesas.com> wrote:
-> Add clock and reset entries for audio-related modules on the RZ/G3E SoC.
+On Thu, 2 Apr 2026 at 11:10, John Madieu <john.madieu.xa@bp.renesas.com> wrote:
+> RZ/G3E SMARC board has a DA7212 audio codec connected via I2C1 for
+> sound input/output using SSI3/SSI4 where:
 >
-> Target modules are:
->  - SSIU (Serial Sound Interface Unit) with SSI ch0-ch9
->  - SCU (Sampling Rate Converter Unit) with SRC ch0-ch9, DVC ch0-ch1,
->    CTU/MIX ch0-ch1
->  - ADMAC (Audio DMA Controller)
->  - ADG (Audio Clock Generator) with divider input clocks and audio
->    master clock outputs
+>  - The codec receives its master clock from the Versa3 clock
+>    generator present on the SoM
+>  - SSI4 shares clock pins with SSI3 to provide a separate data
+>    line for full-duplex audio capture.
 >
-> While at it, reorder plldty_div16 to group it with other plldty fixed
-> dividers.
+> Enable audio support on RZ/G3E SMARC2 EVK boards with a DA7212 audio codec.
 >
 > Signed-off-by: John Madieu <john.madieu.xa@bp.renesas.com>
 
 Thanks for your patch!
 
-> --- a/drivers/clk/renesas/r9a09g047-cpg.c
-> +++ b/drivers/clk/renesas/r9a09g047-cpg.c
+> --- a/arch/arm64/boot/dts/renesas/r9a09g047e57-smarc.dts
+> +++ b/arch/arm64/boot/dts/renesas/r9a09g047e57-smarc.dts
 
-> @@ -460,6 +483,96 @@ static const struct rzv2h_mod_clk r9a09g047_mod_clks[] __initconst = {
->                                                 BUS_MSTOP(3, BIT(4))),
->         DEF_MOD("tsu_1_pclk",                   CLK_QEXTAL, 16, 10, 8, 10,
->                                                 BUS_MSTOP(2, BIT(15))),
-> +       DEF_MOD("ssif_clk",                     CLK_PLLCLN_DIV8, 15, 5, 7, 21,
-
-Please preserve sort order (by _onindex, _onbit);
-
-> +                                               BUS_MSTOP(2, BIT(3) | BIT(4))),
-> +       DEF_MOD("scu_clk",                      CLK_PLLCLN_DIV8, 15, 6, 7, 22,
-> +                                               BUS_MSTOP(2, BIT(0) | BIT(1))),
-> +       DEF_MOD("scu_clkx2",                    CLK_PLLCLN_DIV4, 15, 7, 7, 23,
-> +                                               BUS_MSTOP(2, BIT(0) | BIT(1))),
-> +       DEF_MOD("admac_clk",                    CLK_PLLCLN_DIV8, 15, 8, 7, 24,
-> +                                               BUS_MSTOP(2, BIT(5))),
-> +       DEF_MOD("adg_clks1",                    CLK_PLLCLN_DIV8, 15, 9, 7, 25,
-> +                                               BUS_MSTOP(2, BIT(2))),
-> +       DEF_MOD("adg_clk_200m",                 CLK_PLLCLN_DIV8, 15, 10, 7, 26,
-> +                                               BUS_MSTOP(2, BIT(2))),
-> +       DEF_MOD("adg_audio_clka",               CLK_AUDIO_CLKA, 15, 11, 7, 27,
-> +                                               BUS_MSTOP(2, BIT(2))),
-> +       DEF_MOD("adg_audio_clkb",               CLK_AUDIO_CLKB, 15, 12, 7, 28,
-> +                                               BUS_MSTOP(2, BIT(2))),
-> +       DEF_MOD("adg_audio_clkc",               CLK_AUDIO_CLKC, 15, 13, 7, 29,
-> +                                               BUS_MSTOP(2, BIT(2))),
-> +       DEF_MOD("adg_ssi0_clk",                 CLK_PLLCLN_DIV8, 22, 0, -1, -1,
-> +                                               BUS_MSTOP(2, BIT(2))),
-> +       DEF_MOD("adg_ssi1_clk",                 CLK_PLLCLN_DIV8, 22, 1, -1, -1,
-> +                                               BUS_MSTOP(2, BIT(2))),
-> +       DEF_MOD("adg_ssi2_clk",                 CLK_PLLCLN_DIV8, 22, 2, -1, -1,
-> +                                               BUS_MSTOP(2, BIT(2))),
-> +       DEF_MOD("adg_ssi3_clk",                 CLK_PLLCLN_DIV8, 22, 3, -1, -1,
-> +                                               BUS_MSTOP(2, BIT(2))),
-> +       DEF_MOD("adg_ssi4_clk",                 CLK_PLLCLN_DIV8, 22, 4, -1, -1,
-> +                                               BUS_MSTOP(2, BIT(2))),
-> +       DEF_MOD("adg_ssi5_clk",                 CLK_PLLCLN_DIV8, 22, 5, -1, -1,
-> +                                               BUS_MSTOP(2, BIT(2))),
-> +       DEF_MOD("adg_ssi6_clk",                 CLK_PLLCLN_DIV8, 22, 6, -1, -1,
-> +                                               BUS_MSTOP(2, BIT(2))),
-> +       DEF_MOD("adg_ssi7_clk",                 CLK_PLLCLN_DIV8, 22, 7, -1, -1,
-> +                                               BUS_MSTOP(2, BIT(2))),
-> +       DEF_MOD("adg_ssi8_clk",                 CLK_PLLCLN_DIV8, 22, 8, -1, -1,
-> +                                               BUS_MSTOP(2, BIT(2))),
-> +       DEF_MOD("adg_ssi9_clk",                 CLK_PLLCLN_DIV8, 22, 9, -1, -1,
-> +                                               BUS_MSTOP(2, BIT(2))),
-> +       DEF_MOD("dvc0_clk",                     CLK_PLLCLN_DIV8, 23, 0, -1, -1,
-> +                                               BUS_MSTOP(2, BIT(0) | BIT(1))),
-> +       DEF_MOD("dvc1_clk",                     CLK_PLLCLN_DIV8, 23, 1, -1, -1,
-> +                                               BUS_MSTOP(2, BIT(0) | BIT(1))),
-> +       DEF_MOD("ctu0_mix0_clk",                CLK_PLLCLN_DIV8, 23, 2, -1, -1,
-> +                                               BUS_MSTOP(2, BIT(0) | BIT(1))),
-> +       DEF_MOD("ctu1_mix1_clk",                CLK_PLLCLN_DIV8, 23, 3, -1, -1,
-> +                                               BUS_MSTOP(2, BIT(0) | BIT(1))),
-> +       DEF_MOD("src0_clk",                     CLK_PLLCLN_DIV8, 23, 4, -1, -1,
-> +                                               BUS_MSTOP(2, BIT(0) | BIT(1))),
-> +       DEF_MOD("src1_clk",                     CLK_PLLCLN_DIV8, 23, 5, -1, -1,
-> +                                               BUS_MSTOP(2, BIT(0) | BIT(1))),
-> +       DEF_MOD("src2_clk",                     CLK_PLLCLN_DIV8, 23, 6, -1, -1,
-> +                                               BUS_MSTOP(2, BIT(0) | BIT(1))),
-> +       DEF_MOD("src3_clk",                     CLK_PLLCLN_DIV8, 23, 7, -1, -1,
-> +                                               BUS_MSTOP(2, BIT(0) | BIT(1))),
-> +       DEF_MOD("src4_clk",                     CLK_PLLCLN_DIV8, 23, 8, -1, -1,
-> +                                               BUS_MSTOP(2, BIT(0) | BIT(1))),
-> +       DEF_MOD("src5_clk",                     CLK_PLLCLN_DIV8, 23, 9, -1, -1,
-> +                                               BUS_MSTOP(2, BIT(0) | BIT(1))),
-> +       DEF_MOD("src6_clk",                     CLK_PLLCLN_DIV8, 23, 10, -1, -1,
-> +                                               BUS_MSTOP(2, BIT(0) | BIT(1))),
-> +       DEF_MOD("src7_clk",                     CLK_PLLCLN_DIV8, 23, 11, -1, -1,
-> +                                               BUS_MSTOP(2, BIT(0) | BIT(1))),
-> +       DEF_MOD("src8_clk",                     CLK_PLLCLN_DIV8, 23, 12, -1, -1,
-> +                                               BUS_MSTOP(2, BIT(0) | BIT(1))),
-> +       DEF_MOD("src9_clk",                     CLK_PLLCLN_DIV8, 23, 13, -1, -1,
-> +                                               BUS_MSTOP(2, BIT(0) | BIT(1))),
-> +       DEF_MOD("scu_supply_clk",               CLK_PLLCLN_DIV8, 23, 14, -1, -1,
-> +                                               BUS_MSTOP(2, BIT(0) | BIT(1))),
-> +       DEF_MOD("ssif_supply_clk",              CLK_PLLCLN_DIV8, 24, 0, -1, -1,
-> +                                               BUS_MSTOP(2, BIT(3) | BIT(4))),
-> +       DEF_MOD("ssi0_clk",                     CLK_PLLCLN_DIV8, 24, 1, -1, -1,
-> +                                               BUS_MSTOP(2, BIT(3) | BIT(4))),
-> +       DEF_MOD("ssi1_clk",                     CLK_PLLCLN_DIV8, 24, 2, -1, -1,
-> +                                               BUS_MSTOP(2, BIT(3) | BIT(4))),
-> +       DEF_MOD("ssi2_clk",                     CLK_PLLCLN_DIV8, 24, 3, -1, -1,
-> +                                               BUS_MSTOP(2, BIT(3) | BIT(4))),
-> +       DEF_MOD("ssi3_clk",                     CLK_PLLCLN_DIV8, 24, 4, -1, -1,
-> +                                               BUS_MSTOP(2, BIT(3) | BIT(4))),
-> +       DEF_MOD("ssi4_clk",                     CLK_PLLCLN_DIV8, 24, 5, -1, -1,
-> +                                               BUS_MSTOP(2, BIT(3) | BIT(4))),
-> +       DEF_MOD("ssi5_clk",                     CLK_PLLCLN_DIV8, 24, 6, -1, -1,
-> +                                               BUS_MSTOP(2, BIT(3) | BIT(4))),
-> +       DEF_MOD("ssi6_clk",                     CLK_PLLCLN_DIV8, 24, 7, -1, -1,
-> +                                               BUS_MSTOP(2, BIT(3) | BIT(4))),
-> +       DEF_MOD("ssi7_clk",                     CLK_PLLCLN_DIV8, 24, 8, -1, -1,
-> +                                               BUS_MSTOP(2, BIT(3) | BIT(4))),
-> +       DEF_MOD("ssi8_clk",                     CLK_PLLCLN_DIV8, 24, 9, -1, -1,
-> +                                               BUS_MSTOP(2, BIT(3) | BIT(4))),
-> +       DEF_MOD("ssi9_clk",                     CLK_PLLCLN_DIV8, 24, 10, -1, -1,
-> +                                               BUS_MSTOP(2, BIT(3) | BIT(4))),
+> @@ -280,6 +358,42 @@ &sdhi1 {
+>         vqmmc-supply = <&vqmmc_sd1_pvdd>;
 >  };
 >
+> +&snd_rzg3e {
+
+Please preserve sort order (alphabetical, by label).
 
 Gr{oetje,eeting}s,
 
