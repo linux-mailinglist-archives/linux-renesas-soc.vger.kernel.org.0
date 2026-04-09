@@ -1,540 +1,365 @@
-Return-Path: <linux-renesas-soc+bounces-31068-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-31069-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id ULugK89t12myNggAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-31068-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 09 Apr 2026 11:13:51 +0200
+	id ICAfCul312nTOAgAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-31069-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 09 Apr 2026 11:56:57 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C5353C84B3
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 09 Apr 2026 11:13:50 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 989393C8C7E
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 09 Apr 2026 11:56:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 5455D30D0536
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Apr 2026 09:06:11 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 55649300B3F6
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Apr 2026 09:55:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 04DA63B19C0;
-	Thu,  9 Apr 2026 09:05:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 772C73B0AE8;
+	Thu,  9 Apr 2026 09:55:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="jd+Iad3f"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AA29A3A8FF6;
-	Thu,  9 Apr 2026 09:05:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775725507; cv=none; b=Zbbah8N8lDhducEXwjRfJFlsuDxMMq21nqNHVgGYQvctcOJZ5n5hs+5R3SL9ZoTk9IaIG2L1EuuPoUqaUGKMXa2RBiX6FT/u9duuyIOubuPJSwtv7ZNCN22nJBydQHXMJJ1bEuJv/62csSDZg7zhzNBn5Q9GC/Oba0e77duKk5s=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775725507; c=relaxed/simple;
-	bh=jFEeeJw53ejQ1F9bOIGt9cktS/3dF0GiHEJoYEMvEOs=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=kbqzgawt6MxspNUvfZ0TC+8o9V5Q970WAhxqMMOCcevkx/jIGG2yp1rHuvHUxJas1mC4HKlrHN8cdQuF+wFOtj31PISm9RTxF7iOjMcdBrTzhMKDpU4+VBkrYkDCELc9LHn55CaZdmQe40y5cUMzFTt6UoKvFOWRRT/vfds8fDg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-X-CSE-ConnectionGUID: odRpacj5Q0un0Dndzis7Lg==
-X-CSE-MsgGUID: PUW8TekuSTC0B8d3AQlRdA==
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie5.idc.renesas.com with ESMTP; 09 Apr 2026 18:05:05 +0900
-Received: from ubuntu.adwin.renesas.com (unknown [10.226.92.218])
-	by relmlir5.idc.renesas.com (Postfix) with ESMTP id 012A34015D82;
-	Thu,  9 Apr 2026 18:04:59 +0900 (JST)
-From: John Madieu <john.madieu.xa@bp.renesas.com>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	Mark Brown <broonie@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	john.madieu@gmail.com,
-	linux-sound@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	John Madieu <john.madieu.xa@bp.renesas.com>
-Subject: [PATCH v4 12/12] ASoC: rsnd: Add system suspend/resume support
-Date: Thu,  9 Apr 2026 11:03:01 +0200
-Message-ID: <20260409090302.2243305-13-john.madieu.xa@bp.renesas.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260409090302.2243305-1-john.madieu.xa@bp.renesas.com>
-References: <20260409090302.2243305-1-john.madieu.xa@bp.renesas.com>
+Received: from TYVP286CU001.outbound.protection.outlook.com (mail-japaneastazon11011057.outbound.protection.outlook.com [52.101.125.57])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 678C93A9014;
+	Thu,  9 Apr 2026 09:55:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.125.57
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775728548; cv=fail; b=LDyfOVAE1zBq63rwYVd/aSncMPSAN9MHRB7sQkUJ5/IeCZlZOHFdRc5a8tytI1WfZHBg3gF/5jFootpWdVhBflw43kIp/epbb0zt8ef6ZBiZvM9xgNgt7J/2HMmCRoE3usjyqwYySIJIdQZEx3fiJmtvEAuGMKvNEKxOoEnB1xA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775728548; c=relaxed/simple;
+	bh=NXjXsJfwp13Svkdk1F4vqbi2Jqum9Or6QFOoOQa/zUA=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=UAXWED5LWKmTw7Xt/DKWyR/0XiSCrtIopFNMKevQLmidobxGnEJXmzkX0MbMDHx+rLR1RLOA5VmfxqOWprSJhkfRmM2fuU1QtZdNmBoaIJ6wV9mdN9q6Z7eTiIEcw24HAcgL3yZo9FzkNH1K7XlsgFTFwAu5yYIBB35H9PnXh40=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=jd+Iad3f; arc=fail smtp.client-ip=52.101.125.57
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=YRPwtUA1imzH0jyhoSsIdn/GP6ECm6Ci62Tz4zJ9rgqcV/9CkQddmdYeH9pZ1hnC4WzA09SWclBvcQgBinOhYdUECcfhogtvijreLNZl1t6nUi4Fzn4NChfQe082FKEnaN+VO8hXx2NY4WDpGYVkX6vz4cAklN6Yd8iBrdw2M0ukzxvsZc2qTC5U+qv2WJwOf2OwkPn+Lthw0s99fM649OKu/widosSUMcppoXT6+EL5Tba9aZvzKqP9Xd1O9udtn1SK1U37/A1WorQwo5yfohk7qIUAdwQPFb0oVPy3E/jtotF0bo4GyMUpgiuE5JtDIiBh9DJPEoCpLsPs8xLomg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=GJcb+3v7Q/xXXimn2OMdtjwmnh1iXeZksZRJ4fULa0M=;
+ b=frbXiQ+YLKnuN5/2vLVOU3pZnQqiYdZV/980YhCHPCFKUrNNZ50AccRoFHhKy+yY/DzyvGVp3WI2hj0iEGHty0SlXf15m+ET3WKmB/1BNHZeCM5mj4Kn8a595FnTqTA+oglPaVeLT+W3iRcTEkJml49qirlNklqXEFZQu2hAy92imxyrE2oVYCdja0+oNfR7wE0B694+P8shT9zlNT4AkAX9LT7YKOr6Ti/F6QsuD50G8U1mXu7VMU/wQdL6OUmWcxrwmchIZkzS87AyroMlGwxhhzGvUw1I0kmYIf83Eys1lojric2CCLKtWawFyduz6TcVam1zQXJqcIYSdKEZ3Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=GJcb+3v7Q/xXXimn2OMdtjwmnh1iXeZksZRJ4fULa0M=;
+ b=jd+Iad3fNQa3VZdr5WRHg5QbfMHJYGfAuqHuwu58CWOdYd7reV2O+c5vIZd7azjI9Yv6727ZKHP0bm3AGMKwoPOt7ynNDMEE80zEC1FVK4KCsVP+7r653xiC8S4cwkX79JODQgB1RylriMX/0RbV1QJfY0ePGybOhFDu30Kkw3k=
+Received: from TY4PR01MB14282.jpnprd01.prod.outlook.com (2603:1096:405:20d::9)
+ by OS7PR01MB11952.jpnprd01.prod.outlook.com (2603:1096:604:23f::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.20; Thu, 9 Apr
+ 2026 09:55:42 +0000
+Received: from TY4PR01MB14282.jpnprd01.prod.outlook.com
+ ([fe80::655d:9c47:4499:eb3a]) by TY4PR01MB14282.jpnprd01.prod.outlook.com
+ ([fe80::655d:9c47:4499:eb3a%5]) with mapi id 15.20.9769.018; Thu, 9 Apr 2026
+ 09:55:41 +0000
+From: Michael Dege <michael.dege@renesas.com>
+To: Paolo Abeni <pabeni@redhat.com>
+CC: "paul@pbarker.dev" <paul@pbarker.dev>, niklas.soderlund
+	<niklas.soderlund@ragnatech.se>, "kuba@kernel.org" <kuba@kernel.org>,
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+	"netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"edumazet@google.com" <edumazet@google.com>,
+	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
+	"andrew+netdev@lunn.ch" <andrew+netdev@lunn.ch>, "davem@davemloft.net"
+	<davem@davemloft.net>
+Subject: RE: [net-next,v3,01/13] net: renesas: rswitch: improve port change
+ mode functions
+Thread-Topic: [net-next,v3,01/13] net: renesas: rswitch: improve port change
+ mode functions
+Thread-Index: AQHcwqCT7jcYdhji+02QFuJeYYl7c7XWiFIw
+Date: Thu, 9 Apr 2026 09:55:41 +0000
+Message-ID:
+ <TY4PR01MB14282F72928B89005E61BFF9382582@TY4PR01MB14282.jpnprd01.prod.outlook.com>
+References: <20260331-rswitch_add_vlans-v3-1-c37f41b1c556@renesas.com>
+ <20260402125912.234434-1-pabeni@redhat.com>
+In-Reply-To: <20260402125912.234434-1-pabeni@redhat.com>
+Accept-Language: en-US, en-GB
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=renesas.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TY4PR01MB14282:EE_|OS7PR01MB11952:EE_
+x-ms-office365-filtering-correlation-id: 4de44ac6-bf49-4cff-7283-08de961e28f1
+x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|1800799024|366016|7416014|376014|38070700021|18002099003|22082099003|56012099003;
+x-microsoft-antispam-message-info:
+ rCNZPfKkkdb4xfaueOWo9Aa4TxENdCd2RWz4W32LKUYsFz+0PGIO1qcQwhBIdW/xW2LLSLwgiDaAcAXqoj7Nro4On1jkZEK+D0dH9JS6v7M6ynOfTiyB8Zp7wzsqYw4uEdeu/xpbCYoZpF9bnne8R8DEfrwhMmuuI/qpU1xwuh90UjaPiWjV7Sm3w8vysHRAJJg2KFT3ayoJQuLzk2WOmVff4uuN6Z7NkMxLrsN9akm1TLAIaRL4T25MLNij0pOE3tuAMHwCO7AY52vLyIrgSz3D24RBzkcMvSlzpO0YmobiXyIUPY8RjH0ROaTqQ2hHQypsGdNM67qn1xeugw4ekMWS8nezG6wyEkhQbUUq/bRrAlzyEgJHLMp+d8d3bNPIA+nx8Md9Hdh2x5HiyscAxzWeedtpH1EmqdI6hKf8SEQV+gWfSTlYoEKA0zeCw61j6TTmarbusisTug3qIzbjdIRRvt85HOqyzRf7NakrBjmQZ60fUcE+ZimrS7riC6dvEBtwgIXJQSyExsNJfFw/5j9msVJqoeIdmLrk11hUy3dD6hYfu19bSWXjUacSsEb2lF6SCfVv6eG5TaA2/w4lDbbXifmRCmWtsXzIp/Z7rOXv68fUh7FEZB1I4Sqix8BscBzKFB6j91GkX4F2tM8dp1sS7For+udbV7LsO9oXqvlY4v2xvjKoKxWShuMCh6rl868aIAyJ/KKVsjOU8RqNW5Q+eNa37SwFa155fePhiS+HWDX6jpopS4WXYnYg3XyV
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY4PR01MB14282.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(7416014)(376014)(38070700021)(18002099003)(22082099003)(56012099003);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?us-ascii?Q?nANNlsuje3KepaUVluvZ7QunB2bJzs+c7eTXDVgV5uQSLFJ8EP0Y05oaqyIg?=
+ =?us-ascii?Q?1HgsAdQ4DwrmNPPDOswjdLw/Unt0a1aeH+DSfWFvop43s+IvXh3PyzevlE1W?=
+ =?us-ascii?Q?Bh4iXYjKj2s75J+s5TkgpAiWrpBuvfGtj6fpAeYG1EIJXt7U19PJBls6ANsR?=
+ =?us-ascii?Q?//4Fe1zcpWxD2wO2sQ371RLqJDLfQMiafrK15k6DzlpdSl8DftuHAEkbP9PB?=
+ =?us-ascii?Q?9ha3ZGVrmOyLqhWdYr90JgNcbv2qoCzTZxcMYsB4jn1kq68QIegaG0Y2wCta?=
+ =?us-ascii?Q?b2G30NjiRhGyMPFQViproLlfPxS2onm+EiTnJVK6Vu2Ziobs5ZHKf3Js1Jah?=
+ =?us-ascii?Q?KiWPOrMo7uSqtMUTz5xZgQWdOQtRNH+ytTukZ/b4jd6LfGlosnWhBsyDM0eR?=
+ =?us-ascii?Q?+sLaQRyUE7mUWszUVZ+P22IiraPQo8vPSjrcBOrfRr70Cb74xraLTj5iLOos?=
+ =?us-ascii?Q?NDGT6dsbIgyv1mXSidvvT2/372LT0UhpKR3R81ZVxUw2gjWqMOC2/2L1lVlL?=
+ =?us-ascii?Q?eKa4d1zw80Wh3oF2LcUKyjqIMVTEmatJpU1RFPY3a5eF0wkIMEcDBdw4UBd2?=
+ =?us-ascii?Q?su/RFG7Ck8muOwpCMj9Blpzv+M0fTH28NpaZ+mIyRCSRcPfl9tH+30JxfvMi?=
+ =?us-ascii?Q?mHHe3IXwuhwTHw6ARVeFLQX5tbu/qH6wGElZcTWdycEC7C11StRkXtdpVFav?=
+ =?us-ascii?Q?ib59v8aGvxT5qHA/DTGQHsFLBIaoDHrwuQPbye4pNMUR+WGZx+IExTtmFNSt?=
+ =?us-ascii?Q?G9iHz6AECB6hPdeltnS1TWs9lGVGNAsbXyJthBKrXINDw4Ey+Nrw/QseKMfB?=
+ =?us-ascii?Q?IC1cKkTEGLHu/5YqmfSFOWD4ve8EJDnmrlbt1rYKB+oNKCSrmRK/o27I0Jp8?=
+ =?us-ascii?Q?BAybelyT3e2ynWiQf4230QekCa5xHhrQ5D3dlfLZ8vJBlTG3krExCIlV1WlE?=
+ =?us-ascii?Q?MjrldP4e35ka3Y92ARdaoEPQyO9m7+ju0pqUqxCz/T/akD5eFitH0kksOLrq?=
+ =?us-ascii?Q?0XL6FKoz9uK7gB0goG1bi0ctkbdq2DRcRnAM76s9pXr+ZwdRqIqNOQ6+HH5e?=
+ =?us-ascii?Q?CwkvHZNJtwMr19Ua6cfCfmN2qhzf23sPXG5TBA8Nj/mOiTOS6e2kf7Ck1RHo?=
+ =?us-ascii?Q?VliNcfFCb3DrVHengOJ4+TRjG/+OzjnSjbei+asoJhY6Qu/9qNh4SnDesoXI?=
+ =?us-ascii?Q?+xRJvJyZKN7HAp3j4jztFilrusWaxa8JpJpK/y+lFYFvKa4Hmf1/zmpeO9Xy?=
+ =?us-ascii?Q?qJ6X4ObMVpah5ScTJCi6fsL3JJJkPcsmVcmSbiX0iAigoHIgpdUzByPXkUXh?=
+ =?us-ascii?Q?WuJPEAp9ii7E9nUy526woIp+56ISuAGwt23I+8tBTXCF0LoXvtgyOoNZmCyJ?=
+ =?us-ascii?Q?ajbhcABwKct9ckvz+ZmbYBfgTTo5Bk7x52sUobr+tqxViSIWDlfdTdBaX+En?=
+ =?us-ascii?Q?NplvAdSw21zhhlSAEJIuETkROLpceAqZQEaLxUvNsyBQC892mtXcaZ/Z75Vi?=
+ =?us-ascii?Q?TAzBDCLRJ29EOTerOdM/29XIH6jWuhC8q0y8OaIyPPu5e1EvrQ+FwfgzW3S5?=
+ =?us-ascii?Q?TcwBw5QqzDIzxRu+zawL4V8wau+7/GnV86mz4LDrVQdRwib/8lIOb8WxJW8o?=
+ =?us-ascii?Q?kp90rXknAZ8rvLznp76SpBqpt6VSdBB2uE9+1YPG0kNQyDWc1g7uSpBffGi3?=
+ =?us-ascii?Q?zCZNzfE7JYD4flr8xGqBp89UIMMpmwblaMzdKhN5Sfuub2FvCET+DWtybrQS?=
+ =?us-ascii?Q?DpgeU/paTw=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [1.64 / 15.00];
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TY4PR01MB14282.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4de44ac6-bf49-4cff-7283-08de961e28f1
+X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Apr 2026 09:55:41.2838
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: S1SfyICF/990ssT4VAeFyv7mG3A/ERy21W8ON7SPfaKHEvNmwxBGgqZ+ltzCH0SzwKoSru9P9mkKAbFTsInwKC5D+Yv/iP8/lJtxNUMvpdo=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS7PR01MB11952
+X-Spamd-Result: default: False [1.34 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	MID_CONTAINS_FROM(1.00)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	ARC_REJECT(1.00)[cv is fail on i=2];
+	DMARC_POLICY_ALLOW(-0.50)[renesas.com,none];
+	R_DKIM_ALLOW(-0.20)[renesas.com:s=selector1];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
-	DMARC_POLICY_SOFTFAIL(0.10)[renesas.com : SPF not aligned (relaxed), No valid DKIM,none];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_TWELVE(0.00)[19];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-31068-lists,linux-renesas-soc=lfdr.de];
-	FREEMAIL_CC(0.00)[kernel.org,perex.cz,suse.com,gmail.com,pengutronix.de,tuxon.dev,bp.renesas.com,vger.kernel.org];
-	FREEMAIL_TO(0.00)[renesas.com,kernel.org,gmail.com,glider.be];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[john.madieu.xa@bp.renesas.com,linux-renesas-soc@vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-31069-lists,linux-renesas-soc=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[renesas.com:+];
+	MISSING_XM_UA(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
-	R_DKIM_NA(0.00)[];
-	NEURAL_HAM(-0.00)[-0.158];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,dt];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,renesas.com:email,bp.renesas.com:mid]
-X-Rspamd-Queue-Id: 1C5353C84B3
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[michael.dege@renesas.com,linux-renesas-soc@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,netdev];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[linux.dev:url,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,renesas.com:dkim,renesas.com:email,pbarker.dev:email,davemloft.net:email,TY4PR01MB14282.jpnprd01.prod.outlook.com:mid]
+X-Rspamd-Queue-Id: 989393C8C7E
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Add per-module suspend/resume functions following the existing driver
-architecture where each module manages its own resources in its own
-file. core.c provides common clock/reset helpers and orchestrates the
-calls in the correct order (reverse probe for suspend, probe order
-for resume).
+Hello Paolo,
 
-Infrastructure clocks (ADG, audmacpp, SCU) are managed globally
-using optional APIs to remain transparent to platforms that don't
-specify these clocks/resets.
+Thank you for your review.
 
-Signed-off-by: John Madieu <john.madieu.xa@bp.renesas.com>
----
+> -----Original Message-----
+> From: Paolo Abeni <pabeni@redhat.com>
+> Sent: Thursday, April 2, 2026 2:59 PM
+> To: Michael Dege <michael.dege@renesas.com>
+> Cc: paul@pbarker.dev; niklas.soderlund <niklas.soderlund@ragnatech.se>; k=
+uba@kernel.org; Yoshihiro
+> Shimoda <yoshihiro.shimoda.uh@renesas.com>; netdev@vger.kernel.org; linux=
+-kernel@vger.kernel.org;
+> edumazet@google.com; pabeni@redhat.com; linux-renesas-soc@vger.kernel.org=
+; andrew+netdev@lunn.ch;
+> davem@davemloft.net
+> Subject: Re: [net-next,v3,01/13] net: renesas: rswitch: improve port chan=
+ge mode functions
+>
+> This is an AI-generated review of your patch. The human sending this emai=
+l has considered the AI
+> review valid, or at least plausible.
+>
+> For local reproduction steps see
+> https://netdev-ai.bots.linux.dev/ai-
+> local.html&data=3D05%7C02%7Cmichael.dege%40renesas.com%7C4f84d222a25841bd=
+46eb08de90b7abdd%7C53d82571da19
+> 47e49cb4625a166a4a2a%7C0%7C0%7C639107315837152138%7CUnknown%7CTWFpbGZsb3d=
+8eyJFbXB0eU1hcGkiOnRydWUsIlYi
+> OiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7=
+C%7C&sdata=3DDbF%2FVyoOLfJSYrnI
+> ceiszOHcbvGrEtenm%2Fk%2Fah%2FIrys%3D&reserved=3D0
+> ---
+> net: renesas: rswitch: improve port change mode functions
+>
+> For ETHA and GWCA ports every mode change from operational to configurati=
+on and vice-versa requires to
+> change the mode to "disable"
+> first. This was done by calling the function twice. Let the change_mode f=
+unction take care of this
+> required step in a single call.
+>
+> > diff --git a/drivers/net/ethernet/renesas/rswitch_main.c
+> > b/drivers/net/ethernet/renesas/rswitch_main.c
+> > index 6fe964816322..f6d1e610e7fa 100644
+> > --- a/drivers/net/ethernet/renesas/rswitch_main.c
+> > +++ b/drivers/net/ethernet/renesas/rswitch_main.c
+> > @@ -176,14 +176,19 @@ static int rswitch_gwca_change_mode(struct rswitc=
+h_private *priv,
+> >     if (!rswitch_agent_clock_is_enabled(priv->addr, priv->gwca.index))
+> >             rswitch_agent_clock_ctrl(priv->addr, priv->gwca.index, 1);
+> >
+> > -   iowrite32(mode, priv->addr + GWMC);
+> > +   iowrite32(GWMC_OPC_DISABLE, priv->addr + GWMC);
+> >
+> > -   ret =3D rswitch_reg_wait(priv->addr, GWMS, GWMS_OPS_MASK, mode);
+> > +   ret =3D rswitch_reg_wait(priv->addr, GWMS, GWMS_OPS_MASK,
+> > +GWMC_OPC_DISABLE);
+> >
+> > -   if (mode =3D=3D GWMC_OPC_DISABLE)
+> > +   if (mode =3D=3D GWMC_OPC_DISABLE) {
+> >             rswitch_agent_clock_ctrl(priv->addr, priv->gwca.index, 0);
+> >
+> > -   return ret;
+> > +           return ret;
+> > +   }
+> > +
+> > +   iowrite32(mode, priv->addr + GWMC);
+> > +
+> > +   return rswitch_reg_wait(priv->addr, GWMS, GWMS_OPS_MASK, mode);
+>
+> Should the error from the initial DISABLE transition be checked before pr=
+oceeding? When mode !=3D
+> GWMC_OPC_DISABLE, this code stores the result of
+> rswitch_reg_wait() for the DISABLE transition in 'ret' but never checks i=
+t.
+> If the hardware fails to reach DISABLE state, the function silently proce=
+eds to write the target mode.
+>
+> Before this patch, callers explicitly checked the error after calling rsw=
+itch_gwca_change_mode(priv,
+> GWMC_OPC_DISABLE):
+>
+> rswitch_gwca_hw_init() and rswitch_gwca_hw_deinit():
+>     err =3D rswitch_gwca_change_mode(priv, GWMC_OPC_DISABLE);
+>     if (err < 0)
+>         return err;
+>
+> This patch removes those caller-side checks but doesn't replicate the err=
+or checking inside
+> rswitch_gwca_change_mode(). If the first rswitch_reg_wait() returns -ETIM=
+EDOUT, should the function
+> return that error before attempting to write the target mode?
 
-Changes:
- 
-v4:
- - Absorb rsnd_adg_mod_get() helper directly instead of a separate
-   preparatory patch
- - Distribute suspend/resume declarations into their respective IP
-   sections in rsnd.h
-v3: No changes
-v2:
- - Distribute suspend/resume into per-module files (ssi.c, ssiu.c,
-   src.c, ctu.c, mix.c, dvc.c, adg.c, dma.c) instead of monolithic
-   loops in core.c, following Morimoto-san's architecture suggestion
+I have fixed this and will provide a new version of the patches.
 
- sound/soc/renesas/rcar/adg.c  | 26 +++++++++++++++++++++
- sound/soc/renesas/rcar/core.c | 43 +++++++++++++++++++++++++++++++++--
- sound/soc/renesas/rcar/ctu.c  | 20 ++++++++++++++++
- sound/soc/renesas/rcar/dma.c  | 20 ++++++++++++++++
- sound/soc/renesas/rcar/dvc.c  | 20 ++++++++++++++++
- sound/soc/renesas/rcar/mix.c  | 20 ++++++++++++++++
- sound/soc/renesas/rcar/rsnd.h | 18 +++++++++++++++
- sound/soc/renesas/rcar/src.c  | 26 +++++++++++++++++++++
- sound/soc/renesas/rcar/ssi.c  | 20 ++++++++++++++++
- sound/soc/renesas/rcar/ssiu.c | 20 ++++++++++++++++
- 10 files changed, 231 insertions(+), 2 deletions(-)
+Best regards,
 
-diff --git a/sound/soc/renesas/rcar/adg.c b/sound/soc/renesas/rcar/adg.c
-index 9cae3bbefa55..8c0c8bc92ab3 100644
---- a/sound/soc/renesas/rcar/adg.c
-+++ b/sound/soc/renesas/rcar/adg.c
-@@ -908,3 +908,29 @@ void rsnd_adg_remove(struct rsnd_priv *priv)
- 	/* It should be called after rsnd_adg_clk_disable() */
- 	rsnd_adg_null_clk_clean(priv);
- }
-+
-+static struct rsnd_mod *rsnd_adg_mod_get(struct rsnd_priv *priv)
-+{
-+	struct rsnd_adg *adg = rsnd_priv_to_adg(priv);
-+
-+	if (!adg)
-+		return NULL;
-+
-+	return rsnd_mod_get(adg);
-+}
-+
-+void rsnd_adg_suspend(struct rsnd_priv *priv)
-+{
-+	struct rsnd_mod *mod = rsnd_adg_mod_get(priv);
-+
-+	if (mod)
-+		rsnd_suspend_clk_reset(mod->clk, mod->rstc);
-+}
-+
-+void rsnd_adg_resume(struct rsnd_priv *priv)
-+{
-+	struct rsnd_mod *mod = rsnd_adg_mod_get(priv);
-+
-+	if (mod)
-+		rsnd_resume_clk_reset(mod->clk, mod->rstc);
-+}
-diff --git a/sound/soc/renesas/rcar/core.c b/sound/soc/renesas/rcar/core.c
-index cb31af8a34d4..cb7fb26f8972 100644
---- a/sound/soc/renesas/rcar/core.c
-+++ b/sound/soc/renesas/rcar/core.c
-@@ -963,7 +963,8 @@ static int rsnd_soc_hw_rule_channels(struct snd_pcm_hw_params *params,
- static const struct snd_pcm_hardware rsnd_pcm_hardware = {
- 	.info =		SNDRV_PCM_INFO_INTERLEAVED	|
- 			SNDRV_PCM_INFO_MMAP		|
--			SNDRV_PCM_INFO_MMAP_VALID,
-+			SNDRV_PCM_INFO_MMAP_VALID	|
-+			SNDRV_PCM_INFO_RESUME,
- 	.buffer_bytes_max	= 64 * 1024,
- 	.period_bytes_min	= 32,
- 	.period_bytes_max	= 8192,
-@@ -2059,11 +2060,35 @@ static void rsnd_remove(struct platform_device *pdev)
- 		remove_func[i](priv);
- }
- 
-+void rsnd_suspend_clk_reset(struct clk *clk, struct reset_control *rstc)
-+{
-+	clk_unprepare(clk);
-+	reset_control_assert(rstc);
-+}
-+
-+void rsnd_resume_clk_reset(struct clk *clk, struct reset_control *rstc)
-+{
-+	reset_control_deassert(rstc);
-+	clk_prepare(clk);
-+}
-+
- static int rsnd_suspend(struct device *dev)
- {
- 	struct rsnd_priv *priv = dev_get_drvdata(dev);
- 
-+	/*
-+	 * Reverse order of probe:
-+	 * ADG -> DVC -> MIX -> CTU -> SRC -> SSIU -> SSI -> DMA
-+	 */
- 	rsnd_adg_clk_disable(priv);
-+	rsnd_adg_suspend(priv);
-+	rsnd_dvc_suspend(priv);
-+	rsnd_mix_suspend(priv);
-+	rsnd_ctu_suspend(priv);
-+	rsnd_src_suspend(priv);
-+	rsnd_ssiu_suspend(priv);
-+	rsnd_ssi_suspend(priv);
-+	rsnd_dma_suspend(priv);
- 
- 	return 0;
- }
-@@ -2072,7 +2097,21 @@ static int rsnd_resume(struct device *dev)
- {
- 	struct rsnd_priv *priv = dev_get_drvdata(dev);
- 
--	return rsnd_adg_clk_enable(priv);
-+	/*
-+	 * Same order as probe:
-+	 * DMA -> SSI -> SSIU -> SRC -> CTU -> MIX -> DVC -> ADG
-+	 */
-+	rsnd_dma_resume(priv);
-+	rsnd_ssi_resume(priv);
-+	rsnd_ssiu_resume(priv);
-+	rsnd_src_resume(priv);
-+	rsnd_ctu_resume(priv);
-+	rsnd_mix_resume(priv);
-+	rsnd_dvc_resume(priv);
-+	rsnd_adg_resume(priv);
-+	rsnd_adg_clk_enable(priv);
-+
-+	return 0;
- }
- 
- static const struct dev_pm_ops rsnd_pm_ops = {
-diff --git a/sound/soc/renesas/rcar/ctu.c b/sound/soc/renesas/rcar/ctu.c
-index 81bba6a1af6e..73795d5b2817 100644
---- a/sound/soc/renesas/rcar/ctu.c
-+++ b/sound/soc/renesas/rcar/ctu.c
-@@ -383,3 +383,23 @@ void rsnd_ctu_remove(struct rsnd_priv *priv)
- 		rsnd_mod_quit(rsnd_mod_get(ctu));
- 	}
- }
-+
-+void rsnd_ctu_suspend(struct rsnd_priv *priv)
-+{
-+	struct rsnd_ctu *ctu;
-+	int i;
-+
-+	for_each_rsnd_ctu(ctu, priv, i)
-+		rsnd_suspend_clk_reset(rsnd_mod_get(ctu)->clk,
-+				       rsnd_mod_get(ctu)->rstc);
-+}
-+
-+void rsnd_ctu_resume(struct rsnd_priv *priv)
-+{
-+	struct rsnd_ctu *ctu;
-+	int i;
-+
-+	for_each_rsnd_ctu(ctu, priv, i)
-+		rsnd_resume_clk_reset(rsnd_mod_get(ctu)->clk,
-+				      rsnd_mod_get(ctu)->rstc);
-+}
-diff --git a/sound/soc/renesas/rcar/dma.c b/sound/soc/renesas/rcar/dma.c
-index e3278ff7e2f0..b9138c5076cb 100644
---- a/sound/soc/renesas/rcar/dma.c
-+++ b/sound/soc/renesas/rcar/dma.c
-@@ -1029,3 +1029,23 @@ int rsnd_dma_probe(struct rsnd_priv *priv)
- 	/* dummy mem mod for debug */
- 	return rsnd_mod_init(NULL, &mem, &mem_ops, NULL, NULL, 0, 0);
- }
-+
-+void rsnd_dma_suspend(struct rsnd_priv *priv)
-+{
-+	struct rsnd_dma_ctrl *dmac = rsnd_priv_to_dmac(priv);
-+
-+	if (dmac) {
-+		clk_disable_unprepare(dmac->audmapp_clk);
-+		rsnd_suspend_clk_reset(NULL, dmac->audmapp_rstc);
-+	}
-+}
-+
-+void rsnd_dma_resume(struct rsnd_priv *priv)
-+{
-+	struct rsnd_dma_ctrl *dmac = rsnd_priv_to_dmac(priv);
-+
-+	if (dmac) {
-+		rsnd_resume_clk_reset(NULL, dmac->audmapp_rstc);
-+		clk_prepare_enable(dmac->audmapp_clk);
-+	}
-+}
-diff --git a/sound/soc/renesas/rcar/dvc.c b/sound/soc/renesas/rcar/dvc.c
-index bf7146ceb5f6..0e81fdf0e97b 100644
---- a/sound/soc/renesas/rcar/dvc.c
-+++ b/sound/soc/renesas/rcar/dvc.c
-@@ -386,3 +386,23 @@ void rsnd_dvc_remove(struct rsnd_priv *priv)
- 		rsnd_mod_quit(rsnd_mod_get(dvc));
- 	}
- }
-+
-+void rsnd_dvc_suspend(struct rsnd_priv *priv)
-+{
-+	struct rsnd_dvc *dvc;
-+	int i;
-+
-+	for_each_rsnd_dvc(dvc, priv, i)
-+		rsnd_suspend_clk_reset(rsnd_mod_get(dvc)->clk,
-+				       rsnd_mod_get(dvc)->rstc);
-+}
-+
-+void rsnd_dvc_resume(struct rsnd_priv *priv)
-+{
-+	struct rsnd_dvc *dvc;
-+	int i;
-+
-+	for_each_rsnd_dvc(dvc, priv, i)
-+		rsnd_resume_clk_reset(rsnd_mod_get(dvc)->clk,
-+				      rsnd_mod_get(dvc)->rstc);
-+}
-diff --git a/sound/soc/renesas/rcar/mix.c b/sound/soc/renesas/rcar/mix.c
-index 566e9b2a488c..42bb07ade3c8 100644
---- a/sound/soc/renesas/rcar/mix.c
-+++ b/sound/soc/renesas/rcar/mix.c
-@@ -350,3 +350,23 @@ void rsnd_mix_remove(struct rsnd_priv *priv)
- 		rsnd_mod_quit(rsnd_mod_get(mix));
- 	}
- }
-+
-+void rsnd_mix_suspend(struct rsnd_priv *priv)
-+{
-+	struct rsnd_mix *mix;
-+	int i;
-+
-+	for_each_rsnd_mix(mix, priv, i)
-+		rsnd_suspend_clk_reset(rsnd_mod_get(mix)->clk,
-+				       rsnd_mod_get(mix)->rstc);
-+}
-+
-+void rsnd_mix_resume(struct rsnd_priv *priv)
-+{
-+	struct rsnd_mix *mix;
-+	int i;
-+
-+	for_each_rsnd_mix(mix, priv, i)
-+		rsnd_resume_clk_reset(rsnd_mod_get(mix)->clk,
-+				      rsnd_mod_get(mix)->rstc);
-+}
-diff --git a/sound/soc/renesas/rcar/rsnd.h b/sound/soc/renesas/rcar/rsnd.h
-index 8f8e86cb6e62..31c501c3b024 100644
---- a/sound/soc/renesas/rcar/rsnd.h
-+++ b/sound/soc/renesas/rcar/rsnd.h
-@@ -267,6 +267,8 @@ u32 rsnd_get_busif_shift(struct rsnd_dai_stream *io, struct rsnd_mod *mod);
- int rsnd_dma_attach(struct rsnd_dai_stream *io,
- 		    struct rsnd_mod *mod, struct rsnd_mod **dma_mod);
- int rsnd_dma_probe(struct rsnd_priv *priv);
-+void rsnd_dma_suspend(struct rsnd_priv *priv);
-+void rsnd_dma_resume(struct rsnd_priv *priv);
- struct dma_chan *rsnd_dma_request_channel(struct device_node *of_node, char *name,
- 					  struct rsnd_mod *mod, char *x);
- 
-@@ -429,6 +431,8 @@ int rsnd_mod_init(struct rsnd_priv *priv,
- 		  enum rsnd_mod_type type,
- 		  int id);
- void rsnd_mod_quit(struct rsnd_mod *mod);
-+void rsnd_suspend_clk_reset(struct clk *clk, struct reset_control *rstc);
-+void rsnd_resume_clk_reset(struct clk *clk, struct reset_control *rstc);
- struct dma_chan *rsnd_mod_dma_req(struct rsnd_dai_stream *io,
- 				  struct rsnd_mod *mod);
- void rsnd_mod_interrupt(struct rsnd_mod *mod,
-@@ -606,6 +610,8 @@ int rsnd_adg_ssi_clk_stop(struct rsnd_mod *ssi_mod);
- int rsnd_adg_ssi_clk_try_start(struct rsnd_mod *ssi_mod, unsigned int rate);
- int rsnd_adg_probe(struct rsnd_priv *priv);
- void rsnd_adg_remove(struct rsnd_priv *priv);
-+void rsnd_adg_suspend(struct rsnd_priv *priv);
-+void rsnd_adg_resume(struct rsnd_priv *priv);
- int rsnd_adg_set_src_timesel_gen2(struct rsnd_mod *src_mod,
- 				  struct rsnd_dai_stream *io,
- 				  unsigned int in_rate,
-@@ -804,6 +810,8 @@ extern const char * const volume_ramp_rate[];
-  */
- int rsnd_ssi_probe(struct rsnd_priv *priv);
- void rsnd_ssi_remove(struct rsnd_priv *priv);
-+void rsnd_ssi_suspend(struct rsnd_priv *priv);
-+void rsnd_ssi_resume(struct rsnd_priv *priv);
- struct rsnd_mod *rsnd_ssi_mod_get(struct rsnd_priv *priv, int id);
- int rsnd_ssi_use_busif(struct rsnd_dai_stream *io);
- u32 rsnd_ssi_multi_secondaries_runtime(struct rsnd_dai_stream *io);
-@@ -827,6 +835,8 @@ int rsnd_ssiu_attach(struct rsnd_dai_stream *io,
- 		     struct rsnd_mod *mod);
- int rsnd_ssiu_probe(struct rsnd_priv *priv);
- void rsnd_ssiu_remove(struct rsnd_priv *priv);
-+void rsnd_ssiu_suspend(struct rsnd_priv *priv);
-+void rsnd_ssiu_resume(struct rsnd_priv *priv);
- void rsnd_parse_connect_ssiu(struct rsnd_dai *rdai,
- 			     struct device_node *playback,
- 			     struct device_node *capture);
-@@ -838,6 +848,8 @@ bool rsnd_ssiu_busif_err_status_clear(struct rsnd_mod *mod);
-  */
- int rsnd_src_probe(struct rsnd_priv *priv);
- void rsnd_src_remove(struct rsnd_priv *priv);
-+void rsnd_src_suspend(struct rsnd_priv *priv);
-+void rsnd_src_resume(struct rsnd_priv *priv);
- struct rsnd_mod *rsnd_src_mod_get(struct rsnd_priv *priv, int id);
- 
- #define rsnd_src_get_in_rate(priv, io) rsnd_src_get_rate(priv, io, 1)
-@@ -857,6 +869,8 @@ unsigned int rsnd_src_get_rate(struct rsnd_priv *priv,
-  */
- int rsnd_ctu_probe(struct rsnd_priv *priv);
- void rsnd_ctu_remove(struct rsnd_priv *priv);
-+void rsnd_ctu_suspend(struct rsnd_priv *priv);
-+void rsnd_ctu_resume(struct rsnd_priv *priv);
- struct rsnd_mod *rsnd_ctu_mod_get(struct rsnd_priv *priv, int id);
- #define rsnd_ctu_of_node(priv) rsnd_parse_of_node(priv, RSND_NODE_CTU)
- #define rsnd_parse_connect_ctu(rdai, playback, capture)			\
-@@ -869,6 +883,8 @@ struct rsnd_mod *rsnd_ctu_mod_get(struct rsnd_priv *priv, int id);
-  */
- int rsnd_mix_probe(struct rsnd_priv *priv);
- void rsnd_mix_remove(struct rsnd_priv *priv);
-+void rsnd_mix_suspend(struct rsnd_priv *priv);
-+void rsnd_mix_resume(struct rsnd_priv *priv);
- struct rsnd_mod *rsnd_mix_mod_get(struct rsnd_priv *priv, int id);
- #define rsnd_mix_of_node(priv) rsnd_parse_of_node(priv, RSND_NODE_MIX)
- #define rsnd_parse_connect_mix(rdai, playback, capture)			\
-@@ -881,6 +897,8 @@ struct rsnd_mod *rsnd_mix_mod_get(struct rsnd_priv *priv, int id);
-  */
- int rsnd_dvc_probe(struct rsnd_priv *priv);
- void rsnd_dvc_remove(struct rsnd_priv *priv);
-+void rsnd_dvc_suspend(struct rsnd_priv *priv);
-+void rsnd_dvc_resume(struct rsnd_priv *priv);
- struct rsnd_mod *rsnd_dvc_mod_get(struct rsnd_priv *priv, int id);
- #define rsnd_dvc_of_node(priv) rsnd_parse_of_node(priv, RSND_NODE_DVC)
- #define rsnd_parse_connect_dvc(rdai, playback, capture)			\
-diff --git a/sound/soc/renesas/rcar/src.c b/sound/soc/renesas/rcar/src.c
-index 651ed378c4f7..aac749f917bf 100644
---- a/sound/soc/renesas/rcar/src.c
-+++ b/sound/soc/renesas/rcar/src.c
-@@ -848,3 +848,29 @@ void rsnd_src_remove(struct rsnd_priv *priv)
- 		rsnd_mod_quit(rsnd_mod_get(src));
- 	}
- }
-+
-+void rsnd_src_suspend(struct rsnd_priv *priv)
-+{
-+	struct rsnd_src *src;
-+	int i;
-+
-+	for_each_rsnd_src(src, priv, i)
-+		rsnd_suspend_clk_reset(rsnd_mod_get(src)->clk,
-+				       rsnd_mod_get(src)->rstc);
-+
-+	clk_disable_unprepare(rsnd_priv_to_src_ctrl(priv)->scu_x2);
-+	clk_disable_unprepare(rsnd_priv_to_src_ctrl(priv)->scu);
-+}
-+
-+void rsnd_src_resume(struct rsnd_priv *priv)
-+{
-+	struct rsnd_src *src;
-+	int i;
-+
-+	clk_prepare_enable(rsnd_priv_to_src_ctrl(priv)->scu);
-+	clk_prepare_enable(rsnd_priv_to_src_ctrl(priv)->scu_x2);
-+
-+	for_each_rsnd_src(src, priv, i)
-+		rsnd_resume_clk_reset(rsnd_mod_get(src)->clk,
-+				      rsnd_mod_get(src)->rstc);
-+}
-diff --git a/sound/soc/renesas/rcar/ssi.c b/sound/soc/renesas/rcar/ssi.c
-index c65435551283..072e66bda9e7 100644
---- a/sound/soc/renesas/rcar/ssi.c
-+++ b/sound/soc/renesas/rcar/ssi.c
-@@ -1261,3 +1261,23 @@ void rsnd_ssi_remove(struct rsnd_priv *priv)
- 		rsnd_mod_quit(rsnd_mod_get(ssi));
- 	}
- }
-+
-+void rsnd_ssi_suspend(struct rsnd_priv *priv)
-+{
-+	struct rsnd_ssi *ssi;
-+	int i;
-+
-+	for_each_rsnd_ssi(ssi, priv, i)
-+		rsnd_suspend_clk_reset(rsnd_mod_get(ssi)->clk,
-+				       rsnd_mod_get(ssi)->rstc);
-+}
-+
-+void rsnd_ssi_resume(struct rsnd_priv *priv)
-+{
-+	struct rsnd_ssi *ssi;
-+	int i;
-+
-+	for_each_rsnd_ssi(ssi, priv, i)
-+		rsnd_resume_clk_reset(rsnd_mod_get(ssi)->clk,
-+				      rsnd_mod_get(ssi)->rstc);
-+}
-diff --git a/sound/soc/renesas/rcar/ssiu.c b/sound/soc/renesas/rcar/ssiu.c
-index f483389868d2..83de5247d43f 100644
---- a/sound/soc/renesas/rcar/ssiu.c
-+++ b/sound/soc/renesas/rcar/ssiu.c
-@@ -630,3 +630,23 @@ void rsnd_ssiu_remove(struct rsnd_priv *priv)
- 		rsnd_mod_quit(rsnd_mod_get(ssiu));
- 	}
- }
-+
-+void rsnd_ssiu_suspend(struct rsnd_priv *priv)
-+{
-+	struct rsnd_ssiu *ssiu;
-+	int i;
-+
-+	for_each_rsnd_ssiu(ssiu, priv, i)
-+		rsnd_suspend_clk_reset(rsnd_mod_get(ssiu)->clk,
-+				       rsnd_mod_get(ssiu)->rstc);
-+}
-+
-+void rsnd_ssiu_resume(struct rsnd_priv *priv)
-+{
-+	struct rsnd_ssiu *ssiu;
-+	int i;
-+
-+	for_each_rsnd_ssiu(ssiu, priv, i)
-+		rsnd_resume_clk_reset(rsnd_mod_get(ssiu)->clk,
-+				      rsnd_mod_get(ssiu)->rstc);
-+}
--- 
-2.25.1
+Michael
+>
+> >  }
+> >
+> >  static int rswitch_gwca_mcast_table_reset(struct rswitch_private
+> > *priv) @@ -682,9 +687,6 @@ static int rswitch_gwca_hw_init(struct rswit=
+ch_private *priv)
+> >     unsigned int i;
+> >     int err;
+> >
+> > -   err =3D rswitch_gwca_change_mode(priv, GWMC_OPC_DISABLE);
+> > -   if (err < 0)
+> > -           return err;
+> >     err =3D rswitch_gwca_change_mode(priv, GWMC_OPC_CONFIG);
+> >     if (err < 0)
+> >             return err;
+>
+> [ ... ]
+>
+> > @@ -717,9 +719,6 @@ static int rswitch_gwca_hw_init(struct rswitch_priv=
+ate *priv)
+> >                     return err;
+> >     }
+> >
+> > -   err =3D rswitch_gwca_change_mode(priv, GWMC_OPC_DISABLE);
+> > -   if (err < 0)
+> > -           return err;
+> >     return rswitch_gwca_change_mode(priv, GWMC_OPC_OPERATION);  }
+> >
+> > @@ -727,9 +726,6 @@ static int rswitch_gwca_hw_deinit(struct
+> > rswitch_private *priv)  {
+> >     int err;
+> >
+> > -   err =3D rswitch_gwca_change_mode(priv, GWMC_OPC_DISABLE);
+> > -   if (err < 0)
+> > -           return err;
+> >     err =3D rswitch_gwca_change_mode(priv, GWMC_OPC_RESET);
+> >     if (err < 0)
+> >             return err;
+>
+> [ ... ]
+>
+> > @@ -1116,14 +1112,18 @@ static int rswitch_etha_change_mode(struct rswi=
+tch_etha *etha,
+> >     if (!rswitch_agent_clock_is_enabled(etha->coma_addr, etha->index))
+> >             rswitch_agent_clock_ctrl(etha->coma_addr, etha->index, 1);
+> >
+> > -   iowrite32(mode, etha->addr + EAMC);
+> > -
+> > -   ret =3D rswitch_reg_wait(etha->addr, EAMS, EAMS_OPS_MASK, mode);
+> > +   iowrite32(EAMC_OPC_DISABLE, etha->addr + EAMC);
+> > +   ret =3D rswitch_reg_wait(etha->addr, EAMS, EAMS_OPS_MASK,
+> > +EAMC_OPC_DISABLE);
+> >
+> > -   if (mode =3D=3D EAMC_OPC_DISABLE)
+> > +   if (mode =3D=3D EAMC_OPC_DISABLE) {
+> >             rswitch_agent_clock_ctrl(etha->coma_addr, etha->index, 0);
+> >
+> > -   return ret;
+> > +           return ret;
+> > +   }
+> > +
+> > +   iowrite32(mode, etha->addr + EAMC);
+> > +
+> > +   return rswitch_reg_wait(etha->addr, EAMS, EAMS_OPS_MASK, mode);
+>
+> Same pattern here in rswitch_etha_change_mode(). When mode !=3D EAMC_OPC_=
+DISABLE, the return value from
+> rswitch_reg_wait() for the intermediate DISABLE transition is stored in '=
+ret' but never checked.
+>
+> Before this patch, rswitch_etha_hw_init() explicitly called rswitch_etha_=
+change_mode(etha,
+> EAMC_OPC_DISABLE) with error checking before calling it with EAMC_OPC_CON=
+FIG. This patch removes that
+> caller-side check but doesn't replicate it inside the function. Should th=
+ere be a check like 'if (ret
+> < 0) return ret;' after the first rswitch_reg_wait()?
+>
+> >  }
+> >
+> >  static void rswitch_etha_read_mac_address(struct rswitch_etha *etha)
+>
+> [ ... ]
 
 
