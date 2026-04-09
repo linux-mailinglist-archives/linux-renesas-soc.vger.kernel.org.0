@@ -1,42 +1,42 @@
-Return-Path: <linux-renesas-soc+bounces-31067-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-31068-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id uKTjCh5s12myNggAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-31067-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 09 Apr 2026 11:06:38 +0200
+	id ULugK89t12myNggAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-31068-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 09 Apr 2026 11:13:51 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id C02A53C82FF
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 09 Apr 2026 11:06:37 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C5353C84B3
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 09 Apr 2026 11:13:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 421A9302AF01
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Apr 2026 09:05:51 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 5455D30D0536
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Apr 2026 09:06:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CEE8B3AE712;
-	Thu,  9 Apr 2026 09:05:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 04DA63B19C0;
+	Thu,  9 Apr 2026 09:05:08 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F24C93A9DA6;
-	Thu,  9 Apr 2026 09:04:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AA29A3A8FF6;
+	Thu,  9 Apr 2026 09:05:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775725501; cv=none; b=tagdD5t2DTmY/Z7JTG4ceb3po3qYNJ2zXUlaI9s7Um0/MAjkW/B62D48i6dIvntD6Wkipd+DZxyg8EI/l7w+8KUgXJW33yy2IG1wi4RN8rMza6y11rgrrva4/r4j3+hbROKLsQkndhviEszmm44c2f3dpOjmayAOQhaAgloBWuY=
+	t=1775725507; cv=none; b=Zbbah8N8lDhducEXwjRfJFlsuDxMMq21nqNHVgGYQvctcOJZ5n5hs+5R3SL9ZoTk9IaIG2L1EuuPoUqaUGKMXa2RBiX6FT/u9duuyIOubuPJSwtv7ZNCN22nJBydQHXMJJ1bEuJv/62csSDZg7zhzNBn5Q9GC/Oba0e77duKk5s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775725501; c=relaxed/simple;
-	bh=cLGLr+r89gQqbTNIHaqbN911i6HiTCoOhoRnMMvrI8M=;
+	s=arc-20240116; t=1775725507; c=relaxed/simple;
+	bh=jFEeeJw53ejQ1F9bOIGt9cktS/3dF0GiHEJoYEMvEOs=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=TTDPOByAa1WNl2DNjnIJSyBOnsp8W2/XHpuLHqZO7ZDmPwN98443VOdmFTER8+e4n1Inv4BZjJUNT1oGIdqt6QpvbiaWcIvsPCrW3fi1si20hT+vqoHRaUgvipRHmy0s8m5MbzH8km+nNghZcS4KmUNUDiwmqTOnrrMEbFNUilA=
+	 MIME-Version; b=kbqzgawt6MxspNUvfZ0TC+8o9V5Q970WAhxqMMOCcevkx/jIGG2yp1rHuvHUxJas1mC4HKlrHN8cdQuF+wFOtj31PISm9RTxF7iOjMcdBrTzhMKDpU4+VBkrYkDCELc9LHn55CaZdmQe40y5cUMzFTt6UoKvFOWRRT/vfds8fDg=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-X-CSE-ConnectionGUID: OL/D5ys5RqauwuWJnhvYLw==
-X-CSE-MsgGUID: VybBkJ10QCu+BfFIT1j71A==
+X-CSE-ConnectionGUID: odRpacj5Q0un0Dndzis7Lg==
+X-CSE-MsgGUID: PUW8TekuSTC0B8d3AQlRdA==
 Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie5.idc.renesas.com with ESMTP; 09 Apr 2026 18:04:59 +0900
+  by relmlie5.idc.renesas.com with ESMTP; 09 Apr 2026 18:05:05 +0900
 Received: from ubuntu.adwin.renesas.com (unknown [10.226.92.218])
-	by relmlir5.idc.renesas.com (Postfix) with ESMTP id 031C74015D82;
-	Thu,  9 Apr 2026 18:04:53 +0900 (JST)
+	by relmlir5.idc.renesas.com (Postfix) with ESMTP id 012A34015D82;
+	Thu,  9 Apr 2026 18:04:59 +0900 (JST)
 From: John Madieu <john.madieu.xa@bp.renesas.com>
 To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
 	Mark Brown <broonie@kernel.org>,
@@ -57,9 +57,9 @@ Cc: Rob Herring <robh@kernel.org>,
 	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	John Madieu <john.madieu.xa@bp.renesas.com>
-Subject: [PATCH v4 11/12] ASoC: rsnd: src: Add SRC reset and clock support for RZ/G3E
-Date: Thu,  9 Apr 2026 11:03:00 +0200
-Message-ID: <20260409090302.2243305-12-john.madieu.xa@bp.renesas.com>
+Subject: [PATCH v4 12/12] ASoC: rsnd: Add system suspend/resume support
+Date: Thu,  9 Apr 2026 11:03:01 +0200
+Message-ID: <20260409090302.2243305-13-john.madieu.xa@bp.renesas.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260409090302.2243305-1-john.madieu.xa@bp.renesas.com>
 References: <20260409090302.2243305-1-john.madieu.xa@bp.renesas.com>
@@ -75,7 +75,7 @@ X-Spamd-Result: default: False [1.64 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	DMARC_POLICY_SOFTFAIL(0.10)[renesas.com : SPF not aligned (relaxed), No valid DKIM,none];
@@ -84,10 +84,10 @@ X-Spamd-Result: default: False [1.64 / 15.00];
 	RCPT_COUNT_TWELVE(0.00)[19];
 	RCVD_TLS_LAST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-31067-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-31068-lists,linux-renesas-soc=lfdr.de];
 	FREEMAIL_CC(0.00)[kernel.org,perex.cz,suse.com,gmail.com,pengutronix.de,tuxon.dev,bp.renesas.com,vger.kernel.org];
 	FREEMAIL_TO(0.00)[renesas.com,kernel.org,gmail.com,glider.be];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[john.madieu.xa@bp.renesas.com,linux-renesas-soc@vger.kernel.org];
@@ -95,24 +95,22 @@ X-Spamd-Result: default: False [1.64 / 15.00];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
 	R_DKIM_NA(0.00)[];
-	NEURAL_HAM(-0.00)[-0.184];
+	NEURAL_HAM(-0.00)[-0.158];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,dt];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,renesas.com:email,bp.renesas.com:mid]
-X-Rspamd-Queue-Id: C02A53C82FF
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,renesas.com:email,bp.renesas.com:mid]
+X-Rspamd-Queue-Id: 1C5353C84B3
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-The RZ/G3E SoC requires explicit SCU (Sampling Rate Converter Unit)
-reset and clock management unlike previous R-Car generations:
+Add per-module suspend/resume functions following the existing driver
+architecture where each module manages its own resources in its own
+file. core.c provides common clock/reset helpers and orchestrates the
+calls in the correct order (reverse probe for suspend, probe order
+for resume).
 
-- scu_clk: SCU module clock
-- scu_clkx2: SCU double-rate clock
-- scu_supply_clk: SCU supply clock
-
-Without these clocks enabled, the SRC module cannot operate on RZ/G3E.
-Add support for the shared SCU reset controller used by the SRC modules
-on the Renesas RZ/G3E SoC. All SRC instances are gated by the same "scu"
-reset line.
+Infrastructure clocks (ADG, audmacpp, SCU) are managed globally
+using optional APIs to remain transparent to platforms that don't
+specify these clocks/resets.
 
 Signed-off-by: John Madieu <john.madieu.xa@bp.renesas.com>
 ---
@@ -120,156 +118,422 @@ Signed-off-by: John Madieu <john.madieu.xa@bp.renesas.com>
 Changes:
  
 v4:
- - Move shared SCU clocks (scu, scu_x2, scu_supply) from rsnd_priv
-   variables into new struct rsnd_src_ctrl, following the rsnd_dma_ctrl
-   pattern for shared non-per-instance module resources
- - Keep original declaration order for struct device_node *node
-
+ - Absorb rsnd_adg_mod_get() helper directly instead of a separate
+   preparatory patch
+ - Distribute suspend/resume declarations into their respective IP
+   sections in rsnd.h
 v3: No changes
-v2: No changes
+v2:
+ - Distribute suspend/resume into per-module files (ssi.c, ssiu.c,
+   src.c, ctu.c, mix.c, dvc.c, adg.c, dma.c) instead of monolithic
+   loops in core.c, following Morimoto-san's architecture suggestion
 
- sound/soc/renesas/rcar/rsnd.h |  1 +
- sound/soc/renesas/rcar/src.c  | 59 ++++++++++++++++++++++++++++++++++-
- 2 files changed, 59 insertions(+), 1 deletion(-)
+ sound/soc/renesas/rcar/adg.c  | 26 +++++++++++++++++++++
+ sound/soc/renesas/rcar/core.c | 43 +++++++++++++++++++++++++++++++++--
+ sound/soc/renesas/rcar/ctu.c  | 20 ++++++++++++++++
+ sound/soc/renesas/rcar/dma.c  | 20 ++++++++++++++++
+ sound/soc/renesas/rcar/dvc.c  | 20 ++++++++++++++++
+ sound/soc/renesas/rcar/mix.c  | 20 ++++++++++++++++
+ sound/soc/renesas/rcar/rsnd.h | 18 +++++++++++++++
+ sound/soc/renesas/rcar/src.c  | 26 +++++++++++++++++++++
+ sound/soc/renesas/rcar/ssi.c  | 20 ++++++++++++++++
+ sound/soc/renesas/rcar/ssiu.c | 20 ++++++++++++++++
+ 10 files changed, 231 insertions(+), 2 deletions(-)
 
-diff --git a/sound/soc/renesas/rcar/rsnd.h b/sound/soc/renesas/rcar/rsnd.h
-index 5cf35a1f3e45..8f8e86cb6e62 100644
---- a/sound/soc/renesas/rcar/rsnd.h
-+++ b/sound/soc/renesas/rcar/rsnd.h
-@@ -680,6 +680,7 @@ struct rsnd_priv {
- 	/*
- 	 * below value will be filled on rsnd_src_probe()
- 	 */
-+	void *src_ctrl;
- 	void *src;
- 	int src_nr;
- 
-diff --git a/sound/soc/renesas/rcar/src.c b/sound/soc/renesas/rcar/src.c
-index 8b58cc20e7a8..651ed378c4f7 100644
---- a/sound/soc/renesas/rcar/src.c
-+++ b/sound/soc/renesas/rcar/src.c
-@@ -54,6 +54,14 @@ struct rsnd_src {
- 	     ((pos) = (struct rsnd_src *)(priv)->src + i);	\
- 	     i++)
- 
-+struct rsnd_src_ctrl {
-+	struct clk *scu;
-+	struct clk *scu_x2;
-+	struct clk *scu_supply;
-+};
+diff --git a/sound/soc/renesas/rcar/adg.c b/sound/soc/renesas/rcar/adg.c
+index 9cae3bbefa55..8c0c8bc92ab3 100644
+--- a/sound/soc/renesas/rcar/adg.c
++++ b/sound/soc/renesas/rcar/adg.c
+@@ -908,3 +908,29 @@ void rsnd_adg_remove(struct rsnd_priv *priv)
+ 	/* It should be called after rsnd_adg_clk_disable() */
+ 	rsnd_adg_null_clk_clean(priv);
+ }
 +
-+#define rsnd_priv_to_src_ctrl(priv) \
-+	((struct rsnd_src_ctrl *)(priv)->src_ctrl)
- 
- /*
-  *		image of SRC (Sampling Rate Converter)
-@@ -516,6 +524,7 @@ static int rsnd_src_init(struct rsnd_mod *mod,
- 			 struct rsnd_priv *priv)
- {
- 	struct rsnd_src *src = rsnd_mod_to_src(mod);
-+	struct device *dev = rsnd_priv_to_dev(priv);
- 	int ret;
- 
- 	/* reset sync convert_rate */
-@@ -526,6 +535,12 @@ static int rsnd_src_init(struct rsnd_mod *mod,
- 	if (ret < 0)
- 		return ret;
- 
-+	ret = clk_prepare_enable(rsnd_priv_to_src_ctrl(priv)->scu_supply);
-+	if (ret) {
-+		dev_err(dev, "Cannot enable scu_supply_clk\n");
-+		return ret;
-+	}
++static struct rsnd_mod *rsnd_adg_mod_get(struct rsnd_priv *priv)
++{
++	struct rsnd_adg *adg = rsnd_priv_to_adg(priv);
 +
- 	rsnd_src_activation(mod);
- 
- 	rsnd_src_init_convert_rate(io, mod);
-@@ -549,6 +564,8 @@ static int rsnd_src_quit(struct rsnd_mod *mod,
- 	src->sync.val		=
- 	src->current_sync_rate	= 0;
- 
-+	clk_disable_unprepare(rsnd_priv_to_src_ctrl(priv)->scu_supply);
++	if (!adg)
++		return NULL;
 +
- 	return 0;
++	return rsnd_mod_get(adg);
++}
++
++void rsnd_adg_suspend(struct rsnd_priv *priv)
++{
++	struct rsnd_mod *mod = rsnd_adg_mod_get(priv);
++
++	if (mod)
++		rsnd_suspend_clk_reset(mod->clk, mod->rstc);
++}
++
++void rsnd_adg_resume(struct rsnd_priv *priv)
++{
++	struct rsnd_mod *mod = rsnd_adg_mod_get(priv);
++
++	if (mod)
++		rsnd_resume_clk_reset(mod->clk, mod->rstc);
++}
+diff --git a/sound/soc/renesas/rcar/core.c b/sound/soc/renesas/rcar/core.c
+index cb31af8a34d4..cb7fb26f8972 100644
+--- a/sound/soc/renesas/rcar/core.c
++++ b/sound/soc/renesas/rcar/core.c
+@@ -963,7 +963,8 @@ static int rsnd_soc_hw_rule_channels(struct snd_pcm_hw_params *params,
+ static const struct snd_pcm_hardware rsnd_pcm_hardware = {
+ 	.info =		SNDRV_PCM_INFO_INTERLEAVED	|
+ 			SNDRV_PCM_INFO_MMAP		|
+-			SNDRV_PCM_INFO_MMAP_VALID,
++			SNDRV_PCM_INFO_MMAP_VALID	|
++			SNDRV_PCM_INFO_RESUME,
+ 	.buffer_bytes_max	= 64 * 1024,
+ 	.period_bytes_min	= 32,
+ 	.period_bytes_max	= 8192,
+@@ -2059,11 +2060,35 @@ static void rsnd_remove(struct platform_device *pdev)
+ 		remove_func[i](priv);
  }
  
-@@ -713,6 +730,8 @@ int rsnd_src_probe(struct rsnd_priv *priv)
++void rsnd_suspend_clk_reset(struct clk *clk, struct reset_control *rstc)
++{
++	clk_unprepare(clk);
++	reset_control_assert(rstc);
++}
++
++void rsnd_resume_clk_reset(struct clk *clk, struct reset_control *rstc)
++{
++	reset_control_deassert(rstc);
++	clk_prepare(clk);
++}
++
+ static int rsnd_suspend(struct device *dev)
  {
- 	struct device_node *node;
- 	struct device *dev = rsnd_priv_to_dev(priv);
-+	struct reset_control *rstc;
-+	struct rsnd_src_ctrl *src_ctrl;
- 	struct rsnd_src *src;
- 	struct clk *clk;
- 	char name[RSND_SRC_NAME_SIZE];
-@@ -728,6 +747,12 @@ int rsnd_src_probe(struct rsnd_priv *priv)
- 		goto rsnd_src_probe_done;
+ 	struct rsnd_priv *priv = dev_get_drvdata(dev);
+ 
++	/*
++	 * Reverse order of probe:
++	 * ADG -> DVC -> MIX -> CTU -> SRC -> SSIU -> SSI -> DMA
++	 */
+ 	rsnd_adg_clk_disable(priv);
++	rsnd_adg_suspend(priv);
++	rsnd_dvc_suspend(priv);
++	rsnd_mix_suspend(priv);
++	rsnd_ctu_suspend(priv);
++	rsnd_src_suspend(priv);
++	rsnd_ssiu_suspend(priv);
++	rsnd_ssi_suspend(priv);
++	rsnd_dma_suspend(priv);
+ 
+ 	return 0;
+ }
+@@ -2072,7 +2097,21 @@ static int rsnd_resume(struct device *dev)
+ {
+ 	struct rsnd_priv *priv = dev_get_drvdata(dev);
+ 
+-	return rsnd_adg_clk_enable(priv);
++	/*
++	 * Same order as probe:
++	 * DMA -> SSI -> SSIU -> SRC -> CTU -> MIX -> DVC -> ADG
++	 */
++	rsnd_dma_resume(priv);
++	rsnd_ssi_resume(priv);
++	rsnd_ssiu_resume(priv);
++	rsnd_src_resume(priv);
++	rsnd_ctu_resume(priv);
++	rsnd_mix_resume(priv);
++	rsnd_dvc_resume(priv);
++	rsnd_adg_resume(priv);
++	rsnd_adg_clk_enable(priv);
++
++	return 0;
+ }
+ 
+ static const struct dev_pm_ops rsnd_pm_ops = {
+diff --git a/sound/soc/renesas/rcar/ctu.c b/sound/soc/renesas/rcar/ctu.c
+index 81bba6a1af6e..73795d5b2817 100644
+--- a/sound/soc/renesas/rcar/ctu.c
++++ b/sound/soc/renesas/rcar/ctu.c
+@@ -383,3 +383,23 @@ void rsnd_ctu_remove(struct rsnd_priv *priv)
+ 		rsnd_mod_quit(rsnd_mod_get(ctu));
  	}
- 
-+	src_ctrl = devm_kzalloc(dev, sizeof(*src_ctrl), GFP_KERNEL);
-+	if (!src_ctrl) {
-+		ret = -ENOMEM;
-+		goto rsnd_src_probe_done;
+ }
++
++void rsnd_ctu_suspend(struct rsnd_priv *priv)
++{
++	struct rsnd_ctu *ctu;
++	int i;
++
++	for_each_rsnd_ctu(ctu, priv, i)
++		rsnd_suspend_clk_reset(rsnd_mod_get(ctu)->clk,
++				       rsnd_mod_get(ctu)->rstc);
++}
++
++void rsnd_ctu_resume(struct rsnd_priv *priv)
++{
++	struct rsnd_ctu *ctu;
++	int i;
++
++	for_each_rsnd_ctu(ctu, priv, i)
++		rsnd_resume_clk_reset(rsnd_mod_get(ctu)->clk,
++				      rsnd_mod_get(ctu)->rstc);
++}
+diff --git a/sound/soc/renesas/rcar/dma.c b/sound/soc/renesas/rcar/dma.c
+index e3278ff7e2f0..b9138c5076cb 100644
+--- a/sound/soc/renesas/rcar/dma.c
++++ b/sound/soc/renesas/rcar/dma.c
+@@ -1029,3 +1029,23 @@ int rsnd_dma_probe(struct rsnd_priv *priv)
+ 	/* dummy mem mod for debug */
+ 	return rsnd_mod_init(NULL, &mem, &mem_ops, NULL, NULL, 0, 0);
+ }
++
++void rsnd_dma_suspend(struct rsnd_priv *priv)
++{
++	struct rsnd_dma_ctrl *dmac = rsnd_priv_to_dmac(priv);
++
++	if (dmac) {
++		clk_disable_unprepare(dmac->audmapp_clk);
++		rsnd_suspend_clk_reset(NULL, dmac->audmapp_rstc);
 +	}
++}
 +
- 	src	= devm_kcalloc(dev, nr, sizeof(*src), GFP_KERNEL);
- 	if (!src) {
- 		ret = -ENOMEM;
-@@ -736,6 +761,28 @@ int rsnd_src_probe(struct rsnd_priv *priv)
- 
- 	priv->src_nr	= nr;
- 	priv->src	= src;
-+	priv->src_ctrl	= src_ctrl;
++void rsnd_dma_resume(struct rsnd_priv *priv)
++{
++	struct rsnd_dma_ctrl *dmac = rsnd_priv_to_dmac(priv);
 +
-+	src_ctrl->scu = devm_clk_get_optional_enabled(dev, "scu");
-+	if (IS_ERR(src_ctrl->scu)) {
-+		ret = dev_err_probe(dev, PTR_ERR(src_ctrl->scu),
-+				    "failed to get scu clock\n");
-+		goto rsnd_src_probe_done;
++	if (dmac) {
++		rsnd_resume_clk_reset(NULL, dmac->audmapp_rstc);
++		clk_prepare_enable(dmac->audmapp_clk);
 +	}
++}
+diff --git a/sound/soc/renesas/rcar/dvc.c b/sound/soc/renesas/rcar/dvc.c
+index bf7146ceb5f6..0e81fdf0e97b 100644
+--- a/sound/soc/renesas/rcar/dvc.c
++++ b/sound/soc/renesas/rcar/dvc.c
+@@ -386,3 +386,23 @@ void rsnd_dvc_remove(struct rsnd_priv *priv)
+ 		rsnd_mod_quit(rsnd_mod_get(dvc));
+ 	}
+ }
 +
-+	src_ctrl->scu_x2 = devm_clk_get_optional_enabled(dev, "scu_x2");
-+	if (IS_ERR(src_ctrl->scu_x2)) {
-+		ret = dev_err_probe(dev, PTR_ERR(src_ctrl->scu_x2),
-+				    "failed to get scu_x2 clock\n");
-+		goto rsnd_src_probe_done;
-+	}
++void rsnd_dvc_suspend(struct rsnd_priv *priv)
++{
++	struct rsnd_dvc *dvc;
++	int i;
 +
-+	src_ctrl->scu_supply = devm_clk_get_optional(dev, "scu_supply");
-+	if (IS_ERR(src_ctrl->scu_supply)) {
-+		ret = dev_err_probe(dev, PTR_ERR(src_ctrl->scu_supply),
-+				    "failed to get scu_supply clock\n");
-+		goto rsnd_src_probe_done;
-+	}
- 
- 	i = 0;
- 	for_each_child_of_node_scoped(node, np) {
-@@ -759,6 +806,16 @@ int rsnd_src_probe(struct rsnd_priv *priv)
- 			goto rsnd_src_probe_done;
- 		}
- 
-+		/*
-+		 * RZ/G3E uses a shared SCU reset controller for all SRC modules.
-+		 * R-Car platforms typically don't have SRC reset controls.
-+		 */
-+		rstc = devm_reset_control_get_optional_shared(dev, "scu");
-+		if (IS_ERR(rstc)) {
-+			ret = PTR_ERR(rstc);
-+			goto rsnd_src_probe_done;
-+		}
++	for_each_rsnd_dvc(dvc, priv, i)
++		rsnd_suspend_clk_reset(rsnd_mod_get(dvc)->clk,
++				       rsnd_mod_get(dvc)->rstc);
++}
 +
- 		clk = devm_clk_get(dev, name);
- 		if (IS_ERR(clk)) {
- 			ret = PTR_ERR(clk);
-@@ -766,7 +823,7 @@ int rsnd_src_probe(struct rsnd_priv *priv)
- 		}
++void rsnd_dvc_resume(struct rsnd_priv *priv)
++{
++	struct rsnd_dvc *dvc;
++	int i;
++
++	for_each_rsnd_dvc(dvc, priv, i)
++		rsnd_resume_clk_reset(rsnd_mod_get(dvc)->clk,
++				      rsnd_mod_get(dvc)->rstc);
++}
+diff --git a/sound/soc/renesas/rcar/mix.c b/sound/soc/renesas/rcar/mix.c
+index 566e9b2a488c..42bb07ade3c8 100644
+--- a/sound/soc/renesas/rcar/mix.c
++++ b/sound/soc/renesas/rcar/mix.c
+@@ -350,3 +350,23 @@ void rsnd_mix_remove(struct rsnd_priv *priv)
+ 		rsnd_mod_quit(rsnd_mod_get(mix));
+ 	}
+ }
++
++void rsnd_mix_suspend(struct rsnd_priv *priv)
++{
++	struct rsnd_mix *mix;
++	int i;
++
++	for_each_rsnd_mix(mix, priv, i)
++		rsnd_suspend_clk_reset(rsnd_mod_get(mix)->clk,
++				       rsnd_mod_get(mix)->rstc);
++}
++
++void rsnd_mix_resume(struct rsnd_priv *priv)
++{
++	struct rsnd_mix *mix;
++	int i;
++
++	for_each_rsnd_mix(mix, priv, i)
++		rsnd_resume_clk_reset(rsnd_mod_get(mix)->clk,
++				      rsnd_mod_get(mix)->rstc);
++}
+diff --git a/sound/soc/renesas/rcar/rsnd.h b/sound/soc/renesas/rcar/rsnd.h
+index 8f8e86cb6e62..31c501c3b024 100644
+--- a/sound/soc/renesas/rcar/rsnd.h
++++ b/sound/soc/renesas/rcar/rsnd.h
+@@ -267,6 +267,8 @@ u32 rsnd_get_busif_shift(struct rsnd_dai_stream *io, struct rsnd_mod *mod);
+ int rsnd_dma_attach(struct rsnd_dai_stream *io,
+ 		    struct rsnd_mod *mod, struct rsnd_mod **dma_mod);
+ int rsnd_dma_probe(struct rsnd_priv *priv);
++void rsnd_dma_suspend(struct rsnd_priv *priv);
++void rsnd_dma_resume(struct rsnd_priv *priv);
+ struct dma_chan *rsnd_dma_request_channel(struct device_node *of_node, char *name,
+ 					  struct rsnd_mod *mod, char *x);
  
- 		ret = rsnd_mod_init(priv, rsnd_mod_get(src),
--				    &rsnd_src_ops, clk, NULL, RSND_MOD_SRC, i);
-+				    &rsnd_src_ops, clk, rstc, RSND_MOD_SRC, i);
- 		if (ret)
- 			goto rsnd_src_probe_done;
+@@ -429,6 +431,8 @@ int rsnd_mod_init(struct rsnd_priv *priv,
+ 		  enum rsnd_mod_type type,
+ 		  int id);
+ void rsnd_mod_quit(struct rsnd_mod *mod);
++void rsnd_suspend_clk_reset(struct clk *clk, struct reset_control *rstc);
++void rsnd_resume_clk_reset(struct clk *clk, struct reset_control *rstc);
+ struct dma_chan *rsnd_mod_dma_req(struct rsnd_dai_stream *io,
+ 				  struct rsnd_mod *mod);
+ void rsnd_mod_interrupt(struct rsnd_mod *mod,
+@@ -606,6 +610,8 @@ int rsnd_adg_ssi_clk_stop(struct rsnd_mod *ssi_mod);
+ int rsnd_adg_ssi_clk_try_start(struct rsnd_mod *ssi_mod, unsigned int rate);
+ int rsnd_adg_probe(struct rsnd_priv *priv);
+ void rsnd_adg_remove(struct rsnd_priv *priv);
++void rsnd_adg_suspend(struct rsnd_priv *priv);
++void rsnd_adg_resume(struct rsnd_priv *priv);
+ int rsnd_adg_set_src_timesel_gen2(struct rsnd_mod *src_mod,
+ 				  struct rsnd_dai_stream *io,
+ 				  unsigned int in_rate,
+@@ -804,6 +810,8 @@ extern const char * const volume_ramp_rate[];
+  */
+ int rsnd_ssi_probe(struct rsnd_priv *priv);
+ void rsnd_ssi_remove(struct rsnd_priv *priv);
++void rsnd_ssi_suspend(struct rsnd_priv *priv);
++void rsnd_ssi_resume(struct rsnd_priv *priv);
+ struct rsnd_mod *rsnd_ssi_mod_get(struct rsnd_priv *priv, int id);
+ int rsnd_ssi_use_busif(struct rsnd_dai_stream *io);
+ u32 rsnd_ssi_multi_secondaries_runtime(struct rsnd_dai_stream *io);
+@@ -827,6 +835,8 @@ int rsnd_ssiu_attach(struct rsnd_dai_stream *io,
+ 		     struct rsnd_mod *mod);
+ int rsnd_ssiu_probe(struct rsnd_priv *priv);
+ void rsnd_ssiu_remove(struct rsnd_priv *priv);
++void rsnd_ssiu_suspend(struct rsnd_priv *priv);
++void rsnd_ssiu_resume(struct rsnd_priv *priv);
+ void rsnd_parse_connect_ssiu(struct rsnd_dai *rdai,
+ 			     struct device_node *playback,
+ 			     struct device_node *capture);
+@@ -838,6 +848,8 @@ bool rsnd_ssiu_busif_err_status_clear(struct rsnd_mod *mod);
+  */
+ int rsnd_src_probe(struct rsnd_priv *priv);
+ void rsnd_src_remove(struct rsnd_priv *priv);
++void rsnd_src_suspend(struct rsnd_priv *priv);
++void rsnd_src_resume(struct rsnd_priv *priv);
+ struct rsnd_mod *rsnd_src_mod_get(struct rsnd_priv *priv, int id);
  
+ #define rsnd_src_get_in_rate(priv, io) rsnd_src_get_rate(priv, io, 1)
+@@ -857,6 +869,8 @@ unsigned int rsnd_src_get_rate(struct rsnd_priv *priv,
+  */
+ int rsnd_ctu_probe(struct rsnd_priv *priv);
+ void rsnd_ctu_remove(struct rsnd_priv *priv);
++void rsnd_ctu_suspend(struct rsnd_priv *priv);
++void rsnd_ctu_resume(struct rsnd_priv *priv);
+ struct rsnd_mod *rsnd_ctu_mod_get(struct rsnd_priv *priv, int id);
+ #define rsnd_ctu_of_node(priv) rsnd_parse_of_node(priv, RSND_NODE_CTU)
+ #define rsnd_parse_connect_ctu(rdai, playback, capture)			\
+@@ -869,6 +883,8 @@ struct rsnd_mod *rsnd_ctu_mod_get(struct rsnd_priv *priv, int id);
+  */
+ int rsnd_mix_probe(struct rsnd_priv *priv);
+ void rsnd_mix_remove(struct rsnd_priv *priv);
++void rsnd_mix_suspend(struct rsnd_priv *priv);
++void rsnd_mix_resume(struct rsnd_priv *priv);
+ struct rsnd_mod *rsnd_mix_mod_get(struct rsnd_priv *priv, int id);
+ #define rsnd_mix_of_node(priv) rsnd_parse_of_node(priv, RSND_NODE_MIX)
+ #define rsnd_parse_connect_mix(rdai, playback, capture)			\
+@@ -881,6 +897,8 @@ struct rsnd_mod *rsnd_mix_mod_get(struct rsnd_priv *priv, int id);
+  */
+ int rsnd_dvc_probe(struct rsnd_priv *priv);
+ void rsnd_dvc_remove(struct rsnd_priv *priv);
++void rsnd_dvc_suspend(struct rsnd_priv *priv);
++void rsnd_dvc_resume(struct rsnd_priv *priv);
+ struct rsnd_mod *rsnd_dvc_mod_get(struct rsnd_priv *priv, int id);
+ #define rsnd_dvc_of_node(priv) rsnd_parse_of_node(priv, RSND_NODE_DVC)
+ #define rsnd_parse_connect_dvc(rdai, playback, capture)			\
+diff --git a/sound/soc/renesas/rcar/src.c b/sound/soc/renesas/rcar/src.c
+index 651ed378c4f7..aac749f917bf 100644
+--- a/sound/soc/renesas/rcar/src.c
++++ b/sound/soc/renesas/rcar/src.c
+@@ -848,3 +848,29 @@ void rsnd_src_remove(struct rsnd_priv *priv)
+ 		rsnd_mod_quit(rsnd_mod_get(src));
+ 	}
+ }
++
++void rsnd_src_suspend(struct rsnd_priv *priv)
++{
++	struct rsnd_src *src;
++	int i;
++
++	for_each_rsnd_src(src, priv, i)
++		rsnd_suspend_clk_reset(rsnd_mod_get(src)->clk,
++				       rsnd_mod_get(src)->rstc);
++
++	clk_disable_unprepare(rsnd_priv_to_src_ctrl(priv)->scu_x2);
++	clk_disable_unprepare(rsnd_priv_to_src_ctrl(priv)->scu);
++}
++
++void rsnd_src_resume(struct rsnd_priv *priv)
++{
++	struct rsnd_src *src;
++	int i;
++
++	clk_prepare_enable(rsnd_priv_to_src_ctrl(priv)->scu);
++	clk_prepare_enable(rsnd_priv_to_src_ctrl(priv)->scu_x2);
++
++	for_each_rsnd_src(src, priv, i)
++		rsnd_resume_clk_reset(rsnd_mod_get(src)->clk,
++				      rsnd_mod_get(src)->rstc);
++}
+diff --git a/sound/soc/renesas/rcar/ssi.c b/sound/soc/renesas/rcar/ssi.c
+index c65435551283..072e66bda9e7 100644
+--- a/sound/soc/renesas/rcar/ssi.c
++++ b/sound/soc/renesas/rcar/ssi.c
+@@ -1261,3 +1261,23 @@ void rsnd_ssi_remove(struct rsnd_priv *priv)
+ 		rsnd_mod_quit(rsnd_mod_get(ssi));
+ 	}
+ }
++
++void rsnd_ssi_suspend(struct rsnd_priv *priv)
++{
++	struct rsnd_ssi *ssi;
++	int i;
++
++	for_each_rsnd_ssi(ssi, priv, i)
++		rsnd_suspend_clk_reset(rsnd_mod_get(ssi)->clk,
++				       rsnd_mod_get(ssi)->rstc);
++}
++
++void rsnd_ssi_resume(struct rsnd_priv *priv)
++{
++	struct rsnd_ssi *ssi;
++	int i;
++
++	for_each_rsnd_ssi(ssi, priv, i)
++		rsnd_resume_clk_reset(rsnd_mod_get(ssi)->clk,
++				      rsnd_mod_get(ssi)->rstc);
++}
+diff --git a/sound/soc/renesas/rcar/ssiu.c b/sound/soc/renesas/rcar/ssiu.c
+index f483389868d2..83de5247d43f 100644
+--- a/sound/soc/renesas/rcar/ssiu.c
++++ b/sound/soc/renesas/rcar/ssiu.c
+@@ -630,3 +630,23 @@ void rsnd_ssiu_remove(struct rsnd_priv *priv)
+ 		rsnd_mod_quit(rsnd_mod_get(ssiu));
+ 	}
+ }
++
++void rsnd_ssiu_suspend(struct rsnd_priv *priv)
++{
++	struct rsnd_ssiu *ssiu;
++	int i;
++
++	for_each_rsnd_ssiu(ssiu, priv, i)
++		rsnd_suspend_clk_reset(rsnd_mod_get(ssiu)->clk,
++				       rsnd_mod_get(ssiu)->rstc);
++}
++
++void rsnd_ssiu_resume(struct rsnd_priv *priv)
++{
++	struct rsnd_ssiu *ssiu;
++	int i;
++
++	for_each_rsnd_ssiu(ssiu, priv, i)
++		rsnd_resume_clk_reset(rsnd_mod_get(ssiu)->clk,
++				      rsnd_mod_get(ssiu)->rstc);
++}
 -- 
 2.25.1
 
