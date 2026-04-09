@@ -1,42 +1,42 @@
-Return-Path: <linux-renesas-soc+bounces-31064-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-31065-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id MFLTBC5s12myNggAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-31064-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 09 Apr 2026 11:06:54 +0200
+	id 0MRrHZhs12myNggAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-31065-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 09 Apr 2026 11:08:40 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 168593C830E
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 09 Apr 2026 11:06:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F09E3C836F
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 09 Apr 2026 11:08:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 3F3E0302AB6A
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Apr 2026 09:04:47 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id A0071303E937
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Apr 2026 09:05:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EDF203A901D;
-	Thu,  9 Apr 2026 09:04:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 63E7B3AA4EA;
+	Thu,  9 Apr 2026 09:04:49 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3F8D23A8757;
-	Thu,  9 Apr 2026 09:04:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B02173A8FEA;
+	Thu,  9 Apr 2026 09:04:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775725482; cv=none; b=O5iOZhrOATs7vu/SHIAD7WFovZ6OgyHNE1d0KBy/wee8MeNr5o2g8pyf/1uO/3hWSy/mp/tAR7xNpKTEW3AwgR1d73dfmkxHgc0SL6tB+AH+DMAM74++Z7UI/HLgB8PiCtNHth36gYjG0FX8auztoT4lJz5Bcm6eAxtPPuSBQpE=
+	t=1775725489; cv=none; b=nodRLJzXBu0bhG++dslhXDMFlI9OteNgu/NCNJ3xB7YBr9tL0pbVek7h3tLo2Ci65442mYwHLRcaRIdAO+IXtfV1g+22wnMmKf0SL5x2OZjb2ZEFMOJ3bqZI60Vi9c6BuBy0cVo3MviTM0qZCCq+WTAtsiPiUCFSXEcIDMBRe28=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775725482; c=relaxed/simple;
-	bh=b6cGncZF1W8idU5Qzn0Zzj+UloY2Y6USJdbVejWKi40=;
+	s=arc-20240116; t=1775725489; c=relaxed/simple;
+	bh=OY1miL1Qg3i6xM35MRzgYqSgdOqtFnW54Gi9iW9ZcTE=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=QXwHCN5jD0ABA4mv9dV6NIf0JUp4T8XUijV0YDFziRVeK8DgzspFVICqX5Dh13a2x3QLNhMHWldfSian2wc/s5+ocHJ+OiCZu3mju4XzNiQmt8RWGyQ6IkuRW7sKjdl76UoD2kjDLMfkcvnK1JSAFJOYjYjuMXm18HFotGldiNg=
+	 MIME-Version; b=pAEwvOEmBI1psxcg93rs5tAdyS3wx/4oqnbPsmPbd9AHNsM77qok3Rxc3M+7WFwY8F/LOA46Pb4N68pfVG6OY8AcPI4zFeG2Zt0oGeEcSSuEC9VEB05zywI3saEj5NQKhsguEM2vV0avP7mdLSj4Z+wK5opU1hJAPOO7uNNcDUU=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-X-CSE-ConnectionGUID: wmcGC9ZhTpWK5Om4CAhT2g==
-X-CSE-MsgGUID: U9ASP4QXTZyo1h19wHv5wg==
+X-CSE-ConnectionGUID: E4bs7u+lS/i0dgkEsTJluw==
+X-CSE-MsgGUID: AnG8+Kt9QAqqB0ika975aA==
 Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie6.idc.renesas.com with ESMTP; 09 Apr 2026 18:04:41 +0900
+  by relmlie6.idc.renesas.com with ESMTP; 09 Apr 2026 18:04:47 +0900
 Received: from ubuntu.adwin.renesas.com (unknown [10.226.92.218])
-	by relmlir5.idc.renesas.com (Postfix) with ESMTP id 373C34015D82;
-	Thu,  9 Apr 2026 18:04:34 +0900 (JST)
+	by relmlir5.idc.renesas.com (Postfix) with ESMTP id 8C9B54015FC2;
+	Thu,  9 Apr 2026 18:04:41 +0900 (JST)
 From: John Madieu <john.madieu.xa@bp.renesas.com>
 To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
 	Mark Brown <broonie@kernel.org>,
@@ -57,9 +57,9 @@ Cc: Rob Herring <robh@kernel.org>,
 	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	John Madieu <john.madieu.xa@bp.renesas.com>
-Subject: [PATCH v4 08/12] ASoC: rsnd: Add SSI reset support for RZ/G3E platforms
-Date: Thu,  9 Apr 2026 11:02:57 +0200
-Message-ID: <20260409090302.2243305-9-john.madieu.xa@bp.renesas.com>
+Subject: [PATCH v4 09/12] ASoC: rsnd: Add ADG reset support for RZ/G3E
+Date: Thu,  9 Apr 2026 11:02:58 +0200
+Message-ID: <20260409090302.2243305-10-john.madieu.xa@bp.renesas.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260409090302.2243305-1-john.madieu.xa@bp.renesas.com>
 References: <20260409090302.2243305-1-john.madieu.xa@bp.renesas.com>
@@ -84,7 +84,7 @@ X-Spamd-Result: default: False [1.64 / 15.00];
 	RCPT_COUNT_TWELVE(0.00)[19];
 	RCVD_TLS_LAST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-31064-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-31065-lists,linux-renesas-soc=lfdr.de];
 	FREEMAIL_CC(0.00)[kernel.org,perex.cz,suse.com,gmail.com,pengutronix.de,tuxon.dev,bp.renesas.com,vger.kernel.org];
 	FREEMAIL_TO(0.00)[renesas.com,kernel.org,gmail.com,glider.be];
 	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
@@ -95,27 +95,19 @@ X-Spamd-Result: default: False [1.64 / 15.00];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
 	R_DKIM_NA(0.00)[];
-	NEURAL_HAM(-0.00)[-0.223];
+	NEURAL_HAM(-0.00)[-0.203];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,dt];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[bp.renesas.com:mid,renesas.com:email,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 168593C830E
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,renesas.com:email,bp.renesas.com:mid]
+X-Rspamd-Queue-Id: 6F09E3C836F
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Add SSI reset support for the Renesas RZ/G3E SoC, which differs from
-earlier generations in several ways:
+RZ/G3E requires the ADG reset line to be deasserted for the audio
+subsystem to operate. The ADG module clock is already managed via
+rsnd_adg_clk_enable/disable() through adg->adg, so no additional
+clock handling is needed.
 
- - The SSI block always operates in BUSIF mode; RZ/G3E does not implement
-   the SSITDR/SSIRDR registers used by R-Car Gen2/Gen3/Gen4 for direct SSI
-   DMA. Consequently, for the RZ/G3E, all audio data must pass through
-   BUSIF. PIO mode remains available for R-Car Gen2/Gen3/Gen4 platforms.
- - Each SSI instance has its own reset line, exposed using per-SSI names
-   such as "ssi0", "ssi1", etc., rather than a single shared reset.
-
-To support these differences, rsnd_ssi_use_busif() always return 1 on
-RZ/G3E, ensuring that the driver consistently selects the BUSIF DMA path.
-While at it, update the reset acquisition logic to request the appropriate
-per-SSI reset controller based on the SSI instance name.
+Add support for the optional "adg" reset control on Renesas RZ/G3E SoC.
 
 Signed-off-by: John Madieu <john.madieu.xa@bp.renesas.com>
 ---
@@ -123,52 +115,39 @@ Signed-off-by: John Madieu <john.madieu.xa@bp.renesas.com>
 Changes:
  
 v4:
- - Clarify in commit message that PIO mode remains available on R-Car
-   Gen2/Gen3/Gen4 platforms
+ - Collapse dev_err_probe() and rsnd_mod_init() calls to single lines
 
 v3: No changes
 v2: No changes
 
- sound/soc/renesas/rcar/ssi.c | 13 ++++++++++++-
- 1 file changed, 12 insertions(+), 1 deletion(-)
+ sound/soc/renesas/rcar/adg.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
-diff --git a/sound/soc/renesas/rcar/ssi.c b/sound/soc/renesas/rcar/ssi.c
-index c06cebb36170..c65435551283 100644
---- a/sound/soc/renesas/rcar/ssi.c
-+++ b/sound/soc/renesas/rcar/ssi.c
-@@ -1158,6 +1158,7 @@ int __rsnd_ssi_is_pin_sharing(struct rsnd_mod *mod)
+diff --git a/sound/soc/renesas/rcar/adg.c b/sound/soc/renesas/rcar/adg.c
+index 0105c60a144e..813ad5eabba6 100644
+--- a/sound/soc/renesas/rcar/adg.c
++++ b/sound/soc/renesas/rcar/adg.c
+@@ -771,6 +771,7 @@ void rsnd_adg_clk_dbg_info(struct rsnd_priv *priv, struct seq_file *m)
  
- int rsnd_ssi_probe(struct rsnd_priv *priv)
+ int rsnd_adg_probe(struct rsnd_priv *priv)
  {
 +	struct reset_control *rstc;
- 	struct device_node *node;
+ 	struct rsnd_adg *adg;
  	struct device *dev = rsnd_priv_to_dev(priv);
- 	struct rsnd_mod_ops *ops;
-@@ -1207,6 +1208,16 @@ int rsnd_ssi_probe(struct rsnd_priv *priv)
- 			goto rsnd_ssi_probe_done;
- 		}
+ 	int ret;
+@@ -779,8 +780,11 @@ int rsnd_adg_probe(struct rsnd_priv *priv)
+ 	if (!adg)
+ 		return -ENOMEM;
  
-+		/*
-+		 * RZ/G3E uses per-SSI reset controllers.
-+		 * R-Car platforms typically don't have SSI reset controls.
-+		 */
-+		rstc = devm_reset_control_get_optional(dev, name);
-+		if (IS_ERR(rstc)) {
-+			ret = PTR_ERR(rstc);
-+			goto rsnd_ssi_probe_done;
-+		}
+-	ret = rsnd_mod_init(priv, &adg->mod, &adg_ops,
+-		      NULL, NULL, 0, 0);
++	rstc = devm_reset_control_get_optional_exclusive(dev, "adg");
++	if (IS_ERR(rstc))
++		return dev_err_probe(dev, PTR_ERR(rstc), "failed to get adg reset\n");
 +
- 		if (of_property_read_bool(np, "shared-pin"))
- 			rsnd_flags_set(ssi, RSND_SSI_CLK_PIN_SHARE);
- 
-@@ -1225,7 +1236,7 @@ int rsnd_ssi_probe(struct rsnd_priv *priv)
- 			ops = &rsnd_ssi_dma_ops;
- 
- 		ret = rsnd_mod_init(priv, rsnd_mod_get(ssi), ops, clk,
--				    NULL, RSND_MOD_SSI, i);
-+				    rstc, RSND_MOD_SSI, i);
- 		if (ret)
- 			goto rsnd_ssi_probe_done;
++	ret = rsnd_mod_init(priv, &adg->mod, &adg_ops, NULL, rstc, 0, 0);
+ 	if (ret)
+ 		return ret;
  
 -- 
 2.25.1
