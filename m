@@ -1,281 +1,276 @@
-Return-Path: <linux-renesas-soc+bounces-31115-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-31116-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id iAG0IX672GmmhQgAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-31115-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 10 Apr 2026 10:57:34 +0200
+	id 0DtaNZW92GlVhggAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-31116-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 10 Apr 2026 11:06:29 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23BAF3D468A
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 10 Apr 2026 10:57:34 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 30AED3D47B9
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 10 Apr 2026 11:06:29 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 075D13014128
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 10 Apr 2026 08:56:26 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id C2810300D68A
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 10 Apr 2026 09:06:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2B0803AE713;
-	Fri, 10 Apr 2026 08:56:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6503C3B3880;
+	Fri, 10 Apr 2026 09:06:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="CYpunT2q"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="coAxue5Z"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from TY3P286CU002.outbound.protection.outlook.com (mail-japaneastazon11010006.outbound.protection.outlook.com [52.101.229.6])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C106838B133;
-	Fri, 10 Apr 2026 08:56:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.229.6
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775811374; cv=fail; b=IfyvJ2qtd5aAiDvTHhP8R/bMV8lNHUw3qJUY+WbBQ9T5K4xtU/shck43uVqOuLnTJid39KBhzzWphtDZJKTr2ad2GlVUloInM6+P4I2qyh6V6+YU6JMiYF+RjJjjP0jmEBM2BM5t4z3UoxZ4oTvEha1GMXTVnK0nL3fOYEhiV7k=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775811374; c=relaxed/simple;
-	bh=IfdBqeIbxyiTWCl5X2Xm4v6yGYHrZv6Cs4gb+514PHw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=WYifOzJVFs6VEeVQL2mT1znDR9i06iDtgpZ+EDyeJBtgoDqO3gdGuU9q2JFPqPPDb9S6lHEDdvyfUJzrikBtID3y0vAQMeXwfvNr3Ju5sLvqrrh8q7G4a2y2JUJLrmpxL1s/e7aaxjQkezgAU6pUxMewAr4ls7KZ5Cqfr6LKOIg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=CYpunT2q; arc=fail smtp.client-ip=52.101.229.6
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=A3RGlJib8/p0nGbVNS5alu9GbqZheT2DJjUkcmQZg3LxDgBp6zj+UXmgj7C+Wr6oHQrku3Qn5RmT61DsDASlW6zE5z3+TOYkBxYHdnQBHNfn7dXlVUjB4Szm+3oA/0LftcuozKkK1aSRz+9imJ/x/YQ7Vy34/WX8FnLxIilynHA378kJtiG5C9szIsAhqfvTUaX/RAbo6+6xcnbVeKIXWVjrgbrThdO0gV0UMNq4kYoIbbKWMcL/E2xznvxYyjMh0mQ2UqZRwolAx60Tkoc8WEHcFRITfUoyi5ktLwsUzJlccyGilxE7GVjYHpv+FdXqOgbbUyCK2KzAhh+ehVv4gQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=BcSIcN4CVM0t188mBo3hWtUkrC8ZUomLXldejaSDgC4=;
- b=NFdiBjPDVZ2qBTQcfxIBqZnrUA8AHUS/kpgPPqj2iFzOh9n+tlbMDAq7BfNlFy0qR4k58Mt5EJAczcKspfn10feLE3DZcyM307DrZQaxpQ2Xwv8x+MGlFjekR3PN0hP0tXQ3XCU4Ah2sHbwv2w9kkK3VMt4vuRahv5GZc9jPKj1IjAm8L6zwxJ3dE00zej8FmsLyRXuKFS7QgrZbFG+Ncict6AoSkWadrbwax+gTltJZzZzGQar1TONq7+S1FAz5ba700oFzQzLkYGVIZurZOoRxJdHQ0EWf06eWsKvH9f4oYlwYQ5BtI8zNdskMARGYj8ahrZvMGDwgMzSOO0xK3Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=BcSIcN4CVM0t188mBo3hWtUkrC8ZUomLXldejaSDgC4=;
- b=CYpunT2qMRJG9huJ+0kDe4s0d2PIt3tAT5lpUNcAvwHcdzHVTNLrNQ2dryxpJ6YjxqDKWUUqQ1dBh/OhQ+If4cFNq8In65PhDfHcBiri1dRB+Ei63hWog+ku/Pre232wJcSLBDcVpTxEzfRFiYGnpgjzidYEi0tS89kITJxTK/I=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-Received: from TYCPR01MB11947.jpnprd01.prod.outlook.com (2603:1096:400:3e1::6)
- by OS9PR01MB17334.jpnprd01.prod.outlook.com (2603:1096:604:44e::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.16; Fri, 10 Apr
- 2026 08:56:08 +0000
-Received: from TYCPR01MB11947.jpnprd01.prod.outlook.com
- ([fe80::33f1:f7cd:46be:e4d8]) by TYCPR01MB11947.jpnprd01.prod.outlook.com
- ([fe80::33f1:f7cd:46be:e4d8%5]) with mapi id 15.20.9769.041; Fri, 10 Apr 2026
- 08:56:08 +0000
-Date: Fri, 10 Apr 2026 10:55:55 +0200
-From: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
-To: Biju <biju.das.au@gmail.com>
-Cc: Biju Das <biju.das.jz@bp.renesas.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Chris Brandt <chris.brandt@renesas.com>,
-	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-	Sam Ravnborg <sam@ravnborg.org>, dri-devel@lists.freedesktop.org,
-	linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH v3 3/3] drm: renesas: rzg2l_mipi_dsi: Fix deassert/assert
- of CMN_RSTB signal
-Message-ID: <adi7G_TUSWWRtm7m@tom-desktop>
-References: <20260330104450.128512-1-biju.das.jz@bp.renesas.com>
- <20260330104450.128512-4-biju.das.jz@bp.renesas.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260330104450.128512-4-biju.das.jz@bp.renesas.com>
-X-ClientProxiedBy: FR0P281CA0265.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:b5::14) To TYCPR01MB11947.jpnprd01.prod.outlook.com
- (2603:1096:400:3e1::6)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB84C3A5E7E;
+	Fri, 10 Apr 2026 09:06:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775811987; cv=none; b=S/PaqxWIFm24FA/i68x/XDqKUyCCIAqbflQ0L6Vh9y4BSjHaCNtjeIarPnK8nNR5/aDXcbWzEdInuj9N4npWJnB29LEAIS2cSmlL5icxiyPVpWIOuP62An4hsjvmfLN4Ys94FLxLNMOjB+0OgieMLXX9cQGvahmYzFEVO/TUyzs=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775811987; c=relaxed/simple;
+	bh=xXIeQ5K5+JBXyCZxz1kHIqBW1W0xFYyroHZrGSokS3U=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=ITx+XFmzU4oOFbUp9awGCypMqqrWKODOXnTcTcqjATVPz6bOm29dZ2y5Nq5aVWLw2EcjFMXRxzXjFSU/2YANRfNIVWRuxZmERtzp9Dz7WjOaWFWOvPMkW+ST9aR8m5A0CU4OrAXztaIx3qjbJWoKKtjWDBkfhgLbW9Eb8FLhHFw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=coAxue5Z; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from mail.ideasonboard.com (unknown [103.176.47.184])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 07AD31C6;
+	Fri, 10 Apr 2026 11:04:53 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1775811894;
+	bh=xXIeQ5K5+JBXyCZxz1kHIqBW1W0xFYyroHZrGSokS3U=;
+	h=From:Subject:Date:To:Cc:From;
+	b=coAxue5Z9lfz6EkhFQ3DUXqqIx1a7JrHjWJ2pRIq5kT6phqGV7RAUe1BezUJmRyMm
+	 0k/SBctO2oXy3sFNWaIvI2bP2WjNxLgDWsCij5u2G8jyprnkc3FipgskRF+JggQtcf
+	 S9TTrZoJ7CuiwqdTkABEZR3UV41fN+HdfW5IjX7Y=
+From: Jai Luthra <jai.luthra+renesas@ideasonboard.com>
+Subject: [PATCH v7 00/18] media: Add support for R-Car ISP using Dreamchip
+ RPPX1 ISP
+Date: Fri, 10 Apr 2026 14:35:35 +0530
+Message-Id: <20260410-rppx1-v7-0-43cfc6b44f1f@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TYCPR01MB11947:EE_|OS9PR01MB17334:EE_
-X-MS-Office365-Filtering-Correlation-Id: 227543c1-cd62-44bd-688b-08de96df0180
-X-LD-Processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|366016|376014|7416014|52116014|18002099003|38350700014|56012099003|22082099003;
-X-Microsoft-Antispam-Message-Info:
-	7mcr0laa4HeDuVCWUpecTTCkAzlCgqnD45zibyPYM0XlFby31owHy4pOoXK8a+PvyWeEJiZn9NyuIAcDOrQnYAp1i17/WGQqbQdYRud7AE/yJTciZ0ROPmKQ4XUDqnaSbzfwmIFpgY5gGCxS/BTl5xY4G2hksjouqucXtmFjxbK0DTO6D0XyGiWH1T5KDws6nwkPqIme0XpLbYVkfJup4yxhUn7637NNw0eKQs5LamfiJ011YRhd0IC4aFj/IUXsW0Q2HRn9KCBTH5CDnykUQP8GAxsR73QPjFu/T+ckYmTwyT6/8ZDhxQJFYzfyAdh834umnVvdzRgkR/e/y9yvG2DiWaDpfDUGxnk/MUmIkwmcCs/T1CzbysLug2sKIodyomyGVD2YXjFSwQqNo6O9/gYAv1hG6fGfznmHGkKyr8hWIBosn2SIql5gFFqp8PXneHP97zz2fOifsfNGRO79NRFqpnsJU97e3WbZ/7DWDm3IOgK7KUOONLSZnkjYU/0rFYSVw1cjxF1XFh92peI2L8O/u+WIpL0qa4VDBVk61NfBGs/hhkc7GWaig1XrzdOVkZFtn6LGPM4Fz6TgVt9kbsykxmVPtWHIdLi8aTmC1OVPQXqhkg7Wynkf8OUEED3OUoE532IbVYIfO2i2PN7f2u1VIUwYGwUThFxbX50y+LHkDHKwtUixJ2GJkpx/Dkm0WZ1HngokwS6iJ3/iTtysTSJWg7Wyzcib51kJCMo9xSuZEV2d7t1dXY+OQysxZ3099LkiG6rxL8hS+UDJyAUMmen+SaOT83xlBg53FLp3ZbY=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB11947.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014)(52116014)(18002099003)(38350700014)(56012099003)(22082099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?i5g1ijLIaHieLrNIMmf0HnTLd+oyXpX56RyQ8h1Pl45P5bb4KTdN2PIg5xdp?=
- =?us-ascii?Q?J/07gECks4I1DmuTckgdsGOw3P4P+ex4rpXGpVgkfzLLbEnDnqxvtJJsCC0H?=
- =?us-ascii?Q?ETp7FEWqCspksQ+QXAFxEg0wbrY82zA5TTjLTImA0MqIvPi1KdrBrfHJrLnp?=
- =?us-ascii?Q?cgHcmWJ/cUYwicFNLSn83QGfsTiyUxCe03526CeVb2X01e5APcPboPN9bQzU?=
- =?us-ascii?Q?Z6Muipmd/CUTW1lwjRQghH7jP6t7LvBImSllUWwV6RBZRmyEth9qEn6vjf1F?=
- =?us-ascii?Q?TrgIS53m886di45SGe/Y9t5OMVxima2kFSoE85e/V5CDM8zIzKyVeY9v39yn?=
- =?us-ascii?Q?jDMx5lIZKfXI2aUfCSvW6Jl1ig3zamqnHkz8APAz7FCCg3FKY4iFndVJbq89?=
- =?us-ascii?Q?Zdo3FZBSR22UobsT/3M5Bw9QwG/NNhrNyH/qR26/td8rtGFA8XSQoX8kOJ8f?=
- =?us-ascii?Q?Em+zwW8YtoWAkoqMRiEi6jJziCnO1DdVnx0RDynHF1DwLdUl+aftod017NjM?=
- =?us-ascii?Q?Eshh3RKPJd4c9Tu0rQilGpe2GF/XaKXm66FUkzqps/Rlq7fBp6zyuQopqqTB?=
- =?us-ascii?Q?2tTPbV7j9ffZqjCGOtrl/UKYuGjeaz2/Fm4iGBkG3B8Wo4INHmbMjQ3obu8Q?=
- =?us-ascii?Q?M+uuTv6k6193IpbP9+zZ2oeOVXoJBzIeDw2RaFxe0+eFuWuPmlC0dMn/IKhd?=
- =?us-ascii?Q?FGiJ/C+sLR3YwcI81Ck357DFzEpxjVUq9CdI9bxYP3uKGDVFemo3ZNehgsfn?=
- =?us-ascii?Q?3rpauyEKnm7pS/x+kBpFqYsfhgyAUNqkobPDJTSLdRBb/0mEZibTexQU4yJd?=
- =?us-ascii?Q?0As5xSXFOuB1WxI3Pircxl5lkDZvdm4dJ3JGRKozotUUTdfF8IM7zsMxayGS?=
- =?us-ascii?Q?O06EtNAQGcbqycIfmfODqEd3EKav72IQwNvZJGlDa4mJ7YfkSNOrAC0D+OB0?=
- =?us-ascii?Q?HRbatTwoKd387QwFGVhNyp19IfyKk7r0HyEE228/K2UjRVt5/VLrXAdQ7dII?=
- =?us-ascii?Q?RhUMDdkChnDXiWp4LkAuNkglMVLRIRTVscjmUCEadrI1aKAW7l0wsGYSrk14?=
- =?us-ascii?Q?wxgqEiAoIcKbZJE2e06UGpwO9zt6rEDwNeg/tMwqg8AsTMfRW95OJx95Czo+?=
- =?us-ascii?Q?4772hFMXLn8fjZKeLIMUj0mv1sRjscqLXFKoqRf8mqkTMzmu7YZz+nUgd/42?=
- =?us-ascii?Q?G/vdwypXs6zZodKlmcxm0KTsXxMT/91M7mKJ/N686fkp+XRjoIvCBhJOMJfh?=
- =?us-ascii?Q?UxzdOZWOR5dUTCPr1LDuimpzB4PcAQHd+u1ZIdUi6LB7LV062BEgZvR5pcH/?=
- =?us-ascii?Q?2QETfJJlxuPCHXS2/nJeVws66dL2tc/5CmRVKoVw3Y3QFoVAR2gDyjOTQiPP?=
- =?us-ascii?Q?UETLknKQo4PbOi6AUWjkIO1VW9Ojg0ZQniwcoxKpJV9h2DnjL6ABjZgMuOEu?=
- =?us-ascii?Q?YaXG99YvBFi8ZS/c7CG3Nr0FSW2+jcD+ZHlAGWPK6cGAEHAv7QE817l5S9Y1?=
- =?us-ascii?Q?7TtBpBYIbp0Otv03MqjIjbBLp+qT9NPmmybnJBvgENdiXa7v2Xo4GvSJkJCv?=
- =?us-ascii?Q?y2TkV0yZRqWrEgtsC7HwaJ2rV14ciN0almNG2dR4to74G4OOLVbSQ1p+357W?=
- =?us-ascii?Q?mFFh7SuCbmB2D55Cr08sUSp/FJ0m7SsUcKCjL4Bwz/pcsWxiTfaGW1mKt9wN?=
- =?us-ascii?Q?od4oF0q1tgerKYWkr42szdCnsoDO53dGbjXEOlRYk1+pUx2RiLgyEztbWsAQ?=
- =?us-ascii?Q?1s+4J7uehLi2ca15kCbDdQVljn4cTSaBf1Ph3tm5FNQNU0lowdUS?=
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 227543c1-cd62-44bd-688b-08de96df0180
-X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB11947.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Apr 2026 08:56:08.5993
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Nid0pgNRWu7WiZu12VL+sm/anR3o9JAKksMf6miwxV444g2rgGoa52fEt6YbDv9HocVcYeh+DQvCU8f6XIPi4xMnP641ol9fj59nhcddckIL6o2//42Lo+oJ2+a93lpg
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS9PR01MB17334
-X-Spamd-Result: default: False [1.84 / 15.00];
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAF+92GkC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyzHUUlJIzE
+ vPSU3UzU4B8JSMDIzMDE0MD3aKCggpDXUtDo0SDtGRDI1NLSyWg2oKi1LTMCrA50bG1tQCzsvC
+ hVwAAAA==
+X-Change-ID: 20260410-rppx1-912a0fc12599
+To: Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ =?utf-8?q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>, 
+ Geert Uytterhoeven <geert+renesas@glider.be>, 
+ Magnus Damm <magnus.damm@gmail.com>, 
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-renesas-soc@vger.kernel.org, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
+ Marek Vasut <marek.vasut+renesas@mailbox.org>, 
+ Jai Luthra <jai.luthra+renesas@ideasonboard.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=7776;
+ i=jai.luthra+renesas@ideasonboard.com; h=from:subject:message-id;
+ bh=xXIeQ5K5+JBXyCZxz1kHIqBW1W0xFYyroHZrGSokS3U=;
+ b=owEBbQKS/ZANAwAKAUPekfkkmnFFAcsmYgBp2L13V/xgjRdbWwyxJiD+n082unz7SEk7cqoFD
+ Zldd/GXtlaJAjMEAAEKAB0WIQRN4NgY5dV16NRar8VD3pH5JJpxRQUCadi9dwAKCRBD3pH5JJpx
+ RXCgD/0YDVf4lx9YFUHh7PqNvECcrY2JiUlgbfvfHOnWT4AuKZ0fa+Jf7NXQ+K7UsDVnkNWkUXY
+ xS7xxTMb+eunY0StvQFUTE8VdZsNtqB523ydA2B6ETthoKhTFq9waBgD8aiB3DTAcfO3afhKjzz
+ yWazKapONUOTf8320jzGiAyi0i/l3fI1f31m2Q5K7k0TLN2XEhXrGzQC5IUtPoQObPg4xdmCSrH
+ inYYglC7LKIgQmzw7vspw9iAU/pBPnsjHMwxWg7bmyBZ1BTGCbPU57miqdp2f2UWRZkEoj2jIlX
+ rmP6P8ZCSOCYYq1l6OpycRU/UXtF1sm5TGbo3BIZYJ+ine5u2JxJCIuKK6g8rtrp1P/fJzcfye4
+ 7rEIzN5YvIXI2uK/FfgYXstzU3rFWbyaCri9bd41zVrLcfXDlS11Zdk99ExNsXm5CScRlOSs1pB
+ t/BzRfzGW4ZJ4IdTRtpBOkiKmyDyfGbO1wXeuV27fXLwjyQB12wIeOz0agVTVOmyBsICCYRvmzb
+ 7K2NTZm4Qj3WvYsouICuHaZBtNmb6SJTeenzb9emv9SoGjuRiOzpHYuqCExcB0rcIQPdEMoQ6FY
+ nX00AhyP+bmNM8iQo1m3DMPLEaFllIszUNxXxVnJI58VRHlN4jLAzq035CvGg27gh+mnMe2PEXU
+ Q3SmDvD2L3mWi8g==
+X-Developer-Key: i=jai.luthra+renesas@ideasonboard.com; a=openpgp;
+ fpr=4DE0D818E5D575E8D45AAFC543DE91F9249A7145
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_REJECT(1.00)[cv is fail on i=2];
-	DMARC_POLICY_ALLOW(-0.50)[renesas.com,none];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[bp.renesas.com:s=selector1];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
+	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-31115-lists,linux-renesas-soc=lfdr.de];
-	FREEMAIL_TO(0.00)[gmail.com];
-	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-31116-lists,linux-renesas-soc=lfdr.de,renesas];
+	FREEMAIL_TO(0.00)[kernel.org,ragnatech.se,glider.be,gmail.com,renesas.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[15];
+	RCVD_COUNT_THREE(0.00)[4];
+	RCPT_COUNT_TWELVE(0.00)[12];
+	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[bp.renesas.com:+];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[tommaso.merciai.xr@bp.renesas.com,linux-renesas-soc@vger.kernel.org];
-	FREEMAIL_CC(0.00)[bp.renesas.com,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,renesas.com,ideasonboard.com,ravnborg.org,lists.freedesktop.org,vger.kernel.org,glider.be];
-	NEURAL_HAM(-0.00)[-1.000];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,bp.renesas.com:dkim,renesas.com:email]
-X-Rspamd-Queue-Id: 23BAF3D468A
+	TO_DN_SOME(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[jai.luthra@ideasonboard.com,linux-renesas-soc@vger.kernel.org];
+	DKIM_TRACE(0.00)[ideasonboard.com:+];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,ideasonboard.com:dkim,ideasonboard.com:mid,ideasonboard.com:email,ideasonboard.com:url]
+X-Rspamd-Queue-Id: 30AED3D47B9
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi Biju,
-Thanks for your patch.
+Hello,
 
-On Mon, Mar 30, 2026 at 11:44:46AM +0100, Biju wrote:
-> From: Biju Das <biju.das.jz@bp.renesas.com>
-> 
-> The RZ/G2L hardware manual (Rev. 1.50, May 2025), Section 34.4.2.1,
-> requires deasserting the CMN_RSTB signal after setting the Link registers.
-> Move the reset_control_deassert() call from rzg2l_mipi_dsi_dphy_init() to
-> rzg2l_mipi_dsi_startup(), placing it after the Link register writes. This
-> reset signal is optional for RZ/V2H SoCs, so add a NULL check. Drop the
-> unused ret variable from rzg2l_mipi_dsi_dphy_init().
-> 
-> The CMN_RSTB signal is not required for reading PHY registers in the
-> probe. Move reset_control_assert() from rzg2l_mipi_dsi_dphy_exit() to
-> rzg2l_mipi_dsi_stop(), placing it before the dphy_exit() call. Since this
-> reset signal is optional for RZ/V2H, the call is a no-op on that SoC.
-> 
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+This series adds support for two different devices that together enable
+ISP support on Renesas R-Car Gen4 ISP processing. The first driver added
+is for Dreamchip RPPX1 ISP, this device purely deals with image
+processing algorithms, statistics and image conversion; but have no DMA
+engines. The second driver is for the R-Car ISP CORE, this device
+deals with DMA to/from the RPPX1 ISP and provides a V4L2 user-space
+interface for the ISP.
 
-Looks good to me, thanks.
-Reviewed-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+The R-Car ISP driver uses the RPPX1 framework to drive the ISP and
+together the two devices provide a functional ISP. For detailed
+description of the RPPX1 see patch 3/18, and for details about the
+R-Car ISP see commit message in patch 4/18.
 
-Kind Regards,
-Tommaso
+All functional blocks present on the RPPX1 are not yet added to the
+driver, but most are.
 
-> ---
-> v2->v3:
->  * Merged patch#2 and patch#3 to avoid breakage.
->  * Updated commit description
-> v1->v2:
->  * Updated commit header and description
->  * Moved the code from rzg2l_mipi_dsi_dphy_init() to rzg2l_mipi_dsi_startup()
->  * Moved the check before calling reset_control_deassert(), so that it will be
->    skipped for RZ/V2H SoC
-> ---
->  drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c | 18 +++++++++---------
->  1 file changed, 9 insertions(+), 9 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
-> index 9d9f77d8f949..715872130780 100644
-> --- a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
-> +++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
-> @@ -484,7 +484,6 @@ static int rzg2l_mipi_dsi_dphy_init(struct rzg2l_mipi_dsi *dsi,
->  	u32 dphytim1;
->  	u32 dphytim2;
->  	u32 dphytim3;
-> -	int ret;
->  
->  	/* All DSI global operation timings are set with recommended setting */
->  	for (i = 0; i < ARRAY_SIZE(rzg2l_mipi_dsi_global_timings); ++i) {
-> @@ -524,12 +523,6 @@ static int rzg2l_mipi_dsi_dphy_init(struct rzg2l_mipi_dsi *dsi,
->  	rzg2l_mipi_dsi_phy_write(dsi, DSIDPHYTIM2, dphytim2);
->  	rzg2l_mipi_dsi_phy_write(dsi, DSIDPHYTIM3, dphytim3);
->  
-> -	ret = reset_control_deassert(dsi->rstc);
-> -	if (ret < 0)
-> -		return ret;
-> -
-> -	fsleep(1000);
-> -
->  	return 0;
->  }
->  
-> @@ -541,8 +534,6 @@ static void rzg2l_mipi_dsi_dphy_exit(struct rzg2l_mipi_dsi *dsi)
->  
->  	dphyctrl0 &= ~(DSIDPHYCTRL0_EN_LDO1200 | DSIDPHYCTRL0_EN_BGR);
->  	rzg2l_mipi_dsi_phy_write(dsi, DSIDPHYCTRL0, dphyctrl0);
-> -
-> -	reset_control_assert(dsi->rstc);
->  }
->  
->  static int rzg2l_dphy_conf_clks(struct rzg2l_mipi_dsi *dsi, unsigned long mode_freq,
-> @@ -811,6 +802,14 @@ static int rzg2l_mipi_dsi_startup(struct rzg2l_mipi_dsi *dsi,
->  	FIELD_MODIFY(DSISETR_MRPSZ, &dsisetr, RZG2L_DCS_BUF_SIZE);
->  	rzg2l_mipi_dsi_link_write(dsi, DSISETR, dsisetr);
->  
-> +	if (dsi->rstc) {
-> +		ret = reset_control_deassert(dsi->rstc);
-> +		if (ret < 0)
-> +			goto err_phy;
-> +
-> +		fsleep(1000);
-> +	}
-> +
->  	return 0;
->  
->  err_phy:
-> @@ -822,6 +821,7 @@ static int rzg2l_mipi_dsi_startup(struct rzg2l_mipi_dsi *dsi,
->  
->  static void rzg2l_mipi_dsi_stop(struct rzg2l_mipi_dsi *dsi)
->  {
-> +	reset_control_assert(dsi->rstc);
->  	dsi->info->dphy_exit(dsi);
->  	pm_runtime_put(dsi->dev);
->  }
-> -- 
-> 2.43.0
-> 
+The RPPX1 ISP is similar in design to the RkISP1 already supported
+upstream. The primary difference is around pipeline logic, and higher
+precision configuration and statistic values supported by various
+blocks. Along with that, there are some new features or minor
+differences here and there.
+
+Thus, this revision defines a completely new uAPI and buffer formats
+from RkISP1 for RPPX1. See patches 1/18 and 2/18 for more details.
+
+Patch 1/18 adds metadata formats for RPPX1 params and stats
+
+Patch 2/18 adds the uAPI for configuring RPPX1 using V4L2 extensible
+parameters
+
+Patch 3/18 adds the foundation for the RPPX1 framework. It deals with
+probing all function blocks making sure every blocks version register is
+supported and setup a "passthru" pipeline that just debayer RAW images.
+
+Patch 4/18 adds the R-Car ISP CORE DMA parts and integrates with the
+RPPX1 framework.
+
+Patches 5/18 to 18/18 extend the RPPX1 framework with the logic to
+drive the different ISP modules.
+
+For testing this series with the new uAPI, you can use this WIP
+libcamera branch, which has mostly copied over the RkISP IPA and thus
+still tuned with lower precision values but shifted to match the new
+uAPI:
+https://git.ideasonboard.com/renesas-v4h-isp/libcamera/commits/branch/jluthra/rppx1
+
+Future revisions will add support for extensible statistics once the
+design is finalized, currently WIP here:
+https://lore.kernel.org/all/20260123080938.3367348-2-antoine.bouyer@nxp.com/
+
+Changes in v7:
+- Add new uAPI, parameter and statistics formats for RPPX1, no longer
+  reusing RkISP1
+- For each module:
+    - Switch to RPPX1 uAPI
+    - Support native precision for params and stats
+    - Where module can support different precision for params depending
+      upon the instantiation in hardware, use the biggest value for uAPI
+      and scale it down in driver after reading the relevant hardware
+      register
+- EXM: Add [SQUASH] patch that supports changing the measurement point
+  for AE stats, allows configuring the coefficients, and RGB input mode
+- HIST: Add [SQUASH] patch that supports changing the measurement point
+  for Histogram statistics
+- LSC: Add [SQUASH] patch for describing full lens grid instead of only
+  one quadrant
+- Add support for Sensor (Gamma) Linearization module
+- Link to v6: https://lore.kernel.org/all/20260314215944.3674865-1-niklas.soderlund+renesas@ragnatech.se/
+
+Signed-off-by: Jai Luthra <jai.luthra+renesas@ideasonboard.com>
+---
+Jai Luthra (6):
+      media: Add RPP_X1_PARAMS and RPP_X1_STATS meta formats
+      media: uapi: Add extensible param and stats blocks for RPPX1
+      [SQUASH] media: rppx1: exm: Expose coefficients, RGB mode and channel selection
+      [SQUASH] media: rppx1: hist: Expose channel selection
+      [SQUASH] media: rppx1: lsc: Make full lens grid programmable
+      media: rppx1: Add support for Sensor (Gamma) Linearization
+
+Niklas Söderlund (12):
+      media: rppx1: Add framework to support Dreamchip RPPX1 ISP
+      media: rcar-isp: Add support for ISPCORE
+      media: rppx1: Add support for AWB measurement parameters and statistics
+      media: rppx1: Add support for AWB gain settings
+      media: rppx1: Add support for Auto Exposure Measurement
+      media: rppx1: Add support for Histogram Measurement
+      media: rppx1: Add support for Black Level Subtraction
+      media: rppx1: Add support for Color Correction Matrix
+      media: rppx1: Add support for Lens Shade Correction
+      media: rppx1: Add support for Gamma Correction
+      media: rppx1: Add support for Bayer Demosaicing
+      media: rppx1: Add support for Bilateral Denoising
+
+ MAINTAINERS                                        |    7 +
+ drivers/media/platform/Kconfig                     |    1 +
+ drivers/media/platform/Makefile                    |    1 +
+ drivers/media/platform/dreamchip/Kconfig           |    3 +
+ drivers/media/platform/dreamchip/Makefile          |    6 +
+ drivers/media/platform/dreamchip/rppx1/Kconfig     |   12 +
+ drivers/media/platform/dreamchip/rppx1/Makefile    |   33 +
+ .../media/platform/dreamchip/rppx1/rpp_module.c    |   40 +
+ .../media/platform/dreamchip/rppx1/rpp_module.h    |  155 +++
+ .../media/platform/dreamchip/rppx1/rpp_params.c    |  122 +++
+ drivers/media/platform/dreamchip/rppx1/rpp_stats.c |   30 +
+ drivers/media/platform/dreamchip/rppx1/rppx1.c     |  338 +++++++
+ drivers/media/platform/dreamchip/rppx1/rppx1.h     |   99 ++
+ drivers/media/platform/dreamchip/rppx1/rppx1_acq.c |  147 +++
+ .../media/platform/dreamchip/rppx1/rppx1_awbg.c    |   62 ++
+ drivers/media/platform/dreamchip/rppx1/rppx1_bd.c  |  202 ++++
+ .../media/platform/dreamchip/rppx1/rppx1_bdrgb.c   |   80 ++
+ drivers/media/platform/dreamchip/rppx1/rppx1_bls.c |  169 ++++
+ drivers/media/platform/dreamchip/rppx1/rppx1_cac.c |   29 +
+ .../media/platform/dreamchip/rppx1/rppx1_ccor.c    |  173 ++++
+ drivers/media/platform/dreamchip/rppx1/rppx1_db.c  |  126 +++
+ .../media/platform/dreamchip/rppx1/rppx1_dpcc.c    |   76 ++
+ drivers/media/platform/dreamchip/rppx1/rppx1_exm.c |  126 +++
+ drivers/media/platform/dreamchip/rppx1/rppx1_ga.c  |   83 ++
+ .../media/platform/dreamchip/rppx1/rppx1_hist.c    |  249 +++++
+ .../media/platform/dreamchip/rppx1/rppx1_hist256.c |   46 +
+ drivers/media/platform/dreamchip/rppx1/rppx1_is.c  |   42 +
+ drivers/media/platform/dreamchip/rppx1/rppx1_lin.c |   91 ++
+ drivers/media/platform/dreamchip/rppx1/rppx1_lsc.c |  187 ++++
+ drivers/media/platform/dreamchip/rppx1/rppx1_ltm.c |   48 +
+ .../media/platform/dreamchip/rppx1/rppx1_ltmmeas.c |   41 +
+ .../media/platform/dreamchip/rppx1/rppx1_outif.c   |   45 +
+ .../media/platform/dreamchip/rppx1/rppx1_outregs.c |   75 ++
+ .../media/platform/dreamchip/rppx1/rppx1_rmap.c    |   64 ++
+ .../platform/dreamchip/rppx1/rppx1_rmapmeas.c      |   47 +
+ .../media/platform/dreamchip/rppx1/rppx1_shrp.c    |   64 ++
+ .../media/platform/dreamchip/rppx1/rppx1_wbmeas.c  |  179 ++++
+ .../media/platform/dreamchip/rppx1/rppx1_xyz2luv.c |   26 +
+ drivers/media/platform/renesas/rcar-isp/Kconfig    |    2 +
+ drivers/media/platform/renesas/rcar-isp/Makefile   |    2 +-
+ drivers/media/platform/renesas/rcar-isp/core-io.c  | 1017 ++++++++++++++++++++
+ drivers/media/platform/renesas/rcar-isp/core.c     |  826 ++++++++++++++++
+ drivers/media/platform/renesas/rcar-isp/csisp.c    |   46 +-
+ .../media/platform/renesas/rcar-isp/risp-core.h    |  170 ++++
+ drivers/media/v4l2-core/v4l2-ioctl.c               |    2 +
+ include/media/rppx1.h                              |   33 +
+ include/uapi/linux/media/dreamchip/rppx1-config.h  |  779 +++++++++++++++
+ include/uapi/linux/videodev2.h                     |    4 +
+ 48 files changed, 6198 insertions(+), 7 deletions(-)
+---
+base-commit: 591cd656a1bf5ea94a222af5ef2ee76df029c1d2
+change-id: 20260410-rppx1-912a0fc12599
+
+Best regards,
+-- 
+Jai Luthra <jai.luthra+renesas@ideasonboard.com>
+
 
