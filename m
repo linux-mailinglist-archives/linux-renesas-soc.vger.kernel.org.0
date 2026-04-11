@@ -1,82 +1,81 @@
-Return-Path: <linux-renesas-soc+bounces-31174-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-31175-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id cAakNc002mlezAgAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-31174-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 11 Apr 2026 13:47:25 +0200
+	id yPiPNjE02mlezAgAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-31175-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 11 Apr 2026 13:44:49 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B6C23DF988
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 11 Apr 2026 13:47:25 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FE723DF8F0
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 11 Apr 2026 13:44:49 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 207AF308F773
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 11 Apr 2026 11:43:57 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 0DD8D301223A
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 11 Apr 2026 11:44:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8A21E345CBC;
-	Sat, 11 Apr 2026 11:43:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 69B0A3537DD;
+	Sat, 11 Apr 2026 11:43:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="LhxKW00h"
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="d3kytsCz"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0016734D4DC
-	for <linux-renesas-soc@vger.kernel.org>; Sat, 11 Apr 2026 11:43:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0C16344057
+	for <linux-renesas-soc@vger.kernel.org>; Sat, 11 Apr 2026 11:43:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775907805; cv=none; b=XpDlxo7eibAQQoORt+0NMqbvPI8RroLwtG1sBvsO8DiWyK1+yyH2+7L0OF9ic7uZdZ+S/4nEMUp/+rWnr/l2ChkAxidTmrmYylnixeglyvfmdOdF8TU82iNu/LJoYi84kck5jHwQbF4h8q9WUZVozeyhOHF/ZPZollFAzrJW+gI=
+	t=1775907806; cv=none; b=Qrk3mZbMVrPrEhnMTMYQcMQB7/GIvP1lxJYPs05xJi3qBBqYjUec9EjxvEqIVj3bayrTK3m6D11IOYqxJ8wCO3/InN4dKkiO/O/9QGZVXuolmtQ+CwzW+s7Po03mUiHxUvKQ7aBkfG69izdgCTehiKJtEnUCoO7iKvZyNA8yhTw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775907805; c=relaxed/simple;
-	bh=G3TmLj2FVJVqKtKvmLk2oUEY0r77TRMnpm3HstyV+7c=;
+	s=arc-20240116; t=1775907806; c=relaxed/simple;
+	bh=kYxxf7UrOo/ylG412SxsscyOsq5s+9b6o32cDo3KE50=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=kfSbmadCjiA00FkNm/Du/6aBXWXJ2rBcrtpuJW222HYH9ZJorq+cPTDCow8SOxMFtYKQ4dZlsqECqj8GLt0GYVqcDiXiKpcCn59Iz1bGVNdjNH8KK3VnrwkyqNr/UzAYX+6LLE/DxKfzDu5JE3ySjpTUhw+mRpSVTAoTxsFbw7U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=LhxKW00h; arc=none smtp.client-ip=209.85.128.50
+	 MIME-Version; b=c5Pghitvkd//anKeV/SwnhRmt9ErslLa8Vd/QEfYm/NAC/V/J4r8eFEJ7OPGH4b5RdauP7hQOavvI2+TO2tbFBfFA5aECLAFtUFbiZZUo2l+Sp1qGlg/uWDuUV0UOc4i9OfLJ094ppQfI1zzWXwm0KrPsNyxf+d/blzq/3TK0y4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=d3kytsCz; arc=none smtp.client-ip=209.85.221.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-488c2690057so27647935e9.0
-        for <linux-renesas-soc@vger.kernel.org>; Sat, 11 Apr 2026 04:43:22 -0700 (PDT)
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-43cf906b007so1739784f8f.0
+        for <linux-renesas-soc@vger.kernel.org>; Sat, 11 Apr 2026 04:43:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1775907801; x=1776512601; darn=vger.kernel.org;
+        d=tuxon.dev; s=google; t=1775907803; x=1776512603; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=2Ofhw21hwQOsSk68dsZGLNvbmOD1TuowEEUPnaN2gTE=;
-        b=LhxKW00hbKBJorlbA10anBSFzNH/waBeFm6dI10TfVYnMW1ccTDc4u3+fayFdCMP7a
-         Iw5qHMXP14sSDK9fO3Oc20X9C7TK1MEfaPgscsiZKSeBMYsadvCCS+cFIoCPH78UDED7
-         7GWh2EdFACDnJCJnS7RXVkjiXUjP020BziHMr79vr1vK4/b7u8yoaMzui15Wbt1BvLjZ
-         3Js5z3b19EhkFZzNaJ5cgzYNywQYyRmPH6Z7Gjxn2z5FUKgJe3JcmkWUFf/YqmU2xhgL
-         4fb9wnbOeBDbmbJSupubrqiVqxBWp3ULZ3pIws4gdra6CCBwCWbQU0KJKS1XuLtFO3Ml
-         jRZg==
+        bh=y6HUr1gtJuXFA7idjOAe9L67Llkodm8s1OURzQhPdNQ=;
+        b=d3kytsCzByQoV1C+S3h7V6B7XxGwePoepa3dKpEVrSoRCA3vWhJ1IcCcWaVBOP1gcL
+         jlD0Oe9LoaCBkBx+HOuFGmRNq1aRs7hJSE3cfYH5do0R7xXpqpbf2zzquHkT3ruFJFMn
+         onxfw0WXIMrmyXgVTK93gmKAUlUC+JUzjNIEa3Mkfkt+I1brd+adcSD1UHaBaH7rCChi
+         toseYi5Vvex7AcqtXCGXEr/a/UbFf1gTytobSXHOFkb1GDs9jRI/UsfnPB1YSt5zE7Eq
+         92sdt9OCcgmqovZXfFTFZ7+heN6CbS7HAS59vKtnHeCgQfwoqCY7JrudVUSyH8tDQuLx
+         Q/2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775907801; x=1776512601;
+        d=1e100.net; s=20251104; t=1775907803; x=1776512603;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=2Ofhw21hwQOsSk68dsZGLNvbmOD1TuowEEUPnaN2gTE=;
-        b=RRs564o0R4wPAOwF6kSK7ifwH15wzSFu6D178CFdox6spuo8vC3YBTm8lF21XB+iNq
-         id94z1Vw/YFh4oBiRgdREaRevp59twGWxM6B6iMxuhbu3yktfuBf4f9yglrrNE/YJAU3
-         QACFoOYyiEQjlB7zv9mtHatfKhWCIaR8COssTwP6HTtaENj7fm2shm5KQ06yIR4+NfLH
-         TJEdpGJgbA6i+eYji9QV8psoJ3U0qIK/XwIUZtlNJE9lHqnJjYRcUOTo5a0Q51xVY0Lr
-         8C2cpyV7lm1X0L9ZscMpQBQZbYHDE+NTLdKOveO1pKTyIvn5ovbdSSSB+SrbDU0rnHiN
-         rFGg==
-X-Forwarded-Encrypted: i=1; AJvYcCWQZkjl3COIWpvWf4i7hgKr6F8SAO2X8v9VdscQ1tAqYSpuOyn1N8YL6jVkpht6RF1fGR/fMVaVx2JdzC/9sQtQnw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxJbiQP5jYJTOZq5AqJRmheOFMZj3p3mDkH6qaUeYa84pC6Fy7a
-	reAPEfC6QDqRLjloNq1w11MM4vC+5bXcTlwSPCNKshuP5/Ku9w6wCL/I9mx5lSraumecVoWHPTv
-	f5VMA
-X-Gm-Gg: AeBDiesqQqpmgIheZGDL5Bq5M1OovTflPpnQH3PaOPtN576VP7Ox+nGSGjLcfBKSBH7
-	i9+2teiHLMeYFqrniVz2x9OqdGZI2szKDT/NckSI3W0ONgEW2KujmVAbwj9Gubvxv1jBFXibRAi
-	wQS16IFQe7I8FercjaKPHMYYggleLAIEjeqPB+zICsvJjw+0dHXDpFMIBZhI45KVX8QipD6cw+F
-	/qe4G3RDHpR7eETi19IJLCxG4uFWfk2u3Q0Y8Y3wJp9J6jvrBYlHypq1NEx+wUiT3U4z9cA00xi
-	s9rbCIdWohDCj9vX1KqpLlrnw5Lkl5mqIx6K8YYNW5zE8s+ZoS3sCCFqmGzIqMwkXj3veGIfo2O
-	oKf0p2f0xuwYb0kueIwsHWZ7kkkgS5JAmtn2n7AzCuIM0fNbxR0q02zj5OEbjKKwdp+fttZsR6k
-	v5agqqr+Bn1g1gnnzBG14USGpvtCrtKS5SDiZbM4SjejMp6mg9v0sQ
-X-Received: by 2002:a05:600c:c0cc:b0:480:1c69:9d36 with SMTP id 5b1f17b1804b1-488d68af13dmr58285165e9.17.1775907801492;
-        Sat, 11 Apr 2026 04:43:21 -0700 (PDT)
+        bh=y6HUr1gtJuXFA7idjOAe9L67Llkodm8s1OURzQhPdNQ=;
+        b=YVQM48+0iH8JfxA+rQqezR6gR50SwVNwkZ56rZnWGWkqObo9jEm8zo5hqqvOsjIeAF
+         WRMiDI9guSlXjrAvJowBn741E3wI/QVYe3CteGFcJLxpNhmTwg03fUY4lzOH8p1kBVER
+         unrG2tBl2BlwqTyEnjLvi2w4d0YuzBwrHcS2xC3aNoExzqxINf9yydqqskqUvk+awvk7
+         wmZt7u055edn9vj+ZVw+7iIRskrry5WrPMJd97/e5hxNkhg6yvPTQXjf4BYykZucpTJb
+         9USJjhBPww3gLSDLFJGNXzkcDte1GgfEvPDlUp/rvTLo/te0Oh3O78uL4H8XUU2P3Q4l
+         yevA==
+X-Forwarded-Encrypted: i=1; AJvYcCWaNC62CWoaxvFtb1seaxPpZfRNmgzP5QI3UUnS0CYhZFDeERRlNxuEQvgwitPPDbfbJ+i+0ZNnZraBfVMnoqFsOw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw5e+QPKgg+Co4448FYjdZUqIwJLq1HiaajGqevubdH3i3Frlbz
+	OB/VLLjVLw3dyymv1hdQNopXlXO2osBo01dvMVNNLpfePoR9ftbYAtwNPFGGEsqMZeg=
+X-Gm-Gg: AeBDiesmeIrrFNm2aUZkaJO2iFsD11kjhd3Qimw2e1k7W8eIyPqziCIR4pWi5bj3Tpa
+	bch+XK/onSbPK6A4SvOlr1ABj6yULd4y4Lz0F9D0SR2AT0usjSwVOXednmZRIiHfcC1UM4F/SrQ
+	jaTf0gydN8rGiTef/zc5uK8yGqo8T87i6FySPWfhNZS83zqg/9B/A5bwi3vLA14dQ20U4m9kx3M
+	gasfqjblO1dGp8ofShyxH2dnYcfAULbvK3oxKAIywRwICiUXPQvzmD/EQhdivBkDLw42XJpBOyZ
+	W9pSJV1aGpLsoGQMBGAtkWP47s1IxZQcDL9cu+ij7wahRfMi6H1mwqKuKjUlhFHhjRnvfJS3N0Q
+	6pO4iYbOVg5eG8qHxiVwqcH0VQ1asl0cdZADxAK0vWuH9rK3JHQINfBkspaHzZuMqm2cVCt+acB
+	baff6XooZvU2RRueKzGPHK12XWPQPts8gfCnYI+co6g3H4kWo+gLfo
+X-Received: by 2002:a05:6000:3108:b0:43d:1c7a:8b5e with SMTP id ffacd0b85a97d-43d642c13e0mr9680005f8f.35.1775907803295;
+        Sat, 11 Apr 2026 04:43:23 -0700 (PDT)
 Received: from claudiu-X670E-Pro-RS.. ([82.78.167.248])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43d63e5c981sm15776447f8f.33.2026.04.11.04.43.19
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43d63e5c981sm15776447f8f.33.2026.04.11.04.43.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 11 Apr 2026 04:43:20 -0700 (PDT)
+        Sat, 11 Apr 2026 04:43:22 -0700 (PDT)
 From: Claudiu <claudiu.beznea@tuxon.dev>
 X-Google-Original-From: Claudiu <claudiu.beznea.uj@bp.renesas.com>
 To: vkoul@kernel.org,
@@ -97,9 +96,9 @@ Cc: claudiu.beznea@tuxon.dev,
 	linux-sound@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org,
 	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Subject: [PATCH v4 08/17] dmaengine: sh: rz-dmac: Add helper to check if the channel is enabled
-Date: Sat, 11 Apr 2026 14:42:54 +0300
-Message-ID: <20260411114303.2814115-9-claudiu.beznea.uj@bp.renesas.com>
+Subject: [PATCH v4 09/17] dmaengine: sh: rz-dmac: Add helper to check if the channel is paused
+Date: Sat, 11 Apr 2026 14:42:55 +0300
+Message-ID: <20260411114303.2814115-10-claudiu.beznea.uj@bp.renesas.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260411114303.2814115-1-claudiu.beznea.uj@bp.renesas.com>
 References: <20260411114303.2814115-1-claudiu.beznea.uj@bp.renesas.com>
@@ -115,19 +114,19 @@ X-Spamd-Result: default: False [0.34 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	R_MISSING_CHARSET(0.50)[];
 	R_DKIM_ALLOW(-0.20)[tuxon.dev:s=google];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-31174-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-31175-lists,linux-renesas-soc=lfdr.de];
 	RCPT_COUNT_TWELVE(0.00)[18];
 	MIME_TRACE(0.00)[0:+];
 	DMARC_NA(0.00)[tuxon.dev];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FREEMAIL_TO(0.00)[kernel.org,gmail.com,perex.cz,suse.com,bp.renesas.com,pengutronix.de,glider.be,renesas.com];
 	DKIM_TRACE(0.00)[tuxon.dev:+];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
 	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[claudiu.beznea@tuxon.dev,linux-renesas-soc@vger.kernel.org];
@@ -137,14 +136,14 @@ X-Spamd-Result: default: False [0.34 / 15.00];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
 	NEURAL_HAM(-0.00)[-1.000];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[renesas.com:email,bp.renesas.com:mid,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,tuxon.dev:dkim]
-X-Rspamd-Queue-Id: 5B6C23DF988
+	DBL_BLOCKED_OPENRESOLVER(0.00)[renesas.com:email,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,bp.renesas.com:mid,tuxon.dev:dkim]
+X-Rspamd-Queue-Id: 7FE723DF8F0
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
 From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 
-Add a helper to check if the channel is enabled. This will be reused in
+Add a helper to check if the channel is paused. This will be reused in
 subsequent patches.
 
 Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
@@ -156,37 +155,41 @@ Changes in v4:
 Changes in v3:
 - none, this patch is new
 
- drivers/dma/sh/rz-dmac.c | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
+ drivers/dma/sh/rz-dmac.c | 12 ++++++++----
+ 1 file changed, 8 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/dma/sh/rz-dmac.c b/drivers/dma/sh/rz-dmac.c
-index 0f871c0a28bd..1a3c33d28c6c 100644
+index 1a3c33d28c6c..f35ff5739718 100644
 --- a/drivers/dma/sh/rz-dmac.c
 +++ b/drivers/dma/sh/rz-dmac.c
-@@ -279,6 +279,13 @@ static void rz_dmac_lmdesc_recycle(struct rz_dmac_chan *channel)
- 	channel->lmdesc.head = lmdesc;
+@@ -286,6 +286,13 @@ static bool rz_dmac_chan_is_enabled(struct rz_dmac_chan *chan)
+ 	return !!(val & CHSTAT_EN);
  }
  
-+static bool rz_dmac_chan_is_enabled(struct rz_dmac_chan *chan)
++static bool rz_dmac_chan_is_paused(struct rz_dmac_chan *chan)
 +{
 +	u32 val = rz_dmac_ch_readl(chan, CHSTAT, 1);
 +
-+	return !!(val & CHSTAT_EN);
++	return !!(val & CHSTAT_SUS);
 +}
 +
  static void rz_dmac_enable_hw(struct rz_dmac_chan *channel)
  {
  	struct dma_chan *chan = &channel->vc.chan;
-@@ -840,8 +847,7 @@ static int rz_dmac_device_pause(struct dma_chan *chan)
+@@ -822,12 +829,9 @@ static enum dma_status rz_dmac_tx_status(struct dma_chan *chan,
+ 		return status;
  
- 	guard(spinlock_irqsave)(&channel->vc.lock);
+ 	scoped_guard(spinlock_irqsave, &channel->vc.lock) {
+-		u32 val;
+-
+ 		residue = rz_dmac_chan_get_residue(channel, cookie);
  
--	val = rz_dmac_ch_readl(channel, CHSTAT, 1);
--	if (!(val & CHSTAT_EN))
-+	if (!rz_dmac_chan_is_enabled(channel))
- 		return 0;
+-		val = rz_dmac_ch_readl(channel, CHSTAT, 1);
+-		if (val & CHSTAT_SUS)
++		if (rz_dmac_chan_is_paused(channel))
+ 			status = DMA_PAUSED;
+ 	}
  
- 	rz_dmac_ch_writel(channel, CHCTRL_SETSUS, CHCTRL, 1);
 -- 
 2.43.0
 
