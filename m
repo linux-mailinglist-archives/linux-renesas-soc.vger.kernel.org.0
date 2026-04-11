@@ -1,169 +1,161 @@
-Return-Path: <linux-renesas-soc+bounces-31194-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-31195-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id WFRdI+Rx2mln2ggAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-31194-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 11 Apr 2026 18:08:04 +0200
+	id yOpdHBp72mnG2wgAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-31195-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 11 Apr 2026 18:47:22 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D4DA3E0BF5
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 11 Apr 2026 18:08:03 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id D13C53E0E56
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 11 Apr 2026 18:47:21 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 72C0F3002F74
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 11 Apr 2026 16:08:00 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 43CDD301C581
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 11 Apr 2026 16:47:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 628041A682F;
-	Sat, 11 Apr 2026 16:07:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6522E2C15BB;
+	Sat, 11 Apr 2026 16:47:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QGk70xXO"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="PR7WAvLv"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6B3D35A38C
-	for <linux-renesas-soc@vger.kernel.org>; Sat, 11 Apr 2026 16:07:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59A28DF6C;
+	Sat, 11 Apr 2026 16:47:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.32.30.218
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775923679; cv=none; b=dxaFWz5ek9SVYeaLb75qY/XemCR33ju4oUKnW6MsY7UaWYu3cW26LmrUFIx2vRnS93s7NC0jWRwwXzpfsc8j1sKB7OSFuKhKZIao5+Jin3cWA5jbK/6M9Qm4lY/HA3LWbA0MvIEyTBAfgnJtaacSrP0qYWsIsireKqyC2xH+vxY=
+	t=1775926036; cv=none; b=KLa1N+O+DJ75NN2pDKtYRGmtzYPYk7bq3+UaDmCDgtU9LGa91QR5Pl2Z7HRXwiHmHJGGCyWpSRW7zEjEds1RfYwrl+8+EVh47QKXhT4UCNCTPb6WX2zg5pgJcjcRux1yIp9vNCeIZAbNlTd+e7qVJi9VTcd4+btuMKWAyxKMzic=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775923679; c=relaxed/simple;
-	bh=IoRvBl5NbwVmePrT/sLsz6MCHOaWq/wLqfn9iURD72A=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=iUXqHfAWHcj/cY5xBEen0QdsVUt1kRz2zyJoLBvFdRqbSwx0/cLYr0ggj1TK7Ai6cbZ5RH+NSVlC+tv2E9W8s8Fk1nUsZ9B5PwwcAITNhNhsCa+bVv38qBH7p1BNlIxTR0Vl0GxuMlgW2IrnxBhMLu0dPosYTHhutJZNedLQ4EI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QGk70xXO; arc=none smtp.client-ip=209.85.128.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-48374014a77so42370635e9.3
-        for <linux-renesas-soc@vger.kernel.org>; Sat, 11 Apr 2026 09:07:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775923676; x=1776528476; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=X4ngqPMcB97z9LiWUOSiTShgxTHtSI2/jBhJeR2rFVk=;
-        b=QGk70xXOueS0TRYHlkyxWAaOKtJM5KTjB6nXIuJYBcfw3YPA1F3QZ5V5MvET0MTLf3
-         rrUv4TwARnASrleKSUfFJpN2ZDVQHssqeL0TZCsA9fgd9ZrestbFC8Exsy3X4F/sg3lN
-         4+req7peOggnNrYuTvz9SE2nEBpMx9bGkl+OjfP77eLOj8T1KlTzRnbRFzi0wnxn7gCD
-         RZZhhIWQmsY/4U0bD9CYc5W+C9Xc8ftK2kGE4S+NRLcVzZ9DpVWgXxFNJ5ogUYnY/eX4
-         MxK1H66XChb6r0wc6McTR8Jc3+ug8TfMTkUJBXnDrZ1iq2nw2P1zfMi594iDCSSdBLXk
-         PUtw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775923676; x=1776528476;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=X4ngqPMcB97z9LiWUOSiTShgxTHtSI2/jBhJeR2rFVk=;
-        b=k35iVqScYZUvkarFTm9GvjYV/b+CcTF4660vRw68d5DFrB82o9SHE6rUp5wYmrcpXy
-         aF8dccC/pI2YFW8cZ6ry92Nrv5uhPEmpmwNRWYI5tBwsw9dUC6/9oNaXJpb+cJ0Lhq+O
-         ZXoST5r7l2lkU0OStszmF2vtIJbIXnWzB3DxVoNjHHGLtf/BOe+TKige+d9P/S+wD2BP
-         XYsx15/ZJBOEl7oOEnScghat2ur8o6XzR2TZK7rugrtOg3T5mpp4t3drhQx9orCHdtgl
-         QIkGq4E4nIO3y3Y82ZT0ofXe2VQ0F5XDJM6xpJMtB9pwidZs0b8/V7di7zBKOVczkBPK
-         MHig==
-X-Forwarded-Encrypted: i=1; AJvYcCV4C2JlMauRWpOBSFas5aiNhL8PZLh5pcXlDuCFz/nqfpm5305UkmxfaXYAao0NrQZkXxXF1VOp7ltqsnpgHkkxyA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxxuatN9oTT8hthPTAD7ankFMIJDbVYPl+zgm/p6sxMMQhiA0T2
-	o9DXIZkvbETkw/aJNSPlzzBPiKMPJ8ukyxIXpt3OEHWa6xV146Cd0WD8
-X-Gm-Gg: AeBDieuef1i3Y20e5Fnea6Ipw0eXBGFdwS8UL+GRWIXQ0I5oBhhSaI8Cl0HUPDjE1WI
-	Z/aPdHcX1URsAavB0l9YccPBXgz03sB3ewsv+Tgj6luQZuxk4wj/s8EsuGMk1NbEfWv7xbQ/qSl
-	0Ozt6IFiUAJAfrr4u1P4OQAqfAvoXSCEwPpa0spar90x2PCK3d/Hi5Czj6AH34NpNr2+OTWLKTi
-	kJXETcUoeT2RnjpnKF1/X2C0gqciD1rtej7I1+dYoWOwtFhFwzXXXup/UZPwR7d95OySYLE9hjU
-	px0NKyOXLqDUqG03aDDVQs4ITITe27maH+Y094I8lSDhVckJzL8SQRVrWQmMkhhvU2nll2Lrc93
-	xfpwqdQZWJKn5lcEcoPPRl4fWT6bqF+dS1viJm4fvQAkzw+257CpTgYCqyEKE5G2IjIAWb6FNlO
-	fR+OF3a3NImbtWWi1F7xWVtFvgKno87891ejKUH1sE4g==
-X-Received: by 2002:a05:600c:5308:b0:488:8d44:bf98 with SMTP id 5b1f17b1804b1-488d67f088amr97620445e9.7.1775923676105;
-        Sat, 11 Apr 2026 09:07:56 -0700 (PDT)
-Received: from biju.lan ([2a00:23c4:a758:8a01:1ef3:1f1e:3a7e:32e7])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488d531f1f9sm199900805e9.1.2026.04.11.09.07.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 11 Apr 2026 09:07:55 -0700 (PDT)
-From: Biju <biju.das.au@gmail.com>
-X-Google-Original-From: Biju <biju.das.jz@bp.renesas.com>
-To: Heiner Kallweit <hkallweit1@gmail.com>,
-	nic_swsd@realtek.com,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
+	s=arc-20240116; t=1775926036; c=relaxed/simple;
+	bh=8cQZImQp+tuVvGHr4GmxXjui6MMfQ2dLUI/hZd9WRFc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ULEDL38HPr92Gyp7bC5N12lCs4R6l/bDzYg8wjuWxcOxIXhGuqEvcyrdXX1iTgG0iDFwikCzn3tDqS0+52xBNHiqn1B/JFatZA1gxXlHwGbeX7xj/5b2OhdSqniTzDI7F00oe+44jVD/Y72/JgkwXxmRWHWTxUBUJHh2HuZ8L34=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk; spf=none smtp.mailfrom=armlinux.org.uk; dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b=PR7WAvLv; arc=none smtp.client-ip=78.32.30.218
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=armlinux.org.uk
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=qKF12S90jU35vPmsb+IS2nvo1a00d4ctwx48R3EXU9M=; b=PR7WAvLvGplY6r36JhuLZrC8rs
+	uXxSqxok7GpsE9ws+KIcaL7+qJ1T0W7eZdI8Awr9yScdz3nn++8zd56gn2POog78UdCdbAzDZaIti
+	XZNtOE2hSup3scYWBmsj0M/Z6GbSOrTYGAaVivFqwuoWa3+aOOPQMJnJ598yQ2lmkh6Mdfr5eKfsy
+	SWvyOPa9AsOfY0zubhAcnA/KEYmTtEP6b2IcU1HcbRNcw5VWC6UPZaDCxs9PnsGTNplLUVCAYIDCR
+	lTI9GL0s+yaW9tWWgcIv5nyEuQaJn7/+WK95P6/QSKrz7EDS0oOyj5Kot8Ce45dVB5WaBaBSFOL/I
+	S1DLTCTQ==;
+Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:60304)
+	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.98.2)
+	(envelope-from <linux@armlinux.org.uk>)
+	id 1wBbTz-000000006JT-2VOg;
+	Sat, 11 Apr 2026 17:46:55 +0100
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.98.2)
+	(envelope-from <linux@shell.armlinux.org.uk>)
+	id 1wBbTv-000000006la-4688;
+	Sat, 11 Apr 2026 17:46:52 +0100
+Date: Sat, 11 Apr 2026 17:46:51 +0100
+From: "Russell King (Oracle)" <linux@armlinux.org.uk>
+To: Andrew Lunn <andrew@lunn.ch>
+Cc: Biju Das <biju.das.jz@bp.renesas.com>,
+	"biju.das.au" <biju.das.au@gmail.com>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
 	"David S. Miller" <davem@davemloft.net>,
 	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>
-Cc: Biju Das <biju.das.jz@bp.renesas.com>,
-	netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Ovidiu Panait <ovidiu.panait.rb@renesas.com>,
+	"netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
 	Geert Uytterhoeven <geert+renesas@glider.be>,
 	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Biju Das <biju.das.au@gmail.com>,
-	linux-renesas-soc@vger.kernel.org
-Subject: [PATCH net-next] r8169: Drop redundant phy_init_hw() call in rtl8169_up()
-Date: Sat, 11 Apr 2026 17:07:50 +0100
-Message-ID: <20260411160753.201182-1-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.43.0
+	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH net-next] net: phy: call phy_init_hw() in phy resume path
+Message-ID: <adp6-wElGOOijZRG@shell.armlinux.org.uk>
+References: <20260410142904.439666-1-biju.das.jz@bp.renesas.com>
+ <adkOZl4gt5UoGv-0@shell.armlinux.org.uk>
+ <839fec66-5ec0-4cc0-a0c4-ae2de6902188@lunn.ch>
+ <TY3PR01MB11346B6680E5952BD7B7078CA86592@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+ <admMethCSjOQhu8g@shell.armlinux.org.uk>
+ <dedab35c-39f4-469b-9227-cb8925d83b8e@lunn.ch>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-0.16 / 15.00];
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <dedab35c-39f4-469b-9227-cb8925d83b8e@lunn.ch>
+Sender: Russell King (Oracle) <linux@armlinux.org.uk>
+X-Spamd-Result: default: False [1.14 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
+	R_DKIM_REJECT(1.00)[armlinux.org.uk:s=pandora-2019];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
+	DMARC_POLICY_SOFTFAIL(0.10)[armlinux.org.uk : SPF not aligned (relaxed),none];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-31194-lists,linux-renesas-soc=lfdr.de];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	RCPT_COUNT_TWELVE(0.00)[14];
+	FREEMAIL_CC(0.00)[bp.renesas.com,gmail.com,davemloft.net,google.com,kernel.org,redhat.com,renesas.com,vger.kernel.org,glider.be];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
 	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_CC(0.00)[bp.renesas.com,vger.kernel.org,glider.be,gmail.com];
-	FREEMAIL_TO(0.00)[gmail.com,realtek.com,lunn.ch,davemloft.net,google.com,kernel.org,redhat.com];
+	DKIM_TRACE(0.00)[armlinux.org.uk:-];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	TAGGED_FROM(0.00)[bounces-31195-lists,linux-renesas-soc=lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	TO_DN_SOME(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[linux@armlinux.org.uk,linux-renesas-soc@vger.kernel.org];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[bijudasau@gmail.com,linux-renesas-soc@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
+	MISSING_XM_UA(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,netdev,renesas];
-	NEURAL_HAM(-0.00)[-1.000];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	NEURAL_HAM(-0.00)[-0.977];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[bp.renesas.com:mid,renesas.com:email]
-X-Rspamd-Queue-Id: 8D4DA3E0BF5
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[armlinux.org.uk:url,shell.armlinux.org.uk:mid]
+X-Rspamd-Queue-Id: D13C53E0E56
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-From: Biju Das <biju.das.jz@bp.renesas.com>
+On Sat, Apr 11, 2026 at 03:50:13PM +0200, Andrew Lunn wrote:
+> > So, I question whether any of the functions in this driver actually
+> > have a valid reason to take phydev->lock - looks to me like a not
+> > very well written driver.
+> > 
+> > In cases like this, I don't think we should make things more
+> > difficult in the core just because we have a lockdep splat when that
+> > can be avoided by killing off unnecessary locking.
+> 
+> Agreed. This patchset should cleanup these locks.
+> 
+> We also need to look at lan937x_dsp_workaround(). I also don't see
+> what that mutex lock/unlock is protecting. Accessing bank registers
+> need to be protected, so doing one additional access within that
+> should not need additional protection.
 
-phy_resume() called immediately after already invokes phy_init_hw()
-internally as part of the resume sequence. Remove the explicit
-phy_init_hw() call in rtl8169_up() as it is redundant.
+Looking at access_ereg(), shouldn't it be taking the MDIO bus lock
+and using the __phy_* accessors anyway because it's writing various
+registers which determine what is being read via the
+LAN87XX_EXT_REG_RD_DATA register or the value written via the
+LAN87XX_EXT_REG_WR_DATA register.
 
-No functional change intended.
+Also, as it has access_ereg_modify_changed(), that entire sequence
+needs to take the MDIO bus lock to safely do the read-modify-write.
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
-This patch depend upon [1]
-[1] https://lore.kernel.org/all/20260411142956.88343-1-biju.das.jz@bp.renesas.com/
----
- drivers/net/ethernet/realtek/r8169_main.c | 1 -
- 1 file changed, 1 deletion(-)
+Then there's lan87xx_config_rgmii_delay() which is a large open
+coded read-modify-write for the PHYACC_ATTR_BANK_MISC, LAN87XX_CTRL_1
+register.
 
-diff --git a/drivers/net/ethernet/realtek/r8169_main.c b/drivers/net/ethernet/realtek/r8169_main.c
-index 791277e750ba..cb22105f323f 100644
---- a/drivers/net/ethernet/realtek/r8169_main.c
-+++ b/drivers/net/ethernet/realtek/r8169_main.c
-@@ -5032,7 +5032,6 @@ static void rtl8169_up(struct rtl8169_private *tp)
- 		rtl8168_driver_start(tp);
- 
- 	pci_set_master(tp->pci_dev);
--	phy_init_hw(tp->phydev);
- 	phy_resume(tp->phydev);
- 	rtl8169_init_phy(tp);
- 	napi_enable(&tp->napi);
+To me, this looks like a racy driver, and it also looks like it's using
+the wrong lock to try and protect hardware accesses.
+
 -- 
-2.43.0
-
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
 
