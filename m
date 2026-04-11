@@ -1,128 +1,221 @@
-Return-Path: <linux-renesas-soc+bounces-31190-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-31191-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 6EGQCbhR2mmz0AgAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-31190-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 11 Apr 2026 15:50:48 +0200
+	id qO6uKPJa2mmB0ggAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-31191-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 11 Apr 2026 16:30:10 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC50E3E029F
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 11 Apr 2026 15:50:45 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 58D133E054C
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 11 Apr 2026 16:30:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id BE5F3300DDE4
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 11 Apr 2026 13:50:33 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 62CAB30069BB
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 11 Apr 2026 14:30:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C78AE259CBD;
-	Sat, 11 Apr 2026 13:50:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E98E33845C8;
+	Sat, 11 Apr 2026 14:30:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="52gkSsRI"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZczkzRqQ"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4ECE01E0E14;
-	Sat, 11 Apr 2026 13:50:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4DCD3859CA
+	for <linux-renesas-soc@vger.kernel.org>; Sat, 11 Apr 2026 14:30:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775915431; cv=none; b=BhaVw7RfCV/dPkir2UL0giaOyIxo9TOJbJ0Sx4/5FnaHdgPsjjHcrzFF9svT+mu7YQ0fJ1PpKPJsXs0d3sv54kldUHNhyqChp7im4bra3l8y/XHfQUvgKDUkFfwMaymXg6rsWOCDvvlZ3fR2shik/W6Z58CquEwjFgH9w7m4ajU=
+	t=1775917803; cv=none; b=eOev5uBiK/6rz5f39CGHZXKH+cfqfkE+FoimDNEAFfAir+LCnnhQCTzokVZak5Iip5NxNcesiA0Mb9Pa2g4C8IE9Nnvp491Y0mp/oh5x86GqXaLXldCXzzETdBNKdlhqEltGv1kcblT8rnXZVkB1h6aFYe9iW9kniwIbNeLNHcQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775915431; c=relaxed/simple;
-	bh=W3jQIar+AhxoAWen4NY/XnQtG4GBLjxDWno7mEt+jkQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iTa4SgCS/5mCo2sExBibdrg1YsenEFll9t94jkaKfazz32IavuyDKQc6+iP6qCGWvhlm1/6PJFsp810cOys3qEz4U48N9kJlXvjCMXDNBMhCs+a/TCwHS86oiAhKtSzKUS6kXjcQe70nu8mFN+6x/7PcrprMa+Xq0MSNdEUxsk8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=52gkSsRI; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=9cCZ4knKX76uGMj3KpprZCDSnM5/hp0NS9ms9XR6z3U=; b=52gkSsRIOy/d3gckZXp45Trjg4
-	U6odTuzSRFGPmcWVgrTlrB34SHfDYz+ZOUMMgA518R9f6ikXY7dikBX6oFBhlRlGeZ+xxBBbhYtD8
-	B6abNxPQV/e1k9rs7X40UY6IgG0qRiUlI2Ffq3t878tziuF+QdGxw2MFioxLEvpPKOj4=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1wBYiz-00FiUC-5n; Sat, 11 Apr 2026 15:50:13 +0200
-Date: Sat, 11 Apr 2026 15:50:13 +0200
-From: Andrew Lunn <andrew@lunn.ch>
-To: "Russell King (Oracle)" <linux@armlinux.org.uk>
-Cc: Biju Das <biju.das.jz@bp.renesas.com>,
-	"biju.das.au" <biju.das.au@gmail.com>,
+	s=arc-20240116; t=1775917803; c=relaxed/simple;
+	bh=I7otHS2UuBibAyk7ztbchnygQDdAGqIo613LgXlwUo0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=qdXsff/O2D05wavwm6mE3mxLNYcxWyEbfESUX13qiPOzANGmuv/0oefGkeJYXgYwqI2QgjrupTD567mBKwFHkDKIhYFbMCmGxBJkfi6wyAK/Pp4CQh/mtGtk2CfUHE8bhaAi3e6A6xE8i63fvIAwwtL2ZSCs99s6OijgJtWvjsg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZczkzRqQ; arc=none smtp.client-ip=209.85.221.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-43cf73bbfbdso1781924f8f.1
+        for <linux-renesas-soc@vger.kernel.org>; Sat, 11 Apr 2026 07:30:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1775917799; x=1776522599; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=TfsfBk1yzNdC/+yEaYnXqko1EBtHRLDfqU2U7CZrU+k=;
+        b=ZczkzRqQMKa1cCeHcr4QKh4IVLcWKs8b5c2UnZZzW6TM6tGTlNQmYJx2XgQCpJS1dA
+         WXKduUoOWttSIlwYkkH7+xXbix55QMltQbxqKyuxYNVW19HznOTENe+qhoYKWwRIciyw
+         P2bbf+YT2fztRbnS4nHUNaZG6Qd3nMAKCHQvChTADn6bfIu4IxdeePGF+tsWjUx9FcNh
+         0Yg18GxDw/l11N11ztP7sMZRC3ABhf3LkHoVQIkOUuop/vIcDdoDqjEj4DX8N3VGwSig
+         ZDK3rIPNos6LEHAT9Gk6nceZLHAk69ywMvIV+mKMAvppzHX35HhY7qR2DFcQei8g12A+
+         eKcQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775917799; x=1776522599;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=TfsfBk1yzNdC/+yEaYnXqko1EBtHRLDfqU2U7CZrU+k=;
+        b=e4Ctk75Uabi8NCNcP6GGydvrhHxrqI6c98ZwHfSuJRD1oDZTyvu26c5S4wQGKW0zSv
+         mC36GXIy4ikiAefWRktjMTGqFQhXEQKyH5l/YkcrRnfFRkqoFRjVjtomlggDfMEkNRGe
+         izRAkLYgfOFtAEUNbCyWxow0Odeh1wGmlsp3SIGTF+KfFSDxzd0pOiMC70YIxUGKDO8x
+         J9rWFfC5CBNnoMd5cFWEYz+Et6aNH5Tqb/zkIHWJ2sZTfyylZf4yLhy3cGAGQSQ65ZbQ
+         kXQkInk6wJNObcJEhszd3xRkVeFYeG922vUFgq3FjvUSZqGX1STAo0MaK2s9YtUyAjDR
+         Jg5A==
+X-Forwarded-Encrypted: i=1; AJvYcCUoRcoaxbqfpPrzgjY+rUBs86snjMNBZKanInRYtI7LKQMk6MRJ8+yIRtPbYcPM2rqzStbvBN9NtNpJ5zuCTHlvVQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyls5MGwjVJwPnlZIrYFWqcP/rOMdWBKb4d68phSnGlzlsvjIvk
+	koaAmF18YIyfsy59Lue2rfe/p7JIrJDbyjJu/QRWNJmuvnRUlzjTSrq4
+X-Gm-Gg: AeBDieup1wfBFNiFIY4scDsyp7/q1SAbo8BSzXdtW18GmWaiRrfke/tKJnQMzgsMG3x
+	enicpA1jLKXIH33lPSKMwl0FJd7r2y/I8wU4jtFYOL/yHkdnHDv95ssLKwz8Up7jY1rxOdGjB36
+	a+igVb4ZQrX9l6brgb1xkjSTfBDnP/6/DkuLEQSXFWxR0FUgoDm/Cx5yUyccg+A9H4l21ECQS7Z
+	gwLFO972Yh+zc9PacYb0lGVAPT+17aDpUeeXiPmfJcByM7XUKZB/iQztjcy9b8qo5tniCIUBHfX
+	pCAmIWM/hHn0q6nLWO0i5wxD4Duy8xbooFc+kYtto529GRWJQCyjQk7W47K/B0OETtwTVmNMTNS
+	x12+uAVTdGsHMfGSUip6A8fysPNH7wiCTI7WarNaFFbpCpsMtqGWITzCbE/exOYIabYtUARUp83
+	z5W/65TwkKHgF+fPofWnyrdHLFyH1fBTg=
+X-Received: by 2002:a05:600c:314b:b0:488:b241:2c5f with SMTP id 5b1f17b1804b1-488d687c076mr80986065e9.26.1775917798783;
+        Sat, 11 Apr 2026 07:29:58 -0700 (PDT)
+Received: from biju.lan ([2a00:23c4:a758:8a01:1ef3:1f1e:3a7e:32e7])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488d58a414bsm151270785e9.4.2026.04.11.07.29.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 11 Apr 2026 07:29:58 -0700 (PDT)
+From: Biju <biju.das.au@gmail.com>
+X-Google-Original-From: Biju <biju.das.jz@bp.renesas.com>
+To: Andrew Lunn <andrew@lunn.ch>,
 	Heiner Kallweit <hkallweit1@gmail.com>,
 	"David S. Miller" <davem@davemloft.net>,
 	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Ovidiu Panait <ovidiu.panait.rb@renesas.com>,
-	"netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>
+Cc: Biju Das <biju.das.jz@bp.renesas.com>,
+	Russell King <linux@armlinux.org.uk>,
+	netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
 	Geert Uytterhoeven <geert+renesas@glider.be>,
 	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH net-next] net: phy: call phy_init_hw() in phy resume path
-Message-ID: <dedab35c-39f4-469b-9227-cb8925d83b8e@lunn.ch>
-References: <20260410142904.439666-1-biju.das.jz@bp.renesas.com>
- <adkOZl4gt5UoGv-0@shell.armlinux.org.uk>
- <839fec66-5ec0-4cc0-a0c4-ae2de6902188@lunn.ch>
- <TY3PR01MB11346B6680E5952BD7B7078CA86592@TY3PR01MB11346.jpnprd01.prod.outlook.com>
- <admMethCSjOQhu8g@shell.armlinux.org.uk>
+	Biju Das <biju.das.au@gmail.com>,
+	linux-renesas-soc@vger.kernel.org,
+	Ovidiu Panait <ovidiu.panait.rb@renesas.com>
+Subject: [PATCH net-next v2] net: phy: call phy_init_hw() in phy resume path
+Date: Sat, 11 Apr 2026 15:29:53 +0100
+Message-ID: <20260411142956.88343-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <admMethCSjOQhu8g@shell.armlinux.org.uk>
-X-Spamd-Result: default: False [-0.66 / 15.00];
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-0.16 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[lunn.ch,none];
-	R_DKIM_ALLOW(-0.20)[lunn.ch:s=20171124];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-31190-lists,linux-renesas-soc=lfdr.de];
+	URIBL_MULTI_FAIL(0.00)[bp.renesas.com:server fail,renesas.com:server fail,sin.lore.kernel.org:server fail];
+	TAGGED_FROM(0.00)[bounces-31191-lists,linux-renesas-soc=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	FREEMAIL_CC(0.00)[bp.renesas.com,gmail.com,davemloft.net,google.com,kernel.org,redhat.com,renesas.com,vger.kernel.org,glider.be];
-	RCPT_COUNT_TWELVE(0.00)[14];
+	FREEMAIL_TO(0.00)[lunn.ch,gmail.com,davemloft.net,google.com,kernel.org,redhat.com];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	MISSING_XM_UA(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	RCPT_COUNT_TWELVE(0.00)[15];
+	FREEMAIL_CC(0.00)[bp.renesas.com,armlinux.org.uk,vger.kernel.org,glider.be,gmail.com,renesas.com];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[andrew@lunn.ch,linux-renesas-soc@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[lunn.ch:+];
-	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
-	MID_RHS_MATCH_FROM(0.00)[];
 	TO_DN_SOME(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,lunn.ch:dkim,lunn.ch:mid]
-X-Rspamd-Queue-Id: DC50E3E029F
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[bijudasau@gmail.com,linux-renesas-soc@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	RCVD_COUNT_FIVE(0.00)[5];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
+	NEURAL_HAM(-0.00)[-0.999];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[renesas.com:email,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 58D133E054C
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-> So, I question whether any of the functions in this driver actually
-> have a valid reason to take phydev->lock - looks to me like a not
-> very well written driver.
-> 
-> In cases like this, I don't think we should make things more
-> difficult in the core just because we have a lockdep splat when that
-> can be avoided by killing off unnecessary locking.
+From: Biju Das <biju.das.jz@bp.renesas.com>
 
-Agreed. This patchset should cleanup these locks.
+When mac_managed_pm flag is set, mdio_bus_phy_resume() is skipped, so
+phy_init_hw(), which performs soft_reset and config_init, is not called
+during resume.
 
-We also need to look at lan937x_dsp_workaround(). I also don't see
-what that mutex lock/unlock is protecting. Accessing bank registers
-need to be protected, so doing one additional access within that
-should not need additional protection.
+This is inconsistent with the non-mac_managed_pm path, where
+mdio_bus_phy_resume() calls phy_init_hw() before phy_resume() on every
+resume.
 
-     Andrew
+To align both paths, move the phy_init_hw() call into phy_resume() itself,
+before invoking the driver's resume callback. This ensures PHY soft reset
+and re-initialization happen unconditionally, regardless of whether PM is
+managed by the MAC or the MDIO bus. As a result, drop the redundant
+phy_init_hw() call in mdio_bus_phy_resume().
+
+Additionally, in phy_attach_direct(), replace the separate phy_init_hw()
+and phy_resume() calls with a single phy_resume() call, since
+phy_init_hw() is now handled inside phy_resume().
+
+Signed-off-by: Ovidiu Panait <ovidiu.panait.rb@renesas.com>
+Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+---
+v1->v2:
+ * Updated commit description.
+ * phy_init_hw() is moved from __phy_resume() -> phy_resume() to make it
+   lock-free.
+ * Dropped redundant phy_init_hw() call from mdio_bus_phy_resume() and
+   phy_attach_direct().
+---
+ drivers/net/phy/phy_device.c | 14 ++++++--------
+ 1 file changed, 6 insertions(+), 8 deletions(-)
+
+diff --git a/drivers/net/phy/phy_device.c b/drivers/net/phy/phy_device.c
+index 0edff47478c2..4a2b19d39373 100644
+--- a/drivers/net/phy/phy_device.c
++++ b/drivers/net/phy/phy_device.c
+@@ -396,10 +396,6 @@ static __maybe_unused int mdio_bus_phy_resume(struct device *dev)
+ 	WARN_ON(phydev->state != PHY_HALTED && phydev->state != PHY_READY &&
+ 		phydev->state != PHY_UP);
+ 
+-	ret = phy_init_hw(phydev);
+-	if (ret < 0)
+-		return ret;
+-
+ 	ret = phy_resume(phydev);
+ 	if (ret < 0)
+ 		return ret;
+@@ -1857,16 +1853,14 @@ int phy_attach_direct(struct net_device *dev, struct phy_device *phydev,
+ 	if (dev)
+ 		netif_carrier_off(phydev->attached_dev);
+ 
+-	/* Do initial configuration here, now that
++	/* Do initial configuration inside phy_init_hw(), now that
+ 	 * we have certain key parameters
+ 	 * (dev_flags and interface)
+ 	 */
+-	err = phy_init_hw(phydev);
++	err = phy_resume(phydev);
+ 	if (err)
+ 		goto error;
+ 
+-	phy_resume(phydev);
+-
+ 	/**
+ 	 * If the external phy used by current mac interface is managed by
+ 	 * another mac interface, so we should create a device link between
+@@ -2020,6 +2014,10 @@ int phy_resume(struct phy_device *phydev)
+ {
+ 	int ret;
+ 
++	ret = phy_init_hw(phydev);
++	if (ret)
++		return ret;
++
+ 	mutex_lock(&phydev->lock);
+ 	ret = __phy_resume(phydev);
+ 	mutex_unlock(&phydev->lock);
+-- 
+2.43.0
+
 
