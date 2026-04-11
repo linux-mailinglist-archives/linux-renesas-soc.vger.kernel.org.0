@@ -1,235 +1,239 @@
-Return-Path: <linux-renesas-soc+bounces-31165-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-31166-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 6LSiKV6N2WnSqggAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-31165-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 11 Apr 2026 01:53:02 +0200
+	id mJNqGdcz2mlezAgAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-31166-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 11 Apr 2026 13:43:19 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5F6E3DD92E
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 11 Apr 2026 01:53:01 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id C37A13DF86C
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 11 Apr 2026 13:43:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id BC1CC303FAAC
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 10 Apr 2026 23:51:37 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id B8E353029A57
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 11 Apr 2026 11:43:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 259A138A29A;
-	Fri, 10 Apr 2026 23:51:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 97097340DA6;
+	Sat, 11 Apr 2026 11:43:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="yjgG1Uno"
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="JWWGFkez"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59534363C64;
-	Fri, 10 Apr 2026 23:51:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.32.30.218
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 156643358DA
+	for <linux-renesas-soc@vger.kernel.org>; Sat, 11 Apr 2026 11:43:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775865097; cv=none; b=tH56hTZsSpzKo6HOi/GTMLMRwRn0qqzpVdawnSTZsdfqzrT1V0U/TluvZ9ndnP25diGpXYAYAXK/EVpBIqffvO5+Sal8PzBZk5+coQmiCh8prfShfEv9Z/7aEJITZwZLj/DSx3/7zxBpBJnoGjtehnqvvm+uL8C204/C2Jav1mg=
+	t=1775907792; cv=none; b=qmS/QaJq4Y6nepr2zK0OuG22EbtvteHNzSW+QNUBep2RRYmbKUr513xuTem8fg+Yn/dgqcSJi1cBdqScjkDKuC6tnG2xlgoQkh2nRl244nvBIZSJDNcvgWVhopGCHxqwWYS44ASM0iJbKBqkX+EhyyUbRwbOvZ3pxnNXJ72CPns=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775865097; c=relaxed/simple;
-	bh=H3h9oM/pAyNUP0Xl/szWiImDBrJ3w6FUxgxJnZ+zunw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dec/JJXSN14rZFbS/DAaMWCmdUVDxIzCxvLYcAL/krhmCd7wIB/2EEaaRe7Rxd8q47WqhxdywMH0sNjdErLJ/4P/N5r7KDM8y0wzYtBmeGgJY2r8tmuz/G7ZCC06jmoZE2HJO4qLFL5285fvdaKc4hTvWabRKs85XM8KCq02pl4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk; spf=none smtp.mailfrom=armlinux.org.uk; dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b=yjgG1Uno; arc=none smtp.client-ip=78.32.30.218
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=armlinux.org.uk
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=wJcLJpXPBwDXxBKnu3Ua3ryD7pYNhV+iw16fIM/TE/I=; b=yjgG1UnoMImRSW3dsvMVSHKAY8
-	/2g83xkMj9zdxauPdBF4XZqk6mLGl657x2vD0O/nFAIWLF500snT/ZftsQ3psEOKunzMHeeaHAeoO
-	QrS8hDRGt0nAPHZe6r2PW34mJ0WuxbsO7lYvGJFpB04kIGZuw26vU3mhoqQbZngNFIByJdJlN76+H
-	5rSl6jD0nw5JSBN4cXCPLxkmYe4BdTJlYA1DKdDLrZb6c/vJn26vJDPRN/Iq80/pvnioPZuY/Fj5y
-	Jhy3bIYpchw6GFfYpP5OHbSRccYspH291BptftKE1W9m0l/UF96XI9nz2U2jkJxlUO2c+uaM3MltO
-	Fz0E78XA==;
-Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:56170)
-	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.98.2)
-	(envelope-from <linux@armlinux.org.uk>)
-	id 1wBLdI-000000005UU-3PWl;
-	Sat, 11 Apr 2026 00:51:28 +0100
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.98.2)
-	(envelope-from <linux@shell.armlinux.org.uk>)
-	id 1wBLdH-0000000065H-22vA;
-	Sat, 11 Apr 2026 00:51:27 +0100
-Date: Sat, 11 Apr 2026 00:51:27 +0100
-From: "Russell King (Oracle)" <linux@armlinux.org.uk>
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: Andrew Lunn <andrew@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Ovidiu Panait <ovidiu.panait.rb@renesas.com>,
-	"netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH net-next] net: phy: call phy_init_hw() in phy resume path
-Message-ID: <admM_1bf6frKfLJ9@shell.armlinux.org.uk>
-References: <20260410142904.439666-1-biju.das.jz@bp.renesas.com>
- <adkOZl4gt5UoGv-0@shell.armlinux.org.uk>
- <adkPXI9pz1RCYpJ8@shell.armlinux.org.uk>
- <TY3PR01MB113466D8DD83EC0B48D8262CA86592@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+	s=arc-20240116; t=1775907792; c=relaxed/simple;
+	bh=cKFhAtkhgAfTA+QAOjsxsnhy2l5B7v8pbAd2rbghqwI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=TjHcdNseQOVt91lyTu6IqbdnVXkUplM+4LspLrbi73NgxWXXPrgzFeJkrluOOwVMj1PgfOWuuDbuRBxzD56hBI9lZhNfgPlyJLxfPgJSho30qkGePaStmi16QnupI25Hpe5iIxgkfiEJplCaAH1lAgxy0KjumDzte1Y6AedO4qI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=JWWGFkez; arc=none smtp.client-ip=209.85.221.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-43b983bb07eso1851589f8f.0
+        for <linux-renesas-soc@vger.kernel.org>; Sat, 11 Apr 2026 04:43:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=tuxon.dev; s=google; t=1775907788; x=1776512588; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=q1eTBRD7MumKinxlgMqLdQk94b4xlHoIm/BiwJmzTkc=;
+        b=JWWGFkezFo1yDEDecIrZLJjGK42Vf6H9fJniOzTftW34XHdA/KSdoKkGZvuElKv+MK
+         Z19IEKV0IhAz2eXIQgf6cGCKVsS0oOiXeiP6g0N4f0cFTvzm9Hkjv4ZPhV+fRLwJJRKR
+         zB4ZQKF0KB3npU+CZIH4inalpg6wwo2QjR9N1ooDJQAGhbOnqBIt/VTKPQhxfuszUrK5
+         rhnXJrhiXOfxtQ6bo1DJ+BRJPid72SP49oiZJYa2T+bHKmkx7sVULLPjCYrIOD7W1/GO
+         /oG1IhGQ6c2yX5bW3YUCJ6XvhVFkUkMjO9yuWxAo/ic37ZB/++rRM0J7kTwlejMxpJxn
+         hPAw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775907788; x=1776512588;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=q1eTBRD7MumKinxlgMqLdQk94b4xlHoIm/BiwJmzTkc=;
+        b=I2kGftcVyiSAu8htIv00zlATQftCLgebioUf3pAkO6Qv7ACiQy9Cqo8gnqFldKWM0M
+         sXTHx4KNHbQX74seRN4E68N+d4rWRz4mkehW+9dZ1CRHNnUkCOlLaZ17lVubwOr1ZOno
+         I6R99nnf/BIJKmQTXVveKAjT4gKonoFbrryzFWSCZbzVAsdb+dsmdqNxT+bsqTlLuKjE
+         LHLvao+pD3t65LFGSRYMwFG3xumvaj3EwdILlTn/nFhqgZ5GQpcvpMCYkBfMHVO4aLWM
+         +opfigmQbVjQDCFNf2Vn+xw0XCtWMFMKkeRNnwMdYsb7252ROAOJlT6AECAcAySbTecB
+         JItw==
+X-Forwarded-Encrypted: i=1; AJvYcCVYUGYbhnNaTyRpnCapLhMQwZ7oRymVP/UdZ4QVP9bmGVjGnjMAk/2pH8nrThDT/BQ/rjuPXpQoqAVnsbdpQnY39g==@vger.kernel.org
+X-Gm-Message-State: AOJu0YycEUIYQDZ5/vnETMo8JytgdQiiOxJZIHn4XBIlm3vSaIpJ0K01
+	7n9F5ngCuub6ZdGHiTAQKqPWwcwe6Si2b78fLECH2XDCO59jNtTo1fa+ktqq8dpPMqM=
+X-Gm-Gg: AeBDieu3+p5yshXu1lMkaffaBHnPSwhoJ4E4ecR1E/jDhqs/pXkJOZE/S0g9WWRwpbf
+	lIzS7/zRvB8RbnN1AhrFF5tg4uYAgAB9PKn/1b+KfxIz640l41ew5ZtVn3GUWymUFNe6gb6p/YI
+	FqI4rvUiarFXeigpTc5vt5sKjWOnqBLwFx56jGEmgbHXi78CywwFe5LFg99b8m/sqsh5bGiOJ96
+	zVrJXr7Sk8n9BzKzxk8FA5YR1eKqaIsrrUv8STvyw9DVDbW91l4afufIQVzBnnJycNYg/eLMVWV
+	6vOO7Au+S+EDQ4qWwEy1cWP6RVkgPqE2XLTT5M5lKJOBqAN6ZayV6kx4XQFB6CRTInQBUTvIL8r
+	TqDFsH9cafBuRnfwVl81JHL8f9L9/prFhu0ig4phHe7K6Sm9ABPVpysVmRUZ6nFj68UStgBIs3Z
+	IjP/Ika08YcO4YV8Aqt0/ulYVimUnDXlQhOIA1dv3itMzYY9PxmowN
+X-Received: by 2002:a05:6000:3107:b0:43b:3e34:7fe with SMTP id ffacd0b85a97d-43d64289402mr9860136f8f.21.1775907788294;
+        Sat, 11 Apr 2026 04:43:08 -0700 (PDT)
+Received: from claudiu-X670E-Pro-RS.. ([82.78.167.248])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43d63e5c981sm15776447f8f.33.2026.04.11.04.43.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 11 Apr 2026 04:43:07 -0700 (PDT)
+From: Claudiu <claudiu.beznea@tuxon.dev>
+X-Google-Original-From: Claudiu <claudiu.beznea.uj@bp.renesas.com>
+To: vkoul@kernel.org,
+	Frank.Li@kernel.org,
+	lgirdwood@gmail.com,
+	broonie@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com,
+	biju.das.jz@bp.renesas.com,
+	prabhakar.mahadev-lad.rj@bp.renesas.com,
+	p.zabel@pengutronix.de,
+	geert+renesas@glider.be,
+	fabrizio.castro.jz@renesas.com,
+	long.luu.ur@renesas.com
+Cc: claudiu.beznea@tuxon.dev,
+	dmaengine@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Subject: [PATCH v4 00/17] Renesas: dmaengine and ASoC fixes
+Date: Sat, 11 Apr 2026 14:42:46 +0300
+Message-ID: <20260411114303.2814115-1-claudiu.beznea.uj@bp.renesas.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <TY3PR01MB113466D8DD83EC0B48D8262CA86592@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-Sender: Russell King (Oracle) <linux@armlinux.org.uk>
-X-Spamd-Result: default: False [1.14 / 15.00];
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [0.34 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	R_DKIM_REJECT(1.00)[armlinux.org.uk:s=pandora-2019];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10];
+	R_MISSING_CHARSET(0.50)[];
+	R_DKIM_ALLOW(-0.20)[tuxon.dev:s=google];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
-	DMARC_POLICY_SOFTFAIL(0.10)[armlinux.org.uk : SPF not aligned (relaxed),none];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[lunn.ch,gmail.com,davemloft.net,google.com,kernel.org,redhat.com,renesas.com,vger.kernel.org,glider.be,bp.renesas.com];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	DKIM_TRACE(0.00)[armlinux.org.uk:-];
-	RCPT_COUNT_TWELVE(0.00)[13];
-	TAGGED_FROM(0.00)[bounces-31165-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-31166-lists,linux-renesas-soc=lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[18];
 	MIME_TRACE(0.00)[0:+];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	DMARC_NA(0.00)[tuxon.dev];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_TO(0.00)[kernel.org,gmail.com,perex.cz,suse.com,bp.renesas.com,pengutronix.de,glider.be,renesas.com];
+	DKIM_TRACE(0.00)[tuxon.dev:+];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
 	TO_DN_SOME(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[linux@armlinux.org.uk,linux-renesas-soc@vger.kernel.org];
 	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[claudiu.beznea@tuxon.dev,linux-renesas-soc@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	NEURAL_HAM(-0.00)[-0.980];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[shell.armlinux.org.uk:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,armlinux.org.uk:email,armlinux.org.uk:url,renesas.com:email]
-X-Rspamd-Queue-Id: C5F6E3DD92E
+	NEURAL_HAM(-0.00)[-1.000];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,sashiko.dev:url,bp.renesas.com:mid]
+X-Rspamd-Queue-Id: C37A13DF86C
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Fri, Apr 10, 2026 at 05:27:02PM +0000, Biju Das wrote:
-> Hi Russell King/ Andrew,
-> 
-> > -----Original Message-----
-> > From: Russell King <linux@armlinux.org.uk>
-> > Sent: 10 April 2026 15:55
-> > Subject: Re: [PATCH net-next] net: phy: call phy_init_hw() in phy resume path
-> > 
-> > On Fri, Apr 10, 2026 at 03:51:18PM +0100, Russell King (Oracle) wrote:
-> > > On Fri, Apr 10, 2026 at 03:29:01PM +0100, Biju wrote:
-> > > > From: Ovidiu Panait <ovidiu.panait.rb@renesas.com>
-> > > >
-> > > > When mac_managed_pm flag is set, mdio_bus_phy_resume() is skipped,
-> > > > so phy_init_hw(), which performs soft_reset and config_init, is not
-> > > > called during resume.
-> > > >
-> > > > This is inconsistent with the non-mac_managed_pm path, where
-> > > > mdio_bus_phy_resume() calls phy_init_hw() before phy_resume() on
-> > > > every resume.
-> > > >
-> > > > To align both paths, add a phy_init_hw() call at the top of
-> > > > __phy_resume(), before invoking the driver's resume callback. This
-> > > > guarantees the PHY undergoes soft reset and re-initialization
-> > > > regardless of whether PM is managed by the MAC or the MDIO bus.
-> > > >
-> > > > Signed-off-by: Ovidiu Panait <ovidiu.panait.rb@renesas.com>
-> > > > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> > > > ---
-> > > >  drivers/net/phy/phy_device.c | 4 ++++
-> > > >  1 file changed, 4 insertions(+)
-> > > >
-> > > > diff --git a/drivers/net/phy/phy_device.c
-> > > > b/drivers/net/phy/phy_device.c index 0edff47478c2..8255f4208d66
-> > > > 100644
-> > > > --- a/drivers/net/phy/phy_device.c
-> > > > +++ b/drivers/net/phy/phy_device.c
-> > > > @@ -2008,6 +2008,10 @@ int __phy_resume(struct phy_device *phydev)
-> > > >  	if (!phydrv || !phydrv->resume)
-> > > >  		return 0;
-> > > >
-> > > > +	ret = phy_init_hw(phydev);
-> > > > +	if (ret)
-> > > > +		return ret;
-> > >
-> > > Do we want to do this even when phydrv->resume is NULL?
-> > 
-> > I should've also added (sorry, busy packing) - with it always being called even when phydrv->resume is
-> > NULL, it means that the call sites to phy_resume() in phylib which are preceeded by a call to
-> > phy_init_hw() should have that call removed, otherwise we're going to be calling phy_init_hw() twice.
-> > 
-> > As the patch currently stands, that's the case when phydrv->resume is populated, and I think we should
-> > avoid that.
-> > 
-> > > Apart from that, looks fine to me - it seems some paths call
-> > > phy_init_hw() can be called with or without phydev->lock held, and
-> > > this one will call it with the lock held which seems to be okay.
-> 
-> 
-> The new patch will be like this, after moving phy_init_hw() without
-> phydev->lock held. Please let me know are you ok with this?
-> 
-> 
-> diff --git a/drivers/net/phy/phy_device.c b/drivers/net/phy/phy_device.c
-> index 0edff47478c2..4a2b19d39373 100644
-> --- a/drivers/net/phy/phy_device.c
-> +++ b/drivers/net/phy/phy_device.c
-> @@ -396,10 +396,6 @@ static __maybe_unused int mdio_bus_phy_resume(struct device *dev)
->  	WARN_ON(phydev->state != PHY_HALTED && phydev->state != PHY_READY &&
->  		phydev->state != PHY_UP);
->  
-> -	ret = phy_init_hw(phydev);
-> -	if (ret < 0)
-> -		return ret;
-> -
->  	ret = phy_resume(phydev);
->  	if (ret < 0)
->  		return ret;
-> @@ -1857,16 +1853,14 @@ int phy_attach_direct(struct net_device *dev, struct phy_device *phydev,
->  	if (dev)
->  		netif_carrier_off(phydev->attached_dev);
->  
-> -	/* Do initial configuration here, now that
-> +	/* Do initial configuration inside phy_init_hw(), now that
->  	 * we have certain key parameters
->  	 * (dev_flags and interface)
->  	 */
-> -	err = phy_init_hw(phydev);
-> +	err = phy_resume(phydev);
->  	if (err)
->  		goto error;
->  
-> -	phy_resume(phydev);
-> -
->  	/**
->  	 * If the external phy used by current mac interface is managed by
->  	 * another mac interface, so we should create a device link between
-> @@ -2020,6 +2014,10 @@ int phy_resume(struct phy_device *phydev)
->  {
->  	int ret;
->  
-> +	ret = phy_init_hw(phydev);
-> +	if (ret)
-> +		return ret;
-> +
->  	mutex_lock(&phydev->lock);
->  	ret = __phy_resume(phydev);
->  	mutex_unlock(&phydev->lock);
+From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 
-Looks good to me. Thanks!
+Hi,
+
+This series addresses issues identified in the DMA engine and RZ SSI
+drivers.
+
+As described in the patch "dmaengine: sh: rz-dmac: Set the Link End (LE)
+bit on the last descriptor", stress testing on the Renesas RZ/G2L SoC
+showed that starting all available DMA channels could cause the system
+to stall after several hours of operation. This issue was resolved by
+setting the Link End bit on the last descriptor of a DMA transfer.
+
+However, after applying that fix, the SSI audio driver began to suffer
+from frequent overruns and underruns. This was caused by the way the SSI
+driver emulated cyclic DMA transfers: at the start of playback/capture
+it initially enqueued 4 DMA descriptors as single SG transfers, and upon
+completion of each descriptor, a new one was enqueued. Since there was
+no indication to the DMA hardware where the descriptor list ended
+(though the LE bit), the DMA engine continued transferring until the
+audio stream was stopped. From time to time, audio signal spikes were
+observed in the recorded file with this approach.
+
+To address these issue, cyclic DMA support was added to the DMA engine
+driver, and the SSI audio driver was reworked to use this support via
+the generic PCM dmaengine APIs.
+
+Due to the behavior described above, no Fixes tags were added to the
+patches in this series, and all patches should be merged through the
+same tree.
+
+In case this series will be merged this release cycle, best would
+be to go though the DMA tree as the DMA changes are based on the series
+at [1] which was merged on March 17th. Otherwise, any of the ASoC or DMA
+tree should be good.
+
+Thank you,
+Claudiu
+
+Changes in v4:
+- collected tags
+- addressed review comments got from sashiko.dev. For this:
+- added patches:
+-- dmaengine: sh: rz-dmac: Move interrupt request after everything is set up
+-- dmaengine: sh: rz-dmac: Fix incorrect NULL check on list_first_entry()
+
+Changes in v3:
+- addressed review comments got from sashiko.dev. For this:
+- added patches 1-9
+- added patch "ASoC: renesas: rz-ssi: Add pause support"
+- dropped patches:
+-- dmaengine: sh: rz-dmac: Add enable status bit
+-- dmaengine: sh: rz-dmac: Add pause status bit
+
+Changes in v2:
+- fixed typos in patch descriptions and patch titles
+- updated "ASoC: renesas: rz-ssi: Use generic PCM dmaengine APIs"
+  to fix the PIO mode
+- in patch "dmaengine: sh: rz-dmac: Add suspend to RAM support"
+  clear the RZ_DMAC_CHAN_STATUS_SYS_SUSPENDED status bit for
+  channel w/o RZ_DMAC_CHAN_STATUS_PAUSED_INTERNAL
+- per-patch updates can be found in individual patches changelog 
+- rebased on top of next-20260319
+- updated the cover letter
+
+[1] https://lore.kernel.org/all/20260316133252.240348-1-claudiu.beznea.uj@bp.renesas.com/
+
+
+Claudiu Beznea (17):
+  dmaengine: sh: rz-dmac: Move interrupt request after everything is set
+    up
+  dmaengine: sh: rz-dmac: Fix incorrect NULL check on list_first_entry()
+  dmaengine: sh: rz-dmac: Use list_first_entry_or_null()
+  dmaengine: sh: rz-dmac: Use rz_dmac_disable_hw()
+  dmaengine: sh: rz-dmac: Do not disable the channel on error
+  dmaengine: sh: rz-dmac: Add helper to compute the lmdesc address
+  dmaengine: sh: rz-dmac: Save the start LM descriptor
+  dmaengine: sh: rz-dmac: Add helper to check if the channel is enabled
+  dmaengine: sh: rz-dmac: Add helper to check if the channel is paused
+  dmaengine: sh: rz-dmac: Use virt-dma APIs for channel descriptor
+    processing
+  dmaengine: sh: rz-dmac: Refactor pause/resume code
+  dmaengine: sh: rz-dmac: Drop the update of channel->chctrl with
+    CHCTRL_SETEN
+  dmaengine: sh: rz-dmac: Add cyclic DMA support
+  dmaengine: sh: rz-dmac: Add suspend to RAM support
+  ASoC: renesas: rz-ssi: Add pause support
+  ASoC: renesas: rz-ssi: Use generic PCM dmaengine APIs
+  dmaengine: sh: rz-dmac: Set the Link End (LE) bit on the last
+    descriptor
+
+ drivers/dma/sh/rz-dmac.c   | 762 +++++++++++++++++++++++++------------
+ sound/soc/renesas/Kconfig  |   1 +
+ sound/soc/renesas/rz-ssi.c | 388 +++++++------------
+ 3 files changed, 652 insertions(+), 499 deletions(-)
 
 -- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
+2.43.0
+
 
