@@ -1,207 +1,177 @@
-Return-Path: <linux-renesas-soc+bounces-31221-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-31222-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id MJSoM0yR3Gl9TAkAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-31221-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 Apr 2026 08:46:36 +0200
+	id qJenNm6S3Gl9TAkAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-31222-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 Apr 2026 08:51:26 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30BEE3E7E2A
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 Apr 2026 08:46:35 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id D50913E7F13
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 Apr 2026 08:51:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id C2E753016ED0
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 Apr 2026 06:45:36 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id EB9343001043
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 Apr 2026 06:51:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A594635DA49;
-	Mon, 13 Apr 2026 06:45:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4714A35A398;
+	Mon, 13 Apr 2026 06:51:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kTyD0M9U"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="NVhMi8ox"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DFD4201113
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 13 Apr 2026 06:45:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.177
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776062736; cv=pass; b=qt8XD8tVmZAemT5ll6CVUefk9YbmAOdHBuvCUrBvD0Pl2lBmBOftiTVlaQaYmjmrbtLQMLv9QLSHfB/ddgwsunzsOfDQDmXyxI1FHAidYGMUkk7iH+BTTDkzJcjGft1tIPkscR4oCWGSHc8PWmtJMedbeKsPUNLxS1zrDuY0BKA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776062736; c=relaxed/simple;
-	bh=UVrAExvrLmAfu7dTBwM664LDvUTubnQncoUSSl+XOCY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=fBjeQL/UisyREF0h6xE9cDy2qafbw7B5kELqkyDKOZ06TU50pAQ+CpSdI/vF+ZlNqo8dxQt3XEZ0VfVnAI1YRybT9LUcvgNhkqT+RH2FOekF/55H7NYQqnfaJ/5i2tCkv9RpXrwaPARvY6Ol3108oIBnm6Aoc9i7WILa8nVOu8E=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kTyD0M9U; arc=pass smtp.client-ip=209.85.214.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2b2503753efso34266625ad.0
-        for <linux-renesas-soc@vger.kernel.org>; Sun, 12 Apr 2026 23:45:35 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1776062735; cv=none;
-        d=google.com; s=arc-20240605;
-        b=JcfHkiV2NGvXXNzjnJeNDqWjaCNyGJe89FSN7q0SOxivm/dwSx2Nqj7yYfkS+lTO93
-         P2MG2Z1fuGoctsVbbPSIVB9M8yNjz3MQ+zOjy/EhDfatQ84pXwidzbh8A/i0IUTPsbmQ
-         4Eri06QXxdp0iE+z7O9WTcpfSkmJPmdp5wSu0WgvbxbgKuutjU6GqiUsQRfQnCbtAJN+
-         HuHeEf18gcqAYcP8HM1MaKxUGVuXUjoCOIHlxQS7rKt1aD3vwAEfNYC1MDXUhGMnpV0Y
-         Pn8bopImSoLF5ky4tGqJzyymMlhs0MxupEmXkNS6lPTMwiFKpKROTTnQNFnUBRVQ6k+5
-         2Q9g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=UVrAExvrLmAfu7dTBwM664LDvUTubnQncoUSSl+XOCY=;
-        fh=Woh1LYOIlkIjoTu4U9mDh+IBkmdor8TflSKfHWR4iV0=;
-        b=B85xQVXG2hm5d20iIoMzYzx4sOiq2uAWByGH2cGSFeoWQpwCsbUwA1UQHhEEQjIvxY
-         aeU1VfjCpr5zxGfV74eOplo0zPON+XFEcDwsfEjpHvymVKdqv2ghFpz4XCOzN0XjgFyf
-         Uiazk1huJcVH1Ci90IYk9LQiuDjLO3wys49SCaMeclh2BacvRO/vn72OJJOoepbHMCNV
-         CPL25IVh9/ykGs7JBUFmhQjsjkNV2CexhtuSpRyEDQPuKk8oMfq21OIWtjQvFrFv2Wq6
-         U+QdCZ0yePqHuS1FjoIL7paaRo0mvJCE7AJ0OHcYV+Ld999rG+6RetO0JIxj131FX2BN
-         EkCw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776062735; x=1776667535; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=UVrAExvrLmAfu7dTBwM664LDvUTubnQncoUSSl+XOCY=;
-        b=kTyD0M9UYcfkqz1JZ3TsH6AucZW+i3iAqBQIBF05e9eixlZFwzvLZlGP4b/QgRSmhY
-         GMY1nYWLFbuJbtcvdqGOLyVjLBetVHL2hZX1/Al9MEGpnFKLzvC3vfaP0lhCBvLzlxOI
-         IeW2hoSqUam8hEYPYSYG5e/W3t1oz/R+HBG3kTqtuyVXLXcMvkHXvriCDgk3H9LrMCzc
-         D1TOflWzK4rxh0i6FCVlT4dTSFu8AVPjpfLW/cscD9fATFmpaVYA2hdhPD9d7o08cFSp
-         KHdDD+eBHIBLY3pAMTi3GTE7qSIJwBrHW8U3ZUHn+H8KX841s2rOgcjHs8X3U616gc1/
-         gOyg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776062735; x=1776667535;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=UVrAExvrLmAfu7dTBwM664LDvUTubnQncoUSSl+XOCY=;
-        b=kw0T0SWA2wUBEZ2G3npCcUL1yZd2XHTwoULJ2buTJ90I4Jw4hE2XHUmKCXX+j3e8ep
-         IiBpbGfOs6CYvenRFI1pqsJWdvaXCniwcQvFfJFnBHa0tUoHYlpFFuh7/XWtkHNNoOV8
-         ihbmvlL1vl9oubJxXDyghv85Ke9l9hxvpQqYBHto09uPVWmUjVQ25z8xQ/srTI7qlYmU
-         LTlJ23SbJE7mdko4dG+18C8X8hQxuwPooPpJrraAE6zmWsK8rrBwZYqjqrLxi03U/g7R
-         461ukP93qXUzDk+AYliye2wSsADz70r+8TbLzIDtR7C6nu21IHKXRc9tjWcX/q7zJkP1
-         J+dw==
-X-Forwarded-Encrypted: i=1; AFNElJ/hEJlhcw5yjXb0u6Vao9UhWJmUBC4TgKfvgWQmXWZciYbLkvMipbPbbWIm7AJR0ByvcIdIu23t1Sbl2f6/7DgrDg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz1zFPRxPCezUFKMR0uCDDMoF2+T0+7DV5HdIXyG/psX2jg4LiV
-	CMXYbaajHPs74KX1RaO8AuNX7hwxOmlOHQYMsbMxqtj8Fyxkai1wAl0nTEcq3WOvHhVmAb0iob1
-	8F9Dfr5ewFMRBPZDgRHUthsPferzMj0U=
-X-Gm-Gg: AeBDievQO596dlPIbelOpKPByaS15CqEmDA6/Iqryzx919oAzALmHB1bTFwtwOftiqq
-	1RgRwY2fehQwk2pHwWR0+58c2RPjrk3qvupkjFDizZMRpBYqKhOEGgcv/daXUoYd9Uf99jBhmZw
-	tNM0lHVp1VFoyYtoZD25nO9X4wmN/kzw4pQHus1l23wCq+clx0/VZJS384lHM8X9i9evZ/v6FIu
-	ey/fqJC8Hc0Z4zUGAHBmWdL2PrH14CEa7vhh6jaS/fGSnVw1gUlJtywes3pBf5Kz/mhxHnlTxXl
-	M8sVWp1ClAAf5HFrG+ciQDLpzs6I15OWTE1Rng==
-X-Received: by 2002:a17:903:238e:b0:2b4:5b9e:2f51 with SMTP id
- d9443c01a7336-2b45b9e3d37mr38238145ad.34.1776062731336; Sun, 12 Apr 2026
- 23:45:31 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4157F190462
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 13 Apr 2026 06:51:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776063081; cv=none; b=kCfiWFqQgfVNk+fPNA4yFGFt/Iy/uNtdSeneFcHMB4phumJy/FJZyi0i4jagkotOL7rMpIvwdz8Laxa+9Dp+nGpYWX3fMX4N1lFo3KRqaODS/raowqAd+xC6Etpc3G6tuJ5wTtNgKUWQ7bQtokYyl0Z6+wmZXYI20zi4wSXAx50=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776063081; c=relaxed/simple;
+	bh=ppwAe1ufjjpJC2xTboJjw4J6RBqutLU2fdtlvTvijaI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=EnetWrn/I3PPYlqnEiuOfYCEDORbNsHFfrB+Yv/Jg5v2OzEV8b/CSFfeEOIaPE1/TA3vW51IGL/hpghZrOeZYQMbyH+00jP4I+fzLZdBtCv35Fab3iyvDurZtXj1GXkjZ7OGC1uThrZP/fWbrbmiaAJFbOimX+xBMm/9Rep/laM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=NVhMi8ox; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=date:from:to:cc:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=3AD3
+	dQ/Sa6MmU0OgqfktpcVrIQMJj0phUiR81f0BOO8=; b=NVhMi8oxLrBYjLPmXjy7
+	c2vGTM+Z/gGYjMJ20j8L61ZfGGpKQTTrJFThUKuwPLzyCC4abcusTBY0WlxaFT+a
+	jh7hG1E5zqmkz8ewTaJj815pPMzEgA35xBVcd7yDUIixUO9cU5fAS/80LDC/3hnV
+	k1WVeYFPHX/XEj8VWwTN+klVASKBJs2mSLa9FSzkH394vRLgiYAUNbfoQ+5qU6m+
+	/ph1Riw2FE1SHJeT7MA4Eixaq1s35Y637duRoDK0YhlLfvmOGVJuHdFqhqx/3gSw
+	nHwBnPCszOZR0+RGIqTb6hkFqQ7CQFIxRzrKiwbNntg9T6sZDID+BD0HqIaHsqy+
+	aA==
+Received: (qmail 2173526 invoked from network); 13 Apr 2026 08:51:09 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 13 Apr 2026 08:51:09 +0200
+X-UD-Smtp-Session: l3s3148p1@k3ZN6FFPSr8ujnvz
+Date: Mon, 13 Apr 2026 08:51:08 +0200
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: Jassi Brar <jassisinghbrar@gmail.com>
+Cc: linux-renesas-soc@vger.kernel.org, roman.gushchin@linux.dev,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Marek Vasut <marek.vasut@mailbox.org>, linux-kernel@vger.kernel.org,
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>
+Subject: Re: Sashiko review (Re: [PATCH v4 2/3] soc: renesas: Add Renesas
+ R-Car MFIS driver)
+Message-ID: <adySXGzjq7VFvIxX@shikoro>
+References: <20260402112709.13002-1-wsa+renesas@sang-engineering.com>
+ <20260402112709.13002-3-wsa+renesas@sang-engineering.com>
+ <ac6GcLutDew1wMkS@shikoro>
+ <CABb+yY0bpu8rTiQKQu17ZNKkEK=y1_jNYk8fPbnpSxpcivfgog@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260403112655.167593-1-phucduc.bui@gmail.com>
- <20260403112655.167593-4-phucduc.bui@gmail.com> <87v7e5t16l.wl-kuninori.morimoto.gx@renesas.com>
- <CAABR9nGUyTkDmB0SgKAuM1Pp75L=m1q4bLSfhobm98TswDnt8w@mail.gmail.com>
- <87a4vfu0mz.wl-kuninori.morimoto.gx@renesas.com> <CAABR9nH-1eBPFxtzVR6QBE1=esDN8x=hZpAkRSCO-TLmn0tRKA@mail.gmail.com>
- <87fr56vu4f.wl-kuninori.morimoto.gx@renesas.com>
-In-Reply-To: <87fr56vu4f.wl-kuninori.morimoto.gx@renesas.com>
-From: Bui Duc Phuc <phucduc.bui@gmail.com>
-Date: Mon, 13 Apr 2026 13:45:19 +0700
-X-Gm-Features: AQROBzAGIOgvxWW7TC0q36Dvf8NNepmzIwchUGKpVQO1DIYC6Qea_kbbm6ocZUA
-Message-ID: <CAABR9nEqJRoHJuaJGqk=ZpCKi0P5p2V9qJKBPsz7ELkGx8e2Fw@mail.gmail.com>
-Subject: Re: [PATCH 3/3] ASoC: renesas: fsi: Fix hang by enabling SPU clock
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: broonie@kernel.org, lgirdwood@gmail.com, robh@kernel.org, 
-	krzk+dt@kernel.org, conor+dt@kernel.org, geert+renesas@glider.be, 
-	magnus.damm@gmail.com, perex@perex.cz, tiwai@suse.com, 
-	linux-sound@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spamd-Result: default: False [-0.66 / 15.00];
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="6QmngqaaQvrvJHZH"
+Content-Disposition: inline
+In-Reply-To: <CABb+yY0bpu8rTiQKQu17ZNKkEK=y1_jNYk8fPbnpSxpcivfgog@mail.gmail.com>
+X-Spamd-Result: default: False [-1.76 / 15.00];
+	SIGNED_PGP(-2.00)[];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[sang-engineering.com:s=k1];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	MIME_GOOD(-0.20)[multipart/signed,text/plain];
 	MAILLIST(-0.15)[generic];
-	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-31222-lists,linux-renesas-soc=lfdr.de,renesas];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-31221-lists,linux-renesas-soc=lfdr.de];
 	FROM_HAS_DN(0.00)[];
+	DMARC_NA(0.00)[sang-engineering.com];
+	FREEMAIL_TO(0.00)[gmail.com];
 	RCVD_COUNT_THREE(0.00)[4];
-	MIME_TRACE(0.00)[0:+];
+	MIME_TRACE(0.00)[0:+,1:+,2:~];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	RCPT_COUNT_TWELVE(0.00)[14];
-	FREEMAIL_CC(0.00)[kernel.org,gmail.com,glider.be,perex.cz,suse.com,vger.kernel.org];
+	FREEMAIL_CC(0.00)[vger.kernel.org,linux.dev,kernel.org,mailbox.org,renesas.com,glider.be,gmail.com];
+	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[phucducbui@gmail.com,linux-renesas-soc@vger.kernel.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	FROM_NEQ_ENVFROM(0.00)[wsa@sang-engineering.com,linux-renesas-soc@vger.kernel.org];
+	DKIM_TRACE(0.00)[sang-engineering.com:+];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,mail.gmail.com:mid,bootlin.com:url,renesas.com:email]
-X-Rspamd-Queue-Id: 30BEE3E7E2A
+	TO_DN_SOME(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,sang-engineering.com:dkim]
+X-Rspamd-Queue-Id: D50913E7F13
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi Morimoto-san, Geert,
 
-Thanks for the feedback.
+--6QmngqaaQvrvJHZH
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-To keep things moving, I will send v2 shortly, focusing on the sequence
-reordering and SPU Clock control to fix the system hang, which has been
-confirmed to work.
-Regarding the fsidiv clock provider, I will prepare it as a separate
-patch after
-confirmation from Geert, and will consider the appropriate approach for its
-implementation.
+Hi Jassi,
 
-Best regards,
-Phuc
-
-On Wed, Apr 8, 2026 at 1:33=E2=80=AFPM Kuninori Morimoto
-<kuninori.morimoto.gx@renesas.com> wrote:
->
->
-> Hi Bui, Geert
->
-> > > Hmm... fsi_dai_trigger() seems strange.
-> > > It seems (A) stops clock, and (B) sets register after that.
-> > > Is this the reason why you get error ? I think (A) and (B) should be
-> > > reversed. The balance between SNDRV_PCM_TRIGGER_START, and with
-> > > __fsi_suspend() are also not good.
-> > > If so, can you use hw_start/stop() ?
+> > > What happens if request_irq() fails in mfis_mb_startup()?
+> > > If request_irq() returns an error, the mailbox framework handles the startup
+> > > failure by calling the shutdown() callback.
+> > > Since chan_priv->irq is populated earlier during of_xlate(), it will be
+> > > non-zero here. Will this cause free_irq() to be called on an IRQ that was
+> > > never successfully allocated, triggering a warning?
 > >
-> > Thank you for the guidance. After reordering the sequence and moving th=
-e
-> > SPU power control to fsi_hw_start/shutdown, the system hang is now reso=
-lved.
->
-> Nice !
->
-> > By the way, I=E2=80=99d like to discuss the fsidiv clock handling.
-> > In the legacy implementation, it was handled here:
-> > https://elixir.bootlin.com/linux/v7.0-rc7/source/drivers/sh/clk/cpg.c.
-> > Currently, this has not been ported to the Common Clock Framework (CCF)=
- for
-> > R8A7740, and it resides in a different register range from the core CPG=
-.
-> > For v2, would you prefer that I implement a small clock provider for
-> > fsidiv within
-> > the FSI driver, or should it be added under drivers/clk/renesas/?
->
-> I think it should be under drivers/clk/renesas, but Geert ?
->
-> Thank you for your help !!
->
-> Best regards
-> ---
-> Kuninori Morimoto
+> > Uuuhh, yes! But this is not a problem of this driver but more of the
+> > subsystem. It is definitely not intuitive that shutdown() is called when
+> > startup() failed. There are more mailbox drivers which fell into this
+> > trap, mostly by freeing an irq they never got. I will have a look at
+> > this, but as said, I think it should be solved on subsystem level.
+> >
+> Honestly, I'd treat this as a cosmetic issue. If we fail to get the
+> IRQ, the channel is already dead in the water. Seeing a warning during
+> the subsequent cleanup is just a symptom of missing that critical
+> resource.
+> How often does your client acquire/release the channel and how
+> probable is request_irq() to fail in your platform?
+
+I agree that this is unlikely to happen in practice. I still think this
+is more than just a cosmetic issue, however. Because the above code path
+breaks an expectation a programmer likely has. If probe() fails,
+remove() is not called. If request_irq() fails, free_irq() is not
+called. So, the expectation is that if startup() fails, shutdown() is
+not called. I surely was surprised about this behaviour. And surprise is
+not good, boring is good, I'd say. The free_irq() splat which this
+currently causes is just one appearance of the problem. It can be seen
+as "not so bad" because it is the follow-up of a previous problem. I am
+afraid, though, that more subtle issues might show up in the future
+because of this broken expectation. It is easy to fix, so I'd still vote
+to go for some fix.
+
+Thanks and happy hacking,
+
+   Wolfram
+
+
+--6QmngqaaQvrvJHZH
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmncklgACgkQFA3kzBSg
+KbYmvg//Yt1Xx7GXDWE2uHx5BnzhJov+p3XqSEvyMtmmK7c6YRLR1pq1hKIfGka9
+bUmXuZnVFnRyDES1hBGtWLZ8W3sC4SW7RQLEAW3/ctqur9sB0akVLv4UCmGUrckt
+dGg9gFPoKYCYtK9Gd4sTpDQEnV1rNq14sqhmDa/ieDI4cWK1ilZxfHwemj/C1F7G
+DEu+OeG5td35RnslhYfVcVfP7mRMouPPn/IW+f+7mlSrm2p9vKuk8g1/+4OB054i
+sBwNvbndP1B7q9IiHdOjh1OHrW44FIhjqWi8Oi5iabfI0Ky1FEjB/D2bycepHGgb
+qFPSLo2tPbNTj1LmjKtHMKRGohZZJt4EWwGjvjeSkp//RqWn1p4Gkqc9Zz4kbqLX
+NSxEe+aHNONuhkns/qNEuowvA+3ibHrgGfpiq2ZtJPG7V5EjGgCh449RMAN5ljwl
+BjKXMfv2PhTCp2wZnmYK+uzwMJGihRXR2UBRJefuc0MZQHMyWT4TniGDhi1oa9kr
+sBeD13VvjBbbZoFpAb9tk59RniP0aNa0TIW2bqtAtmUFfQxDUZuIy7wW5Fcfm9DM
+1pIquOZtclPbVjAojpYXElnzGOih9xuEAS3VJpIaKHRqU61rACGIERcv/3nqD8Fh
+soHd5+4oNGzups/Wo1n9CbVFq/kS7FckXrp90UQFlPgrCIecKSA=
+=OAC/
+-----END PGP SIGNATURE-----
+
+--6QmngqaaQvrvJHZH--
 
