@@ -1,82 +1,82 @@
-Return-Path: <linux-renesas-soc+bounces-31242-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-31243-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id iAbbCVjm3GkZYAkAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-31242-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 Apr 2026 14:49:28 +0200
+	id KFtOKRrn3GkZYAkAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-31243-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 Apr 2026 14:52:42 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12CC23EC304
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 Apr 2026 14:49:27 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 22E3E3EC38C
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 Apr 2026 14:52:42 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 1A8F2300B477
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 Apr 2026 12:49:24 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id C48BF304C10D
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 Apr 2026 12:49:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3C9453C8720;
-	Mon, 13 Apr 2026 12:49:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DD08C3C9442;
+	Mon, 13 Apr 2026 12:49:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JcvT/ODw"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ROVGCJMc"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 907433C7E1A
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 13 Apr 2026 12:49:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6FA83C8711
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 13 Apr 2026 12:49:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776084562; cv=none; b=NucQZB8D4BktM5QK/Qfkbx45TFfLAhFLCtDd10oQmlnzognoYWf98DMy6w2ddoXjWjsE3XnLkqYuoZGH9aLZ0bvyMS2moWs0AA3RHcll+PdR29yTdqULv7/3UXRol8KTc7JyL+y6sI2hR0q68pMO7QbWQZnFI6L9yWO8IVqeBvs=
+	t=1776084563; cv=none; b=RytskhcpyKV67s79E+5CUV0eo1w9RgvTsY9XuonLns+lYJ4uH4OFJcnWhWEU2U2brMWuVllhBCeLNDtQEumr7AM+ESxJvRcrrMVtWugxfJf2VJkr0XiVf7yRZRTr1voiT+uWQ1piIlftqtIbt+xx/1AmYO/Ri3F6RBRunKtUWBw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776084562; c=relaxed/simple;
-	bh=kBqnvQDwdiPZ+uQ0CawA0daWE+Ez/OQGt5TdVXg//xk=;
+	s=arc-20240116; t=1776084563; c=relaxed/simple;
+	bh=/L73E0ZuOj9b7tO+qUXm2BUgZmzJx25hqEciKe/Vffs=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=k7PClpLuoJIfmwpQAwXNWB3cbcf+f494h6wTx7h8GIVCcP7yxbEbw4b2LszsH/5xHTc/tHWWZAwEqk9jnomGG0lYx7vEuvEfd45oyIW53CkjJSFjFEWMKf97TH9yBFBH5Tr1hsKsFopUxb3lclDKJ1UXIU2NKJriFj9+eRYxSxg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JcvT/ODw; arc=none smtp.client-ip=209.85.221.50
+	 MIME-Version; b=AsVC9HaOoSCp2d377phJ3JWJ35iUfgQh10bzVUGMjv6iM9PeFWFx7SiUbpaO/7SeZxazOPO2McCqv6W+JNT34n6/NCbqHIVbnNq8cAy59CifS25mymA1AI8QSGV3VjDs5RfwloKf+mdK3BiXq9N14u5EvV4wPZa4S9/nx7XvDjI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ROVGCJMc; arc=none smtp.client-ip=209.85.221.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-43cfac48bc7so2968704f8f.0
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 13 Apr 2026 05:49:20 -0700 (PDT)
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-43d7645adbdso658462f8f.1
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 13 Apr 2026 05:49:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776084559; x=1776689359; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1776084560; x=1776689360; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=/iZLzX9bqF3lkIILNvVjrN7/XoHKLWrdf/ip5ggw2bg=;
-        b=JcvT/ODwioXnS7kcUN4oOz85buJqkdCMr6iwXK9kFiRh8s6fbWsGCkOUG6m9KV9mp3
-         lRNijl4zU6ozn3Rvu6HlY6XfIT80mqdZX0NNj2VPHgCVMRy93W/AR5SBdts8I8EFJw0L
-         xRolZnEsJbk/AfK+wyv8jr2LfXjIVJdBMTFH1xdv7zb6O0i97V5yRTgezlW/Qc6UPhcU
-         Lic8YKBn+vxJF12FmBJ1Aipr8QgQYOngI+Orn9wCiyrmmCijlMgzHUlt7P/pttWqAzcS
-         pjPAaW/qM1ONrLt7BvnJhRhn2e6X/8deKoat7VPHdlyU3vOtIq0G/25BCQox2UArKfXn
-         SdZw==
+        bh=zILI3bSq+qhFMWUMzmmHd5z5cGi7XjJl7b2Gmvd6Z/4=;
+        b=ROVGCJMcqqzajsQBcnW50RKB87WorbNTkqQzl6mqk53sVqF8MQUiL89QiRV4IvYCJM
+         ae+IwO09fzaUn4S2B3V/bfHFYTFtXIN84cBe6QTCXIxDOytR/yv7nc0tlOfUDvFQzHqe
+         y6cwocoSkmw6YenkAdQPKIVLM2Nud+FZUPtxJD6JrKdwzhb8eBCu/VWj2wBlbq6fYy1X
+         1l/D9wYmVyLK1Y0pFAcRderTOgwjOkr0e6BZQPwaPvHZSo0Na+BosMyZPiL1Gb9h5BRw
+         HDLguF8QZM9p91zc5mt/KQfDA8LHfkYLnWb1IwplXY7W9JS0eADMFz0s/b7mav3+ik+l
+         Le8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776084559; x=1776689359;
+        d=1e100.net; s=20251104; t=1776084560; x=1776689360;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=/iZLzX9bqF3lkIILNvVjrN7/XoHKLWrdf/ip5ggw2bg=;
-        b=pCoxx8tg6+EfS9hVuKhGO80hiNSVr750loYO/RckcdRfYECAZ0uEWUsczkxcjh+Xzk
-         51j+b0/5BptwIzc4cXKvRQmb42+SFtFsKmp6XxtNsAxLbOgKKXbPE/bN/kXySXG3RrV3
-         IIgySlCqEs2dABg6RF5tq7tbcKJQTbNVUaSnlWaxcGSHFu/sWPNbxIPgW9N69j4wKzFn
-         eoClAujNhrCsgc6dosBW6d6ivQ3ECvdH6UDWl17Ypu3QVyZILwuWP+jSqEGKV9EeWkAx
-         By0pM/fO3fF/PolVrcL2eq4RXM/jlOOXL1fXzcdV2uek4phKv4l5asLVfMJm1TFier8u
-         Uc3w==
-X-Forwarded-Encrypted: i=1; AFNElJ/46VM67jsXrbLeEHG/th940UJmhh1FYBIQHTzgo8XmMb1/Vxhqz7U3PmuOEf/yN/ES3MPyGuP+qypBWatoq+HtTQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwvxJaFYPalEWuM+yP8D1ZaoI3kzMOM7vUceEK9OGUy9eB8VeEX
-	/SpQp1ocwUWA5bNuHuj1g3Bsk6IDoJ82kl1KiRI+iRcZGLQIkHSnXKTf
-X-Gm-Gg: AeBDieuB0/Bb+ChRc9igbaSdHGWjC/Wlfok/ITEuFqZhvBdQVVxiB0kwmshyhGXppjC
-	lFnXHZjJ8ZSDTA+X9GRlkQljIX7zjDrJIWG78uV62LvxfwOE+KUsjCiQXnLl9f8Nnapkz3i46Xw
-	KZtUM1oxiIIS9B6LMc7QZMnOsQ2W28lbHlW8UaCXYtHw4B1q3hSjspZYcFfTAUSo3RD69EsDurR
-	hZhOzWg7FiLT2FxnKj7FgZS3yO0QZ3aWxiGFwJ9Ia6tbLG3Pfp6RJUvamuBwy7/nud0ZST8eskO
-	REJ21Uzg211P/hyjqIoLoAdjj/fyo6Lgh8rGXYvDiXAShWsb4oBs9aGUXAKEJkc9HcPBnU3RbSu
-	Jf2nzOKmIxinLooedoRMFRu20lt/4w8hj8f7bX41UE7J2ygjzBQvyQ9H3u9JHHF+iMA1N+5lSgh
-	NEzPhgdPJ0q+ax0PbXN7IvF+karZRotgG/14e99I/MmKamGb6zSGJl9zPMBIaU3fRRpDkz2IWR2
-	qTM9RtlK1PfYPQ1nhFR5ZDCV13APz/LFjZPDWgd9I1yhdwc4cCOfB0m8Q==
-X-Received: by 2002:a05:6000:400e:b0:43d:1c39:26fd with SMTP id ffacd0b85a97d-43d642dc79bmr19277103f8f.43.1776084559020;
+        bh=zILI3bSq+qhFMWUMzmmHd5z5cGi7XjJl7b2Gmvd6Z/4=;
+        b=gTVEdOm9lT1BS3py1xEZmsr+03lFVfSlFazD9UPCsx+pUbeTgGsFgZ67ns/yp6KYPe
+         QW8vXBlD5kaQZdiqt3K8mehkoSaRd6+9E+ADc6TyNDMfxS3CRtktc26j643v5WNh/JNf
+         7+l9gblYv7Paef4Cw+w5jxE+Vnj9Ts74+zksvabSSq+oneflZKcE668u18Bt6mVPAayZ
+         HX5A5mgMDThLZgEKGF0l2rW/VqQxyWFMOiXFRwSRndPz8G+D4MzWpj/W7VZOki8T9tlb
+         o5r5Vt0SlQ+EUkcDUBlF1rLunzolbPC3blz/GSu9KfcgDxlr1enZZOXuEwSSrgU2PWAE
+         iCag==
+X-Forwarded-Encrypted: i=1; AFNElJ+aSHVgQ3hw7w5xuP+f0TBj3uEqdtFj3wt1wRjnWr3OxMIR4ioNTzPqt1Z1843UFqc0U0ZQaFFiE5/lMQjkQ5hA6w==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwV32B1bnfyNe5Ow7q9BuSGlDmUBiWm0gXHxtVZFM6JVKST0YhS
+	70gpKvYuA1o2BID28Gh7jCJn9tO9lUgbKTOyUdjeJv+NN6+HDXEIhIzg
+X-Gm-Gg: AeBDietP2jXER/ION4/wP6ubkjgFFlNbwlMsIbdrJ6lx9OVaY8OQrKJ5e1gz7DiQy7n
+	I3PdL+gXzGwMygIl7HZsUPNqNR1hTb4l2bLA2ICfFXJPrsrhpZ/ec8Tsb5DjDHzjQirHdYjc1sQ
+	RIf/B789KogLwWuxh/RK4Lz7IvUbmZg83n8ef0LFkYCud78rCezZXe3sorX2lWR+GrIP4XIyRU8
+	CyR+YXZreuTrKHU1mYsDVays8/FoFelWrH2C2mHH+STdLbiy+lcpQJQ1zYpDsO6LTd1YhAH/W1d
+	AkMY6z0qcX3AV11Fg2mJRmIqxP2QveM8MKjmgJZb7KIoannFIlPQWErWUye17SVOAzkjwK/Uy5Z
+	xZtQZumSpw0+fMClpxcTiq/f1KBjuSDqECxqsT+HNMUltr3xEngS0h5JO4T6SLiQpEtwHl3zh0E
+	ronxHIFnPR8VEe0kUcU8lWBfD5ClK3mrjz03m7nosxIR4Agd/JFufNUJ8msaYpNtOFQSA8s6lwD
+	THr0SS/yOLEymSwW5QF3WNxwsQ3x1p54fx2EJaOZ60qB2k=
+X-Received: by 2002:a05:6000:2486:b0:43d:7518:b0fc with SMTP id ffacd0b85a97d-43d7518b2a1mr7508526f8f.43.1776084559589;
         Mon, 13 Apr 2026 05:49:19 -0700 (PDT)
 Received: from iku.example.org ([2a06:5906:61b:2d00:8060:3087:2ea2:f494])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43d63e50015sm34634318f8f.27.2026.04.13.05.49.18
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43d63e50015sm34634318f8f.27.2026.04.13.05.49.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Apr 2026 05:49:18 -0700 (PDT)
+        Mon, 13 Apr 2026 05:49:19 -0700 (PDT)
 From: Prabhakar <prabhakar.csengg@gmail.com>
 X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 To: Michael Turquette <mturquette@baylibre.com>,
@@ -89,9 +89,9 @@ Cc: linux-kernel@vger.kernel.org,
 	Biju Das <biju.das.jz@bp.renesas.com>,
 	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
 	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v2 1/2] clk: divider: Fix clk_divider_bestdiv() returning min rate for large rate requests
-Date: Mon, 13 Apr 2026 13:49:11 +0100
-Message-ID: <20260413124912.3260571-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH v2 2/2] clk: divider: Add some kunit test suites
+Date: Mon, 13 Apr 2026 13:49:12 +0100
+Message-ID: <20260413124912.3260571-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260413124912.3260571-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 References: <20260413124912.3260571-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
@@ -108,13 +108,13 @@ X-Spamd-Result: default: False [-0.16 / 15.00];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	R_MISSING_CHARSET(0.50)[];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	TAGGED_FROM(0.00)[bounces-31242-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-31243-lists,linux-renesas-soc=lfdr.de];
 	RCVD_COUNT_FIVE(0.00)[5];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
@@ -124,111 +124,223 @@ X-Spamd-Result: default: False [-0.16 / 15.00];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	RCPT_COUNT_SEVEN(0.00)[10];
-	NEURAL_HAM(-0.00)[-0.989];
+	NEURAL_HAM(-0.00)[-0.986];
 	DKIM_TRACE(0.00)[gmail.com:+];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
 	FREEMAIL_FROM(0.00)[gmail.com];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[renesas.com:email,bp.renesas.com:mid,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 12CC23EC304
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[bp.renesas.com:mid,renesas.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 22E3E3EC38C
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
 From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-clk_divider_bestdiv() clamps maxdiv using:
+Add KUnit tests to verify clk_divider_bestdiv() returns the maximum
+achievable rate when clk_round_rate() is called with ULONG_MAX, which
+is the canonical way to probe the maximum rate a clock can produce.
 
-    maxdiv = min(ULONG_MAX / rate, maxdiv);
-
-to avoid overflow in rate * i. However, requests like
-clk_round_rate(clk, ULONG_MAX), which are used to determine the maximum
-supported rate of a clock, result in maxdiv being clamped to 1. If no
-valid divider of 1 exists in the table the loop is never entered and
-bestdiv falls back to the maximum divider with the minimum parent rate,
-causing clk_round_rate(clk, ULONG_MAX) to incorrectly return the minimum
-supported rate instead of the maximum.
-
-Fix this by removing the pre-loop maxdiv clamping and replacing the
-unprotected rate * i multiplication with check_mul_overflow(). Guard
-the exact-match short-circuit with !overflow to prevent a clamped
-target_parent_rate of ULONG_MAX from falsely matching parent_rate_saved
-and causing premature loop exit. Break out of the loop after evaluating
-the first overflowing divider since clk_hw_round_rate(parent, ULONG_MAX)
-returns a constant for all subsequent iterations, meaning no better
-candidate can be found, and continuing would cause exponential recursive
-calls in chained divider clocks.
+The first test uses a fixed-rate parent driving a table-based divider
+with no div=1 entry. The second test places a two-input mux between
+the divider and its root clocks to verify correct parent selection and
+that the divider loop does not make redundant calls to
+clk_hw_round_rate() for each remaining table entry after the first
+overflow.
 
 Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 ---
- drivers/clk/clk-divider.c | 25 +++++++++++++++++--------
- 1 file changed, 17 insertions(+), 8 deletions(-)
+ drivers/clk/Kconfig            |   7 ++
+ drivers/clk/Makefile           |   1 +
+ drivers/clk/clk-divider_test.c | 151 +++++++++++++++++++++++++++++++++
+ 3 files changed, 159 insertions(+)
+ create mode 100644 drivers/clk/clk-divider_test.c
 
-diff --git a/drivers/clk/clk-divider.c b/drivers/clk/clk-divider.c
-index 45e7ebde4a8b..9a6a2ad6f397 100644
---- a/drivers/clk/clk-divider.c
-+++ b/drivers/clk/clk-divider.c
-@@ -15,6 +15,7 @@
- #include <linux/err.h>
- #include <linux/string.h>
- #include <linux/log2.h>
-+#include <linux/overflow.h>
+diff --git a/drivers/clk/Kconfig b/drivers/clk/Kconfig
+index cc8743b11bb1..c8f9eaef6f6b 100644
+--- a/drivers/clk/Kconfig
++++ b/drivers/clk/Kconfig
+@@ -573,4 +573,11 @@ config CLK_FD_KUNIT_TEST
+ 	help
+ 	  Kunit test for the clk-fractional-divider type.
  
- /*
-  * DOC: basic adjustable divider clock that cannot gate
-@@ -301,6 +302,7 @@ static int clk_divider_bestdiv(struct clk_hw *hw, struct clk_hw *parent,
- 	int i, bestdiv = 0;
- 	unsigned long parent_rate, best = 0, now, maxdiv;
- 	unsigned long parent_rate_saved = *best_parent_rate;
-+	unsigned long target_parent_rate;
- 
- 	if (!rate)
- 		rate = 1;
-@@ -315,15 +317,11 @@ static int clk_divider_bestdiv(struct clk_hw *hw, struct clk_hw *parent,
- 		return bestdiv;
- 	}
- 
--	/*
--	 * The maximum divider we can use without overflowing
--	 * unsigned long in rate * i below
--	 */
--	maxdiv = min(ULONG_MAX / rate, maxdiv);
--
- 	for (i = _next_div(table, 0, flags); i <= maxdiv;
- 					     i = _next_div(table, i, flags)) {
--		if (rate * i == parent_rate_saved) {
-+		bool overflow = check_mul_overflow(rate, (unsigned long)i, &target_parent_rate);
++config CLK_DIVIDER_KUNIT_TEST
++	tristate "KUnit tests for clk divider bestdiv" if !KUNIT_ALL_TESTS
++	depends on KUNIT
++	default KUNIT_ALL_TESTS
++	help
++	  Kunit test for the clk-divider type.
 +
-+		if (!overflow && target_parent_rate == parent_rate_saved) {
- 			/*
- 			 * It's the most ideal case if the requested rate can be
- 			 * divided from parent clock without needing to change
-@@ -332,13 +330,24 @@ static int clk_divider_bestdiv(struct clk_hw *hw, struct clk_hw *parent,
- 			*best_parent_rate = parent_rate_saved;
- 			return i;
- 		}
--		parent_rate = clk_hw_round_rate(parent, rate * i);
-+		/*
-+		 * Clamp target_parent_rate to ULONG_MAX on overflow. The true
-+		 * required parent rate exceeds what can be represented, so ask
-+		 * the parent for the highest rate it can produce. There is no
-+		 * point continuing the loop past this since larger dividers
-+		 * only move further from the requested rate.
-+		 */
-+		if (overflow)
-+			target_parent_rate = ULONG_MAX;
-+		parent_rate = clk_hw_round_rate(parent, target_parent_rate);
- 		now = DIV_ROUND_UP_ULL((u64)parent_rate, i);
- 		if (_is_best_div(rate, now, best, flags)) {
- 			bestdiv = i;
- 			best = now;
- 			*best_parent_rate = parent_rate;
- 		}
-+		if (overflow)
-+			break;
- 	}
- 
- 	if (!bestdiv) {
+ endif
+diff --git a/drivers/clk/Makefile b/drivers/clk/Makefile
+index a3e2862ebd7e..0c915c6cf3fa 100644
+--- a/drivers/clk/Makefile
++++ b/drivers/clk/Makefile
+@@ -20,6 +20,7 @@ clk-test-y			:= clk_test.o \
+ 				   kunit_clk_assigned_rates_zero_consumer.dtbo.o \
+ 				   kunit_clk_hw_get_dev_of_node.dtbo.o \
+ 				   kunit_clk_parent_data_test.dtbo.o
++obj-$(CONFIG_CLK_DIVIDER_KUNIT_TEST) += clk-divider_test.o
+ obj-$(CONFIG_COMMON_CLK)	+= clk-divider.o
+ obj-$(CONFIG_COMMON_CLK)	+= clk-fixed-factor.o
+ obj-$(CONFIG_COMMON_CLK)	+= clk-fixed-rate.o
+diff --git a/drivers/clk/clk-divider_test.c b/drivers/clk/clk-divider_test.c
+new file mode 100644
+index 000000000000..3a5e3adccb2e
+--- /dev/null
++++ b/drivers/clk/clk-divider_test.c
+@@ -0,0 +1,151 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * KUnit tests for clk_divider_bestdiv()
++ */
++#include <kunit/test.h>
++#include <linux/clk.h>
++#include <linux/clk-provider.h>
++#include <linux/limits.h>
++#include <linux/units.h>
++
++#define PARENT_RATE_1GHZ	GIGA
++#define PARENT_RATE_2GHZ	(2 * GIGA)
++#define PARENT_RATE_4GHZ	(4 * GIGA)
++
++static u32 fake_reg_a, fake_reg_b;
++
++static const struct clk_div_table no_div1_table[] = {
++	{0, 2},
++	{1, 4},
++	{2, 8},
++	{0, 0},
++};
++
++static void unregister_fixed_rate(void *hw)
++{
++	clk_hw_unregister_fixed_rate(hw);
++}
++
++static void unregister_divider(void *hw)
++{
++	clk_hw_unregister_divider(hw);
++}
++
++static void unregister_mux(void *hw)
++{
++	clk_hw_unregister_mux(hw);
++}
++
++/*
++ * Test that clk_round_rate(clk, ULONG_MAX) returns the maximum achievable
++ * rate for a divider clock.
++ */
++static void clk_divider_bestdiv_ulong_max_returns_max_rate(struct kunit *test)
++{
++	struct clk_hw *parent_hw, *div_hw;
++	unsigned long rate;
++
++	parent_hw = clk_hw_register_fixed_rate(NULL, "bestdiv-parent",
++					       NULL, 0, PARENT_RATE_1GHZ);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, parent_hw);
++	kunit_add_action(test, unregister_fixed_rate, parent_hw);
++
++	fake_reg_a = 0;
++	div_hw = clk_hw_register_divider_table(NULL, "bestdiv-div",
++					       "bestdiv-parent",
++					       CLK_SET_RATE_PARENT,
++					       (void __iomem *)&fake_reg_a,
++					       0, 2, 0, no_div1_table, NULL);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, div_hw);
++	kunit_add_action(test, unregister_divider, div_hw);
++
++	/*
++	 * ULONG_MAX is the canonical way to probe the maximum rate a clock
++	 * can produce. With a parent at 1 GHz and the smallest table divider
++	 * being 2, the expected maximum is 500 MHz.
++	 *
++	 * Before the fix this returned 125 MHz (PARENT_RATE / 8), the
++	 * minimum rate, because the search loop was bypassed entirely.
++	 */
++	rate = clk_hw_round_rate(div_hw, ULONG_MAX);
++	KUNIT_EXPECT_EQ(test, rate, PARENT_RATE_1GHZ / 2);
++}
++
++/*
++ * Test that clk_round_rate(clk, ULONG_MAX) returns the correct maximum rate when
++ * a mux clock sits between a divider and its parent candidates.
++ *
++ * Topology:
++ *
++ *   [fixed 4 GHz] --\
++ *                    +--> [mux CLK_SET_RATE_PARENT] --> [div {2,4,8} CLK_SET_RATE_PARENT]
++ *   [fixed 2 GHz] --/
++ *
++ */
++static void clk_divider_bestdiv_mux_ulong_max_returns_max_rate(struct kunit *test)
++{
++	static const char *const mux_parents[] = {
++		"bestdiv-mux-parent-a",
++		"bestdiv-mux-parent-b",
++	};
++	struct clk_hw *parent_a_hw, *parent_b_hw, *mux_hw, *div_hw;
++	unsigned long rate;
++
++	/* Higher-rate parent: the mux should select this for ULONG_MAX. */
++	parent_a_hw = clk_hw_register_fixed_rate(NULL, "bestdiv-mux-parent-a",
++						 NULL, 0, PARENT_RATE_4GHZ);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, parent_a_hw);
++	kunit_add_action(test, unregister_fixed_rate, parent_a_hw);
++
++	/* Lower-rate parent: should not be selected. */
++	parent_b_hw = clk_hw_register_fixed_rate(NULL, "bestdiv-mux-parent-b",
++						 NULL, 0, PARENT_RATE_2GHZ);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, parent_b_hw);
++	kunit_add_action(test, unregister_fixed_rate, parent_b_hw);
++
++	/*
++	 * 1-bit mux register selects between the two parents.
++	 * CLK_SET_RATE_PARENT allows the divider's rate request to
++	 * propagate into clk_mux_determine_rate().
++	 */
++	fake_reg_a = 0;
++	mux_hw = clk_hw_register_mux(NULL, "bestdiv-mux",
++				     mux_parents, ARRAY_SIZE(mux_parents),
++				     CLK_SET_RATE_PARENT,
++				     (void __iomem *)&fake_reg_a,
++				     0, 1, 0, NULL);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, mux_hw);
++	kunit_add_action(test, unregister_mux, mux_hw);
++
++	fake_reg_b = 0;
++	div_hw = clk_hw_register_divider_table(NULL, "bestdiv-mux-div",
++					       "bestdiv-mux",
++					       CLK_SET_RATE_PARENT,
++					       (void __iomem *)&fake_reg_b,
++					       0, 2, 0, no_div1_table, NULL);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, div_hw);
++	kunit_add_action(test, unregister_divider, div_hw);
++
++	/*
++	 * Expected maximum: mux selects the 4 GHz parent, divider applies
++	 * the smallest table entry (2): 4 GHz / 2 = 2 GHz.
++	 */
++	rate = clk_hw_round_rate(div_hw, ULONG_MAX);
++	KUNIT_EXPECT_EQ(test, rate, PARENT_RATE_4GHZ / 2);
++}
++
++static struct kunit_case clk_divider_bestdiv_test_cases[] = {
++	KUNIT_CASE(clk_divider_bestdiv_ulong_max_returns_max_rate),
++	KUNIT_CASE(clk_divider_bestdiv_mux_ulong_max_returns_max_rate),
++	{}
++};
++
++static struct kunit_suite clk_divider_bestdiv_test_suite = {
++	.name = "clk_divider_bestdiv",
++	.test_cases = clk_divider_bestdiv_test_cases,
++};
++
++kunit_test_suite(clk_divider_bestdiv_test_suite);
++
++MODULE_DESCRIPTION("KUnit tests for clk_divider_bestdiv()");
++MODULE_LICENSE("GPL");
 -- 
 2.53.0
 
