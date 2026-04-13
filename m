@@ -1,247 +1,203 @@
-Return-Path: <linux-renesas-soc+bounces-31240-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-31241-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id wMq7BHjh3GmKXwkAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-31240-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 Apr 2026 14:28:40 +0200
+	id wHcAIlTm3GkZYAkAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-31241-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 Apr 2026 14:49:24 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F4323EBFB6
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 Apr 2026 14:28:39 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F5E53EC2F5
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 Apr 2026 14:49:24 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 0BC39300C547
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 Apr 2026 12:28:24 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 4D3F8300BB87
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 Apr 2026 12:49:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 40C513C4559;
-	Mon, 13 Apr 2026 12:28:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B90C43C870C;
+	Mon, 13 Apr 2026 12:49:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RVVAM0rh"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YLRjUbPS"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A8683264D6
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 13 Apr 2026 12:28:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.47
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776083303; cv=pass; b=l60BdHNosRbZ3iYo4azJkjogyk+KgGBE6QPFIgIQwa85RuXjz7bVwXbzL6n+KMnN26AQD5HUEIsBlrP8JiaKkOVYEDfshIwgyQ9k5jUcIRwCHITlc+xwMAZTDVUYUROKjlt0/95YPYnWTvxAp3SvFJC42m/02fppWV7bZdSGxCk=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776083303; c=relaxed/simple;
-	bh=xsHSmBrP8uAAlVjNBz77G4uhcSS+CwO8tygFMXbTWBE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Wy5+qDlZBgXFP2Z4v6o81eaoJ51uD51cPHj5mnhhRmdefQkKCKNrPxttjXC06hLTJzA9WeEf7cngLi/t0dApzX2bdO40ra0P3x2a766eJQjGWP1ZVdDw+RMEVfnspcnlB65szg+zp86lfRM4Rb2fDabPfL0E7Cxwb1Cb+pq9O5A=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RVVAM0rh; arc=pass smtp.client-ip=209.85.221.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 278753C7E0F
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 13 Apr 2026 12:49:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776084561; cv=none; b=UVhQmwnUAyVF+ntcMfwldvaCTH5aD9+pTvYHGSgTUVCYsIiZBNpxKE4Y3mojK21Zm24MT41uSxtAVvkIeGHkbN5Her75ngkSufu61mijcKnRctakJNZAQigCoXhQNiD8ioKCAJ/No9Ky0CkOfgm85tPUo/JPQt//kqgVXwG/7NA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776084561; c=relaxed/simple;
+	bh=VwbgQIaq3OLeFJ6TuVKcR/q4kXymk0heOmmzGHImahQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=TCkjBSJqK9IsQRtGL8mcLVuYLn4nYTLRvb9BmSbYr9lWpSfwWn80/Q4uktFJKr2ZmAm/Dpa6RJeE7sjz0o4ijYnknvM4tzoaUqV68CJk9rFDSiZy3YzuAqc/8D2kO/ktcbvKKeVvFv3iJ2e7HkWfexeZZrPVOZGZHTJ1JYTbTdw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YLRjUbPS; arc=none smtp.client-ip=209.85.221.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-43d7a5e77b1so481850f8f.1
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 13 Apr 2026 05:28:20 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1776083299; cv=none;
-        d=google.com; s=arc-20240605;
-        b=Ilh1htpmqIqQrNQqpn7z8WwtL5M9wSndZ6Rd1rebbN3BtWBhP9JP9fChGRlXAmGOAC
-         q40CaID/bcdHYZKaBjRrKXy5FZ0wX6G6tq8nvdEY9zFQ/hMzTjaaFpz7dqyhVUabkSJN
-         wsHXV0kn4jvOwYyGhzIyV6WkDT4DAw8SyrnRNWv6gKlxQ8OYToZU3/afN1r9HuKx6fR8
-         NvYNsZlC10KuVSKHGr8jPnh4YvSoogGiUpHISJuBbGurgQjP90lv1p0HZLbwAlCrf0KG
-         VMwsLsyM/AeOjB/zy0da+4FagCLUdQX/6XdR9vgFO4gxSELHPxcXQYGaprcaU5LWjTTG
-         7uHw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=AfR7ekTVJM91N24iXqkZ230dnYTXWreR7I5vB/E9sQk=;
-        fh=V3HR59hPThndgMgQALEr2XAjlzNHguyYZSZEhon1Tgg=;
-        b=dnqQ8VVMw9y9ZWeeFG4r14x6aXlMjeMWix/NtTt4kCqtYD1mT984tIyZhs7GLCUV0q
-         fdrXxtXsvCibani4l2SzgPzWaV/WoDmhRj0gVv9z5byv7MS8fFMJ4uVszr3W8SRxZZHU
-         6Hws19fHYDxLODyJAztofGtGJ+oWtKvCUhXXEpfoc/DOYEJEd9zPpuHZJ3LXFOOMJ4Mf
-         4Yh28VYb+SvIXvOt6gDu+eUHWq4zPl2G65iY3a5DyR3xawkzyAbPxwdi9/BvZLn6X3LS
-         ILK2FqNPgPVdadt0sTkpLl4cGUltIfL/SXlWcTM2JPc226vCqCpJ2BDaxxSS+4EqWFVg
-         vjrA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-43cf7683a28so2859785f8f.2
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 13 Apr 2026 05:49:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776083299; x=1776688099; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=AfR7ekTVJM91N24iXqkZ230dnYTXWreR7I5vB/E9sQk=;
-        b=RVVAM0rhSCeho9yGJRfOHkjS/hBIsLDhfeYwf5o1Q0Rey2HBPTPa9spdbHbcBzQ2aD
-         4kS9ZyAFgP4bMkqRfVqUWulikOvJg8rYXfNU628zan6joGikarhwjI+lRBuGXtfM2UaN
-         VqH65C7oRApZvPpOyhOLs5lEbwHYp7EMKK5DK5ACg+oZ9rMf3DkTadvOHtFRgFgSj4wC
-         a52BQu9saKqnlQy3SMqxA3Xy4cC8uUgLoetvKEzZJW5BeIiqUHWpN46oBf5aI2Pd1baF
-         GF7zo1PjT04O53j2F9g0EnflLi4XNcaHtRthGngXV3kLrJAahpHD1fes60gQUHsSK7LS
-         9nvg==
+        d=gmail.com; s=20251104; t=1776084558; x=1776689358; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=DSP2hPPChRRMgpsEd3cMQjakL+sjPbtFmawJfDI4eN8=;
+        b=YLRjUbPSe5dJMfqGZ5tpyR9f439RU5Ep/0SNL2adjyDKXVDhWUYxECN7r7H6ETVz93
+         l1XMYFPcDB/An/xr00Tm6w7QcPp/fkRu2iEdXevP80oZPWlxIrOt5SnZ7De0bg5rttsv
+         NzoVBcio6qooukfJVDO++IQHqQ+UNvPmLb+tE3ZKK60/w1pJIpXVRHx/83jrV2qEXe7u
+         lSdQ7+pNK+gWPutZvhW9ItvtRMolY8ifrBslC+HeURQzpAIOsYpXjSCa5CFR2uJckxe5
+         LAdC+NSjUKoJplULjf10/9Hmz2brUa0FVKMPm7yGIUuxhi921vpY+5iJiK6l5ABBDifj
+         F1SA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776083299; x=1776688099;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=AfR7ekTVJM91N24iXqkZ230dnYTXWreR7I5vB/E9sQk=;
-        b=R0AsQfaNf3490HFGgsd5I19HYFcDeoPfiRwH6TfT3q9VEcdejwOClQ5p7urXOhC/h7
-         Y1NX8zpIi2dgV1OFS5RAXXf2V49zCD90EXgXdR5IjYJlIXNwuvT8c6RnBdLUX7UHh3zX
-         VBiTcbMTEdbrV0ezeRRzqAkXPRFNcPtyFpmPTBztWQLCTIAZlmDy5TASiw0gFSK+anFO
-         BRGp1zNCJgnCqPMNtMH+UFQ6mjyrvfr7TC3c6CInRL92L63G7Pda9r5m7LoRETjJJETA
-         dZrH2kHYQrNHh7mlm3+qgewXv2+wAuMpW0TfzxSjzozd80ajXiV6lSruYzlTO7sU9nuZ
-         R/DQ==
-X-Forwarded-Encrypted: i=1; AFNElJ/8AzmyvaoK51IJ7lcldNdieCRQLalibTXoYFXo1q8jOyIYyHEphPAMDe5DRX0U3A8hT9cCAdZa5jUCMkBJTjTCkg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw1jWqSHOoFjZh3wHmQ65kMTynO9hYOowbPrV914Xx6e//adhkx
-	25FksNgU5ECExqrmqWgxB8hWtkpS0vxLdbmJmuHb1+xVXGJT3BSkAihP4BvDzfTMncCOOQ6jz2a
-	9S2Yi5j3a0EdhgwW5KwpE9Aqgom09A/Q=
-X-Gm-Gg: AeBDiesSuz9Wp9026qPhJUuCtjZ5MJO9PMSpTGxQRm2yK7bqakXyqkv4JULg2D0zRok
-	jBh3eskYeJPxHQUDSUhD07/61UdE9+Up5KdgvPfAn1rll+5oIBHK+Y1Woj25M46UkkUscKdcczq
-	4aTPOfCdE/h9j64eKlbwYhqCTHbpIpc5/nTbxVFi5TlWCpmI8Ude6Bu4zg+6IYSXOf+cnqB0sKk
-	BiolCnhPA42VSC9EfENIECWrmxDSaS7plbYMh4dvnTVe9LNBK1dfkLs66K3uMLAlGwB1FMnFmtF
-	pcyIFNyqMxyGuVOOqpvDdtp9P2j4Fgjm/j9tBQtjk9fNz30gkAna4QxkJjGWiAi6p6BD9xP8ESP
-	f2cXZfg==
-X-Received: by 2002:a05:6000:24c2:b0:43d:1598:2d6e with SMTP id
- ffacd0b85a97d-43d6497b76amr19100204f8f.20.1776083298413; Mon, 13 Apr 2026
- 05:28:18 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1776084558; x=1776689358;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=DSP2hPPChRRMgpsEd3cMQjakL+sjPbtFmawJfDI4eN8=;
+        b=m589cH/vc9tXQxIFl16YZQ76Ew52OU5fWBPRIwA4fjkunH8CHSHG2Wd7tkiFIpV+Od
+         v+kGpNm6vPlXPlFOnOlSWOA14HjcFZa6PcLmbxziqW26FfBrmlBl0SUs/SHlqiJz7KG1
+         O/0XFEpfBKNUCLqk/NULTt3M2C1QD7KsKpj9IPNcpBr9QfBMFFGHfudcgx8s9oQGJ+fl
+         DgNkQ9E/eRkM//AtGTOX6ALlEKxgRhJ6cwneMKNsMNfLqLcX7ehSRmJyHhXXoW4t2pZx
+         N0V1SDK9dJukSMu+7yvZLQc6GWw1gYKWrVyhQjWPm0qMkP+EEqYKE9HS7MAVijRYehXd
+         BrBA==
+X-Forwarded-Encrypted: i=1; AFNElJ9IqrzM/CfJ2ELtDNnUdyXE0JchD1S6/CTMThIgfnriKBhVZe0prRaYCtvTger9HBjCA0T4E/emok7j1Z4KqUjHSQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwPII3+ywiMASPqHinSLBXqoyq63l8D+YOorGnHR0Z/TPYsp8yH
+	m0rLlxO/EISaZi13JUw8UuO+BjMM1XMsB6s78co0JjbtmMpmbf55KPWO
+X-Gm-Gg: AeBDietOlSeFTn7WuzKfkg17W5l+m6jszQ7IaM6SFBY5qpvJZWzT2GesKXyxPb/dWHt
+	Nc3fueVQmcPEZIGuZfN+YdDEsSVWJrrv1wgv5TqS9bZ83mWoGD2G0CKqdwtyrVctBJBKQIb/u4j
+	ngqQxRFjSs0Uuvmrf2v0BwfhJwfWl0jajxSyN/PyD3v4cvuzJk1RYmQWcVNCtLakoykpLhTwL+j
+	YfY4DL1tMa6Yy6+x40deGsrgJAYfQp++dj8ROKlHS+qtxMrnugMhrWjE8pXzTxB2vy2C5dUl8Wv
+	APKs1AwdlN7SWoTIu4DcEXnXkciUcCCmrMudMgnNmN8WakN3r0erpAeiBgjaYqbmj0e2AyuN094
+	3PwIHOGx8AzWAHkHFeA8RYBLP0a5kS79zWS8jCaV2UWPAgo1p7rbgIbyKR3nzBFMi2cETvPDQlh
+	MuU9vVoX1ol9uoJImualWHU6s124Dqk/44mRgfEJIMK43Mpufr5neBLuFMTL5xBizlROnkBypeQ
+	bcebaahPfrzVfqS4U/9f1PQHcenYJp7xeit1pIKqa3D+ro=
+X-Received: by 2002:a05:6000:26cf:b0:43b:4212:2ee8 with SMTP id ffacd0b85a97d-43d642b9daamr18907213f8f.24.1776084558434;
+        Mon, 13 Apr 2026 05:49:18 -0700 (PDT)
+Received: from iku.example.org ([2a06:5906:61b:2d00:8060:3087:2ea2:f494])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43d63e50015sm34634318f8f.27.2026.04.13.05.49.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 13 Apr 2026 05:49:18 -0700 (PDT)
+From: Prabhakar <prabhakar.csengg@gmail.com>
+X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To: Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: linux-kernel@vger.kernel.org,
+	linux-clk@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	Prabhakar <prabhakar.csengg@gmail.com>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH v2 0/2] Fix clk_divider_bestdiv() to get max clk rate supported and add some kunit test suites
+Date: Mon, 13 Apr 2026 13:49:10 +0100
+Message-ID: <20260413124912.3260571-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260408094814.321072-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <177595505293.5403.10549666544609254028@lazor>
-In-Reply-To: <177595505293.5403.10549666544609254028@lazor>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Mon, 13 Apr 2026 13:27:51 +0100
-X-Gm-Features: AQROBzC0PYE3EO5g6wnqK62bLxgGOY1Qxb098X6a24DD3mFd7tUNfPeu0EnDhKE
-Message-ID: <CA+V-a8vO-sq2CBiJFC_UuU5=Mm730qz3Ga_Ze=3sboV3gzQHuQ@mail.gmail.com>
-Subject: Re: [PATCH] clk: divider: Fix overflow in clk_divider_bestdiv() for
- large rate requests
-To: Stephen Boyd <sboyd@kernel.org>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>, Michael Turquette <mturquette@baylibre.com>, 
-	linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spamd-Result: default: False [-0.66 / 15.00];
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-0.16 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	R_MISSING_CHARSET(0.50)[];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-31240-lists,linux-renesas-soc=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	TO_DN_SOME(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TAGGED_FROM(0.00)[bounces-31241-lists,linux-renesas-soc=lfdr.de];
+	RCVD_COUNT_FIVE(0.00)[5];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	MISSING_XM_UA(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	NEURAL_HAM(-0.00)[-1.000];
-	PRECEDENCE_BULK(0.00)[];
+	FREEMAIL_CC(0.00)[vger.kernel.org,gmail.com,bp.renesas.com,renesas.com];
+	TO_DN_SOME(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[prabhakarcsengg@gmail.com,linux-renesas-soc@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[10];
+	NEURAL_HAM(-0.00)[-0.994];
+	DKIM_TRACE(0.00)[gmail.com:+];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,mail.gmail.com:mid]
-X-Rspamd-Queue-Id: 0F4323EBFB6
+	FREEMAIL_FROM(0.00)[gmail.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,renesas.com:email,bp.renesas.com:mid]
+X-Rspamd-Queue-Id: 1F5E53EC2F5
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi Stephen,
+From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Thank you for the review.
+Hi all,
 
-On Sun, Apr 12, 2026 at 1:50=E2=80=AFAM Stephen Boyd <sboyd@kernel.org> wro=
-te:
->
-> Quoting Prabhakar (2026-04-08 02:48:14)
-> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> >
-> > clk_divider_bestdiv() clamps maxdiv using:
-> >
-> >     maxdiv =3D min(ULONG_MAX / rate, maxdiv);
-> >
-> > to avoid overflow in rate * i. However requests like
-> > clk_round_rate(clk, ULONG_MAX), which are used to determine the maximum
-> > supported rate of a clock, result in maxdiv being clamped to 1. If no
-> > valid divider of 1 exists in the table the loop is never entered and
-> > bestdiv falls back to the maximum divider with the minimum parent rate,
-> > causing clk_round_rate(clk, ULONG_MAX) to incorrectly return the minimu=
-m
-> > supported rate instead of the maximum.
-> >
-> > Fix this by replacing the maxdiv clamping and the unprotected rate * i
-> > multiplications with check_mul_overflow(), clamping target_parent_rate
-> > to ULONG_MAX on overflow. This allows the loop to iterate all valid
-> > dividers regardless of the requested rate, and clk_hw_round_rate() with
-> > ULONG_MAX will correctly return the maximum supported parent rate.
-> >
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > ---
-> >  drivers/clk/clk-divider.c | 14 ++++++--------
-> >  1 file changed, 6 insertions(+), 8 deletions(-)
->
-> Please add kunit tests to show the broken behavior that you're fixing.
-> Make a clk-divider_test.c file for this instead of adding it to the
-> clk_test.c file.
->
-OK.
+This patch series includes two patches. The first patch fixes the
+clk_divider_bestdiv() function in clk-divider driver to return the
+maximum clock rate supported by the divider when the requested rate
+is larger than the parent clock rate. The second patch adds some
+kunit test suites for clk-divider driver to verify the fix.
 
-> >
-> > diff --git a/drivers/clk/clk-divider.c b/drivers/clk/clk-divider.c
-> > index 45e7ebde4a8b..dc486c2aa946 100644
-> > --- a/drivers/clk/clk-divider.c
-> > +++ b/drivers/clk/clk-divider.c
-> > @@ -15,6 +15,7 @@
-> >  #include <linux/err.h>
-> >  #include <linux/string.h>
-> >  #include <linux/log2.h>
-> > +#include <linux/overflow.h>
-> >
-> >  /*
-> >   * DOC: basic adjustable divider clock that cannot gate
-> > @@ -301,6 +302,7 @@ static int clk_divider_bestdiv(struct clk_hw *hw, s=
-truct clk_hw *parent,
-> >         int i, bestdiv =3D 0;
-> >         unsigned long parent_rate, best =3D 0, now, maxdiv;
-> >         unsigned long parent_rate_saved =3D *best_parent_rate;
-> > +       unsigned long target_parent_rate;
-> >
-> >         if (!rate)
-> >                 rate =3D 1;
-> > @@ -315,15 +317,11 @@ static int clk_divider_bestdiv(struct clk_hw *hw,=
- struct clk_hw *parent,
-> >                 return bestdiv;
-> >         }
-> >
-> > -       /*
-> > -        * The maximum divider we can use without overflowing
-> > -        * unsigned long in rate * i below
-> > -        */
-> > -       maxdiv =3D min(ULONG_MAX / rate, maxdiv);
-> > -
-> >         for (i =3D _next_div(table, 0, flags); i <=3D maxdiv;
-> >                                              i =3D _next_div(table, i, =
-flags)) {
-> > -               if (rate * i =3D=3D parent_rate_saved) {
-> > +               if (check_mul_overflow(rate, (unsigned long)i, &target_=
-parent_rate))
->
-> Please add some sort of comment above this if condition to tell us what
-> a target_parent_rate of ULONG_MAX means and why overflowing we set the
-> rate to that.
->
-Ok, I will add a comment for and send a v2.
+kunit test case logs:
+case #1 without the fix:
+------------------------
+[   44.288459] KTAP version 1
+[   44.291655] 1..1
+[   44.293844]     KTAP version 1
+[   44.297411]     # Subtest: clk_divider_bestdiv
+[   44.302575]     # module: clk_divider_test
+[   44.302583]     1..2
+[   44.310280]     # clk_divider_bestdiv_ulong_max_returns_max_rate: EXPECTATION FAILED at drivers/clk/clk-divider_test.c:71
+[   44.310280]     Expected rate == 1000000000UL / 2, but
+[   44.310280]         rate == 125000000 (0x7735940)
+[   44.310280]         1000000000UL / 2 == 500000000 (0x1dcd6500)
+[   44.310705]     not ok 1 clk_divider_bestdiv_ulong_max_returns_max_rate
+[   44.341802]     # clk_divider_bestdiv_mux_ulong_max_returns_max_rate: EXPECTATION FAILED at drivers/clk/clk-divider_test.c:134
+[   44.341802]     Expected rate == (4 * 1000000000UL) / 2, but
+[   44.341802]         rate == 0 (0x0)
+[   44.341802]         (4 * 1000000000UL) / 2 == 2000000000 (0x77359400)
+[   44.349940]     not ok 2 clk_divider_bestdiv_mux_ulong_max_returns_max_rate
+[   44.381047] # clk_divider_bestdiv: pass:0 fail:2 skip:0 total:2
+[   44.388922] # Totals: pass:0 fail:2 skip:0 total:2
+[   44.395783] not ok 1 clk_divider_bestdiv
+
+case #2 with the fix:
+---------------------
+[   22.077769] KTAP version 1
+[   22.080931] 1..1
+[   22.083168]     KTAP version 1
+[   22.086739]     # Subtest: clk_divider_bestdiv
+[   22.091826]     # module: clk_divider_test
+[   22.091835]     1..2
+[   22.099869]     ok 1 clk_divider_bestdiv_ulong_max_returns_max_rate
+[   22.100612]     ok 2 clk_divider_bestdiv_mux_ulong_max_returns_max_rate
+[   22.107902] # clk_divider_bestdiv: pass:2 fail:0 skip:0 total:2
+[   22.115589] # Totals: pass:2 fail:0 skip:0 total:2
+[   22.122473] ok 1 clk_divider_bestdiv
+
+v1->v2:
+- Updated the patch#1 fixing review comments from Sashiko
+- Added a new patch#2 to add some kunit test suites for clk-divider driver
 
 Cheers,
 Prabhakar
 
-> > +                       target_parent_rate =3D ULONG_MAX;
-> > +               if (target_parent_rate =3D=3D parent_rate_saved) {
-> >                         /*
-> >                          * It's the most ideal case if the requested ra=
-te can be
-> >                          * divided from parent clock without needing to=
- change
+Lad Prabhakar (2):
+  clk: divider: Fix clk_divider_bestdiv() returning min rate for large
+    rate requests
+  clk: divider: Add some kunit test suites
+
+ drivers/clk/Kconfig            |   7 ++
+ drivers/clk/Makefile           |   1 +
+ drivers/clk/clk-divider.c      |  25 ++++--
+ drivers/clk/clk-divider_test.c | 151 +++++++++++++++++++++++++++++++++
+ 4 files changed, 176 insertions(+), 8 deletions(-)
+ create mode 100644 drivers/clk/clk-divider_test.c
+
+-- 
+2.53.0
+
 
