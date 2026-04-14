@@ -1,160 +1,217 @@
-Return-Path: <linux-renesas-soc+bounces-31259-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-31260-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id OOezBNwV3mlBmwkAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-31259-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Apr 2026 12:24:28 +0200
+	id OM9QKnkb3mmFnAkAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-31260-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Apr 2026 12:48:25 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59B9F3F8A3C
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Apr 2026 12:24:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25E263F8F10
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Apr 2026 12:48:24 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 91416304F2DF
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Apr 2026 10:20:50 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 8188B30B8DDD
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Apr 2026 10:41:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7395239A051;
-	Tue, 14 Apr 2026 10:20:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C7E143D8100;
+	Tue, 14 Apr 2026 10:41:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hcAtfRjM"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ua1-f46.google.com (mail-ua1-f46.google.com [209.85.222.46])
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91CCB3D47AA
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 14 Apr 2026 10:20:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.46
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776162037; cv=none; b=PbA6YQEbIZaAbYqr6NY4Jm31rUZC+FXT9txHsvlEsMrK1ix5m0QLWfcH6RenskbU0Vj3BLgSRBdrmDFJhOsfUzTL5C2qbg+gDhLd43sSYfOLIQY0W/7CBh9dpXxzN/libUN+Zi4clJx72xteJ7V5YvSkMezlBwVrIyYKvb/0Tys=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776162037; c=relaxed/simple;
-	bh=w4RU3LbA8U81TCj411ChOJb2AxIw+5nh+I9X8CndoHU=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85C633D6471
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 14 Apr 2026 10:41:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.216.51
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776163276; cv=pass; b=P8EfQxi+3hBL+h2GNxCD780sxGAFIoMb779c4EMic3FfjJaWyaFT/zgseJIuFJeM6BHkqg0wFCOvnNNLcY5EGg62m9CoAsOiT9VKTBCs01IfpbDoVpoeFc+0Kh3hZ7uZdUaFoPcqBTRRPfmPTGVyZzgjiJW6C8piI9diizcFQDM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776163276; c=relaxed/simple;
+	bh=FRJ1V4Rg7H7FZyF7SYOEYn6+kpQ3Ohx/3Kg30U4brH8=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ZDXwc+UJ1fxCawWMriiGa3R707PSO00pBL4CgwQpYLvvtHTOVzqu60oVHO+K//XgxEOcQ/r6CY5ac8DEL/lJprm039zzSP7erFt82LXZYppViK1R9No2HnX9SaVJr4yT1dgXnwNWBmz9XWzr/qFDyQAAhAje0ju8EwBnfUsQnsQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+	 To:Cc:Content-Type; b=RKA4Aa7nwxiCRtU+ajuyHhm+ER6VuA8LALcTkyn8D3s2qkKPQg/yC0L+0jEW6gbByHVbZVb+xkaOwFXO1c5Ajxy5QU9hyqVzp26IsxZOSg4njKZC1MPq/L3BIQaNKdPN/+9z7sUjmU7dxVV7dp+g2CtLDg45EcGQJQXbcf1mI6I=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hcAtfRjM; arc=pass smtp.client-ip=209.85.216.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ua1-f46.google.com with SMTP id a1e0cc1a2514c-953c5738c03so3229792241.2
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 14 Apr 2026 03:20:33 -0700 (PDT)
+Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-35d9f68d011so3445950a91.2
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 14 Apr 2026 03:41:10 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1776163269; cv=none;
+        d=google.com; s=arc-20240605;
+        b=Jojq4mL9W3meJVrjks4LVpeZ2OTOoTkQM9zsd8VtIrrGCdGBbnC8ea8RxEZGzGZWmq
+         jqrgoxW7/xjyRRyTPPYt5Za83oLJ7KendPHA5HmEBo7T8qxA9zkGV+HWvv6odmeC0BiL
+         rC/dhP4JmYXDo9Xn1A7vNtz+88IpbrnaMpP7LFnga4NqdR7Jr2uwRS/Tzjb81Kg9w1yg
+         OeiLZgRKlV3fl1hzKD6pWN/i1dDnQe4glQIZDAzPRoCWPV8ujHcVK2FsOziO0oxsE65o
+         L4ukd9WNJrmk5NurSN114AqBdHCEwSqX+ZELeLGNbasn1TioqlKx0bPnsuio3F/+B9o7
+         m6gw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=vDpaKgtvK1gesz/aQw1mjbgT5u/KzUnIhgbKYhPDE5I=;
+        fh=c1uyG+Nimb6LQcVEL0TglGacvJJ/XCTW+kWMMAOsJN8=;
+        b=F9AoWvZRvWj9GvxgDZSplxNELMqeBzPyBxe/swd1LNpEsH0/RIFn+lJjnt2KoHagh0
+         jRQOsXcD+m9dCHmH4c/I7XkSZfPkjZIebqxzfkOL3IN4+GdL6QYMegf2uENbxA+9sWEE
+         Hg6RLXvQY9YcElXsx9qwfzOAct+tHzRRUnmXkkossKF4ywT9FzMcpdIRF5AusXPF817G
+         W47+u1v8LVLL7wLt4fVz/AgJqUK/DJz456k0Vz74baltKt5IZaL6IBQwDU6vNu6Wqo5E
+         3rYxMtM/5F8aW9p+OABLC0pwcaZfI626iMoy60TLqKN/PVsHD32Bo+DHFsgRDklo+aF0
+         T3rQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1776163269; x=1776768069; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=vDpaKgtvK1gesz/aQw1mjbgT5u/KzUnIhgbKYhPDE5I=;
+        b=hcAtfRjM2dJeBFRpJuxJpdNi+e623wV1TUB/wleAZufLFl7Z8aNx3UW2Y4Ax8rDVzc
+         n4gUUJK2OV632+nekcK/1piRet9gbGYkg55ll2+g3LTd/ZrsQj2SiODm9TtSnF0yE/n1
+         Qi7USEY7dcC/2rLFNCe7M4PLBpyya1DFiVN1T1X2XDyqrlTOzMbPnJJWoPCQNvDFp29P
+         e9Of8oR7pPN9qORbiyhAoyGwg8+SrwE+Y4nCxqqLbtIeDThfy4V7eTe4IVbsHNQBh43t
+         lSsrobZPR2L3go8lb6FIB0+n2QNqOxGQX8sMOM64Sc93Qsokbvq6jV1QxBWwYM3T5xUq
+         TYjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776162031; x=1776766831;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=/1PSSGgZqIviWrUMA+aGkWAd7pcIuv8HlmdSZUkq2R0=;
-        b=X+5kiXXUqP0bwXW7cEYmsVZsY0vFYwaDlJAeGbGtdySfe3nNV78oTNbxIfjRA4owTi
-         y63tYinqrGzanpUTdXAXBNnzsBTY4JmYbPRAe0mGtm4ZDr3YLiKYliysBRy+TuQ5d+Hc
-         xjrAORN+TZ1CxKGog/G610c2WCZc6pCAD6uyxxO9g4/dwJeIa8sgVUuoi8jorcDd31vZ
-         516RDSTAp4aHIAwhmSPWVZJGn/lHm7FmPk4VfIE794vxqs+GOanceuq4+ApbKAVDTRAB
-         xGnL3SzW7HIw0Fu7fqI2A6numiuQ8ttJdxsi3I01Z++8b6qeal3qFpLkJebH8Z9ik9gq
-         L1sA==
-X-Forwarded-Encrypted: i=1; AFNElJ+dZwsrMvE+FhXLwfJNuyJO4u12I2KwFdJNtfJAzneo+J7WSGbbwmL5J4chIhJYuse0N3CgtuDStZqb8FR5B+nUCg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx0rwcRipq0VEVTEAK0BklcOY4LLdv51dk+nuwiamQLYBcxf2Q8
-	L1dNaMX8LaPbruuWrpMBDoSLfB8ay5thE222ofo3vkSJ9a9OknzdjrZD4odxkHT/
-X-Gm-Gg: AeBDies0VJFNg0tSosFbvvmNK4E+Ys480q2OEvfyIOOoBJ3A86nXjIfo57aAeyzHOyB
-	S6zsMorWDHKF1pL2RqZ+AgXmLWp2nGI36Q/jgrRLe3STm5ilI2TVpQBHtitWK8JSur9nanz4WrA
-	dgBk2lqQpUB1/7fP66WZr78Fh3q4pordH8NLUgyBmU+aaMVQaSjGx5+ousz35fQbNHApQf4+o5O
-	k3AQ1hTQ6Besvy/9vQfW6RpRQrBV2oKbhUcOEmSLcVIshoTherYjp/K+8tUuUoeoMZMxYhhP9pj
-	6X/PYfWrurfA8wrtblrVY4miYP34ngN621wzZK9TFdPTzY1HNYCJJsog7sq2/YYt6cIa+tG9Wh6
-	Pi6+3fCMgdDGU64uvKTKHhe2OjbH1PO4Obf4GS8KVOFupUEmC2PGZqC+m0APrae53O5/RCcVwqX
-	MEly0T/rNT/GES3gP6IdnOGrC3OFwwllCvP0avGy4cnv0gZLZmbIoU7VZ0/iTY
-X-Received: by 2002:a67:e704:0:b0:602:9977:a4fe with SMTP id ada2fe7eead31-60a00f38c36mr7453937137.19.1776162031251;
-        Tue, 14 Apr 2026 03:20:31 -0700 (PDT)
-Received: from mail-ua1-f48.google.com (mail-ua1-f48.google.com. [209.85.222.48])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-609d8c59d5bsm7913061137.2.2026.04.14.03.20.30
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 14 Apr 2026 03:20:31 -0700 (PDT)
-Received: by mail-ua1-f48.google.com with SMTP id a1e0cc1a2514c-953c5738c03so3229782241.2
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 14 Apr 2026 03:20:30 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ8OrBCRsFp8ldKza6ivJoD0ZETyfXxwLPRd0TQSSX2+YTYCUhSJ4lBTWlOdmvPqCXGBh77MB/o77fQQRZYxbsVSgw==@vger.kernel.org
-X-Received: by 2002:a67:e70d:0:b0:603:1a8a:c84a with SMTP id
- ada2fe7eead31-609fecb952fmr7637834137.2.1776162030603; Tue, 14 Apr 2026
- 03:20:30 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1776163269; x=1776768069;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=vDpaKgtvK1gesz/aQw1mjbgT5u/KzUnIhgbKYhPDE5I=;
+        b=MzqDoPnOha2KL1Pgh6gV50G/ghUu3vr7681TXxjM8ga3KGSISnYO1rDnZGCRpw9m5g
+         ter0uDDcKglXbOjrn+rDvocHnFLDW+VVIsyfRqhHNq/LTsE+0T6yiDmD40XeJAoQ5PSy
+         w4RK48U54/Q4iPuEUhsKi4j4Z8jTPvpFj1PoBVYY8OdFraL94LQYQCxbdgOEZdSuf/AG
+         sUoHIUHxeyhuLZJWVBubmA0O0NiAc+dPX8LqcxV0FxsYbcPLz7u9WXSRR0Ak0uf6um9T
+         nwig2ROmsBcdYmfMd1AJkojgoyn8a1AiSqPcgCA8xbTKKbepcGzNY7W+Dc0rMbkrcRa+
+         rV+g==
+X-Forwarded-Encrypted: i=1; AFNElJ9V+w2dheX6vrK5TuL3VGahJrHIT/y+HVRVs98HaoVcFsbpIkd0uJc8bFErTgdRTReF5Ts4aTjuE59FCrG+3C7Y6g==@vger.kernel.org
+X-Gm-Message-State: AOJu0YydDv4kyTYHrHUy2G7iKfc10/CtB4QnXrpB0PQO2nNDtBLWR0SP
+	gCVvpLNZGkBeyGbgV9Abg3Wd6QhJmgbG3h0KmvoSa7HrmRhjSoTDtpHMnF3+B6Ng077lx7/ftZb
+	A0zPRuG1XYcd9STRyHvGlG40X4wh7LE0=
+X-Gm-Gg: AeBDieuixPdOVrWeu2VLhYGyuDJ731Ih5vFln2wC3MA4syDh2m9SOM5WimC2gDe+aMg
+	yyqmpbJRCtILMKmdF8lAjH89WbOLkkOeSsK5HOrgJszHwh2Oq9ZQf+AFqRWRRQmJbh9SpMhSa73
+	P4NTge3Lp5uT7AV7fPbDfDY3Hrb4BD1dW5Tvc1SElwgbn6rFWQye1znnNwyMg+jGOIw4lAY/hOc
+	3GlsOI06IyJtBNx2Jotcz1XkKT1eegTWNcvdfSzU2jyWCcYfn3GwuJFtJbSzPYFOKC3ulGmh7dj
+	Gi0pRIHW+zBpaRvY70YEh5Ntt+yUpKtFZ/fksg==
+X-Received: by 2002:a17:90b:3950:b0:35c:1695:24a3 with SMTP id
+ 98e67ed59e1d1-35e4281374emr16834509a91.23.1776163269477; Tue, 14 Apr 2026
+ 03:41:09 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260412173213.3179426-1-niklas.soderlund+renesas@ragnatech.se>
-In-Reply-To: <20260412173213.3179426-1-niklas.soderlund+renesas@ragnatech.se>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 14 Apr 2026 12:20:19 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWLp=vz5qgOx-N9Pf_FC9o3AsdDXq8Uhu+rW+h6__4vFw@mail.gmail.com>
-X-Gm-Features: AQROBzALmSC5WPRkCgFTwaDsUgYaBeV27KPyK6fy-gnOYEKtgB1RvcJLdAOt3Hg
-Message-ID: <CAMuHMdWLp=vz5qgOx-N9Pf_FC9o3AsdDXq8Uhu+rW+h6__4vFw@mail.gmail.com>
-Subject: Re: [PATCH net] net: ethernet: ravb: Do not check URAM suspension
- when WoL is active
-To: =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Cc: Paul Barker <paul@pbarker.dev>, Andrew Lunn <andrew+netdev@lunn.ch>, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, netdev@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org
+References: <20260413100700.30995-1-phucduc.bui@gmail.com> <20260413100700.30995-7-phucduc.bui@gmail.com>
+ <20260414-funky-sincere-polecat-20b0bf@quoll>
+In-Reply-To: <20260414-funky-sincere-polecat-20b0bf@quoll>
+From: Bui Duc Phuc <phucduc.bui@gmail.com>
+Date: Tue, 14 Apr 2026 17:40:57 +0700
+X-Gm-Features: AQROBzDyXFYNs7TrKIvlK_AGlBy9o7qpqavO_nNuacnjcjUFmQX1mxW8gHCuSbM
+Message-ID: <CAABR9nEKGSRNp=eK=ZHf6-MNsj=6cDCy1YdbzSPrHyuc3Ux0Ow@mail.gmail.com>
+Subject: Re: [PATCH v2 6/6] ASoC: dt-bindings: renesas,fsi: add support for
+ multiple clocks
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: kuninori.morimoto.gx@renesas.com, broonie@kernel.org, lgirdwood@gmail.com, 
+	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
+	geert+renesas@glider.be, magnus.damm@gmail.com, perex@perex.cz, 
+	tiwai@suse.com, linux-sound@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spamd-Result: default: False [0.04 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MISSING_XM_UA(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FROM_HAS_DN(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	DMARC_NA(0.00)[linux-m68k.org];
-	TAGGED_FROM(0.00)[bounces-31259-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-31260-lists,linux-renesas-soc=lfdr.de];
+	FROM_HAS_DN(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,netdev];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[geert@linux-m68k.org,linux-renesas-soc@vger.kernel.org];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	RCPT_COUNT_TWELVE(0.00)[15];
+	FREEMAIL_CC(0.00)[renesas.com,kernel.org,gmail.com,glider.be,perex.cz,suse.com,vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	R_DKIM_NA(0.00)[];
-	NEURAL_HAM(-0.00)[-0.998];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[glider.be:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,mail.gmail.com:mid,linux-m68k.org:email]
-X-Rspamd-Queue-Id: 59B9F3F8A3C
+	NEURAL_HAM(-0.00)[-0.999];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[phucducbui@gmail.com,linux-renesas-soc@vger.kernel.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,mail.gmail.com:mid]
+X-Rspamd-Queue-Id: 25E263F8F10
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Sun, 12 Apr 2026 at 19:33, Niklas S=C3=B6derlund
-<niklas.soderlund+renesas@ragnatech.se> wrote:
-> When updating the driver to match latest datasheet to suspend access to
-> URAM when suspending DMA transfers a corner-case was missed, URAM access
-> will not be suspended if WoL is enabled. This lead to the error message
-> (correctly) being triggered as URAM access is not suspended even tho
-> it's requested as part of stopping DMA.
+Hi Krzysztof,
+
+Thank you for your detailed review and feedback.
+
+> Flexible is not allowed. Provide reasons for exception.
+
+I understand and will remove this approach and replace it with
+explicit valid clock combinations.
+
+> This goes to the "clocks:"
+
+Understood, I will move the description to "clocks".
+
+> > +    minItems: 1
+> > +    items:
+> > +      - const: own
+> > +      - &fsi_all_clks
 >
-> Avoid checking if URAM access is suspended and printing the error
-> message if WoL is enabled when we suspend the system, as we know it will
-> not be.
->
-> Reported-by: Geert Uytterhoeven <geert@linux-m68k.org>
-> Closes: https://lore.kernel.org/all/CAMuHMdWnjV%3DHGE1o08zLhUfTgOSene5fYx=
-1J5GG10mB%2BToq8qg@mail.gmail.com/
-> Fixes: 353d8e7989b6 ("net: ethernet: ravb: Suspend and resume the transmi=
-ssion flow")
-> Signed-off-by: Niklas S=C3=B6derlund <niklas.soderlund+renesas@ragnatech.=
-se>
+> I don't understand this syntax.
 
-Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Understood, I will drop the YAML anchor and use explicit constraints instead.
 
-Gr{oetje,eeting}s,
+I will update it to the following structure:
 
-                        Geert
+  clocks:
+    description: |
+      Clock driving the FSI Controller :
+      - "own": Main FSI module clock (must be first and always present)
+      - "spu": SPU bus/bridge clock. On R8A7740, this clock must be
+        enabled to allow register access as the FSI block is connected
+        behind the SPU bus.
+      - "icka" / "ickb": CPG DIV6 functional clocks for FSI port A/B
+      - "diva"/"divb": Internal FSI dividers for port A/B used for
+        audio clock generation
+      - "xcka"/"xckb": External clock inputs for FSI port A/B
+        provided by the board
+    minItems: 1
+    maxItems: 8
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
+  clock-names:
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+    minItems: 1
+    maxItems: 8
+
+allOf:
+  - $ref: dai-common.yaml#
+  - if:
+      properties:
+        compatible:
+          contains:
+            const: renesas,fsi2-r8a7740
+    then:
+      properties:
+        clock-names:
+          oneOf:
+            - items:
+                - const: own
+                - const: spu
+            - items:
+                - const: own
+                - const: spu
+                - const: ickb
+                - const: divb
+
+Best regards,
+Phuc
 
