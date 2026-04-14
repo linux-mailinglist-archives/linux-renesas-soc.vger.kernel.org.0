@@ -1,232 +1,160 @@
-Return-Path: <linux-renesas-soc+bounces-31258-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-31259-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 6GkFJqn63WlTlwkAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-31258-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Apr 2026 10:28:25 +0200
+	id OOezBNwV3mlBmwkAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-31259-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Apr 2026 12:24:28 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F8E23F7468
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Apr 2026 10:28:25 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 59B9F3F8A3C
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Apr 2026 12:24:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 1204A30098B6
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Apr 2026 08:28:24 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 91416304F2DF
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Apr 2026 10:20:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 250F53A1A5B;
-	Tue, 14 Apr 2026 08:28:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="refL2xOD"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7395239A051;
+	Tue, 14 Apr 2026 10:20:38 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+Received: from mail-ua1-f46.google.com (mail-ua1-f46.google.com [209.85.222.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F5A23A168F
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 14 Apr 2026 08:28:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91CCB3D47AA
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 14 Apr 2026 10:20:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776155301; cv=none; b=Pzo8hRLePxQOeG6ys/txvCeq1vdDVqs+WLK6nl0rNrHBiahUMb+ifdp7q0o1DmFgZeiiE07hxpUVu++tQds/mZu415+yeGas54QBSH2WoaXMNPaoALL96FT40abGCNOgPUNQ0YNGI2b8F7Y4wn8T82Zy92A1e1GZPqPl2zlQQRM=
+	t=1776162037; cv=none; b=PbA6YQEbIZaAbYqr6NY4Jm31rUZC+FXT9txHsvlEsMrK1ix5m0QLWfcH6RenskbU0Vj3BLgSRBdrmDFJhOsfUzTL5C2qbg+gDhLd43sSYfOLIQY0W/7CBh9dpXxzN/libUN+Zi4clJx72xteJ7V5YvSkMezlBwVrIyYKvb/0Tys=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776155301; c=relaxed/simple;
-	bh=A0A0SRk1zjT+GpcK54V4mSJXuPt0aQvZfkQIiF5d4Xc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=aAsW6AkzZjOcsfIFXdv40M8w99Q/RKxIek8/wtaTmlvJPC9C021ssB5waAX0k+8wqSV0GcNcQcZO5KnlAY8vmJ6Z6mw1u4iKW9Jw9iK6KkY4zmlvW09CdbrPDfaJJp8n1mszSZoRwgKvkU8ua6QoL1OjXTSeublm9uuuGwYIlY0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=refL2xOD; arc=none smtp.client-ip=209.85.128.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-488c2690057so51511125e9.0
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 14 Apr 2026 01:28:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1776155297; x=1776760097; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=uelHwNikEBg5tHyCN4f5ieipMicy2BHQBsPBzqFR0dE=;
-        b=refL2xODmskYXu30XW1dHd0e1WwGAUfj2qGO13omkKc9jVT/bTa8n7VbqgXlm9HFwI
-         WNXAVy+URJH8V0O01i0wr+hPAOqZjevCLdXhkoWKQ+u3hTCRsLiap6bXSw69/Q/qAaUH
-         y06x5/YwO8d1webNJa7vZLOlaSPIatZ93WyqCxUefiSmqrJf990VNGf+6eqfFzpTqHyP
-         I5i4GgeDZfGd/YGvt3lruBn5mb+jUuODAB0ZRZ4tOXvTY73QjuvyzbJKHc18A8PHYrYJ
-         kqq5KUjNNxQhQYhJp+59KpFeC2TcDO4uWorkW8gVvwCidT+7LlTU+QXfQ/HnfR0ed1OC
-         HYdA==
+	s=arc-20240116; t=1776162037; c=relaxed/simple;
+	bh=w4RU3LbA8U81TCj411ChOJb2AxIw+5nh+I9X8CndoHU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ZDXwc+UJ1fxCawWMriiGa3R707PSO00pBL4CgwQpYLvvtHTOVzqu60oVHO+K//XgxEOcQ/r6CY5ac8DEL/lJprm039zzSP7erFt82LXZYppViK1R9No2HnX9SaVJr4yT1dgXnwNWBmz9XWzr/qFDyQAAhAje0ju8EwBnfUsQnsQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ua1-f46.google.com with SMTP id a1e0cc1a2514c-953c5738c03so3229792241.2
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 14 Apr 2026 03:20:33 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776155297; x=1776760097;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=uelHwNikEBg5tHyCN4f5ieipMicy2BHQBsPBzqFR0dE=;
-        b=CuiRvpBp9s9MPLuCDs7pc25+rb/u1skgmCnkhYRNI7uuzq9eGk9FoqHSZE+6tcUK05
-         dqwPRfyGS8stxhHDKVx8VNO2/i2yei6+WJpK/vZL4MrJqNSKuaO36UhSQd66VfvRnw14
-         Yd1L5pAnL74hfQlfFA3VmhauA5+CrPJs8zw6MEx57oejcCWVIWnOzL3mjjRZQA/5oIVw
-         tKn51a2YeVMqq1wlX7B4wWbom10T33Uy2i4Q3tXHGQoN4wkhKMOHpmB1GdK9IdaB18qa
-         mXzsYpowWCsLeVsRb4ViJ1Tb/Ixvu74F6mlLZDyPoQ8mWYI2cHdFrqdS39Q7wYh83Lw3
-         iK+w==
-X-Forwarded-Encrypted: i=1; AFNElJ+/qa546ngm8L24eywtKHX2T6ZnRWRH8gZPDojJcVyCrYJtswqlMLl1xlx+jvxrRWgVW1+YARuRvMO+fIgIIRKjRw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzz1Q8A9tILpSRxNEXwqb9GV5/YRncIxXGx5gO3NEu0RDi4C8PR
-	/JekKvW8KHKsYvslXZ/VT59MF3vfnP+USBSEm69snjZJl3bPcyLaC7L5rASVALCuCAs=
-X-Gm-Gg: AeBDieuP872Kew5yGCj1Q5YOgE/S+hiPtxCUflcDAjV9M41Y5Cir1oSYLWozuLcfkEQ
-	1vy87tR4e9cQmWBHsXTRKJPYikhMxvurV6WV2t8/nBO29XMGPft0+a/u+B2DpBE2bwsdnnhXuFS
-	0vCmLuIIZWvYLMvZShNER8uXLUrTbMYX+r52YHDNFL5ugmiurZMDx/lPvJJ0X7slsH+kwqMpIFZ
-	CtvcO2M4SUnFpTp3bWPva+VG0zq9NmwgVhFptXEq6GCOEl4ypmKVM7DWjLwSKm7Nw22P9DlbVk9
-	nIJCGd1CawY8A/yHwo5Sm91+NJQZ9VJyxlUaLK5rn6jk4yZuRPJGQqfobTp1Gz3Xm/14X4rLwzu
-	f7A4yYKABiCsPlvzY/o9wXKumR/ZaUq7NfuIxFkihLm/J6ALPb1ZoyvEnXvbsfymmOnMvbjIA04
-	pbYJXhaLrK1cjmIGcpJv9ZuReLuip8+vg=
-X-Received: by 2002:a05:600c:528c:b0:488:a2ac:a337 with SMTP id 5b1f17b1804b1-488d68c2bffmr213398185e9.21.1776155296847;
-        Tue, 14 Apr 2026 01:28:16 -0700 (PDT)
-Received: from [192.168.50.4] ([82.78.167.123])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488ec77508csm54500935e9.0.2026.04.14.01.28.14
+        d=1e100.net; s=20251104; t=1776162031; x=1776766831;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=/1PSSGgZqIviWrUMA+aGkWAd7pcIuv8HlmdSZUkq2R0=;
+        b=X+5kiXXUqP0bwXW7cEYmsVZsY0vFYwaDlJAeGbGtdySfe3nNV78oTNbxIfjRA4owTi
+         y63tYinqrGzanpUTdXAXBNnzsBTY4JmYbPRAe0mGtm4ZDr3YLiKYliysBRy+TuQ5d+Hc
+         xjrAORN+TZ1CxKGog/G610c2WCZc6pCAD6uyxxO9g4/dwJeIa8sgVUuoi8jorcDd31vZ
+         516RDSTAp4aHIAwhmSPWVZJGn/lHm7FmPk4VfIE794vxqs+GOanceuq4+ApbKAVDTRAB
+         xGnL3SzW7HIw0Fu7fqI2A6numiuQ8ttJdxsi3I01Z++8b6qeal3qFpLkJebH8Z9ik9gq
+         L1sA==
+X-Forwarded-Encrypted: i=1; AFNElJ+dZwsrMvE+FhXLwfJNuyJO4u12I2KwFdJNtfJAzneo+J7WSGbbwmL5J4chIhJYuse0N3CgtuDStZqb8FR5B+nUCg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx0rwcRipq0VEVTEAK0BklcOY4LLdv51dk+nuwiamQLYBcxf2Q8
+	L1dNaMX8LaPbruuWrpMBDoSLfB8ay5thE222ofo3vkSJ9a9OknzdjrZD4odxkHT/
+X-Gm-Gg: AeBDies0VJFNg0tSosFbvvmNK4E+Ys480q2OEvfyIOOoBJ3A86nXjIfo57aAeyzHOyB
+	S6zsMorWDHKF1pL2RqZ+AgXmLWp2nGI36Q/jgrRLe3STm5ilI2TVpQBHtitWK8JSur9nanz4WrA
+	dgBk2lqQpUB1/7fP66WZr78Fh3q4pordH8NLUgyBmU+aaMVQaSjGx5+ousz35fQbNHApQf4+o5O
+	k3AQ1hTQ6Besvy/9vQfW6RpRQrBV2oKbhUcOEmSLcVIshoTherYjp/K+8tUuUoeoMZMxYhhP9pj
+	6X/PYfWrurfA8wrtblrVY4miYP34ngN621wzZK9TFdPTzY1HNYCJJsog7sq2/YYt6cIa+tG9Wh6
+	Pi6+3fCMgdDGU64uvKTKHhe2OjbH1PO4Obf4GS8KVOFupUEmC2PGZqC+m0APrae53O5/RCcVwqX
+	MEly0T/rNT/GES3gP6IdnOGrC3OFwwllCvP0avGy4cnv0gZLZmbIoU7VZ0/iTY
+X-Received: by 2002:a67:e704:0:b0:602:9977:a4fe with SMTP id ada2fe7eead31-60a00f38c36mr7453937137.19.1776162031251;
+        Tue, 14 Apr 2026 03:20:31 -0700 (PDT)
+Received: from mail-ua1-f48.google.com (mail-ua1-f48.google.com. [209.85.222.48])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-609d8c59d5bsm7913061137.2.2026.04.14.03.20.30
+        for <linux-renesas-soc@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 14 Apr 2026 01:28:16 -0700 (PDT)
-Message-ID: <a2362c89-e9ea-4c11-80ac-b65786da1e32@tuxon.dev>
-Date: Tue, 14 Apr 2026 11:28:13 +0300
+        Tue, 14 Apr 2026 03:20:31 -0700 (PDT)
+Received: by mail-ua1-f48.google.com with SMTP id a1e0cc1a2514c-953c5738c03so3229782241.2
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 14 Apr 2026 03:20:30 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ8OrBCRsFp8ldKza6ivJoD0ZETyfXxwLPRd0TQSSX2+YTYCUhSJ4lBTWlOdmvPqCXGBh77MB/o77fQQRZYxbsVSgw==@vger.kernel.org
+X-Received: by 2002:a67:e70d:0:b0:603:1a8a:c84a with SMTP id
+ ada2fe7eead31-609fecb952fmr7637834137.2.1776162030603; Tue, 14 Apr 2026
+ 03:20:30 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 05/17] dmaengine: sh: rz-dmac: Do not disable the
- channel on error
-To: Biju Das <biju.das.jz@bp.renesas.com>, "vkoul@kernel.org"
- <vkoul@kernel.org>, "Frank.Li@kernel.org" <Frank.Li@kernel.org>,
- "lgirdwood@gmail.com" <lgirdwood@gmail.com>,
- "broonie@kernel.org" <broonie@kernel.org>, "perex@perex.cz"
- <perex@perex.cz>, "tiwai@suse.com" <tiwai@suse.com>,
- Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
- "geert+renesas@glider.be" <geert+renesas@glider.be>,
- Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
- Long Luu <long.luu.ur@renesas.com>
-Cc: "dmaengine@vger.kernel.org" <dmaengine@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
- "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
- Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-References: <20260411114303.2814115-1-claudiu.beznea.uj@bp.renesas.com>
- <20260411114303.2814115-6-claudiu.beznea.uj@bp.renesas.com>
- <TY3PR01MB11346923D8D18E79A9F7AC10086262@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-Content-Language: en-US
-From: Claudiu Beznea <claudiu.beznea@tuxon.dev>
-In-Reply-To: <TY3PR01MB11346923D8D18E79A9F7AC10086262@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spamd-Result: default: False [-0.16 / 15.00];
+References: <20260412173213.3179426-1-niklas.soderlund+renesas@ragnatech.se>
+In-Reply-To: <20260412173213.3179426-1-niklas.soderlund+renesas@ragnatech.se>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 14 Apr 2026 12:20:19 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWLp=vz5qgOx-N9Pf_FC9o3AsdDXq8Uhu+rW+h6__4vFw@mail.gmail.com>
+X-Gm-Features: AQROBzALmSC5WPRkCgFTwaDsUgYaBeV27KPyK6fy-gnOYEKtgB1RvcJLdAOt3Hg
+Message-ID: <CAMuHMdWLp=vz5qgOx-N9Pf_FC9o3AsdDXq8Uhu+rW+h6__4vFw@mail.gmail.com>
+Subject: Re: [PATCH net] net: ethernet: ravb: Do not check URAM suspension
+ when WoL is active
+To: =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Cc: Paul Barker <paul@pbarker.dev>, Andrew Lunn <andrew+netdev@lunn.ch>, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, netdev@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spamd-Result: default: False [0.04 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
-	R_DKIM_ALLOW(-0.20)[tuxon.dev:s=google];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-31258-lists,linux-renesas-soc=lfdr.de];
-	RCPT_COUNT_TWELVE(0.00)[17];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_TO(0.00)[bp.renesas.com,kernel.org,gmail.com,perex.cz,suse.com,pengutronix.de,glider.be,renesas.com];
-	RCVD_TLS_LAST(0.00)[];
-	DMARC_NA(0.00)[tuxon.dev];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	DKIM_TRACE(0.00)[tuxon.dev:+];
+	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[claudiu.beznea@tuxon.dev,linux-renesas-soc@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
-	RCVD_COUNT_FIVE(0.00)[5];
-	MID_RHS_MATCH_FROM(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
+	RCVD_TLS_LAST(0.00)[];
+	DMARC_NA(0.00)[linux-m68k.org];
+	TAGGED_FROM(0.00)[bounces-31259-lists,linux-renesas-soc=lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,tuxon.dev:dkim,tuxon.dev:email,tuxon.dev:mid]
-X-Rspamd-Queue-Id: 0F8E23F7468
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,netdev];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[geert@linux-m68k.org,linux-renesas-soc@vger.kernel.org];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
+	R_DKIM_NA(0.00)[];
+	NEURAL_HAM(-0.00)[-0.998];
+	RCPT_COUNT_SEVEN(0.00)[10];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[glider.be:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,mail.gmail.com:mid,linux-m68k.org:email]
+X-Rspamd-Queue-Id: 59B9F3F8A3C
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
+On Sun, 12 Apr 2026 at 19:33, Niklas S=C3=B6derlund
+<niklas.soderlund+renesas@ragnatech.se> wrote:
+> When updating the driver to match latest datasheet to suspend access to
+> URAM when suspending DMA transfers a corner-case was missed, URAM access
+> will not be suspended if WoL is enabled. This lead to the error message
+> (correctly) being triggered as URAM access is not suspended even tho
+> it's requested as part of stopping DMA.
+>
+> Avoid checking if URAM access is suspended and printing the error
+> message if WoL is enabled when we suspend the system, as we know it will
+> not be.
+>
+> Reported-by: Geert Uytterhoeven <geert@linux-m68k.org>
+> Closes: https://lore.kernel.org/all/CAMuHMdWnjV%3DHGE1o08zLhUfTgOSene5fYx=
+1J5GG10mB%2BToq8qg@mail.gmail.com/
+> Fixes: 353d8e7989b6 ("net: ethernet: ravb: Suspend and resume the transmi=
+ssion flow")
+> Signed-off-by: Niklas S=C3=B6derlund <niklas.soderlund+renesas@ragnatech.=
+se>
 
+Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-On 4/11/26 15:30, Biju Das wrote:
-> 
-> 
->> -----Original Message-----
->> From: Claudiu <claudiu.beznea@tuxon.dev>
->> Sent: 11 April 2026 12:43
-> -soc@vger.kernel.org; Claudiu Beznea
->> <claudiu.beznea.uj@bp.renesas.com>
->> Subject: [PATCH v4 05/17] dmaengine: sh: rz-dmac: Do not disable the channel on error
->>
->> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
->>
->> Disabling the channel on error is pointless, as if other transfers are queued, the IRQ thread will be
->> woken up and will execute them anyway by calling rz_dmac_xfer_desc().
->>
->> rz_dmac_xfer_desc() re-enables the transfer. Before doing so, it sets CHCTRL.SWRST, which clears
->> CHSTAT.DER and CHSTAT.END anyway.
->>
->> Skip disabling the DMA channel and just log the error instead.
->>
->> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
->> ---
->>
->> Changes in v4:
->> - none
->>
->> Changes in v3:
->> - none, this patch is new
->>
->>   drivers/dma/sh/rz-dmac.c | 4 ----
->>   1 file changed, 4 deletions(-)
->>
->> diff --git a/drivers/dma/sh/rz-dmac.c b/drivers/dma/sh/rz-dmac.c index 40ddf534c094..943c005f52bd
->> 100644
->> --- a/drivers/dma/sh/rz-dmac.c
->> +++ b/drivers/dma/sh/rz-dmac.c
->> @@ -871,10 +871,6 @@ static void rz_dmac_irq_handle_channel(struct rz_dmac_chan *channel)
->>   	if (chstat & CHSTAT_ER) {
->>   		dev_err(dmac->dev, "DMAC err CHSTAT_%d = %08X\n",
->>   			channel->index, chstat);
->> -
->> -		scoped_guard(spinlock_irqsave, &channel
-> ->vc.lock)
->> -			rz_dmac_disable_hw(channel);
-> 
-> On previous patch, rz_dmac_disable_hw() for initializing each register
-> 
-> +	/* Initialize register for each channel */
-> +	rz_dmac_disable_hw(channel);
+Gr{oetje,eeting}s,
 
-This initializes a single register by clearing various bits.
+                        Geert
 
-> 
-> 
-> As per hardware manual,
-> 
-> Once an error occurs, the data of the whole transfer cannot be guaranteed.
-> Be sure to start the transaction again from the
-> beginning by following the procedure below.
-> 1. Set 1 in the SWRST bit of the CHCTRL_n/nS register.
-> 2. Set each register again.
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
 
-I wasn't aware of this sequence. Thank for pointing it. However, calling 
-rz_dmac_disable_hw() as it previously was may be wrong from my point of view. 
-According to the sequence you pointed, I think the code here should have only 
-set the SWRST, if any, and let the rz_dmac_xfer_desc() "set each register 
-again". According to "Figure 14.26 Setting Example 4", of RZ/G3S HW manual, rev 
-1.20, the registers that need to be set when starting DMAC ch in Link mode are:
-
-- DCTRL = 0x1
-- NXLA = 0x1000
-- CHCFG = 0x80000000
-- CHCTRL = 0x8 // swreset
-- CHCTRL = 0x5 // enable
-
-So, I think these are the registers that need to be re-configured again (handled 
-though the rz_dmac_xfer_desc()).
-
-Anyway, I'll drop this patch from the next version, as it is not the subject of 
-cyclic DMA.
-
-Thank you,
-Claudiu
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
