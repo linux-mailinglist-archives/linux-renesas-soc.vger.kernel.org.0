@@ -1,112 +1,113 @@
-Return-Path: <linux-renesas-soc+bounces-31282-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-31283-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id KGCHDstY32n1RwAAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-31282-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Apr 2026 11:22:19 +0200
+	id +GUhJkZb32n1RwAAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-31283-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Apr 2026 11:32:54 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B821402823
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Apr 2026 11:22:18 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id E3FFE4029CD
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Apr 2026 11:32:53 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id E1382303FAB8
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Apr 2026 09:21:11 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id B743E3067071
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Apr 2026 09:24:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A9664225397;
-	Wed, 15 Apr 2026 09:21:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 47E2433555F;
+	Wed, 15 Apr 2026 09:24:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MtzMfdf2"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mGUtTM38"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E459329E4B
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 15 Apr 2026 09:21:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03022332EC8
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 15 Apr 2026 09:24:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.215.181
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776244870; cv=pass; b=M3pUUYctauGIeF6emcDLaQwJZJG+bqK45/jmSt8jQT83dt5f+gJoz7J8IMlxkbA10Q4eMm1/aBaj3GgIBCzgyuqDyWQyUGvotWbWwZ1tu9pqUYcLVT89w5agydzf+LeQUQee11Ufi+N/gKdn6JpK1pitfu9lKpTb+XsgWmVXqxk=
+	t=1776245068; cv=pass; b=MagsQJiD3Gy7ZDYCn8/OmdqG8cxGDJYs83nQtzeeKU2xLDAF3tSr+5OoDRkts0Gq73LDpyu4ZS0aDqV75ZQ9XGQrb7HlGjjC2LnmIISbBoOoa5Y6lkJ9KGvVGN0bVEwNcZohOoAu+8IXqq6CW+a4PfZ2xSFnMqAY2nAWSwpyuiE=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776244870; c=relaxed/simple;
-	bh=qXu//z6Xo5LnFnJscSgw4DtwEHHHbw3ufbT2XnJFOVY=;
+	s=arc-20240116; t=1776245068; c=relaxed/simple;
+	bh=dJmT/w8H5lCvqR+3MrDYaPpMRfkvpZilvwhihN3HnHM=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=BTX+Rj9JDtpCn28sjvEGbA+0xP4XhzyL7/LHKKC6/yG3mHKLDz1a8qEj4QkeCbDxyls88o/y7vhWsZ9euYdybEcP1e5UmSVM1PFMfVj5qcPzVU8WQNPIs9KHiqSOlO/GuRogi4oog5mhwUXg8QGFIFCZOEf4kTcu/VCe2L6ZGJY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MtzMfdf2; arc=pass smtp.client-ip=209.85.214.181
+	 To:Cc:Content-Type; b=iuZ9TEgX5T6GPdr7228K7ByBz80JxUe3W+lcd+Uh6IW+pqgAuhWCM+OCEDeIhC9lVDj62kW3Ut/mwdK5pykDVQNHsrzDS/4WNCbXpJy/AzKBfPJ7Eawwls1vdYJqvByQiTjoGQyCStNZSvHxyq8aDPgkyCsWHcJAKWfSBfy5TGU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mGUtTM38; arc=pass smtp.client-ip=209.85.215.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2adff872068so33290575ad.1
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 15 Apr 2026 02:21:09 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1776244869; cv=none;
+Received: by mail-pg1-f181.google.com with SMTP id 41be03b00d2f7-c79467f124dso1008470a12.2
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 15 Apr 2026 02:24:26 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1776245066; cv=none;
         d=google.com; s=arc-20240605;
-        b=f6k3R2c/GK/UVeoVYOl6a2LbOWPKgOvT+7sG9mG2KZRQkuVrPCUB8u5pLa8xMQo3qD
-         pph9bvYatEl9L7GpTTC/L42+wfydkKd/VrtgFSDb2XZXuYNSMGBWvURY49Ji2DbCf73O
-         nUNkf78nc31IBkaeLDv971cmliM9GqcYixwg6dqTV9xBYja2ElLEEx4sRiJw30iZCh9Z
-         3/GsKn3/1f778+3ahTkvrrO5947gElRs3lTtD1RrFoXzyPdUgT8eTBfzTpSoaXPEzhMf
-         c81vf+SuujpafSlWyXN3JH3u++l++YRk1kLPIDOnz0Z2YP1nzueLM1kvmZOhSjMjEROT
-         vDQg==
+        b=RBeh0enCzY8hUJLd5Yt9p8ymF9R8wU7jhJJDk9AIDsAEWYNCg7w+ecdUkthVSjw+zT
+         lXAARAjaMQT8Hru0xiowSIU0xBbt8+VxpC5nHapAUzkh45hzZNoEXrrKmCKzNcGn2iRM
+         kuYlXpx4AaSjeFFZFxEj9isDohr1SyRkU850/1NS8Ik+BrAOT/e6TZTuW5BRilaFdwOE
+         MUXQaNVPjSbJ5s9HEi2PD83ZiRp1bkNjx7QtnWg4nhL+LMcsWep9OY/RN/2Sip2JoXXh
+         xflavIwYpP1jXGZQ0puG08bahof/ffe3GnZnjqY4UCL8xhJlNWh8XCbVSzNEp1jLw9Ay
+         /0jg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=pQY0av5WRVLImZfpNXr1TJM3eiP7oWFORfN6hvmChm4=;
-        fh=+u68warkFnjeRfnUVoEwNypKgPqQw7BUErbC3XMpFXk=;
-        b=Etg4O1Vi1ByowwDUTS5Qg7InGi7fiaFqdVin58jDd0kB7Ka7UdD7b9McE51ZcQFaVz
-         KHxIj8clDH6G6+J+y3TPkzbWW1CY0P+f4KM4mXqLkH8SZM0zlmmTsfBnln0UJy2SlayG
-         blRXJHr7wQbU6eIqi/+I0iSW6LBF5ZdbBb6sWv9CSnsP6fbSN1O68jzA3PLcUA/vou0x
-         dyax2boNM1FA/R4BI1v1fvu3IXxPszkEZ4RO9m5O8PMd4H7AHopZtW21jqmj6EdsESAD
-         tWEK3knyohNq1njnbOXlbb6bm2VkF+RPB1juDiJ9PwjBDriYvft0m0Rkvj5XdeKio20L
-         o5Fw==;
+        bh=dJmT/w8H5lCvqR+3MrDYaPpMRfkvpZilvwhihN3HnHM=;
+        fh=d9fcSLvWhfk6CMJMwJ71FRxXNPu8lUq/l0Lew2DpxIU=;
+        b=cyOm/TWDXykzmmvPe7asBRMcsxR6caUtJtL5lI07OPmiQmRFc4v9RhuVGBV8jLhz6x
+         8izDGxu4qhgbDNCzd275xV51FeMOK3iFEVhmUSig+Ow/DdZVV2qR7RUoKnYJKt7TCvv+
+         FiPcrg+jcRQTsTusaaWNXsHG+Sz3rmJOUNGE7SnCKU4MiiyxvgmqL3Rnsw2CajQo5QfS
+         QC+vMRjY3TVSaenwZejqGIAcUbhweIvyzc/C+tAXRKea2kU0rEHHQUdWSnzzBVoplbw2
+         YxWqxKdN+biuudCW4Bvf/jrfeqpY42uSKWMHml+xfY3dYmXorMpMrHL9Z29NaTPla5IE
+         miRw==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776244869; x=1776849669; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1776245066; x=1776849866; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=pQY0av5WRVLImZfpNXr1TJM3eiP7oWFORfN6hvmChm4=;
-        b=MtzMfdf2VAvfDeqNyD5OLJUjMw35uvScAhno0ouNZ7l4zup6rBXOneFGvrckCDgE9M
-         Qy0Q5dxCF+Ver4cOPei83bBple1qS6yDiX/Ya9s0N0Uf4xscpTwOkazFgfmqQdlYq8n8
-         TVNZZ+2YGSABFm/E2hAjGn9SGBHA5agwWuBaQsg+0p7nMHi7nVoGLK+ixiC3T7s481R7
-         htKGMEBqxDdbdHx//YxnmXIuPgNw89eq3fuKcLLDCNjGlZLyRfggIuHRpD0OYWXVgurp
-         cgsOOK+cogrVJhMesZA/m2I5KKrUeYCry1aFm9+RCobcHNUaAduu/IBHGNXtj61nFxo4
-         6b0w==
+        bh=dJmT/w8H5lCvqR+3MrDYaPpMRfkvpZilvwhihN3HnHM=;
+        b=mGUtTM38dQjb75GEAeiwxhmUL5NlyG1gzCAw7jlKl6mTO1mfirlejc/yKhKmZ+O6nI
+         ldKOi4dJ0NXVmoAGKTc9PhsVHtOlMfsM/BkjIC/pio3hZ5Bgur1iwKMiFSpZ29xnuVGD
+         BQ/zweB3qMHtXQhAdG24HQmUDerReb0YDmkwIJ8EdDKFz7X9rKcN7FDhQzKzTyCzBwmY
+         IdT0U1PADUwQ8XCXCJG5ssz41n6OpxfbaSnCy9ad1INr4J7sNOCskXLZmyp54h+kOoFk
+         p/pQNSRqtqFjjwDtLes5lPtlDrLtMzsLqHRuXypDnx31WdKXyWwLFHRSuzD9xFxi9W3R
+         OAYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776244869; x=1776849669;
+        d=1e100.net; s=20251104; t=1776245066; x=1776849866;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=pQY0av5WRVLImZfpNXr1TJM3eiP7oWFORfN6hvmChm4=;
-        b=OYUnhY4w4pJ3zV3aA5Qrode4Shb1RjuPD4c9wCXY+O3rhsJREGygNFOOG5QB+CSqyL
-         ocs54VaaEEAfmNS1Uw9U80iLEpl9QfV/MDgoFPyz+PpxW9ewPdYpgi8dyIcr6QLdDPk9
-         ivPlBUGc7XfoAk1DEgxjA+IOgTwef9GHksipJhrv9rgcJUtNMVVxexISkxJMEGS9xV2a
-         tkBVxu80oOd3edNVYkp/4lVHrupDuwg/LHwzTbPLjvYdKfAyXpw3T/Ip8ityvD2HgeOa
-         q4XASUns4QVEPVvKlD9ktlFvONHw87ye7LZE1wtybWKQBqYDjS1vprAA7ohwTQGpokgj
-         bT/A==
-X-Forwarded-Encrypted: i=1; AFNElJ8jEFs20kkasVpRxd2RmYN7g05PKHE8OvpJBDCPRmdYTbUSe9FLKowFZddlnt9P3y3p9w5QeGSfaQFJnFamukLwjA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzXyZjKGixbAWAJdrPWoVT4OzpW/UyGGj/DKDbyyA9azvvGc4NS
-	PnSanAdyJb64PCwTyn3bs6vCPw4fkifsABXxGTgR1253uMu2KHhNiOyyk2KZ5MchdoNAJlh6DPZ
-	aorUEpZ7cWJUHceIVipZ7XmuhHSQ7n3g=
-X-Gm-Gg: AeBDietHTMb43dra1CMh8OPqmiYRlJ/hDW0QXGNANImK49NPHIZ/85IZvIH8k9Sdk/z
-	WevZM/4gWBoBfyXqvYEyU3ArvpTWaxr5Z54bwv7JNbf2yyFznJYjWlXr/WjaUo0tUk7+6XTSihu
-	axUtKopMJhKkuVE9Hhln38ErBCg1XDM9SWl6Pt8FrnrDFpFGGyINoOUUnk3MFiF7BSEVl6ZLFFu
-	Wpl2G2x3FRcWqM8LtkoEadyDxqlcWjCgzdo1tHI0VVQrNJ60nM1ZkHUcv28obo5z3JGmUH2CFdc
-	vR2ADgchQfFG630gcnRTnqXGzo3If38BjgfBf3chjEyJC87B
-X-Received: by 2002:a17:903:144e:b0:2b2:58c7:2ce1 with SMTP id
- d9443c01a7336-2b2d5a7773emr209666405ad.36.1776244868799; Wed, 15 Apr 2026
- 02:21:08 -0700 (PDT)
+        bh=dJmT/w8H5lCvqR+3MrDYaPpMRfkvpZilvwhihN3HnHM=;
+        b=dK+Sy8ed+Jl6hwBf/cHeaHlUaGAkSGT59pfvy/kMoux4okallr9ZrPUq6p0QPsggGJ
+         8+EK57pqCV+dzE8T35Okks8wAa5iVEXZX61StOnka3P2LWdL/tcybXu5PLWNrViVajTM
+         25vUjJMViGNOkrH91zYnntr3ymlxUTNPtdACMbooS8CR1jSsiI8E99SqrDHDOzJ2E6Zp
+         UnpqMRCv53GrmPIrGONhugPqQBbA6Xn6STCKx23eizHxb7SwLew0WS5njrvO7U5O75tl
+         ow+i0cyEf2hfCNQLmZI4lm3O3/bBrfOK9n/Il5RgVLVPiHs6QOPwOIVghwPvmBvAzYRb
+         XxNg==
+X-Forwarded-Encrypted: i=1; AFNElJ+eKLZki6UwvITUFXzQa+mRpcIDKCsp4eZQMHIC/QzU3COI56vRSeu7Dji5VxC7JBPxBbJ/n9W98C+6TlZeWDAqvA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxTomyufWwnW8FDeG4LN8XeB7DRf5b+QGqCj1axCUAywtZDEW+k
+	mgOB/iqhIGxrvvTXCuaSriGkqlnO0AmyWgX9dZZraFetxxan1e7xiGlDdnQEqiyuGDR+2I8mlkN
+	2/a3jrbvJl2AkDn+IWAT0rwO7XgNKjIU=
+X-Gm-Gg: AeBDieuONczX7qUDmnpwKuYIgYd1h0QU1A6xGC9u4NPDiJEFM2ToiNYmheHjGyFzhgX
+	DGJ+59mCjfbhf88PJnb9px2dS62vby274vhu0W308nwzmaftM3I9Uj5edhW9B/P7KIhn0p9j9YY
+	2lFXx88yCmgtrTqCotE0snoAAfBbrMAZGp9olLmXcp+9mo55+N3Xux5qhmfHK4h5jdm0P8hRGr1
+	B6lKb4mVHQIDWclH+wCkz09ALD3jcimL+ULqmOpdO4Tc9et0sbN/4wg0zYlXSSv9hOlryESrsuk
+	pY7bt8vfewr/KhvBNnSRWshjEG8WSxo2oNIW8hPhawljETac
+X-Received: by 2002:a17:903:2cd:b0:2b2:420a:b48a with SMTP id
+ d9443c01a7336-2b2d5a5b40emr221045375ad.32.1776245066382; Wed, 15 Apr 2026
+ 02:24:26 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260413100700.30995-1-phucduc.bui@gmail.com> <20260413100700.30995-4-phucduc.bui@gmail.com>
- <87se8ypeq1.wl-kuninori.morimoto.gx@renesas.com>
-In-Reply-To: <87se8ypeq1.wl-kuninori.morimoto.gx@renesas.com>
+References: <20260413100700.30995-1-phucduc.bui@gmail.com> <20260413100700.30995-5-phucduc.bui@gmail.com>
+ <87qzoipdo4.wl-kuninori.morimoto.gx@renesas.com> <CAABR9nERzKW=2vZTWNuTcjz4KuVyc+eaCKBNP6ZGb4UAYw3qUQ@mail.gmail.com>
+ <87wly87rgg.wl-kuninori.morimoto.gx@renesas.com>
+In-Reply-To: <87wly87rgg.wl-kuninori.morimoto.gx@renesas.com>
 From: Bui Duc Phuc <phucduc.bui@gmail.com>
-Date: Wed, 15 Apr 2026 16:20:56 +0700
-X-Gm-Features: AQROBzAXSd3qJJschZNpIapnadex0hZxdzsnez-28xKExmnIGX3RLVbWSqVsXBg
-Message-ID: <CAABR9nGB0u-Y7ddGtu0DmZXUiEWTVrXQy7DhTkLgkSBvFjNyJA@mail.gmail.com>
-Subject: Re: [PATCH v2 3/6] ASoC: renesas: fsi: Fix trigger stop ordering
+Date: Wed, 15 Apr 2026 16:24:14 +0700
+X-Gm-Features: AQROBzAxV0vtDPyTesfAsCOTSD6-ZvXhLNdBVP4mPf3ihKDvrCGQY99VGP4P4-k
+Message-ID: <CAABR9nHApZ7KWjkeut_2oR+AmstOfbYnVe6ad2W+EaWRGPbt=Q@mail.gmail.com>
+Subject: Re: [PATCH v2 4/6] ASoC: renesas: fsi: refactor clock initialization
 To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 Cc: broonie@kernel.org, lgirdwood@gmail.com, robh@kernel.org, 
 	krzk+dt@kernel.org, conor+dt@kernel.org, geert+renesas@glider.be, 
@@ -120,12 +121,12 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-31282-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-31283-lists,linux-renesas-soc=lfdr.de];
 	FROM_HAS_DN(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
@@ -140,62 +141,64 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	FROM_NEQ_ENVFROM(0.00)[phucducbui@gmail.com,linux-renesas-soc@vger.kernel.org];
 	DKIM_TRACE(0.00)[gmail.com:+];
 	MID_RHS_MATCH_FROMTLD(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,renesas.com:email]
-X-Rspamd-Queue-Id: 3B821402823
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,mail.gmail.com:mid,renesas.com:email]
+X-Rspamd-Queue-Id: E3FFE4029CD
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
 Hi Morimoto-san,
 
-> This patch should appearing much earlier.
-Thanks for your guidance.
-I will reorder the patch series to place this fix earlier in the sequence.
+> Ah, OK.
+> So the patch 1) moves fsi_clk_init() and 2) update it.
+> It is including many features in 1 patch. Please separate it.
+>
+> One note here is that /* clock function */ is for all fsi_clk_xxx(),
+> so don't move it.
+
+Thank you for your guidance.
+I will split this into two separate patches accordingly.
 
 Best regards,
 Phuc
 
-On Tue, Apr 14, 2026 at 7:28=E2=80=AFAM Kuninori Morimoto
+On Wed, Apr 15, 2026 at 11:55=E2=80=AFAM Kuninori Morimoto
 <kuninori.morimoto.gx@renesas.com> wrote:
 >
 >
-> Hi
+> Hi Bui
 >
-> > From: bui duc phuc <phucduc.bui@gmail.com>
+> > > I have mentioned in previous mail to just move fsi_clk_init(), but wh=
+y do
+> > > you need to move it ? It works without any issue without moving funct=
+ion,
+> > > I guess ?
 > >
-> > Reorder calls to execute fsi_stream_stop() before fsi_hw_shutdown().
-> > This ensures that all register accesses are completed before the clock =
-is
-> > disabled, preventing the system hang observed on r8a7740.
-> >
-> > Suggested-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-> > Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
-> > ---
+> > I moved fsi_clk_init() below the two functions fsi_clk_set_rate_cpg
+> > and fsi_clk_set_rate_external because, inside fsi_clk_init(),
+> > I assign these functions to clock->set_rate. Moving the function was
+> > necessary to avoid compilation errors.
 >
-> This patch should appearing much earlier.
+> Ah, OK.
+> So the patch 1) moves fsi_clk_init() and 2) update it.
+> It is including many features in 1 patch. Please separate it.
 >
-> >  sound/soc/renesas/fsi.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/sound/soc/renesas/fsi.c b/sound/soc/renesas/fsi.c
-> > index 109e06b5f32d..9df3e91ac79c 100644
-> > --- a/sound/soc/renesas/fsi.c
-> > +++ b/sound/soc/renesas/fsi.c
-> > @@ -1606,9 +1606,9 @@ static int fsi_dai_trigger(struct snd_pcm_substre=
-am *substream, int cmd,
-> >                       ret =3D fsi_stream_transfer(io);
-> >               break;
-> >       case SNDRV_PCM_TRIGGER_STOP:
-> > +             fsi_stream_stop(fsi, io);
-> >               if (!ret)
-> >                       ret =3D fsi_hw_shutdown(fsi, dai->dev);
-> > -             fsi_stream_stop(fsi, io);
-> >               fsi_stream_quit(fsi, io);
-> >               break;
-> >       }
-> > --
-> > 2.43.0
-> >
+> One note here is that /* clock function */ is for all fsi_clk_xxx(),
+> so don't move it.
+>
+> > > And why you need to call fsi_clk_init() twice ?
+> > The FSI controller has two independent ports (Port A and Port B).
+> > Each port requires its own clock resource initialization and configurat=
+ion.
+>
+> Ah, yes indeed.
+>
+>
+> Thank you for your help !!
+>
+> Best regards
+> ---
+> Kuninori Morimoto
 
