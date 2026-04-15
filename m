@@ -1,81 +1,81 @@
-Return-Path: <linux-renesas-soc+bounces-31297-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-31298-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id CMbrIi+J32kHVAAAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-31297-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Apr 2026 14:48:47 +0200
+	id qGZ/A8qJ32l5VAAAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-31298-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Apr 2026 14:51:22 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 253DF40474D
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Apr 2026 14:48:47 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A2DF404811
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Apr 2026 14:51:21 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 8D8123006817
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Apr 2026 12:48:46 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 35AA7310A4AE
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Apr 2026 12:48:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 83629378D8D;
-	Wed, 15 Apr 2026 12:47:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A16AB37B41B;
+	Wed, 15 Apr 2026 12:47:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bkRo6ALi"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="pOT800eY"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68EB2352C58
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 15 Apr 2026 12:47:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 528E43314D9
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 15 Apr 2026 12:47:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776257269; cv=none; b=TXqHko4pfoil+5U03DL3WHlCQbtZXe8LbT4IcET9zt3Gq9pmGTWwSmTxiKH/CEY0rSWjSOz0WdosH5km6OqOpiVsmkeqFmvpV1BYfohD7AB9HoSRu9YYdqyitJQBccbqOvf9dcyAzmxnm8ioH6eAIB4b8JEyjm6mLqq+gc7suzA=
+	t=1776257270; cv=none; b=onwUbhH9urJr4n1LQAUOn3eJOaXbnhAVKg5HLfhygRKQISYSgPc4TZI0JuSEg47NEu7CgB3ScoT/E22MkH66ESn+HbDREbEnPmMgnXqVj9ixFg8xPn4DZkyd9gihivdl4exrM/uyMMQfnWHf7oZHKQ9Y/StdI/+Fx2PX4aNzlJk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776257269; c=relaxed/simple;
-	bh=+pFXbL5AUesXszbyYGLL+MT4o6mCBIo3EDz/8Nk1tsc=;
+	s=arc-20240116; t=1776257270; c=relaxed/simple;
+	bh=jEQUdAtH8yE5mBvf4ytaTJJnGJ58WWs9SMxtTW7gBUg=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=nifekuMprDZhufScOuquwlJhspxJqHcqQgYWS0uWYm3KykTz5ZUeWJNOEPlMavjHX60PSl4pbOJ4Xp1hq/luq3RwMP/fEWkKk/kOQTCk5m84oPrFPuoryO8RwhvVQGoxs66fcidr1lYZ6Bzd+GgSGbMRT26wNNKiRCVXpV7ZYqM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bkRo6ALi; arc=none smtp.client-ip=209.85.221.41
+	 MIME-Version; b=W7IodxB3wqD1vvaPxtyFXoHjoqKXzl8DbdSiV51Rux2PZ8esJLkJyl9ky21FXGY0JXDffBnfqTku5LGI/uJWeXzncqOwFHDtdFLZs1BVuajEMicwNiyFcQRZWNHGmyHl1TNsvag/sSAgaDbJ6B2Us0AuY0Poh+ZRI38lnNQT4FI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=pOT800eY; arc=none smtp.client-ip=209.85.221.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-43cf8fe9c2aso4235045f8f.2
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 15 Apr 2026 05:47:47 -0700 (PDT)
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-43cfce3a195so4200448f8f.2
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 15 Apr 2026 05:47:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776257266; x=1776862066; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1776257267; x=1776862067; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Jk3PxfqcVUsp/jCD7Gx4pQpsBhAEOkB0+K5c3K014GE=;
-        b=bkRo6ALi6W1W93K6is9Ju3AxZjJsSpwcqoBB7avtdHweihydmokzLL4Zc/82BWzhLQ
-         PWveHscKFnBFOBi4GYuDwmNZ6cLvyz2vMIh0U1oJgHFX8VVHAGa+NB0JQ26LiTRgVBlL
-         12CgOFOrlPjm22bwzjGAfWiKwnQTXNZumlXC+zbkZ0QAJySBcBLNdcUXjKx4eTO+X55w
-         HpagweuAS+aKINBcn3Pk7YXrfClavdnsEJlBLghuBjhOD5fUqG9RzWoWZ7xCBeKge+Iu
-         94Q3i4ZnGtK6ZIgWEVwy28CwPEa3fusy3jncp87lARxqwKgivg+z+0MG+5Ipgal53EUB
-         BjLg==
+        bh=bzcOCyQLNmU8cBIifwv6HJp2UvPykwfLFilqam8mArk=;
+        b=pOT800eYk1HANo1s6Jv49cU/Aj3dWRzvCsbG099gjq75vYWtjkC5uzR2/FYYqb5yiI
+         sXWGfI0HMaQ4CtP7Ah06ftVkap+YvMDq2TuEpN8riwTPE0l3joQJwUl0uJF9XQl1eiyJ
+         b0DhiN6O5zrmZVk0NqyxJHuk+O6UJ4bgS+nCa76bmUHjUTju4Sv3wrmDtpRuRb6xC/HP
+         y3B+XtANE1MFDyT5NYEljd49rLst9rNUaTk1mZSJ2VkvPAVXDViakJmqQzU6+bW7u9Nr
+         WogIEhstTcN/OTZidJ28nRiQGLffEd7P1LJbAFwHFbb5eBCtFvStP6/Zq/kSbo6jcSoF
+         qaAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776257266; x=1776862066;
+        d=1e100.net; s=20251104; t=1776257267; x=1776862067;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=Jk3PxfqcVUsp/jCD7Gx4pQpsBhAEOkB0+K5c3K014GE=;
-        b=BG55kpXLZO7HyNhWYgOodAu7S0L6r9jgunN8oLORARLaSLPyxN1W4XMu7OzcmdCC+s
-         L0aL7WuGkRJqofjqXh2gUq1cbPdocLoImDu0varH2jUwlFuAwxhdUWjpMQgKdSfNl/pD
-         LutTbjMB95ZGT05HJqA4a+w3p2MJMWmA2CCG7VlqZuH4gZBt++RhpiDu/AoTi2Z0Ajw5
-         TwbiDlvdLq/kW6zuEomgrUoyLLzosY5ieIQSfInIHKE4BlClIWPR9l+UlTnZsnO8GCLW
-         kH89mcl642uqJXZgzQBJN3uHBe4hqqeOHvWtFAxzSnBQc+jCZT0lojUU+/VzW87iBkS9
-         J+Cw==
-X-Forwarded-Encrypted: i=1; AFNElJ+lMV9krKcaAfmKJsTHL7+2hjlsm2AJHeG+3a3yOmJru+81raTaWXjAzLpXLLuVM6Nowra7Xw4xt8MltMqtQckw/w==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyErXJJKyJvhGvoFsATiC/US0u6fpUEl3mGN/8aADynxOdb3mrL
-	QXhmpaFZMWgFyIva0cjWuPwGJg7jPonGxv3Bt2ItXUqOUQ50BFVUaNcr
-X-Gm-Gg: AeBDietdixH3EPVG6PF/qISFkuTLQM/UAus80tOvLhSCUjbXNbhkCWl4G04rVjTgxzJ
-	lzmHGcvD09y3tvC/eQCyrq5DXn0PGP01FAGOZQBFHnJ/d2MgOpl8Smjwvm3ZZ5agSwiVr77kKFv
-	EANDAKQxKCIdRn9t9umgmbRYkJjdxpKDF7RDVpYVpT9IvPF9QM6U6/t7Gdxt3WU8tJKW04UyP4x
-	wSrC2Aamm1EOmc8si0VXdkgfF/5DhRPrvxON23Fe8ahgV5LRLlsFCedLDoItJrfpRBULZBAFs4F
-	n42PN/X4oVVuBDTPFKyEqi4L03QfQkhaxxqZzVSCzEWSqpueNguhQmPYRnLZqLCYQEJBaoVFL+0
-	fI0O/HyrkNjUs5YxA8M8JDhtLp9vyunb5sYHIVvyYrJbZL4owGFU7BQ3mvHqdmBTrlP4mydqVPf
-	1SB5YE+RUgm8J8QQbCgyYx8b4h/W6BOmoSzcFBAw==
-X-Received: by 2002:a5d:5d83:0:b0:43b:40ef:5d1a with SMTP id ffacd0b85a97d-43d642552e7mr31331940f8f.5.1776257265506;
-        Wed, 15 Apr 2026 05:47:45 -0700 (PDT)
+        bh=bzcOCyQLNmU8cBIifwv6HJp2UvPykwfLFilqam8mArk=;
+        b=C5IEfsnhIGbvwfWtecJ4IrmMWVdlwDX3H9WTDUeD0x1RN7/1i7oizJ68Q5qfuob4JJ
+         57ODysqEi3BlVYx1lTCTVXMo7r0EbvPgc+dLTxng97yyPAPQzYXl8UqP3GstONmXJHxB
+         hzbQkwp8Y8DoYfUGfyDt0iQSDNG/ACyKDvKdAr9fuBNWeFsxX5V8UQ7/z8FrQlXTzl6w
+         pS10UYpJAzKe7OUR5XQFxRgxupw5HIeRwr6/4IzCQWm/wKaNbtvHcCm5sqx6gDKOIxTB
+         5ZlCmEjBKKj+5vutLjSXZpyvv2eFcgB8T1Z0fMkwafdL820lf5qjV7LCvfoLm31l4ZpX
+         gZeQ==
+X-Forwarded-Encrypted: i=1; AFNElJ+2C22Pl455BG7bzaYzLYl1y6N6Te6vL8tEaRyJ+mZyVE0bYdmqyWgcHa3QIhg5ZSN4E083jywWAG3nqREjmoG4Mg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw0f42oCxtvMuFJrOaeBfMAuV/dvKL4ohHRjA4wL9/bsvzX1pGN
+	UFnh1t1R0RGdaQI6t0VRp4KH5fXV94gUS7d6F0uU9lkug1fjIbgfu4B+
+X-Gm-Gg: AeBDies6DNncU5bmd1T0tzK5wLXc5xLB0/wgf71lbjkG8VzyB2sCy1V4UV9eRKcJB/M
+	INMvDmgh8Dyu4LHjvI99DbGBwE52AUpujTz4Z7+54s8csJvkElu7/hsVSeizYegiymnrRRwmIUj
+	4AnuoYcNTIZTczekZJyFkgnfe3TBvrxpXJJoOIC1JM7T6dZQwnGVAG1NNTS2yCKx44LWduOG/zl
+	zdOxjyIlp2OmlB5NET16SKj3O9SHQEomu7ZuFcFnNpPGeqOQVnYazkrm1KSajzPZZ/TlHFQZgyL
+	MyKaojRAA0HHW7EfF+QJmGIKPCldMQ1cflXYIYc+paRx7ej55yQ70jxH9xc7woEhEU2mf3CMAW0
+	TyyQxOamsrmRNByaSyrvldrRb+f5d7eIPlDO62p4F648QEIE6H5W8Bjxt228YZ3X/G3HhYng9a6
+	xHd2y1cxlHbYKVhPBYhtTWIgqv8OvCNWTyqUAwzA==
+X-Received: by 2002:a05:6000:2081:b0:43d:6ff5:3a2d with SMTP id ffacd0b85a97d-43d6ff53ad1mr19853081f8f.10.1776257266466;
+        Wed, 15 Apr 2026 05:47:46 -0700 (PDT)
 Received: from localhost.localdomain ([2001:41d0:406:c100::])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43ead356616sm5123319f8f.13.2026.04.15.05.47.44
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43ead356616sm5123319f8f.13.2026.04.15.05.47.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Apr 2026 05:47:44 -0700 (PDT)
+        Wed, 15 Apr 2026 05:47:46 -0700 (PDT)
 From: John Madieu <john.madieu@gmail.com>
 X-Google-Original-From: John Madieu <john.madieu.xa@bp.renesas.com>
 To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
@@ -97,9 +97,9 @@ Cc: Rob Herring <robh@kernel.org>,
 	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	John Madieu <john.madieu.xa@bp.renesas.com>
-Subject: [PATCH v5 09/14] ASoC: rsnd: Add SSI reset support for RZ/G3E platforms
-Date: Wed, 15 Apr 2026 12:47:26 +0000
-Message-Id: <20260415124731.3684773-10-john.madieu.xa@bp.renesas.com>
+Subject: [PATCH v5 10/14] ASoC: rsnd: Add ADG reset support for RZ/G3E
+Date: Wed, 15 Apr 2026 12:47:27 +0000
+Message-Id: <20260415124731.3684773-11-john.madieu.xa@bp.renesas.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20260415124731.3684773-1-john.madieu.xa@bp.renesas.com>
 References: <20260415124731.3684773-1-john.madieu.xa@bp.renesas.com>
@@ -115,12 +115,12 @@ X-Spamd-Result: default: False [-0.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-31297-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-31298-lists,linux-renesas-soc=lfdr.de];
 	FREEMAIL_FROM(0.00)[gmail.com];
 	RCPT_COUNT_TWELVE(0.00)[19];
 	FORGED_SENDER_MAILLIST(0.00)[];
@@ -136,28 +136,20 @@ X-Spamd-Result: default: False [-0.16 / 15.00];
 	DKIM_TRACE(0.00)[gmail.com:+];
 	RCVD_COUNT_FIVE(0.00)[5];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
-	NEURAL_HAM(-0.00)[-0.985];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	NEURAL_HAM(-0.00)[-0.984];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[bp.renesas.com:mid,renesas.com:email,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 253DF40474D
+	DBL_BLOCKED_OPENRESOLVER(0.00)[renesas.com:email,bp.renesas.com:mid,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 8A2DF404811
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Add SSI reset support for the Renesas RZ/G3E SoC, which differs from
-earlier generations in several ways:
+RZ/G3E requires the ADG reset line to be deasserted for the audio
+subsystem to operate. The ADG module clock is already managed via
+rsnd_adg_clk_enable/disable() through adg->adg, so no additional
+clock handling is needed.
 
- - The SSI block always operates in BUSIF mode; RZ/G3E does not implement
-   the SSITDR/SSIRDR registers used by R-Car Gen2/Gen3/Gen4 for direct SSI
-   DMA. Consequently, for the RZ/G3E, all audio data must pass through
-   BUSIF. PIO mode remains available for R-Car Gen2/Gen3/Gen4 platforms.
- - Each SSI instance has its own reset line, exposed using per-SSI names
-   such as "ssi0", "ssi1", etc., rather than a single shared reset.
-
-To support these differences, rsnd_ssi_use_busif() always return 1 on
-RZ/G3E, ensuring that the driver consistently selects the BUSIF DMA path.
-While at it, update the reset acquisition logic to request the appropriate
-per-SSI reset controller based on the SSI instance name.
+Add support for the optional "adg" reset control on Renesas RZ/G3E SoC.
 
 Signed-off-by: John Madieu <john.madieu.xa@bp.renesas.com>
 ---
@@ -167,52 +159,39 @@ Changes:
 v5: No changes
 
 v4:
- - Clarify in commit message that PIO mode remains available on R-Car
-   Gen2/Gen3/Gen4 platforms
+ - Collapse dev_err_probe() and rsnd_mod_init() calls to single lines
 
 v3: No changes
 v2: No changes
 
- sound/soc/renesas/rcar/ssi.c | 13 ++++++++++++-
- 1 file changed, 12 insertions(+), 1 deletion(-)
+ sound/soc/renesas/rcar/adg.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
-diff --git a/sound/soc/renesas/rcar/ssi.c b/sound/soc/renesas/rcar/ssi.c
-index c06cebb36170..c65435551283 100644
---- a/sound/soc/renesas/rcar/ssi.c
-+++ b/sound/soc/renesas/rcar/ssi.c
-@@ -1158,6 +1158,7 @@ int __rsnd_ssi_is_pin_sharing(struct rsnd_mod *mod)
+diff --git a/sound/soc/renesas/rcar/adg.c b/sound/soc/renesas/rcar/adg.c
+index 0105c60a144e..813ad5eabba6 100644
+--- a/sound/soc/renesas/rcar/adg.c
++++ b/sound/soc/renesas/rcar/adg.c
+@@ -771,6 +771,7 @@ void rsnd_adg_clk_dbg_info(struct rsnd_priv *priv, struct seq_file *m)
  
- int rsnd_ssi_probe(struct rsnd_priv *priv)
+ int rsnd_adg_probe(struct rsnd_priv *priv)
  {
 +	struct reset_control *rstc;
- 	struct device_node *node;
+ 	struct rsnd_adg *adg;
  	struct device *dev = rsnd_priv_to_dev(priv);
- 	struct rsnd_mod_ops *ops;
-@@ -1207,6 +1208,16 @@ int rsnd_ssi_probe(struct rsnd_priv *priv)
- 			goto rsnd_ssi_probe_done;
- 		}
+ 	int ret;
+@@ -779,8 +780,11 @@ int rsnd_adg_probe(struct rsnd_priv *priv)
+ 	if (!adg)
+ 		return -ENOMEM;
  
-+		/*
-+		 * RZ/G3E uses per-SSI reset controllers.
-+		 * R-Car platforms typically don't have SSI reset controls.
-+		 */
-+		rstc = devm_reset_control_get_optional(dev, name);
-+		if (IS_ERR(rstc)) {
-+			ret = PTR_ERR(rstc);
-+			goto rsnd_ssi_probe_done;
-+		}
+-	ret = rsnd_mod_init(priv, &adg->mod, &adg_ops,
+-		      NULL, NULL, 0, 0);
++	rstc = devm_reset_control_get_optional_exclusive(dev, "adg");
++	if (IS_ERR(rstc))
++		return dev_err_probe(dev, PTR_ERR(rstc), "failed to get adg reset\n");
 +
- 		if (of_property_read_bool(np, "shared-pin"))
- 			rsnd_flags_set(ssi, RSND_SSI_CLK_PIN_SHARE);
- 
-@@ -1225,7 +1236,7 @@ int rsnd_ssi_probe(struct rsnd_priv *priv)
- 			ops = &rsnd_ssi_dma_ops;
- 
- 		ret = rsnd_mod_init(priv, rsnd_mod_get(ssi), ops, clk,
--				    NULL, RSND_MOD_SSI, i);
-+				    rstc, RSND_MOD_SSI, i);
- 		if (ret)
- 			goto rsnd_ssi_probe_done;
++	ret = rsnd_mod_init(priv, &adg->mod, &adg_ops, NULL, rstc, 0, 0);
+ 	if (ret)
+ 		return ret;
  
 -- 
 2.25.1
