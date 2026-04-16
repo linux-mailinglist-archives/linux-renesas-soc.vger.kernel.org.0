@@ -1,202 +1,417 @@
-Return-Path: <linux-renesas-soc+bounces-31339-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-31340-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id sKKHJb5Q4Wl5rwAAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-31339-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Apr 2026 23:12:30 +0200
+	id eF01NiVW4Wl5rwAAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-31340-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Apr 2026 23:35:33 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD010414D02
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Apr 2026 23:12:29 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 83ED1414F89
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Apr 2026 23:35:33 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id EFFF7306171E
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Apr 2026 21:11:46 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 2D349303076D
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Apr 2026 21:35:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 08FD7330678;
-	Thu, 16 Apr 2026 21:11:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 62775331A7E;
+	Thu, 16 Apr 2026 21:35:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="INUP8Sds"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ZkLSTvw8";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="LjpGSOO7"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0947314B950;
-	Thu, 16 Apr 2026 21:11:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD0EC326928
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 16 Apr 2026 21:35:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776373904; cv=none; b=YcSxnseWAKggtzwVjEVufWqdhg4ijazGarnynHSPk1l2ry/H8xwJNu1paRlqWltwGMla4YHt3qV06xVDa1lnMhkikBTNHLC+BZsa0Oa0rEJCOBQot1GOAH08+X5hA+/HrS/0KZDYbWSdi/QpJWR8gULRtVblxzFRouC9OYL2N1Y=
+	t=1776375330; cv=none; b=XEvmHf1LiA8sprbvETKxoL94tfyUpGjJwtSJt0Ebw26ia4cBs/cwe27Tpd6t48a9xVoHS+5ZZVorTlOGz6sxj6ITmSFD4XB2QvIQIZblN6NzudwhV8yJnWaqIEyKE/W7a528Ph9etqzQpGxN8B/a0ypeFFMCzhK9ixPH2F+PLTI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776373904; c=relaxed/simple;
-	bh=2oymQI/1zOIbvajxOQYbfx9Iv9rfKnYOP1X7rlzEqww=;
+	s=arc-20240116; t=1776375330; c=relaxed/simple;
+	bh=bQYDWw2yWRrPDsipu0p8v7TVMWjI3sci/lJJ3WtUqI8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dhKwWaN1fAmO5ry3RhVuMMEvt+6ER0UW85PjD5fmOmC+YVyHoQwaeRoyq5vshwxO+g5uCm42oiTA+eIDBZnSKr+aXF/PaYIBLVSN1cu7InnxOtPdiB8i46Ygbr9FGeOcgKsjNxP70+Oa9PD0MzqDYi/B7nKnltH1kKca8IV5jio=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=INUP8Sds; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from killaraus.ideasonboard.com (2001-14ba-703d-e500--2a1.rev.dnainternet.fi [IPv6:2001:14ba:703d:e500::2a1])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id B912F9C;
-	Thu, 16 Apr 2026 23:10:06 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1776373806;
-	bh=2oymQI/1zOIbvajxOQYbfx9Iv9rfKnYOP1X7rlzEqww=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=INUP8Sdsw3WOdNwhMy2Sm+pMa7Wxd9/BH11lvMBGZCs/mP22Qco4Ramkesk54p674
-	 e4AKPe3vgMnzC4VIxMcQDFRzytMFRgnBAqRS98D+lPFqypQE4dtQTgwmSZDX0iZBLc
-	 UHFgloiHixEXQS21CmBwjMMqNkgQM2y82J1xpTGQ=
-Date: Fri, 17 Apr 2026 00:11:39 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Cc: linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Subject: Re: [PATCH v4 07/13] media: renesas: vsp1: brx: Fix format
- propagation
-Message-ID: <20260416211139.GC1824072@killaraus.ideasonboard.com>
-References: <20260318235907.831556-1-laurent.pinchart+renesas@ideasonboard.com>
- <20260318235907.831556-8-laurent.pinchart+renesas@ideasonboard.com>
- <CA+V-a8t481xuwava0nb7uY9CUPqFWZ_8EP0xrK3BgumP7HDcLg@mail.gmail.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=qkj05rr1mLCy1z/eXghGvkaEXvrma8AvNuJc7v7a8BlsuV8zAkFck6SBJ34V5bFxleqYQfHTXCUfQbNtVOm1mcU+X1E7Z4MAQJMLuBwrVotBEe3H8jJI01zLMvCowZ6j6tHyAhggub52xR8W1rNy0lv+yyZvK2SwKLzKoWCoaTk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ZkLSTvw8; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=LjpGSOO7; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1776375327;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=YRG/q659xesZWxPYzzEVSdkuUOn2ZHM5fkzo4uR4sjQ=;
+	b=ZkLSTvw8ppVhgTcfYC3RhPkYFwMF3h5qa5NQ8D8q32Xi0cIHQQMUA3QvHBwVMyG5KH6SFY
+	pnOYVt719kPUwC7EcK93cZxRd1V97HmLdmRz4SXFUHugxTsZ4NXy0/5pCbDLYCbh6XcXpd
+	ntPjhRlf4TUTRRpWuMEDNVrNNRrUhJA=
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
+ [209.85.219.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-605-HWi9n-JnOCGOtRsTqsBLhQ-1; Thu, 16 Apr 2026 17:35:26 -0400
+X-MC-Unique: HWi9n-JnOCGOtRsTqsBLhQ-1
+X-Mimecast-MFC-AGG-ID: HWi9n-JnOCGOtRsTqsBLhQ_1776375326
+Received: by mail-qv1-f69.google.com with SMTP id 6a1803df08f44-8aca172588cso228816d6.0
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 16 Apr 2026 14:35:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=redhat.com; s=google; t=1776375326; x=1776980126; darn=vger.kernel.org;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=YRG/q659xesZWxPYzzEVSdkuUOn2ZHM5fkzo4uR4sjQ=;
+        b=LjpGSOO7lKoizq5MRyY8hUfqoLUZgbLwNwTqY+oGo7PKu1FX54r+lDV5lVj0Uw0iNC
+         orpUK5wT+Lx9uqKc55qamSGSW9xZNXH+PltsddwvJfC3GWyk7VvD9xiKtXeNMUmXCBlj
+         JL8R4S5QghbN1p5sR5zd+noBOvzDs3131UA7SlgYG2HyWaXasAKDNBg2YhCt9/fyktoL
+         tm8K5gAEGtWr3sM32D2uApXdTkV2zFiSBVz9DNE3uWz6l+ORomRTI77Vxl6MZsR3cyYB
+         cfJ1aLOiZ2azEKn9bkYzk10eM5yRhbAkhCfl/cc++6kJ7snnN+JrtqdBhvPsOFIBTPXk
+         NQag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776375326; x=1776980126;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=YRG/q659xesZWxPYzzEVSdkuUOn2ZHM5fkzo4uR4sjQ=;
+        b=H7KlDv42EYN+iJS49wxh1GaETpAOqyArSwtXshTFBYoxLFsXzZZZJ1uTJCHsR+XP41
+         IbKQgDX/vrgF8eDD+ZoxpOyaSjodRxOqXHM1HKAt+vq/eI6Bknzacwpv6YN8eHLFvFh9
+         Uqwmo6aem/tnzujUazmhUsor1JxOeqAG7lBMviFBhIry37cO9zFFFm9fFS7IQfj6C4rD
+         eWP9xw8GdkNaHL6gAKKnfnSBFkK60HJDElKO1jRNiTsYkZpq5PPkIGx0mtSZs3hR5QOj
+         OL8KhNT0uqMRLIXze9cgkQEUG4R5sxGzMQWhwuNlrKmW5oIvvR9m6wvXWdsx2jwjEuZd
+         uh+w==
+X-Forwarded-Encrypted: i=1; AFNElJ9koLUvkyYIOFP4CywI/NiqjtKsaZeMyIgcema7CAYCsmUbDROYnylO3jY8ejOdgOdBatjPAdd7GgiMFMNDaxTNmw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywcau5m89hfpxkWk/wAAshY369jzVT+QvFGePXgiDjG3T1GrlA5
+	vy5cNL7Y2iE38hhrVHYlRFKn1+wPf9TLsyybzu6Pi9YY0C7uiUJwwg2LiijPDM0MgaeNJwoSy9u
+	trhujn7smSnRvUom41wekMl447MepdEghV+4v68AIGNcBU3A38bCzgvlKbhRLNZ/KmHQHKmbc
+X-Gm-Gg: AeBDietitdMuhRbq5p5iUX3+K5nZxXNzvros5QCLNFrTvbNSX8M6ZzGAesjOoOjzy4P
+	mDDHzndQbEX8ELWrT5gVz45JGBcn5w9WgHrERv3ZLPk57POxZh7LIe4GDdDJ5MPCfL2kmwaySKZ
+	otHJj21/iWiuS1kRQn6g2LA9x9hLdK3/TUC2ei4d5yRoCD1oiifQfHU/6jX1VfupW5cCkAHBt0f
+	WwDQHsquxbo/+FTvGjJ8B9o7p4kenDsMIoj+/EoOy+l2FReNVCXakHs1vupJ7EFuzJIABbRkZyp
+	r0dBkItkp3IndvODW1LMK1HEv4mEhkEWwZgda7jhn1xSth5Y4hVDgYWcUZ12k1a9mdDdBChnr3H
+	B6wrmcCYvPL0QxolgIJSdpNWAEVyZDWlTHTZOGkvC/cz4ku/J0eUNDTkhO6lipK+lZJY=
+X-Received: by 2002:a05:6214:3211:b0:895:498e:e9dd with SMTP id 6a1803df08f44-8b028024c49mr5543636d6.2.1776375326025;
+        Thu, 16 Apr 2026 14:35:26 -0700 (PDT)
+X-Received: by 2002:a05:6214:3211:b0:895:498e:e9dd with SMTP id 6a1803df08f44-8b028024c49mr5543066d6.2.1776375325583;
+        Thu, 16 Apr 2026 14:35:25 -0700 (PDT)
+Received: from redhat.com (c-73-183-52-120.hsd1.pa.comcast.net. [73.183.52.120])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8ae6cda5a2bsm45376176d6.33.2026.04.16.14.35.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 16 Apr 2026 14:35:24 -0700 (PDT)
+Date: Thu, 16 Apr 2026 17:35:21 -0400
+From: Brian Masney <bmasney@redhat.com>
+To: Prabhakar <prabhakar.csengg@gmail.com>
+Cc: Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH v2 2/2] clk: divider: Add some kunit test suites
+Message-ID: <aeFWGYaRownx1jdp@redhat.com>
+References: <20260413124912.3260571-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20260413124912.3260571-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CA+V-a8t481xuwava0nb7uY9CUPqFWZ_8EP0xrK3BgumP7HDcLg@mail.gmail.com>
-X-Spamd-Result: default: False [-2.16 / 15.00];
+In-Reply-To: <20260413124912.3260571-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+User-Agent: Mutt/2.3.1 (2026-03-20)
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
-	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
+	DMARC_POLICY_ALLOW(-0.50)[redhat.com,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_DKIM_ALLOW(-0.20)[redhat.com:s=mimecast20190719,redhat.com:s=google];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-31339-lists,linux-renesas-soc=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_TO(0.00)[gmail.com];
+	TAGGED_FROM(0.00)[bounces-31340-lists,linux-renesas-soc=lfdr.de];
+	DKIM_TRACE(0.00)[redhat.com:+];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	RCPT_COUNT_THREE(0.00)[4];
-	NEURAL_HAM(-0.00)[-1.000];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[laurent.pinchart@ideasonboard.com,linux-renesas-soc@vger.kernel.org];
-	DKIM_TRACE(0.00)[ideasonboard.com:+];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	TAGGED_RCPT(0.00)[linux-renesas-soc];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,kms-test-plane-position.py:url,ragnatech.se:email,killaraus.ideasonboard.com:mid]
-X-Rspamd-Queue-Id: DD010414D02
+	RCVD_COUNT_FIVE(0.00)[6];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[bmasney@redhat.com,linux-renesas-soc@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	NEURAL_HAM(-0.00)[-1.000];
+	RCPT_COUNT_SEVEN(0.00)[10];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[giphy.com:url,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 83ED1414F89
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi Prabhakar,
+Hi Lad,
 
-On Thu, Apr 16, 2026 at 06:49:14PM +0100, Lad, Prabhakar wrote:
-> On Wed, Mar 18, 2026 at 11:59 PM Laurent Pinchart wrote:
-> >
-> > The format width and height is never propagated to the BRX source pad,
-> > leaving its initial configuration invalid. Propagate the whole format
-> > from the first sink pad to the source pad instead of only propagating
-> > the media bus code. This fixes compliance with the subdev format
-> > propagation rules.
-> >
-> > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> > Reviewed-by: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
-> > Tested-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> > ---
-> >  drivers/media/platform/renesas/vsp1/vsp1_brx.c | 10 ++++++++--
-> >  1 file changed, 8 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/drivers/media/platform/renesas/vsp1/vsp1_brx.c b/drivers/media/platform/renesas/vsp1/vsp1_brx.c
-> > index dd651cef93e4..911359faa600 100644
-> > --- a/drivers/media/platform/renesas/vsp1/vsp1_brx.c
-> > +++ b/drivers/media/platform/renesas/vsp1/vsp1_brx.c
-> > @@ -156,14 +156,20 @@ static int brx_set_format(struct v4l2_subdev *subdev,
-> >                 compose->height = format->height;
-> >         }
-> >
-> > -       /* Propagate the format code to all pads. */
-> > +       /*
-> > +        * Propagate the format code to all pads, and the whole format to the
-> > +        * source pad.
-> > +        */
-> >         if (fmt->pad == BRX_PAD_SINK(0)) {
-> >                 unsigned int i;
-> >
-> > -               for (i = 0; i <= brx->entity.source_pad; ++i) {
-> > +               for (i = 0; i < brx->entity.source_pad; ++i) {
-> >                         format = v4l2_subdev_state_get_format(state, i);
-> >                         format->code = fmt->format.code;
-> >                 }
-> > +
-> > +               format = v4l2_subdev_state_get_format(state, i);
-> > +               *format = fmt->format;
+On Mon, Apr 13, 2026 at 01:49:12PM +0100, Prabhakar wrote:
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > 
-> When running kms-test-plane-position.py (from [0]) on RZ/V2H EVK, Im
-> getting vblank timeouts as seen below:
-
-Oops :-/
-
-I'm run the KMS tests on a R-Car board when I submitted the series. I'll
-test again tomorrow.
-
-> [   51.295849] ------------[ cut here ]------------
-> [   51.300538] [CRTC:45:crtc-0] vblank wait timed out
-> [   51.305514] WARNING: drivers/gpu/drm/drm_atomic_helper.c:1921 at drm_atomic_helper_wait_for_vblanks.part.0+0x248/0x27c [drm_kms_helper], CPU#1: python3/413
-> [   51.319577] Modules linked in: sha256 cfg80211 bluetooth ecdh_generic kpp ecc rfkill snd_soc_hdmi_codec snd_soc_core snd_pcm_dmaengine snd_pcm snd_timer snd soundcore rzg2l_du_drm spi_rpc_if drm_client_lib vsp1 rzg2l_cru videobuf2_vmalloc drm_dma_helper videobuf2_dma_contig videobuf2_memops rcar_fcp rzg2l_csi2 videobuf2_v4l2 renesas_usbhs rzg2l_mipi_dsi ov5645 videobuf2_common adv7511 v4l2_cci phy_rzg3e_usb3 panfrost v4l2_fwnode reset_rzv2h_usb2phy v4l2_async drm_display_helper drm_shmem_helper videodev rtc_isl1208 cec gpu_sched rtc_renesas_rtca3 mc display_connector drm_kms_helper renesas_rpc_if drm fuse backlight
-> [   51.374382] CPU: 1 UID: 0 PID: 413 Comm: python3 Not tainted 7.0.0-next-20260415-00258-gf9ef0131676a-dirty #340 PREEMPT
-> [   51.385280] Hardware name: Renesas RZ/V2H EVK Board based on r9a09g057h44 (DT)
-> [   51.392521] pstate: 60400005 (nZCv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
-> [   51.399505] pc : drm_atomic_helper_wait_for_vblanks.part.0+0x248/0x27c [drm_kms_helper]
-> [   51.407624] lr : drm_atomic_helper_wait_for_vblanks.part.0+0x248/0x27c [drm_kms_helper]
-> [   51.415739] sp : ffff800083dbb9d0
-> [   51.419067] x29: ffff800083dbba00 x28: 000000000000000a x27: 00000000000005c5
-> [   51.426237] x26: 0000000000000000 x25: ffff0000ca4c0888 x24: 0000000000000001
-> [   51.433406] x23: 0000000000000001 x22: 0000000000000000 x21: 0000000000000000
-> [   51.440575] x20: ffff0000c7cb4980 x19: ffff0000c325e618 x18: 000000000000000a
-> [   51.447743] x17: 0000000000000000 x16: 0000000000000000 x15: 0000000000000000
-> [   51.454911] x14: 0000000000000000 x13: ffff8000818c3ca0 x12: 00000000000001fc
-> [   51.462079] x11: ffff0000c0fcd360 x10: ffff8000832bd200 x9 : ffff8000818c3ca0
-> [   51.469248] x8 : 3fffffffffffefff x7 : ffff80008191bca0 x6 : 0000000000000000
-> [   51.476416] x5 : ffff0003fdf93088 x4 : 0000000000000001 x3 : 0000000000000000
-> [   51.483584] x2 : 0000000000000000 x1 : 0000000000000000 x0 : ffff0000cc19af40
-> [   51.490753] Call trace:
-> [   51.493212]  drm_atomic_helper_wait_for_vblanks.part.0+0x248/0x27c [drm_kms_helper] (P)
-> [   51.501336]  drm_atomic_helper_commit_tail_rpm+0xbc/0xd8 [drm_kms_helper]
-> [   51.508237]  commit_tail+0xa4/0x1a4 [drm_kms_helper]
-> [   51.513313]  drm_atomic_helper_commit+0x178/0x194 [drm_kms_helper]
-> [   51.519605]  drm_atomic_commit+0x8c/0xd0 [drm]
-> [   51.524307]  drm_mode_atomic_ioctl+0xac8/0xe00 [drm]
-> [   51.529523]  drm_ioctl_kernel+0xc0/0x128 [drm]
-> [   51.534217]  drm_ioctl+0x354/0x4c0 [drm]
-> [   51.538389]  __arm64_sys_ioctl+0xa4/0xf4
-> [   51.542342]  invoke_syscall.constprop.0+0x40/0x108
-> [   51.547161]  el0_svc_common.constprop.0+0xb8/0xd8
-> [   51.551892]  do_el0_svc+0x1c/0x28
-> [   51.555229]  el0_svc+0x38/0x140
-> [   51.558397]  el0t_64_sync_handler+0xa0/0xe4
-> [   51.562603]  el0t_64_sync+0x198/0x19c
-> [   51.566286] ---[ end trace 0000000000000000 ]---
-> [   64.735886] rzg2l-du 16460000.display: [drm] *ERROR* flip_done timed out
-> [   64.742630] rzg2l-du 16460000.display: [drm] *ERROR* [CRTC:45:crtc-0] commit wait timed out
-> [   74.975884] rzg2l-du 16460000.display: [drm] *ERROR* flip_done timed out
-> [   74.982639] rzg2l-du 16460000.display: [drm] *ERROR* [PLANE:40:plane-1] commit wait timed out
-> [   75.999845] ------------[ cut here ]------------
+> Add KUnit tests to verify clk_divider_bestdiv() returns the maximum
+> achievable rate when clk_round_rate() is called with ULONG_MAX, which
+> is the canonical way to probe the maximum rate a clock can produce.
 > 
-> Reverting this patch fixes the issue, but compliance might fail. On
-> V2H media device is not registered for VSP.
+> The first test uses a fixed-rate parent driving a table-based divider
+> with no div=1 entry. The second test places a two-input mux between
+> the divider and its root clocks to verify correct parent selection and
+> that the divider loop does not make redundant calls to
+> clk_hw_round_rate() for each remaining table entry after the first
+> overflow.
 > 
-> [0] https://git.ideasonboard.com/renesas/kms-tests/src/branch/master/tests
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> ---
+>  drivers/clk/Kconfig            |   7 ++
+>  drivers/clk/Makefile           |   1 +
+>  drivers/clk/clk-divider_test.c | 151 +++++++++++++++++++++++++++++++++
+>  3 files changed, 159 insertions(+)
+>  create mode 100644 drivers/clk/clk-divider_test.c
+> 
+> diff --git a/drivers/clk/Kconfig b/drivers/clk/Kconfig
+> index cc8743b11bb1..c8f9eaef6f6b 100644
+> --- a/drivers/clk/Kconfig
+> +++ b/drivers/clk/Kconfig
+> @@ -573,4 +573,11 @@ config CLK_FD_KUNIT_TEST
+>  	help
+>  	  Kunit test for the clk-fractional-divider type.
+>  
+> +config CLK_DIVIDER_KUNIT_TEST
+> +	tristate "KUnit tests for clk divider bestdiv" if !KUNIT_ALL_TESTS
+> +	depends on KUNIT
 
--- 
-Regards,
+Since the clk divider calls writel(), you also will need to
+unfortunately add:
 
-Laurent Pinchart
+    depends on !S390
+
+This is already on CLK_GATE_KUNIT_TEST. For the reason why, look at
+commit a6c3da03ead11 ("clk: disable clk gate tests for s390")
+
+> +	default KUNIT_ALL_TESTS
+> +	help
+> +	  Kunit test for the clk-divider type.
+> +
+>  endif
+> diff --git a/drivers/clk/Makefile b/drivers/clk/Makefile
+> index a3e2862ebd7e..0c915c6cf3fa 100644
+> --- a/drivers/clk/Makefile
+> +++ b/drivers/clk/Makefile
+> @@ -20,6 +20,7 @@ clk-test-y			:= clk_test.o \
+>  				   kunit_clk_assigned_rates_zero_consumer.dtbo.o \
+>  				   kunit_clk_hw_get_dev_of_node.dtbo.o \
+>  				   kunit_clk_parent_data_test.dtbo.o
+> +obj-$(CONFIG_CLK_DIVIDER_KUNIT_TEST) += clk-divider_test.o
+>  obj-$(CONFIG_COMMON_CLK)	+= clk-divider.o
+
+Swap the order of these two lines above for consistency with the
+clk-fixed-rate and clk-gate tests where the actual implementation is
+first, and then the test.
+
+>  obj-$(CONFIG_COMMON_CLK)	+= clk-fixed-factor.o
+>  obj-$(CONFIG_COMMON_CLK)	+= clk-fixed-rate.o
+> diff --git a/drivers/clk/clk-divider_test.c b/drivers/clk/clk-divider_test.c
+> new file mode 100644
+> index 000000000000..3a5e3adccb2e
+> --- /dev/null
+> +++ b/drivers/clk/clk-divider_test.c
+> @@ -0,0 +1,151 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * KUnit tests for clk_divider_bestdiv()
+> + */
+> +#include <kunit/test.h>
+> +#include <linux/clk.h>
+> +#include <linux/clk-provider.h>
+> +#include <linux/limits.h>
+> +#include <linux/units.h>
+> +
+> +#define PARENT_RATE_1GHZ	GIGA
+> +#define PARENT_RATE_2GHZ	(2 * GIGA)
+> +#define PARENT_RATE_4GHZ	(4 * GIGA)
+> +
+> +static u32 fake_reg_a, fake_reg_b;
+
+Right now this limits this to one implementation. Put these in a
+structure and use kunit_kzalloc() so that there can be multiple, and the
+runner can execute them in parallel.
+
+> +
+> +static const struct clk_div_table no_div1_table[] = {
+> +	{0, 2},
+> +	{1, 4},
+> +	{2, 8},
+> +	{0, 0},
+> +};
+
+You can pass NULL for the table to simplify this code further. I don't
+see where you are testing anything special related to the table. I think
+you'll need to pass CLK_DIVIDER_ONE_BASED to the flags when you create
+the divider if you use a NULL table.
+
+> +
+> +static void unregister_fixed_rate(void *hw)
+> +{
+> +	clk_hw_unregister_fixed_rate(hw);
+> +}
+> +
+> +static void unregister_divider(void *hw)
+> +{
+> +	clk_hw_unregister_divider(hw);
+> +}
+> +
+> +static void unregister_mux(void *hw)
+> +{
+> +	clk_hw_unregister_mux(hw);
+> +}
+> +
+> +/*
+> + * Test that clk_round_rate(clk, ULONG_MAX) returns the maximum achievable
+> + * rate for a divider clock.
+> + */
+> +static void clk_divider_bestdiv_ulong_max_returns_max_rate(struct kunit *test)
+> +{
+> +	struct clk_hw *parent_hw, *div_hw;
+> +	unsigned long rate;
+> +
+> +	parent_hw = clk_hw_register_fixed_rate(NULL, "bestdiv-parent",
+> +					       NULL, 0, PARENT_RATE_1GHZ);
+> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, parent_hw);
+> +	kunit_add_action(test, unregister_fixed_rate, parent_hw);
+
+You can put clk_hw_unregister_fixed_rate() in the call here, and then
+drop unregister_fixed_rate(). There's some cases of this below as well.
+
+Check the return value of kunit_add_action() here and below as well.
+
+> +
+> +	fake_reg_a = 0;
+> +	div_hw = clk_hw_register_divider_table(NULL, "bestdiv-div",
+> +					       "bestdiv-parent",
+> +					       CLK_SET_RATE_PARENT,
+> +					       (void __iomem *)&fake_reg_a,
+
+You'll need __force for the cast for sparse as well.
+
+> +					       0, 2, 0, no_div1_table, NULL);
+> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, div_hw);
+> +	kunit_add_action(test, unregister_divider, div_hw);
+
+Same here... you can just put clk_hw_unregister_divider() here and drop
+the function above.
+
+> +
+> +	/*
+> +	 * ULONG_MAX is the canonical way to probe the maximum rate a clock
+> +	 * can produce. With a parent at 1 GHz and the smallest table divider
+> +	 * being 2, the expected maximum is 500 MHz.
+> +	 *
+> +	 * Before the fix this returned 125 MHz (PARENT_RATE / 8), the
+> +	 * minimum rate, because the search loop was bypassed entirely.
+
+The "Before the fix" comment should go in the commit log. The comment in
+the code should describe how the code is right now.
+
+> +	 */
+> +	rate = clk_hw_round_rate(div_hw, ULONG_MAX);
+> +	KUNIT_EXPECT_EQ(test, rate, PARENT_RATE_1GHZ / 2);
+> +}
+> +
+> +/*
+> + * Test that clk_round_rate(clk, ULONG_MAX) returns the correct maximum rate when
+> + * a mux clock sits between a divider and its parent candidates.
+> + *
+> + * Topology:
+> + *
+> + *   [fixed 4 GHz] --\
+> + *                    +--> [mux CLK_SET_RATE_PARENT] --> [div {2,4,8} CLK_SET_RATE_PARENT]
+> + *   [fixed 2 GHz] --/
+> + *
+> + */
+> +static void clk_divider_bestdiv_mux_ulong_max_returns_max_rate(struct kunit *test)
+> +{
+> +	static const char *const mux_parents[] = {
+> +		"bestdiv-mux-parent-a",
+> +		"bestdiv-mux-parent-b",
+> +	};
+> +	struct clk_hw *parent_a_hw, *parent_b_hw, *mux_hw, *div_hw;
+> +	unsigned long rate;
+> +
+> +	/* Higher-rate parent: the mux should select this for ULONG_MAX. */
+> +	parent_a_hw = clk_hw_register_fixed_rate(NULL, "bestdiv-mux-parent-a",
+> +						 NULL, 0, PARENT_RATE_4GHZ);
+> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, parent_a_hw);
+> +	kunit_add_action(test, unregister_fixed_rate, parent_a_hw);
+> +
+> +	/* Lower-rate parent: should not be selected. */
+> +	parent_b_hw = clk_hw_register_fixed_rate(NULL, "bestdiv-mux-parent-b",
+> +						 NULL, 0, PARENT_RATE_2GHZ);
+> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, parent_b_hw);
+> +	kunit_add_action(test, unregister_fixed_rate, parent_b_hw);
+> +
+> +	/*
+> +	 * 1-bit mux register selects between the two parents.
+> +	 * CLK_SET_RATE_PARENT allows the divider's rate request to
+> +	 * propagate into clk_mux_determine_rate().
+> +	 */
+> +	fake_reg_a = 0;
+> +	mux_hw = clk_hw_register_mux(NULL, "bestdiv-mux",
+> +				     mux_parents, ARRAY_SIZE(mux_parents),
+> +				     CLK_SET_RATE_PARENT,
+> +				     (void __iomem *)&fake_reg_a,
+> +				     0, 1, 0, NULL);
+> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, mux_hw);
+> +	kunit_add_action(test, unregister_mux, mux_hw);
+
+You can put clk_hw_unregister_mux() here and drop this function above.
+
+> +
+> +	fake_reg_b = 0;
+> +	div_hw = clk_hw_register_divider_table(NULL, "bestdiv-mux-div",
+> +					       "bestdiv-mux",
+> +					       CLK_SET_RATE_PARENT,
+> +					       (void __iomem *)&fake_reg_b,
+> +					       0, 2, 0, no_div1_table, NULL);
+> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, div_hw);
+> +	kunit_add_action(test, unregister_divider, div_hw);
+> +
+> +	/*
+> +	 * Expected maximum: mux selects the 4 GHz parent, divider applies
+> +	 * the smallest table entry (2): 4 GHz / 2 = 2 GHz.
+> +	 */
+> +	rate = clk_hw_round_rate(div_hw, ULONG_MAX);
+> +	KUNIT_EXPECT_EQ(test, rate, PARENT_RATE_4GHZ / 2);
+> +}
+> +
+> +static struct kunit_case clk_divider_bestdiv_test_cases[] = {
+> +	KUNIT_CASE(clk_divider_bestdiv_ulong_max_returns_max_rate),
+> +	KUNIT_CASE(clk_divider_bestdiv_mux_ulong_max_returns_max_rate),
+> +	{}
+> +};
+
+Usually I'd ask for a few other tests for basic functionality to be
+added rather than just testing the maximum. However there's actually
+some stuff broken with the existing dividers and the clk core where a
+clk can change the rate of it's siblings. I have a series to address
+this at:
+
+https://lore.kernel.org/linux-clk/20260327-clk-scaling-v8-0-86cd0aba3c5f@redhat.com/
+
+I think the tests that you have are fine.
+
+Stephen: If you have time after the merge window closes I'd appreciate
+it if you could take time to provide feedback about that series.
+
+Puss in Boots please... :)
+https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExaXg5cGFhbGdmbTZjdnRkdWs4aXM5d3FlYnFmbTNudWFsZ3Fwc3o5NiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/qUIm5wu6LAAog/giphy.gif
+
+Brian
+
 
