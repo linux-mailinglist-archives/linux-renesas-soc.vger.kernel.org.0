@@ -1,71 +1,74 @@
-Return-Path: <linux-renesas-soc+bounces-31384-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-31386-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id iAnKK1Mv5WmEfAEAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-31384-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 19 Apr 2026 21:38:59 +0200
+	id YGH7FYwv5WlxfAEAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-31386-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 19 Apr 2026 21:39:56 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FEB24254D4
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 19 Apr 2026 21:38:59 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id B34E1425508
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 19 Apr 2026 21:39:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 873B7303FDFD
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 19 Apr 2026 19:38:03 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 27E1B3059FEF
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 19 Apr 2026 19:38:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3DC823016E1;
-	Sun, 19 Apr 2026 19:38:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CF5E4305047;
+	Sun, 19 Apr 2026 19:38:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="Tbqd6Cfk";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="SIFYPnl4"
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="SN/ysULC";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="NStd01G/"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
+Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2136730171A;
-	Sun, 19 Apr 2026 19:38:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.152
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DF4A3019A9;
+	Sun, 19 Apr 2026 19:38:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776627483; cv=none; b=QEKpbEWo3GfQ9WswWDqOeVfuvEEHjs5385Nmo8Zs7LeVOqagb+ZLWMKPe/xDWsgARa1sRm530AxK6r68KR+mJj1GN+xIaNV6VzumHv6yTo7DJvr73JkMdKSfXMXu4youja7N7fn1ItafIy7b+O3MlIKnSIKj6GtYLNnLlzJfqWg=
+	t=1776627488; cv=none; b=u8A4mr50wQtvzz8TNRQNjdeSHu2UYP00KTcgOr3wo6NLNTrsBA/8HFSHfUnOICnje6La+FlmwcML2OlWQSziqdr/5lliN2xu9QUn3LnIcjAtnTVVao0jqd5W2GtzHQB1MMcHHpOq8CVfG+Lzm6zeagAjqFtg2wF3bhu0H3XsdMw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776627483; c=relaxed/simple;
-	bh=Zxu8dREGFRjOJ1PVMTabT0WFvs+NHkqQgyeNux5B/yU=;
+	s=arc-20240116; t=1776627488; c=relaxed/simple;
+	bh=g4qfYKW1NnWJZ945fCoxTXOX9qLyrjmzBQLDEvtD5xA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=XGSSiP3u6VtIGS4mT0yFj5x0dFRL5Y3AsjbNIay7i3sMKV/7sjzBnBk0UHyxeokU46NAgfo20foOMQ4yZayyVAaSjezYPBE5zGN+8u2d9OainJEh3B1oavHrl5V5O/erl39Peb4zvgvSzHKWHogBjTcjK04u8wurz+d1iy7w4Tw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=Tbqd6Cfk; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=SIFYPnl4; arc=none smtp.client-ip=80.241.56.152
+	 MIME-Version; b=q2zeWNAuLvwHQR9GBkjACdlhxToEyTWrlYLf1J1xUJb584aFc8Y472y+g1mySCG7aHfHz4SWwvkkuej2vf60a+ub+6QmhKc5dk+tdF7EXu3LinxRz+MbdlZK3ke2qjVyh0FVNlfhguScZ0ZNeuHn4mIfZp1C75EnBw3QgrTTbAc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=SN/ysULC; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=NStd01G/; arc=none smtp.client-ip=80.241.56.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [10.196.197.1])
+Received: from smtp1.mailbox.org (smtp1.mailbox.org [IPv6:2001:67c:2050:b231:465::1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4fzJn32LWtz9vPH;
-	Sun, 19 Apr 2026 21:37:59 +0200 (CEST)
+	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4fzJn86M0pz9tsW;
+	Sun, 19 Apr 2026 21:38:04 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1776627479;
+	t=1776627484;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Wrf/Lt76mF0ZTNTXk/pAtiJpTtv3oNIg+cUa00ckXrE=;
-	b=Tbqd6CfkOg//GEeMcUswfK5eQZKB6q0nLkknCqPXhEhfDRS4U/kVuhN3Q9dwaiAA++W4ws
-	kbpVmVeteVvmBvu4XMjCjG0uQiXqiA4X33QuQPg6C+jy3ZusyHtEhX7k+F3Pg3F9Jey+I8
-	TU0EoSqGuMCb6/ZZccaZmcGktMXxyu0k+qRB7xt4LYyWG1R5bvR71o0qiXWaNeFGvYfZQD
-	4k5J7pWUBdJt7bZTRsNaFGkBzFtDGLbftQg6V94kYxAHgwhJAiMhIhfv0on2o96X0IGu4L
-	zlCYYBWmie4PkSOCcdYvihZkG4kCsEGi6P/NrBZf6I6KCDSzC1QZ1abQnEiaUA==
+	bh=we5xyIHs0NFWcvYDbi577e9O31rX0Xej1rSPQzWrHfo=;
+	b=SN/ysULCvLb/0n0ZmFal+NPz5SKWYgcMbk4fG9AJQVSyqdJSi0IZT2hmuwTMM767lLOUSJ
+	T2YuZoa8F7RvztKZRjBUpxTqcPc3bIYYi4Afr3AgJlhtp2Q359PlcS//D4oP2sYkwRCuug
+	g3qtLlqiDlXjbhZqtvWoZ67lZsnIFhzwEDOHKxuFvoMKK4nZGsh1OH+Z3rg6prLr/Kkdj5
+	2RKdCTsAzm8MAY82l1PC/7oHOCuvGWVHjpDj8I10BAfv8aEUQn2rRc7mib/waQ8W+JttN8
+	qW8pn7RWA4ZMfVTKiVrYqnipbvi03MI0EDkw3Xp3/nAQxX85jhJky7LpFNtj9w==
+Authentication-Results: outgoing_mbo_mout;
+	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b="NStd01G/";
+	spf=pass (outgoing_mbo_mout: domain of marek.vasut+renesas@mailbox.org designates 2001:67c:2050:b231:465::1 as permitted sender) smtp.mailfrom=marek.vasut+renesas@mailbox.org
 From: Marek Vasut <marek.vasut+renesas@mailbox.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1776627477;
+	t=1776627482;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Wrf/Lt76mF0ZTNTXk/pAtiJpTtv3oNIg+cUa00ckXrE=;
-	b=SIFYPnl4CW0IkgVIp7+bUBY8ayXDXlK6GlKY7XE9AOmS8+rtOVE9nBLgj+Ot3P4ZmJ+bG4
-	Y+YwdrjJ9Fo+HZ+XGv5SUaQmwNIx97hX6DlgcRNVzj3gp5r3qDMuw/YHGU1XQ6IL8JWvcZ
-	lRwhCyYIB10JuXNbtAJj/N+uT3ltIV3kpaBPuxFg2CgffjMpxcY+ptVeLFZ3Hx/EiDp72i
-	ne/0fKMMoZbGuhsY6qnE1SfOO9euMWGIwE3mGiILbEXMxIi1+KUk9SpgHkzPD7YJDiSaQI
-	p29TAyfo0fKrVRxl3EdnQlYAE8DgF15bND4aFn5UbGs1DJqF/8vv6KGm+pVD7w==
+	bh=we5xyIHs0NFWcvYDbi577e9O31rX0Xej1rSPQzWrHfo=;
+	b=NStd01G/EbLl/qePHAnC2ZYPTFzRaYKmE9Ye/jnrEPYC1t0aPEf8HBfsh0G1Nnbyb5uwjU
+	dZG3Sxzwb3Flt77gH8hSayLMB3SLLPT7tDSRk0w0eR5jMD1KVcYyEP41C51JRfHl9FXzbN
+	DuxI12UNjqFDh9dbRthX8Us6H77dBCe5hmrAsnH0mCzDldS0nFojeh1mihtNNI18TUvsKH
+	5+UECiT+8Qw1d2AFQmbBHdyb7UC7hj/riBL1YRn2AdkvnWfnWKbeSUOt9g4aeGv+WHwdSD
+	KGpkVoE8utKFDo7ZAkeVtxWq06H7SiUOVDMBr96pg7VCyfIO6/4vUG0rPcVlig==
 To: linux-arm-kernel@lists.infradead.org
 Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
 	Conor Dooley <conor+dt@kernel.org>,
@@ -88,9 +91,9 @@ Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
 	linux-clk@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org
-Subject: [PATCH 4/7] dt-bindings: soc: renesas: Document Renesas R-Car R8A779MD Geist
-Date: Sun, 19 Apr 2026 21:35:35 +0200
-Message-ID: <20260419193718.133174-5-marek.vasut+renesas@mailbox.org>
+Subject: [PATCH 5/7] soc: renesas: Identify Renesas R-Car R8A779MD M3Le SoC
+Date: Sun, 19 Apr 2026 21:35:36 +0200
+Message-ID: <20260419193718.133174-6-marek.vasut+renesas@mailbox.org>
 In-Reply-To: <20260419193718.133174-1-marek.vasut+renesas@mailbox.org>
 References: <20260419193718.133174-1-marek.vasut+renesas@mailbox.org>
 Precedence: bulk
@@ -100,19 +103,19 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-MBO-RS-META: a5yjuzwujp9cyfz1yr7tg6dc63sko3y9
-X-MBO-RS-ID: fae731ed30b2c377de1
+X-MBO-RS-META: 6k9pyw1bts61ocsepbripihpw48mfryf
+X-MBO-RS-ID: cba69b7caed497c583b
 X-Spamd-Result: default: False [-0.16 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[mailbox.org,reject];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	R_DKIM_ALLOW(-0.20)[mailbox.org:s=mail20150812];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-31384-lists,linux-renesas-soc=lfdr.de,renesas];
+	TAGGED_FROM(0.00)[bounces-31386-lists,linux-renesas-soc=lfdr.de,renesas];
 	RCPT_COUNT_TWELVE(0.00)[22];
 	MIME_TRACE(0.00)[0:+];
 	RCVD_TLS_LAST(0.00)[];
@@ -129,17 +132,18 @@ X-Spamd-Result: default: False [-0.16 / 15.00];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,dt];
 	MID_RHS_MATCH_FROM(0.00)[];
 	TO_DN_SOME(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,ideasonboard.com:email,lists.freedesktop.org:email,glider.be:email,baylibre.com:email,ffwll.ch:email,suse.de:email,renesas.com:email]
-X-Rspamd-Queue-Id: 2FEB24254D4
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[renesas.com:email,baylibre.com:email,glider.be:email,ffwll.ch:email,suse.de:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,ideasonboard.com:email,lists.freedesktop.org:email,mailbox.org:email,mailbox.org:dkim,mailbox.org:mid]
+X-Rspamd-Queue-Id: B34E1425508
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Document the compatible value for the Renesas R-Car M3Le (R8A779MD)
-SoC and the Renesas Geist development board. The Renesas M3Le SoC is
-a register-compatible variant of the R8A77965 (M3-N) with reduced set
-of peripherals. The Geist board is derived from Renesas Salvator-X/XS
-boards, with adjustment for the R8A779MD SoC.
+Add support for identifying the R-Car M3Le (R8A779MD) SoC.
+
+The Renesas R-Car R8A779MD M3Le SoC is a variant of the
+already supported R-Car M3-N SoC with reduced peripherals.
+Enable support for the M3Le SoC through already existing
+ARCH_R8A77965 configuration symbol. PRR reads 0x67c05501 .
 
 Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
 ---
@@ -164,26 +168,21 @@ Cc: linux-clk@vger.kernel.org
 Cc: linux-kernel@vger.kernel.org
 Cc: linux-renesas-soc@vger.kernel.org
 ---
- Documentation/devicetree/bindings/soc/renesas/renesas.yaml | 6 ++++++
- 1 file changed, 6 insertions(+)
+ drivers/soc/renesas/renesas-soc.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/Documentation/devicetree/bindings/soc/renesas/renesas.yaml b/Documentation/devicetree/bindings/soc/renesas/renesas.yaml
-index 5c22c51b1533d..bda223237c812 100644
---- a/Documentation/devicetree/bindings/soc/renesas/renesas.yaml
-+++ b/Documentation/devicetree/bindings/soc/renesas/renesas.yaml
-@@ -473,6 +473,12 @@ properties:
-           - const: renesas,r8a779mb
-           - const: renesas,r8a7795
- 
-+      - description: R-Car M3Le (R8A779MD)
-+        items:
-+          - const: renesas,geist    # M3Le Geist
-+          - const: renesas,r8a779md
-+          - const: renesas,r8a77965
-+
-       - description: R-Car X5H (R8A78000)
-         items:
-           - enum:
+diff --git a/drivers/soc/renesas/renesas-soc.c b/drivers/soc/renesas/renesas-soc.c
+index 38ff0b823bdaf..c82835cf6d8e9 100644
+--- a/drivers/soc/renesas/renesas-soc.c
++++ b/drivers/soc/renesas/renesas-soc.c
+@@ -361,6 +361,7 @@ static const struct of_device_id renesas_socs[] __initconst __maybe_unused = {
+ 	{ .compatible = "renesas,r8a77965",	.data = &soc_rcar_m3_n },
+ 	{ .compatible = "renesas,r8a779m4",	.data = &soc_rcar_m3_n },
+ 	{ .compatible = "renesas,r8a779m5",	.data = &soc_rcar_m3_n },
++	{ .compatible = "renesas,r8a779md",	.data = &soc_rcar_m3_n },
+ #endif
+ #ifdef CONFIG_ARCH_R8A77970
+ 	{ .compatible = "renesas,r8a77970",	.data = &soc_rcar_v3m },
 -- 
 2.53.0
 
