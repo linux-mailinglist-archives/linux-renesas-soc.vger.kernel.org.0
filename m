@@ -1,53 +1,56 @@
-Return-Path: <linux-renesas-soc+bounces-31418-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-31419-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id qAHyBDw+5mlutgEAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-31418-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Apr 2026 16:54:52 +0200
+	id GIUnDkRR5mkDuwEAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-31419-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Apr 2026 18:16:04 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07B4C42D9A2
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Apr 2026 16:54:50 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 85A8F42F3A0
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Apr 2026 18:16:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id D27663173AF8
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Apr 2026 14:27:27 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 9254837A26A0
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Apr 2026 14:30:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7E0DA48BD32;
-	Mon, 20 Apr 2026 13:32:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 62256495538;
+	Mon, 20 Apr 2026 13:32:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="t35pC+0p"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pJWjJOLn"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 598FB48BD2D;
-	Mon, 20 Apr 2026 13:32:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33E1A3AB267;
+	Mon, 20 Apr 2026 13:32:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776691925; cv=none; b=J7sUvq9pz3P637V1glqpejvkwRmZTKN/dN0w9dN6kb+TCHFWKweolrHk7OaSBl56+gAiRzOhyD+92s79b5CkLRAdnci272gjGWExTCeXgcq9zyJj811S+idNTF6Obax4ut3qmvbSSA5grITrJIxGiX6mZID3WA3QYg2lLJJ/KwE=
+	t=1776691948; cv=none; b=NY53uXi7FmuAdWUGFeFRZuWl459MO3Ce+VfiHcYGTQxWKONMGUJ9pgvaIcQ8NzC7OCkTtBodI3IQr4w0lXdzemXRv7xnK4bSWSjS0pOEOi3ha4u4ygT75Ry4IJh77APvye2OO9hJkKEUYa5RP+p+kZnqOtS1FLTnCYBaHdzEelQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776691925; c=relaxed/simple;
-	bh=QvT1QK20x6UZFIpDc6E4gfAAbd7NUWadZSL+BlEkUNE=;
+	s=arc-20240116; t=1776691948; c=relaxed/simple;
+	bh=WGDO/x2qdSRGX74Iuaaqm3ElnV5H04bi2briiBh3Teo=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=For+UIDEk07e3VDk6mvilHOtrKY44th+3cVg8BLeLGBPrImAak9ft+NcDv5x2HjhOIq53NcXWY56UMK8ejntwzMsedgez0DKfrOXMIDWd5825zXo7Q8SV7cGb5DSEbGJNEz/rEBxDFo5Nom0OS74HLvbpM9wgq17rIION8BTDN0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=t35pC+0p; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CEAD3C2BCB9;
-	Mon, 20 Apr 2026 13:32:03 +0000 (UTC)
+	 MIME-Version:Content-Type; b=TqKJi/hIozS/EWYaRgglpYMVqU68geNxSRqL0QwP/eVIIMs7Q+JP8m8d7WmDoD/BdY1izGfgQxraYuryFjzuA1frbmHnqoHEll/P5dkDdURVes5z5oJXWzVmmO592KPhvwWktYHojrJ2PEQXCDzvasi+AqP4JzXnRLv2tKt5fNc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pJWjJOLn; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C8D58C19425;
+	Mon, 20 Apr 2026 13:32:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776691925;
-	bh=QvT1QK20x6UZFIpDc6E4gfAAbd7NUWadZSL+BlEkUNE=;
+	s=k20201202; t=1776691947;
+	bh=WGDO/x2qdSRGX74Iuaaqm3ElnV5H04bi2briiBh3Teo=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=t35pC+0pa5i+EZwzM5iMaI4r0xumVm+oVwi2Qw0Nfau/nO5yF1JJiiGevnvJfkJMe
-	 MBAEa4xWP6EXbNvZGZsccO9kZe/arVmc0HxUhQvElrVuXpYl4dsFxYg1sVc1X/eqUx
-	 2OTK33UamD/BJxNP7nBaaRKEjqGUqfv2KspPgqDcNH83nIabFW5bNptMFVC8pVOFHi
-	 HMyOcJ3ynaTH32x0PIhth38YdaX7hx68L7BGaEJQ3FUXyf3Pc3xnwsSZL7D0nyVWJB
-	 xtJr12+8Ahk0o7T1HuO6u/wTGEE9YvyBeKw1bh4JfPFClPNKfw75eP3noxtjlEYFqa
-	 m7gDB3M4vODfA==
+	b=pJWjJOLn7a7GkW8BJGYcaN22ekjsV19EzFe+BbtgbG2NtJhGp7Np2o6xNzY0Fbmab
+	 Kal4s35nB7z5JD1iPfH8TRcv+h3VUCla9jzDLVlIsNer0qJ0UITI+5KAEBBvr+dhKN
+	 YDl6l4ucDBC5KhJaXglKCi4+8Pmq6vPpOz+5NQydFTOxfEJeMV5xVQjvT+k1Rwybm+
+	 nfOHoYVzW0bMx8GVhGxhOP8yK4/JXA66/LCbgLNtwBsCFvex2ceqrSl+FzNHo9ZjDb
+	 K0COsqpapSqPVqU1txVN/24McF8jXQtQh24HnekL8Zs8D0qqgYCMs6MmDCTaYpHdgO
+	 x7WUqACzH0eOQ==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
 Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+	Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>,
+	=?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
 	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
 	Hans Verkuil <hverkuil+cisco@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
@@ -57,9 +60,9 @@ Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
 	linux-media@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 7.0-6.12] media: renesas: vsp1: Initialize format on all pads
-Date: Mon, 20 Apr 2026 09:21:06 -0400
-Message-ID: <20260420132314.1023554-272-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 7.0-6.12] media: renesas: vsp1: brx: Fix format propagation
+Date: Mon, 20 Apr 2026 09:21:19 -0400
+Message-ID: <20260420132314.1023554-285-sashal@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260420132314.1023554-1-sashal@kernel.org>
 References: <20260420132314.1023554-1-sashal@kernel.org>
@@ -69,27 +72,27 @@ List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 7.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Spamd-Result: default: False [0.34 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-31418-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-31419-lists,linux-renesas-soc=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[12];
+	RCPT_COUNT_TWELVE(0.00)[15];
 	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
@@ -99,22 +102,27 @@ X-Spamd-Result: default: False [0.34 / 15.00];
 	NEURAL_HAM(-0.00)[-1.000];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,cisco];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[msgid.link:url,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,renesas.com:email,ideasonboard.com:email]
-X-Rspamd-Queue-Id: 07B4C42D9A2
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[ragnatech.se:email,ideasonboard.com:email,renesas.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,msgid.link:url]
+X-Rspamd-Queue-Id: 85A8F42F3A0
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
 From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 
-[ Upstream commit 133ac42af0a1b389e8b7b3dc7c1cc8c30ff162b6 ]
+[ Upstream commit 937f3e6b51f1cea079be9ba642665f2bf8bcc31f ]
 
-The state initialization function vsp1_entity_init_state() incorrectly
-leaves the last entity pad out when initializing formats due to an off
-by one error. Fix it.
+The format width and height is never propagated to the BRX source pad,
+leaving its initial configuration invalid. Propagate the whole format
+from the first sink pad to the source pad instead of only propagating
+the media bus code. This fixes compliance with the subdev format
+propagation rules.
 
+Reviewed-by: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
+Tested-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 Tested-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com> # HiHope RZ/G2M
-Link: https://patch.msgid.link/20260318235907.831556-14-laurent.pinchart+renesas@ideasonboard.com
+Link: https://patch.msgid.link/20260318235907.831556-8-laurent.pinchart+renesas@ideasonboard.com
 Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 Signed-off-by: Hans Verkuil <hverkuil+cisco@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
@@ -122,313 +130,317 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
 
 LLM Generated explanations, may be completely bogus:
 
-Here is my complete analysis following all phases:
+Now I have all the information needed for a complete analysis. Let me
+compile the findings.
 
 ---
 
 ## PHASE 1: COMMIT MESSAGE FORENSICS
 
-### Step 1.1: Subject Line
-- **Subsystem**: `media: renesas: vsp1:` (Renesas VSP1 video signal
-  processor)
-- **Action verb**: "Initialize" (implying incomplete initialization was
-  the bug)
-- **Summary**: Fix off-by-one error that leaves the last entity pad
-  uninitialized during state init.
+**Step 1.1: Subject line**
+- Subsystem: `media: renesas: vsp1: brx`
+- Action verb: "Fix"
+- Summary: Fix format propagation from sink pad 0 to source pad
 
-### Step 1.2: Tags
-- **Tested-by**: Lad Prabhakar (Renesas employee, tested on HiHope
-  RZ/G2M hardware)
-- **Link**: `https://patch.msgid.link/20260318235907.831556-14-
-  laurent.pinchart+renesas@ideasonboard.com` — patch 14 of a series
-- **Signed-off-by**: Laurent Pinchart (author, VSP1 subsystem
-  maintainer), Hans Verkuil (media subsystem maintainer)
-- No Fixes: tag (expected for manual review candidates)
-- No syzbot or CVE references
+**Step 1.2: Tags**
+- Reviewed-by: Jacopo Mondi (x2, different email addresses)
+- Tested-by: Niklas Soderlund (Renesas contributor)
+- Tested-by: Lad Prabhakar (on HiHope RZ/G2M)
+- Link: to patch.msgid.link
+- Signed-off-by: Laurent Pinchart (author, VSP1 maintainer)
+- Signed-off-by: Hans Verkuil (media subsystem co-maintainer)
+- No Fixes: tag (expected for commits under review)
+- No Cc: stable (expected)
 
-### Step 1.3: Commit Body
-The message is concise: "The state initialization function
-vsp1_entity_init_state() incorrectly leaves the last entity pad out when
-initializing formats due to an off by one error. Fix it."
+**Step 1.3: Commit body**
+- Bug: width and height are never propagated to the BRX source pad,
+  leaving initial configuration invalid
+- Fix: propagate the whole format from sink pad 0 to the source pad
+  instead of only the media bus code
+- Fixes compliance with V4L2 subdev format propagation rules
 
-The author explicitly identifies the bug mechanism (off-by-one) and the
-consequence (last pad format not initialized).
-
-### Step 1.4: Hidden Bug Fix Detection
-Not hidden — explicitly described as an off-by-one error fix.
-
-Record: This is a straightforward initialization bug fix.
-
----
+**Step 1.4: Hidden bug fix?**
+This is an explicit bug fix, clearly labeled as "Fix format
+propagation."
 
 ## PHASE 2: DIFF ANALYSIS
 
-### Step 2.1: Inventory
-- **Files**: 1 file changed (`vsp1_entity.c`)
-- **Lines**: 1 line changed (`-` → `+`)
-- **Function**: `vsp1_entity_init_state()`
-- **Scope**: Single-file, single-character surgical fix
+**Step 2.1: Inventory**
+- Single file modified: `drivers/media/platform/renesas/vsp1/vsp1_brx.c`
+- +8 lines, -2 lines (net +6)
+- Single function modified: `brx_set_format()`
 
-### Step 2.2: Code Flow Change
-Before: `for (pad = 0; pad < subdev->entity.num_pads - 1; ++pad)` —
-iterates pads 0 to num_pads-2, skipping the last pad.
-After: `for (pad = 0; pad < subdev->entity.num_pads; ++pad)` — iterates
-ALL pads including the last.
+**Step 2.2: Code flow change**
+- BEFORE: Loop `for (i = 0; i <= brx->entity.source_pad; ++i)` iterates
+  all pads (sinks + source), sets ONLY `format->code` on each
+- AFTER: Loop `for (i = 0; i < brx->entity.source_pad; ++i)` iterates
+  only sink pads, sets `format->code`. Then, for the source pad
+  separately, copies the ENTIRE format struct (`*format = fmt->format`)
 
-### Step 2.3: Bug Mechanism
-**Category**: Initialization fix (off-by-one error)
+**Step 2.3: Bug mechanism**
+Category: Logic/correctness fix. The source pad's width and height
+fields were never set. The `vsp1_entity_init_state()` function (line
+389) only calls `set_fmt` on pads 0..`num_pads-2` (sink pads). The
+format propagation from sink pad 0 was supposed to set the source pad's
+format, but only propagated the media bus code, leaving width=0,
+height=0.
 
-For entities with N pads (N-1 sinks + 1 source), the old code only calls
-`set_fmt` on pads 0 to N-2. For 2-pad entities, the source pad is
-initialized through propagation in `vsp1_subdev_set_pad_format()`.
-However, for BRU/BRS entities with custom `brx_set_format()`, only the
-format CODE is propagated to the source pad — width and height remain
-zero (uninitialized). This means the source pad of BRU/BRS entities had
-0x0 dimensions.
+This has real consequences:
+1. `brx_configure_stream()` (line 292-316) reads source pad format and
+   writes width/height to hardware register `VI6_BRU_VIRRPF_SIZE` - with
+   values of 0, hardware is misconfigured
+2. `brx_set_selection()` (line 244-246) uses source pad format to
+   constrain compose rectangles - wrong values give wrong constraints
+3. v4l2-compliance fails with `fmt.width == 0`
 
-### Step 2.4: Fix Quality
-- Obviously correct: The comment says "Initialize all pad formats" but
-  the loop skips one
-- Minimal: Single character change
-- No regression risk: Calling `set_fmt` on the source pad is safe — for
-  most entities it returns the current format; for BRU/BRS it applies
-  defaults
-- No API changes
-
-Record: Fix quality is excellent. Zero regression risk.
-
----
+**Step 2.4: Fix quality**
+- Obviously correct: the pattern `*format = fmt->format` is already used
+  in the same function at line 154
+- Minimal/surgical: only changes the format propagation logic
+- No regression risk: sink pad propagation is unchanged; source pad now
+  gets the full format instead of just the code
 
 ## PHASE 3: GIT HISTORY INVESTIGATION
 
-### Step 3.1: Blame
-The buggy line was in commit `5755be5f15d9e6` (v6.8, renamed from
-`init_cfg` to `init_state`), but the loop condition `num_pads - 1` was
-copied from the original `vsp1_entity_init_cfg()`. Tracing back further
-with pickaxe search, the pattern dates to commit `0efdf0f5eaaff` ("v4l:
-vsp1: Implement and use the subdev pad::init_cfg configuration", v4.6
-era, 2015). The off-by-one has been present for ~10 years.
+**Step 3.1: Blame**
+The buggy code originates from commit `629bb6d4b38fe6` ("v4l: vsp1: Add
+BRU support", 2013-07-10). The format-code-only propagation has been
+there since the very beginning of BRU support (v3.12).
 
-### Step 3.2: Fixes Tag
-No explicit Fixes tag. However, the bug trace shows:
-- `0efdf0f5eaaff` (v4.6): introduced `vsp1_entity_init_cfg()` with this
-  loop
-- `5755be5f15d9e` (v6.8): renamed to `vsp1_entity_init_state()`,
-  preserving the bug
-- Both commits exist in all active stable trees
+**Step 3.2: Fixes tag**
+No Fixes: tag present (expected for candidates under review).
 
-### Step 3.3: File History
-Recent commits to the file are from Laurent Pinchart's series adding
-color space support. The fix is standalone — it doesn't depend on any
-other commits from the series.
+**Step 3.3: File history**
+Recent changes to `vsp1_brx.c` are mostly refactoring (pad state APIs,
+wrappers removal). No related format propagation fixes exist.
 
-### Step 3.4: Author
-Laurent Pinchart is THE creator and maintainer of the VSP1 driver. He
-has been the sole significant contributor to this subsystem. His fix
-carries maximum authority.
+**Step 3.4: Author**
+Laurent Pinchart is the original author of the entire VSP1 driver (since
+2013) and the subsystem maintainer. This carries significant weight.
 
-### Step 3.5: Dependencies
-The fix has no dependencies. The loop body, function signature, and pad
-structures are unchanged from stable trees. The only variation across
-trees is the function name (`vsp1_entity_init_cfg` in ≤6.6,
-`vsp1_entity_init_state` in ≥6.8).
+**Step 3.5: Dependencies**
+This is patch 7/13 in a series titled "Fix v4l2-compliance failures."
+Patches 1-2 modify `vsp1_brx.c` but only in the `brx_create()` and
+`brx_enum_mbus_code()` areas - NOT in `brx_set_format()`. The code in
+the target area of patch 7 is identical with or without patches 1-6. The
+patch would apply with a minor line offset on the current stable tree.
 
-Record: Standalone fix, no prerequisites needed.
+## PHASE 4: MAILING LIST RESEARCH
 
----
+**Step 4.1: Original discussion**
+Found in the mbox file. Series: "[PATCH v4 00/13] media: renesas: vsp1:
+Fix v4l2-compliance failures". This is version 4, indicating careful
+review iteration. The cover letter shows concrete v4l2-compliance output
+demonstrating the failures (`fmt.width == 0 || fmt.width > 65536`). The
+series was also tested with the vsp-tests suite (no regression).
 
-## PHASE 4: MAILING LIST AND EXTERNAL RESEARCH
+**Step 4.2: Reviewers**
+Jacopo Mondi (media/Renesas reviewer), Niklas Soderlund (Renesas
+contributor), Lad Prabhakar (tested on real hardware). Hans Verkuil
+(media subsystem co-maintainer) applied the series.
 
-### Step 4.1: Patch Discussion
-`b4 dig` could not directly match this commit (likely too new), but
-found the related series via nearby commits. The series is Laurent
-Pinchart's VSP1 color space and cleanup work. The Link message ID shows
-this is patch 14 of a larger series.
+**Step 4.3: Bug report**
+The bug is demonstrated by v4l2-compliance test output in the cover
+letter.
 
-### Step 4.2: Reviewers
-Laurent Pinchart (VSP1 maintainer) authored it; Hans Verkuil (media
-subsystem maintainer) signed off. Lad Prabhakar (Renesas) tested on
-actual hardware.
+**Step 4.4: Related patches**
+Patch 13/13 ("Initialize format on all pads") may provide an additional
+layer of fix, but patch 7 is self-contained - it fixes the propagation
+path that is the root cause.
 
-### Step 4.3-4.5: Bug Report / Related Patches / Stable History
-No separate bug report — the author discovered the off-by-one during
-code review. No prior stable discussion found.
-
-Record: Reviewed and merged through proper maintainer channels.
-
----
+**Step 4.5: Stable discussion**
+Lore was not accessible due to anti-scraping protection. No stable-
+specific discussion found in available data.
 
 ## PHASE 5: CODE SEMANTIC ANALYSIS
 
-### Step 5.1: Key Functions
-`vsp1_entity_init_state()` modified.
+**Step 5.1: Key functions**
+- `brx_set_format()` - the function modified by the patch
 
-### Step 5.2: Callers
-- Called directly from `vsp1_entity_init()` (line 652) during entity
-  initialization for ACTIVE format
-- Registered as `.init_state` callback in `vsp1_entity_internal_ops` —
-  called by V4L2 framework for TRY state initialization
+**Step 5.2: Callers**
+`brx_set_format` is the `.set_fmt` callback in `brx_pad_ops`, called
+from:
+- `vsp1_entity_init_state()` for initial pad format setup
+- V4L2 subdev ioctl `VIDIOC_SUBDEV_S_FMT` from userspace
+- Any internal pipeline configuration
 
-### Step 5.3-5.4: Impact Surface
-Every VSP1 entity goes through `vsp1_entity_init()` during probe.
-Entities affected by the uninitialized source pad include:
-- **BRU**: 5 sinks + 1 source (6 pads) — source pad width/height = 0
-- **BRS**: 2 sinks + 1 source (3 pads) — source pad width/height = 0
-- All 2-pad entities: Not affected (source pad initialized through
-  propagation)
+**Step 5.3: Callees**
+The source pad format (with wrong width/height) is consumed by:
+- `brx_configure_stream()` -> writes to hardware registers (lines
+  314-316)
+- `brx_set_selection()` -> constrains compose rectangle (lines 245-246)
 
-The BRU is a critical component in the display pipeline used by the
-DRM/KMS driver for compositing on Renesas R-Car platforms.
+**Step 5.4: Call chain**
+Userspace -> VIDIOC_SUBDEV_S_FMT -> brx_set_format (buggy propagation)
+-> brx_configure_stream reads source pad format -> writes to hardware.
+The buggy path is reachable from userspace.
 
-Record: Bug affects BRU/BRS entities, which are part of the display
-pipeline.
-
----
+**Step 5.5: Similar patterns**
+No similar bugs found in adjacent code.
 
 ## PHASE 6: STABLE TREE ANALYSIS
 
-### Step 6.1: Buggy Code Existence
-The buggy loop exists in ALL stable trees (5.15.y, 6.1.y, 6.6.y,
-6.12.y). In trees ≤6.6, the function is named `vsp1_entity_init_cfg`; in
-≥6.8, it's `vsp1_entity_init_state`.
+**Step 6.1: Buggy code in stable**
+The buggy code (`629bb6d4b38fe6`) was introduced in v3.12 (2013). It
+exists in ALL stable trees that have VSP1 support.
 
-### Step 6.2: Backport Complications
-- For 6.12.y: Should apply cleanly (same function name and structure)
-- For 6.6.y and earlier: Needs trivial adaptation (function name
-  change), but the fix is the same single-character change
+**Step 6.2: Backport complications**
+The patch would apply with a minor line offset (~6-10 lines) because
+patches 1-6 in the series shift line numbers in the same file. The
+actual code content is identical. Expected difficulty: clean apply with
+fuzz or trivial manual adjustment.
 
-Record: Expected clean apply on 6.12.y; trivial rename needed for older
-trees.
+**Step 6.3: Related fixes in stable**
+No related fixes found in stable trees.
 
----
+## PHASE 7: SUBSYSTEM AND MAINTAINER CONTEXT
 
-## PHASE 7: SUBSYSTEM CONTEXT
+**Step 7.1: Subsystem**
+- Path: `drivers/media/platform/renesas/vsp1/`
+- Criticality: PERIPHERAL (Renesas R-Car SoC video processing, used for
+  display compositing and video processing on ARM/embedded platforms)
+- Users: Renesas R-Car automotive/industrial platforms, development
+  boards (RZ/G2M, etc.)
 
-### Step 7.1: Criticality
-**Subsystem**: drivers/media (V4L2/media platform driver for Renesas)
-**Criticality**: IMPORTANT — Renesas R-Car is widely used in automotive
-and embedded systems. The VSP1 is the display compositing hardware used
-via DRM/KMS.
-
-### Step 7.2: Activity
-Active subsystem with ongoing improvements by the maintainer.
-
----
+**Step 7.2: Activity**
+The VSP1 subsystem is actively maintained by Laurent Pinchart, with
+regular fixes and improvements.
 
 ## PHASE 8: IMPACT AND RISK ASSESSMENT
 
-### Step 8.1: Who Is Affected
-Users of Renesas R-Car SoC platforms (automotive, embedded).
-Specifically those using display pipelines with BRU/BRS compositing.
+**Step 8.1: Affected users**
+Driver-specific: affects users of Renesas R-Car SoCs using the VSP1
+video processing pipeline (automotive, embedded).
 
-### Step 8.2: Trigger Conditions
-Triggered every time a BRU/BRS entity is initialized — this happens
-during driver probe (every boot) and when TRY state is initialized.
+**Step 8.2: Trigger conditions**
+The bug triggers whenever:
+- The BRX entity's format is configured through format propagation from
+  sink pad 0 (normal operation)
+- Any application relying on V4L2 subdev format propagation rules
+- v4l2-compliance testing
 
-### Step 8.3: Failure Mode
-The source pad has 0x0 dimensions, which could lead to:
-- Incorrect display pipeline configuration
-- Potential division-by-zero in calculations using the source pad
-  dimensions
-- Incorrect format negotiation
-- Severity: **MEDIUM-HIGH** (functional incorrectness in display
-  pipeline)
+**Step 8.3: Failure mode severity**
+- Hardware misconfiguration (wrong background size register) ->
+  incorrect video output: MEDIUM-HIGH
+- v4l2-compliance failure (width=0): MEDIUM
+- Wrong compose rectangle constraints: MEDIUM
 
-### Step 8.4: Risk-Benefit
-- **Benefit**: Fixes incorrect initialization for display pipeline
-  entities on Renesas platforms. HIGH.
-- **Risk**: One-character change, extremely low regression risk. Calling
-  set_fmt on source pads is safe (returns current format or applies
-  defaults). VERY LOW.
-
----
+**Step 8.4: Risk-benefit ratio**
+- BENEFIT: Fixes real hardware misconfiguration and API compliance for
+  Renesas R-Car users
+- RISK: Very low. 6-line change in one function, obviously correct,
+  well-tested
+- Ratio: FAVORABLE
 
 ## PHASE 9: FINAL SYNTHESIS
 
-### Step 9.1: Evidence Summary
+**Step 9.1: Evidence**
 
-**FOR backporting:**
-- Fixes a genuine off-by-one bug that leaves pad formats uninitialized
-- One-line, obviously correct fix
-- Author is the VSP1 subsystem maintainer (Laurent Pinchart)
-- Tested on actual hardware by Renesas engineer
-- Bug has existed for ~10 years across all stable trees
-- Affects display pipeline initialization on Renesas R-Car
-  (automotive/embedded)
-- Merged through proper maintainer chain (Hans Verkuil)
+FOR backporting:
+- Fixes a real bug: source pad width/height never propagated, causing
+  hardware misconfiguration
+- Small and surgical: +8/-2 lines in a single function
+- Author is subsystem maintainer (since 2013)
+- Two reviewers, two testers on real hardware
+- v4 of the series (well-iterated)
+- Bug present since driver creation (v3.12, 2013)
+- v4l2-compliance concrete failure evidence in cover letter
+- No regression in vsp-tests suite
 
-**AGAINST backporting:**
-- No reported user complaints or crash reports (discovered by code
-  review)
-- Impact may be mitigated by userspace reconfiguring pads before use
+AGAINST backporting:
+- Part of a 13-patch series, but this specific patch is self-contained
+- Primarily a compliance/correctness fix rather than a crash fix
+- May need minor line offset adjustment for clean application
 
-### Step 9.2: Stable Rules Checklist
-1. Obviously correct and tested? **YES** — trivial one-line fix, tested
-   on HiHope RZ/G2M
-2. Fixes a real bug? **YES** — off-by-one leaving pad formats
-   uninitialized
-3. Important issue? **YES** — affects display pipeline configuration on
-   Renesas SoCs
-4. Small and contained? **YES** — single character change in one file
-5. No new features or APIs? **YES** — no new functionality
-6. Can apply to stable? **YES** — clean apply on 6.12.y, trivial rename
-   for older
+**Step 9.2: Stable rules checklist**
+1. Obviously correct and tested? YES - pattern already used in same
+   function, 2 reviewers, 2 testers
+2. Fixes a real bug? YES - source pad gets invalid width/height (0),
+   hardware misconfiguration
+3. Important issue? MEDIUM - incorrect hardware register values, invalid
+   format state
+4. Small and contained? YES - 6 net lines, single function, single file
+5. No new features or APIs? YES - only fixes existing behavior
+6. Can apply to stable trees? YES - with minor fuzz/offset
 
-### Step 9.3: Exception Categories
-Not applicable — this is a standard bug fix, not an exception category.
+**Step 9.3: Exception categories**
+Not an exception category - standard bug fix.
 
-### Step 9.4: Decision
-This is a textbook stable backport candidate: a one-line off-by-one fix
-by the subsystem maintainer, tested on hardware, with no regression
-risk.
-
----
+**Step 9.4: Decision**
+The fix is small, correct, well-reviewed, well-tested, and fixes a real
+format propagation bug that causes hardware misconfiguration (wrong
+register values) and invalid API state. The bug has existed since 2013.
+While not a crash-level severity, it causes incorrect hardware behavior
+that could result in wrong video output on Renesas R-Car platforms.
 
 ## Verification
 
-- [Phase 1] Parsed tags: found Tested-by from Renesas engineer, SOBs
-  from subsystem and media maintainers
-- [Phase 2] Diff analysis: single character change in loop condition,
-  `num_pads - 1` → `num_pads`
-- [Phase 3] git blame: buggy code traced to commit 5755be5f15d9e6 (v6.8,
-  rename), originally from 0efdf0f5eaaff (v4.6, initial implementation)
-- [Phase 3] git describe: original buggy commit c8663c8e15c95 first
-  appeared in v4.12-rc1
-- [Phase 3] git log -S: confirmed the `num_pads - 1` pattern existed in
-  the original file path before directory reorganization
-- [Phase 5] Grep for callers: `vsp1_entity_init_state` called from
-  `vsp1_entity_init()` and as `.init_state` callback
-- [Phase 5] Grep for all entity init calls: verified BRU (variable
-  pads), BRS (3 pads), IIF (3 pads) as multi-pad entities; most others
-  are 2-pad
-- [Phase 5] Read `brx_set_format()`: confirmed it only propagates format
-  CODE to source pad, NOT width/height — source pad left with 0x0
-  dimensions
-- [Phase 6] git log between stable versions: confirmed the buggy
-  function exists in all stable trees (with name variation)
-- [Phase 7] Author is Laurent Pinchart, confirmed as the sole major
-  contributor and maintainer of VSP1 driver
-- UNVERIFIED: Could not fetch lore.kernel.org discussion due to bot
-  protection. Does not affect decision.
+- [Phase 1] Parsed subject: "media: renesas: vsp1: brx: Fix format
+  propagation" - explicit "Fix" verb
+- [Phase 1] Parsed tags: 2x Reviewed-by (Jacopo Mondi), 2x Tested-by
+  (Niklas Soderlund, Lad Prabhakar), SOBs from Laurent Pinchart and Hans
+  Verkuil
+- [Phase 2] Diff analysis: +8/-2 lines in `brx_set_format()`, changes
+  loop from `<=` to `<` and adds full format copy to source pad
+- [Phase 2] Verified source pad format consumption:
+  `brx_configure_stream()` at line 292 reads source pad format, writes
+  width/height to VI6_BRU_VIRRPF_SIZE at lines 314-316
+- [Phase 2] Verified `brx_set_selection()` at line 244 reads source pad
+  format for compose clamping
+- [Phase 3] git blame: buggy code from commit 629bb6d4b38fe6
+  (2013-07-10, v3.12)
+- [Phase 3] git log author: Laurent Pinchart authored the entire VSP1
+  driver
+- [Phase 3] Verified patches 1-6 modify vsp1_brx.c only in
+  `brx_create()` and `brx_enum_mbus_code()`, not in `brx_set_format()`
+- [Phase 4] Found cover letter in mbox: series v4, tested with
+  v4l2-compliance and vsp-tests, no regression
+- [Phase 4] Cover letter shows concrete failure: `fmt.width == 0 ||
+  fmt.width > 65536`
+- [Phase 5] Traced `vsp1_entity_init_state()` at line 383-399: only
+  iterates pads 0..num_pads-2, confirming source pad is never directly
+  initialized
+- [Phase 5] Confirmed `brx_try_format()` clamps width to [1, 8190] for
+  sink pads, but this is never propagated to source
+- [Phase 6] Buggy code present in all stable trees with VSP1 support
+  (since v3.12)
+- [Phase 6] Patch applies with minor line offset due to earlier patches
+  in series
+- UNVERIFIED: Could not access lore.kernel.org for additional discussion
+  (anti-scraping protection)
 
 **YES**
 
- drivers/media/platform/renesas/vsp1/vsp1_entity.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/media/platform/renesas/vsp1/vsp1_brx.c | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/media/platform/renesas/vsp1/vsp1_entity.c b/drivers/media/platform/renesas/vsp1/vsp1_entity.c
-index a6680d531872a..e8e65eb19a7d8 100644
---- a/drivers/media/platform/renesas/vsp1/vsp1_entity.c
-+++ b/drivers/media/platform/renesas/vsp1/vsp1_entity.c
-@@ -386,7 +386,7 @@ static int vsp1_entity_init_state(struct v4l2_subdev *subdev,
- 	unsigned int pad;
+diff --git a/drivers/media/platform/renesas/vsp1/vsp1_brx.c b/drivers/media/platform/renesas/vsp1/vsp1_brx.c
+index 5fc2e5a3bb30f..fecd71abb2e95 100644
+--- a/drivers/media/platform/renesas/vsp1/vsp1_brx.c
++++ b/drivers/media/platform/renesas/vsp1/vsp1_brx.c
+@@ -164,14 +164,20 @@ static int brx_set_format(struct v4l2_subdev *subdev,
+ 		compose->height = format->height;
+ 	}
  
- 	/* Initialize all pad formats with default values. */
--	for (pad = 0; pad < subdev->entity.num_pads - 1; ++pad) {
-+	for (pad = 0; pad < subdev->entity.num_pads; ++pad) {
- 		struct v4l2_subdev_format format = {
- 			.pad = pad,
- 			.which = sd_state ? V4L2_SUBDEV_FORMAT_TRY
+-	/* Propagate the format code to all pads. */
++	/*
++	 * Propagate the format code to all pads, and the whole format to the
++	 * source pad.
++	 */
+ 	if (fmt->pad == BRX_PAD_SINK(0)) {
+ 		unsigned int i;
+ 
+-		for (i = 0; i <= brx->entity.source_pad; ++i) {
++		for (i = 0; i < brx->entity.source_pad; ++i) {
+ 			format = v4l2_subdev_state_get_format(state, i);
+ 			format->code = fmt->format.code;
+ 		}
++
++		format = v4l2_subdev_state_get_format(state, i);
++		*format = fmt->format;
+ 	}
+ 
+ done:
 -- 
 2.53.0
 
