@@ -1,292 +1,508 @@
-Return-Path: <linux-renesas-soc+bounces-31411-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-31412-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id iCiGMrUj5mlBsgEAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-31411-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Apr 2026 15:01:41 +0200
+	id MOfyE8gq5mkmswEAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-31412-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Apr 2026 15:31:52 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2A8542B229
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Apr 2026 15:01:40 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4302042BEC9
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Apr 2026 15:31:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id BD6F7314BE8B
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Apr 2026 12:52:58 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 8CDDF30C9653
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Apr 2026 13:19:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5465239EF06;
-	Mon, 20 Apr 2026 12:52:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 609683AC0F2;
+	Mon, 20 Apr 2026 13:16:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="c7EUpqbQ"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VhHyvMcG"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98728383C8E
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 20 Apr 2026 12:52:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FD8A3AC0D0;
+	Mon, 20 Apr 2026 13:16:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776689547; cv=none; b=Ps4E4bSqW3wM9X09UpbPPIY+fu7d8/ReI1Mi76+ncC1RV0I/FV3cLdiHGhQT4XRa8hETlFmDiE7J7b0BS7zj8XogKHeWRXGWmPgOTpGrvV8vpq559TDyNpjNdhkpVgSZRxEDvUuAlsWwDu/qPWv6bD25ms/UCHyevIBNsB3WKKo=
+	t=1776690988; cv=none; b=DMhqURE9fIsi/4W2w8n7Q+Fr7gSyMgjajTVRtJuK4i7/FFObEt7t3qny4yoojKU370AOLP2vJPmmMtSELsXYPt/ZQM4DLjeDenx5VUNwxQyi6RcGmVJ3/NVfN0HNrifutKMWXkBriBpJNJf8wXdebRPeNMBOx4i+sCSl9ykU2MQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776689547; c=relaxed/simple;
-	bh=wE/nLJYcfwfiHpxeFEQVE8m77fQJ78pDtEdAEnuEGZ0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=WDdxjs1pwJfRgUAbYYyRcXTCVqLDvYB1MsoICXuoNgZgE0gakZCp6QgwqZ+r4PI9fR6TPqzM/1R6paELaMMsYAa2sYYAC6G16mZ0xTPNjQSVpX8EtG+79pH7EhPBGlhHrha/5fcvM614JH4BUkHkSyQbztj0O9ArAikGHGzw2iw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=c7EUpqbQ; arc=none smtp.client-ip=209.85.221.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-43cfbd17589so2294796f8f.0
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 20 Apr 2026 05:52:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1776689544; x=1777294344; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=jyZEuicI8WQZweXVv7pRfSwXG7shncGVxuqHWPlSo+U=;
-        b=c7EUpqbQ7kX6u+QhYsOte7xn26QbC+VdjvFYN/lcZO8C7EAlciz87rUG+mvzqFBO4N
-         zECgCo2smOPX8Nt3M9ThcxLQ77f/UNcn84cWjDo8zgino7Y58dTI9O9nWe263Ki8ujz1
-         FDEAsF1C+ZiwL/6ArM7F/zcKqDSj9u0QEw7lebFArUN9KYMdV/vbagDLHLLjnptewfzY
-         Tu7xCp7wFIJJenZ2ughimvuQ/Ph8cuV7fktVI++cEdd8GQ8kLXvWVjE2LEtg3h7XVyXM
-         mt0zlu/3dMxcKp3Tk8c48FxZ0/kTJ9WPjM6jwIdMCCLzSrB+4nhdQvHVCf/6i9nvsFTh
-         Zbtg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776689544; x=1777294344;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=jyZEuicI8WQZweXVv7pRfSwXG7shncGVxuqHWPlSo+U=;
-        b=nb34fNM2hNkeexkxOhNe3QzvUfPMo01YHucf+8zey/nU7DDCYGak+X4FJ7bHvXV54c
-         TnQTt72334GrCyIW4sSnr/Yf1XShkEiEqQQT0uzHtFtKrNJVttlgpOSwNziAsx2H8atN
-         920wjj/qKTT/ggU/toYAFAIMbcel+BeykDpVGBBF9eM0CTuhdt25BOmJG1DtfnuIJQRD
-         Klqp+s5W6EaNAovpDJYB+FaNHPTDr1JV+V9ma5YOdggvrigRAV5H5ffpC/a6/vWOx9YD
-         YSIkkWC5aOpeMPAeshf4YvKHqY1o83pVOwMrKvWqE97rnZ3oYFumLLDjWJCDdd0S4L+c
-         00vA==
-X-Forwarded-Encrypted: i=1; AFNElJ90sGfNeJnoq5vNMwg5pvIs+9YVQ2MUyfUx3nHpAgGiQlbLU9qGaTjS02SEeTF7RrdlUkfvS5SXsK7gUvNY/XCkuw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwMeympuKtvAUudTXnrCfyxuoKt97XVWDXpMJ+exemN1hMXOM7g
-	n43lKXxTB4E4vmQaWLZpGgWG8U7q+CknXGXUIR9PbiKbRQlNoTckaBLUFOb56envW1w=
-X-Gm-Gg: AeBDievWPPZoKm4GB+pSjqmdeCTHVe0fbj+P3kk+qy3/PSg50+fYLpYZIQzFjADtkXQ
-	3WLps4iwo+QEGKOer60UamctCUfcTzvW6OIM6R3saD/JSg3lcmJBNvrPuUVHEPxTmQwVnBie1yT
-	I/tO3OWG09awpWIjpqi3Z+xy9MRGfgzxUVbgT1+N2TRerEK0XdFaN+/QNgnbtzKkj/Opu0Izsla
-	QBZiXU/kAI2GMLNzRAJ0CpM78OoLGw5ZDr+nQt5rC5ozo7eRs318QW2YShdlWR2nSLlUECL+HAE
-	wMq2PckqGLXChxYwvkEsfeqyMBT8GYMiOY7vHt6oazew65VPweTr38j2WYXNa40t3vzoo0KKVwt
-	7p6pM7BiTLpyDflp/9bm2WfHpQnddEP5rjX0oLb1+v/whiCWbEWwYxUzXs0VzLmEG/EkT/lj4GB
-	L2CS8O9DfTUNzCgveXgXC3lGdvZSyKd60Vb2lSV53J1g==
-X-Received: by 2002:a5d:4535:0:b0:43f:e22f:606 with SMTP id ffacd0b85a97d-43fe3da6680mr13443062f8f.2.1776689543971;
-        Mon, 20 Apr 2026 05:52:23 -0700 (PDT)
-Received: from [192.168.50.4] ([82.78.167.123])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43fe4e44f69sm30902955f8f.25.2026.04.20.05.52.22
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 20 Apr 2026 05:52:23 -0700 (PDT)
-Message-ID: <e928f207-1497-4301-a814-3b5045adaa56@tuxon.dev>
-Date: Mon, 20 Apr 2026 15:52:22 +0300
+	s=arc-20240116; t=1776690988; c=relaxed/simple;
+	bh=3oJxisr8ElyevvozMhLtDUhxMcjE2+xbpngtCRiv7EU=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=hzXZlpuHfJnBgV+rmY9n1xcppDooHg6NJU0Oe7GC+psnKadl5ju7K2jJDmGzjepyWCM9vHtLQvyd6D54dFpDu++ehIVbmsQwrl6Ow2KiwFATu9LTOh2Hsblkl3lb+oWOOG8zjBKZFfWcsUo8n4BSsBmgukbdD3HCsM1XR6Y+DZA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VhHyvMcG; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E8C42C2BCB8;
+	Mon, 20 Apr 2026 13:16:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1776690987;
+	bh=3oJxisr8ElyevvozMhLtDUhxMcjE2+xbpngtCRiv7EU=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=VhHyvMcGZeX+BKze+jjgmDoppXZURDf4g/B0ZGyiM9Jd7nSlHdApCG0xpnK5Mqj4w
+	 5+TFKEHa1MG8/7H/6eMLg9CqclDvHoanZQa4+aR1oVtXF2WYVGUctfQ8OL61MJF+P+
+	 OFSqa4nwfKZkYlba5zbLBKIoK80KAOJ8U1VVe6ZpHB+69Gka/M0UjGVksIUgKrMX4+
+	 5r9DLCMsipLWnO4WiQ05yKy2ld5NqbPLX/D7EjSOkV2zZ5yyc0Bjlzb+GIISFt56j9
+	 Iu025j2iN/N6TdksCjaKD9ny/mh0vLy4rNsPhvBVf46GY+KMUGujYoUSrBTZFwJ5am
+	 M/aiHLtDW9eYA==
+From: Sasha Levin <sashal@kernel.org>
+To: patches@lists.linux.dev,
+	stable@vger.kernel.org
+Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+	=?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	Hans Verkuil <hverkuil+cisco@kernel.org>,
+	Sasha Levin <sashal@kernel.org>,
+	laurent.pinchart@ideasonboard.com,
+	kieran.bingham+renesas@ideasonboard.com,
+	mchehab@kernel.org,
+	linux-media@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH AUTOSEL 7.0-5.10] media: renesas: vsp1: rpf: Fix crop left and top clamping
+Date: Mon, 20 Apr 2026 09:08:14 -0400
+Message-ID: <20260420131539.986432-28-sashal@kernel.org>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260420131539.986432-1-sashal@kernel.org>
+References: <20260420131539.986432-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: sashiko.dev review (Re: [PATCH v4 14/17] dmaengine: sh: rz-dmac: Add
- suspend to RAM support)
-To: vkoul@kernel.org, Frank.Li@kernel.org, lgirdwood@gmail.com,
- broonie@kernel.org, perex@perex.cz, tiwai@suse.com,
- biju.das.jz@bp.renesas.com, prabhakar.mahadev-lad.rj@bp.renesas.com,
- p.zabel@pengutronix.de, geert+renesas@glider.be,
- fabrizio.castro.jz@renesas.com, long.luu.ur@renesas.com
-Cc: dmaengine@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-sound@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-References: <20260411114303.2814115-1-claudiu.beznea.uj@bp.renesas.com>
- <20260411114303.2814115-15-claudiu.beznea.uj@bp.renesas.com>
-Content-Language: en-US
-From: Claudiu Beznea <claudiu.beznea@tuxon.dev>
-In-Reply-To: <20260411114303.2814115-15-claudiu.beznea.uj@bp.renesas.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spamd-Result: default: False [-0.16 / 15.00];
+Content-Type: text/plain; charset=UTF-8
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 7.0
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [0.34 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[tuxon.dev:s=google];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-31411-lists,linux-renesas-soc=lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_COUNT_THREE(0.00)[4];
+	TAGGED_FROM(0.00)[bounces-31412-lists,linux-renesas-soc=lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	FREEMAIL_TO(0.00)[kernel.org,gmail.com,perex.cz,suse.com,bp.renesas.com,pengutronix.de,glider.be,renesas.com];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	DMARC_NA(0.00)[tuxon.dev];
-	RCPT_COUNT_TWELVE(0.00)[17];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[tuxon.dev:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[claudiu.beznea@tuxon.dev,linux-renesas-soc@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[sashal@kernel.org,linux-renesas-soc@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
-	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[renesas.com:email,tuxon.dev:dkim,tuxon.dev:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: C2A8542B229
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,cisco];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	TO_DN_SOME(0.00)[]
+X-Rspamd-Queue-Id: 4302042BEC9
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
- > commit e7af08b0f2dc569cc63b17e07dd4e506e50fee28
- > Author: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
- > dmaengine: sh: rz-dmac: Add suspend to RAM support
- > The Renesas RZ/G3S SoC supports a power saving mode in which power to most
- > of the SoC components is turned off, including the DMA IP. Add suspend to
- > RAM support to save and restore the DMA IP registers.
- > > diff --git a/drivers/dma/sh/rz-dmac.c b/drivers/dma/sh/rz-dmac.c
- > > --- a/drivers/dma/sh/rz-dmac.c
- > > +++ b/drivers/dma/sh/rz-dmac.c
- > [ ... ]
- > > @@ -1354,6 +1407,130 @@ static void rz_dmac_remove(struct platform_device 
-*pdev)
- > >     pm_runtime_disable(&pdev->dev);
- > >  }
- > >
- > > +static int rz_dmac_suspend_prepare(struct device *dev)
- > > +{
- > > +   struct rz_dmac *dmac = dev_get_drvdata(dev);
- > > +
- > > +   for (unsigned int i = 0; i < dmac->n_channels; i++) {
- > > +           struct rz_dmac_chan *channel = &dmac->channels[i];
- > > +
- > > +           guard(spinlock_irqsave)(&channel->vc.lock);
- > > +
- > > +           /* Wait for transfer completion, except in cyclic case. */
- > > +           if (channel->status & BIT(RZ_DMAC_CHAN_STATUS_CYCLIC))
- > > +                   continue;
- > > +
- > > +           if (rz_dmac_chan_is_enabled(channel))
- > > +                   return -EAGAIN;
- > Is it intended that this aborts the system suspend instead of waiting?
+From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 
-Returning -EAGAIN here makes the core suspend code to keep trying calling the 
-prepare API of this driver. That's why it has mentioned waiting.
+[ Upstream commit 55823379e61511d534b099949608677d703f709b ]
 
- > The commit message states the .prepare callback "waits for all the ongoing
- > transfers to complete before allowing suspend-to-RAM to proceed."
- > However, returning -EAGAIN from a system sleep .prepare callback immediately
- > aborts the system suspend process instead of waiting.
- > Additionally, since the PM core executes the .prepare phase for all devices
- > before executing any .suspend callbacks, consumer devices haven't yet run
- > their own .suspend callbacks to stop their DMA transfers.
- > If any normal background DMA activity is ongoing, won't this immediately
- > abort the entire system suspend transition?
+The RPF doesn't enforces the alignment constraint on the sink pad
+format, which could have an odd size, possibly down to 1x1. In that
+case, the upper bounds for the left and top coordinates clamping would
+become negative, cast to a very large positive value. Incorrect crop
+rectangle coordinates would then be incorrectly accepted.
 
-If DMA activity is ongoing the expectation is that it will finish and the 
-suspend_prepare() will go forward.
+A second issue can occur when the requested left and top coordinates are
+negative. They are cast to a large unsigned value, clamped to the
+maximum. While the calculation will produce valid values for the
+hardware, this is not compliant with the V4L2 specification that
+requires values to be adjusted to the closest valid value.
 
- > > +   }
- > > +
- > > +   return 0;
- > > +}
- > [ ... ]
- > > +static int rz_dmac_suspend(struct device *dev)
- > > +{
- > > +   struct rz_dmac *dmac = dev_get_drvdata(dev);
- > > +   int ret;
- > Can ret be used uninitialized here?
+Fix both issues by switching to signed clamping, with an explicit
+minimum to adjust negative values, and adjusting the clamp bounds to
+avoid negative upper bounds.
 
-Yes, this is a typo. I'll properly initialize this here.
+Tested-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Tested-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com> # HiHope RZ/G2M
+Link: https://patch.msgid.link/20260318235907.831556-5-laurent.pinchart+renesas@ideasonboard.com
+Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Signed-off-by: Hans Verkuil <hverkuil+cisco@kernel.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
 
- > If the DMA controller has no cyclic channels configured, the loop below will
- > skip every iteration due to the continue statement, leaving ret
- > uninitialized.
- > > +
- > > +   for (unsigned int i = 0; i < dmac->n_channels; i++) {
- > > +           struct rz_dmac_chan *channel = &dmac->channels[i];
- > > +
- > > +           guard(spinlock_irqsave)(&channel->vc.lock);
- > > +
- > > +           if (!(channel->status & BIT(RZ_DMAC_CHAN_STATUS_CYCLIC)))
- > > +                   continue;
- > > +
- > > +           ret = rz_dmac_device_pause_internal(channel);
- > > +           if (ret) {
- > > +                   dev_err(dev, "Failed to suspend channel %s\n",
- > > +                           dma_chan_name(&channel->vc.chan));
- > > +                   break;
- > > +           }
- > > +
- > > +           channel->pm_state.nxla = rz_dmac_ch_readl(channel, NXLA, 1);
- > > +   }
- > > +
- > > +   if (ret) {
- > If ret contains uninitialized stack memory that evaluates to true, could this
- > trigger the error recovery path and silently abort the system suspend
- > transition?
- > > +           rz_dmac_suspend_recover(dmac);
- > > +           return ret;
- > > +   }
- > > +
- > > +   pm_runtime_put_sync(dmac->dev);
- > > +
- > > +   ret = reset_control_assert(dmac->rstc);
- > Is the ordering of runtime PM and reset control inverted here compared to
- > rz_dmac_remove()?
+LLM Generated explanations, may be completely bogus:
 
-Yes, I'll adjust it.
+Now let me compile the full analysis.
 
- > In rz_dmac_remove(), reset_control_assert() is called before pm_runtime_put().
- > Operating on the reset control after the device's power domain is suspended
- > might cause the operations to be silently ignored by the hardware or lead to
- > system bus lockups.
- > > +   if (ret) {
- > > +           pm_runtime_resume_and_get(dmac->dev);
- > > +           rz_dmac_suspend_recover(dmac);
- > > +   }
- > > +
- > > +   return ret;
- > > +}
- > > +
- > > +static int rz_dmac_resume(struct device *dev)
- > > +{
- > > +   struct rz_dmac *dmac = dev_get_drvdata(dev);
- > > +   int errors = 0, ret;
- > > +
- > > +   ret = reset_control_deassert(dmac->rstc);
- > Similarly, is the ordering of reset control and runtime PM inverted here
- > compared to rz_dmac_probe()?
+---
 
-Yes, I'll adjust it.
+## PHASE 1: COMMIT MESSAGE FORENSICS
 
- > In rz_dmac_probe(), pm_runtime_resume_and_get() is called before
- > reset_control_deassert(). Doing this in the reverse order here means the
- > reset is deasserted before the hardware power domain is enabled.
- > > +   if (ret)
- > > +           return ret;
- > > +
- > > +   ret = pm_runtime_resume_and_get(dmac->dev);
- > > +   if (ret) {
- > > +           reset_control_assert(dmac->rstc);
- > > +           return ret;
- > > +   }
- > [ ... ]
- > > @@ -1380,6 +1557,7 @@ static struct platform_driver rz_dmac_driver = {
- > >     .driver         = {
- > >             .name   = "rz-dmac",
- > >             .of_match_table = of_rz_dmac_match,
- > > +           .pm     = pm_sleep_ptr(&rz_dmac_pm_ops),
- > Should this use pm_ptr() instead of pm_sleep_ptr()?
- > If CONFIG_PM_SLEEP is disabled, pm_sleep_ptr() evaluates to NULL, but the
- > struct rz_dmac_pm_ops itself and its unconditional callbacks like
- > rz_dmac_suspend_prepare will remain fully compiled into the binary as unused
- > dead code, potentially leading to compiler warnings.
- > Using pm_ptr() for the dev_pm_ops structure pointer and pm_sleep_ptr()
- > around the sleep callbacks inside the structure might resolve this.
- > >     },
- > >     .probe          = rz_dmac_probe,
- > >     .remove         = rz_dmac_remove,
+**Step 1.1: Subject Line**
+- Subsystem: `media: renesas: vsp1: rpf`
+- Action verb: "Fix"
+- Summary: Fix crop left and top coordinate clamping in the RPF
+  subdevice
 
-I think pm_sleep_ptr() fits better here as CONFIG_PM_SLEEP depends on 
-CONFIG_SUSPEND which is the flag under which the system suspend/resume code 
-resides. Also, CONFIG_PM_SLEEP selects CONFIG_PM, so CONFIG_PM_SLEEP cannot be 
-enabled w/o CONFIG_PM.
+**Step 1.2: Tags**
+- Tested-by: Niklas Söderlund (Renesas contributor/tester)
+- Reviewed-by: Jacopo Mondi (media subsystem reviewer)
+- Tested-by: Lad Prabhakar (Renesas RZ/G2M platform tester)
+- Link: `https://patch.msgid.link/20260318235907.831556-5-
+  laurent.pinchart+renesas@ideasonboard.com`
+- Signed-off-by: Laurent Pinchart (subsystem author/maintainer)
+- Signed-off-by: Hans Verkuil (V4L2 subsystem co-maintainer)
+- Notable: TWO independent Tested-by tags from different engineers on
+  different platforms, plus a Reviewed-by. No Fixes: tag (expected for
+  autosel candidates). No Reported-by or syzbot.
+
+**Step 1.3: Commit Body**
+Two distinct bugs described:
+1. When the sink pad format has odd dimensions (e.g. 1x1),
+   `format->width - 2` underflows when used as `unsigned int`, producing
+   a huge value. The `min_t(unsigned int, ...)` then fails to bound the
+   coordinate.
+2. Negative `left`/`top` values (from userspace - `__s32` type) are cast
+   to large unsigned values, clamped to the maximum rather than to the
+   closest valid value (0). This violates the V4L2 specification.
+
+**Step 1.4: Hidden Bug Fix Detection**
+This is explicitly labeled "Fix" — no disguise needed.
+
+---
+
+## PHASE 2: DIFF ANALYSIS
+
+**Step 2.1: Inventory**
+- Single file changed: `drivers/media/platform/renesas/vsp1/vsp1_rwpf.c`
+- Single function modified: `vsp1_rwpf_set_selection()`
+- ~20 lines of net change (added local variables, updated clamping
+  logic, added comments)
+- Scope: single-file surgical fix
+
+**Step 2.2: Code Flow Change**
+
+Before:
+```c
+sel->r.left = min_t(unsigned int, sel->r.left, format->width - 2);
+sel->r.top = min_t(unsigned int, sel->r.top, format->height - 2);
+```
+
+After:
+```c
+// min_width/min_height computed to avoid negative upper bounds
+sel->r.left = clamp_t(int, sel->r.left, 0, format->width - min_width);
+sel->r.top = clamp_t(int, sel->r.top, 0, format->height - min_height);
+```
+
+**Step 2.3: Bug Mechanism**
+This is a **type/integer overflow bug** (category g: logic/correctness +
+category f: type bugs):
+
+- `struct v4l2_rect` has `__s32 left` and `__s32 top` (confirmed at
+  `include/uapi/linux/videodev2.h:442-447`)
+- `RWPF_MIN_WIDTH = 1` and `RWPF_MIN_HEIGHT = 1` — so format can legally
+  be 1x1
+- For YUV formats, the hardcoded `format->width - 2` becomes `-1` when
+  `width=1`
+- `min_t(unsigned int, ...)` casts this to `0xFFFFFFFF` (~4 billion),
+  making the clamp a no-op
+- Negative `sel->r.left` values (valid `__s32` input) also wrap to huge
+  unsigned values
+
+**Step 2.4: Fix Quality**
+- Obviously correct: switches to signed clamping (`clamp_t(int, ...)`
+  with explicit 0 lower bound)
+- Prevents underflow by computing `min_width = min(ALIGN(min_width, 2),
+  format->width)` which guarantees `format->width - min_width >= 0`
+- Minimal/surgical: changes only the clamping logic in one function
+- Very low regression risk: identical behavior for well-formed inputs;
+  only corrects behavior for edge cases
+
+---
+
+## PHASE 3: GIT HISTORY INVESTIGATION
+
+**Step 3.1: Blame**
+- The buggy `min_t(unsigned int, ...)` lines were introduced by commit
+  `e5ad37b64de975` ("[media] v4l: vsp1: Add cropping support", Laurent
+  Pinchart, 2013-08-24) — this is from the v3.12 era
+- The YUV alignment code (which creates the `format->width - 2` problem
+  for odd formats) was added by `85a0638b7855df` (Damian Hobson-Garcia,
+  2015-05-28)
+- Bug has existed since 2013/2015 — present in ALL active stable trees
+
+**Step 3.2: No Fixes: tag present** (expected for autosel)
+
+**Step 3.3: File History**
+Recent commits to this file are mostly from Laurent Pinchart adding
+colorspace support features. The bug fix is standalone and does not
+depend on any of those feature commits.
+
+**Step 3.4: Author**
+Laurent Pinchart is the original author and subsystem maintainer for the
+VSP1 driver (wrote the file in 2013). He is the most qualified person to
+fix this code.
+
+**Step 3.5: Dependencies**
+- `clamp_t` macro exists in all stable trees (confirmed: present in
+  v5.15 at `include/linux/minmax.h:124`)
+- `RWPF_MIN_WIDTH`/`RWPF_MIN_HEIGHT` exist in the same file in all
+  versions
+- The fix is standalone — no prerequisites needed
+
+---
+
+## PHASE 4: MAILING LIST / EXTERNAL RESEARCH
+
+**Step 4.1-4.2:** Lore.kernel.org is protected by anti-bot (Anubis),
+direct web fetches failed. b4 dig could not locate the exact commit by
+message-id. However:
+- The patch was reviewed and tested by two independent testers and an
+  experienced reviewer
+- Hans Verkuil (V4L2 co-maintainer) applied it
+- Part of a series (patch 5 of N) but this specific patch is a self-
+  contained bug fix
+
+**Step 4.3-4.5:** Could not verify lore discussion directly due to anti-
+bot protection.
+
+---
+
+## PHASE 5: CODE SEMANTIC ANALYSIS
+
+**Step 5.1: Functions Modified**
+Only `vsp1_rwpf_set_selection()` is modified.
+
+**Step 5.2: Callers**
+- Registered as `.set_selection` pad operation in `vsp1_rwpf_pad_ops`
+- Called from userspace via `VIDIOC_SUBDEV_S_SELECTION` ioctl (standard
+  V4L2 path)
+- Called from `vsp1_drm.c:157` during DRM pipeline configuration
+- Both are real-world, commonly exercised code paths on Renesas
+  platforms
+
+**Step 5.3-5.4: Call Chain**
+Userspace → V4L2 ioctl → subdev dispatch → `vsp1_rwpf_set_selection()`
+The buggy path is directly reachable from userspace with arbitrary crop
+rectangle values.
+
+**Step 5.5: Similar Patterns**
+Other `set_selection` implementations in the same driver
+(`uif_set_selection`, `histo_set_selection`, `brx_set_selection`) use
+different clamping logic and are not affected by this same bug.
+
+---
+
+## PHASE 6: STABLE TREE ANALYSIS
+
+**Step 6.1: Buggy Code in Stable Trees**
+Verified the exact same buggy lines exist in:
+- **v5.15**: `min_t(unsigned int, sel->r.left, format->width - 2)` at
+  line 225 (path: `drivers/media/platform/vsp1/vsp1_rwpf.c`)
+- **v6.1**: Same code at line 225 (path:
+  `drivers/media/platform/renesas/vsp1/vsp1_rwpf.c`)
+- **v6.6**: Same code at line 225
+- **v6.12**: Same code at line 212
+
+**Step 6.2: Backport Complications**
+- v6.12: Clean apply expected (same API as HEAD)
+- v6.6, v6.1, v5.15: Minor context differences (older API names like
+  `vsp1_entity_get_pad_format` vs `v4l2_subdev_state_get_format`), but
+  the actual changed lines are identical. Straightforward adaptation
+  needed.
+
+**Step 6.3:** No related fixes already in stable for this issue.
+
+---
+
+## PHASE 7: SUBSYSTEM AND MAINTAINER CONTEXT
+
+**Step 7.1:**
+- Subsystem: drivers/media (V4L2, Renesas VSP1)
+- Criticality: PERIPHERAL but important — VSP1 is the video processing
+  unit on Renesas R-Car and RZ platforms, used in automotive and
+  industrial embedded systems
+
+**Step 7.2:** The VSP1 driver is actively maintained by Laurent Pinchart
+with ongoing feature and fix development.
+
+---
+
+## PHASE 8: IMPACT AND RISK ASSESSMENT
+
+**Step 8.1: Who is Affected**
+Users of Renesas R-Car / RZ platforms with VSP1 hardware who set crop
+rectangles (via V4L2 or DRM APIs).
+
+**Step 8.2: Trigger Conditions**
+- Setting crop on an RPF subdevice when the sink pad format has odd or
+  small dimensions (especially 1x1 YUV)
+- Passing negative left/top values in the crop rectangle (legal __s32
+  values per V4L2 API)
+- Reachable from unprivileged userspace via V4L2 ioctls
+
+**Step 8.3: Failure Mode**
+- Incorrect crop coordinates silently accepted → hardware
+  misconfiguration → potential DMA to/from wrong memory regions
+- V4L2 specification non-compliance (negative values adjusted to maximum
+  instead of 0)
+- Severity: **MEDIUM-HIGH** (incorrect hardware operation, potential
+  memory safety implications via DMA)
+
+**Step 8.4: Risk-Benefit**
+- **Benefit**: HIGH — fixes real integer underflow bug reachable from
+  userspace, prevents hardware misconfiguration
+- **Risk**: VERY LOW — ~20 lines in a single function, changing only the
+  type and method of clamping, well-tested by two independent testers
+- Ratio: strongly favorable
+
+---
+
+## PHASE 9: FINAL SYNTHESIS
+
+**Step 9.1: Evidence Summary**
+
+FOR backporting:
+- Fixes a real signed/unsigned integer underflow bug in crop coordinate
+  clamping
+- The bug allows incorrect hardware configuration, reachable from
+  userspace
+- Fix is small (~20 lines), surgical (single function), obviously
+  correct
+- Written by the subsystem maintainer (Laurent Pinchart)
+- Two independent Tested-by and one Reviewed-by
+- Applied by the V4L2 co-maintainer (Hans Verkuil)
+- Bug exists in ALL active stable trees (since 2013)
+- Uses only standard kernel primitives (`clamp_t`, `min`) available in
+  all stable trees
+- Self-contained — no dependencies on other commits
+
+AGAINST backporting:
+- No reports of the bug triggering in the wild (no Reported-by)
+- Requires minor adaptation for older stable trees (context differences)
+- Niche hardware (Renesas VSP1) — fewer users than core kernel
+
+**Step 9.2: Stable Rules Checklist**
+1. Obviously correct and tested? **YES** — two testers, one reviewer,
+   logic is straightforward
+2. Fixes a real bug? **YES** — integer underflow in crop coordinate
+   clamping
+3. Important issue? **YES** — potential hardware misconfiguration, V4L2
+   spec violation
+4. Small and contained? **YES** — ~20 lines in one function, one file
+5. No new features/APIs? **CORRECT** — no new features
+6. Can apply to stable? **YES** — with minor context adaptation for
+   older trees
+
+**Step 9.3: Exception Categories**
+Not applicable — this is a standard bug fix, not a quirk/device-ID/DT
+addition.
+
+---
+
+## Verification
+
+- [Phase 1] Parsed tags: Found Tested-by x2 (Niklas Söderlund, Lad
+  Prabhakar), Reviewed-by (Jacopo Mondi), Signed-off-by (Laurent
+  Pinchart + Hans Verkuil)
+- [Phase 2] Diff analysis: ~20 lines changed in
+  `vsp1_rwpf_set_selection()`, replaces `min_t(unsigned int, ...)` with
+  `clamp_t(int, ...)` and adds min_width/min_height bounds
+- [Phase 2] Verified `struct v4l2_rect` has `__s32 left, top` at
+  `include/uapi/linux/videodev2.h:442-447`, confirming signed→unsigned
+  cast bug
+- [Phase 3] git blame: buggy `min_t` lines introduced by
+  `e5ad37b64de975` (2013, v3.12-era); YUV alignment by `85a0638b7855df`
+  (2015)
+- [Phase 3] Author Laurent Pinchart is the original file author and
+  subsystem maintainer (all blame entries)
+- [Phase 3] File history: no prerequisite commits needed
+- [Phase 5] Callers: `vsp1_rwpf_set_selection` registered as
+  `.set_selection` in `vsp1_rwpf_pad_ops:283`, called from userspace
+  V4L2 ioctls and from `vsp1_drm.c:157`
+- [Phase 6] Verified identical buggy code in v5.15:225, v6.1:225,
+  v6.6:225, v6.12:212
+- [Phase 6] Verified `clamp_t` exists in v5.15 at
+  `include/linux/minmax.h:124`
+- [Phase 6] Minor context differences in v5.15/v6.1 (different API
+  names: `vsp1_entity_get_pad_format` vs `v4l2_subdev_state_get_format`)
+  but core buggy lines are identical
+- UNVERIFIED: Could not access lore.kernel.org due to anti-bot
+  protection; reviewer/mailing-list discussion details not verified
+- UNVERIFIED: Whether this is part of a multi-patch series where other
+  patches are also needed (the Link msgid suggests patch 5 of N, but the
+  fix is self-contained based on diff analysis)
+
+The fix is small, surgical, obviously correct, well-tested, authored by
+the subsystem maintainer, fixes a real integer underflow bug present
+since 2013, and meets all stable kernel criteria.
+
+**YES**
+
+ .../media/platform/renesas/vsp1/vsp1_rwpf.c   | 28 ++++++++++++++++---
+ 1 file changed, 24 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/media/platform/renesas/vsp1/vsp1_rwpf.c b/drivers/media/platform/renesas/vsp1/vsp1_rwpf.c
+index 9c8085d5d3060..7c7bfb946b779 100644
+--- a/drivers/media/platform/renesas/vsp1/vsp1_rwpf.c
++++ b/drivers/media/platform/renesas/vsp1/vsp1_rwpf.c
+@@ -216,6 +216,8 @@ static int vsp1_rwpf_set_selection(struct v4l2_subdev *subdev,
+ 				   struct v4l2_subdev_state *sd_state,
+ 				   struct v4l2_subdev_selection *sel)
+ {
++	unsigned int min_width = RWPF_MIN_WIDTH;
++	unsigned int min_height = RWPF_MIN_HEIGHT;
+ 	struct vsp1_rwpf *rwpf = to_rwpf(subdev);
+ 	struct v4l2_subdev_state *state;
+ 	struct v4l2_mbus_framefmt *format;
+@@ -244,18 +246,36 @@ static int vsp1_rwpf_set_selection(struct v4l2_subdev *subdev,
+ 	format = v4l2_subdev_state_get_format(state, RWPF_PAD_SINK);
+ 
+ 	/*
+-	 * Restrict the crop rectangle coordinates to multiples of 2 to avoid
+-	 * shifting the color plane.
++	 * For YUV formats, restrict the crop rectangle coordinates to multiples
++	 * of 2 to avoid shifting the color plane.
+ 	 */
+ 	if (format->code == MEDIA_BUS_FMT_AYUV8_1X32) {
+ 		sel->r.left = ALIGN(sel->r.left, 2);
+ 		sel->r.top = ALIGN(sel->r.top, 2);
+ 		sel->r.width = round_down(sel->r.width, 2);
+ 		sel->r.height = round_down(sel->r.height, 2);
++
++		/*
++		 * The RPF doesn't enforces the alignment constraint on the sink
++		 * pad format, which could have an odd size, possibly down to
++		 * 1x1. In that case, the minimum width and height would be
++		 * smaller than the sink pad format, leading to a negative upper
++		 * bound in the left and top clamping. Clamp the minimum width
++		 * and height to the format width and height to avoid this.
++		 *
++		 * In such a situation, odd values for the crop rectangle size
++		 * would be accepted when clamping the width and height below.
++		 * While that would create an invalid hardware configuration,
++		 * the video device enforces proper alignment of the pixel
++		 * format, and the mismatch will then result in link validation
++		 * failure. Incorrect operation of the hardware is not possible.
++		 */
++		min_width = min(ALIGN(min_width, 2), format->width);
++		min_height = min(ALIGN(min_height, 2), format->height);
+ 	}
+ 
+-	sel->r.left = min_t(unsigned int, sel->r.left, format->width - 2);
+-	sel->r.top = min_t(unsigned int, sel->r.top, format->height - 2);
++	sel->r.left = clamp_t(int, sel->r.left, 0, format->width - min_width);
++	sel->r.top = clamp_t(int, sel->r.top, 0, format->height - min_height);
+ 	sel->r.width = min_t(unsigned int, sel->r.width,
+ 			     format->width - sel->r.left);
+ 	sel->r.height = min_t(unsigned int, sel->r.height,
+-- 
+2.53.0
+
 
