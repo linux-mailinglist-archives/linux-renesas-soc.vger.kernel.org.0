@@ -1,247 +1,210 @@
-Return-Path: <linux-renesas-soc+bounces-31425-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-31426-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id EGE8JZ9E5ml/twEAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-31425-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Apr 2026 17:22:07 +0200
+	id IEmeDMFX5ml5vAEAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-31426-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Apr 2026 18:43:45 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0031642E164
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Apr 2026 17:22:06 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id C4C4742FE96
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Apr 2026 18:43:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 13AC638B0AFC
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Apr 2026 14:54:43 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 65B403141FE3
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Apr 2026 14:58:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C2772364E99;
-	Mon, 20 Apr 2026 14:04:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 485E6377554;
+	Mon, 20 Apr 2026 14:15:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EunOhYiy"
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="Mt6szZCq"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D090E364023
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 20 Apr 2026 14:04:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92DA43A1D1C
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 20 Apr 2026 14:15:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776693875; cv=none; b=cbVP99dxOlgUYWHxh+RSGODa7y+fCPXDcqhgFOquGFUBKLOHyEAHGN+NJLY8VQP0sNXeJOQtyR7ef4GC4nbaajSghtJbYiJIS+MlEfS1i9VDtFypjMDMLJmN8rjA+9tE2Ee8vZBqVUxq4Ikw9jshBARwps1U5sx0sNUoN5NJ5H4=
+	t=1776694533; cv=none; b=mG4e2o7kJZ19eqvGbyRyr485H3Bf8AB+1vrA6VdlkCg8f4JxHa00XASDkiwA2vD3FuGRC0RZWvYJQP5tDqTWaa6T7pQNgcT0uH5GrtDCn0O1bYtMhDwRMwK/oOBF/HyuowULq4ufqPLiTEmHXhk5OiBeqpzSbfNUA18j8SnTmWE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776693875; c=relaxed/simple;
-	bh=WhVlfvQ+oUYkxqpp/mJeaygvYrQ033hUNsGCTAFD55A=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=E5FugXQg4bUZQ/avDfCJXa6Tokpzk9O9nJSitT7g0pD0ptcbS8ZKhiXWGzqB2KkIIaSMhN3iewBmE6qEY3IacWaljmcgmfs1dworaHbzAheMvI43Giaafzre/xyfd8jXyxWNBDTsTRxmvInuKUcgqTdOFeep2bDTT5lgsJVTZtg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EunOhYiy; arc=none smtp.client-ip=209.85.221.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-43cfbd17589so2369435f8f.0
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 20 Apr 2026 07:04:33 -0700 (PDT)
+	s=arc-20240116; t=1776694533; c=relaxed/simple;
+	bh=ppsjy5cDgZ57Fyuoqm+hMsyL1FzmZJz4ryCWUG3qf58=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=X20JyykZJLxhGbGsVXk5I05j29oTsuLms0KUXH3o7y4iqP/MlRgjDHFriGeJNEj35wWXKPa3l7AYyoP2VjUmzswjfr6M5rPM2erLva8yRGM6vRP4Ubxny9nF+64sgXu4N89lrFp3w8OseegYQL3y5qPP9wvmxGf5QiDu0Po6Agw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=Mt6szZCq; arc=none smtp.client-ip=209.85.128.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4891f625344so9853105e9.0
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 20 Apr 2026 07:15:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776693872; x=1777298672; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2xlUWWLG1M1rjcikyRUpJDrhDMsJpX4br6B8/dQ92cY=;
-        b=EunOhYiyMSQjLBm5v5xhbAxdCCA0xi3+1DsqZfd1YqUsWURKfjyWnv/+hndysNpxnZ
-         +UfBesEu1IbF3DadOCBbsIdUhyAcvGHfaeA77TNl0G7o1ik5vvUX5QMvHAYFzC9mDTw7
-         arhifiXdtAsXIiUgLniHIHYWkkQ+m5SO740okipcU2bs3Q9VbqQnsI0uUbWMFv/mdlRL
-         ZBVIJhycT0r9inUUvIiyBW/ettLQTcX6Lj87y0yye0GOP3JMUZO9T4BPrxjmSOrTkFcq
-         lBkZRPubX86b75cnVnMj+YZ6c4gt6OQdj9uiJv+0Cj+o772U9Fps1Fpj7zQLCMoVHwyA
-         P0wg==
+        d=tuxon.dev; s=google; t=1776694530; x=1777299330; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=t1bUvFpr3NIXY40lz2U87H/IH5ItVZVdVUddh0JtzjI=;
+        b=Mt6szZCqaIMKyCOHFVNTJN3cvaGHM6/ZUXjXZeA7ru/cnIwI8HL4M79vTKch9fbIIt
+         g20pVkGMmv3p2Nk+SVjcnvXbu3Iue7lVTRrPGsBSJogI3mTwRYGP+Cg1KoHQ4bHLixyU
+         Mjo8jGNuM4bbUn1IZUmhXTtA2l4cJ61n2snD4pkJULN2OV/jDvE2hQ99wBx8tqKoFbNl
+         IfzLfy/LhaIOg0NwlgjSH3J+fll9yBFfd9q/+tDu0ew4aJ4vWgnj9Xeo8CLbEs22AYXm
+         3CDF8OFsQLiAg1dYzUFGH8tJHvTieOv7EAcdGNYDKAiGP+mHTz5wlXIVW3If/yjbUZM3
+         d4UA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776693872; x=1777298672;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=2xlUWWLG1M1rjcikyRUpJDrhDMsJpX4br6B8/dQ92cY=;
-        b=k1HJ/DygllMmYAdlNUVutAWFvUju10N2WdhvGyzMRULe742MdLaHaIysAB71z2x1yM
-         r/KYEyyLNI+BM+YxIUxg2991egZyE9wdbNGhKGlwRDkT+W7YuWNE7mwEsSX/WGjpN7ei
-         FNSFukb+LZkuanpPO4g/e73HRvN9u0WFEiGjLX7I0j9v9uT41VfhUApcQ9iNA6ICJr+h
-         bA+a3oQLofmKb1N3BI1uuQQbDbrbjNm0XEZj9zDIumGm/w5Bc8uzbmd1ce7c+cmP3saL
-         9vGPePJK66/a/Rk5C75+a6WM9Bg2WaLGw8WV4CKrYh9QKzoY4hXSw3YoVE1QlAWo9hKO
-         DiYw==
-X-Forwarded-Encrypted: i=1; AFNElJ+MYpV93+c6cNiGSKxkc4P/nongHxXcf/idVmNwXcv8zcZknWNg3jo9aWKUSB3HfloLbAF9LNBGW9GRGGs95gAeXw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxXMRnExW93xfG39w29w5krCk/UArYXOtTTnY7t5zClM31Eauvv
-	0NR/CAIT8nkYNcrW0XyVhP5/U9Th9ZEUDQNivGAWL8ggDv2GTOuRxopD
-X-Gm-Gg: AeBDiev2uOgiNRsXT2oSest1mOgscI3PiIxK0PMSXlczQNKE3CkgLww0X3pBHMXSDDj
-	kJvVdE0rEq/xUVFm6CAoraF6aCGQh6ksovXNRXG87JnMTJCba+4rH62B6z+Ophkm82wb1L+NzMo
-	bZdSPnw8q959e8ulNOfEA71d2obnJc2ZYy2mp2pWmk/ZeTCQkrLaNrPGQ0djBFZvv/bFwLARksY
-	xutH/zz+EUDBx07RwcfCS1dAofiho7nHqpClg76b1nQw2116KYjoKhP9rbb4C26BlPmiZMZK/m9
-	PwikFfIZqt3akLh1R26zc0Hfqh1jBITSMrZif7bUBs4nfupCTbLawKqoqc/XbU6z/dVhm+y2BvZ
-	g+dK/ufBKr6+3pxG7FvlGYGHs9sQKKrEgwd2CyNpDZhil55a7TbB9ploBNkXBUevrQvRwjgIptH
-	SdsO73/+VT+OK2gsVDGSjBrxX2ZHRilbDV2R6fxZeOPJSOv9meOXgCRfoev0XA7fKJs3zm4w==
-X-Received: by 2002:a05:6000:18a3:b0:43d:7ba4:6b5a with SMTP id ffacd0b85a97d-43fe3df25a7mr19214923f8f.22.1776693871973;
-        Mon, 20 Apr 2026 07:04:31 -0700 (PDT)
-Received: from localhost.localdomain ([2a00:23c4:a758:8a01:5f3e:f914:6f8c:72c3])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43fe4e4d525sm28377778f8f.31.2026.04.20.07.04.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Apr 2026 07:04:31 -0700 (PDT)
-From: Biju <biju.das.au@gmail.com>
-X-Google-Original-From: Biju <biju.das.jz@bp.renesas.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jiri Slaby <jirislaby@kernel.org>
-Cc: Biju Das <biju.das.jz@bp.renesas.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Thierry Bultel <thierry.bultel.yh@bp.renesas.com>,
-	linux-kernel@vger.kernel.org,
-	linux-serial@vger.kernel.org,
-	Biju Das <biju.das.au@gmail.com>,
-	linux-renesas-soc@vger.kernel.org
-Subject: [PATCH v3 3/3] serial: rsci: Refactor baud rate clock selection
-Date: Mon, 20 Apr 2026 15:04:23 +0100
-Message-ID: <20260420140426.237865-4-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260420140426.237865-1-biju.das.jz@bp.renesas.com>
-References: <20260420140426.237865-1-biju.das.jz@bp.renesas.com>
+        d=1e100.net; s=20251104; t=1776694530; x=1777299330;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=t1bUvFpr3NIXY40lz2U87H/IH5ItVZVdVUddh0JtzjI=;
+        b=U56WYZkh82z/U6d/eQfDlTIy04KZY/QNBYKVg1OkrlMfJqros35dtNCcO110WdqP1n
+         3hdjw7HPr6hjtgjD4qhxaZRWTswUugUdNwjPGn+QW+5NtZcswCRVe2h3m5Q1qv95ZzUe
+         CAr6Z0ld5jENCCbRkz2+FhY5Uvuy5swNkYgr5ERgefbuisrQbVLXvjQdJ3rBx2YvUZtE
+         iI0MnE8ELgIhamDimzwEd4nqW+5SlVkt87JMMbSD1tVcs05NJNcPUo7f0TrnseBS8GgH
+         3b4kZc8UEGI34MyMuaVkdQwoNY7KFIx+WtLXnrI78Uitin5BCxV0Fqfu2gomoSvxs41F
+         2scg==
+X-Forwarded-Encrypted: i=1; AFNElJ/+DZlTqPsegWxAHUBiE8sGbgB41XnLp7UyJNs47I1shwbapnS6JqY6dnFyHMOmYPV3wOaAuM0Bk7qV4pcj6bhbsg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxl8aA7xBOdxNmH//HG44gl08pqhb6OrY4N4IdKrhd/T2FWR60g
+	Al8pZBQqHAEY4uqUmwIoW5lBwIg2j8ahaDURNBW7V8i7dNYTzGWvCsgRC2kH3udFMJM=
+X-Gm-Gg: AeBDietKFbhpzG278uR+3GPD4hMNOSW5tRnifHb4+HcGxc/abX9y/fzgKOfwp4rY27q
+	U7LJAgrNGM+aCgiLYKYu6ExnEg1kjSYm8HZOzQmkz62eGA2VWK92QVdoyTNBnIcfB3At435e+3f
+	xOCbZfUxRPAQrkgYza/0ggDCJAqm5NRhEiB+xvfBxwku9MjL+7XAgytgko+FRrGlONUuvUKzv6O
+	UfyqibL+u/s2J1jmhoqkM0Zn4JD8tfKzxiBlaSabUS5L0SXrKE7fKQfD/3JVCxeSy64/Sf0DJNK
+	kepRLejSoFmEx1A4mJnbK3CyElhhuLV5RYOYICHZTJy7M4V5BUazX8Rul7llJaMCJZleCQf7OvW
+	lcOi72S17Cg7Avy1Z6V0pyGkvzdKxRpkjmnBpA9MPMJ/MosuJX0UgMKQXtLQTuW/1mfzs8TlUj5
+	Jv46fWnp/5TtO/cUuK4MbhfVM10dt0f0EWdtGvwcKR9LzR7WEg82I8
+X-Received: by 2002:a05:600c:570f:b0:488:a502:8955 with SMTP id 5b1f17b1804b1-488fb882f13mr152359325e9.4.1776694529960;
+        Mon, 20 Apr 2026 07:15:29 -0700 (PDT)
+Received: from [192.168.50.4] ([82.78.167.123])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43fe4e46471sm28832892f8f.28.2026.04.20.07.15.27
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 20 Apr 2026 07:15:29 -0700 (PDT)
+Message-ID: <36468f41-7808-4fe3-b4bf-94eb128276fc@tuxon.dev>
+Date: Mon, 20 Apr 2026 17:15:27 +0300
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 14/17] dmaengine: sh: rz-dmac: Add suspend to RAM
+ support
+To: Biju Das <biju.das.jz@bp.renesas.com>, "vkoul@kernel.org"
+ <vkoul@kernel.org>, "Frank.Li@kernel.org" <Frank.Li@kernel.org>,
+ "lgirdwood@gmail.com" <lgirdwood@gmail.com>,
+ "broonie@kernel.org" <broonie@kernel.org>, "perex@perex.cz"
+ <perex@perex.cz>, "tiwai@suse.com" <tiwai@suse.com>,
+ Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+ "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
+ "geert+renesas@glider.be" <geert+renesas@glider.be>,
+ Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+ Long Luu <long.luu.ur@renesas.com>
+Cc: "dmaengine@vger.kernel.org" <dmaengine@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
+ "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
+ Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+References: <20260411114303.2814115-1-claudiu.beznea.uj@bp.renesas.com>
+ <20260411114303.2814115-15-claudiu.beznea.uj@bp.renesas.com>
+ <TY3PR01MB11346C39C7EABCC7A1BC64109862F2@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+Content-Language: en-US
+From: Claudiu Beznea <claudiu.beznea@tuxon.dev>
+In-Reply-To: <TY3PR01MB11346C39C7EABCC7A1BC64109862F2@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-Spamd-Result: default: False [-0.16 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_MISSING_CHARSET(0.50)[];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[tuxon.dev:s=google];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TAGGED_FROM(0.00)[bounces-31425-lists,linux-renesas-soc=lfdr.de];
-	RCVD_COUNT_FIVE(0.00)[5];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-31426-lists,linux-renesas-soc=lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[17];
 	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[bp.renesas.com,glider.be,vger.kernel.org,gmail.com];
-	TO_DN_SOME(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[bijudasau@gmail.com,linux-renesas-soc@vger.kernel.org];
+	FREEMAIL_TO(0.00)[bp.renesas.com,kernel.org,gmail.com,perex.cz,suse.com,pengutronix.de,glider.be,renesas.com];
+	RCVD_TLS_LAST(0.00)[];
+	DMARC_NA(0.00)[tuxon.dev];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
+	DKIM_TRACE(0.00)[tuxon.dev:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[10];
+	FROM_NEQ_ENVFROM(0.00)[claudiu.beznea@tuxon.dev,linux-renesas-soc@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	RCVD_COUNT_FIVE(0.00)[5];
+	MID_RHS_MATCH_FROM(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
-	FREEMAIL_FROM(0.00)[gmail.com];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[bp.renesas.com:mid,renesas.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 0031642E164
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: C4C4742FE96
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-From: Biju Das <biju.das.jz@bp.renesas.com>
 
-Since RSCI only uses a single clock source (SCI_FCK), the multi-clock
-tracking variables (best_clk, min_err, brr1, srr1, cks1) are redundant
-and removed. ccr0_val and ccr4_val are likewise dropped, replaced with
-hardcoded 0 at their write sites, as they were never modified from their
-initial zero values.
 
-No functional change intended.
+On 4/20/26 10:42, Biju Das wrote:
+>> +static int rz_dmac_suspend(struct device *dev) {
+>> +	struct rz_dmac *dmac = dev_get_drvdata(dev);
+>> +	int ret;
+>> +
+>> +	for (unsigned int i = 0; i < dmac->n_channels; i++) {
+>> +		struct rz_dmac_chan *channel = &dmac->channels[i];
+>> +
+>> +		guard(spinlock_irqsave)(&channel->vc.lock);
+>> +
+>> +		if (!(channel->status & BIT(RZ_DMAC_CHAN_STATUS_CYCLIC)))
+>> +			continue;
+>> +
+>> +		ret = rz_dmac_device_pause_internal(channel);
+>> +		if (ret) {
+>> +			dev_err(dev, "Failed to suspend channel %s\n",
+>> +				dma_chan_name(&channel->vc.chan));
+>> +			break;
+>> +		}
+>> +
+>> +		channel->pm_state.nxla = rz_dmac_ch_readl(channel, NXLA, 1);
+>> +	}
+>> +
+>> +	if (ret) {
+>> +		rz_dmac_suspend_recover(dmac);
+>> +		return ret;
+>> +	}
+>> +
+>> +	pm_runtime_put_sync(dmac->dev);
+>> +
+>> +	ret = reset_control_assert(dmac->rstc);
+>> +	if (ret) {
+>> +		pm_runtime_resume_and_get(dmac->dev);
+>> +		rz_dmac_suspend_recover(dmac);
+>> +	}
+>> +
+>> +	return ret;
+>> +}
+>> +
+>> +static int rz_dmac_resume(struct device *dev) {
+>> +	struct rz_dmac *dmac = dev_get_drvdata(dev);
+>> +	int errors = 0, ret;
+>> +
+>> +	ret = reset_control_deassert(dmac->rstc);
+>> +	if (ret)
+>> +		return ret;
+>> +
+>> +	ret = pm_runtime_resume_and_get(dmac->dev);
+> 
+> If this fails for any reason, the next suspend still be called and it will decrement the counter, potentially undeflowing it.
+> Consider switching to pm_runtime_get_sync(), which suits better here
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
-v2->v3:
- * Dropped reported by tag as the goto statement in rsci_set_termios()
-   removed in the previous patch.
- * baud check removed by previous patch.
- * Added missing macro CCR0_RE while dropping ccr0_val variable.
- * Updated commit description.
-v1->v2:
- * Dropped the check (abs(err) < abs(min_err) as it is always true.
- * Dropped the check (abs(err) < abs(min_err) as it is always true.
- * Dropped variables best_clk and min_err as they are no longer needed.
- * Dropped intermediate variables brr1, cks1 and srr1; results are now
-   written directly into brr, cks and srr.
- * Moved dev_dbg() inside the if (baud) block.
- * Dropped ccr0_val and ccr4_val, replaced with hardcoded 0 at their
-   write sites, as they were never modified from their initial values.
- * Scoped variables err and srr locally within the if (baud) block.
- * Updated commit description.
----
- drivers/tty/serial/rsci.c | 31 ++++++++++---------------------
- 1 file changed, 10 insertions(+), 21 deletions(-)
 
-diff --git a/drivers/tty/serial/rsci.c b/drivers/tty/serial/rsci.c
-index 40db9daa4272..444e89696310 100644
---- a/drivers/tty/serial/rsci.c
-+++ b/drivers/tty/serial/rsci.c
-@@ -217,16 +217,15 @@ static void rsci_set_termios(struct uart_port *port, struct ktermios *termios,
- 			     const struct ktermios *old)
- {
- 	unsigned int ccr2_val = CCR2_INIT, ccr3_val = CCR3_INIT;
--	unsigned int ccr0_val = 0, ccr1_val = 0, ccr4_val = 0;
--	unsigned int brr1 = 255, cks1 = 0, srr1 = 15;
- 	struct sci_port *s = to_sci_port(port);
- 	unsigned int brr = 255, cks = 0;
--	int min_err = INT_MAX, err;
--	unsigned long max_freq = 0;
-+	unsigned int ccr1_val = 0;
-+	unsigned long max_freq;
- 	unsigned int baud, i;
- 	unsigned long flags;
- 	unsigned int ctrl;
--	int best_clk = -1;
-+	unsigned int srr;
-+	int err;
- 
- 	if ((termios->c_cflag & CSIZE) == CS7) {
- 		ccr3_val |= CCR3_CHR0;
-@@ -267,25 +266,16 @@ static void rsci_set_termios(struct uart_port *port, struct ktermios *termios,
- 	baud = uart_get_baud_rate(port, termios, old, 0, max_freq);
- 
- 	/* Divided Functional Clock using standard Bit Rate Register */
--	err = sci_scbrr_calc(s, baud, &brr1, &srr1, &cks1);
--	if (abs(err) < abs(min_err)) {
--		best_clk = SCI_FCK;
--		ccr0_val = 0;
--		min_err = err;
--		brr = brr1;
--		cks = cks1;
--	}
--
--	if (best_clk >= 0)
--		dev_dbg(port->dev, "Using clk %pC for %u%+d bps\n",
--			s->clks[best_clk], baud, min_err);
-+	err = sci_scbrr_calc(s, baud, &brr, &srr, &cks);
-+	dev_dbg(port->dev, "Using clk %pC for %u%+d bps\n", s->clks[SCI_FCK],
-+		baud, err);
- 
- 	sci_port_enable(s);
- 	uart_port_lock_irqsave(port, &flags);
- 
- 	uart_update_timeout(port, termios->c_cflag, baud);
- 
--	rsci_serial_out(port, CCR0, ccr0_val);
-+	rsci_serial_out(port, CCR0, 0);
- 
- 	ccr3_val |= CCR3_FM;
- 	rsci_serial_out(port, CCR3, ccr3_val);
-@@ -294,7 +284,7 @@ static void rsci_set_termios(struct uart_port *port, struct ktermios *termios,
- 	rsci_serial_out(port, CCR2, ccr2_val);
- 
- 	rsci_serial_out(port, CCR1, ccr1_val);
--	rsci_serial_out(port, CCR4, ccr4_val);
-+	rsci_serial_out(port, CCR4, 0);
- 
- 	ctrl = rsci_serial_in(port, FCR);
- 	ctrl |= (FCR_RFRST | FCR_TFRST);
-@@ -315,8 +305,7 @@ static void rsci_set_termios(struct uart_port *port, struct ktermios *termios,
- 	rsci_serial_out(port, CFCLR, CFCLR_CLRFLAG);
- 	rsci_serial_out(port, FFCLR, FFCLR_DRC);
- 
--	ccr0_val |= CCR0_RE;
--	rsci_serial_out(port, CCR0, ccr0_val);
-+	rsci_serial_out(port, CCR0, CCR0_RE);
- 
- 	if ((termios->c_cflag & CREAD) != 0)
- 		rsci_start_rx(port);
--- 
-2.43.0
+I think runtime PM usage counter underflow will be the less significant problem 
+in case runtime PM fails.
 
+Anyhow, could you please provide the code pattern you consider would be better 
+for both suspend and resume?
+
+Thank you,
+Claudiu
 
