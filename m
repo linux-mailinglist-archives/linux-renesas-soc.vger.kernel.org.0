@@ -1,1055 +1,381 @@
-Return-Path: <linux-renesas-soc+bounces-31388-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-31389-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id aLjTH90v5WlxfAEAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-31388-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 19 Apr 2026 21:41:17 +0200
+	id +D5IK4aO5Wk7lgEAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-31389-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Apr 2026 04:25:10 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03DBE42554E
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 19 Apr 2026 21:41:16 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id E4C7E4263D3
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Apr 2026 04:25:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 8CFE4300D46A
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 19 Apr 2026 19:38:20 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id F05663002D17
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Apr 2026 02:25:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D42B0301704;
-	Sun, 19 Apr 2026 19:38:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1F1BD316189;
+	Mon, 20 Apr 2026 02:25:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="glL3ZUfD";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="QRNBLXIC"
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="XV84nPym"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
+Received: from PA4PR04CU001.outbound.protection.outlook.com (mail-francecentralazon11013064.outbound.protection.outlook.com [40.107.162.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 971BA3019A9;
-	Sun, 19 Apr 2026 19:38:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.161
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776627499; cv=none; b=gTgXX3+Q+XFrmqpYIMjKCCPPX5Ibdp0P9cKUU4Wk57dSGUOksCueZP0kbemZyQXTJpHmsFgxfOtQ7Qh88pT5e6Ww34NUf26vhTT9JIAbd7TnkBEw1iCat0/epiQ8Z9Wm2j7ZdqfUV6fbJMg0WccfipAiVNh5kZJTHqsIXKfitMg=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776627499; c=relaxed/simple;
-	bh=eouvx/9kJUDZRTzY/2PS24wjrbmQv7dGbCQWfnHy5ps=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=mb6WAPZ/lVVVNPwl0CNAm9vY+IsW26SDV5KYClNzxH1CZ+m3V06fSXd9VR7xZ9XQJuMux9qo5E38llpg47C9YDJWzGdIBShWaJ+efZ5AtEBZUhxWN4wbGUQ/zfOgmtIBdXQHKj8QbqAJZN+NaZcPhE508sc87iRV3A/ncmsK/dc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=glL3ZUfD; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=QRNBLXIC; arc=none smtp.client-ip=80.241.56.161
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [10.196.197.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4fzJnM5ZRmz9v1W;
-	Sun, 19 Apr 2026 21:38:15 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1776627495;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qy0yAxKlTm0kWqvDMnrH60Ig9RrzlJ71Kbc+KTUPLHA=;
-	b=glL3ZUfDoJWgOZmSPJjh/p3y95Z73wctzYU07TwOnMEOxQJ1grsmrpl//tJi68+4RBe9fg
-	kcOs8SA4pPcTLaDLX1Y2e7SSrVdBMWRf0EUajun3kwW0X8N1z4cYoXg+HFITSALmpt7Jmk
-	p58isiIa0qmsTRsucVs91Une/cIHIvzZWDJPF2Mo8yWrtcaOPczwOePNowxqKnjVaJaLn9
-	XkwWYEECGpqO0t56+XpFqZdKX3W7L8B1utQMfMuFwqqDYhshMLrFVlByWnomFogDfYbQyA
-	ECkYsjob9gPslBeTiDAJFHukq4wOIUvrTXoKZiR27vdepMpkFbcMVm05gcIQkg==
-From: Marek Vasut <marek.vasut+renesas@mailbox.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1776627494;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qy0yAxKlTm0kWqvDMnrH60Ig9RrzlJ71Kbc+KTUPLHA=;
-	b=QRNBLXICY7kXs9nCC22Ylw8iQrrbkqni8RTy/YahBk6jBNh9/yw7frD/pqW6/Jx5/bM3i6
-	flQATiKsKsiGikuI0qsvFUZB9BbvCz7E2sjli5H9gUI7UIgGAw6JWcRxliodBptRdlbYWZ
-	w/KvpAcamE7MAgL4o+GM8IF5oV9TH/F2DNdxjwJFWrR8aHx56vHl7LgpBgYQE+ggy1xSNu
-	HbCi9lz91HuC8CPUbvqCVCyUGZwmQwU+fdLIss0pW5xxndlSgBTCJfh/nwAkzuXl9opoxq
-	yP8XAEYSAXdIN5OVbmyaIzyr1Bf/MdwFTi4l5GbuxDgNs+r/aDpU6R8SmG56Og==
-To: linux-arm-kernel@lists.infradead.org
-Cc: Nguyen Tran <nguyen.tran.pz@bp.renesas.com>,
-	Marek Vasut <marek.vasut+renesas@mailbox.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	David Airlie <airlied@gmail.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Rob Herring <robh@kernel.org>,
-	Simona Vetter <simona@ffwll.ch>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
-	devicetree@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	linux-clk@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org
-Subject: [PATCH 7/7] arm64: dts: renesas: r8a779md: Add support for R-Car M3Le R8A779MD Geist
-Date: Sun, 19 Apr 2026 21:35:38 +0200
-Message-ID: <20260419193718.133174-8-marek.vasut+renesas@mailbox.org>
-In-Reply-To: <20260419193718.133174-1-marek.vasut+renesas@mailbox.org>
-References: <20260419193718.133174-1-marek.vasut+renesas@mailbox.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 401411C84A6;
+	Mon, 20 Apr 2026 02:25:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.162.64
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776651905; cv=fail; b=OpQvoBZrF07WTGqwnwK66leGQ6J4cBrAoAqExNdfcftwCQZ0uRctXSRaOKSEP+Fk5e/whAd+GauptxZxCEkd0EeLgTM0XEG9+kZocvTGqKCjAG4eWjVGImo/IFgycCfF8+eeeQHUU84btYDe+5gndOCPesEO9sndSLKyOpZKtp4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776651905; c=relaxed/simple;
+	bh=KvO3CVSvCI3+5caX6CibMHTXBW9bEWDCbDpnuEDxyDo=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=eyiqERz07bFUoejZWWDf0Bg0eKLZT4WyPG66gvqDntAYlsQHyOb497duWBQjgcSXHDsgiGCTyYrDXq1Ot90jr8CQv2YxqjMpsDkVaaoEOLaNZzMpL8m1zA7GI5gI2bNxx6LZ+tz6hykx25cSHPwj468nr7uoYVMLtk62wmLNG3o=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=XV84nPym; arc=fail smtp.client-ip=40.107.162.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=W0LOVKVA3lisbLik/ZCutuM2ioCkwcVNyMff4m4mFWYeX/3OfgjYzUVmBlilZAkufs0FcR+KF8E8bFgw5KzGZwXaCWWWUxnL33ZFz+fX0j4MFb8e97OaIIIXiQlMa6AokuwgrxlCPuaQjEBNr0DWBDNlcwJA0852UVavJZ3OIhO5fD510A1g2BRPKLKVj2Dmn2RVTqgGeNeqTQvaJq3lsNreOEjqPRnngwz0nkPGapoDNm1x7ZxIAtlKa+YLYfjtEhZsRI2rERQcaUiAtDMzTSfEYmMJggkePTog6elkJLZxYxjsifIHS1Tzb2ikwPkAjLMmcleRi1E8/ZaOpKCarA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=EuQNH+q0Novvj+IwSSfJWGCBTPA0wR2nQdECqge5hWQ=;
+ b=lkOzYrTxF1T5iU8lUgwBkvOHP+mjjeKCKzuEQap5okiIqi8zD3vNRZO76JvCvmcdk44aEnGWPPerV/oCyEycU1QB7ouhLXgCxTZkbZwJXp3T+CKg89txinIj6qFaulgDAxcjNb1u1My0SOmqotn7/fyleu77+9QHhfCSFuDjKXVfm90F960TjZtEfR4LXD2SXh9DuZORkrJID3dBjfRTZfX9YSB/SF2HrHXfo6BPnmtBESTnmgaNwo/njLeoQ4aOZ1BZuJHVF2b23JvvFKF0xeh6LkbZuoOLBvK+/aVLqMK5W2eMb0HgrMnVSBstlNZGZfKCDuTNgsB0iD2zuritHQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=EuQNH+q0Novvj+IwSSfJWGCBTPA0wR2nQdECqge5hWQ=;
+ b=XV84nPymjRPoWz+PW6TA4iFWaTqwiIyxZfxAJfaCyQxQXQnQCj6QIxe6JucPxoLNVP12dtsW1e8YsExeRn6IasjFWGwSHjaXJOVSqA1e2ahGhnidvW4EUWhKM2gKrRSs1FCE09GTAU35uv3KRaQEGGf1TgfGgRqogeJWPVsTAI1gUkiKNfpBmytsb4fwmBry+ms04kdYvmt1+wwhB0hA538sKL0jORQhNcHurBh8fDr7B95tlZgQPave4eZGaYb2p3IwTkXc0HOr/87SqVya48RK95v1XckJWA7MXw+8iAeEPvNMBQxMafVlq0/YiyvAY9fnyexrjq4W+J51Rp/yxQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from AM8PR04MB7940.eurprd04.prod.outlook.com (2603:10a6:20b:240::19)
+ by DU4PR04MB10622.eurprd04.prod.outlook.com (2603:10a6:10:593::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9818.30; Mon, 20 Apr
+ 2026 02:25:00 +0000
+Received: from AM8PR04MB7940.eurprd04.prod.outlook.com
+ ([fe80::1fa8:cc0b:b501:6bc4]) by AM8PR04MB7940.eurprd04.prod.outlook.com
+ ([fe80::1fa8:cc0b:b501:6bc4%3]) with mapi id 15.20.9818.032; Mon, 20 Apr 2026
+ 02:25:00 +0000
+Message-ID: <d6dcdce0-6ff9-433a-963c-5f0ea9f2a9fa@nxp.com>
+Date: Mon, 20 Apr 2026 10:26:22 +0800
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] drm/bridge: ite-it6263: Add suspend/resume support
+To: Biju Das <biju.das.jz@bp.renesas.com>, "biju.das.au"
+ <biju.das.au@gmail.com>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: "laurent.pinchart" <laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+ "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>
+References: <20260416082928.169347-1-biju.das.jz@bp.renesas.com>
+ <00e2f34a-c488-4a61-bb87-0f0431990c3f@nxp.com>
+ <TY3PR01MB11346B5C92803F6A3D174ACCF86202@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+From: Liu Ying <victor.liu@nxp.com>
+Content-Language: en-US
+In-Reply-To: <TY3PR01MB11346B5C92803F6A3D174ACCF86202@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SI2PR01CA0041.apcprd01.prod.exchangelabs.com
+ (2603:1096:4:193::15) To AM8PR04MB7940.eurprd04.prod.outlook.com
+ (2603:10a6:20b:240::19)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-MBO-RS-META: gunbr4d7szq363up4u964aroz8oz7nhj
-X-MBO-RS-ID: 27954b95d5fdb8f3964
-X-Spamd-Result: default: False [-0.16 / 15.00];
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AM8PR04MB7940:EE_|DU4PR04MB10622:EE_
+X-MS-Office365-Filtering-Correlation-Id: a32608ae-b668-462f-9b25-08de9e840568
+X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+ BCL:0;ARA:13230040|1800799024|366016|19092799006|7416014|376014|22082099003|921020|56012099003|18002099003;
+X-Microsoft-Antispam-Message-Info:
+ tj5I9tsvyTvs0rTFXLrRVpcsV+Pc4vzQ3lsKqlabSJ3XHCgPRdHGyzeNFtF67zdzxuE7j6OG9ToLxdqiX30QfTJNlRzXPZC0U2+4yvhYnflKmD+km7Y6D9Xl/y26yK/nRUu2wooy/cp61Et1TiBrj4c5nvGTtszvQma95C3YCrjVR570eH9zzQjpikUVtbgx02syR0o3cycX0AUFmNIFBx5tK3AV2vccItdoNXSb44SKBB4ZztHAK77tywty0elUny2oJHSCGm4tPZ+btBjekzIN7tWE72IboOcC70xG0iG6QixVAVkblFlYTGDs8dgU+0pVffX8SiZJfQ6/8byBHIyeYx0Reqmv14iCGG89m1xXgX/2BNozF4rjRn8H+2RksyFtF3/K48m4RopbbNTdM3qdCk4W35ZX3+tb0GN6XxS5/ixKuW9NxwWrKHAiZKqm+WGATOFokpvP9FxRXODcBnwIcI+r+mqJXT1xvtv7l38EWuMU3GWgg0gehdE0uzlswUaPWyXIt9/dLquHaRQdzjk+5aAiR0VK0MPJDRFr2QMPAHLWe9ndeSLqMzjGvHVS1kC0PwTIPHhV4x69MOevoOat1NNW5pJ2ZoSWUkTCBULJ3tYuvclb5Ytoo0wtJV1oNf8sqxhBP/CkSIobFnBAp9NHTFTr3S+nGG4WmN5pYE5zLRqo05SEZ+An1o8DkCEIiDAAG3INH5SbYRu1G+o6EV4Mx+PtHB6/8YaQ/xq+qgKQfFWbvOVMjOg8xr6cpDNSCfVXY3XUjmrPlBEIvT7Zcg==
+X-Forefront-Antispam-Report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM8PR04MB7940.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(19092799006)(7416014)(376014)(22082099003)(921020)(56012099003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+ =?utf-8?B?UzJmcWgvYmdYT0pEUk5tR1JGSWpBUTlwQ002dEkzcXVSNC9jUzVkVXY1VE5t?=
+ =?utf-8?B?RVRIWDJ0Q3RTN2licjltNzhFeFRHeFJ4eFc2YUlkMFdhc2p6RjlWald4c1d1?=
+ =?utf-8?B?OTdGMkQ5eTJBRjJCNStwVHFNQkt4ck5HeEJDcHZIRE10cDZlT1k2Y0hMVlkr?=
+ =?utf-8?B?dVdsZ2orRGE2T2x4MmxsVG5aS0Z0T0VUaHBjWGE3bHRNeFJ5Qmc0SUpEUVVE?=
+ =?utf-8?B?Q1dKalNCZURVUk8zNCsyZ0FUTWQrcS91RWlibmxwVjd3NnFGdnk1Um5sTjYy?=
+ =?utf-8?B?anBEU3N3RUpZUDE4cnFLM09XOVpObVV4TzhRQXBnM0dFdmU0MzE5YWFhUXZF?=
+ =?utf-8?B?amg1YndPZ1N5NlJ5bU5IY256bktPNEdoTUtTTXFLeE9QbkcxNzdiT0l2TXMr?=
+ =?utf-8?B?dTZMMUk0NWhsVkRZU0xVWFBkVlY2Sy9IRHRzZGFObSt5cXBMWWk0anVQeVFZ?=
+ =?utf-8?B?OFNQczRuS1NhUXlXRGtiY0VBSllRenVhZmlZeHhHbHZvQmdFbWFaUEorOVlH?=
+ =?utf-8?B?Y3BWdTBCYWMrUWVvbFJ3OXpmKzZaRkl3ejJjUVlLbGRCWUthNkJWcVFsU1FT?=
+ =?utf-8?B?cENqenQ5S2UyZXo0SFA4QzhGY0UvTzRoWWJqbTVZTWlpSzFPa1l3V3FEZkMx?=
+ =?utf-8?B?aGNvVzlQc2RGZ1IzcUZDYUtjdlQ5TXpiV2NCMitqMklIRFlrZEJvRFRDNFM1?=
+ =?utf-8?B?bm5rb0dCTkJ4TFR6MWdVanZLQUhzTEsxTlFudXlYTFRjR3NzUnFtYXljcGVy?=
+ =?utf-8?B?Z1lxdXVvTDRHZ1I3RUZYbkJpTHM4b0c1TWppbktRTWdrZ3Fab3NGTDRvTkxB?=
+ =?utf-8?B?czRnOHR3U2dqWVlRTkFtSEdRaEhKNmVmSXhaRVJRM2tXUVBwUGpoZk9xUUNU?=
+ =?utf-8?B?TmRiMDBCT2Z4dkhNajZ2WnU0WUMyczlEcmtrVW9IQmlDWlR0YmdJa2NpTEFz?=
+ =?utf-8?B?NlRXMTRqRjhiaWEvR1ZWYW5vOHdyMzljMjNLYmFwVHBUbTl0eWJTZ1BobWZ6?=
+ =?utf-8?B?eXpQQ3d3OVpza1FRc25Ia3JWM1JBRjBxcXVVSCtONS9wR3JxSENQNHRxR0NC?=
+ =?utf-8?B?R2RORkNSa1RHNTdYR3k0clEydkd2am1mbWhFUmRvZ084TTA5SjQvR0drQzlM?=
+ =?utf-8?B?OHJJYnpCUEI5cHZ5cWczMFN2anNoaVJlQ3ZQeDFvNllIYk41RUY2ZDNsYUZj?=
+ =?utf-8?B?dnYyQnNyOTEwT0gyTWZlek1OSitwc0RHNi9VZkFXQzVBTkR4SzM1VUcwMHBU?=
+ =?utf-8?B?M08zdmFJc3l2dXpqU3ZFTU9JekRFYXAxQ2xrcFVKbm9xRzBuQkhQZTQ0alFP?=
+ =?utf-8?B?V1FSUW5uUUNuOUtyK1ZOSEFSa0FOZHJhRjRQTkFWaWt6MDFnTXAxeVBJb0sr?=
+ =?utf-8?B?LzB5NDdneTRneCtOSTdpNWVMY2pnSW5pdXJhT2k1ckhiL0dQNXZLUWJBYUpr?=
+ =?utf-8?B?d2lQUUhFdURDL2hZSFdSbzNyRFVaT2NudFFobjdaVVNLckNtOXZPU0QyQjVr?=
+ =?utf-8?B?NnhUZjlQcU1YemZoK2luQ1dZN1FxWXQ2c1FXaHZqdG1PVUhLK1liQjFQT3F6?=
+ =?utf-8?B?MnQwRHlMUGI2MkFDMHpmNTNzdTdBNEZrdE9BUEdRNUcwVVc5d1FrZTkxM1hD?=
+ =?utf-8?B?aDh1QktXWEEwSzZja21OT2tpSmk2OVJhZ25ZakdScTBMK1BhVm1sQ3lxbnpv?=
+ =?utf-8?B?ZFhVbXFDUTczWjlXNTUrWUdic0R4ZDVlUzgraVFoeEdoR1R5MVBXd2dRNVpS?=
+ =?utf-8?B?dWlIR3BZM0VDVjlhMEFCQ2xsbnl0TlFJdnVxWnd1b214WGlSSi81SmdhcEhP?=
+ =?utf-8?B?d2V0dDBISkhLYkNIcWJ2TDRQY2g5RjBldnJhTTZJREZEM1dtUlNMZVFSUFp1?=
+ =?utf-8?B?SXdERHVnMS84VzJqRXk4dmFHVnhHNHNUb1dVQ0VFaHcvcERKNVpIWlBXdCtl?=
+ =?utf-8?B?SXlFYW8wNWVUZmwwYUZYRmN5a0JpZy93cDZqZWFWc0tTcnlsWlF5RUNFb1BT?=
+ =?utf-8?B?MWl6TmxGa2ZTR0ZadlZHNnE3WGE4bm43Yk04Y1pHTm8yRnh1M3FrajFOZTJB?=
+ =?utf-8?B?U0RZN3U2SDVaeE81ZENucCtlQjFFUGcrZWI5MW5iR1NxRVRJazI2TWc0VWRB?=
+ =?utf-8?B?eHF0K3laNXhLbGh3RXR0aERaRCtKd3RtMTAxd1AyNElKZ05PU0s5U2ZNMDdn?=
+ =?utf-8?B?MG93a25RemtUTzJzTS9PczBZaFJFQjRlaFRiTXRGR2lHQ0xUS1R0ZWUxR2c4?=
+ =?utf-8?B?QkQ2QlVFemNBNkc0WlhHZzFSdFQxQ2wyOWFVZXcxazR4bzA3UWdGT24vbkIv?=
+ =?utf-8?B?amw4SnVtUnBmR3MzYWZFbWgrdHppd3Jlbnl3S0RkaCtrWncyb0tHdz09?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a32608ae-b668-462f-9b25-08de9e840568
+X-MS-Exchange-CrossTenant-AuthSource: AM8PR04MB7940.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Apr 2026 02:25:00.0200
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 5/C/QUXynXjgTM6mbnbWFv+Yof7dHSm55W+gwT/H986oLuX7dx3bKjnFnTzxTyosgnEOwP4CUgfPidMX0trdNg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU4PR04MB10622
+X-Spamd-Result: default: False [1.34 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[mailbox.org,reject];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[mailbox.org:s=mail20150812];
+	ARC_REJECT(1.00)[cv is fail on i=2];
+	DMARC_POLICY_ALLOW(-0.50)[nxp.com,none];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	R_DKIM_ALLOW(-0.20)[nxp.com:s=selector1];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-31388-lists,linux-renesas-soc=lfdr.de,renesas];
-	RCPT_COUNT_TWELVE(0.00)[23];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[18];
 	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-31389-lists,linux-renesas-soc=lfdr.de];
+	FREEMAIL_TO(0.00)[bp.renesas.com,gmail.com,intel.com,linaro.org,kernel.org,linux.intel.com,suse.de,ffwll.ch];
 	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_CC(0.00)[bp.renesas.com,mailbox.org,kernel.org,gmail.com,glider.be,ideasonboard.com,renesas.com,baylibre.com,ffwll.ch,suse.de,vger.kernel.org,lists.freedesktop.org];
+	FREEMAIL_CC(0.00)[ideasonboard.com,kwiboo.se,gmail.com,lists.freedesktop.org,vger.kernel.org,glider.be,bp.renesas.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[marek.vasut@mailbox.org,linux-renesas-soc@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[mailbox.org:+];
-	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,dt];
-	MID_RHS_MATCH_FROM(0.00)[];
 	TO_DN_SOME(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 03DBE42554E
+	PRECEDENCE_BULK(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	FROM_NEQ_ENVFROM(0.00)[victor.liu@nxp.com,linux-renesas-soc@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[nxp.com:+];
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
+	MID_RHS_MATCH_FROM(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	REDIRECTOR_URL(0.00)[aka.ms];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[nxp.com:email,nxp.com:dkim,nxp.com:mid,renesas.com:email,aka.ms:url,smarc-rzg3l:email,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: E4C7E4263D3
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-From: Nguyen Tran <nguyen.tran.pz@bp.renesas.com>
+On Fri, Apr 17, 2026 at 10:49:35AM +0000, Biju Das wrote:
+> Hi Liu Ying,
+> 
+> Thanks for the feedback.
+> 
+> 
+>> -----Original Message-----
+>> From: Liu Ying <victor.liu@nxp.com>
+>> Sent: 17 April 2026 07:05
+>> Subject: Re: [PATCH v2] drm/bridge: ite-it6263: Add suspend/resume support
+>>
+>> Hi Biju,
+>>
+>> On Thu, Apr 16, 2026 at 09:29:25AM +0100, Biju wrote:
+>>> [You don't often get email from biju.das.au@gmail.com. Learn why this
+>>> is important at https://aka.ms/LearnAboutSenderIdentification ]
+>>>
+>>> From: Biju Das <biju.das.jz@bp.renesas.com>
+>>>
+>>> On the RZ/G3L SMARC EVK using PSCI, suspend to RAM powers down the ITE
+>>> IT6263 chip. The display controller driver's system PM callbacks
+>>> invoke drm_mode_config_helper_{suspend,resume}, which in turn call the
+>>> bridge's atomic_{disable,enable} callbacks can handle suspend/resume
+>>> for the bridge without dedicated PM ops.
+>>>
+>>> Introduce it6263_bridge_init() and it6263_bridge_uninit() helpers to
+>>> consolidate power sequencing, hardware reset, I2C address setup, and
+>>> LVDS/HDMI configuration. These replace the open-coded init sequence in
+>>> probe() and are hooked into atomic_enable/atomic_disable respectively,
+>>> guarded by a powered flag to avoid redundant re-initialisation.
+>>>
+>>> Switch from devm_regulator_bulk_get_enable() to
+>>> devm_regulator_bulk_get() so that regulators can be explicitly enabled
+>>> and disabled across power cycles. Move reset_gpio and regulator state
+>>> into the it6263 struct so they are accessible beyond probe time.
+>>>
+>>> Add a remove() callback to cleanly power down the bridge on driver
+>>> unbind via it6263_bridge_uninit().
+>>>
+>>> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+>>> ---
+>>> v1->v2:
+>>>  * Dropped system PM callbacks instead using bridge's
+>>>    atomic_{disable,enable} callbacks to handle suspend/resume.
+>>> ---
+>>>  drivers/gpu/drm/bridge/ite-it6263.c | 88
+>>> ++++++++++++++++++++++++-----
+>>>  1 file changed, 73 insertions(+), 15 deletions(-)
 
-Add support for the Geist board based on the Renesas R-Car R8A779MD (M3Le)
-SoC, a register-compatible variant of the R8A77965 (M3-N) with reduced set
-of peripherals. The Geist board design references the Renesas Salvator-X/XS
-boards, adapting their configuration for the R8A779MD SoC.
+[...]
 
-Signed-off-by: Nguyen Tran <nguyen.tran.pz@bp.renesas.com>
-Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
----
-Cc: Conor Dooley <conor+dt@kernel.org>
-Cc: David Airlie <airlied@gmail.com>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
-Cc: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Cc: Magnus Damm <magnus.damm@gmail.com>
-Cc: Maxime Ripard <mripard@kernel.org>
-Cc: Michael Turquette <mturquette@baylibre.com>
-Cc: Rob Herring <robh@kernel.org>
-Cc: Simona Vetter <simona@ffwll.ch>
-Cc: Stephen Boyd <sboyd@kernel.org>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-Cc: devicetree@vger.kernel.org
-Cc: dri-devel@lists.freedesktop.org
-Cc: linux-clk@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
-Cc: linux-renesas-soc@vger.kernel.org
----
- arch/arm64/boot/dts/renesas/Makefile          |   3 +
- .../dts/renesas/geist-panel-aa104xd12.dtso    |  17 +
- .../arm64/boot/dts/renesas/r8a779md-geist.dts | 832 ++++++++++++++++++
- 3 files changed, 852 insertions(+)
- create mode 100644 arch/arm64/boot/dts/renesas/geist-panel-aa104xd12.dtso
- create mode 100644 arch/arm64/boot/dts/renesas/r8a779md-geist.dts
+>>> +static int it6263_bridge_init(struct it6263 *it) {
+>>> +       int ret;
+>>> +
+>>> +       ret = regulator_bulk_enable(it->num_supplies, it->supplies);
+>>> +       if (ret) {
+>>> +               dev_err(it->dev, "failed to enable power supplies\n");
+>>> +               return ret;
+>>> +       }
+>>> +
+>>> +       it6263_hw_reset(it->reset_gpio);
+>>> +
+>>> +       ret = it6263_lvds_set_i2c_addr(it);
+>>> +       if (ret) {
+>>> +               dev_err(it->dev, "failed to set I2C addr\n");
+>>> +               regulator_bulk_disable(it->num_supplies,
+>>> + it->supplies);
+>>
+>> I know that you call it6263_bridge_init() in probe, probably because you want to enable the regulators
+>> for hotplug detect after probe(it6263_detect() reads register HDMI_REG_SYS_STATUS to do the detection).
+>> However, an idea[1] is to wrap the register read operation with regulator_bulk_enable() and
+>> regulator_bulk_disable() in it6263_detect() so that you may drop
+>> it6263_bridge_init() from probe.  With that,  it6263_bridge_init() is now only called from
+>> atomic_enable, which means that the initialization code can be open-coded and the initialization is
+>> supposed to be successful(due to the "atomic" nature) hence no need to do the regulator disablement
+>> bailout(error message in dmesg is sufficient).
+> 
+> it6263_detect() still works with regulator_disable(), see the logs below.
 
-diff --git a/arch/arm64/boot/dts/renesas/Makefile b/arch/arm64/boot/dts/renesas/Makefile
-index ca45d2857ea7f..0b8fbc7b00c6e 100644
---- a/arch/arm64/boot/dts/renesas/Makefile
-+++ b/arch/arm64/boot/dts/renesas/Makefile
-@@ -60,6 +60,9 @@ r8a77965-salvator-xs-panel-aa104xd12-dtbs := r8a77965-salvator-xs.dtb salvator-p
- dtb-$(CONFIG_ARCH_R8A77965) += r8a77965-salvator-xs-panel-aa104xd12.dtb
- dtb-$(CONFIG_ARCH_R8A77965) += r8a77965-ulcb.dtb
- dtb-$(CONFIG_ARCH_R8A77965) += r8a77965-ulcb-kf.dtb
-+dtb-$(CONFIG_ARCH_R8A77965) += r8a779md-geist.dtb
-+r8a779md-geist-panel-aa104xd12-dtbs := r8a779md-geist.dtb geist-panel-aa104xd12.dtbo
-+dtb-$(CONFIG_ARCH_R8A77965) += r8a779md-geist-panel-aa104xd12.dtb
- 
- dtb-$(CONFIG_ARCH_R8A77970) += r8a77970-eagle.dtb
- dtb-$(CONFIG_ARCH_R8A77970) += r8a77970-eagle-function-expansion.dtbo
-diff --git a/arch/arm64/boot/dts/renesas/geist-panel-aa104xd12.dtso b/arch/arm64/boot/dts/renesas/geist-panel-aa104xd12.dtso
-new file mode 100644
-index 0000000000000..c8e39811eb051
---- /dev/null
-+++ b/arch/arm64/boot/dts/renesas/geist-panel-aa104xd12.dtso
-@@ -0,0 +1,17 @@
-+// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
-+/*
-+ * Device Tree overlay for the AA104XD12 panel connected to LVDS0 on a Geist board
-+ *
-+ * Copyright 2026 Marek Vasut
-+ */
-+
-+/dts-v1/;
-+/plugin/;
-+
-+#include <dt-bindings/gpio/gpio.h>
-+
-+#include "salvator-panel-aa104xd12.dtso"
-+
-+&{/panel} {
-+	data-mapping = "jeida-24";
-+};
-diff --git a/arch/arm64/boot/dts/renesas/r8a779md-geist.dts b/arch/arm64/boot/dts/renesas/r8a779md-geist.dts
-new file mode 100644
-index 0000000000000..1a25acf638ea1
---- /dev/null
-+++ b/arch/arm64/boot/dts/renesas/r8a779md-geist.dts
-@@ -0,0 +1,832 @@
-+// SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+/*
-+ * Device Tree Source for the Geist board with R-Car M3Le
-+ *
-+ * Copyright (C) 2025-2026 Renesas Electronics Corp.
-+ */
-+
-+/dts-v1/;
-+#include <dt-bindings/gpio/gpio.h>
-+#include <dt-bindings/input/input.h>
-+#include "r8a779md.dtsi"
-+
-+/ {
-+	model = "Renesas Geist board based on r8a779md";
-+	compatible = "renesas,geist", "renesas,r8a779md", "renesas,r8a77965";
-+
-+	aliases {
-+		serial0 = &scif2;
-+		serial1 = &hscif1;
-+		ethernet0 = &avb;
-+		mmc0 = &sdhi2;
-+		mmc1 = &sdhi0;
-+	};
-+
-+	chosen {
-+		bootargs = "ignore_loglevel rw root=/dev/nfs ip=on";
-+		stdout-path = "serial0:115200n8";
-+	};
-+
-+	memory@48000000 {
-+		device_type = "memory";
-+		/* first 128MB is reserved for secure area. */
-+		reg = <0x0 0x48000000 0x0 0x78000000>;
-+	};
-+
-+	reserved-memory {
-+		#address-cells = <2>;
-+		#size-cells = <2>;
-+		ranges;
-+
-+		/* Device specific region for Lossy Decompression */
-+		lossy_decompress: linux,lossy_decompress@54000000 {
-+			no-map;
-+			reg = <0x00000000 0x54000000 0x0 0x03000000>;
-+		};
-+	};
-+
-+	audio_clkout: audio-clkout {
-+		/*
-+		 * FIXME
-+		 * This is same as <&rcar_sound 0>
-+		 * but needed to avoid cs2500/rcar_sound probe dead-lock
-+		 */
-+		compatible = "fixed-clock";
-+		#clock-cells = <0>;
-+		clock-frequency = <12288000>;
-+	};
-+
-+	backlight: backlight {
-+		compatible = "pwm-backlight";
-+		pwms = <&pwm1 0 50000>;
-+
-+		brightness-levels = <256 128 64 16 8 4 0>;
-+		default-brightness-level = <6>;
-+
-+		power-supply = <&reg_12v>;
-+		enable-gpios = <&gpio6 7 GPIO_ACTIVE_HIGH>;
-+	};
-+
-+	cvbs-in {
-+		compatible = "composite-video-connector";
-+		label = "CVBS IN";
-+
-+		port {
-+			cvbs_con: endpoint {
-+				remote-endpoint = <&adv7482_ain7>;
-+			};
-+		};
-+	};
-+
-+	hdmi-in {
-+		compatible = "hdmi-connector";
-+		label = "HDMI IN";
-+		type = "a";
-+
-+		port {
-+			hdmi_in_con: endpoint {
-+				remote-endpoint = <&adv7482_hdmi>;
-+			};
-+		};
-+	};
-+
-+	keys {
-+		compatible = "gpio-keys";
-+
-+		pinctrl-0 = <&keys_pins>;
-+		pinctrl-names = "default";
-+
-+		key-1 {
-+			gpios = <&gpio5 17 GPIO_ACTIVE_LOW>;
-+			linux,code = <KEY_1>;
-+			label = "SW4-1";
-+			wakeup-source;
-+			debounce-interval = <20>;
-+		};
-+
-+		key-2 {
-+			gpios = <&gpio5 20 GPIO_ACTIVE_LOW>;
-+			linux,code = <KEY_2>;
-+			label = "SW4-2";
-+			wakeup-source;
-+			debounce-interval = <20>;
-+		};
-+
-+		key-3 {
-+			gpios = <&gpio5 22 GPIO_ACTIVE_LOW>;
-+			linux,code = <KEY_3>;
-+			label = "SW4-3";
-+			wakeup-source;
-+			debounce-interval = <20>;
-+		};
-+
-+		key-4 {
-+			gpios = <&gpio5 23 GPIO_ACTIVE_LOW>;
-+			linux,code = <KEY_4>;
-+			label = "SW4-4";
-+			wakeup-source;
-+			debounce-interval = <20>;
-+		};
-+
-+		key-a {
-+			gpios = <&gpio6 11 GPIO_ACTIVE_LOW>;
-+			linux,code = <KEY_A>;
-+			label = "TSW0";
-+			wakeup-source;
-+			debounce-interval = <20>;
-+		};
-+
-+		key-b {
-+			gpios = <&gpio6 12 GPIO_ACTIVE_LOW>;
-+			linux,code = <KEY_B>;
-+			label = "TSW1";
-+			wakeup-source;
-+			debounce-interval = <20>;
-+		};
-+
-+		key-c {
-+			gpios = <&gpio6 13 GPIO_ACTIVE_LOW>;
-+			linux,code = <KEY_C>;
-+			label = "TSW2";
-+			wakeup-source;
-+			debounce-interval = <20>;
-+		};
-+	};
-+
-+	reg_1p8v: regulator0 {
-+		compatible = "regulator-fixed";
-+		regulator-name = "fixed-1.8V";
-+		regulator-min-microvolt = <1800000>;
-+		regulator-max-microvolt = <1800000>;
-+		regulator-boot-on;
-+		regulator-always-on;
-+	};
-+
-+	reg_3p3v: regulator1 {
-+		compatible = "regulator-fixed";
-+		regulator-name = "fixed-3.3V";
-+		regulator-min-microvolt = <3300000>;
-+		regulator-max-microvolt = <3300000>;
-+		regulator-boot-on;
-+		regulator-always-on;
-+	};
-+
-+	reg_12v: regulator2 {
-+		compatible = "regulator-fixed";
-+		regulator-name = "fixed-12V";
-+		regulator-min-microvolt = <12000000>;
-+		regulator-max-microvolt = <12000000>;
-+		regulator-boot-on;
-+		regulator-always-on;
-+	};
-+
-+	sound_card: sound {
-+		compatible = "audio-graph-card";
-+
-+		label = "rcar-sound";
-+		dais = <&rsnd_port0>; /* AK4619 Audio Codec */
-+	};
-+
-+	vbus0_usb2: regulator-vbus0-usb2 {
-+		compatible = "regulator-fixed";
-+
-+		regulator-name = "USB20_VBUS0";
-+		regulator-min-microvolt = <5000000>;
-+		regulator-max-microvolt = <5000000>;
-+
-+		gpio = <&gpio6 16 GPIO_ACTIVE_HIGH>;
-+		enable-active-high;
-+	};
-+
-+	vcc_sdhi0: regulator-vcc-sdhi0 {
-+		compatible = "regulator-fixed";
-+
-+		regulator-name = "SDHI0 Vcc";
-+		regulator-min-microvolt = <3300000>;
-+		regulator-max-microvolt = <3300000>;
-+
-+		gpio = <&gpio5 2 GPIO_ACTIVE_HIGH>;
-+		enable-active-high;
-+	};
-+
-+	vccq_sdhi0: regulator-vccq-sdhi0 {
-+		compatible = "regulator-gpio";
-+
-+		regulator-name = "SDHI0 VccQ";
-+		regulator-min-microvolt = <1800000>;
-+		regulator-max-microvolt = <3300000>;
-+
-+		gpios = <&gpio5 1 GPIO_ACTIVE_HIGH>;
-+		gpios-states = <1>;
-+		states = <3300000 1>, <1800000 0>;
-+	};
-+
-+	vga {
-+		compatible = "vga-connector";
-+
-+		port {
-+			vga_in: endpoint {
-+				remote-endpoint = <&adv7123_out>;
-+			};
-+		};
-+	};
-+
-+	vga-encoder {
-+		compatible = "adi,adv7123";
-+
-+		ports {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+
-+			port@0 {
-+				reg = <0>;
-+				adv7123_in: endpoint {
-+					remote-endpoint = <&du_out_rgb>;
-+				};
-+			};
-+			port@1 {
-+				reg = <1>;
-+				adv7123_out: endpoint {
-+					remote-endpoint = <&vga_in>;
-+				};
-+			};
-+		};
-+	};
-+
-+	x12_clk: x12 {
-+		compatible = "fixed-clock";
-+		#clock-cells = <0>;
-+		clock-frequency = <24576000>;
-+	};
-+
-+	/* External DU dot clocks */
-+	x21_clk: x21-clock {
-+		compatible = "fixed-clock";
-+		#clock-cells = <0>;
-+		clock-frequency = <33000000>;
-+	};
-+
-+	x22_clk: x22-clock {
-+		compatible = "fixed-clock";
-+		#clock-cells = <0>;
-+		clock-frequency = <33000000>;
-+	};
-+
-+	x23_clk: x23-clock {
-+		compatible = "fixed-clock";
-+		#clock-cells = <0>;
-+		clock-frequency = <25000000>;
-+	};
-+
-+	x3013_clk: x3013-clock {
-+		compatible = "fixed-clock";
-+		#clock-cells = <0>;
-+		clock-frequency = <25000000>;
-+	};
-+};
-+
-+&audio_clk_a {
-+	clock-frequency = <22579200>;
-+};
-+
-+&avb {
-+	pinctrl-0 = <&avb_pins>;
-+	pinctrl-names = "default";
-+	phy-handle = <&phy0>;
-+	tx-internal-delay-ps = <2000>;
-+	status = "okay";
-+
-+	phy0: ethernet-phy@0 {
-+		rxc-skew-ps = <1500>;
-+		reg = <0>;
-+		interrupt-parent = <&gpio2>;
-+		interrupts = <11 IRQ_TYPE_LEVEL_LOW>;
-+		reset-gpios = <&gpio2 10 GPIO_ACTIVE_LOW>;
-+		reset-assert-us = <100>;
-+		reset-deassert-us = <100>;
-+	};
-+};
-+
-+&csi40 {
-+	status = "okay";
-+
-+	ports {
-+		port@0 {
-+			csi40_in: endpoint {
-+				clock-lanes = <0>;
-+				data-lanes = <1 2 3 4>;
-+				remote-endpoint = <&adv7482_txa>;
-+			};
-+		};
-+	};
-+};
-+
-+&du {
-+	pinctrl-0 = <&du_pins>;
-+	pinctrl-names = "default";
-+	clocks = <&cpg CPG_MOD 724>,
-+		 <&cpg CPG_MOD 723>,
-+		 <&cpg CPG_MOD 721>,
-+		 <&versaclock5 1>,
-+		 <&x21_clk>,
-+		 <&versaclock5 2>;
-+	clock-names = "du.0", "du.1", "du.3",
-+		      "dclkin.0", "dclkin.1", "dclkin.3";
-+	status = "okay";
-+
-+	ports {
-+		port@0 {
-+			du_out_rgb: endpoint {
-+				remote-endpoint = <&adv7123_in>;
-+			};
-+		};
-+	};
-+};
-+
-+&ehci0 {
-+	dr_mode = "otg";
-+	status = "okay";
-+};
-+
-+&ehci1 {
-+	status = "okay";
-+};
-+
-+&extalr_clk {
-+	clock-frequency = <32768>;
-+};
-+
-+&extal_clk {
-+	clock-frequency = <16666666>;
-+};
-+
-+&hscif1 {
-+	pinctrl-0 = <&hscif1_pins>;
-+	pinctrl-names = "default";
-+
-+	uart-has-rtscts;
-+	/* Please only enable hscif1 or scif1 */
-+	status = "okay";
-+};
-+
-+&hsusb {
-+	dr_mode = "otg";
-+	status = "okay";
-+};
-+
-+&i2c2 {
-+	pinctrl-0 = <&i2c2_pins>;
-+	pinctrl-names = "default";
-+	clock-frequency = <100000>;
-+	status = "okay";
-+
-+	ak4619: codec@10 {
-+		compatible = "asahi-kasei,ak4619";
-+		reg = <0x10>;
-+		clocks = <&rcar_sound 3>;
-+		clock-names = "mclk";
-+		#sound-dai-cells = <0>;
-+
-+		port {
-+			ak4619_endpoint: endpoint {
-+				remote-endpoint = <&rsnd_endpoint0>;
-+			};
-+		};
-+	};
-+
-+	/* Pin-to-pin, register map, and control compatible with CS2000 and CS2200 */
-+	cs2500: clk_multiplier@4f {
-+		#clock-cells = <0>;
-+		compatible = "cirrus,cs2500-cp", "cirrus,cs2000-cp";
-+		reg = <0x4f>;
-+		clocks = <&audio_clkout>, <&x12_clk>;
-+		clock-names = "clk_in", "ref_clk";
-+
-+		assigned-clocks = <&cs2500>;
-+		assigned-clock-rates = <24576000>; /* 1/1 divide */
-+	};
-+};
-+
-+&i2c4 {
-+	clock-frequency = <400000>;
-+	status = "okay";
-+
-+	versaclock3: clock-generator@68 {
-+		compatible = "renesas,5p35023";
-+		reg = <0x68>;
-+		#clock-cells = <1>;
-+		clocks = <&x3013_clk>;
-+		assigned-clocks = <&versaclock3 4>, <&versaclock3 5>;
-+		assigned-clock-rates = <100000000>, <100000000>;
-+	};
-+
-+	versaclock5: clock-generator@6a {
-+		compatible = "idt,5p49v5923";
-+		reg = <0x6a>;
-+		#clock-cells = <1>;
-+		clocks = <&x23_clk>;
-+		clock-names = "xin";
-+	};
-+
-+	video-receiver@70 {
-+		compatible = "adi,adv7482";
-+		reg = <0x70 0x71 0x72 0x73 0x74 0x75
-+		       0x60 0x61 0x62 0x63 0x64 0x65>;
-+		reg-names = "main", "dpll", "cp", "hdmi", "edid", "repeater",
-+			    "infoframe", "cbus", "cec", "sdp", "txa", "txb" ;
-+
-+		interrupt-parent = <&gpio6>;
-+		interrupts = <30 IRQ_TYPE_LEVEL_LOW>,
-+			     <31 IRQ_TYPE_LEVEL_LOW>;
-+		interrupt-names = "intrq1", "intrq2";
-+
-+		ports {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+
-+			port@7 {
-+				reg = <7>;
-+
-+				adv7482_ain7: endpoint {
-+					remote-endpoint = <&cvbs_con>;
-+				};
-+			};
-+
-+			port@8 {
-+				reg = <8>;
-+
-+				adv7482_hdmi: endpoint {
-+					remote-endpoint = <&hdmi_in_con>;
-+				};
-+			};
-+
-+			port@a {
-+				reg = <10>;
-+
-+				adv7482_txa: endpoint {
-+					clock-lanes = <0>;
-+					data-lanes = <1 2 3 4>;
-+					remote-endpoint = <&csi40_in>;
-+				};
-+			};
-+		};
-+	};
-+
-+	csa_vdd: adc@7c {
-+		compatible = "maxim,max9611";
-+		reg = <0x7c>;
-+
-+		shunt-resistor-micro-ohms = <5000>;
-+	};
-+
-+	csa_dvfs: adc@7f {
-+		compatible = "maxim,max9611";
-+		reg = <0x7f>;
-+
-+		shunt-resistor-micro-ohms = <5000>;
-+	};
-+};
-+
-+&i2c_dvfs {
-+	status = "okay";
-+
-+	clock-frequency = <400000>;
-+
-+	eeprom@50 {
-+		compatible = "rohm,br24t01", "atmel,24c01";
-+		reg = <0x50>;
-+		pagesize = <8>;
-+	};
-+};
-+
-+&ohci0 {
-+	dr_mode = "otg";
-+	status = "okay";
-+};
-+
-+&ohci1 {
-+	status = "okay";
-+};
-+
-+&pcie_bus_clk {
-+	status = "disabled";
-+};
-+
-+&pciec0 {
-+	clocks = <&cpg CPG_MOD 319>, <&versaclock3 4>;
-+	status = "okay";
-+};
-+
-+&pciec0_rp {
-+	clocks = <&versaclock3 5>;
-+};
-+
-+&pfc {
-+	pinctrl-0 = <&scif_clk_pins>;
-+	pinctrl-names = "default";
-+
-+	avb_pins: avb {
-+		mux {
-+			groups = "avb_link", "avb_mdio", "avb_mii";
-+			function = "avb";
-+		};
-+
-+		pins_mdio {
-+			groups = "avb_mdio";
-+			drive-strength = <24>;
-+		};
-+
-+		pins_mii_tx {
-+			pins = "PIN_AVB_TX_CTL", "PIN_AVB_TXC", "PIN_AVB_TD0",
-+			       "PIN_AVB_TD1", "PIN_AVB_TD2", "PIN_AVB_TD3";
-+			drive-strength = <12>;
-+		};
-+	};
-+
-+	du_pins: du {
-+		groups = "du_rgb888", "du_sync", "du_oddf", "du_clk_out_0";
-+		function = "du";
-+	};
-+
-+	hscif1_pins: hscif1 {
-+		groups = "hscif1_data_a", "hscif1_ctrl_a";
-+		function = "hscif1";
-+	};
-+
-+	i2c2_pins: i2c2 {
-+		groups = "i2c2_a";
-+		function = "i2c2";
-+	};
-+
-+	irq0_pins: irq0 {
-+		groups = "intc_ex_irq0";
-+		function = "intc_ex";
-+	};
-+
-+	keys_pins: keys {
-+		pins = "GP_5_17", "GP_5_20", "GP_5_22";
-+		bias-pull-up;
-+	};
-+
-+	pwm1_pins: pwm1 {
-+		groups = "pwm1_a";
-+		function = "pwm1";
-+	};
-+
-+	pwm2_pins: pwm2 {
-+		groups = "pwm2_a";
-+		function = "pwm2";
-+	};
-+
-+	scif1_pins: scif1 {
-+		groups = "scif1_data_a", "scif1_ctrl";
-+		function = "scif1";
-+	};
-+
-+	scif2_pins: scif2 {
-+		groups = "scif2_data_a";
-+		function = "scif2";
-+	};
-+
-+	scif_clk_pins: scif_clk {
-+		groups = "scif_clk_a";
-+		function = "scif_clk";
-+	};
-+
-+	sdhi0_pins: sd0 {
-+		groups = "sdhi0_data4", "sdhi0_ctrl";
-+		function = "sdhi0";
-+		power-source = <3300>;
-+	};
-+
-+	sdhi0_pins_uhs: sd0_uhs {
-+		groups = "sdhi0_data4", "sdhi0_ctrl";
-+		function = "sdhi0";
-+		power-source = <1800>;
-+	};
-+
-+	sdhi2_pins: sd2 {
-+		groups = "sdhi2_data8", "sdhi2_ctrl", "sdhi2_ds";
-+		function = "sdhi2";
-+		power-source = <1800>;
-+	};
-+
-+	sound_pins: sound {
-+		groups = "ssi01239_ctrl", "ssi0_data", "ssi1_data_a";
-+		function = "ssi";
-+	};
-+
-+	sound_clk_pins: sound_clk {
-+		groups = "audio_clk_a_a", "audio_clk_b_a", "audio_clk_c_a",
-+			 "audio_clkout_a", "audio_clkout3_a";
-+		function = "audio_clk";
-+	};
-+
-+	usb0_pins: usb0 {
-+		groups = "usb0";
-+		function = "usb0";
-+	};
-+
-+	usb1_pins: usb1 {
-+		mux {
-+			groups = "usb1";
-+			function = "usb1";
-+		};
-+
-+		ovc {
-+			pins = "GP_6_27";
-+			bias-pull-up;
-+		};
-+
-+		pwen {
-+			pins = "GP_6_26";
-+			bias-pull-down;
-+		};
-+	};
-+};
-+
-+&pwm1 {
-+	pinctrl-0 = <&pwm1_pins>;
-+	pinctrl-names = "default";
-+
-+	status = "okay";
-+};
-+
-+&pwm2 {
-+	pinctrl-0 = <&pwm2_pins>;
-+	pinctrl-names = "default";
-+
-+	status = "okay";
-+};
-+
-+&rcar_sound {
-+	pinctrl-0 = <&sound_pins>, <&sound_clk_pins>;
-+	pinctrl-names = "default";
-+
-+	/* Single DAI */
-+	#sound-dai-cells = <0>;
-+
-+	/* audio_clkout0/1/2/3 */
-+	#clock-cells = <1>;
-+	clock-frequency = <12288000 11289600>;
-+
-+	status = "okay";
-+
-+	/* update <audio_clk_b> to <cs2500> */
-+	clocks = <&cpg CPG_MOD 1005>,
-+		 <&cpg CPG_MOD 1006>, <&cpg CPG_MOD 1007>,
-+		 <&cpg CPG_MOD 1008>, <&cpg CPG_MOD 1009>,
-+		 <&cpg CPG_MOD 1010>, <&cpg CPG_MOD 1011>,
-+		 <&cpg CPG_MOD 1012>, <&cpg CPG_MOD 1013>,
-+		 <&cpg CPG_MOD 1014>, <&cpg CPG_MOD 1015>,
-+		 <&cpg CPG_MOD 1022>, <&cpg CPG_MOD 1023>,
-+		 <&cpg CPG_MOD 1024>, <&cpg CPG_MOD 1025>,
-+		 <&cpg CPG_MOD 1026>, <&cpg CPG_MOD 1027>,
-+		 <&cpg CPG_MOD 1028>, <&cpg CPG_MOD 1029>,
-+		 <&cpg CPG_MOD 1030>, <&cpg CPG_MOD 1031>,
-+		 <&cpg CPG_MOD 1020>, <&cpg CPG_MOD 1021>,
-+		 <&cpg CPG_MOD 1020>, <&cpg CPG_MOD 1021>,
-+		 <&cpg CPG_MOD 1019>, <&cpg CPG_MOD 1018>,
-+		 <&audio_clk_a>, <&cs2500>,
-+		 <&audio_clk_c>,
-+		 <&cpg CPG_MOD 922>;
-+
-+	ports {
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+
-+		rsnd_port0: port {
-+			rsnd_endpoint0: endpoint {
-+				remote-endpoint = <&ak4619_endpoint>;
-+				dai-format = "left_j";
-+				bitclock-master = <&rsnd_endpoint0>;
-+				frame-master = <&rsnd_endpoint0>;
-+				playback = <&ssi0>, <&src0>, <&dvc0>;
-+				capture = <&ssi1>, <&src1>, <&dvc1>;
-+			};
-+		};
-+	};
-+};
-+
-+&rwdt {
-+	timeout-sec = <60>;
-+	status = "okay";
-+};
-+
-+&scif1 {
-+	pinctrl-0 = <&scif1_pins>;
-+	pinctrl-names = "default";
-+
-+	uart-has-rtscts;
-+	/* Please only enable hscif1 or scif1 */
-+	/* status = "okay"; */
-+};
-+
-+&scif2 {
-+	pinctrl-0 = <&scif2_pins>;
-+	pinctrl-names = "default";
-+
-+	status = "okay";
-+};
-+
-+&scif_clk {
-+	clock-frequency = <14745600>;
-+};
-+
-+&sdhi0 {
-+	pinctrl-0 = <&sdhi0_pins>;
-+	pinctrl-1 = <&sdhi0_pins_uhs>;
-+	pinctrl-names = "default", "state_uhs";
-+
-+	vmmc-supply = <&vcc_sdhi0>;
-+	vqmmc-supply = <&vccq_sdhi0>;
-+	cd-gpios = <&gpio3 12 GPIO_ACTIVE_LOW>;
-+	wp-gpios = <&gpio3 13 GPIO_ACTIVE_HIGH>;
-+	bus-width = <4>;
-+	sd-uhs-sdr50;
-+	sd-uhs-sdr104;
-+	status = "okay";
-+};
-+
-+&sdhi2 {
-+	/* used for on-board 8bit eMMC */
-+	pinctrl-0 = <&sdhi2_pins>;
-+	pinctrl-1 = <&sdhi2_pins>;
-+	pinctrl-names = "default", "state_uhs";
-+
-+	iommus = <&ipmmu_ds1 34>;
-+
-+	vmmc-supply = <&reg_3p3v>;
-+	vqmmc-supply = <&reg_1p8v>;
-+	bus-width = <8>;
-+	mmc-hs200-1_8v;
-+	no-sd;
-+	no-sdio;
-+	non-removable;
-+	fixed-emmc-driver-type = <1>;
-+	full-pwr-cycle-in-suspend;
-+	status = "okay";
-+};
-+
-+&ssi1 {
-+	shared-pin;
-+};
-+
-+&usb_extal_clk {
-+	clock-frequency = <50000000>;
-+};
-+
-+&usb2_phy0 {
-+	pinctrl-0 = <&usb0_pins>;
-+	pinctrl-names = "default";
-+
-+	vbus-supply = <&vbus0_usb2>;
-+	status = "okay";
-+};
-+
-+&usb2_phy1 {
-+	pinctrl-0 = <&usb1_pins>;
-+	pinctrl-names = "default";
-+
-+	status = "okay";
-+};
-+
-+&vin0 {
-+	status = "okay";
-+};
-+
-+&vin1 {
-+	status = "okay";
-+};
-+
-+&vin2 {
-+	status = "okay";
-+};
-+
-+&vin3 {
-+	status = "okay";
-+};
-+
-+&vin4 {
-+	status = "okay";
-+};
-+
-+&vin5 {
-+	status = "okay";
-+};
-+
-+&vin6 {
-+	status = "okay";
-+};
-+
-+&vin7 {
-+	status = "okay";
-+};
-+
-+&vspb {
-+	status = "okay";
-+};
-+
-+&vspi0 {
-+	status = "okay";
-+};
+I guess that it works for you on RZ/G3L SMARC EVK because regulators are
+already enabled by PSCI before this driver's probe.  But there could be
+platforms which use dedicated regulators(like discrete PMICs) for IT6263,
+which means the regulators are not yet enabled before probe.
+
+> 
+> 
+>>
+>>> +               return ret;
+>>> +       }
+>>> +
+>>> +       it6263_lvds_config(it);
+>>> +       it6263_hdmi_config(it);
+>>> +
+>>> +       it->powered = true;
+>>
+>> If you drop it6263_bridge_init() from probe, I think 'powered' flag can be dropped too.
+>>
+>>> +
+>>> +       return 0;
+>>> +}
+>>> +
+>>> +static int it6263_bridge_uninit(struct it6263 *it) {
+>>> +       regulator_bulk_disable(it->num_supplies, it->supplies);
+>>> +       it->powered = false;
+>>> +
+>>> +       return 0;
+>>> +}
+>>> +
+>>>  static void it6263_bridge_atomic_disable(struct drm_bridge *bridge,
+>>>                                          struct drm_atomic_state
+>>> *state)  { @@ -587,6 +626,8 @@ static void
+>>> it6263_bridge_atomic_disable(struct drm_bridge *bridge,
+>>>         regmap_write(it->hdmi_regmap, HDMI_REG_PKT_GENERAL_CTRL, 0);
+>>>         regmap_write(it->hdmi_regmap, HDMI_REG_AFE_DRV_CTRL,
+>>>                      AFE_DRV_RST | AFE_DRV_PWD);
+>>> +
+>>> +       it6263_bridge_uninit(it);
+>>
+>> Well, this could effectively disable the regulators and hotplug detection
+>> won't work then.   So, again, the above idea[1] helps.
+> 
+> Is it not working on your setup? It works for me.
+
+My setup uses always-on regulators, so detect works for me as well even if
+regulators are not explicitly enabled/disabled in detect callback.  But,
+as I mentioned above, we need to enable/disable regulators in detect callback
+(also in edid_read callback) after atomic_disable is done for those platforms
+which use dedicated regulators.
+
+> 
+> 
+> root@smarc-rzg3l:~# [   33.512618] ####it6263_detect####
+> [   44.008621] ####it6263_detect####
+> [   54.504623] ####it6263_detect####
+> [   65.000602] ####it6263_detect####
+> [   65.227743] ####it6263_detect####
+> [   65.233322] ####it6263_bridge_atomic_disable####
+> [   75.240637] ####it6263_detect####
+> [   85.480628] ####it6263_detect####
+> [   95.720662] ####it6263_detect####
+> [  105.960640] ####it6263_detect####
+> [  116.200647] ####it6263_detect####
+> [  126.440635] ####it6263_detect####
+> [  127.048981] ####it6263_detect####
+> [  127.517962] ####it6263_bridge_atomic_enable####
+
+[...]
+
+>>> @@ -858,13 +901,21 @@ static int it6263_probe(struct i2c_client *client)
+>>>                 return dev_err_probe(dev, PTR_ERR(it->hdmi_regmap),
+>>>                                      "failed to init I2C regmap for
+>>> HDMI\n");
+>>>
+>>> -       reset_gpio = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_LOW);
+>>> -       if (IS_ERR(reset_gpio))
+>>> -               return dev_err_probe(dev, PTR_ERR(reset_gpio),
+>>> +       it->reset_gpio = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_LOW);
+>>> +       if (IS_ERR(it->reset_gpio))
+>>> +               return dev_err_probe(dev, PTR_ERR(it->reset_gpio),
+>>>                                      "failed to get reset gpio\n");
+>>>
+>>> -       ret = devm_regulator_bulk_get_enable(dev, ARRAY_SIZE(it6263_supplies),
+>>> -                                            it6263_supplies);
+>>> +       it->num_supplies = ARRAY_SIZE(it6263_supplies);
+>>> +       it->supplies = devm_kcalloc(dev, it->num_supplies,
+>>> +                                   sizeof(*it->supplies), GFP_KERNEL);
+>>> +       if (!it->supplies)
+>>> +               return -ENOMEM;
+>>> +
+>>> +       for (unsigned int i = 0; i < it->num_supplies; i++)
+>>
+>> Nit: I would define i together with the other local variables at the beginning of this function.
+> 
+> "i" is used here only. For me it is better than putting at the top.
+> 
+> I got feedback from other subsystem maintainer to use unsigned here
+> as the scope is within for loop.
+
+Ack.
+
+> 
+> Cheers,
+> Biju
+
 -- 
-2.53.0
-
+Regards,
+Liu Ying
 
