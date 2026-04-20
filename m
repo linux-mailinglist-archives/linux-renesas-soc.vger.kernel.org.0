@@ -1,65 +1,62 @@
-Return-Path: <linux-renesas-soc+bounces-31415-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-31416-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id ICzKAoU85mlutgEAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-31415-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Apr 2026 16:47:33 +0200
+	id qIK7FIQ/5mlutgEAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-31416-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Apr 2026 17:00:20 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8948A42D738
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Apr 2026 16:47:32 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 89B6042DB39
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Apr 2026 17:00:19 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id F37E4327A3D4
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Apr 2026 14:08:32 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id A01D0317E047
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Apr 2026 14:21:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 27E9D3CEB9E;
-	Mon, 20 Apr 2026 13:29:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EBB8F3A7827;
+	Mon, 20 Apr 2026 13:31:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eKX0B856"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="H4sj9cUB"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F117D3CEB95;
-	Mon, 20 Apr 2026 13:29:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C74BD47D95B;
+	Mon, 20 Apr 2026 13:31:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776691752; cv=none; b=jCIxD1ycGMZ0iHUzlrmBNmApmo+eFH00pmzdLom/JLXikrNtpq3Q3bHuYMsdkB+67ckKSWHaXXePmKv+tYgCxmtrraqEl4VO8GnLU4TnAr5yaQH0kjsotqbcZ5lsAudzhRiP0P6a6Hmv7BmEa1GoKQD49JOBPp2u26hNNZV15to=
+	t=1776691864; cv=none; b=MNjgamWXKDnXTyryLi3acjG6z1QB+s7lB5kFwCY6CdBusp86I7OvUshm4TLK21SiZM8mmB/fb+qYmxGiPuBNJg0aDluZqNLGM6UQRps7mOqdCAjRKN295wx8xhkOp2j7xwbXhOQ2EbEuAJZuAUkhDcBCGeYIg11x+pLUWp4nAk8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776691752; c=relaxed/simple;
-	bh=ScQ6dAwJ3nJ1e211k15M5MBZcZrbS/VbzJqrbbcJTHk=;
+	s=arc-20240116; t=1776691864; c=relaxed/simple;
+	bh=p+miuKebyEkDvBVixwjD7RhAs0poaZqjuya0RUreiyg=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=oC7VS1LhqsiDOfPlTUV7NxXX5IAWXd8fnf7lSKkRBM/O7ZDAwUw7s5Ih4uaDMjbokpdL/6Z8fIh1HFKyfK9gObpQje8BzVol77wTnwXmmezR6XPyKQZRu78zfRfoPZ05i65r15AJBU+PSu7sogl5b28dlFMxHVvHkXdU1FiAt+0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eKX0B856; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B2DFC2BCB6;
-	Mon, 20 Apr 2026 13:29:10 +0000 (UTC)
+	 MIME-Version:Content-Type; b=H9fN9hUNGiRV9xu354pSVGRnfB00G004VMTuCFDThwS8P+NsKqDCLg569uM8P+GbrQrAIBxioft/7R5vtPfDP6PLcSx/MQzPor870+eon6MHtpYWGhEUdMyUvyL7Ja/M/C38eSRcQe/FyvKoAC7LfYYq4csgl0Y8O1Ri/h86/To=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=H4sj9cUB; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 962B3C19425;
+	Mon, 20 Apr 2026 13:31:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776691751;
-	bh=ScQ6dAwJ3nJ1e211k15M5MBZcZrbS/VbzJqrbbcJTHk=;
+	s=k20201202; t=1776691864;
+	bh=p+miuKebyEkDvBVixwjD7RhAs0poaZqjuya0RUreiyg=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=eKX0B856ruMt1RXYsgZAxzKytIq77dfiapxsAX3qqkoW+4ZvbrowvTjK0v5AvLHL9
-	 YGNvefvjZcaqGNafDC6Bi+HcCNg5oAsGR9c2oWskj0Y0JNTe075z2cXXkP7FEYRz8b
-	 oVx6zt88FfPfpSP9pqzbNlx5UbIb5IIz40s3Q6Fn2HB3gh/Xjd0ONoN24pW8CVc+Cx
-	 BFeLzExyeGD47S9tnsoAD1ex6yuxY9WFJwAxdaoc2Ji6vLSBTgfBeTm8sNd0/3AVu1
-	 SqlNrPiNTzyzUU/wWEO1dL8N8aOZCHCNkGqOkd9Lr/l3SW+O12TatmvaNJnj54z7kp
-	 CU3cOEhNbxgRQ==
+	b=H4sj9cUBIYGIpO0Tp+e4swjKrgoQDJ9Q4nssnz5tFcZnWXaqLIQhewLgE0tWiE7NV
+	 s4oV36qpFraAA8nObpi76D6laKxxUdTftqQJRNUig0DD9JW/VPXpT9O8Bc4AdkRFVM
+	 XhA4QYe2W62i/zEOfha5UcPGIIXl9PIc+6XJOizqFrA2y8Fx+JHX2blwfYdTr2LPMw
+	 Err2oFKRSCf9p5939vp81xds/BBHbRWHET/2vH8m95SO5Xdd2DeIDAdb1Kno9UvBc6
+	 ADqnGBeAsv4os+U6cOgF05NBH0jHBF1HINcn5gS5Skg6OhHaR0nxN/OJWHdLwf/3KY
+	 OJ9VP0iBclnyQ==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Hans Verkuil <hverkuil+cisco@kernel.org>,
+Cc: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	Mark Brown <broonie@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
-	laurent.pinchart@ideasonboard.com,
-	kieran.bingham+renesas@ideasonboard.com,
-	mchehab@kernel.org,
-	linux-media@vger.kernel.org,
+	fabrizio.castro.jz@renesas.com,
+	linux-spi@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 7.0-5.15] media: renesas: vsp1: histo: Fix code enumeration
-Date: Mon, 20 Apr 2026 09:19:26 -0400
-Message-ID: <20260420132314.1023554-172-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 7.0] spi: rzv2h-rspi: Fix max_speed_hz advertising prohibited bit rate
+Date: Mon, 20 Apr 2026 09:20:33 -0400
+Message-ID: <20260420132314.1023554-239-sashal@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260420132314.1023554-1-sashal@kernel.org>
 References: <20260420132314.1023554-1-sashal@kernel.org>
@@ -74,368 +71,327 @@ X-Patchwork-Hint: Ignore
 X-stable-base: Linux 7.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [0.34 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-1.16 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-31415-lists,linux-renesas-soc=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-31416-lists,linux-renesas-soc=lfdr.de];
+	FROM_HAS_DN(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
+	RCVD_TLS_LAST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[12];
-	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
 	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[sashal@kernel.org,linux-renesas-soc@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[linux-renesas-soc];
+	RCPT_COUNT_SEVEN(0.00)[9];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,cisco];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sgid.link:url,ideasonboard.com:email,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,msgid.link:url,renesas.com:email]
-X-Rspamd-Queue-Id: 8948A42D738
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,msgid.link:url,renesas.com:email]
+X-Rspamd-Queue-Id: 89B6042DB39
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-[ Upstream commit a7985d28b3b13cd5e23f4271d702a46532f80424 ]
+[ Upstream commit 4e292cbf3890657db2f2692942cb0f168c80167e ]
 
-The histogram media bus code enumeration does not check the index when
-operating on the source pad, resulting in an infinite loop if userspace
-keeps enumerating code without any loop boundary. Fix it by returning an
-error for indices larger than 0 as the pad supports a single format.
+On RZ/V2H(P), RZ/G3E and RZ/G3L, RSPI_n_TCLK is fixed at 200MHz.
+The max_speed_hz was computed using clk_round_rate(tclk, ULONG_MAX)
+with SPR=0 and BRDV=0, resulting in 100Mbps - the exact combination
+prohibited on these SoCs. This could cause the SPI framework to request
+a speed that rzv2h_rspi_find_rate_fixed() would skip, potentially
+leading to a clock selection failure.
 
-Tested-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com> # HiHope RZ/G2M
-Link: https://patch.msgid.link/20260318235907.831556-10-laurent.pinchart+renesas@ideasonboard.com
-Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Signed-off-by: Hans Verkuil <hverkuil+cisco@kernel.org>
+On RZ/T2H and RZ/N2H the max_speed_hz was correctly calculated as
+50Mbps for both the variable PCLKSPIn and fixed PCLK clock sources.
+
+Since the maximum supported bit rate is 50Mbps across all supported SoC
+variants, replace the clk_round_rate() based calculation with a define
+RSPI_MAX_SPEED_HZ set to 50MHz and use it directly for max_speed_hz.
+
+Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Link: https://patch.msgid.link/20260410080517.2405700-2-prabhakar.mahadev-lad.rj@bp.renesas.com
+Signed-off-by: Mark Brown <broonie@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
 LLM Generated explanations, may be completely bogus:
 
-Now I have all the data needed for a thorough analysis. Let me compile
-the full assessment.
+Now I have a complete picture. Let me compile the full analysis.
 
 ---
 
 ## PHASE 1: COMMIT MESSAGE FORENSICS
 
 **Step 1.1: Subject Line**
-Record: [media: renesas: vsp1: histo] [Fix] [Fix code enumeration —
-missing bounds check on index during mbus code enumeration on source
-pad]
+- Subsystem: `spi: rzv2h-rspi:`
+- Action verb: "Fix" - explicit bug fix
+- Summary: Fixes max_speed_hz advertising a prohibited bit rate (SPR=0,
+  BRDV=0 = 100MHz on fixed-clock SoCs)
 
 **Step 1.2: Tags**
-- `Tested-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>` —
-  tested on HiHope RZ/G2M hardware
-- `Link: https://patch.msgid.link/20260318235907.831556-10-
-  laurent.pinchart+renesas@ideasonboard.com` — this is patch **10** of a
-  series
-- `Signed-off-by: Laurent Pinchart` — original VSP1 driver author
-- `Signed-off-by: Hans Verkuil` — V4L2/media subsystem co-maintainer
-
-Record: Patch 10 of a series. Tested on real hardware. Signed by
-subsystem maintainer and driver author. No Fixes: tag (expected). No
-syzbot.
+- `Signed-off-by: Lad Prabhakar <prabhakar.mahadev-
+  lad.rj@bp.renesas.com>` - Renesas engineer, author
+- `Link:
+  https://patch.msgid.link/20260410080517.2405700-2-prabhakar.mahadev-
+  lad.rj@bp.renesas.com` - patch series (patch 2)
+- `Signed-off-by: Mark Brown <broonie@kernel.org>` - SPI subsystem
+  maintainer
+- No Fixes: tag, no Reported-by:, no Cc: stable (all expected for
+  autosel review)
 
 **Step 1.3: Commit Body**
-The message clearly describes: the source pad path in
-`histo_enum_mbus_code()` never checks `code->index`, so userspace
-calling `VIDIOC_SUBDEV_ENUM_MBUS_CODE` with incrementing indices loops
-infinitely. The pad supports a single format, so index > 0 should return
-`-EINVAL`.
+- Bug: On RZ/V2H(P), RZ/G3E and RZ/G3L, RSPI_n_TCLK is fixed at 200MHz.
+  With SPR=0, BRDV=0, calc gives 100MHz - a prohibited hardware
+  combination. The max_speed_hz was set to 100MHz, so the SPI framework
+  could request it.
+- Symptom: Clock selection failure when SPI framework requests speed at
+  the advertised maximum (100MHz)
+- Root cause: `rzv2h_rspi_calc_bitrate(tclk_rate, RSPI_SPBR_SPR_MIN,
+  RSPI_SPCMD_BRDV_MIN)` returns 100MHz for 200MHz fixed clock, but
+  SPR=0/BRDV=0 is prohibited.
+- The fix hardcodes max_speed_hz = 50MHz, matching the actual hardware
+  limit across all SoC variants.
 
-Record: Bug = infinite loop when enumerating codes on source pad.
-Symptom = userspace hangs. Root cause = missing bounds check.
-
-**Step 1.4: Hidden Bug Fix Detection**
-Record: This is explicitly described as a bug fix. Not hidden at all.
-
----
+**Step 1.4: Hidden Bug Fix**
+- This is explicitly labeled as a fix, not disguised.
 
 ## PHASE 2: DIFF ANALYSIS
 
 **Step 2.1: Inventory**
-- 1 file changed: `drivers/media/platform/renesas/vsp1/vsp1_histo.c`
-- +3 lines added (index check + blank line), 1 line changed
-  (`MEDIA_BUS_FMT_FIXED` → `MEDIA_BUS_FMT_METADATA_FIXED`)
-- Function modified: `histo_enum_mbus_code()`
-- Scope: Single-file, single-function surgical fix
+- 1 file changed: `drivers/spi/spi-rzv2h-rspi.c`
+- +2 lines (define + assignment), -7 lines (removed computation block)
+- Net: -5 lines
+- Functions modified: `rzv2h_rspi_probe()` (and one #define added)
 
 **Step 2.2: Code Flow Change**
-Before: When `code->pad == HISTO_PAD_SOURCE`, unconditionally set
-`code->code = MEDIA_BUS_FMT_FIXED` and return 0, regardless of
-`code->index`.
-After: When `code->pad == HISTO_PAD_SOURCE`, first check if `code->index
-> 0` and return `-EINVAL` (since only one format is supported). Then set
-`code->code = MEDIA_BUS_FMT_METADATA_FIXED` and return 0.
+- Before: `max_speed_hz` computed via `clk_round_rate(tclk, ULONG_MAX)`
+  → `rzv2h_rspi_calc_bitrate(tclk_rate, SPR_MIN=0, BRDV_MIN=0)` =
+  200MHz/2 = 100MHz
+- After: `max_speed_hz = RSPI_MAX_SPEED_HZ` = 50MHz
+- The removed code also eliminated error handling for `clk_round_rate`
+  return (3 lines) which is no longer needed
 
 **Step 2.3: Bug Mechanism**
-This is a **logic/correctness fix** — missing bounds validation. The
-V4L2 enumeration API protocol requires callbacks to return `-EINVAL`
-when `code->index` exceeds the number of supported formats. Without
-this, the framework loops forever.
-
-Reference: `vsp1_subdev_enum_mbus_code()` in `vsp1_entity.c` line 212
-correctly does `if (code->index) return -EINVAL;` for its source pad
-path. The histogram entity bypasses that function for the source pad and
-handles it locally, but forgot the check.
+- Logic/correctness fix: The advertised maximum speed was 100MHz, but
+  SPR=0/BRDV=0 is hardware-prohibited. The
+  `rzv2h_rspi_find_rate_fixed()` function at line 536 doesn't reject
+  SPR=0/BRDV=0, so requesting 100MHz leads to a prohibited register
+  configuration.
+- Category: Hardware-specific correctness bug
 
 **Step 2.4: Fix Quality**
-- Obviously correct: follows the exact pattern used everywhere else in
-  the driver
-- Minimal and surgical
-- Very low regression risk: adding a bounds check cannot break anything
-- The `MEDIA_BUS_FMT_METADATA_FIXED` change is a secondary correctness
-  change (0x0001 → 0x7001) that changes the format code reported to
-  userspace
+- Obviously correct: 50MHz is documented as the max supported speed
+  across all variants
+- Minimal/surgical: replaces computation with known-correct constant
+- Regression risk: Very low - lowering max_speed_hz is always safe
+  (slower, not broken)
 
-Record: Fix is trivially correct. Index check = zero risk. Format
-constant change = minor behavioral change.
-
----
-
-## PHASE 3: GIT HISTORY INVESTIGATION
+## PHASE 3: GIT HISTORY
 
 **Step 3.1: Blame**
-The buggy code was introduced in commit `99362e32332b5c` ("v4l: vsp1:
-Add histogram support") from September 2016, authored by Laurent
-Pinchart. This bug has been present since the histogram feature was
-first added, affecting all kernel versions from approximately v4.9
-onward.
+- The buggy `max_speed_hz = rzv2h_rspi_calc_bitrate(tclk_rate, SPR_MIN,
+  BRDV_MIN)` originates from commit `8b61c8919dff08` (original driver,
+  v6.17-rc1, 2025-07-04), with `clk_round_rate()` refactor from
+  `9c9bf4fdc5e5d0` (v6.19).
+- Bug has existed since the driver was added.
 
-**Step 3.2: No Fixes: tag** — expected for autosel candidates.
+**Step 3.2: No Fixes: tag** (expected)
 
 **Step 3.3: File History**
-The file has had 9 commits since v6.1. Recent changes are mostly
-refactoring (wrappers dropped, vb2_ops cleanup), not related to this
-bug.
+- 21 changes since v6.17. Heavy refactoring occurred in v6.19 cycle
+  (variable clock support, DMA, device-managed APIs).
 
 **Step 3.4: Author**
-Laurent Pinchart is the **original author** of the entire VSP1 driver
-and is the de-facto maintainer. His fixes carry the highest possible
-authority for this code.
+- Lad Prabhakar is a Renesas engineer who regularly contributes to SPI
+  and other Renesas drivers. Not the original driver author (Fabrizio
+  Castro) but from the same company.
 
-**Step 3.5: Dependencies — CRITICAL FINDING**
-By examining the pre-patch blob (`d7843c170f944`), I confirmed that the
-diff was created against a state where:
-1. The `histo` local variable was already removed from
-   `histo_enum_mbus_code()`
-2. `vsp1_subdev_enum_mbus_code()` was already refactored to take 3
-   arguments (instead of the current tree's 5)
+**Step 3.5: Dependencies**
+- The link shows this is "patch 2" in a series. However, the fix is
+  self-contained: it adds one define and simplifies the probe function.
+  No dependency on patch 1 or 3.
 
-The current v7.0 tree still has the 5-argument version with the `histo`
-variable. This means **a prior patch in the same series (patches 1-9)
-refactored the function signature**, and this patch depends on it. The
-patch will NOT apply cleanly to the current stable tree.
+## PHASE 4: MAILING LIST
 
-However, the core fix (the `code->index > 0` check) operates entirely
-within the `if (code->pad == HISTO_PAD_SOURCE)` block, which is
-unchanged between versions. A trivial manual backport would add just the
-index check.
-
-Record: Depends on prior patches for clean apply. Core fix is self-
-contained and trivially adaptable.
-
----
-
-## PHASE 4: MAILING LIST RESEARCH
-
-**Step 4.1-4.5:** Lore.kernel.org returned Anubis challenge pages,
-preventing access. The `b4 dig` command could not find the commit by the
-msgid fragment. The `Link:` tag in the commit message points to `patch.m
-sgid.link/20260318235907.831556-10-
-laurent.pinchart+renesas@ideasonboard.com`, confirming this is patch 10
-in a series. The series likely performs broader cleanup/fixes on the
-VSP1 histogram subdevice, with this specific patch addressing the
-infinite loop bug.
-
-Record: Could not access lore discussion. From msgid, this is patch 10
-of a series.
-
----
+- b4 dig could not find the commit (it hasn't been committed to the tree
+  yet as a separate commit).
+- The Link: tag points to the patch submission. lore.kernel.org was
+  inaccessible due to bot protection.
+- The patch was applied by Mark Brown (SPI subsystem maintainer),
+  indicating maintainer review.
 
 ## PHASE 5: CODE SEMANTIC ANALYSIS
 
-**Step 5.1: Functions Modified**
-`histo_enum_mbus_code()` — the only function changed.
+**Step 5.1: Modified function: `rzv2h_rspi_probe()`**
+- Called during platform device registration for matching Renesas SoCs
 
 **Step 5.2: Callers**
-`histo_enum_mbus_code` is registered as `.enum_mbus_code` in
-`histo_pad_ops` (line 376), which is set on the histogram subdevice.
-It's called via:
-- `v4l2_subdev_call(sd, pad, enum_mbus_code, ...)` →
-  `call_enum_mbus_code()` in `v4l2-subdev.c`
-- Triggered by `VIDIOC_SUBDEV_ENUM_MBUS_CODE` ioctl (line 859 of
-  `v4l2-subdev.c`)
+- Called via platform driver `.probe` callback during device boot or
+  module load
 
-This is **directly reachable from userspace** via the subdevice node
-(e.g., `/dev/v4l-subdevX`).
+**Step 5.3: Impact of max_speed_hz**
+- `max_speed_hz` is used by the SPI framework to clamp requested speeds.
+  If set too high, devices may request unsupported speeds.
+- When `rzv2h_rspi_setup_clock()` is called with a speed > 50MHz,
+  `find_rate_fixed()` computes SPR=0/BRDV=0 (prohibited) or finds no
+  valid combination depending on the exact speed.
 
-**Step 5.3-5.4: Call Chain**
-Userspace → `ioctl(fd, VIDIOC_SUBDEV_ENUM_MBUS_CODE, ...)` →
-`v4l2-subdev.c:subdev_do_ioctl_lock()` → `call_enum_mbus_code()` →
-`histo_enum_mbus_code()` → **bug: no index check → always returns 0 →
-caller loops forever**
+**Step 5.5: The calc verification**
+- `rzv2h_rspi_calc_bitrate(200000000, 0, 0)` = `DIV_ROUND_UP(200000000,
+  (2 * 1 * 1))` = 100000000 = 100MHz
+- The 50MHz maximum = `rzv2h_rspi_calc_bitrate(200000000, 1, 0)` =
+  `DIV_ROUND_UP(200000000, (2 * 2 * 1))` = 50000000 = 50MHz
 
-**Step 5.5: Similar Patterns**
-The `histo_enum_frame_size()` at line 186 correctly returns `-EINVAL`
-for non-sink pads. `vsp1_subdev_enum_mbus_code()` at line 212 correctly
-checks `if (code->index) return -EINVAL;` for source pads. The histogram
-entity is the only one that bypasses the common helper and forgets the
-check.
+## PHASE 6: STABLE TREE ANALYSIS
 
----
+**Step 6.1: Driver existence**
+- Driver first appeared in v6.17-rc1. Applicable to: 6.17.y, 6.18.y (if
+  exists), 6.19.y, 7.0.y
+- NOT applicable to: 6.12.y, 6.6.y, 6.1.y, 5.15.y, or older
 
-## PHASE 6: CROSS-REFERENCING
-
-**Step 6.1: Buggy code in stable trees**
-The buggy code (commit `99362e32332b5c`) has been present since ~v4.9
-(2016). It exists in ALL active stable trees (5.10.y, 5.15.y, 6.1.y,
-6.6.y, 6.12.y).
-
-**Step 6.2: Backport Complications**
-The patch will NOT apply cleanly due to the function signature change
-(`vsp1_subdev_enum_mbus_code` 3-arg vs 5-arg) and the missing `histo`
-variable. Needs a trivial manual adaptation: just add the index check to
-the existing code.
-
-**Step 6.3:** No related fix has been applied to stable for this issue.
-
----
+**Step 6.2: Backport complications**
+- For 7.0.y: should apply cleanly (current HEAD is v7.0)
+- For 6.19.y: should apply cleanly (same `clk_round_rate` code)
+- For 6.17.y/6.18.y: code used `clk_get_rate()` instead of
+  `clk_round_rate()`, would need minor adaptation
 
 ## PHASE 7: SUBSYSTEM CONTEXT
 
-**Step 7.1:** Renesas VSP1 video processing driver — used on Renesas
-R-Car SoC platforms common in automotive and embedded systems.
-Criticality: PERIPHERAL (specific hardware), but important in its niche.
+- Subsystem: `drivers/spi/` - SPI bus driver for specific Renesas
+  hardware
+- Criticality: PERIPHERAL - affects Renesas RZ/V2H(P), RZ/G3E, RZ/G3L,
+  RZ/T2H, RZ/N2H SoC users
+- Active subsystem with regular development
 
-**Step 7.2:** Moderate activity — a handful of commits per release
-cycle. Mature driver, bug has persisted for ~10 years.
+## PHASE 8: IMPACT AND RISK
 
----
-
-## PHASE 8: IMPACT AND RISK ASSESSMENT
-
-**Step 8.1: Who is affected**
-Users of Renesas R-Car platforms with VSP1 hardware (automotive,
-embedded, industrial).
+**Step 8.1: Affected population**
+- Users of Renesas RZ/V2H(P), RZ/G3E, RZ/G3L SoCs (embedded/IoT
+  systems). The RZ/T2H and RZ/N2H already correctly computed 50MHz as
+  noted in the commit message.
 
 **Step 8.2: Trigger conditions**
-Any userspace program that calls `VIDIOC_SUBDEV_ENUM_MBUS_CODE` on the
-histogram source pad with incrementing index values. This is standard
-V4L2 API usage — tools like `v4l2-ctl --list-subdev-mbus-codes` would
-trigger this.
+- Triggered when an SPI device requests exactly 100MHz speed (the
+  advertised maximum), or more precisely when the framework attempts to
+  configure SPR=0/BRDV=0.
 
 **Step 8.3: Failure mode**
-**Infinite loop** — the userspace process hangs, and the ioctl never
-returns. This is effectively a system hang for any V4L2 application that
-enumerates formats on this pad. Severity: **HIGH** (system hang / DoS,
-userspace triggerable).
+- Hardware clock selection failure → SPI transfer fails → device
+  communication failure
+- Severity: MEDIUM (functionality broken for affected transfers, but
+  only at specific high speeds)
 
-**Step 8.4: Risk-Benefit**
-- BENEFIT: HIGH — prevents userspace-triggerable infinite loop on
-  affected hardware
-- RISK: VERY LOW — adding a single bounds check is trivially safe; the
-  format constant change is a minor behavioral fix
-- RATIO: Strongly favorable for backporting
-
----
+**Step 8.4: Risk-benefit ratio**
+- BENEFIT: Medium - prevents SPI clock misconfiguration on specific SoCs
+- RISK: Very low - replaces dynamic computation with safe constant, -5
+  lines net, no behavior change for normal speeds
+- Ratio: Favorable
 
 ## PHASE 9: FINAL SYNTHESIS
 
 **Evidence FOR backporting:**
-- Fixes a real, userspace-triggerable infinite loop (system hang)
-- Bug has been present since 2016 — affects all stable trees
-- Fix is surgical (3 lines added to one function)
-- Obviously correct — follows established patterns in the same driver
-- Author is the driver's original creator and maintainer
-- Tested on real hardware
-- Signed off by V4L2 subsystem maintainer
+- Explicit bug fix ("Fix" in subject)
+- Prevents hardware-prohibited register configuration (SPR=0/BRDV=0)
+- Small, surgical change (+2/-7 lines)
+- Obviously correct (50MHz documented as hardware max)
+- Applied by subsystem maintainer Mark Brown
+- No regression risk (lowering max_speed is always safe)
+- Self-contained, no dependencies
 
 **Evidence AGAINST backporting:**
-- Part of a larger series (patch 10); depends on prior patches for clean
-  application
-- Changes the format constant (`MEDIA_BUS_FMT_FIXED` →
-  `MEDIA_BUS_FMT_METADATA_FIXED`) which is a behavioral change
-- Affects only Renesas platform users (niche hardware)
+- Affects only specific Renesas SoCs (narrow user base)
+- Bug only triggered at exact 100MHz speed request (not easily triggered
+  in practice)
+- Driver is very new (v6.17+, late 2025), limited to recent stable trees
+- No Reported-by (no evidence of users hitting this in practice)
 
 **Stable Rules Checklist:**
-1. Obviously correct? YES — trivially verifiable against sister
-   functions
-2. Fixes a real bug? YES — infinite loop from userspace
-3. Important issue? YES — system hang
-4. Small and contained? YES — 4 lines changed in 1 function
-5. No new features? CORRECT — pure bug fix
-6. Can apply to stable? Needs minor manual adaptation (the index check
-   itself applies trivially; the context differs)
+1. Obviously correct and tested? YES - hardcoded constant matching
+   documented max
+2. Fixes a real bug? YES - advertising prohibited speed
+3. Important issue? MEDIUM - clock selection failure, but narrow trigger
+4. Small and contained? YES - 2 lines added, 7 removed, single file
+5. No new features? Correct - no new features
+6. Can apply to stable? YES for 7.0.y and 6.19.y
 
 ---
 
-## Verification
+**Verification:**
+- [Phase 1] Parsed tags: Signed-off-by from Renesas engineer and Mark
+  Brown (SPI maintainer), Link to patch submission
+- [Phase 2] Diff analysis: +2/-7 lines in `rzv2h_rspi_probe()`, replaces
+  dynamic max_speed_hz calc with RSPI_MAX_SPEED_HZ=50MHz
+- [Phase 2] Verified calc: `rzv2h_rspi_calc_bitrate(200000000, 0, 0)` =
+  100MHz (prohibited)
+- [Phase 2] Verified fix: `rzv2h_rspi_find_rate_fixed()` line 536 does
+  NOT reject SPR=0/BRDV=0, confirming the bug
+- [Phase 3] git blame: buggy code from `8b61c8919dff08` (v6.17-rc1,
+  2025-07-04), refactored in `9c9bf4fdc5e5d0` (v6.19)
+- [Phase 3] git tag --contains: driver first in v6.17-rc1, variable
+  clock in v6.19
+- [Phase 3] git log: 21 changes since v6.17, active development
+- [Phase 3] Author check: Prabhakar is a Renesas engineer with multiple
+  SPI contributions
+- [Phase 4] b4 dig: Could not find mainline commit (not yet committed).
+  Lore inaccessible.
+- [Phase 5] Verified call chain: `rzv2h_rspi_probe` → sets
+  `max_speed_hz` → SPI framework uses for speed clamping
+- [Phase 6] Driver exists in v6.17+ only. Not applicable to older stable
+  trees.
+- [Phase 8] Failure mode: SPI clock selection failure for prohibited
+  speed, severity MEDIUM
+- UNVERIFIED: Could not access lore.kernel.org to check review
+  discussion or whether other patches in the series are needed
 
-- [Phase 1] Parsed tags: Tested-by from Renesas tester, Link to msgid
-  (patch 10/N), signed by maintainer and subsystem co-maintainer
-- [Phase 2] Diff analysis: +3 lines adding index bounds check in
-  `histo_enum_mbus_code()`, +1 line format constant change
-- [Phase 3] git blame: buggy code introduced in commit 99362e32332b5c
-  (2016, ~v4.9), present in all active stable trees
-- [Phase 3] Dependency check: pre-patch blob d7843c170f944 differs from
-  current tree — `vsp1_subdev_enum_mbus_code` has 3 args in diff vs 5 in
-  tree. Requires manual backport adaptation.
-- [Phase 4] Lore/b4: blocked by Anubis. From msgid, confirmed as patch
-  10 in a series.
-- [Phase 5] Traced call chain: userspace → VIDIOC_SUBDEV_ENUM_MBUS_CODE
-  ioctl → v4l2-subdev.c → histo_enum_mbus_code() — confirmed reachable
-  from userspace
-- [Phase 5] Verified sister function at vsp1_entity.c:212 properly
-  checks `if (code->index)` — confirms the fix pattern
-- [Phase 6] Buggy code exists in all active stable trees (v5.10+,
-  v5.15+, v6.1+, v6.6+, v6.12+)
-- [Phase 6] MEDIA_BUS_FMT_METADATA_FIXED introduced in commit
-  6ad253cc3436 (Oct 2020) — available in all active stable trees
-- [Phase 8] Failure mode: infinite loop = userspace hang, severity HIGH
-- UNVERIFIED: Could not access lore discussion to check if stable was
-  discussed by reviewers
-
-The fix addresses a real, long-standing, userspace-triggerable infinite
-loop in the V4L2 media enumeration path. The core fix (the index check)
-is trivially correct, minimal, and follows patterns used throughout the
-driver. While it needs minor manual adaptation for clean application to
-stable trees due to series dependencies, the fix itself is well within
-stable criteria.
+This is a small, correct bug fix for a driver-level issue that prevents
+advertising a hardware-prohibited bit rate. The fix is safe (just caps
+max speed at the documented limit) and self-contained. It meets stable
+kernel criteria for trees containing this driver (v6.17+).
 
 **YES**
 
- drivers/media/platform/renesas/vsp1/vsp1_histo.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ drivers/spi/spi-rzv2h-rspi.c | 10 +++-------
+ 1 file changed, 3 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/media/platform/renesas/vsp1/vsp1_histo.c b/drivers/media/platform/renesas/vsp1/vsp1_histo.c
-index 390ea50f1595a..30e5f5ac09371 100644
---- a/drivers/media/platform/renesas/vsp1/vsp1_histo.c
-+++ b/drivers/media/platform/renesas/vsp1/vsp1_histo.c
-@@ -170,7 +170,10 @@ static int histo_enum_mbus_code(struct v4l2_subdev *subdev,
- 	struct vsp1_histogram *histo = subdev_to_histo(subdev);
+diff --git a/drivers/spi/spi-rzv2h-rspi.c b/drivers/spi/spi-rzv2h-rspi.c
+index 23f0e92ae208e..15270f19c69c1 100644
+--- a/drivers/spi/spi-rzv2h-rspi.c
++++ b/drivers/spi/spi-rzv2h-rspi.c
+@@ -77,6 +77,8 @@
  
- 	if (code->pad == HISTO_PAD_SOURCE) {
--		code->code = MEDIA_BUS_FMT_FIXED;
-+		if (code->index > 0)
-+			return -EINVAL;
+ #define RSPI_RESET_NUM		2
+ 
++#define RSPI_MAX_SPEED_HZ	50000000
 +
-+		code->code = MEDIA_BUS_FMT_METADATA_FIXED;
- 		return 0;
- 	}
+ struct rzv2h_rspi_best_clock {
+ 	struct clk *clk;
+ 	unsigned long clk_rate;
+@@ -771,13 +773,7 @@ static int rzv2h_rspi_probe(struct platform_device *pdev)
+ 							   RSPI_SPBR_SPR_MAX,
+ 							   RSPI_SPCMD_BRDV_MAX);
  
+-	tclk_rate = clk_round_rate(rspi->tclk, ULONG_MAX);
+-	if (tclk_rate < 0)
+-		return tclk_rate;
+-
+-	controller->max_speed_hz = rzv2h_rspi_calc_bitrate(tclk_rate,
+-							   RSPI_SPBR_SPR_MIN,
+-							   RSPI_SPCMD_BRDV_MIN);
++	controller->max_speed_hz = RSPI_MAX_SPEED_HZ;
+ 
+ 	controller->dma_tx = devm_dma_request_chan(dev, "tx");
+ 	if (IS_ERR(controller->dma_tx)) {
 -- 
 2.53.0
 
