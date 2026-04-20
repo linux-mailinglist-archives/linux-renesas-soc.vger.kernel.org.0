@@ -1,180 +1,207 @@
-Return-Path: <linux-renesas-soc+bounces-31404-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-31405-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id iJbtApIR5mlrrAEAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-31404-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Apr 2026 13:44:18 +0200
+	id kApxCA4d5mlurwEAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-31405-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Apr 2026 14:33:18 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D97542A021
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Apr 2026 13:44:16 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 32AD542AC4A
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Apr 2026 14:33:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 6B88D301FD7E
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Apr 2026 11:44:07 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 90286300EFAD
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Apr 2026 12:33:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3BA4839C624;
-	Mon, 20 Apr 2026 11:44:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C5A86140E5F;
+	Mon, 20 Apr 2026 12:33:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="T0M7/a+G"
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="M1N0OqMk"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE22439A818
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 20 Apr 2026 11:44:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10BB529A9E9
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 20 Apr 2026 12:33:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776685446; cv=none; b=AYRPtLJ050exWRd4k9dOJD2U2sSyxHM4QEFDv8NZ0FF7qHNgSALEqkRvtdCcko6HVI5fShlX3hICV6u/5KIxcdHkRqsg6iGZ8H+2qwphNPujsg/cCWDLjezx+ZVCLzhD7P/7voCsiRZvkAkEklAMRw2o85Le4bHJlaFMDHG+Mcc=
+	t=1776688394; cv=none; b=mbZt+JVdTgx7wbo0fx84LVHPib90rNXavDaVIqbrYWLswjKABmUPHzK9zYIwsQlOhTCOvFCG8dIa/h/Ebf0Is/pxZNGe4KCqz7s2vwmInl24d0oCj/eAqKTHS09BxYz/suasflu2hzq51iVIZxrBAUKStrhd80CZxUknFnRiH+8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776685446; c=relaxed/simple;
-	bh=QWB9N+rOisR9h3vE+niK3jmMTIxpifL3SdR0MGdpxfM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=laCAbemdoVFCeTWQhCI8GYwS4sfZAgMNVEqKddxQxxeePZY3SIxzDXCcwm5u+tmDEkk7haUBVgdqHuvt+vMoJOXsK42MuidFpBE0TocrYkK+7ZlNF3eZBlymsPf5hmbPlEV9wq368Jrlcwj0ndQrs/ohXcPrPwYkpZLmdCUAZB8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=T0M7/a+G; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=from:to:cc:subject:date:message-id
-	:mime-version:content-transfer-encoding; s=k1; bh=3qjQXSI8a8vPs3
-	OCg/SVh0I2x/RQVSWun1Ow4t00kXc=; b=T0M7/a+GCmEDTocSNO1coc77Y+3JE/
-	hlXNqH+IQRQG7K+RN501YmbZuVetax8155EJ8eSKNMJXqfVjYh+vuw+xhleESi8E
-	PGJr83mKBTghglXzqd22xo493a/fL18udjDt/C6p9Y0P6/fASin4RMtittrg1DB9
-	ipp2F2pXibLpaGXff8dB5JHIg6qIFtFx6PvgpVnIvKBuMOJ/UBAV1MW5o0c0d1a8
-	93HreLkqgjVuMajRhNdn4N8hjyBKAqRQHkxPngxAbOHtKcZiZwjszGlY7GVNrxZq
-	qQgWaws5j4KNUFtDJoIWLT06d2GRyx4GQ+EjmC2hkFGEB1ISbSTUcAdQ==
-Received: (qmail 845587 invoked from network); 20 Apr 2026 13:43:53 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 20 Apr 2026 13:43:53 +0200
-X-UD-Smtp-Session: l3s3148p1@GoAd0OJPfBlUszZ9
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: linux-renesas-soc@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Jassi Brar <jassisinghbrar@gmail.com>,
-	Mark Brown <broonie@linaro.org>
-Subject: [PATCH v2] mailbox: don't free the channel if the startup callback failed
-Date: Mon, 20 Apr 2026 13:41:45 +0200
-Message-ID: <20260420114346.10586-2-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.51.0
+	s=arc-20240116; t=1776688394; c=relaxed/simple;
+	bh=ouN2T9zodtnGRFKEDJT3a7cOKWhNDFwWELKSz0rhc0w=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=VHdiKsMVx2pjbGF2/wgK5+ADfZeOQtYA7mTfgS9+IWfCi15+W+9FXnTF+nlfhDDJqN4rzhfX1XqWQ0zDemiFsu2bEg2SXK3PLHkc6WLsj/Nut4ukiX5HZVxgo8DTrEp5lcxaSIKIW8jGFLi+z+R9JCJU9iuujKCT/H2pv/d8UlA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=M1N0OqMk; arc=none smtp.client-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4890098abbaso18411225e9.0
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 20 Apr 2026 05:33:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=tuxon.dev; s=google; t=1776688391; x=1777293191; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=vywUgRyvHiyb8Tcpyclkx71VYCcveacoMI82OHms9l8=;
+        b=M1N0OqMk+uWjKQRIYI0OyaTX1K8F2HmFCZf0WT5zTHMJ9P4bOboGbYPJWlDshk26Aw
+         s+F90I7mPz/s4+9m0EUo+2xz3iUHpFmVr2aim/zzgQl8qZCH3sV5IKBJzcChN9Hrj3Or
+         sSwLuXJ2CarFRej+ezqVLRYDii8q9XfnKpFC7s5ejsqwwplFODD86mgY7jHoRIQ1eJmC
+         P8tlxFSaoeyb0aK+5Ifl5uzyW9TN++KrwaXU2qgkRKjIKuQNeCjz6UKOv3CWnnKR7jtF
+         F08kVcN87RJU5ensJMu12/D/krZQqcAgSgBGjLk5hrf41gfvAQ8EQY3emDgOjlI5OD34
+         NbVg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776688391; x=1777293191;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=vywUgRyvHiyb8Tcpyclkx71VYCcveacoMI82OHms9l8=;
+        b=FnQcf2rPteeLeStgC0r/rbCDrMkrysV9jhrnlvTZuaY14OKFsF11MUAS8Mh9d5H8fN
+         ROCdzKvOjY+aBZa/YdbRm4RkbH84wi2fsLQMDtPO/3aIMiIkhZ78ZXN7z7oKM+hHKdCg
+         bt3qOJQVJN9OjsNY2eQDMycIWLLL0/Np2C0deuIeLK/JWaVxHlmIdU0k6mn4oCkzSyWd
+         Hk5SRJw123yjreTNHA4yQqW0eoAZV6PhQ2NQGs/E7wwg/w0/i4HoweT7HvQIbSKfrHAM
+         JZl6Uc6drxDkhBPZ8uSJ44RPfMVMrHrTZv4n1iWM38Iv7YVPmh63y882a05wx6DGQeyu
+         BdIQ==
+X-Forwarded-Encrypted: i=1; AFNElJ/SVMVPeCEJiJtRG6NHPy5W6GeFBqpiArcg7OQv76sxtzi617/ndjnuVx4wvI2KYXgLu0vZ0rsTaUYWCtroqvTczQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzmtYwoXY+rPviSkqibVQH7Xk1i41PNeCQkKqdkmjufQ5IYmCgg
+	nz5r/EDJn7rwCZw5XOaojJf4fPIjxRAVZcuK2hEJKoJE85/wGD5qrQ/HP2iwlCDe2II=
+X-Gm-Gg: AeBDiesyKaptTO+yGuvtNpXblBo2IqyDUwmb0Oed5aGZVhn/9BGOij1ebASUw78ndVA
+	ZXezkjzjlcjaY/R3yaAIRDeAPJ4ZmqnH5vmO9ZFED6nVlQIenQb6Bv555MmoTqrUtdMTNSPR76a
+	kr0XDMXIqhoCQVSapJM5PbZqEmhKHLf7XX0u6YkchnrInMgt7HvLFOmuPmyzSC28FjukN3OU/uS
+	8DIGv8bQ7HCO/CrFd78RLUGspKr95GXJ0XTZGEoy4ZMNuW06koDDHDzhfLCBpVQ39aKKTeqWv9g
+	+VllkWSZTQ8wTupgS8DFKJdXhmbjlSuLatHFCZxXKx9hgDLJfmcb2oFoHMBQfW9zLbRvMcgYPD2
+	3/fX9m0zi8XKXT/l54Me+fp1b5o5w0Rcc6APSVAnir/vcNbDHv1o8je30nylXlHm+SIqF/YQL2g
+	Pv817cwmlTFx7KkRKp0iaNqrNqV+ExmlDvjl+3FZhCCw==
+X-Received: by 2002:a05:600c:8582:b0:486:fab9:a578 with SMTP id 5b1f17b1804b1-488fb7556b9mr147084635e9.11.1776688391119;
+        Mon, 20 Apr 2026 05:33:11 -0700 (PDT)
+Received: from [192.168.50.4] ([82.78.167.123])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48a52583fe7sm19933615e9.13.2026.04.20.05.33.09
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 20 Apr 2026 05:33:10 -0700 (PDT)
+Message-ID: <631893a8-d5de-49f8-9d7b-a20db4a8ed08@tuxon.dev>
+Date: Mon, 20 Apr 2026 15:33:09 +0300
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [0.34 / 15.00];
+User-Agent: Mozilla Thunderbird
+Subject: sashiko.dev review (Re: [PATCH v4 01/17] dmaengine: sh: rz-dmac: Move
+ interrupt request after everything is set up)
+To: vkoul@kernel.org, Frank.Li@kernel.org, lgirdwood@gmail.com,
+ broonie@kernel.org, perex@perex.cz, tiwai@suse.com,
+ biju.das.jz@bp.renesas.com, prabhakar.mahadev-lad.rj@bp.renesas.com,
+ p.zabel@pengutronix.de, geert+renesas@glider.be,
+ fabrizio.castro.jz@renesas.com, long.luu.ur@renesas.com
+Cc: dmaengine@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-sound@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+ Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>, stable@vger.kernel.org
+References: <20260411114303.2814115-1-claudiu.beznea.uj@bp.renesas.com>
+ <20260411114303.2814115-2-claudiu.beznea.uj@bp.renesas.com>
+Content-Language: en-US
+From: Claudiu Beznea <claudiu.beznea@tuxon.dev>
+In-Reply-To: <20260411114303.2814115-2-claudiu.beznea.uj@bp.renesas.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spamd-Result: default: False [-0.16 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[sang-engineering.com:s=k1];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[tuxon.dev:s=google];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-31404-lists,linux-renesas-soc=lfdr.de,renesas];
-	DMARC_NA(0.00)[sang-engineering.com];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	TO_DN_SOME(0.00)[];
+	TAGGED_FROM(0.00)[bounces-31405-lists,linux-renesas-soc=lfdr.de];
+	FREEMAIL_TO(0.00)[kernel.org,gmail.com,perex.cz,suse.com,bp.renesas.com,pengutronix.de,glider.be,renesas.com];
+	URIBL_MULTI_FAIL(0.00)[tuxon.dev:server fail,sea.lore.kernel.org:server fail,renesas.com:server fail];
+	RCPT_COUNT_TWELVE(0.00)[18];
+	DMARC_NA(0.00)[tuxon.dev];
 	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[vger.kernel.org,sang-engineering.com,gmail.com,linaro.org];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[wsa@sang-engineering.com,linux-renesas-soc@vger.kernel.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[sang-engineering.com:+];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[claudiu.beznea@tuxon.dev,linux-renesas-soc@vger.kernel.org];
+	DKIM_TRACE(0.00)[tuxon.dev:+];
 	NEURAL_HAM(-0.00)[-1.000];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
 	MID_RHS_MATCH_FROM(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
+	TO_DN_SOME(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,sashiko.dev:url,sang-engineering.com:email,sang-engineering.com:dkim,sang-engineering.com:mid]
-X-Rspamd-Queue-Id: 2D97542A021
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,tuxon.dev:dkim,tuxon.dev:mid,renesas.com:email]
+X-Rspamd-Queue-Id: 32AD542AC4A
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-If the optional startup() callbacks fails, we need to clear some states.
-Currently, this is done by freeing the channel. This does, however, more
-than needed which creates problems. Namely, it is calling the shutdown()
-callback. This is totally not intuitive. No user expects that shutdown()
-is called when startup() fails, similar to remove() not being called
-when probe() fails. Currently, quite some mailbox users register the IRQ
-in startup() and free them in shutdown(). These drivers will get a WARN
-about freeing an already free IRQ. Other subtle issues could arise from
-this unexpected behaviour.
+ > commit b3dfdd5fbd2463db407b1396ee1ae79801cb96bf
+ > Author: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+ > dmaengine: sh: rz-dmac: Move interrupt request after everything is set up
+ > This patch moves the channel interrupt request to the end of the channel
+ > probe function to prevent the IRQ handler from accessing uninitialized
+ > data. It also replaces dma_alloc_coherent() with dmam_alloc_coherent()
+ > to simplify the error path.
+ > > diff --git a/drivers/dma/sh/rz-dmac.c b/drivers/dma/sh/rz-dmac.c
+ > > index 625ff29024de0..9f206a33dcc6b 100644
+ > > --- a/drivers/dma/sh/rz-dmac.c
+ > > +++ b/drivers/dma/sh/rz-dmac.c
+ > [ ... ]
+ > > @@ -1210,16 +1207,6 @@ static int rz_dmac_probe(struct platform_device *pdev)
+ > >  dma_register_err:
+ > >     of_dma_controller_free(pdev->dev.of_node);
+ > >  err:
+ > > -   channel_num = i ? i - 1 : 0;
+ > > -   for (i = 0; i < channel_num; i++) {
+ > > -           struct rz_dmac_chan *channel = &dmac->channels[i];
+ > > -
+ > > -           dma_free_coherent(&pdev->dev,
+ > > -                             sizeof(struct rz_lmdesc) * DMAC_NR_LMDESC,
+ > > -                             channel->lmdesc.base,
+ > > -                             channel->lmdesc.base_dma);
+ > > -   }
+ > > -
+ > >     reset_control_assert(dmac->rstc);
+ > >  err_pm_runtime_put:
+ > >     pm_runtime_put(&pdev->dev);
+ > > @@ -1232,18 +1219,9 @@ static int rz_dmac_probe(struct platform_device *pdev)
+ > >  static void rz_dmac_remove(struct platform_device *pdev)
+ > >  {
+ > >     struct rz_dmac *dmac = platform_get_drvdata(pdev);
+ > > -   unsigned int i;
+ > >
+ > >     dma_async_device_unregister(&dmac->engine);
+ > >     of_dma_controller_free(pdev->dev.of_node);
+ > > -   for (i = 0; i < dmac->n_channels; i++) {
+ > > -           struct rz_dmac_chan *channel = &dmac->channels[i];
+ > > -
+ > > -           dma_free_coherent(&pdev->dev,
+ > > -                             sizeof(struct rz_lmdesc) * DMAC_NR_LMDESC,
+ > > -                             channel->lmdesc.base,
+ > > -                             channel->lmdesc.base_dma);
+ > > -   }
+ > >     reset_control_assert(dmac->rstc);
+ > >     pm_runtime_put(&pdev->dev);
+ > >     pm_runtime_disable(&pdev->dev);
+ > >  }
+ > While this patch fixes the initialization races, does it leave a similar
+ > vulnerability exposed during teardown?
+ > Since devm_request_threaded_irq() is used to allocate the interrupts, they
+ > will remain active until after rz_dmac_remove() and the rz_dmac_probe() error
+ > paths complete.
+ > If an interrupt fires during or just after rz_dmac_remove(), could the handler
+ > attempt to access hardware registers while the device is in reset or powered
+ > down by pm_runtime_put()?
+ > Would it be safer to explicitly free or disable the IRQs before asserting the
+ > hardware reset and disabling runtime PM, or perhaps manage the reset and PM
+ > states via devm actions to guarantee correct teardown ordering?
 
-To solve this problem, introduce a helper which does the minimal cleanup
-and use it in both, in free_channel() and after startup() failed.
+On either failure or remove path the device is with runtime PM put (clocks being 
+disabled) and in reset state. The controller cannot generate interrupts from 
+this state.
 
-Link: https://sashiko.dev/#/patchset/20260402112709.13002-1-wsa%2Brenesas%40sang-engineering.com # second issue
-Fixes: 2b6d83e2b8b7 ("mailbox: Introduce framework for mailbox")
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
----
-
-Changes since RFC v1:
-* use a helper instead of open coding the cleanup
-* reword commit message to explain more and drop the wrong "issue" of
-  module_put imbalance
-
- drivers/mailbox/mailbox.c | 26 +++++++++++++++-----------
- 1 file changed, 15 insertions(+), 11 deletions(-)
-
-diff --git a/drivers/mailbox/mailbox.c b/drivers/mailbox/mailbox.c
-index bbc9fd75a95f..2a83f83cf868 100644
---- a/drivers/mailbox/mailbox.c
-+++ b/drivers/mailbox/mailbox.c
-@@ -350,10 +350,9 @@ static int __mbox_bind_client(struct mbox_chan *chan, struct mbox_client *cl)
- 
- 	if (chan->mbox->ops->startup) {
- 		ret = chan->mbox->ops->startup(chan);
--
- 		if (ret) {
- 			dev_err(dev, "Unable to startup the chan (%d)\n", ret);
--			mbox_free_channel(chan);
-+			mbox_clean_and_put_channel(chan);
- 			return ret;
- 		}
- 	}
-@@ -482,6 +481,19 @@ struct mbox_chan *mbox_request_channel_byname(struct mbox_client *cl,
- }
- EXPORT_SYMBOL_GPL(mbox_request_channel_byname);
- 
-+void mbox_clean_and_put_channel(struct mbox_chan *chan)
-+{
-+	/* The queued TX requests are simply aborted, no callbacks are made */
-+	scoped_guard(spinlock_irqsave, &chan->lock) {
-+		chan->cl = NULL;
-+		chan->active_req = MBOX_NO_MSG;
-+		if (chan->txdone_method == MBOX_TXDONE_BY_ACK)
-+			chan->txdone_method = MBOX_TXDONE_BY_POLL;
-+	}
-+
-+	module_put(chan->mbox->dev->driver->owner);
-+}
-+
- /**
-  * mbox_free_channel - The client relinquishes control of a mailbox
-  *			channel by this call.
-@@ -495,15 +507,7 @@ void mbox_free_channel(struct mbox_chan *chan)
- 	if (chan->mbox->ops->shutdown)
- 		chan->mbox->ops->shutdown(chan);
- 
--	/* The queued TX requests are simply aborted, no callbacks are made */
--	scoped_guard(spinlock_irqsave, &chan->lock) {
--		chan->cl = NULL;
--		chan->active_req = MBOX_NO_MSG;
--		if (chan->txdone_method == MBOX_TXDONE_BY_ACK)
--			chan->txdone_method = MBOX_TXDONE_BY_POLL;
--	}
--
--	module_put(chan->mbox->dev->driver->owner);
-+	mbox_clean_and_put_channel(chan);
- }
- EXPORT_SYMBOL_GPL(mbox_free_channel);
- 
--- 
-2.51.0
+However, to keep this series simple, I'll add this in a cleanup patch after the 
+current series will be merged.
 
 
