@@ -1,333 +1,510 @@
-Return-Path: <linux-renesas-soc+bounces-31456-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-31457-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 4Hv7FiOT52lE+AEAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-31456-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 21 Apr 2026 17:09:23 +0200
+	id iGA2IjWk52nX+gEAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-31457-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 21 Apr 2026 18:22:13 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD05643C8CA
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 21 Apr 2026 17:09:22 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8957243D449
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 21 Apr 2026 18:22:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 7EAF0302019D
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 21 Apr 2026 15:08:18 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 85F3A300371A
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 21 Apr 2026 16:22:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 942923D9039;
-	Tue, 21 Apr 2026 15:08:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B09232C030E;
+	Tue, 21 Apr 2026 16:22:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eFjUvg1P"
+	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="kaLlPQi6"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from OS0P286CU010.outbound.protection.outlook.com (mail-japanwestazon11011021.outbound.protection.outlook.com [40.107.74.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D6C03D9DAC;
-	Tue, 21 Apr 2026 15:08:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776784096; cv=none; b=AmTy2/i4Zf9IPQm6qwdEyimdAuVVIGvyQaSIsu0FQRMHgN2bikqWq/Lewsh80xaHoB7EbzS7q7ErDjoLk//UaQSYCIfoF/xNQHvgyuuhA6X6jZ8ZmL+HujDPb0Aw2xLqPeTgpzn3BENpxUMTtH2J1yMxqHtCTQ/3EFEHcdhVAqo=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776784096; c=relaxed/simple;
-	bh=7Xv+Ryw48HlvkMEBN8BfLWHM13x8yMr3W6A+HuaVO4I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nNHx+WECzXLZcEGFOwQmmH3QCwNZAz0nEM9ARNI2+CzaKFvDWX0MCh45dCPDCoe7MF3TS4uf8wku0pq8nzT6iJeJX8FmF+SeCCIfP+nREH6Aj8v8kHgGlzBKENvbcYN3hx4yn/f1lKLJ6qqU9o04aB9DL5V3y/IyftUUDhEZSl0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eFjUvg1P; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1776784093; x=1808320093;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=7Xv+Ryw48HlvkMEBN8BfLWHM13x8yMr3W6A+HuaVO4I=;
-  b=eFjUvg1PGO0PSiT4qdv79WRaCpDf+kJvEeD4aCBs7cG81go7YaZeZBoH
-   dJmuThGdFqUqYRbIMMhdOlbp/gt7OKzwu8d8YtwtOmK9wFbWcF7XI/wWB
-   Y1+tlkZnHeayBRwAU/IRWxE/zdrzgsO2ROHyPJrt8tbo/vHP6fXZCnTjG
-   +79iORlfDEmWc+UdrFglxjrrgSH/5asb6AiWMR48N0PdkcGknNq2or4lf
-   vQO27NLZvoFhX2vAmZGahIkr7Frrv7606bb1YH9FgXYQ9lZvFxVZ9QdWh
-   z2J/lDMsR7ZOpXoRAlhPYVJFDFOb47eQK04DuRzR+rhrIde2O2IRwUe5E
-   w==;
-X-CSE-ConnectionGUID: YHZMAizfR4is/uGMEfwNjA==
-X-CSE-MsgGUID: 2++Gh6CLSpa6YoLaX8Ncuw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11763"; a="81585743"
-X-IronPort-AV: E=Sophos;i="6.23,191,1770624000"; 
-   d="scan'208";a="81585743"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Apr 2026 08:08:12 -0700
-X-CSE-ConnectionGUID: 6VFtbl0xTTaJBdjiLQjvMw==
-X-CSE-MsgGUID: kP6fId9QQLy8fBc5H3o81w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,191,1770624000"; 
-   d="scan'208";a="255319256"
-Received: from lkp-server01.sh.intel.com (HELO 7e48d0ff8e22) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 21 Apr 2026 08:08:10 -0700
-Received: from kbuild by 7e48d0ff8e22 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wFChs-000000003fE-09di;
-	Tue, 21 Apr 2026 15:08:08 +0000
-Date: Tue, 21 Apr 2026 23:07:21 +0800
-From: kernel test robot <lkp@intel.com>
-To: Wolfram Sang <wsa-dev@sang-engineering.com>,
-	linux-renesas-soc@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Wolfram Sang <wsa-dev@sang-engineering.com>,
-	Jassi Brar <jassisinghbrar@gmail.com>,
-	Mark Brown <broonie@linaro.org>
-Subject: Re: [PATCH v2] mailbox: don't free the channel if the startup
- callback failed
-Message-ID: <202604212338.ff2P1FQg-lkp@intel.com>
-References: <20260420114346.10586-2-wsa+renesas@sang-engineering.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 545FF257824;
+	Tue, 21 Apr 2026 16:22:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.74.21
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776788527; cv=fail; b=GMB2OTu1nOGarRPlLx9fhacolIPQhgx4M1H9outI6XFSqrPdUxjC2PkF3ZTSFwwAUgsOdeH3rEHRRCXNREWhXF4Bb3CZ7GSatPw1vk9MGVPdLRiwXU5T+1cl3DzwBQ4bA9q48H/N9I0+ckzRqfuo6u2u6G3iK3iiRITgX1+2Aeg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776788527; c=relaxed/simple;
+	bh=dxMdx3lBdbC1v4waT1ooL3/CyBC3JdYc2SlwezVSiZQ=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=PsaFa4UpJtGz478C4EF1NnWvlOHz6xPelKKYcdoI0S0TYSqnFXaYl9U6VPVct2uqaUqyT2omboI0rA0FsT3IXeEW1QF58P2MGiH51ym+QwsoTXlsSiqQ3jJRSY06iONPm7+7ea2hTqdeqKQIpyl/fm/yhtAlGk3OMlKhbRiiJAA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=kaLlPQi6; arc=fail smtp.client-ip=40.107.74.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=UfnXz1uM4/3z5uA3iwNeLGC1KgybEPqsp6YDGH3L0kPVQi9i64MbclUN+2fDWPUpEPJdVeacvoZ3arzxQEqwZg08jM4EzdS5OHSrvU2f0r90Y4WhuAXEROk1VwRHMA3naV2W8t8XOG/9P0lEvpycWFi+pxiwBiAiPfLftk/DgDdzKBChMrfJf5qyB3BYDXAqVJSkbMEs5KXvVSDf0VaKKfkr9JH0p4ymYz8xd/Vwr/+96VYdVBvAau8tlq1mfgDMymQ0GAf/Go/7f/QyjO31uJ4JPX7Ws0/z8YBjtd3AeiWDEkNP1k2y7RVGRFjj/AMIMtPYpCQT9qE4T9riA4WDtQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=nOi+di+DvsPjo6QQBqIkGP8bCK+14NtYrrCWyz1YyNk=;
+ b=KH/jAImqcjYn9wcOwGgoBlroef5g2nKEkJHzwBzTTkK19nvsxMGOo54IgdXqWqkKmpDLhzKHi/jsi2gibP6a0goEen0ePdPkOOH7phEXTc75fnhKf0wzgHgEHHck7C3VXdjyJIzLBhdQoLCsEN37SjgBhjGOLbQOVP2ZGHTyPYs9YHyQ6dJbLubSwNHAnr6c/S55m5A/9/UwDGL6vsRRLWPUSKbSclEYbbj+Aqha5EuU2Kor79aWruPvOmqXyBzUVHAeiIBX7VLT2zEbENy0Vt5mYRR2/5MXgj2r2rNmjLX3bU+6cvPzT+hVcNaU0hCEEfZoAZDkdR0S1hoWwshaHg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=nOi+di+DvsPjo6QQBqIkGP8bCK+14NtYrrCWyz1YyNk=;
+ b=kaLlPQi6RmIp0YOe6jCpAOToKRBmyykHnFQdVGMP2FdWBhQafgK6yKY27CIY9Md4nR3mtCgPdgAEOdm4T1Z1JjoJPbrGFZ8iqosE9Eykw2QDbzPGfAdYBca5bHjketASDF5C9c0t+9gwhLZjU1Z7DXwNjWFEl1xkiJUfc7R0O4Q=
+Received: from TYCPR01MB11332.jpnprd01.prod.outlook.com (2603:1096:400:3c0::7)
+ by TYYPR01MB13954.jpnprd01.prod.outlook.com (2603:1096:405:19f::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9846.16; Tue, 21 Apr
+ 2026 16:21:27 +0000
+Received: from TYCPR01MB11332.jpnprd01.prod.outlook.com
+ ([fe80::2511:10cd:e497:4d97]) by TYCPR01MB11332.jpnprd01.prod.outlook.com
+ ([fe80::2511:10cd:e497:4d97%5]) with mapi id 15.20.9818.033; Tue, 21 Apr 2026
+ 16:21:27 +0000
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, biju.das.au
+	<biju.das.au@gmail.com>
+CC: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+	<mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+	<airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Philipp Zabel
+	<p.zabel@pengutronix.de>, Geert Uytterhoeven <geert+renesas@glider.be>,
+	magnus.damm <magnus.damm@gmail.com>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "dri-devel@lists.freedesktop.org"
+	<dri-devel@lists.freedesktop.org>, "linux-renesas-soc@vger.kernel.org"
+	<linux-renesas-soc@vger.kernel.org>, Prabhakar Mahadev Lad
+	<prabhakar.mahadev-lad.rj@bp.renesas.com>, Tommaso Merciai
+	<tommaso.merciai.xr@bp.renesas.com>
+Subject: RE: [PATCH 3/3] drm: renesas: rz-du: Add support for RZ/G3L LVDS
+ encoder
+Thread-Topic: [PATCH 3/3] drm: renesas: rz-du: Add support for RZ/G3L LVDS
+ encoder
+Thread-Index: AQHczpL/Ukn6EchJEUKwiqN+6dKGQLXmjZUAgAMiHIA=
+Date: Tue, 21 Apr 2026 16:21:27 +0000
+Message-ID:
+ <TYCPR01MB113323F70F57F8EEE3E12B200862C2@TYCPR01MB11332.jpnprd01.prod.outlook.com>
+References: <20260417175235.224809-1-biju.das.jz@bp.renesas.com>
+ <20260417175235.224809-4-biju.das.jz@bp.renesas.com>
+ <td55nrjrchomtatyx5phbojvjipwh64gnlnydqame5xakviafp@ixzaju2lnkpm>
+In-Reply-To: <td55nrjrchomtatyx5phbojvjipwh64gnlnydqame5xakviafp@ixzaju2lnkpm>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TYCPR01MB11332:EE_|TYYPR01MB13954:EE_
+x-ms-office365-filtering-correlation-id: 4b444281-ad86-4588-569d-08de9fc209f5
+x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|1800799024|376014|7416014|366016|38070700021|18002099003|22082099003|56012099003;
+x-microsoft-antispam-message-info:
+ 8JvLynp743HODv8t3EYG6ZwX2nq7veRvWeqVTakycgKdTSbYOzq6iwKE69aeG3d5bbgKPJtygSVuWA/Q2bWVquj4hSJflJfAEapxbd04cc3wwGK2IW26ylbzw/4stdRiMPyW83XDorj88P7n5iBCapkMw/YrwNjwdPDal/+3kmT/XbZ8wiOT99qX2PKFXZOz2aJijRcXm7eUU9a8OiwKHmvp9Vv1frfjfeX05JxJNIo3eFGphVy8D//tFeCkomSnG6nmXjgXMciP4zWgN0smefRVhHLZcwtlAyymddS/O+RhJ9L5/4gCFocazr6gj/gpoN1hK32W+Y7MTIv+3gVzYM+odVfiQi+s4ZFkYFORb2BJyciKodAWG2Y3wlgOxRJISoIKa32sSaO+qHFc9BUU3ScYVSJ2GVzFbs1dVAiQ3DW8uFhesb5KqJScuf6n64fBAeNniq1/yg2vIXY2PS9Us1AsK+0g8HkPa+VfI35/27Hprmjl9RZbaoKilY17Tsm7I31bqaBD3oLWXWOlrLSeoNpNYnzTSXRIKBzocOMgZNj3d81SFlO+LyH+yj7JWE5ffcqcrYxA5xPoJWgK3RYK6n+yNQTzJtsA8gRUZkb4jo6souJEdniUwwYRKMN+Ux2D2VZyGZpIgso1oX0iquyKp4tvneoR5s6McgDcTfFI/gfI/Sg59EjQWOg5PtEHTUpHj20U7soP5IaJcdBCelYiKpIr8jn/hWXZGMlvyjaejh+isIWqOdz1ZdqfYBJMM3CII+9NzOBMQ/vskgwENNkJo1sv7gD1/Vxy7P0h2xSTzf0=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB11332.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(7416014)(366016)(38070700021)(18002099003)(22082099003)(56012099003);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?us-ascii?Q?7llJbGUJ454RGlbO4FzrF76mn8M+SdiWj++L3lG7S48caiRRajOKMHmvFX9o?=
+ =?us-ascii?Q?9/r5Mba/tyJ0C0iubyzqdETjv4ze90aUTbCKZ629SrmVd70vtVFfD9irIC/3?=
+ =?us-ascii?Q?S1cPXmnzh1yzE8x1lM0mvB8pcs8cw8GZFkT6Ey0w3Uqpeb4AgMbr0bKDQ2xZ?=
+ =?us-ascii?Q?yNq7rh25gUKwtxvYvfj/2DjQZwEr0vB8I1/Oe1amJwyp3VvfxyJGBpGZOWRf?=
+ =?us-ascii?Q?90K2rzZESqLsw/lXioEcWLI96zs7MLiMfFrJhtAE5QOAHEa+1eZe40Ph0XT/?=
+ =?us-ascii?Q?aeJPLHds8C+5CNNRYVIWCzqBFv0TIvnnEM/RT0JLHyIK1GCtWZ36VG2D6igj?=
+ =?us-ascii?Q?pHyOQuPkVjlbZgU+fL1YZSPRRaexjSMwbLv+oKQsOSVtJdb/TV6va275P41w?=
+ =?us-ascii?Q?NAioTbAume2dOjhupyTSnGcigjEafjyHcgpVHwHA/ClJRJF8y3X2e6wwLppg?=
+ =?us-ascii?Q?wHdjyw2pAMqduadIplAQFMfhdcYj60zNqYzbqqnDOxdHRkQ4JrTfa0b+r02Q?=
+ =?us-ascii?Q?oakGptl0ebVZcUlT7y5mgnLkwX69odQTKOMu2gvvwhSwJLNEtwilq0xZ0/tG?=
+ =?us-ascii?Q?bl/YDDyPSF/DUcqOELOIBHTAm5ud2TUo1qoclt+djX+pxlS//Aghd2Pkg3ye?=
+ =?us-ascii?Q?8R9eSCe73s+vGtM5m0PXHTsTir4E9Bg7mXS3B4EJmzvOQxkwnbc35akLtbei?=
+ =?us-ascii?Q?9s8M+VQzioNlyL8HDk9nZMyJQ6MOWLbs5J4gu1ttPxNVy3KVV7Sqyfxlvmr3?=
+ =?us-ascii?Q?0t/nxubX7lXd6n9LwJtelgS93rnvGeUE1TFSTwZmr8XBNz0d62jERDf2kG4H?=
+ =?us-ascii?Q?etAJdRbw1Xh95oHNgFFz9NeLFWFvm18paoMBhV+DsTFujavO1fV49hft1Pqa?=
+ =?us-ascii?Q?iMO2wQVNP1dSQGfOfKp7iWlZViSQhBl1y+TU0n6c4AEgAEgu6VA9UCTjGcoO?=
+ =?us-ascii?Q?xgvY+LOd79pTNh5a7bBn4pBtymTnFxyO7or7dGh0cVhEBaB8SpI3huJFA8dA?=
+ =?us-ascii?Q?yS4pB68NmnC4JofdtyovN7eNtxNToJ17sJjgVGedXLj/j9IRc3tGAAKEyzi+?=
+ =?us-ascii?Q?NkRv949PlpKb8WKRoRKI+Fz4j+xAoHUz6YUBfggrjHT79u92ym7Ft4hRTzhE?=
+ =?us-ascii?Q?DDGmdgLyFeN6cxcW2J+Anz4827ZKUxLMJW/dETOCwq6zbWYUsJoaEqxZ5qJR?=
+ =?us-ascii?Q?Iwk4QfgtKlUug0SNUOTdrmF6baRVg4X9qObGng1MGADueeyCHmc8LnlFIRFW?=
+ =?us-ascii?Q?vQhKo7RDCc2SFMszWmIZ1nXVBtk9GXi+o/61voNtcdqWzb0PUZh8ZZBDR6tI?=
+ =?us-ascii?Q?LLGNS8a/loQXpyAjb6nOSr+KImSQn0deuxOih4+0ajX5V+R9QiO/l4OPRteY?=
+ =?us-ascii?Q?hvH36MPy6DvdPxAZbCfcuoNrKtOrYol3Kk8gWTDdM3r3KLOBnH07uh/aO7Hl?=
+ =?us-ascii?Q?faXb9QfjkGNhCUW/ABpRy3niB6s5lTBBlykjp4QpMzI9S3HGNsapGAU1qZVc?=
+ =?us-ascii?Q?iT3sFJj09/NebVPJ0yVO8p233cxyGB+075nT6AEnjWe6irtWWpcWyfsHtS7g?=
+ =?us-ascii?Q?9RNdI5BQPCege3wXu6kEUBSD/tL3Uw0jUBz/Q3Ky8fweOgB9XP9xOKMqE3pL?=
+ =?us-ascii?Q?+uZWccKCvDKXVMhQCUs00Krb0uPbdB0wlW18WdPwYLJX/YZUkcA5Kc/0l28L?=
+ =?us-ascii?Q?rGTppUEIp5KFcJ/lNPNgA/xZ8wL6ZZr51RgLKNnfDnK23LJxtFvAer2K3KUA?=
+ =?us-ascii?Q?WkjZmVCsOg=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260420114346.10586-2-wsa+renesas@sang-engineering.com>
-X-Spamd-Result: default: False [-1.16 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB11332.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4b444281-ad86-4588-569d-08de9fc209f5
+X-MS-Exchange-CrossTenant-originalarrivaltime: 21 Apr 2026 16:21:27.2498
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 2qNKVXcedbfEE4Sh7g1l9IbSnxWlW7dLkLA3ogIOxaEpCsuXEMfTSDVR2KNP4Pmat/e1BplPsjpaCArUNfJmtw0aLU/TFVWZRAGg0E9lAz8=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYYPR01MB13954
+X-Spamd-Result: default: False [1.34 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_REJECT(1.00)[cv is fail on i=2];
+	DMARC_POLICY_ALLOW(-0.50)[renesas.com,none];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	R_DKIM_ALLOW(-0.20)[bp.renesas.com:s=selector1];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FROM_HAS_DN(0.00)[];
-	TAGGED_FROM(0.00)[bounces-31456-lists,linux-renesas-soc=lfdr.de];
-	DKIM_TRACE(0.00)[intel.com:+];
-	FREEMAIL_CC(0.00)[lists.linux.dev,vger.kernel.org,sang-engineering.com,gmail.com,linaro.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	TAGGED_FROM(0.00)[bounces-31457-lists,linux-renesas-soc=lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[15];
 	MIME_TRACE(0.00)[0:+];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
+	FREEMAIL_TO(0.00)[oss.qualcomm.com,gmail.com];
+	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_CC(0.00)[linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,pengutronix.de,glider.be,vger.kernel.org,lists.freedesktop.org,bp.renesas.com];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[lkp@intel.com,linux-renesas-soc@vger.kernel.org];
-	MISSING_XM_UA(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	RCPT_COUNT_SEVEN(0.00)[7];
+	FROM_NEQ_ENVFROM(0.00)[biju.das.jz@bp.renesas.com,linux-renesas-soc@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[bp.renesas.com:+];
+	RCVD_COUNT_FIVE(0.00)[5];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
 	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-renesas-soc];
-	TO_DN_SOME(0.00)[]
-X-Rspamd-Queue-Id: DD05643C8CA
+	MISSING_XM_UA(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:email,TYCPR01MB11332.jpnprd01.prod.outlook.com:mid,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,bp.renesas.com:dkim]
+X-Rspamd-Queue-Id: 8957243D449
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi Wolfram,
+Hi Dmitry Baryshkov,
 
-kernel test robot noticed the following build errors:
+Thanks for the feedback.
 
-[auto build test ERROR on jassibrar-mailbox/for-next]
-[also build test ERROR on next-20260420]
-[cannot apply to linus/master v7.0]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> -----Original Message-----
+> From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+> Sent: 19 April 2026 16:59
+> Subject: Re: [PATCH 3/3] drm: renesas: rz-du: Add support for RZ/G3L LVDS=
+ encoder
+>=20
+> On Fri, Apr 17, 2026 at 06:52:30PM +0100, Biju wrote:
+> > From: Biju Das <biju.das.jz@bp.renesas.com>
+> >
+> > Add support for the RZ/G3L LVDS encoder driver. It operates in
+> > single-link mode with 4 lanes (Data) + 1 lane (Clock) and supports
+> > pixel clock rates from 25 to 87 MHz. The LVDS module cannot be used at
+> > the same time as MIPI-DSI. However, LVDS and the DSI interface share a
+> > peripheral clock and the MIPI_DSI_PRESET_N reset signal. Also, the
+> > MIPI_DSI_CMN_RSTB and MIPI_DSI_ARESET_N reset signals must be asserted
+> > before using the LVDS module.
+> >
+> > Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+> > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> > ---
+> >  drivers/gpu/drm/renesas/rz-du/Kconfig         |  13 +
+> >  drivers/gpu/drm/renesas/rz-du/Makefile        |   1 +
+> >  drivers/gpu/drm/renesas/rz-du/rzg3l_lvds.c    | 333 ++++++++++++++++++
+> >  drivers/gpu/drm/renesas/rz-du/rzg3l_lvds.h    |  22 ++
+> >  .../gpu/drm/renesas/rz-du/rzg3l_lvds_regs.h   |  26 ++
+> >  5 files changed, 395 insertions(+)
+> >  create mode 100644 drivers/gpu/drm/renesas/rz-du/rzg3l_lvds.c
+> >  create mode 100644 drivers/gpu/drm/renesas/rz-du/rzg3l_lvds.h
+> >  create mode 100644 drivers/gpu/drm/renesas/rz-du/rzg3l_lvds_regs.h
+> >
+> > diff --git a/drivers/gpu/drm/renesas/rz-du/Kconfig
+> > b/drivers/gpu/drm/renesas/rz-du/Kconfig
+> > index 7f2ef7137ae5..cbfc7b6bccb8 100644
+> > --- a/drivers/gpu/drm/renesas/rz-du/Kconfig
+> > +++ b/drivers/gpu/drm/renesas/rz-du/Kconfig
+> > @@ -26,3 +26,16 @@ config DRM_RZG2L_MIPI_DSI
+> >  	def_tristate DRM_RZG2L_DU
+> >  	depends on DRM_RZG2L_USE_MIPI_DSI
+> >  	select DRM_MIPI_DSI
+> > +
+> > +config DRM_RZG3L_USE_LVDS
+> > +	bool "RZ/G3L DU LVDS Encoder Support"
+> > +	depends on DRM_BRIDGE && OF
+> > +	default DRM_RZG2L_DU
+> > +	help
+> > +	  Enable support for the RZ/G3L Display Unit embedded LVDS encoders.
+> > +
+> > +config DRM_RZG3L_LVDS
+> > +	def_tristate DRM_RZG2L_DU
+> > +	depends on DRM_RZG3L_USE_LVDS
+> > +	select DRM_KMS_HELPER
+> > +	select DRM_PANEL
+> > diff --git a/drivers/gpu/drm/renesas/rz-du/Makefile
+> > b/drivers/gpu/drm/renesas/rz-du/Makefile
+> > index 2987900ea6b6..46decb7ac4f1 100644
+> > --- a/drivers/gpu/drm/renesas/rz-du/Makefile
+> > +++ b/drivers/gpu/drm/renesas/rz-du/Makefile
+> > @@ -8,3 +8,4 @@ rzg2l-du-drm-$(CONFIG_VIDEO_RENESAS_VSP1)	+=3D rzg2l_du=
+_vsp.o
+> >  obj-$(CONFIG_DRM_RZG2L_DU)		+=3D rzg2l-du-drm.o
+> >
+> >  obj-$(CONFIG_DRM_RZG2L_MIPI_DSI)	+=3D rzg2l_mipi_dsi.o
+> > +obj-$(CONFIG_DRM_RZG3L_LVDS)		+=3D rzg3l_lvds.o
+> > diff --git a/drivers/gpu/drm/renesas/rz-du/rzg3l_lvds.c
+> > b/drivers/gpu/drm/renesas/rz-du/rzg3l_lvds.c
+> > new file mode 100644
+> > index 000000000000..bedeedbdfada
+> > --- /dev/null
+> > +++ b/drivers/gpu/drm/renesas/rz-du/rzg3l_lvds.c
+> > @@ -0,0 +1,333 @@
+> > +// SPDX-License-Identifier: GPL-2.0
+> > +/*
+> > + * RZ/G3L LVDS Encoder Driver
+> > + *
+> > + * Copyright (C) 2026 Renesas Electronics Corporation  */
+> > +
+> > +#include <linux/bitfield.h>
+> > +#include <linux/clk.h>
+> > +#include <linux/delay.h>
+> > +#include <linux/io.h>
+> > +#include <linux/media-bus-format.h>
+> > +#include <linux/mfd/syscon.h>
+> > +#include <linux/module.h>
+> > +#include <linux/of.h>
+> > +#include <linux/of_device.h>
+> > +#include <linux/of_graph.h>
+> > +#include <linux/platform_device.h>
+> > +#include <linux/pm_runtime.h>
+> > +#include <linux/regmap.h>
+> > +#include <linux/reset.h>
+> > +
+> > +#include <drm/drm_atomic.h>
+> > +#include <drm/drm_atomic_helper.h>
+> > +#include <drm/drm_bridge.h>
+> > +#include <drm/drm_of.h>
+> > +#include <drm/drm_panel.h>
+> > +#include <drm/drm_probe_helper.h>
+> > +
+> > +#include "rzg3l_lvds.h"
+> > +#include "rzg3l_lvds_regs.h"
+> > +
+> > +enum rzg3l_lvds_mode {
+> > +	RZG3L_LVDS_MODE_JEIDA =3D 0,
+> > +	RZG3L_LVDS_MODE_JEIDA_MIRROR =3D 1,
+> > +	RZG3L_LVDS_MODE_MODE2 =3D 2,
+> > +	RZG3L_LVDS_MODE_MODE2_MIRROR =3D 3,
+> > +	RZG3L_LVDS_MODE_VESA =3D 4,
+> > +	RZG3L_LVDS_MODE_VESA_MIRROR =3D 5,
+> > +	RZG3L_LVDS_MODE_MODE6 =3D 6,
+> > +	RZG3L_LVDS_MODE_MODE6_MIRROR =3D 7,
+> > +};
+> > +
+> > +struct rzg3l_lvds {
+> > +	struct device *dev;
+> > +	struct reset_control *prstc;
+> > +	struct reset_control *lvd_rstc;
+> > +	struct regmap *regmap;
+> > +
+> > +	struct drm_bridge bridge;
+> > +	struct drm_bridge *next_bridge;
+>=20
+> Please use next_bridge from the drm_bridge struct.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Wolfram-Sang/mailbox-don-t-free-the-channel-if-the-startup-callback-failed/20260420-234226
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/jassibrar/mailbox.git for-next
-patch link:    https://lore.kernel.org/r/20260420114346.10586-2-wsa%2Brenesas%40sang-engineering.com
-patch subject: [PATCH v2] mailbox: don't free the channel if the startup callback failed
-config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20260421/202604212338.ff2P1FQg-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260421/202604212338.ff2P1FQg-lkp@intel.com/reproduce)
+OK.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604212338.ff2P1FQg-lkp@intel.com/
+>=20
+> > +};
+> > +
+> > +#define bridge_to_rzg3l_lvds(b) \
+> > +	container_of(b, struct rzg3l_lvds, bridge)
+> > +
+> > +/*
+> > +---------------------------------------------------------------------
+> > +--------
+> > + * Bridge
+> > + */
+> > +static void rzg3l_lvds_atomic_enable(struct drm_bridge *bridge,
+> > +				     struct drm_atomic_state *state) {
+> > +	struct rzg3l_lvds *lvds =3D bridge_to_rzg3l_lvds(bridge);
+> > +	const struct drm_bridge_state *bridge_state;
+> > +	int ret;
+> > +	u32 fmt;
+> > +
+> > +	/* Get the LVDS format from the bridge state. */
+> > +	bridge_state =3D drm_atomic_get_new_bridge_state(state, bridge);
+> > +	if (!bridge_state) {
+> > +		dev_err(lvds->dev, "failed to get bridge state\n");
+> > +		return;
+> > +	}
+> > +
+> > +	switch (bridge_state->output_bus_cfg.format) {
+> > +	case MEDIA_BUS_FMT_RGB888_1X7X4_JEIDA:
+> > +		fmt =3D RZG3L_LVDS_MODE_JEIDA;
+> > +		break;
+> > +	case MEDIA_BUS_FMT_RGB888_1X7X4_SPWG:
+> > +		fmt =3D RZG3L_LVDS_MODE_VESA;
+> > +		break;
+> > +	default:
+> > +		fmt =3D RZG3L_LVDS_MODE_VESA;
+> > +		dev_warn(lvds->dev, "Unsupported bus fmt 0x%04x\n",
+> > +			 bridge_state->output_bus_cfg.format);
+> > +		break;
+> > +	}
+> > +
+> > +	ret =3D pm_runtime_resume_and_get(lvds->dev);
+>=20
+> If this  fails for any reason, the atomic_disable() would still be called=
+ and it will decrement the
+> counter, potentially undeflowing it.
+> Consider switching to pm_runtime_get_sync(), which suits better here.
 
-All error/warnings (new ones prefixed by >>):
+Agreed.
 
-   drivers/mailbox/mailbox.c: In function '__mbox_bind_client':
->> drivers/mailbox/mailbox.c:355:25: error: implicit declaration of function 'mbox_clean_and_put_channel' [-Wimplicit-function-declaration]
-     355 |                         mbox_clean_and_put_channel(chan);
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/mailbox/mailbox.c: At top level:
->> drivers/mailbox/mailbox.c:484:6: warning: no previous prototype for 'mbox_clean_and_put_channel' [-Wmissing-prototypes]
-     484 | void mbox_clean_and_put_channel(struct mbox_chan *chan)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/mailbox/mailbox.c:484:6: warning: conflicting types for 'mbox_clean_and_put_channel'; have 'void(struct mbox_chan *)'
-   drivers/mailbox/mailbox.c:355:25: note: previous implicit declaration of 'mbox_clean_and_put_channel' with type 'void(struct mbox_chan *)'
-     355 |                         mbox_clean_and_put_channel(chan);
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+>=20
+>=20
+> > +	if (ret < 0) {
+> > +		dev_err(lvds->dev, "pm_runtime_resume_and_get error\n");
+> > +		return;
+> > +	}
+> > +
+> > +	regmap_update_bits(lvds->regmap, LVDS_0_PHY_OFFSET,
+> > +			   LVDS_0_PHY_CH_EN_BGR, LVDS_0_PHY_CH_EN_BGR);
+> > +	usleep_range(20, 25);
+> > +
+> > +	regmap_update_bits(lvds->regmap, LVDS_0_PHY_OFFSET,
+> > +			   LVDS_0_PHY_CH_EN_LDO, LVDS_0_PHY_CH_EN_LDO);
+> > +	usleep_range(10, 15);
+> > +
+> > +	regmap_write(lvds->regmap, LVDS_CMN, LVDS_CMN_RST_PHY0_SEL);
+> > +	regmap_update_bits(lvds->regmap, LVDS_0_CTL_OFFSET,
+> > +			   LVDS_0_CTL_FMT_SEL_MSK,
+> > +			   FIELD_PREP(LVDS_0_CTL_FMT_SEL_MSK, fmt));
+> > +	regmap_update_bits(lvds->regmap, LVDS_0_PHY_OFFSET,
+> > +			   LVDS_0_PHY_CH_IO_EN_MSK, LVDS_0_PHY_CH_IO_EN);
+> > +	regmap_write(lvds->regmap, LVDS_CMN,
+> > +		     LVDS_CMN_RST_PHY0_SEL | LVDS_CMN_PHY_RESET);
+> > +	usleep_range(100, 150);
+> > +}
+> > +
+> > +static void rzg3l_lvds_atomic_disable(struct drm_bridge *bridge,
+> > +				      struct drm_atomic_state *state) {
+> > +	struct rzg3l_lvds *lvds =3D bridge_to_rzg3l_lvds(bridge);
+> > +
+> > +	regmap_update_bits(lvds->regmap, LVDS_CMN, LVDS_CMN_PHY_RESET, 0);
+> > +	regmap_update_bits(lvds->regmap, LVDS_0_PHY_OFFSET,
+> > +			   LVDS_0_PHY_CH_IO_EN_MSK, 0);
+> > +	regmap_update_bits(lvds->regmap, LVDS_0_PHY_OFFSET,
+> > +			   LVDS_0_PHY_CH_EN_LDO, 0);
+> > +	regmap_update_bits(lvds->regmap, LVDS_0_PHY_OFFSET,
+> > +			   LVDS_0_PHY_CH_EN_BGR, 0);
+> > +
+> > +	pm_runtime_put(lvds->dev);
+> > +}
+> > +
+> > +static int rzg3l_lvds_attach(struct drm_bridge *bridge,
+> > +			     struct drm_encoder *encoder,
+> > +			     enum drm_bridge_attach_flags flags) {
+> > +	struct rzg3l_lvds *lvds =3D bridge_to_rzg3l_lvds(bridge);
+> > +
+> > +	if (!lvds->next_bridge)
+> > +		return 0;
+> > +
+> > +	return drm_bridge_attach(encoder, lvds->next_bridge, bridge, flags);
+> > +}
+> > +
+> > +static enum drm_mode_status
+> > +rzg3l_lvds_bridge_mode_valid(struct drm_bridge *bridge,
+> > +			     const struct drm_display_info *info,
+> > +			     const struct drm_display_mode *mode) {
+> > +	if (mode->clock > 87000)
+> > +		return MODE_CLOCK_HIGH;
+> > +
+> > +	if (mode->clock < 25000)
+> > +		return MODE_CLOCK_LOW;
+> > +
+> > +	return MODE_OK;
+> > +}
+> > +
+> > +bool rzg3l_lvds_is_connected(struct drm_bridge *bridge) {
+> > +	struct rzg3l_lvds *lvds =3D bridge_to_rzg3l_lvds(bridge);
+> > +
+> > +	return !!lvds->next_bridge;
+> > +}
+> > +EXPORT_SYMBOL_GPL(rzg3l_lvds_is_connected);
+>=20
+> How is this going to be used? I don't see the user in the patch. Please d=
+rop the unused API.
+
+OK, will drop this patch as it is not required for this platform.
 
 
-vim +/mbox_clean_and_put_channel +355 drivers/mailbox/mailbox.c
+>=20
+> > +
+> > +static const struct drm_bridge_funcs rzg3l_lvds_bridge_ops =3D {
+> > +	.attach =3D rzg3l_lvds_attach,
+> > +	.atomic_duplicate_state =3D drm_atomic_helper_bridge_duplicate_state,
+> > +	.atomic_destroy_state =3D drm_atomic_helper_bridge_destroy_state,
+> > +	.atomic_reset =3D drm_atomic_helper_bridge_reset,
+> > +	.atomic_enable =3D rzg3l_lvds_atomic_enable,
+> > +	.atomic_disable =3D rzg3l_lvds_atomic_disable,
+> > +	.mode_valid =3D rzg3l_lvds_bridge_mode_valid, };
+> > +
+> > +/*
+> > +---------------------------------------------------------------------
+> > +--------
+> > + * Power Management
+> > + */
+> > +
+> > +static int rzg3l_lvds_pm_runtime_suspend(struct device *dev) {
+> > +	struct rzg3l_lvds *lvds =3D dev_get_drvdata(dev);
+> > +	int ret;
+> > +
+> > +	ret =3D reset_control_assert(lvds->lvd_rstc);
+> > +	if (ret)
+> > +		return ret;
+> > +
+> > +	ret =3D reset_control_assert(lvds->prstc);
+> > +	if (ret)
+> > +		goto err_deassert_lvd_rstc;
+> > +
+> > +	return 0;
+> > +
+> > +err_deassert_lvd_rstc:
+> > +	reset_control_deassert(lvds->lvd_rstc);
+> > +	return ret;
+> > +}
+> > +
+> > +static int rzg3l_lvds_pm_runtime_resume(struct device *dev) {
+> > +	struct rzg3l_lvds *lvds =3D dev_get_drvdata(dev);
+> > +	int ret;
+> > +
+> > +	ret =3D reset_control_deassert(lvds->prstc);
+> > +	if (ret)
+> > +		return ret;
+> > +
+> > +	return reset_control_deassert(lvds->lvd_rstc);
+> > +	if (ret)
+> > +		goto err_assert_prstc;
+> > +
+> > +	return 0;
+> > +
+> > +err_assert_prstc:
+> > +	reset_control_assert(lvds->prstc);
+> > +	return ret;
+> > +}
+> > +
+> > +static const struct dev_pm_ops rzg3l_lvds_pm_ops =3D {
+> > +	RUNTIME_PM_OPS(rzg3l_lvds_pm_runtime_suspend,
+> > +		       rzg3l_lvds_pm_runtime_resume, NULL)
+> > +	SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend,
+> > +pm_runtime_force_resume) };
+>=20
+> DEFINE_RUNTIME_DEV_PM_OPS()
 
-   329	
-   330	static int __mbox_bind_client(struct mbox_chan *chan, struct mbox_client *cl)
-   331	{
-   332		struct device *dev = cl->dev;
-   333		int ret;
-   334	
-   335		if (chan->cl || !try_module_get(chan->mbox->dev->driver->owner)) {
-   336			dev_err(dev, "%s: mailbox not free\n", __func__);
-   337			return -EBUSY;
-   338		}
-   339	
-   340		scoped_guard(spinlock_irqsave, &chan->lock) {
-   341			chan->msg_free = 0;
-   342			chan->msg_count = 0;
-   343			chan->active_req = MBOX_NO_MSG;
-   344			chan->cl = cl;
-   345			init_completion(&chan->tx_complete);
-   346	
-   347			if (chan->txdone_method	== MBOX_TXDONE_BY_POLL && cl->knows_txdone)
-   348				chan->txdone_method = MBOX_TXDONE_BY_ACK;
-   349		}
-   350	
-   351		if (chan->mbox->ops->startup) {
-   352			ret = chan->mbox->ops->startup(chan);
-   353			if (ret) {
-   354				dev_err(dev, "Unable to startup the chan (%d)\n", ret);
- > 355				mbox_clean_and_put_channel(chan);
-   356				return ret;
-   357			}
-   358		}
-   359	
-   360		return 0;
-   361	}
-   362	
-   363	/**
-   364	 * mbox_bind_client - Bind client to a mailbox channel.
-   365	 * @chan: The mailbox channel to bind the client to.
-   366	 * @cl: Identity of the client requesting the channel.
-   367	 *
-   368	 * The Client specifies its requirements and capabilities while asking for
-   369	 * a mailbox channel. It can't be called from atomic context.
-   370	 * The channel is exclusively allocated and can't be used by another
-   371	 * client before the owner calls mbox_free_channel.
-   372	 * After assignment, any packet received on this channel will be
-   373	 * handed over to the client via the 'rx_callback'.
-   374	 * The framework holds reference to the client, so the mbox_client
-   375	 * structure shouldn't be modified until the mbox_free_channel returns.
-   376	 *
-   377	 * Return: 0 if the channel was assigned to the client successfully.
-   378	 *         <0 for request failure.
-   379	 */
-   380	int mbox_bind_client(struct mbox_chan *chan, struct mbox_client *cl)
-   381	{
-   382		guard(mutex)(&con_mutex);
-   383	
-   384		return __mbox_bind_client(chan, cl);
-   385	}
-   386	EXPORT_SYMBOL_GPL(mbox_bind_client);
-   387	
-   388	/**
-   389	 * mbox_request_channel - Request a mailbox channel.
-   390	 * @cl: Identity of the client requesting the channel.
-   391	 * @index: Index of mailbox specifier in 'mboxes' property.
-   392	 *
-   393	 * The Client specifies its requirements and capabilities while asking for
-   394	 * a mailbox channel. It can't be called from atomic context.
-   395	 * The channel is exclusively allocated and can't be used by another
-   396	 * client before the owner calls mbox_free_channel.
-   397	 * After assignment, any packet received on this channel will be
-   398	 * handed over to the client via the 'rx_callback'.
-   399	 * The framework holds reference to the client, so the mbox_client
-   400	 * structure shouldn't be modified until the mbox_free_channel returns.
-   401	 *
-   402	 * Return: Pointer to the channel assigned to the client if successful.
-   403	 *		ERR_PTR for request failure.
-   404	 */
-   405	struct mbox_chan *mbox_request_channel(struct mbox_client *cl, int index)
-   406	{
-   407		struct fwnode_reference_args fwspec;
-   408		struct fwnode_handle *fwnode;
-   409		struct mbox_controller *mbox;
-   410		struct of_phandle_args spec;
-   411		struct mbox_chan *chan;
-   412		struct device *dev;
-   413		unsigned int i;
-   414		int ret;
-   415	
-   416		dev = cl->dev;
-   417		if (!dev) {
-   418			pr_debug("No owner device\n");
-   419			return ERR_PTR(-ENODEV);
-   420		}
-   421	
-   422		fwnode = dev_fwnode(dev);
-   423		if (!fwnode) {
-   424			dev_dbg(dev, "No owner fwnode\n");
-   425			return ERR_PTR(-ENODEV);
-   426		}
-   427	
-   428		ret = fwnode_property_get_reference_args(fwnode, "mboxes", "#mbox-cells",
-   429							 0, index, &fwspec);
-   430		if (ret) {
-   431			dev_err(dev, "%s: can't parse \"%s\" property\n", __func__, "mboxes");
-   432			return ERR_PTR(ret);
-   433		}
-   434	
-   435		spec.np = to_of_node(fwspec.fwnode);
-   436		spec.args_count = fwspec.nargs;
-   437		for (i = 0; i < spec.args_count; i++)
-   438			spec.args[i] = fwspec.args[i];
-   439	
-   440		scoped_guard(mutex, &con_mutex) {
-   441			chan = ERR_PTR(-EPROBE_DEFER);
-   442			list_for_each_entry(mbox, &mbox_cons, node) {
-   443				if (device_match_fwnode(mbox->dev, fwspec.fwnode)) {
-   444					if (mbox->fw_xlate) {
-   445						chan = mbox->fw_xlate(mbox, &fwspec);
-   446						if (!IS_ERR(chan))
-   447							break;
-   448					} else if (mbox->of_xlate) {
-   449						chan = mbox->of_xlate(mbox, &spec);
-   450						if (!IS_ERR(chan))
-   451							break;
-   452					}
-   453				}
-   454			}
-   455	
-   456			fwnode_handle_put(fwspec.fwnode);
-   457	
-   458			if (IS_ERR(chan))
-   459				return chan;
-   460	
-   461			ret = __mbox_bind_client(chan, cl);
-   462			if (ret)
-   463				chan = ERR_PTR(ret);
-   464		}
-   465	
-   466		return chan;
-   467	}
-   468	EXPORT_SYMBOL_GPL(mbox_request_channel);
-   469	
-   470	struct mbox_chan *mbox_request_channel_byname(struct mbox_client *cl,
-   471						      const char *name)
-   472	{
-   473		int index = device_property_match_string(cl->dev, "mbox-names", name);
-   474	
-   475		if (index < 0) {
-   476			dev_err(cl->dev, "%s() could not locate channel named \"%s\"\n",
-   477				__func__, name);
-   478			return ERR_PTR(index);
-   479		}
-   480		return mbox_request_channel(cl, index);
-   481	}
-   482	EXPORT_SYMBOL_GPL(mbox_request_channel_byname);
-   483	
- > 484	void mbox_clean_and_put_channel(struct mbox_chan *chan)
-   485	{
-   486		/* The queued TX requests are simply aborted, no callbacks are made */
-   487		scoped_guard(spinlock_irqsave, &chan->lock) {
-   488			chan->cl = NULL;
-   489			chan->active_req = MBOX_NO_MSG;
-   490			if (chan->txdone_method == MBOX_TXDONE_BY_ACK)
-   491				chan->txdone_method = MBOX_TXDONE_BY_POLL;
-   492		}
-   493	
-   494		module_put(chan->mbox->dev->driver->owner);
-   495	}
-   496	
+OK. Will send v2 with the above changes.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Cheers,
+Biju
 
