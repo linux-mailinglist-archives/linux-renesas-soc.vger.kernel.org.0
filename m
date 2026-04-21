@@ -1,207 +1,367 @@
-Return-Path: <linux-renesas-soc+bounces-31442-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-31443-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id aPOcKoC95mlG0QEAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-31442-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 21 Apr 2026 01:57:52 +0200
+	id oMQANhft5mnF1wEAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-31443-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 21 Apr 2026 05:20:55 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25C35435021
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 21 Apr 2026 01:57:51 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id D35CB436064
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 21 Apr 2026 05:20:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id BF9BD300C833
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Apr 2026 23:57:50 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id AA402300B46B
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 21 Apr 2026 03:18:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 761213CFF69;
-	Mon, 20 Apr 2026 23:57:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B74AA37CD59;
+	Tue, 21 Apr 2026 03:18:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Eue2LcnH"
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="FK3S3l6l"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from AS8PR04CU009.outbound.protection.outlook.com (mail-westeuropeazon11011016.outbound.protection.outlook.com [52.101.70.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 491DC393DE6;
-	Mon, 20 Apr 2026 23:57:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776729468; cv=none; b=ZlnAe+h8kWPDhpBcFugGISqe44Cc8+VHNUDEA9L91D1X0i6AMpneM2bVdzK1GcNWmSQkPtdxQhY8aL3mgIRQ/CZlzA3y7S5g38q7dV/ZjXQYLeczFPWcX22fnL3+hVRJxFZ3lOlxcgHleJBXL2BeQ9nwVkwGrAAFV/WpzVHITDo=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776729468; c=relaxed/simple;
-	bh=W4P40brhDWvlFoMSRZqCEHOe8ip3yCTHhgXisxd8Q2s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GeRvcH8BsZj9vBHQDxTqI/gQFOsQXWOusmNvIcU8qltrfh/ruH17BqxwGB9+I/NnAsyaRQYo7xkZH8DQwLiJT4l4VTXjOa4QN2kNCPgBNnvIG8rnW/iYaZJOnuGPvX3m6kbhJ53JrKSfbqEkuEBKdUOZBFaNZSdiBC+/+e5bTpg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Eue2LcnH; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from killaraus.ideasonboard.com (2001-14ba-703d-e500--2a1.rev.dnainternet.fi [IPv6:2001:14ba:703d:e500::2a1])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id D3DAA6DC;
-	Tue, 21 Apr 2026 01:56:06 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1776729367;
-	bh=W4P40brhDWvlFoMSRZqCEHOe8ip3yCTHhgXisxd8Q2s=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Eue2LcnH1fDQg5b6lqnP93Md8CioNxXk3gG80Twr00xJxjgzjIWDAOiU7CK1rQl8u
-	 re5BDa8yh7IryYSxodheNoLiQKnJekozNft6wlS8g8tZ2hf+SoQCL5noMmOdxrDSBP
-	 K4KSVDQkyzr468r+qaloYUQeglAobcVVNwl4+BjM=
-Date: Tue, 21 Apr 2026 02:57:42 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Cc: linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Subject: Re: [PATCH v4 07/13] media: renesas: vsp1: brx: Fix format
- propagation
-Message-ID: <20260420235742.GA2315844@killaraus.ideasonboard.com>
-References: <20260318235907.831556-1-laurent.pinchart+renesas@ideasonboard.com>
- <20260318235907.831556-8-laurent.pinchart+renesas@ideasonboard.com>
- <CA+V-a8t481xuwava0nb7uY9CUPqFWZ_8EP0xrK3BgumP7HDcLg@mail.gmail.com>
- <20260416211139.GC1824072@killaraus.ideasonboard.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E84E4366075;
+	Tue, 21 Apr 2026 03:18:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.70.16
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776741525; cv=fail; b=kG0lzNtQ+R0746/n8gCTCXUwg47sVGIiOEMP9k0EacONFXHHeNCXLF4YRtOMtYYWZOO5CsgdNHVOfjQF7ZP8UaBPWucKLQCpf3nhILdc0Y1takTYqntnrTA0d+GMJeKvwxvxM/Kc0X53Myz9T1ASmMKH4OVu0FkSZ0DzuAr1nLY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776741525; c=relaxed/simple;
+	bh=nkkwFdm7nzhZ6JgZBuIPGR+3IfC0NCukF7NOHuh0zhY=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=o2G1Rwbw+UDqsTzsFBEgPaYts1MAUYNr3EcM8T6SJVte5CvIx5H9mVEin6B7Va7KSUN9w367Lsul/B0EWEzvpVyiEC+/aLzDSRxf798Q3a75zL/6FvAW9i68cFRU6sDEqtnUIoRa826s2BFM6IM0bDox+GPIGmknRgoDjhb03xA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=FK3S3l6l; arc=fail smtp.client-ip=52.101.70.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=aOa1dKJAxhBqrin66yqbhU+f1oiNLJ8feCE21/bB+Jn2dk2TJz5Jt4OyyWRinSQ9MFp5yEdupA8rTpqYveTuNAlncEKBya1v1m04viKKyWZkD/XK7DGEZSPQv9Zo+R1+fb9/JZA8N94okrehUdAB9mptifOm65BXh+Wq2b2OASHpFv0BSel0sq8lY4ubWXHQ2J1d/6Fy4cSKHftmEGj5O1PEENHOXaBLZ69YrUN/X3xvZ5zJrml0hqY5Ds+V0u0cmP989c7+3ZROyzLhw9iXmsl9Eeox43ri/SjzOIXwXTUbxmzOKCU4/B0+KdadHFV1jo4PY6IFQVSJK8s7XkfF5w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=y1PySWuW4jkSZ05/VFS+J7qhmTe4Frg01BQDc4Ldhjk=;
+ b=YAjy/BEQsp0eVNIDAI0qEgjgSnxDSt2DzZYJfBf0+MG9iq510Bbo6ghHGapsK/nkXSYEWIJE/SRkX+52bGg37qxtzIcDKkFsbeSJCV8RrLVH/EM7PuVSnsg4DUutWArvGsICuzuS6C9AvyPEg7ceXWtYixmS7QQZn/WnR9YY3kgZgwmLPcAsN4VF5VzR4YkqS8SlPXjH02i7DcHwa5oOW22anmA/oRE7YZevRL61gPtQpVZOkxEQDMRL3md/fP+A9JMqZXEUmI11DIsMiPoiZ6qJIoqG4xyuJfH5MjNcKxY7kksDZ5kDxqbOqTByrtqnbBAl3gOYlZYKgQdHke0pBw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=y1PySWuW4jkSZ05/VFS+J7qhmTe4Frg01BQDc4Ldhjk=;
+ b=FK3S3l6llKLcKpW8QOqmXMHOc0mZ0FN0+kFwEX5Gqy/VyGWmDUY7OS3/x8HQS/EbPLr5tDBMI0Vo+d9OxqZtkLlt4C/y5QPmGd9yuitiGmW8/DICNL7MbK4yofgODmRyusrSy85D0mKCVMT0upX4F1RgT+q0cte4xuutYglAkP5OKFJgU5+/CMEqic+PWkuYOgTVu+iz90aQvdaA7/KLhOJZWZMDRgfCWEGY9JaM2I215uxya/Nbo7GaQpZAybb68Bv20CWLeh9Y46XISPdvnHplBzYVRls58KiattjNFmf/TypcOMHxE+k6xnYWHxt0O+nOEhNQrn+zDC7dRmIQSA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from AM8PR04MB7940.eurprd04.prod.outlook.com (2603:10a6:20b:240::19)
+ by PAXPR04MB8800.eurprd04.prod.outlook.com (2603:10a6:102:20f::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9818.33; Tue, 21 Apr
+ 2026 03:18:39 +0000
+Received: from AM8PR04MB7940.eurprd04.prod.outlook.com
+ ([fe80::1fa8:cc0b:b501:6bc4]) by AM8PR04MB7940.eurprd04.prod.outlook.com
+ ([fe80::1fa8:cc0b:b501:6bc4%3]) with mapi id 15.20.9818.032; Tue, 21 Apr 2026
+ 03:18:38 +0000
+Message-ID: <4c6e3f5c-a568-46c8-b9ea-69a2fff4b744@nxp.com>
+Date: Tue, 21 Apr 2026 11:20:00 +0800
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] drm/bridge: ite-it6263: Add suspend/resume support
+To: Biju Das <biju.das.jz@bp.renesas.com>, "biju.das.au"
+ <biju.das.au@gmail.com>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: "laurent.pinchart" <laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+ "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>
+References: <20260416082928.169347-1-biju.das.jz@bp.renesas.com>
+ <00e2f34a-c488-4a61-bb87-0f0431990c3f@nxp.com>
+ <TY3PR01MB11346B5C92803F6A3D174ACCF86202@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+ <d6dcdce0-6ff9-433a-963c-5f0ea9f2a9fa@nxp.com>
+ <TY3PR01MB11346D957ED7C6A2BFD1EF79B862F2@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+From: Liu Ying <victor.liu@nxp.com>
+Content-Language: en-US
+In-Reply-To: <TY3PR01MB11346D957ED7C6A2BFD1EF79B862F2@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MA5P287CA0095.INDP287.PROD.OUTLOOK.COM
+ (2603:1096:a01:1d4::16) To AM8PR04MB7940.eurprd04.prod.outlook.com
+ (2603:10a6:20b:240::19)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260416211139.GC1824072@killaraus.ideasonboard.com>
-X-Spamd-Result: default: False [-2.16 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
-	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AM8PR04MB7940:EE_|PAXPR04MB8800:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8ba20ff4-a96b-454d-ea3c-08de9f54ae21
+X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+ BCL:0;ARA:13230040|1800799024|19092799006|366016|376014|7416014|921020|18002099003|22082099003|56012099003;
+X-Microsoft-Antispam-Message-Info:
+ xuMHYmFBIkcoyJQneVF2pxFJu4bq8dRMahcRv2EvVnbU8V6agtBWMW0pmHEdZwB63K0x42/SkAgh5rm4jYV9snHXxudki9RTLenViP4uTJH+KlxFecoqgbddUkyh+UohAPcyYCSJ1RwknoMf8R6dy7Qr/VcWm8uE5cHAfQMEamz191TB7HJIKGoIk/qR+iFHl6U3dcnu64FlSrsYAsES+1VB82PFVCtdY7YzhmnzL7CufKfl8xqbDWN5drItwVjOnhmhU0GeRJ9uQtM//GarO9Qn5Uzxlzp8S+x4KS0SxCuUojwD6YoKvy3cx+XO/fvp9jskr6Yqrb61vLaYLPy++Sttwhrt4ztTtycSxuTWtbgvRHUAB06iPmLcxggnj/mvhNmU51u6z+Vj+9DI6x0nDF3wOWr0R096ElxwRBPE1WkKmuPh3sYkJn1Tp6QtuEVukH8m0K+wlgidhzrSQflb2HF5h8puIIhMEB9sgH6kYvYa4iHN3w2oEdLLOOSSCv3ZgYKy/jk9nRB/6oI7mQ6MNF08uREM0ym3UlOfvZBZPG4k8hdL+ewhduFzt+uwmHWXkMC9mMMtDlbgViEvu6r5FS8m4Orips+92+cD2atDL6PWs9IhRuLJ7BNnf3xQ1TZ/0PeN6MCGLUNmiF0HXRwi7oP7Apni/5afuBr43hBBV2JEFrDovwbKFZhGLdoc49SyAWeebdVnz/djb5Js9JjOPpCvkL9Kuzkbv+reVs1ZWm7zLZaEyt/w0PxImwE/PyYznsaCsFeb0P/Se+M8kD6f4w==
+X-Forefront-Antispam-Report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM8PR04MB7940.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(19092799006)(366016)(376014)(7416014)(921020)(18002099003)(22082099003)(56012099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+ =?utf-8?B?QU5jbmc1ZG1CMFJoaHkxQXhxSlNiMno1MVk1YnJDWGNKamxlN29rSWk3MTRl?=
+ =?utf-8?B?bXo1dEtxN3NyUzhXR0haby9XL2JyZkZRVzd0ajFjOUZSbGh2NEg2M05SNGhj?=
+ =?utf-8?B?TXFoRDh0VVAxVzZ2OE1EVjk4UWJrOEI0bUYzSTNQY001K0Rpa3RFbGl2cUtH?=
+ =?utf-8?B?akd1UGJkQmkzNlZzTEhlUEhxWWNGcG01cEZwSloxMzJiZnNFWVl3NHc0LzZa?=
+ =?utf-8?B?OXpTelZjOGViU0cwdnhoSzNlRWFtL040QVhWcjJKSVU0SGt0dDlMSStwTzNY?=
+ =?utf-8?B?eVdCcDdiOEZTL24yb3NGbXdSSUtSbWNJYW45djdqUm1sbHZGMTVjSURxL0tZ?=
+ =?utf-8?B?eEJtcHNOcStBS3BuVGRXZ2diS0tkNzROejBEclhCYU4zNzg1RU5VUmFjRGhy?=
+ =?utf-8?B?TVRKZ05IOE4rWkZnMlBJZExtcFlzZHowVEZaMmg4ZFNiNExPd2dXOFJ0NTht?=
+ =?utf-8?B?MkpMNHdKQS9Wb2RUSTF2Q2dnbSt3YmRKeUppQjVFNjMxM3JGNkJqS2UrRklY?=
+ =?utf-8?B?VHRWY2NmTUlMRC9ZRERFYUJVZXNFNzJFLyswdXdmaXZrYURJbFU0OVVZdWwy?=
+ =?utf-8?B?Y2loRHdSaWMxVUJYcS93dlB0Tnk0TlhnZnJBWVgvMlBiQkNGWGdVeVA5b3BG?=
+ =?utf-8?B?MDFYZS93WmZrVVJYWDA1eEZBd01Fanhsb3pWMTRWTjBZVTlGcy9icFdXeUdE?=
+ =?utf-8?B?Y055MVNGUldKc3g0b1o2eWVOUXZCMldkU1pzcEQwcVpVK2RScTJtOUFpUllC?=
+ =?utf-8?B?UFJVM2tHckpQTmh4WmlGdEMxeTNuT2tZSUwvcFhtbk13d0Y5TkxaaVd3ZnFL?=
+ =?utf-8?B?UHlCTXdZVVM1eXZtN05PMEJ3dS8reTJ1WUNwSVBGZ2Z4a1V5WC8zNzNrbGsy?=
+ =?utf-8?B?YVVnaGxCdXlPNDBabys4dWtidnlnYytvUlF2WW1DZTlSUUpxM3RuNlBqL2sr?=
+ =?utf-8?B?MWpSb0sxbkh1MFU1b0dYVGNpMDFmRHluSmlGZFh3Q2d5SzU3NW9lRnpKbnpK?=
+ =?utf-8?B?T0NKc3M0dndvSUNhVitmZVV2QWREQlgwVnNQSWdnTWVrN0krUEkwZ3FCRWRQ?=
+ =?utf-8?B?MmtGazZMZFF4RG1xeEliRWR4ZldNdnFIbGljVktBYjlRS3R2dmhoUVhnUDBF?=
+ =?utf-8?B?MGREZmhiSzY3a1U0MkZXdEdWbU8xa1YyRTJqQnhMT1RFR0N0TkQ0eFBISDZa?=
+ =?utf-8?B?VGZtTzk3TUxjQ3hYQ0Y1dGk2RjNBWGNyb2JaMWlVL2RPc3pwTzlqUHJpWXJG?=
+ =?utf-8?B?MHJkVEh6VmVERkRkblBHejhRb20ra0o1NFZ5S1ZneGlPOWYwL0ZCNm5rQTYy?=
+ =?utf-8?B?K0ZQRmNnYi9rTzdDWHVYTCtHcUprU09EVlNUU0NjcFlEbC9SUUs5bkE4NHUx?=
+ =?utf-8?B?VEFSZm43MTl0YXRVQ2lKN01QNDVYRWRVUUE1U002Tll6c09vNG5qYnZITmRS?=
+ =?utf-8?B?UWs2YUx6c096ZnZwSHQ0Vmc2OUJqdldBUmN6YjZxQUUvZFhnZThUYkpDcTVQ?=
+ =?utf-8?B?V2JwQTgvUEt2YXMyWXFRQ1VPZnEyeE8zWGFmVzNVS2hZUSszZForS0xPdjA4?=
+ =?utf-8?B?Z3Flb1h3a3RBOFkvM25CQzc4aTJqSEo0blRkWVZRWmxQaGUxcmhoSmFmN2U4?=
+ =?utf-8?B?eG5oVUorcHJNSURNRDRjdDVuL1BGbW56UmtOMFozZHJiVXVvQlhPUm1oYUFH?=
+ =?utf-8?B?aURVRDFzRS84YnpGUkgvWlVJeU51a0E3OEFvb2R0eTVCaUNZOUZuRFRTWFM1?=
+ =?utf-8?B?bjcrZ3llazcwSXNJQ2NwRzhNRi9YdTVXY3lTdTlNVUI4SVdJci9vTmRlZjcr?=
+ =?utf-8?B?UzNBNTdidStkaGhpdGNJd0U3STI2ZWFDaGhUVWdGYjY2SFFVZEJtcWMxSGVs?=
+ =?utf-8?B?bDRkYWJzM0wyNUtRbFRPSXd5ZDJOaFBYNnJnZzd6c1BFOUJmTlRCaTQ4OEVG?=
+ =?utf-8?B?bjZKQ0FnTEFLQmIwM3E4bEU3dEcyR2xFbm15WUFpNkN0Q3htSGs4RmpiQ3ZN?=
+ =?utf-8?B?cUI0SkJaQ2l5WEdwREc4cHF2dWZHN2pKOUl6VVBoYi9tK1Bab2E3NEtLZk5O?=
+ =?utf-8?B?aUs2WDFBK1hzdnlxN2R5ZjBvVGlPOVd2dnZWaFZiMDRrYURUc2lYTXZSa3Yr?=
+ =?utf-8?B?NUNzNTVMd0ZLRWVOV0xjT3I5QmVsb0J4dWgyS3RBMWFlaUFiNTVtRzY3ZS9t?=
+ =?utf-8?B?bUhrMUt2Y0xSZHpwVWJpcENFaVA1TndadFkvekFPaXZHUUorSWR3bGxoUjU0?=
+ =?utf-8?B?NG55eXg1ZjdUYWlZZzlqUHFjblRQOUVYQjdRQitwWG9Da2NuRldPaUJQN3dN?=
+ =?utf-8?B?bXYreWMvSzg1b1BHdkJBK1ZERU50K2xydWJDajdqdDNQMlhxY3ZTdz09?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8ba20ff4-a96b-454d-ea3c-08de9f54ae21
+X-MS-Exchange-CrossTenant-AuthSource: AM8PR04MB7940.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Apr 2026 03:18:38.7419
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: eNppyfAFQexhqszJk2CQJWMlFyge4EVblrjc4QHWUbxH61UhUYgvU6ToXx8K8nJ4u+2ob32jNuj++zlIAEQNhw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR04MB8800
+X-Spamd-Result: default: False [1.34 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_REJECT(1.00)[cv is fail on i=2];
+	DMARC_POLICY_ALLOW(-0.50)[nxp.com,none];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4];
+	R_DKIM_ALLOW(-0.20)[nxp.com:s=selector1];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-31442-lists,linux-renesas-soc=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	FROM_HAS_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	RCPT_COUNT_THREE(0.00)[4];
-	NEURAL_HAM(-0.00)[-1.000];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[laurent.pinchart@ideasonboard.com,linux-renesas-soc@vger.kernel.org];
-	DKIM_TRACE(0.00)[ideasonboard.com:+];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	TAGGED_RCPT(0.00)[linux-renesas-soc];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[18];
 	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[]
-X-Rspamd-Queue-Id: 25C35435021
+	TAGGED_FROM(0.00)[bounces-31443-lists,linux-renesas-soc=lfdr.de];
+	FREEMAIL_TO(0.00)[bp.renesas.com,gmail.com,intel.com,linaro.org,kernel.org,linux.intel.com,suse.de,ffwll.ch];
+	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_CC(0.00)[ideasonboard.com,kwiboo.se,gmail.com,lists.freedesktop.org,vger.kernel.org,glider.be,bp.renesas.com];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	FROM_NEQ_ENVFROM(0.00)[victor.liu@nxp.com,linux-renesas-soc@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[nxp.com:+];
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
+	MID_RHS_MATCH_FROM(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	REDIRECTOR_URL(0.00)[aka.ms];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[renesas.com:email,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,aka.ms:url,nxp.com:email,nxp.com:dkim,nxp.com:mid]
+X-Rspamd-Queue-Id: D35CB436064
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Fri, Apr 17, 2026 at 12:11:41AM +0300, Laurent Pinchart wrote:
-> On Thu, Apr 16, 2026 at 06:49:14PM +0100, Lad, Prabhakar wrote:
-> > On Wed, Mar 18, 2026 at 11:59 PM Laurent Pinchart wrote:
-> > >
-> > > The format width and height is never propagated to the BRX source pad,
-> > > leaving its initial configuration invalid. Propagate the whole format
-> > > from the first sink pad to the source pad instead of only propagating
-> > > the media bus code. This fixes compliance with the subdev format
-> > > propagation rules.
-> > >
-> > > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> > > Reviewed-by: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
-> > > Tested-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> > > ---
-> > >  drivers/media/platform/renesas/vsp1/vsp1_brx.c | 10 ++++++++--
-> > >  1 file changed, 8 insertions(+), 2 deletions(-)
-> > >
-> > > diff --git a/drivers/media/platform/renesas/vsp1/vsp1_brx.c b/drivers/media/platform/renesas/vsp1/vsp1_brx.c
-> > > index dd651cef93e4..911359faa600 100644
-> > > --- a/drivers/media/platform/renesas/vsp1/vsp1_brx.c
-> > > +++ b/drivers/media/platform/renesas/vsp1/vsp1_brx.c
-> > > @@ -156,14 +156,20 @@ static int brx_set_format(struct v4l2_subdev *subdev,
-> > >                 compose->height = format->height;
-> > >         }
-> > >
-> > > -       /* Propagate the format code to all pads. */
-> > > +       /*
-> > > +        * Propagate the format code to all pads, and the whole format to the
-> > > +        * source pad.
-> > > +        */
-> > >         if (fmt->pad == BRX_PAD_SINK(0)) {
-> > >                 unsigned int i;
-> > >
-> > > -               for (i = 0; i <= brx->entity.source_pad; ++i) {
-> > > +               for (i = 0; i < brx->entity.source_pad; ++i) {
-> > >                         format = v4l2_subdev_state_get_format(state, i);
-> > >                         format->code = fmt->format.code;
-> > >                 }
-> > > +
-> > > +               format = v4l2_subdev_state_get_format(state, i);
-> > > +               *format = fmt->format;
-> > 
-> > When running kms-test-plane-position.py (from [0]) on RZ/V2H EVK, Im
-> > getting vblank timeouts as seen below:
-> 
-> Oops :-/
-> 
-> I'm run the KMS tests on a R-Car board when I submitted the series. I'll
-> test again tomorrow.
+On Mon, Apr 20, 2026 at 06:15:46AM +0000, Biju Das wrote:
+> Hi Liu Ying,
 
-I have been able to reproduce an issue with the same test script. It
-doesn't result in a vblank wait timeout, but in display output
-corruption. I'll investigate and fix it, and hopefully the fix will also
-address your issue.
+Hi Biju,
 
-> > [   51.295849] ------------[ cut here ]------------
-> > [   51.300538] [CRTC:45:crtc-0] vblank wait timed out
-> > [   51.305514] WARNING: drivers/gpu/drm/drm_atomic_helper.c:1921 at drm_atomic_helper_wait_for_vblanks.part.0+0x248/0x27c [drm_kms_helper], CPU#1: python3/413
-> > [   51.319577] Modules linked in: sha256 cfg80211 bluetooth ecdh_generic kpp ecc rfkill snd_soc_hdmi_codec snd_soc_core snd_pcm_dmaengine snd_pcm snd_timer snd soundcore rzg2l_du_drm spi_rpc_if drm_client_lib vsp1 rzg2l_cru videobuf2_vmalloc drm_dma_helper videobuf2_dma_contig videobuf2_memops rcar_fcp rzg2l_csi2 videobuf2_v4l2 renesas_usbhs rzg2l_mipi_dsi ov5645 videobuf2_common adv7511 v4l2_cci phy_rzg3e_usb3 panfrost v4l2_fwnode reset_rzv2h_usb2phy v4l2_async drm_display_helper drm_shmem_helper videodev rtc_isl1208 cec gpu_sched rtc_renesas_rtca3 mc display_connector drm_kms_helper renesas_rpc_if drm fuse backlight
-> > [   51.374382] CPU: 1 UID: 0 PID: 413 Comm: python3 Not tainted 7.0.0-next-20260415-00258-gf9ef0131676a-dirty #340 PREEMPT
-> > [   51.385280] Hardware name: Renesas RZ/V2H EVK Board based on r9a09g057h44 (DT)
-> > [   51.392521] pstate: 60400005 (nZCv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
-> > [   51.399505] pc : drm_atomic_helper_wait_for_vblanks.part.0+0x248/0x27c [drm_kms_helper]
-> > [   51.407624] lr : drm_atomic_helper_wait_for_vblanks.part.0+0x248/0x27c [drm_kms_helper]
-> > [   51.415739] sp : ffff800083dbb9d0
-> > [   51.419067] x29: ffff800083dbba00 x28: 000000000000000a x27: 00000000000005c5
-> > [   51.426237] x26: 0000000000000000 x25: ffff0000ca4c0888 x24: 0000000000000001
-> > [   51.433406] x23: 0000000000000001 x22: 0000000000000000 x21: 0000000000000000
-> > [   51.440575] x20: ffff0000c7cb4980 x19: ffff0000c325e618 x18: 000000000000000a
-> > [   51.447743] x17: 0000000000000000 x16: 0000000000000000 x15: 0000000000000000
-> > [   51.454911] x14: 0000000000000000 x13: ffff8000818c3ca0 x12: 00000000000001fc
-> > [   51.462079] x11: ffff0000c0fcd360 x10: ffff8000832bd200 x9 : ffff8000818c3ca0
-> > [   51.469248] x8 : 3fffffffffffefff x7 : ffff80008191bca0 x6 : 0000000000000000
-> > [   51.476416] x5 : ffff0003fdf93088 x4 : 0000000000000001 x3 : 0000000000000000
-> > [   51.483584] x2 : 0000000000000000 x1 : 0000000000000000 x0 : ffff0000cc19af40
-> > [   51.490753] Call trace:
-> > [   51.493212]  drm_atomic_helper_wait_for_vblanks.part.0+0x248/0x27c [drm_kms_helper] (P)
-> > [   51.501336]  drm_atomic_helper_commit_tail_rpm+0xbc/0xd8 [drm_kms_helper]
-> > [   51.508237]  commit_tail+0xa4/0x1a4 [drm_kms_helper]
-> > [   51.513313]  drm_atomic_helper_commit+0x178/0x194 [drm_kms_helper]
-> > [   51.519605]  drm_atomic_commit+0x8c/0xd0 [drm]
-> > [   51.524307]  drm_mode_atomic_ioctl+0xac8/0xe00 [drm]
-> > [   51.529523]  drm_ioctl_kernel+0xc0/0x128 [drm]
-> > [   51.534217]  drm_ioctl+0x354/0x4c0 [drm]
-> > [   51.538389]  __arm64_sys_ioctl+0xa4/0xf4
-> > [   51.542342]  invoke_syscall.constprop.0+0x40/0x108
-> > [   51.547161]  el0_svc_common.constprop.0+0xb8/0xd8
-> > [   51.551892]  do_el0_svc+0x1c/0x28
-> > [   51.555229]  el0_svc+0x38/0x140
-> > [   51.558397]  el0t_64_sync_handler+0xa0/0xe4
-> > [   51.562603]  el0t_64_sync+0x198/0x19c
-> > [   51.566286] ---[ end trace 0000000000000000 ]---
-> > [   64.735886] rzg2l-du 16460000.display: [drm] *ERROR* flip_done timed out
-> > [   64.742630] rzg2l-du 16460000.display: [drm] *ERROR* [CRTC:45:crtc-0] commit wait timed out
-> > [   74.975884] rzg2l-du 16460000.display: [drm] *ERROR* flip_done timed out
-> > [   74.982639] rzg2l-du 16460000.display: [drm] *ERROR* [PLANE:40:plane-1] commit wait timed out
-> > [   75.999845] ------------[ cut here ]------------
-> > 
-> > Reverting this patch fixes the issue, but compliance might fail. On
-> > V2H media device is not registered for VSP.
-> > 
-> > [0] https://git.ideasonboard.com/renesas/kms-tests/src/branch/master/tests
+> 
+>> -----Original Message-----
+>> From: Liu Ying <victor.liu@nxp.com>
+>> Sent: 20 April 2026 03:26
+>> Subject: Re: [PATCH v2] drm/bridge: ite-it6263: Add suspend/resume support
+>>
+>> On Fri, Apr 17, 2026 at 10:49:35AM +0000, Biju Das wrote:
+>>> Hi Liu Ying,
+>>>
+>>> Thanks for the feedback.
+>>>
+>>>
+>>>> -----Original Message-----
+>>>> From: Liu Ying <victor.liu@nxp.com>
+>>>> Sent: 17 April 2026 07:05
+>>>> Subject: Re: [PATCH v2] drm/bridge: ite-it6263: Add suspend/resume
+>>>> support
+>>>>
+>>>> Hi Biju,
+>>>>
+>>>> On Thu, Apr 16, 2026 at 09:29:25AM +0100, Biju wrote:
+>>>>> [You don't often get email from biju.das.au@gmail.com. Learn why
+>>>>> this is important at https://aka.ms/LearnAboutSenderIdentification ]
+>>>>>
+>>>>> From: Biju Das <biju.das.jz@bp.renesas.com>
+>>>>>
+>>>>> On the RZ/G3L SMARC EVK using PSCI, suspend to RAM powers down the
+>>>>> ITE
+>>>>> IT6263 chip. The display controller driver's system PM callbacks
+>>>>> invoke drm_mode_config_helper_{suspend,resume}, which in turn call
+>>>>> the bridge's atomic_{disable,enable} callbacks can handle
+>>>>> suspend/resume for the bridge without dedicated PM ops.
+>>>>>
+>>>>> Introduce it6263_bridge_init() and it6263_bridge_uninit() helpers to
+>>>>> consolidate power sequencing, hardware reset, I2C address setup, and
+>>>>> LVDS/HDMI configuration. These replace the open-coded init sequence
+>>>>> in
+>>>>> probe() and are hooked into atomic_enable/atomic_disable
+>>>>> respectively, guarded by a powered flag to avoid redundant re-initialisation.
+>>>>>
+>>>>> Switch from devm_regulator_bulk_get_enable() to
+>>>>> devm_regulator_bulk_get() so that regulators can be explicitly
+>>>>> enabled and disabled across power cycles. Move reset_gpio and
+>>>>> regulator state into the it6263 struct so they are accessible beyond probe time.
+>>>>>
+>>>>> Add a remove() callback to cleanly power down the bridge on driver
+>>>>> unbind via it6263_bridge_uninit().
+>>>>>
+>>>>> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+>>>>> ---
+>>>>> v1->v2:
+>>>>>  * Dropped system PM callbacks instead using bridge's
+>>>>>    atomic_{disable,enable} callbacks to handle suspend/resume.
+>>>>> ---
+>>>>>  drivers/gpu/drm/bridge/ite-it6263.c | 88
+>>>>> ++++++++++++++++++++++++-----
+>>>>>  1 file changed, 73 insertions(+), 15 deletions(-)
+>>
+>> [...]
+>>
+>>>>> +static int it6263_bridge_init(struct it6263 *it) {
+>>>>> +       int ret;
+>>>>> +
+>>>>> +       ret = regulator_bulk_enable(it->num_supplies, it->supplies);
+>>>>> +       if (ret) {
+>>>>> +               dev_err(it->dev, "failed to enable power supplies\n");
+>>>>> +               return ret;
+>>>>> +       }
+>>>>> +
+>>>>> +       it6263_hw_reset(it->reset_gpio);
+>>>>> +
+>>>>> +       ret = it6263_lvds_set_i2c_addr(it);
+>>>>> +       if (ret) {
+>>>>> +               dev_err(it->dev, "failed to set I2C addr\n");
+>>>>> +               regulator_bulk_disable(it->num_supplies,
+>>>>> + it->supplies);
+>>>>
+>>>> I know that you call it6263_bridge_init() in probe, probably because
+>>>> you want to enable the regulators for hotplug detect after probe(it6263_detect() reads register
+>> HDMI_REG_SYS_STATUS to do the detection).
+>>>> However, an idea[1] is to wrap the register read operation with
+>>>> regulator_bulk_enable() and
+>>>> regulator_bulk_disable() in it6263_detect() so that you may drop
+>>>> it6263_bridge_init() from probe.  With that,  it6263_bridge_init() is
+>>>> now only called from atomic_enable, which means that the
+>>>> initialization code can be open-coded and the initialization is
+>>>> supposed to be successful(due to the "atomic" nature) hence no need to do the regulator disablement
+>> bailout(error message in dmesg is sufficient).
+>>>
+>>> it6263_detect() still works with regulator_disable(), see the logs below.
+>>
+>> I guess that it works for you on RZ/G3L SMARC EVK because regulators are already enabled by PSCI before
+>> this driver's probe. 
+> 
+> PSCI does not enable it. The supply to the rails provided by PMIC regulator during system resume
+> and it is always on.
+
+Then the PSCI term in commit message doesn't provide any useful information,
+so could be dropped.
+
+Since it's always on, can you keep using devm_regulator_bulk_get_enable()
+in probe and just move it6263_hw_reset(), it6263_lvds_set_i2c_addr(),
+it6263_lvds_config() and it6263_hdmi_config() from probe to atomic_enable?
+
+> 
+>> But there could be platforms which use dedicated regulators(like discrete PMICs)
+>> for IT6263, which means the regulators are not yet enabled before probe.
+> 
+> Do you know any platform that does not work the detection after regulator disable()?
+
+No.  But if regulators are not enabled, detection doesn't work for sure.
+
+> 
+> Currently we don't have any platforms to test this. If any platforms that has controlled
+> regulator we can update the code based on testing.
+
+If we end up with calling regulator_bulk_enable() in atomic_enable and
+calling regulator_bulk_disable in atomic_disable, I'd prefer to enable/disable
+regulators in detect and edid_read instead of doing nothing, because
+detect and edid_read would not work for sure without power on those platforms
+with controlled regulators.  If there is any bug, we can fix that.
+
+[...]
+
+>>>>>  static void it6263_bridge_atomic_disable(struct drm_bridge *bridge,
+>>>>>                                          struct drm_atomic_state
+>>>>> *state)  { @@ -587,6 +626,8 @@ static void
+>>>>> it6263_bridge_atomic_disable(struct drm_bridge *bridge,
+>>>>>         regmap_write(it->hdmi_regmap, HDMI_REG_PKT_GENERAL_CTRL, 0);
+>>>>>         regmap_write(it->hdmi_regmap, HDMI_REG_AFE_DRV_CTRL,
+>>>>>                      AFE_DRV_RST | AFE_DRV_PWD);
+>>>>> +
+>>>>> +       it6263_bridge_uninit(it);
+>>>>
+>>>> Well, this could effectively disable the regulators and hotplug detection
+>>>> won't work then.   So, again, the above idea[1] helps.
+>>>
+>>> Is it not working on your setup? It works for me.
+>>
+>> My setup uses always-on regulators, so detect works for me as well even if regulators are not
+>> explicitly enabled/disabled in detect callback.  But, as I mentioned above, we need to enable/disable
+>> regulators in detect callback (also in edid_read callback) after atomic_disable is done for those
+>> platforms which use dedicated regulators.
+> 
+> On atomic_disable(), we are disabling the regulator. So on, regulator-gpio
+> platforms, the detection() won't work after that. In that case, we need to move
+> suspend/resume calls from atomic_{enable,disable} to PM callbacks.
+> 
+> Do you agree?
+
+If you mean system PM callbacks, are you sure that this driver's resume
+callback is executed prior to a display controller driver's resume callback
+(essentially drm_mode_config_helper_resume() would be called to enable IT6263's
+video output if it's the status when suspended) to enable regulators first?
+I don't think the order is fixed across all platforms, because the display
+controller device can sit before or after the IT6263 device on the dpm_list.
+So, I don't want to implement system PM for this driver, at least for now.
+
+> 
+> Cheers,
+> Biju
+> 
 
 -- 
 Regards,
-
-Laurent Pinchart
+Liu Ying
 
