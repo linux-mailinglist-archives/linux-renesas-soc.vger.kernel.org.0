@@ -1,37 +1,37 @@
-Return-Path: <linux-renesas-soc+bounces-31470-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-31471-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id sIiRK8W+52l4AQIAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-31470-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 21 Apr 2026 20:15:33 +0200
+	id aBbdDW6/52l6AQIAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-31471-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 21 Apr 2026 20:18:22 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 517B543E82A
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 21 Apr 2026 20:15:32 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 39E6343E961
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 21 Apr 2026 20:18:21 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 8C185304FEC2
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 21 Apr 2026 18:12:54 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id BC6F330BEFD3
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 21 Apr 2026 18:13:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A729B3BED02;
-	Tue, 21 Apr 2026 18:12:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8A0E33B8BDC;
+	Tue, 21 Apr 2026 18:12:43 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A6AE3A9DAB;
-	Tue, 21 Apr 2026 18:12:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EA30347BC6;
+	Tue, 21 Apr 2026 18:12:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776795158; cv=none; b=OiSArZ4cCcs+1dDkDMzD/qexnM56f+vSn4Pbwy6zrGKlLB2BL3cSNThlgn7WZefqP5Uod+jQup4yn6EAVRkQMxjALCb3RxsXW7EMKXL/w0pNcsC1d5dW6BH4tIYMuENYvFdILFlgtBC6/hRIRlSl7cHmRFrqvYf+CPvZudWrkp8=
+	t=1776795163; cv=none; b=ab81uiH6v9P7xcCkrruwffknFz+pRPgw6I2yvjrQ8a/jcG/sL4r+sDFSAZhrIRNLMGDnGZsVidItmb5KBB5A79HXBunSRojZOD+zDPjfNifTohkJ0oIH1s86PkYvgv4WcXXBt50T29bbdUsU4oz10CXOrtzRwUNCShQwSQANBb8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776795158; c=relaxed/simple;
-	bh=Otww8j8idL7DQsJ/09F2hxIYpv1fu0aeOBNW9omx36U=;
+	s=arc-20240116; t=1776795163; c=relaxed/simple;
+	bh=CrSp/pZoa+rfAfIByGc+fsW1M4yQUQHnQztAQ+i9N9E=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=W0VPQ+Sy/Hud0gNh/OtY/d+GBvxZrjmlehlJIMyDJ3Ql8bPTQ+TyR27jJiURbnzSyoHuD1tyFsTcL6PFBKGe0JQB4nKIqYfrnsfHK1+NDTRgzwkfD7bQLZ5ND65rbLV85nj+rQADqUpxstfP3ei3KzF5//5ygJSCtYLXaIaGKmE=
+	 MIME-Version; b=GqK3aiOxQxIUiiKKMtA8qhs50tTwZ4pyoyfiMZnqVd6MCREL2YhBOfVzjqY1aBEhMUrww1HhE1qG7ODXp1ggJc1sAbMHmzEwra07qbmUZI8vi+4i4xV9TqA9Ndg7NmMntaBYGdpBVywweSKJql73ROHe9vUc4oCGuDM68YDcOZ8=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9C7D0C2BCB5;
-	Tue, 21 Apr 2026 18:12:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AEC01C2BCB4;
+	Tue, 21 Apr 2026 18:12:38 +0000 (UTC)
 From: Geert Uytterhoeven <geert+renesas@glider.be>
 To: Sudeep Holla <sudeep.holla@kernel.org>,
 	Cristian Marussi <cristian.marussi@arm.com>,
@@ -58,9 +58,9 @@ Cc: arm-scmi@vger.kernel.org,
 	linux-pm@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH/RFC 08/14] reset: Add reset_controller_get_provider()
-Date: Tue, 21 Apr 2026 20:11:41 +0200
-Message-ID: <87edde434e1760bbe9e2741856724301d02a4fc8.1776793163.git.geert+renesas@glider.be>
+Subject: [PATCH/RFC 09/14] dt-bindings: clock: Document Renesas R-Car X5H Clock Pulse Generator
+Date: Tue, 21 Apr 2026 20:11:42 +0200
+Message-ID: <f8c98dbf6b32c0d467606d59b071e9c2bfc29dbc.1776793163.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1776793163.git.geert+renesas@glider.be>
 References: <cover.1776793163.git.geert+renesas@glider.be>
@@ -75,7 +75,7 @@ X-Spamd-Result: default: False [0.54 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
@@ -84,87 +84,125 @@ X-Spamd-Result: default: False [0.54 / 15.00];
 	RCVD_COUNT_THREE(0.00)[4];
 	PRECEDENCE_BULK(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-31470-lists,linux-renesas-soc=lfdr.de,renesas];
+	TAGGED_FROM(0.00)[bounces-31471-lists,linux-renesas-soc=lfdr.de,renesas];
 	FREEMAIL_TO(0.00)[kernel.org,arm.com,gmail.com,baylibre.com,pengutronix.de,broadcom.com,sang-engineering.com,mailbox.org,renesas.com];
 	RCPT_COUNT_TWELVE(0.00)[25];
 	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
 	FROM_NEQ_ENVFROM(0.00)[geert@glider.be,linux-renesas-soc@vger.kernel.org];
 	R_DKIM_NA(0.00)[];
-	NEURAL_HAM(-0.00)[-0.996];
+	NEURAL_HAM(-0.00)[-0.980];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[glider.be:mid,glider.be:email,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 517B543E82A
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,glider.be:mid,glider.be:email,devicetree.org:url,c1320000:email]
+X-Rspamd-Queue-Id: 39E6343E961
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-The reset subsystem differs from the clock subsystem in multiple ways:
-  1. It does not provide a public way to lookup resets from a reset
-     provider (clock has of_clk_get_from_provider()),
-  2. The xlate callback does not return a reset object, but merely an
-     index, which is converted to a reset object by the reset core.
-
-Hence add a public helper reset_controller_get_provider(), which just
-returns the provider, and will be used by the R-Car X5H Module
-Controller driver.
+Document support for the Renesas R-Car X5H Clock Pulse Generator,
+and add definitions for a very limited and preliminary set of clocks.
 
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
- drivers/reset/core.c             | 11 +++++++++++
- include/linux/reset-controller.h |  6 ++++++
- 2 files changed, 17 insertions(+)
+ .../bindings/clock/renesas,r8a78000-cpg.yaml  | 62 +++++++++++++++++++
+ .../dt-bindings/clock/renesas,r8a78000-cpg.h  | 15 +++++
+ 2 files changed, 77 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/clock/renesas,r8a78000-cpg.yaml
+ create mode 100644 include/dt-bindings/clock/renesas,r8a78000-cpg.h
 
-diff --git a/drivers/reset/core.c b/drivers/reset/core.c
-index 38e189d04d09b270..57c427bb33b322e2 100644
---- a/drivers/reset/core.c
-+++ b/drivers/reset/core.c
-@@ -1135,6 +1135,17 @@ __reset_find_rcdev(const struct fwnode_reference_args *args, bool gpio_fallback)
- 	return NULL;
- }
- 
-+struct reset_controller_dev *
-+reset_controller_get_provider(struct fwnode_handle *fwnode)
-+{
-+	struct fwnode_reference_args args = { .fwnode = fwnode };
+diff --git a/Documentation/devicetree/bindings/clock/renesas,r8a78000-cpg.yaml b/Documentation/devicetree/bindings/clock/renesas,r8a78000-cpg.yaml
+new file mode 100644
+index 0000000000000000..fc499e7cf52e4f0c
+--- /dev/null
++++ b/Documentation/devicetree/bindings/clock/renesas,r8a78000-cpg.yaml
+@@ -0,0 +1,62 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/clock/renesas,r8a78000-cpg.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
-+	guard(mutex)(&reset_list_mutex);
++title: Renesas R-Car X5H Clock Pulse Generator
 +
-+	return __reset_find_rcdev(&args, false);
-+}
-+EXPORT_SYMBOL_GPL(reset_controller_get_provider);
++maintainers:
++  - Geert Uytterhoeven <geert+renesas@glider.be>
 +
- struct reset_control *
- __fwnode_reset_control_get(struct fwnode_handle *fwnode, const char *id, int index,
- 			   enum reset_control_flags flags)
-diff --git a/include/linux/reset-controller.h b/include/linux/reset-controller.h
-index 52a5a4e81f184407..0c17a36466115ba6 100644
---- a/include/linux/reset-controller.h
-+++ b/include/linux/reset-controller.h
-@@ -74,6 +74,7 @@ void reset_controller_unregister(struct reset_controller_dev *rcdev);
- struct device;
- int devm_reset_controller_register(struct device *dev,
- 				   struct reset_controller_dev *rcdev);
-+struct reset_controller_dev *reset_controller_get_provider(struct fwnode_handle *fwnode);
- #else
- static inline int reset_controller_register(struct reset_controller_dev *rcdev)
- {
-@@ -89,6 +90,11 @@ static inline int devm_reset_controller_register(struct device *dev,
- {
- 	return 0;
- }
++description:
++  The R-Car X5H Clock Pulse Generator (CLK CONTROL) consists of oscillators,
++  PLL circuits, clock dividers and clock control circuits.  It provides various
++  clocks for other modules.
 +
-+static inline struct reset_controller_dev *reset_controller_get_provider(struct fwnode_handle *fwnode)
-+{
-+	return NULL;
-+}
- #endif
- 
- #endif
++properties:
++  compatible:
++    const: renesas,r8a78000-cpg
++
++  reg:
++    maxItems: 1
++
++  clocks:
++    maxItems: 2
++
++  clock-names:
++    items:
++      - const: extal
++      - const: extalr
++
++  '#clock-cells':
++    description:
++      The single clock specifier cell must be the clock number, as defined in
++      <dt-bindings/clock/renesas,r8a78000-cpg.h>.
++    const: 1
++
++  firmware:
++    $ref: /schemas/types.yaml#/definitions/phandle
++    description:
++      Reference to the SCMI firmware device node on systems where SCMI must be
++      used instead of direct hardware access.
++
++required:
++  - compatible
++  - reg
++  - clocks
++  - clock-names
++  - '#clock-cells'
++
++additionalProperties: false
++
++examples:
++  - |
++    clock-controller@c1320000 {
++            compatible = "renesas,r8a78000-cpg";
++            reg = <0xc1320000 0x10000>;
++            clocks = <&extal_clk>, <&extalr_clk>;
++            clock-names = "extal", "extalr";
++            #clock-cells = <1>;
++            firmware = <&scmi>;
++    };
+diff --git a/include/dt-bindings/clock/renesas,r8a78000-cpg.h b/include/dt-bindings/clock/renesas,r8a78000-cpg.h
+new file mode 100644
+index 0000000000000000..8c8bc4d1feac6d26
+--- /dev/null
++++ b/include/dt-bindings/clock/renesas,r8a78000-cpg.h
+@@ -0,0 +1,15 @@
++/* SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause) */
++/*
++ * Copyright (C) 2026 Glider bv
++ */
++#ifndef __DT_BINDINGS_CLOCK_RENESAS_R8A78000_CPG_H__
++#define __DT_BINDINGS_CLOCK_RENESAS_R8A78000_CPG_H__
++
++/* R-Car X5H CPG Clocks */
++
++// FIXME Preliminary
++#define R8A78000_CPG_SGASYNCD4_PERW_BUS		0
++#define R8A78000_CPG_SGASYNCD16_PERW_BUS	1
++#define R8A78000_CPG_MSOCK_PERW_BUS		2
++
++#endif /* __DT_BINDINGS_CLOCK_RENESAS_R8A78000_CPG_H__ */
 -- 
 2.43.0
 
