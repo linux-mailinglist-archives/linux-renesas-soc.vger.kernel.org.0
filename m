@@ -1,333 +1,260 @@
-Return-Path: <linux-renesas-soc+bounces-31495-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-31496-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id +B5rLX2m6GngOAIAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-31495-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Apr 2026 12:44:13 +0200
+	id 4O6KN/Sq6GnEOQIAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-31496-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Apr 2026 13:03:16 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0415444E01
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Apr 2026 12:44:12 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A0A244515E
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Apr 2026 13:03:15 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id D5B3D3012ABD
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Apr 2026 10:43:50 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 553253012E8C
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Apr 2026 11:02:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8EC283CD8A2;
-	Wed, 22 Apr 2026 10:43:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2E6DD2BEC23;
+	Wed, 22 Apr 2026 11:02:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TKigwTby"
+	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="OCbrc9YP"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from OS0P286CU011.outbound.protection.outlook.com (mail-japanwestazon11010030.outbound.protection.outlook.com [52.101.228.30])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50AE13CD8D6;
-	Wed, 22 Apr 2026 10:43:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776854623; cv=none; b=Wsc3FZhKIkTkjCpJb4Bbqs8CtOkJJ9SsgclBzNdq00PHEoyRiH/OmSRrwoq//Tr7OJFQmB3xlbVmkSpt06ROHz5qOFrSGLwiP1f44q6TV9o6ILV1uTqWHXM0dc+VUDkMs50d2fWoTrWVtJL1jkZaMryFHcAxRERsGd93ik2pZIc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776854623; c=relaxed/simple;
-	bh=kjrMmCT8D/hLD+2OQdL12dB9asOMZqpCDxmMzIm0+Mk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=G75g/2zB0GzW3kN8+tMowQmdQMDdtBJXiqrWX3NCr3RZu8YJ/rr9WiQ7X274w2Tif/aLj5IUiHx5r7iBfWbJVivO2plmgKeiZQrpO/6S9yqwT7v+RAzeu5ix34Vw7NRslLsujn1GhR4dzHvHFW1zYDjawlFXkIIHLrDuqj/H3cU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TKigwTby; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1776854620; x=1808390620;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=kjrMmCT8D/hLD+2OQdL12dB9asOMZqpCDxmMzIm0+Mk=;
-  b=TKigwTbyv+P6Nl2WHCx01SFIFj6ld8FJilxPHxFZRRpvmCpLJP7HP7oW
-   X7ayy1FxUIiLDebO+RoM3w65uNgxFA1TZ59kCokXVh15EV5X36ZB+or/G
-   qZTV2fovRDi0AM+fFoOiKtpOmP/S/9zM/6X4Houdjnvac0GXgpvFLs8Eo
-   xrDwza+Rgbh1bzh0PxctvaQ4S9Y7c4kD9GOntg5/CLJA8S50fQ1oCN2a5
-   Tvr4OgTaMGiVwjbub3BFDmhcDKUy8hqo3bsSESrqrFsnJ0WnC1RgNU4Q5
-   BiMiFYuNgM1Kfa9VQQ9N03YpmTNZC/+wSpbkjSEW5aPAL532zDAqfaR62
-   A==;
-X-CSE-ConnectionGUID: 3wz1qw/+QX+WDpzz7wSwCg==
-X-CSE-MsgGUID: LGHs6kNSTSa08ER+HJyuow==
-X-IronPort-AV: E=McAfee;i="6800,10657,11763"; a="77922777"
-X-IronPort-AV: E=Sophos;i="6.23,192,1770624000"; 
-   d="scan'208";a="77922777"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2026 03:43:40 -0700
-X-CSE-ConnectionGUID: uUE/1mwZQeu0JAkbNI2YgQ==
-X-CSE-MsgGUID: VaREkrSkSk6ew6lXlcK6kQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,192,1770624000"; 
-   d="scan'208";a="262706360"
-Received: from lkp-server01.sh.intel.com (HELO aa799cca880d) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 22 Apr 2026 03:43:37 -0700
-Received: from kbuild by aa799cca880d with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wFV3O-000000000b7-2sM3;
-	Wed, 22 Apr 2026 10:43:34 +0000
-Date: Wed, 22 Apr 2026 18:43:27 +0800
-From: kernel test robot <lkp@intel.com>
-To: Wolfram Sang <wsa-dev@sang-engineering.com>,
-	linux-renesas-soc@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Wolfram Sang <wsa-dev@sang-engineering.com>,
-	Jassi Brar <jassisinghbrar@gmail.com>,
-	Mark Brown <broonie@linaro.org>
-Subject: Re: [PATCH v2] mailbox: don't free the channel if the startup
- callback failed
-Message-ID: <202604221846.9nkpd0oi-lkp@intel.com>
-References: <20260420114346.10586-2-wsa+renesas@sang-engineering.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1ECDC34DCEB;
+	Wed, 22 Apr 2026 11:02:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.228.30
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776855771; cv=fail; b=gB3JFBf4HEWnK5ZhAkPkmV3H2ZlFUBsZSZs7/1fpNOFwzP/Q7NIevW0KIW4NNtRwjSpcRjGxD4xSU3vpCOu1NnRoPUTSZGDBMZljf93qpkd3DovueT4NXoUMwRuk+IEwO3F5bZUlYExXlC8BY8xluyT5Z4sm99OB5Or/5kBbt64=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776855771; c=relaxed/simple;
+	bh=SDIYMrgarLHOXqZ7V0JiJI6VLbXVhPLaXFemNllWZao=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=tFmWBOiN+XwcYPeejji35TrgthvVr10vZBpTlDC0usyQoEfxvw4+CTMrbOLLaJiHBeGTgQfXCYbPwJ/IyS6kc6D7IvsZvVbX+54zsiZUEEIqIqWgt3fQoSKPnUeBJhb05cs6VXYRM08dtH5mJp6OtHq7OTQuY77/1W7J7Lstc/A=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=OCbrc9YP; arc=fail smtp.client-ip=52.101.228.30
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=hR6zLb3kNKO6SM5WcQAV5jbPx+a52EQOufXa3DpBeIoK+CTK/kN1Htc06HicAmODhfuVGVjw0MhZc+/OKgSRlr9HxvPwN4kEoHi4hqI8WpGdmqGjcJpO5+lDddVxnjd4W7uBmAFn046DX751qM1ChHBcpABZT1EBn2CrJUfTt7Prnfl/44d4jQyDAIf+dhtGVR3ksEniVC4WxkXwsiyOMzoW9W9WFfOlaNsvih9Jt8NbYsf942xSGblCff+8tLZT0Q4GRDjv1FZCoFYHXxo7nb58bDwst/WE+jk64iCMURTMuZ9TtmK5MOWto4AKrQgQEHJtf1HONjmCIzlOAIBerA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=SDIYMrgarLHOXqZ7V0JiJI6VLbXVhPLaXFemNllWZao=;
+ b=H8E/sFEE2CRdGB4Vq8afTR8x+ppvXe1amz94YCn05ZMkX6yDEO8NkLn98+qeh0u2AoZviJ4EdoTd4jjzym8DyUe4FbhckpHYTokRjg+7+a1/TdfX3IDttkpBH/bdQNFd5wqIHffRGvbFeM/z4T4NITHlC01+WWMlZaSntoDaQbq6AN+yYeOJOziby6X/r6iMtsddDyfBkRWYY58+0T5usIiLjDFNwiqdhgy0ema5bNeSJ3tZqgt9wOJEubFKRD3yimFDmeV+ImxJYCSRRmRug1WM0AlKVFDRjO7ku+m3Gy12MNpe5C8DyNeyPs9krTNHzm3KCnHO21uIo+/qSBW+tg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=SDIYMrgarLHOXqZ7V0JiJI6VLbXVhPLaXFemNllWZao=;
+ b=OCbrc9YPczjlJkewfr0EZ3qpe8vBKuj2GfF1OP3stecYTQfO5hcSI8SZ7+Gqhz87jKPvpOi1O6DDB+Z0QmKA3UBD0Tx4eUiPW6/1wXr7petyUZDA7V5CtsDX8qkm7BaNYs7CcpuPiPTgKIOdlZlZwPn8SDIvvRjBj4kHh1TV1D0=
+Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com (2603:1096:400:3d0::7)
+ by TYYPR01MB16244.jpnprd01.prod.outlook.com (2603:1096:405:2da::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9846.16; Wed, 22 Apr
+ 2026 11:02:45 +0000
+Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com
+ ([fe80::87d1:4928:d55:97de]) by TY3PR01MB11346.jpnprd01.prod.outlook.com
+ ([fe80::87d1:4928:d55:97de%4]) with mapi id 15.20.9846.016; Wed, 22 Apr 2026
+ 11:02:45 +0000
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: laurent.pinchart <laurent.pinchart@ideasonboard.com>
+CC: biju.das.au <biju.das.au@gmail.com>, Andrzej Hajda
+	<andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>, Robert
+ Foss <rfoss@kernel.org>, Maarten Lankhorst
+	<maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>, Jonas Karlman <jonas@kwiboo.se>, Jernej
+ Skrabec <jernej.skrabec@gmail.com>, Dmitry Baryshkov
+	<dmitry.baryshkov@oss.qualcomm.com>, Tommaso Merciai
+	<tommaso.merciai.xr@bp.renesas.com>, Andy Yan <andy.yan@rock-chips.com>,
+	Douglas Anderson <dianders@chromium.org>, Luca Ceresoli
+	<luca.ceresoli@bootlin.com>, Jesse Van Gavere <jesseevg@gmail.com>,
+	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, Geert
+ Uytterhoeven <geert+renesas@glider.be>, Prabhakar Mahadev Lad
+	<prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>
+Subject: RE: [PATCH] drm/bridge: adv7511: Clear HPD IRQ before powering on
+ device during resume()
+Thread-Topic: [PATCH] drm/bridge: adv7511: Clear HPD IRQ before powering on
+ device during resume()
+Thread-Index: AQHccNTTduZlWQWrnEiAvemqifSjf7WxuWcAgAA85YCAAfPyAIAAe5TAgDdGnOA=
+Date: Wed, 22 Apr 2026 11:02:45 +0000
+Message-ID:
+ <TY3PR01MB113468A6C8FA8E547FCF21EF0862D2@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+References: <20251219104659.114032-1-biju.das.jz@bp.renesas.com>
+ <20260316140232.GB31616@killaraus.ideasonboard.com>
+ <TYCPR01MB113325ADBA0ACD1872BD4959B8640A@TYCPR01MB11332.jpnprd01.prod.outlook.com>
+ <20260317232952.GD408929@killaraus.ideasonboard.com>
+ <TY3PR01MB11346985D2509C34639B4560B864EA@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+In-Reply-To:
+ <TY3PR01MB11346985D2509C34639B4560B864EA@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TY3PR01MB11346:EE_|TYYPR01MB16244:EE_
+x-ms-office365-filtering-correlation-id: bba1fdc5-481b-42c2-2d28-08dea05eaee7
+x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|1800799024|366016|376014|7416014|38070700021|18002099003|22082099003|56012099003;
+x-microsoft-antispam-message-info:
+ bRIcsQl5wbPWFWd/+SRjl8AT/yvbzKsELTLPl9+jDFlpAayEC01rBO/lzeWFSph8NB0JQoZQ2bGVsAZDGjHq5uACJL77SEunqFkkTkkA2mMvezSfBA3qdeYKUXL+okSU4nqxFl4fmlzvq6+MRH+blZjJQ0XOBmWPVbfJLkQYnlCZTxXhczBxjYAxgMzmG/xEwEP3g5pKPsTXFYmkCUD7x4VuSVERWJN3zKIPYBn/TspU7PfWOopzwvKwarfUc+8TLrCxbFbCMfZHHzh1XOAGCQJ3SC9hwQ/uAGi9vkGnF03Bb8XB6VA8JZBYGZacK7/zdI/j7TAdUKRRvutKzcXnbGm9uQK2/3obdcbMrimkuh9x6wq8GCTYC/UZse5ZyHGqsZjVhFQqK+SnBvIj/SfHyHg7Ts4uov+PfXZQZHW2ho/Ro+33+hk+3uLKrJL4QvKDsmdOTAlmokszhQReXJhxb5oYeKCm7KGUy9nHt5gxmFsRCYtwnMMQl0UbVYu5xHPK87CiK+qkqzAVgn3j3LkwSOlHNMaAG6E+Supx2ARln3oebmJkdt4ic0BZHIuE9NwjKPCEPrRxI/0Hip69TS0BMiKhCJ5cQPecYbvXxiFC326JlfvqU/ujB1eK5ldQSq0sEssMiQAz3VeGJ3D/2uDVqQ83GP9IEI6matMlF+fLHMnrtnE79EieVTDMOWLzUS3oJX67Jx0991LrrHB/Xs7tSEaSS0BDDxQAcMPMzwavdSjZwrlvVHaIRc+JZ3HdPOy49a7ujlqWNoRMC7Ip7FjiDitAc6QvgUjt3G/hORKtTP4=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB11346.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014)(38070700021)(18002099003)(22082099003)(56012099003);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?utf-8?B?WkU2TXFscVoxRk14a01wejBTRHp3MmRSZW56Y3JrSmV6NFBrZEhWdGZkZTM4?=
+ =?utf-8?B?RmFVMFVvUkJoeExoUGhrWllUUjVpSjVRS2doQmdRbnMyYmpyU1pIamh0Ymwv?=
+ =?utf-8?B?TnMxQWJ2S0VPcVJGTFd1MWViK1JXVDlNWHRlVlRMUU1LZEJvOTBaMGlKMm12?=
+ =?utf-8?B?M3kxekZOckNTUVNIVG5DcEtHbDRpWHRPOFJzdzFVSWx4OGhIV3hrTElkL3VQ?=
+ =?utf-8?B?TjB5bVhiamdqVDBaS0dKbVJzZmd4ZVlFUnF0UVV4S0dSWG1ORVh0bmhaVkY5?=
+ =?utf-8?B?Nm0ycHNqbFBncEk4cER1bGE0M1k0RmpMNlpFL25tWU84bzZnZzcyT3JGYUVQ?=
+ =?utf-8?B?eGg5c3RjWEdmb3JRMGwwdW44ZUdBWUg3dkszTC9jUGdUajFzS2lHKzhPUFJt?=
+ =?utf-8?B?NUpqUkY2Zjd0U1VPMWNBNTUzY1RpTDNsK3Zod1FqNSt6azJBbWkzajRlYTVS?=
+ =?utf-8?B?RWpwQ1BHcVFkNkdyN2xmWldTTTNnZTg5TFFGWGRaWUpOTjdVWDFOR0F0ejFU?=
+ =?utf-8?B?R2pKaFZReUg0UkEyS2JPZDJsL3I0VnlHbTREcTd1NWlmNEthR01NOEZVZFlk?=
+ =?utf-8?B?bndDcGh6akhIRG92RHFjWkZ2bEIyNk9JcS9CQlBmVlJFemlHTmpKWGwrTy9S?=
+ =?utf-8?B?SElIQlJ6anpEeFRkQlZUN0tNdE5XVThYMXJhWE4yQkxIUDRIdVFWWUdSeEJu?=
+ =?utf-8?B?cVNCaSs5SHZTNFFDZG12M1RXV3A3R0d3MSttS2trMHVJQXhTNkpOUmtyV25P?=
+ =?utf-8?B?UWRXcVJlaTRTM3NDRjZhVWpNR243dEZYR0UwRm9ZTk5Fb0ZnRWdlWm9hUG4r?=
+ =?utf-8?B?bDZaOXhqRkpnTnJqSkNTa09ORVVGTXZLVnpUOVE1aE9NTWxadm1mQUxja3Rn?=
+ =?utf-8?B?MUdpVDFTVGYwWnFQOGt2RHlrT0QrU2tGNmJrZXphZDcrVTRwbVIwQ05DOCtU?=
+ =?utf-8?B?SlA2bGVxV1B6RmowZ0lmL2FwUTloY0dDL3lUQjdiTkg3S0VlSXpRS3FvU2Q4?=
+ =?utf-8?B?N0V3ZWwvTFRkakR0VTRraHlhU1FLNUVzYndwWmxOcVRQS1ZQTlp3bkNtSVlV?=
+ =?utf-8?B?ZnBFd0ZJK0h4OURwOStRTlI3bTlNTzJkcHNWZWg0aFdUM2FuMXNXSlVrczFu?=
+ =?utf-8?B?MUczWlU0WUdYWFVDZnB6cG44RW0rV2NEbmg2RFNuVnlyK0pzdUswS3JyUUV0?=
+ =?utf-8?B?dnRWSmNralJPVHJoam1pcGZNVG1JRllBOVpQRzNjbHNRTHJxdFM2azR5Q3Ft?=
+ =?utf-8?B?ajdNZ3N5T1d3bU5WU2NtOEQ4cVl3eHNQbmR4K25OeW1vbmFOeXBBWkxwMkZB?=
+ =?utf-8?B?bFA0UFF0eUR5YkNhRE15aWxSSlhMQWFxUXY4V2U0YkIxKzg4TlR4OGdzR1ND?=
+ =?utf-8?B?Nm80ZXhlRzFsakplMXFlWUpVemV2WjM3U0FueG1oaCt1MEVvMVlZTGlqTmVW?=
+ =?utf-8?B?RlJFcEh2d2swdzdUT0dLTVdRZFk1Z3FPbXU1MkZMQUsvQTBoOWxlRmVXb3Iz?=
+ =?utf-8?B?R2pVRGxXVm5TWmRqRlpmUmVqUll3aWhwRE1yYUk2b1lQVTRUNWFLbXpSZHRp?=
+ =?utf-8?B?emY2QTlnckRxTk1qazhoQ3ZtMno0TzNMdTIyM2ZUZjc3eEJYelMyU2xZMklB?=
+ =?utf-8?B?NEpxRUNkU3BPbzRGdW1QZWNVdnkwV3ZtZURxRWxyaVIzQkJEL3VwcXFobloz?=
+ =?utf-8?B?ZXRmb1pxaEROSWpQZFl1UHExVUpBMHgxLzhsbjhMZzhHd0RuWTU5QjlFbDlP?=
+ =?utf-8?B?dUcyQm9qc2JkSGpTU0NLYVljQzkrcWo5QktrM2EzVGhydWlKSDNQVzgrV1Yw?=
+ =?utf-8?B?WkFPMXlGbG9SWWxzVFo1UENtNXV1Kzh6cStNc29HRzFSeEtWWEpwaXVZQkhs?=
+ =?utf-8?B?bFBBM05UMFlYeWJEU3JaSjBhcWRlekZHOUlwMFZ3RnZlaEl2NlZXd0VxZWRr?=
+ =?utf-8?B?U3JhSjE5UWJXWkdZNXVkekR0SzFOTmlpOTFDa0c1cnJyVExDM2p4MElGWlVa?=
+ =?utf-8?B?ZWtNcWFlSi9DN1JtdG5Sa2pqU0hrM0xxWUdOSnRKSGRhV3E0OGI0WFVkRjVx?=
+ =?utf-8?B?NERETWtCREprTitNdlZ5cVJwVTlPZkQzOVZKRnNEVyt5Z3E0V2RzdTNLQUdZ?=
+ =?utf-8?B?USs1Mm0zdC9sZ0piV2hvejJ2OXBLS1VxdUVsUkZyOHVXTUpZRnNvYnRVMitj?=
+ =?utf-8?B?cHhMa1BuUG16d044OXpkTU51NTZzOUhFU2wwdml6bUsrVjE2ODZ6WlFoTlFq?=
+ =?utf-8?B?K1RBc3NLWXdCemkyLzlKV1JrNytRRG82Q0l1WmZZTEc3Qks1QjlTQjFuOG9U?=
+ =?utf-8?B?OFpKWGd6UXlkSjJ1SUNoYlJyQXExaDVJNk4wby9Ja1YrR001bkNZQT09?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260420114346.10586-2-wsa+renesas@sang-engineering.com>
-X-Spamd-Result: default: False [-1.16 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11346.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: bba1fdc5-481b-42c2-2d28-08dea05eaee7
+X-MS-Exchange-CrossTenant-originalarrivaltime: 22 Apr 2026 11:02:45.4704
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: URw7vcze5bfaeliSXW87z2p1OnmrbpzWHu8U72ZmnZ4om5YqslD1fQGBf8zv+fZLITmuWhTaViOctdcShwlp1w2EcbXsxsFWqkk1j+3jwfs=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYYPR01MB16244
+X-Spamd-Result: default: False [2.44 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	MIME_BASE64_TEXT_BOGUS(1.00)[];
+	ARC_REJECT(1.00)[cv is fail on i=2];
+	DMARC_POLICY_ALLOW(-0.50)[renesas.com,none];
+	R_DKIM_ALLOW(-0.20)[bp.renesas.com:s=selector1];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
+	MIME_BASE64_TEXT(0.10)[];
 	HAS_LIST_UNSUB(-0.01)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[lists.linux.dev,vger.kernel.org,sang-engineering.com,gmail.com,linaro.org];
+	TAGGED_FROM(0.00)[bounces-31496-lists,linux-renesas-soc=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-31495-lists,linux-renesas-soc=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[intel.com:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
-	MISSING_XM_UA(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[lkp@intel.com,linux-renesas-soc@vger.kernel.org];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[23];
+	FREEMAIL_CC(0.00)[gmail.com,intel.com,linaro.org,kernel.org,linux.intel.com,suse.de,ffwll.ch,kwiboo.se,oss.qualcomm.com,bp.renesas.com,rock-chips.com,chromium.org,bootlin.com,lists.freedesktop.org,vger.kernel.org,glider.be];
+	DKIM_TRACE(0.00)[bp.renesas.com:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-renesas-soc];
-	RCPT_COUNT_SEVEN(0.00)[8];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[biju.das.jz@bp.renesas.com,linux-renesas-soc@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,git-scm.com:url,spec.np:url]
-X-Rspamd-Queue-Id: B0415444E01
+	RCVD_COUNT_FIVE(0.00)[5];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
+	NEURAL_HAM(-0.00)[-0.991];
+	MISSING_XM_UA(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[bp.renesas.com:dkim,ideasonboard.com:email,TY3PR01MB11346.jpnprd01.prod.outlook.com:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 4A0A244515E
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi Wolfram,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on jassibrar-mailbox/for-next]
-[also build test ERROR on next-20260421]
-[cannot apply to linus/master v7.0]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Wolfram-Sang/mailbox-don-t-free-the-channel-if-the-startup-callback-failed/20260420-234226
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/jassibrar/mailbox.git for-next
-patch link:    https://lore.kernel.org/r/20260420114346.10586-2-wsa%2Brenesas%40sang-engineering.com
-patch subject: [PATCH v2] mailbox: don't free the channel if the startup callback failed
-config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20260422/202604221846.9nkpd0oi-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260422/202604221846.9nkpd0oi-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604221846.9nkpd0oi-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> drivers/mailbox/mailbox.c:355:4: error: call to undeclared function 'mbox_clean_and_put_channel'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     355 |                         mbox_clean_and_put_channel(chan);
-         |                         ^
->> drivers/mailbox/mailbox.c:484:6: error: conflicting types for 'mbox_clean_and_put_channel'
-     484 | void mbox_clean_and_put_channel(struct mbox_chan *chan)
-         |      ^
-   drivers/mailbox/mailbox.c:355:4: note: previous implicit declaration is here
-     355 |                         mbox_clean_and_put_channel(chan);
-         |                         ^
-   2 errors generated.
-
-
-vim +/mbox_clean_and_put_channel +355 drivers/mailbox/mailbox.c
-
-   329	
-   330	static int __mbox_bind_client(struct mbox_chan *chan, struct mbox_client *cl)
-   331	{
-   332		struct device *dev = cl->dev;
-   333		int ret;
-   334	
-   335		if (chan->cl || !try_module_get(chan->mbox->dev->driver->owner)) {
-   336			dev_err(dev, "%s: mailbox not free\n", __func__);
-   337			return -EBUSY;
-   338		}
-   339	
-   340		scoped_guard(spinlock_irqsave, &chan->lock) {
-   341			chan->msg_free = 0;
-   342			chan->msg_count = 0;
-   343			chan->active_req = MBOX_NO_MSG;
-   344			chan->cl = cl;
-   345			init_completion(&chan->tx_complete);
-   346	
-   347			if (chan->txdone_method	== MBOX_TXDONE_BY_POLL && cl->knows_txdone)
-   348				chan->txdone_method = MBOX_TXDONE_BY_ACK;
-   349		}
-   350	
-   351		if (chan->mbox->ops->startup) {
-   352			ret = chan->mbox->ops->startup(chan);
-   353			if (ret) {
-   354				dev_err(dev, "Unable to startup the chan (%d)\n", ret);
- > 355				mbox_clean_and_put_channel(chan);
-   356				return ret;
-   357			}
-   358		}
-   359	
-   360		return 0;
-   361	}
-   362	
-   363	/**
-   364	 * mbox_bind_client - Bind client to a mailbox channel.
-   365	 * @chan: The mailbox channel to bind the client to.
-   366	 * @cl: Identity of the client requesting the channel.
-   367	 *
-   368	 * The Client specifies its requirements and capabilities while asking for
-   369	 * a mailbox channel. It can't be called from atomic context.
-   370	 * The channel is exclusively allocated and can't be used by another
-   371	 * client before the owner calls mbox_free_channel.
-   372	 * After assignment, any packet received on this channel will be
-   373	 * handed over to the client via the 'rx_callback'.
-   374	 * The framework holds reference to the client, so the mbox_client
-   375	 * structure shouldn't be modified until the mbox_free_channel returns.
-   376	 *
-   377	 * Return: 0 if the channel was assigned to the client successfully.
-   378	 *         <0 for request failure.
-   379	 */
-   380	int mbox_bind_client(struct mbox_chan *chan, struct mbox_client *cl)
-   381	{
-   382		guard(mutex)(&con_mutex);
-   383	
-   384		return __mbox_bind_client(chan, cl);
-   385	}
-   386	EXPORT_SYMBOL_GPL(mbox_bind_client);
-   387	
-   388	/**
-   389	 * mbox_request_channel - Request a mailbox channel.
-   390	 * @cl: Identity of the client requesting the channel.
-   391	 * @index: Index of mailbox specifier in 'mboxes' property.
-   392	 *
-   393	 * The Client specifies its requirements and capabilities while asking for
-   394	 * a mailbox channel. It can't be called from atomic context.
-   395	 * The channel is exclusively allocated and can't be used by another
-   396	 * client before the owner calls mbox_free_channel.
-   397	 * After assignment, any packet received on this channel will be
-   398	 * handed over to the client via the 'rx_callback'.
-   399	 * The framework holds reference to the client, so the mbox_client
-   400	 * structure shouldn't be modified until the mbox_free_channel returns.
-   401	 *
-   402	 * Return: Pointer to the channel assigned to the client if successful.
-   403	 *		ERR_PTR for request failure.
-   404	 */
-   405	struct mbox_chan *mbox_request_channel(struct mbox_client *cl, int index)
-   406	{
-   407		struct fwnode_reference_args fwspec;
-   408		struct fwnode_handle *fwnode;
-   409		struct mbox_controller *mbox;
-   410		struct of_phandle_args spec;
-   411		struct mbox_chan *chan;
-   412		struct device *dev;
-   413		unsigned int i;
-   414		int ret;
-   415	
-   416		dev = cl->dev;
-   417		if (!dev) {
-   418			pr_debug("No owner device\n");
-   419			return ERR_PTR(-ENODEV);
-   420		}
-   421	
-   422		fwnode = dev_fwnode(dev);
-   423		if (!fwnode) {
-   424			dev_dbg(dev, "No owner fwnode\n");
-   425			return ERR_PTR(-ENODEV);
-   426		}
-   427	
-   428		ret = fwnode_property_get_reference_args(fwnode, "mboxes", "#mbox-cells",
-   429							 0, index, &fwspec);
-   430		if (ret) {
-   431			dev_err(dev, "%s: can't parse \"%s\" property\n", __func__, "mboxes");
-   432			return ERR_PTR(ret);
-   433		}
-   434	
-   435		spec.np = to_of_node(fwspec.fwnode);
-   436		spec.args_count = fwspec.nargs;
-   437		for (i = 0; i < spec.args_count; i++)
-   438			spec.args[i] = fwspec.args[i];
-   439	
-   440		scoped_guard(mutex, &con_mutex) {
-   441			chan = ERR_PTR(-EPROBE_DEFER);
-   442			list_for_each_entry(mbox, &mbox_cons, node) {
-   443				if (device_match_fwnode(mbox->dev, fwspec.fwnode)) {
-   444					if (mbox->fw_xlate) {
-   445						chan = mbox->fw_xlate(mbox, &fwspec);
-   446						if (!IS_ERR(chan))
-   447							break;
-   448					} else if (mbox->of_xlate) {
-   449						chan = mbox->of_xlate(mbox, &spec);
-   450						if (!IS_ERR(chan))
-   451							break;
-   452					}
-   453				}
-   454			}
-   455	
-   456			fwnode_handle_put(fwspec.fwnode);
-   457	
-   458			if (IS_ERR(chan))
-   459				return chan;
-   460	
-   461			ret = __mbox_bind_client(chan, cl);
-   462			if (ret)
-   463				chan = ERR_PTR(ret);
-   464		}
-   465	
-   466		return chan;
-   467	}
-   468	EXPORT_SYMBOL_GPL(mbox_request_channel);
-   469	
-   470	struct mbox_chan *mbox_request_channel_byname(struct mbox_client *cl,
-   471						      const char *name)
-   472	{
-   473		int index = device_property_match_string(cl->dev, "mbox-names", name);
-   474	
-   475		if (index < 0) {
-   476			dev_err(cl->dev, "%s() could not locate channel named \"%s\"\n",
-   477				__func__, name);
-   478			return ERR_PTR(index);
-   479		}
-   480		return mbox_request_channel(cl, index);
-   481	}
-   482	EXPORT_SYMBOL_GPL(mbox_request_channel_byname);
-   483	
- > 484	void mbox_clean_and_put_channel(struct mbox_chan *chan)
-   485	{
-   486		/* The queued TX requests are simply aborted, no callbacks are made */
-   487		scoped_guard(spinlock_irqsave, &chan->lock) {
-   488			chan->cl = NULL;
-   489			chan->active_req = MBOX_NO_MSG;
-   490			if (chan->txdone_method == MBOX_TXDONE_BY_ACK)
-   491				chan->txdone_method = MBOX_TXDONE_BY_POLL;
-   492		}
-   493	
-   494		module_put(chan->mbox->dev->driver->owner);
-   495	}
-   496	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+SGkgTGF1cmVudCwNCg0KPiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBCaWp1
+IERhcyA8YmlqdS5kYXMuanpAYnAucmVuZXNhcy5jb20+DQo+IFNlbnQ6IDE4IE1hcmNoIDIwMjYg
+MDY6NTgNCj4gU3ViamVjdDogUkU6IFtQQVRDSF0gZHJtL2JyaWRnZTogYWR2NzUxMTogQ2xlYXIg
+SFBEIElSUSBiZWZvcmUgcG93ZXJpbmcgb24gZGV2aWNlIGR1cmluZyByZXN1bWUoKQ0KPiANCj4g
+SGkgTGF1cmVudCwNCj4gDQo+ID4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gPiBGcm9t
+OiBMYXVyZW50IFBpbmNoYXJ0IDxsYXVyZW50LnBpbmNoYXJ0QGlkZWFzb25ib2FyZC5jb20+DQo+
+ID4gU2VudDogMTcgTWFyY2ggMjAyNiAyMzozMA0KPiA+IFN1YmplY3Q6IFJlOiBbUEFUQ0hdIGRy
+bS9icmlkZ2U6IGFkdjc1MTE6IENsZWFyIEhQRCBJUlEgYmVmb3JlDQo+ID4gcG93ZXJpbmcgb24g
+ZGV2aWNlIGR1cmluZyByZXN1bWUoKQ0KPiA+DQo+ID4gT24gTW9uLCBNYXIgMTYsIDIwMjYgYXQg
+MDU6NTk6NTdQTSArMDAwMCwgQmlqdSBEYXMgd3JvdGU6DQo+ID4gPiBPbiAxNiBNYXJjaCAyMDI2
+IDE0OjAzLCBMYXVyZW50IFBpbmNoYXJ0IHdyb3RlOg0KPiA+ID4gPiBPbiBGcmksIERlYyAxOSwg
+MjAyNSBhdCAxMDo0Njo1M0FNICswMDAwLCBCaWp1IHdyb3RlOg0KPiA+ID4gPiA+IEZyb206IEJp
+anUgRGFzIDxiaWp1LmRhcy5qekBicC5yZW5lc2FzLmNvbT4NCj4gPiA+ID4gPg0KPiA+ID4gPiA+
+IE9uIFJaL0czRSBTTUFSQyBFVksgdXNpbmcgUFNDSSwgczJyYW0gcG93ZXJzIGRvd24gdGhlIFNv
+Qy4NCj4gPiA+ID4gPiBUZXN0aW5nDQo+ID4gPiA+ID4gQURWNzUzNSBJUlEgY29uZmlndXJlZCBh
+cyBlZGdlLXRyaWdnZXJlZCBpbnRlcnJ1cHQgb24gUlovRzNFDQo+ID4gPiA+ID4gU01BUkMgRVZL
+IHNob3dzIHRoYXQgaXQgaXMgbWlzc2luZyBIUEQgSVJRIGR1cmluZyBzeXN0ZW0gcmVzdW1lLA0K
+PiA+ID4gPiA+IGFzIHRoZSBzdGF0dXMgY2hhbmdlIG9jY3VycyBiZWZvcmUgdGhlIElSUS9waW5j
+b250cm9sIHJlc3VtZS4NCj4gPiA+ID4gPiBPbmNlIHRoZSBzdGF0dXMgYml0IGlzIHNldCwgdGhl
+cmUgd29uJ3QgYmUgYW55IGZ1cnRoZXIgSVJRIHVubGVzcyB0aGUgc3RhdHVzIGJpdCBpcyBjbGVh
+cmVkLg0KPiA+ID4gPiA+DQo+ID4gPiA+ID4gQ2xlYXIgYW55IHBlbmRpbmcgSFBEIElSUXMgYmVm
+b3JlIHBvd2VyaW5nIG9uIHRoZSBBRFY3NTM1IGRldmljZQ0KPiA+ID4gPiA+IHRvIGRlbGl2ZXIg
+SFBEIGludGVycnVwdHMgYWZ0ZXIgcmVzdW1lKCkuDQo+ID4gPiA+DQo+ID4gPiA+IFRoaXMgaXNz
+dWUgZG9lc24ndCBzZWVtIHRvIGJlIHNwZWNpZmljIHRvIHRoZSBBRFY3NTExLiBBbnkgZGV2aWNl
+DQo+ID4gPiA+IHRoYXQgdXNlcyBhbiBlZGdlLXRyaWdnZXJlZCBpbnRlcnJ1cHQgY291bGQgc3Vm
+ZmVyIGZyb20gdGhlIHNhbWUgcHJvYmxlbS4NCj4gPiA+ID4gSW1wbGVtZW50aW5nIGEgd29yayBh
+cm91bmQgaW4gdGhlIGRyaXZlciBkb2Vzbid0IHNlZW0gdG8gYmUgYSBzb2x1dGlvbiB0aGF0IHdv
+dWxkIHNjYWxlLg0KPiA+ID4NCj4gPiA+IEkgZG9uJ3Qgc2VlIGFueSBicmlkZ2UgZGV2aWNlIGlz
+IGNvbXBsYWluaW5nIGFib3V0IHNpbWlsYXIgaXNzdWVzIGluIExpbnV4IGtlcm5lbC4NCj4gPg0K
+PiA+IFRoaXMgaXMgZXhhY3RseSB3aHkgdGhpcyBwYXRjaCBjb25jZXJucyBtZS4gVGhlIGlzc3Vl
+IGRvZXNuJ3Qgc2VlbSB0bw0KPiA+IGJlIHNwZWNpZmljIHRvIHRoZSBBRFY3NTExLCB5ZXQgbm8g
+b3RoZXIgYnJpZGdlIGRyaXZlciBpbXBsZW1lbnRzIGFueXRoaW5nIHNpbWlsYXIuIEl0IHNlZW1z
+IHRvDQo+IGluZGljYXRlIHNvbWV0aGluZyBlbHNlIGlzIHdyb25nLg0KPiA+DQo+ID4gSSB1bmRl
+cnN0YW5kIGFuZCBhZ3JlZSB3aXRoIHRoZSBhbmFseXNpcyBvZiB0aGUgaXNzdWUgKGFsdGhvdWdo
+IEkgZmluZA0KPiA+IGl0IHdlaXJkIHRoYXQgdGhlIGludGVycnVwdCBjb250cm9sbGVyIG9yIHBp
+biBjb250cm9sbGVyIHdvdWxkIGJlDQo+ID4gcmVzdW1lZCBhZnRlciB0aGUgQURWNzUxMSksIGJ1
+dCBhbnkgZGV2aWNlIHdpdGggYW4gZWRnZS0gdHJpZ2dlcmVkDQo+ID4gaW50ZXJydXB0IHNob3Vs
+ZCB0aGVuIHN1ZmZlciBmcm9tIHRoZSBzYW1lIHByb2JsZW0uIFRoaXMgbWVhbnMgaXQNCj4gPiBz
+aG91bGRuJ3QgYmUgaGFuZGxlZCBhdCBpbmRpdmlkdWFsIGRyaXZlcnMgbGV2ZWwsIHVubGVzcyB0
+aGVyZSdzIHNvbWV0aGluZyBJJ20gbWlzc2luZyB0aGF0IG1ha2VzIHRoZQ0KPiBwcm9ibGVtIHZl
+cnkgc3BlY2lmaWMgdG8gdGhlIEFEVjc1MTEuIE90aGVyd2lzZSwgYSBtb3JlIGdlbmVyaWMgc29s
+dXRpb24gaXMgbmVlZGVkLg0KPiANCj4gQURWNzUzNSBpcyBzcGVjaWFsIGRldmljZSwgaGFyZHdh
+cmUgcmVzZXQgYXV0b21hdGljYWxseSBzZXQgdGhlIHN0YXR1cyBiaXQsIGlmIGEgY29ubmVjdG9y
+IGlzIGNvbm5lY3RlZA0KPiB3aXRob3V0IHNvZnR3YXJlIGlzIHR1cm5pbmcgcG93ZXIgb24gdW5s
+aWtlIG90aGVyIGRldmljZXMuDQo+IA0KPiBEbyB5b3Uga25vdyBhbnkgb3RoZXIgYnJpZGdlIGRl
+dmljZSBzaG93cyB0aGlzIGlzc3VlPyBpLmUuLCB3aXRob3V0IHNvZnR3YXJlIHR1cm5pbmcgdGhl
+IHBvd2VyIG9uLA0KPiBicmlkZ2UgZGV2aWNlIHNldHMgdGhlIHN0YXR1cyBiaXQgZHVyaW5nIHBv
+d2VyIG9uIHJlc2V0Pz8NCg0KSSBjYW1lIHVwIHdpdGggYSBzaW1wbGUgcGF0Y2ggZHJvcHBpbmcg
+UE0gc3VwcG9ydC4gSSB3aWxsIHNlbmQgdGhpcyBhcyB2Mi4NCg0KKwkvKg0KKwkgKiBDbGVhciB0
+aGUgSFBEIHN0YXR1cyBiaXQgKEFEVjc1MTFfSU5UMF9IUEQpLCBzbyB0aGF0IGFueSBIUEQNCisJ
+ICogaW50ZXJydXB0IGxhdGNoZWQgYmVmb3JlIG9yIGR1cmluZyBwb3dlciBsb3NzIGlzIGRpc21p
+c3NlZCBiZWZvcmUNCisJICogbm9ybWFsIG9wZXJhdGlvbiByZXN1bWVzLg0KKyAJICovDQorCXJl
+Z21hcF93cml0ZShhZHYtPnJlZ21hcCwgQURWNzUxMV9SRUdfSU5UKDApLCBBRFY3NTExX0lOVDBf
+SFBEKTsNCisNCg0KQ2hlZXJzLA0KQmlqdQ0KDQo=
 
