@@ -1,234 +1,178 @@
-Return-Path: <linux-renesas-soc+bounces-31483-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-31484-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 8GbJIOJu6GmNKQIAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-31483-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Apr 2026 08:46:58 +0200
+	id wAMgEi1y6GkSKgIAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-31484-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Apr 2026 09:01:01 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id B190B442935
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Apr 2026 08:46:57 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id BB732442B0D
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Apr 2026 09:01:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 1F9FC3053CFA
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Apr 2026 06:40:09 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 0586E3017F96
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Apr 2026 06:57:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5C33D2E6CB3;
-	Wed, 22 Apr 2026 06:40:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NwPv/lrw"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5A6A727EFEE;
+	Wed, 22 Apr 2026 06:57:17 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f42.google.com (mail-oo1-f42.google.com [209.85.161.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DB36324716
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 22 Apr 2026 06:40:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 101E71E5201
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 22 Apr 2026 06:57:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776840008; cv=none; b=oG6datLK5Loj6RtZkI4f25mJPaXKMV0p34TJfCTNeBWc+IKOJkI+ag3rcUjWhCj8wIxiKSpCpipc/MeCujaXRfW3LoDMVtwWMrA1hNNg4GizfXfczs5vAqG++mENcvbkcARSR7dNKxodRiwHL7yMLVHYnOLrNuc2Aj3ekxdYFfU=
+	t=1776841037; cv=none; b=cyvHC62LV9pZHbgBrhay7revdBaVpSxrmBOezkL7DPx0rMcLhcIRBzSJuxGHlOXk/cdApzegAsBXUijEuyW6jvXWIxBV95cqP45UW/EP0b9lKru/8wCtAK0aS7ycKYx+1xF9WYPqiDn1/qFOjHudVHTAP7P5PUY6YKNge/rmoZs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776840008; c=relaxed/simple;
-	bh=BRX/D3hedq2tyt4NmVLGAYUWi1Tq0x/iyR0DVxxN6Rg=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=Cab+m35by92XbFnGJyIzgW9/UZfPVs+vDnR7u/wp1W3EeI/ICwiP/1nAmCCnM3idzQ5Gf75JwqesL+lZja1WEa/kewdWe3hySM8B3BR42ooAYYRAsU2e37Y35mEDqICoDzj6At/03WoCey7sMRCASAIM7aGHwWAgUpi78UgT6zU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NwPv/lrw; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1776840005; x=1808376005;
-  h=date:from:to:cc:subject:message-id;
-  bh=BRX/D3hedq2tyt4NmVLGAYUWi1Tq0x/iyR0DVxxN6Rg=;
-  b=NwPv/lrwaN0I7fxZ4DHZXsrsCpbpaPz7lIGL2ZToDG6YzAY2jFV6N7ql
-   LbPowWaTN8aeykkGogThXOPTkcYHkv9a2jA6wO2DqISUpv92oZQCD6aP6
-   EXYIUtncSDyHWaUG+7eI2AsPMgyI8JPNk29fCIYNhRHSnuVQktT2Yncau
-   BLiqcxgg4DHs7Hm5lyu+aCannU+dndBQ7Zj1pxWXLTTnDFi2ejLPt0OUF
-   tYs2sxoFEY+Z+k0X2FsUE4vzLDDi8vo1AVDjp/EJw08/PqFLuAVpzaGQu
-   UM6X2FG9fALLy9iI7CiDsytD+ZOWelBibRxCFlaklHAlezpDExiymQ+Jh
-   A==;
-X-CSE-ConnectionGUID: UTDIfUDsRZObclvKpMWwRg==
-X-CSE-MsgGUID: ugJtQctLTG2a1/wfi/hiaw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11763"; a="65322049"
-X-IronPort-AV: E=Sophos;i="6.23,192,1770624000"; 
-   d="scan'208";a="65322049"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Apr 2026 23:40:04 -0700
-X-CSE-ConnectionGUID: KwaHI/VISX+kZUjoX14d/w==
-X-CSE-MsgGUID: vShYFA/RR9ybS/5DMLmVVQ==
-X-ExtLoop1: 1
-Received: from lkp-server01.sh.intel.com (HELO aa799cca880d) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 21 Apr 2026 23:40:03 -0700
-Received: from kbuild by aa799cca880d with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wFRFh-000000000EX-04a2;
-	Wed, 22 Apr 2026 06:40:01 +0000
-Date: Wed, 22 Apr 2026 14:39:01 +0800
-From: kernel test robot <lkp@intel.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: linux-renesas-soc@vger.kernel.org
-Subject: 
- [geert-renesas-drivers:topic/rcar-x5h-ironhide-scmi-cpg-mdlc-remapping-v1]
- BUILD SUCCESS WITH WARNING 258e1985bfa75ca0b3c98bd083628f9b6c7887fc
-Message-ID: <202604221452.kpRGCUUh-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	s=arc-20240116; t=1776841037; c=relaxed/simple;
+	bh=wpkRjIorbMJMpqwzpLdjkd4Y24lBbCPn4ze08bDnJqE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=OenSWxk3WB+tV51S5ZfORyJVO7HFCosln+ttIQgQtANQNbkukdmqvgq++e2bVa8E5GxT7HOf2Y96yJjzVmEStDlrdWHZeT1d1rfuLP/ScPRN7s6hKQ3oaIkgxhAOOpFD/WQMwokt6KFO+g3y7UJGAsD813pg0XHVK3jhqNQ5WrI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.161.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-oo1-f42.google.com with SMTP id 006d021491bc7-6948ff6b006so1425781eaf.2
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 21 Apr 2026 23:57:15 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776841035; x=1777445835;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=EQBlVUrhFqLpmXIMAS6FxW1MbLcWzT++sufCtB36Fh4=;
+        b=TOKvm+VIq3R7J+Ilw57uY2RHibR9y8zFL0DxsGupcXZNDb3C/ew9EBoxhIol2D99rO
+         3tyhSNafJEDsUMrs/1OHzm8rb2lQJ5yLuSEIocKetNgQVkMmIjKa6C8yA3iN3h7JGHPI
+         S6LdrrcaEE2gk0iqrbg+7fP7CFvRleCvYgNUlEmNFwG7sIahV8oABDCEg1SYHrqVQ2De
+         S3s4x2R83ahX2Xrc840ktRO7LQMjw7lr/dVkXvdRnRnCSZczz+2TR3t016ibPTR6v6NW
+         oPOPxcn1VEqmBNu7YuASeuWYnjMrJDkgyk9cIU5bpCijdgQ81623mCJ8uLy3FiZN+wKT
+         NdHw==
+X-Forwarded-Encrypted: i=1; AFNElJ90zVI2XuIrnZrmpIYEMHkE8VQMNCUMtnFL1VUSRsi6qnDnJWT5iNR/F+FSf74dga5t2gTq9i9rPZsRR2AGLsR/6A==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxu1Fj09u21Kht5xiDyO/hmln13oZAXvJQ73TnhAQMET3G+s777
+	BdAGmU6WyR8Ru8m+TjEgcET00K2bmkN6n6JSb4myjsuFYMlsORlXtGsmlrce3tBXdsc=
+X-Gm-Gg: AeBDievYP8j7r6bjMeCyV8ImgZIh6sXVbqARHiTGPTQgRMx2CZnIfjlD2Hluy0ZG6gg
+	3pMRwtCxMOQtH5vjr1ntAyfTDdDERDKbhE2BzM2VeVK6U0sRqjzSpWhepGWRgc3DHzhgXshzgiE
+	pjQ4kdCiP3s28EiP9+oVAoKwF7qOyPD6fF43opRnwjrBSm4oRUkhmG0jHPvpuoOnlgu4biJZXtN
+	vBXYs2BjaDNuvWN2d+68TUG9MWyn+qSY5xXY7KJW/i+Xi3rs9VP8SChPRonb7KMSWDom8KbnCXc
+	/bPBHEfP7hhDnExz4ZQkdMoU0McIrneR+N/ywkKE7qdvrCDoxENe3sJah3VuGx4gG6BAOeGE+sW
+	CZC7VR5s+7phQ8fgfyNCT+jyvKD6YXnFA+T+rBhH1zHKGhudMx6WGh53yc4afrva1ecA2r1PHTi
+	TIQhPSsjVFShIWXIH8jZSaVhlrUJpMyIiyFoSpqx/AN4LuCdWaWiVf/ilzaVAqOLFtzXWzc+U=
+X-Received: by 2002:a05:6820:a01:b0:694:8f37:708a with SMTP id 006d021491bc7-6948f37803cmr5327995eaf.15.1776841034892;
+        Tue, 21 Apr 2026 23:57:14 -0700 (PDT)
+Received: from mail-oa1-f43.google.com (mail-oa1-f43.google.com. [209.85.160.43])
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-42f090b1de9sm3283433fac.6.2026.04.21.23.57.14
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 21 Apr 2026 23:57:14 -0700 (PDT)
+Received: by mail-oa1-f43.google.com with SMTP id 586e51a60fabf-41708f6c3feso3304425fac.3
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 21 Apr 2026 23:57:14 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ+h1awjUQGRyCI/+qRsBAAEO8TCPNXFtLjfVuQ1T98ZGUmrPPFB9cD8kEcRCA6L8wz8qMP0RDQ85EMgSyh22UYKDQ==@vger.kernel.org
+X-Received: by 2002:a05:6102:3a0d:b0:60f:f543:232a with SMTP id
+ ada2fe7eead31-616f4b50368mr11299488137.2.1776840661908; Tue, 21 Apr 2026
+ 23:51:01 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
-X-Spamd-Result: default: False [-0.66 / 15.00];
+MIME-Version: 1.0
+References: <cover.1776793163.git.geert+renesas@glider.be> <72e2a0e7a5abda02fe36b3f5851842f7a77b2593.1776793163.git.geert+renesas@glider.be>
+In-Reply-To: <72e2a0e7a5abda02fe36b3f5851842f7a77b2593.1776793163.git.geert+renesas@glider.be>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 22 Apr 2026 08:50:50 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXxEsYuOay0+Tf=4ByTAMp0=iXwcS4YSy7UY9_CE0hb5A@mail.gmail.com>
+X-Gm-Features: AQROBzBFb_WdSQXK0LqlocZWzf5masVqawoXkZ-ffV8evv9b39yVA9knMtYt5TM
+Message-ID: <CAMuHMdXxEsYuOay0+Tf=4ByTAMp0=iXwcS4YSy7UY9_CE0hb5A@mail.gmail.com>
+Subject: Re: [PATCH/RFC 05/14] firmware: arm_scmi: Add scmi_get_base_info()
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Sudeep Holla <sudeep.holla@kernel.org>, Cristian Marussi <cristian.marussi@arm.com>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Magnus Damm <magnus.damm@gmail.com>, Saravana Kannan <saravanak@kernel.org>, 
+	Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, Ulf Hansson <ulfh@kernel.org>, 
+	"Rafael J . Wysocki" <rafael@kernel.org>, Kevin Hilman <khilman@baylibre.com>, 
+	Florian Fainelli <florian.fainelli@broadcom.com>, 
+	Wolfram Sang <wsa+renesas@sang-engineering.com>, 
+	Marek Vasut <marek.vasut+renesas@mailbox.org>, 
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, arm-scmi@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-renesas-soc@vger.kernel.org, 
+	linux-clk@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spamd-Result: default: False [0.04 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_TWO(0.00)[2];
+	FREEMAIL_CC(0.00)[kernel.org,arm.com,gmail.com,baylibre.com,pengutronix.de,broadcom.com,sang-engineering.com,mailbox.org,renesas.com,vger.kernel.org,lists.infradead.org];
+	TAGGED_FROM(0.00)[bounces-31484-lists,linux-renesas-soc=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-31483-lists,linux-renesas-soc=lfdr.de];
-	DKIM_TRACE(0.00)[intel.com:+];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	TO_DN_SOME(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[lkp@intel.com,linux-renesas-soc@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
+	DMARC_NA(0.00)[linux-m68k.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	NEURAL_HAM(-0.00)[-0.999];
+	RCPT_COUNT_TWELVE(0.00)[25];
+	MIME_TRACE(0.00)[0:+];
+	MISSING_XM_UA(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[6];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,intel.com:dkim,intel.com:mid]
-X-Rspamd-Queue-Id: B190B442935
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[geert@linux-m68k.org,linux-renesas-soc@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,dt];
+	R_DKIM_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[glider.be:email,mail.gmail.com:mid,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,linux-m68k.org:email]
+X-Rspamd-Queue-Id: BB732442B0D
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git topic/rcar-x5h-ironhide-scmi-cpg-mdlc-remapping-v1
-branch HEAD: 258e1985bfa75ca0b3c98bd083628f9b6c7887fc  arm64: dts: renesas: ironhide: Add CPG/MDLC firmware properties
+On Tue, 21 Apr 2026 at 20:12, Geert Uytterhoeven
+<geert+renesas@glider.be> wrote:
+> Currently non-SCMI drivers cannot find out what the specific versions of
+> each SCMI provider implementation on the running system are.
+>
+> However, different versions may use different ABIs (e.g. different clock
+> IDs), or behave different, requiring remapping or workarounds in other
+> drivers.
+>
+> Add a public function to obtain base protocol information for the
+> selected SCMI provider.  This will be used by the R-Car X5H Clock Pulse
+> Generator and Module Controller drivers.
+>
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-Warning (recently discovered and may have been fixed):
+> --- a/drivers/firmware/arm_scmi/driver.c
+> +++ b/drivers/firmware/arm_scmi/driver.c
+> @@ -3504,6 +3504,37 @@ int scmi_inflight_count(const struct scmi_handle *handle)
+>         }
+>  }
+>
+> +/**
+> + * scmi_get_base_info() - Get SCMI base protocol information
+> + *
+> + * @of_node: pointer to a device node for an SCMI provider
+> + * @version: pointer to write base protocol information
+> + *
+> + * Check if an SCMI device has been instantiated for the passed device node
+> + * pointer, and, if found, return its base info.
+> +
 
-    https://lore.kernel.org/oe-kbuild-all/202604220739.gMKG4Fmt-lkp@intel.com
+Missing asterisk, reported by the kernel test robot.
 
-    Warning: drivers/firmware/arm_scmi/driver.c:3514 bad line: 
+> + * Return: 0 on Success or -ENOENT.
+> + */
 
-Warning ids grouped by kconfigs:
+Gr{oetje,eeting}s,
 
-recent_errors
-|-- alpha-allyesconfig
-|   `-- Warning:drivers-firmware-arm_scmi-driver.c-bad-line:
-|-- arm-randconfig-004-20260422
-|   `-- Warning:drivers-firmware-arm_scmi-driver.c-bad-line:
-|-- arm64-allmodconfig
-|   `-- Warning:drivers-firmware-arm_scmi-driver.c-bad-line:
-|-- csky-allmodconfig
-|   `-- Warning:drivers-firmware-arm_scmi-driver.c-bad-line:
-|-- hexagon-allmodconfig
-|   `-- Warning:drivers-firmware-arm_scmi-driver.c-bad-line:
-|-- i386-allyesconfig
-|   `-- Warning:drivers-firmware-arm_scmi-driver.c-bad-line:
-|-- loongarch-allmodconfig
-|   `-- Warning:drivers-firmware-arm_scmi-driver.c-bad-line:
-|-- m68k-allyesconfig
-|   `-- Warning:drivers-firmware-arm_scmi-driver.c-bad-line:
-|-- microblaze-allyesconfig
-|   `-- Warning:drivers-firmware-arm_scmi-driver.c-bad-line:
-|-- mips-allyesconfig
-|   `-- Warning:drivers-firmware-arm_scmi-driver.c-bad-line:
-|-- parisc-randconfig-r073-20260422
-|   `-- Warning:drivers-firmware-arm_scmi-driver.c-bad-line:
-|-- sh-allmodconfig
-|   `-- Warning:drivers-firmware-arm_scmi-driver.c-bad-line:
-`-- um-allyesconfig
-    `-- Warning:drivers-firmware-arm_scmi-driver.c-bad-line:
+                        Geert
 
-elapsed time: 749m
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-configs tested: 77
-configs skipped: 3
-
-tested configs:
-alpha                   allnoconfig    gcc-15.2.0
-alpha                  allyesconfig    gcc-15.2.0
-arc                    allmodconfig    gcc-15.2.0
-arc                     allnoconfig    gcc-15.2.0
-arc                    allyesconfig    gcc-15.2.0
-arc         randconfig-001-20260422    gcc-9.5.0
-arc         randconfig-002-20260422    gcc-11.5.0
-arm                     allnoconfig    clang-23
-arm                    allyesconfig    gcc-15.2.0
-arm         randconfig-001-20260422    gcc-8.5.0
-arm         randconfig-002-20260422    gcc-8.5.0
-arm         randconfig-003-20260422    clang-20
-arm         randconfig-004-20260422    gcc-10.5.0
-arm64                  allmodconfig    clang-19
-arm64                   allnoconfig    gcc-15.2.0
-csky                   allmodconfig    gcc-15.2.0
-csky                    allnoconfig    gcc-15.2.0
-hexagon                allmodconfig    clang-17
-hexagon                 allnoconfig    clang-23
-i386                   allmodconfig    gcc-14
-i386                    allnoconfig    gcc-14
-i386                   allyesconfig    gcc-14
-i386        randconfig-011-20260422    gcc-14
-i386        randconfig-012-20260422    gcc-13
-i386        randconfig-013-20260422    gcc-14
-i386        randconfig-014-20260422    gcc-13
-loongarch              allmodconfig    clang-19
-loongarch               allnoconfig    clang-23
-m68k                   allmodconfig    gcc-15.2.0
-m68k                    allnoconfig    gcc-15.2.0
-m68k                   allyesconfig    gcc-15.2.0
-m68k                      defconfig    gcc-15.2.0
-microblaze              allnoconfig    gcc-15.2.0
-microblaze             allyesconfig    gcc-15.2.0
-microblaze                defconfig    gcc-15.2.0
-mips                   allmodconfig    gcc-15.2.0
-mips                    allnoconfig    gcc-15.2.0
-mips                   allyesconfig    gcc-15.2.0
-nios2                  allmodconfig    gcc-11.5.0
-nios2                   allnoconfig    gcc-11.5.0
-openrisc               allmodconfig    gcc-15.2.0
-openrisc                allnoconfig    gcc-15.2.0
-parisc                 allmodconfig    gcc-15.2.0
-parisc                  allnoconfig    gcc-15.2.0
-parisc                 allyesconfig    gcc-15.2.0
-parisc      randconfig-001-20260422    gcc-14.3.0
-powerpc                allmodconfig    gcc-15.2.0
-powerpc                 allnoconfig    gcc-15.2.0
-riscv                   allnoconfig    gcc-15.2.0
-riscv                  allyesconfig    clang-16
-s390                   allmodconfig    clang-18
-s390                    allnoconfig    clang-23
-s390                   allyesconfig    gcc-15.2.0
-sh                     allmodconfig    gcc-15.2.0
-sh                      allnoconfig    gcc-15.2.0
-sh                     allyesconfig    gcc-15.2.0
-sparc                   allnoconfig    gcc-15.2.0
-sparc64                allmodconfig    clang-23
-um                     allmodconfig    clang-19
-um                      allnoconfig    clang-23
-um                     allyesconfig    gcc-14
-x86_64                 allmodconfig    clang-20
-x86_64                  allnoconfig    clang-20
-x86_64                 allyesconfig    clang-20
-x86_64      randconfig-001-20260422    clang-20
-x86_64      randconfig-002-20260422    gcc-14
-x86_64      randconfig-003-20260422    gcc-14
-x86_64      randconfig-004-20260422    clang-20
-x86_64      randconfig-005-20260422    gcc-14
-x86_64      randconfig-011-20260422    clang-20
-x86_64      randconfig-012-20260422    gcc-14
-x86_64      randconfig-013-20260422    clang-20
-x86_64      randconfig-014-20260422    clang-20
-x86_64      randconfig-015-20260422    gcc-14
-x86_64                rhel-9.4-rust    clang-20
-xtensa                  allnoconfig    gcc-15.2.0
-xtensa                 allyesconfig    gcc-15.2.0
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
