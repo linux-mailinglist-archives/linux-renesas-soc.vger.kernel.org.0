@@ -1,169 +1,155 @@
-Return-Path: <linux-renesas-soc+bounces-31484-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-31485-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id wAMgEi1y6GkSKgIAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-31484-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Apr 2026 09:01:01 +0200
+	id QOmbJqBz6GlCKgIAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-31485-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Apr 2026 09:07:12 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB732442B0D
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Apr 2026 09:01:00 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 12CF4442C07
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Apr 2026 09:07:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 0586E3017F96
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Apr 2026 06:57:19 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 0EBA030104B9
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Apr 2026 07:05:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5A6A727EFEE;
-	Wed, 22 Apr 2026 06:57:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A5CEE361DB8;
+	Wed, 22 Apr 2026 07:05:00 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-oo1-f42.google.com (mail-oo1-f42.google.com [209.85.161.42])
+Received: from mail-ua1-f45.google.com (mail-ua1-f45.google.com [209.85.222.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 101E71E5201
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 22 Apr 2026 06:57:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AFAF35F614
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 22 Apr 2026 07:04:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776841037; cv=none; b=cyvHC62LV9pZHbgBrhay7revdBaVpSxrmBOezkL7DPx0rMcLhcIRBzSJuxGHlOXk/cdApzegAsBXUijEuyW6jvXWIxBV95cqP45UW/EP0b9lKru/8wCtAK0aS7ycKYx+1xF9WYPqiDn1/qFOjHudVHTAP7P5PUY6YKNge/rmoZs=
+	t=1776841500; cv=none; b=D3Dr66e84ncl5ifIR7Knt70t1tmZul1iY35FFWFKxs4XHykOlDESpLn4FMkfYSAvcjj2rpZiOL0IoxbhVYabwGvX7Rg3Z0ac/hHeAeI2Jq65td294Y3BuqPA5AwmBHaSOdvNPStmxW8p2VPphIfVGDK1np2OwAkOCJRakVN6sjY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776841037; c=relaxed/simple;
-	bh=wpkRjIorbMJMpqwzpLdjkd4Y24lBbCPn4ze08bDnJqE=;
+	s=arc-20240116; t=1776841500; c=relaxed/simple;
+	bh=caBlDfLl+UaWCXVT/wSjHkxNWroEBNiNYGlokbHXKFM=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=OenSWxk3WB+tV51S5ZfORyJVO7HFCosln+ttIQgQtANQNbkukdmqvgq++e2bVa8E5GxT7HOf2Y96yJjzVmEStDlrdWHZeT1d1rfuLP/ScPRN7s6hKQ3oaIkgxhAOOpFD/WQMwokt6KFO+g3y7UJGAsD813pg0XHVK3jhqNQ5WrI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.161.42
+	 To:Cc:Content-Type; b=aFNQpReD6SqwsH8BQLo/l6oBCqBChnoKLcCaPQZhC0pMyRaL0EhKvKF5UUfRb4oUBujjoLcOfowWmT8u7livkGoXx43g8Csx1oVyPU2RyJ7fTWFyq/6jo/wBq73dCHCL0sQWThqXZh07D/kNUJidZ4/eJVRQAseQTvlfyBRBAzs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-oo1-f42.google.com with SMTP id 006d021491bc7-6948ff6b006so1425781eaf.2
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 21 Apr 2026 23:57:15 -0700 (PDT)
+Received: by mail-ua1-f45.google.com with SMTP id a1e0cc1a2514c-953c5738c03so2826924241.2
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 22 Apr 2026 00:04:59 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776841035; x=1777445835;
+        d=1e100.net; s=20251104; t=1776841498; x=1777446298;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=EQBlVUrhFqLpmXIMAS6FxW1MbLcWzT++sufCtB36Fh4=;
-        b=TOKvm+VIq3R7J+Ilw57uY2RHibR9y8zFL0DxsGupcXZNDb3C/ew9EBoxhIol2D99rO
-         3tyhSNafJEDsUMrs/1OHzm8rb2lQJ5yLuSEIocKetNgQVkMmIjKa6C8yA3iN3h7JGHPI
-         S6LdrrcaEE2gk0iqrbg+7fP7CFvRleCvYgNUlEmNFwG7sIahV8oABDCEg1SYHrqVQ2De
-         S3s4x2R83ahX2Xrc840ktRO7LQMjw7lr/dVkXvdRnRnCSZczz+2TR3t016ibPTR6v6NW
-         oPOPxcn1VEqmBNu7YuASeuWYnjMrJDkgyk9cIU5bpCijdgQ81623mCJ8uLy3FiZN+wKT
-         NdHw==
-X-Forwarded-Encrypted: i=1; AFNElJ90zVI2XuIrnZrmpIYEMHkE8VQMNCUMtnFL1VUSRsi6qnDnJWT5iNR/F+FSf74dga5t2gTq9i9rPZsRR2AGLsR/6A==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxu1Fj09u21Kht5xiDyO/hmln13oZAXvJQ73TnhAQMET3G+s777
-	BdAGmU6WyR8Ru8m+TjEgcET00K2bmkN6n6JSb4myjsuFYMlsORlXtGsmlrce3tBXdsc=
-X-Gm-Gg: AeBDievYP8j7r6bjMeCyV8ImgZIh6sXVbqARHiTGPTQgRMx2CZnIfjlD2Hluy0ZG6gg
-	3pMRwtCxMOQtH5vjr1ntAyfTDdDERDKbhE2BzM2VeVK6U0sRqjzSpWhepGWRgc3DHzhgXshzgiE
-	pjQ4kdCiP3s28EiP9+oVAoKwF7qOyPD6fF43opRnwjrBSm4oRUkhmG0jHPvpuoOnlgu4biJZXtN
-	vBXYs2BjaDNuvWN2d+68TUG9MWyn+qSY5xXY7KJW/i+Xi3rs9VP8SChPRonb7KMSWDom8KbnCXc
-	/bPBHEfP7hhDnExz4ZQkdMoU0McIrneR+N/ywkKE7qdvrCDoxENe3sJah3VuGx4gG6BAOeGE+sW
-	CZC7VR5s+7phQ8fgfyNCT+jyvKD6YXnFA+T+rBhH1zHKGhudMx6WGh53yc4afrva1ecA2r1PHTi
-	TIQhPSsjVFShIWXIH8jZSaVhlrUJpMyIiyFoSpqx/AN4LuCdWaWiVf/ilzaVAqOLFtzXWzc+U=
-X-Received: by 2002:a05:6820:a01:b0:694:8f37:708a with SMTP id 006d021491bc7-6948f37803cmr5327995eaf.15.1776841034892;
-        Tue, 21 Apr 2026 23:57:14 -0700 (PDT)
-Received: from mail-oa1-f43.google.com (mail-oa1-f43.google.com. [209.85.160.43])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-42f090b1de9sm3283433fac.6.2026.04.21.23.57.14
+        bh=liaRyWhpT9OCcw5airrCkAgKo3GVhO89vTayZKrLNrI=;
+        b=hNJAJnjetzrUzc/MLbx5csg0j/F6GE6SIW6Hdi5qwATSnApyUQ5J1Rgs1ULIbILAum
+         2DMnT+vm/sPZ18pQSHb1WTe3dMoOH9hNjMZ3TawcG5gKy3B/qLjUXvQREr9GFag8i6eS
+         ACQfwxX689P/VmKzluBB+BIj6j765zDH26vuC9NmoGnF1YNOtBty9saO2i7Zx5hSRAs4
+         s8EKsChdMtfdiomuYKIxPpBQ+j+io+MH4Zuq4ym0BFGurs8x+0j8WT8jnG5ogaaINfSs
+         8zS8DgqgcgL4bYOBfFskIZthxU4YQ9Qj8TDHwkYDmSBLwa4epOdM623qGOmbMrN6tHqF
+         SqmQ==
+X-Forwarded-Encrypted: i=1; AFNElJ+ewdEStXcDLQqq2iYlQV8NGyZyQ1Hh97ARR+voZImsYTE1L+CuQ4sdde5yFINmmbGAlk4vAnpAoxEArj/+HJFOvg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyqHzoyU6Ml+nuEW7QbjBaO/fAX1WnCNJG9J+M+8+tpA7ZLtrYo
+	vWRM/CQ8RBcJ9QvMMgWb+aLzyxqdq2wNNvwSzyGlaRxdQT4sPKp3UtbBgYzEqLbC1TE=
+X-Gm-Gg: AeBDievSrCxF7DIRqUEOzAW4q9+bazUqQSwYfissacEcvRrbJ5S3kfIWqu2fqKWG3oI
+	o3mD0g333v50k25NDGxCdhy8XYTU76TMrp7RhTpO6/nHKu4lSZ4mqwQRg9gBqErYgA4Gz724lmU
+	hkzz4gNQkTQ1iFM31L4VhlQ3IiZOJ/7kgmTpwX+E72MuNAuvnTCa1GBc699YYv4C70yCtihgQVF
+	XvROovvKOvDHvGyfnRZEaKIzKWYZOdElm6IYIk5erKmz5tMk7LEXzo/x0oTd18YCL/k5mCZWeu6
+	x0qe/AFfJRfajokN24HeVYw1eFjVSu6A0Fi2Vw+6hkm5Lpss9IGNQL9B+6wM2cQsYSRiB9LcNyr
+	xoJJVxF3bTZz5hV1MZFT1c8IdDybmCe6LVgNgP7bOOrzc/6hw2KzK/il3Q1R+kbBgeQJTyAGY/A
+	zWJwgo9s2c0vhYG8fHkrCVu4jGQmorMrYO4No4U2plCp+G7W8IlBrdfvaaObP8dzoqmwSMXH3B2
+	w4=
+X-Received: by 2002:a05:6102:5e86:b0:607:95f4:53b5 with SMTP id ada2fe7eead31-616f4535092mr9993883137.4.1776841498245;
+        Wed, 22 Apr 2026 00:04:58 -0700 (PDT)
+Received: from mail-vk1-f172.google.com (mail-vk1-f172.google.com. [209.85.221.172])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-617455b52bcsm7609024137.3.2026.04.22.00.04.57
         for <linux-renesas-soc@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 21 Apr 2026 23:57:14 -0700 (PDT)
-Received: by mail-oa1-f43.google.com with SMTP id 586e51a60fabf-41708f6c3feso3304425fac.3
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 21 Apr 2026 23:57:14 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ+h1awjUQGRyCI/+qRsBAAEO8TCPNXFtLjfVuQ1T98ZGUmrPPFB9cD8kEcRCA6L8wz8qMP0RDQ85EMgSyh22UYKDQ==@vger.kernel.org
-X-Received: by 2002:a05:6102:3a0d:b0:60f:f543:232a with SMTP id
- ada2fe7eead31-616f4b50368mr11299488137.2.1776840661908; Tue, 21 Apr 2026
- 23:51:01 -0700 (PDT)
+        Wed, 22 Apr 2026 00:04:57 -0700 (PDT)
+Received: by mail-vk1-f172.google.com with SMTP id 71dfb90a1353d-56739adfa1aso3647331e0c.0
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 22 Apr 2026 00:04:57 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ94ux0R3wdc/m44PHWQ1SI8/Gc6mqz6jkX1iCPwpdUO7ZJSBTY9C9MS7vhNzeP9l3dKnfvHOhyy0hM9ShUq20/DyQ==@vger.kernel.org
+X-Received: by 2002:a05:6122:1347:b0:56b:815c:961d with SMTP id
+ 71dfb90a1353d-56fa5861c00mr10444199e0c.5.1776841497439; Wed, 22 Apr 2026
+ 00:04:57 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1776793163.git.geert+renesas@glider.be> <72e2a0e7a5abda02fe36b3f5851842f7a77b2593.1776793163.git.geert+renesas@glider.be>
-In-Reply-To: <72e2a0e7a5abda02fe36b3f5851842f7a77b2593.1776793163.git.geert+renesas@glider.be>
+References: <20260420140426.237865-1-biju.das.jz@bp.renesas.com> <20260420140426.237865-3-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20260420140426.237865-3-biju.das.jz@bp.renesas.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 22 Apr 2026 08:50:50 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXxEsYuOay0+Tf=4ByTAMp0=iXwcS4YSy7UY9_CE0hb5A@mail.gmail.com>
-X-Gm-Features: AQROBzBFb_WdSQXK0LqlocZWzf5masVqawoXkZ-ffV8evv9b39yVA9knMtYt5TM
-Message-ID: <CAMuHMdXxEsYuOay0+Tf=4ByTAMp0=iXwcS4YSy7UY9_CE0hb5A@mail.gmail.com>
-Subject: Re: [PATCH/RFC 05/14] firmware: arm_scmi: Add scmi_get_base_info()
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Sudeep Holla <sudeep.holla@kernel.org>, Cristian Marussi <cristian.marussi@arm.com>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Magnus Damm <magnus.damm@gmail.com>, Saravana Kannan <saravanak@kernel.org>, 
-	Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, Ulf Hansson <ulfh@kernel.org>, 
-	"Rafael J . Wysocki" <rafael@kernel.org>, Kevin Hilman <khilman@baylibre.com>, 
-	Florian Fainelli <florian.fainelli@broadcom.com>, 
-	Wolfram Sang <wsa+renesas@sang-engineering.com>, 
-	Marek Vasut <marek.vasut+renesas@mailbox.org>, 
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, arm-scmi@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-renesas-soc@vger.kernel.org, 
-	linux-clk@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org
+Date: Wed, 22 Apr 2026 09:04:46 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXQi7eSZg71=01dYjpmgHRXS+L9hXZMN_dR-mtM6sLKNw@mail.gmail.com>
+X-Gm-Features: AQROBzAmyxu2D2vKJPRl9CBrNtAxIhNRVSUNiYJ69sDUbK7osTPZ_P5v2qP_TKg
+Message-ID: <CAMuHMdXQi7eSZg71=01dYjpmgHRXS+L9hXZMN_dR-mtM6sLKNw@mail.gmail.com>
+Subject: Re: [PATCH v3 2/3] serial: sh-sci: Drop check for zero baud rate from uart_get_baud_rate()
+To: Biju <biju.das.au@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jiri Slaby <jirislaby@kernel.org>, 
+	Biju Das <biju.das.jz@bp.renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
+	Thierry Bultel <thierry.bultel.yh@bp.renesas.com>, linux-kernel@vger.kernel.org, 
+	linux-serial@vger.kernel.org, linux-renesas-soc@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 X-Spamd-Result: default: False [0.04 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[kernel.org,arm.com,gmail.com,baylibre.com,pengutronix.de,broadcom.com,sang-engineering.com,mailbox.org,renesas.com,vger.kernel.org,lists.infradead.org];
-	TAGGED_FROM(0.00)[bounces-31484-lists,linux-renesas-soc=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	DMARC_NA(0.00)[linux-m68k.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[25];
-	MIME_TRACE(0.00)[0:+];
-	MISSING_XM_UA(0.00)[];
 	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-31485-lists,linux-renesas-soc=lfdr.de];
+	DMARC_NA(0.00)[linux-m68k.org];
+	FREEMAIL_TO(0.00)[gmail.com];
+	RCVD_TLS_LAST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TO_DN_SOME(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[geert@linux-m68k.org,linux-renesas-soc@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
 	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,dt];
+	RCPT_COUNT_SEVEN(0.00)[9];
 	R_DKIM_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[glider.be:email,mail.gmail.com:mid,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,linux-m68k.org:email]
-X-Rspamd-Queue-Id: BB732442B0D
+	TAGGED_RCPT(0.00)[linux-renesas-soc];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,renesas.com:email,linux-m68k.org:email,mail.gmail.com:mid]
+X-Rspamd-Queue-Id: 12CF4442C07
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Tue, 21 Apr 2026 at 20:12, Geert Uytterhoeven
-<geert+renesas@glider.be> wrote:
-> Currently non-SCMI drivers cannot find out what the specific versions of
-> each SCMI provider implementation on the running system are.
->
-> However, different versions may use different ABIs (e.g. different clock
-> IDs), or behave different, requiring remapping or workarounds in other
-> drivers.
->
-> Add a public function to obtain base protocol information for the
-> selected SCMI provider.  This will be used by the R-Car X5H Clock Pulse
-> Generator and Module Controller drivers.
->
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Hi Biju,
 
-> --- a/drivers/firmware/arm_scmi/driver.c
-> +++ b/drivers/firmware/arm_scmi/driver.c
-> @@ -3504,6 +3504,37 @@ int scmi_inflight_count(const struct scmi_handle *handle)
->         }
->  }
+On Mon, 20 Apr 2026 at 16:04, Biju <biju.das.au@gmail.com> wrote:
+> From: Biju Das <biju.das.jz@bp.renesas.com>
 >
-> +/**
-> + * scmi_get_base_info() - Get SCMI base protocol information
-> + *
-> + * @of_node: pointer to a device node for an SCMI provider
-> + * @version: pointer to write base protocol information
-> + *
-> + * Check if an SCMI device has been instantiated for the passed device node
-> + * pointer, and, if found, return its base info.
-> +
+> On DT systems, a zero baud rate from uart_get_baud_rate() is not possible
+> even earlycon derives its bit rate from chosen/stdout-path. The zero baud
+> guard and its associated done label are therefore dead code. So remove it.
+>
+> Also drop the unused done label from rsci_set_termios().
+>
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 
-Missing asterisk, reported by the kernel test robot.
+Thanks for your patch!
 
-> + * Return: 0 on Success or -ENOENT.
-> + */
+> --- a/drivers/tty/serial/sh-sci.c
+> +++ b/drivers/tty/serial/sh-sci.c
+> @@ -2719,8 +2719,6 @@ static void sci_set_termios(struct uart_port *port, struct ktermios *termios,
+>                 max_freq = max(max_freq, s->clk_rates[i]);
+>
+>         baud = uart_get_baud_rate(port, termios, old, 0, max_freq / min_sr(s));
+> -       if (!baud)
+> -               goto done;
+>
+>         /*
+>          * There can be multiple sources for the sampling clock.  Find the one
+
+I am afraid you are missing that sh-sci is also used on SH, without DT?
 
 Gr{oetje,eeting}s,
 
