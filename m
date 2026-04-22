@@ -1,251 +1,1425 @@
-Return-Path: <linux-renesas-soc+bounces-31486-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-31487-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id gEtOBNd16GmVKgIAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-31486-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Apr 2026 09:16:39 +0200
+	id INKyMtp36GmVKgIAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-31487-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Apr 2026 09:25:14 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6D3C442DBA
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Apr 2026 09:16:38 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id A3002442EC3
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Apr 2026 09:25:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 129333010611
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Apr 2026 07:16:38 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 823323007AD2
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Apr 2026 07:24:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 594B23612E7;
-	Wed, 22 Apr 2026 07:16:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A32A6370D63;
+	Wed, 22 Apr 2026 07:24:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="mHqk4/RT"
+	dkim=pass (2048-bit key) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b="Sd5qXAgE"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from TY3P286CU002.outbound.protection.outlook.com (mail-japaneastazon11010013.outbound.protection.outlook.com [52.101.229.13])
+Received: from www537.your-server.de (www537.your-server.de [188.40.3.216])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDAE917BA6;
-	Wed, 22 Apr 2026 07:16:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.229.13
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776842196; cv=fail; b=YuX6+Yqal249KTYMPY3u2gG4mxQmlMmJaPzDErX/mrHizVbqziOC7Vp3k05cd4iba5TaPtuEHer4oEgWpY966rF/0+NFnxlo0Hooipz5Cnp+E+VttFBXZb1Uk4axPT5tHz4Dero6e4kdTpUTWEu5jkxXJubIMwkgPFjdk914cPk=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776842196; c=relaxed/simple;
-	bh=vDNUIjGW7VnBFiiTzvpNIByqtGlAps5l2h4/6D4XIHg=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=lO/JRxUzZ2IJd63ehMj30epCRrtoAZPxnXL3ssIyMcIzM98Rnu+Tt7wjFn49V84DCk3G/TFm+8b+TWz9YJ0KfF5FDl+4MjW/wynijPAMvJD8ls4rj3nNTchYdk5wBq8uGK5cYvA6fah24axkbBghAwHcwByTzhUkToCtStkfUJ8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=mHqk4/RT; arc=fail smtp.client-ip=52.101.229.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Xb6HTK+ADIgbu/2VrIw2QOCuy76rq/8j3z5+Ac+Al6XzsBAxL+h1dyPk4+3/sBe/d3G+lbXkL4xbVfOuGZYZoOL8DopuLaNn6qTu0it8GTl5Q3FHT/6u1OMjSj1skW0VaKQ9Zxx5Z1+2VIpKVStJqxNbQwWooz23tnBFJK3Awgyao1kJnbJjjtCI0qFakA5PhCYOHKUdgyaPKxWV9bgcaomyg0H4V0eAM/x2DMN0V6qWNLXZ3okeLoB1Xwmf6vSBzerrYH77Jv2XJIkVisyX2/roEzJUe/72gDOZw8z+xrD3znPGO/YcakZJ8V8ultfkjf3uk9n/prwP/B6PakXfFw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=aAEm4m4pk42L/N1A0k3L/Qb76tCealkDhTIyguBCvFQ=;
- b=gkr6AdDSsGic7P8wGLsejpGeupySmRY4Mu+CwitZnFhECgsmxTjG/b1yyXxAQqWfKTTTiy3yHbV6Nw7DAc4kZVgHdONxS5Qf5jS3X6EIrZAI8oz/J5TGH17TL1FdF043T/8W2FbZDU/t66TteElwT6mtpBaKAGRIvjLfqY54eee/1eQmXajiwJxTTcksXDcs+9uUuiUe6S/JiZAKFIlIJJSaW+bDPqE0iOwcmJVgrRTHZNbgZoAsb4TMSAB/lpSfZDsUNgCasSNCZ3v+qf9nITvX0uoS0FfccD9tq3Zsmk8ty65FvmEq78dktlpD2Sb8UDrjsAMBcgejAGBQSz4Whg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=aAEm4m4pk42L/N1A0k3L/Qb76tCealkDhTIyguBCvFQ=;
- b=mHqk4/RTEhg8kHLhOdmCFXJmRn811LKabHENXxveOJRtqSA4w+dosUZgxtiXdmjLPyDZ+z7RoZavxhrZBAoJ9cJ3TRTbpVSFm+cYqb0nIsXIozUsWvTFr3Y8inmtTVMA1LZZbyuF3S2wOWjOrPQGGzyi2t8CrHAtRc2X5UYuoIw=
-Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com (2603:1096:400:3d0::7)
- by TYWPR01MB10344.jpnprd01.prod.outlook.com (2603:1096:400:248::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9818.35; Wed, 22 Apr
- 2026 07:16:31 +0000
-Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com
- ([fe80::87d1:4928:d55:97de]) by TY3PR01MB11346.jpnprd01.prod.outlook.com
- ([fe80::87d1:4928:d55:97de%4]) with mapi id 15.20.9846.016; Wed, 22 Apr 2026
- 07:16:31 +0000
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Liu Ying <victor.liu@nxp.com>, biju.das.au <biju.das.au@gmail.com>
-CC: Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong
-	<neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, Maarten
- Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
-	<mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
-	<airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, laurent.pinchart
-	<laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, Jernej
- Skrabec <jernej.skrabec@gmail.com>, "dri-devel@lists.freedesktop.org"
-	<dri-devel@lists.freedesktop.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>,
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>
-Subject: RE: [PATCH v3] drm/bridge: ite-it6263: Support power cycle in runtime
-Thread-Topic: [PATCH v3] drm/bridge: ite-it6263: Support power cycle in
- runtime
-Thread-Index: AQHc0X0eSMZaBj7/tUmOMhRIJ0Xb0bXqmOCAgAATkjA=
-Date: Wed, 22 Apr 2026 07:16:31 +0000
-Message-ID:
- <TY3PR01MB11346F231B8CFC149677CF24E862D2@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-References: <20260421105334.43411-1-biju.das.jz@bp.renesas.com>
- <aehlASc3oWS47aCM@raspi>
-In-Reply-To: <aehlASc3oWS47aCM@raspi>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TY3PR01MB11346:EE_|TYWPR01MB10344:EE_
-x-ms-office365-filtering-correlation-id: ee075635-c584-4a82-50a3-08dea03f13fb
-x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|7416014|376014|366016|1800799024|38070700021|18002099003|56012099003|22082099003;
-x-microsoft-antispam-message-info:
- D6aO2F4KyRIDMZAAi6dMwg6z7HMBFMQ4plH4wcjeP8RFX4Lb5L4/wfPzVhDZzNZkrYl7IHHrFFsMwD6vHx09sZROoeEbdlFZfCFQJOegtwc2RsfVfdqaE0xhmVys9Ubiz61bPICYywkucvjdVUY0eLNe5teL1OtImzxz2fYTZIaq5OvHLHoKhkhjbt+HSei43/rEj62C8o7Qohzi74nRe02ad12sMbrPhFIOysDNM7gzm4e8PtSeFgYqoSzE6R0CEHomMQNyzt49TOPWIpiwaw1MZvZbf6/ybdAAuXDysvM3wyPDDrwwzFljiFTrzagbmNVzE3zjZlqXa7pDMRuLZAxjPVcmP97z0/WD6+sYXIYqdqaly0NN6uXwJ9IaBvz0Gi1gItN5wbHYQyjG79MyFNN9Y+nVrDJMLMLWoJlRpXqpTRTEMCedDpggI4km+OzZQNggZgTBNNZVI6PJK6tYAWyeX1esmuNzGrUinmJUPxuvPG2g7ofVs1qNSdLPGpCeigRYfGzWsVFytYy7lNl1vPncHr5SgjGoUhIPNovXZpx0xjXU5nOqBMvtenKXE9t0niwa5mA11p8XbbenGTJeyjSFbOTZu6Y0nOkp7fKRH4fOgXwk/UFyuuNCFrRMZDTn1CQne7UgY50w30nhXFxX1bf+z6CnIKDfJUvNtEqFqcgVxshWjh4OG4u4FFJZ6yaKv6fRzYma7tKKf/3usWNuYit+C6fiRUw/ug571CXxLQEzfLw3ortUnu+gMALHig9Hgt375t2fuUeVTn7zLif1q8l8/FNdkDfXmxwbS5HNCrk=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB11346.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(366016)(1800799024)(38070700021)(18002099003)(56012099003)(22082099003);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?cf7lQaBp4xc7WQIaWnY/tARfm3yooaxg86ZW36UsaJQxYSykIaG/p/CD9mnd?=
- =?us-ascii?Q?+H9DnqnNh/A3sKZgJDjBXuYnyV2PDI6t3jkMSWyJLyFeIeXPj0M4h+2WtFhU?=
- =?us-ascii?Q?kRYz5C/AsEgQiLR6VkmJKH/HzG2xBTtzR2JWBODRzd7k+J9HBP3OCdquqEYU?=
- =?us-ascii?Q?ApZeLi//iXHjpM/C2FOeQDJzuR7c45gRo5xnOCmONs3qzZGBEPc+GcgMKVM3?=
- =?us-ascii?Q?bf21aPN4e0J2DtV1XUIWfUxkrQGfDCIl9f2cKtQOAuq2QDbAUgrtASsthAva?=
- =?us-ascii?Q?eoRisrXpmgQEsU5erkqISBSmhnqk0NX48/jbkPIXklahKGGCj/r3zOiH75GX?=
- =?us-ascii?Q?aXBkBrAEp5YGCftgBEiPaERZIATh8XMupM7uTPP8zjCs40WWXL/ikgT3J54F?=
- =?us-ascii?Q?uffiyzM9LmV0jeYwN5a9SGAY/7WKsmmSb/znlPjwE4Eq5hKihpPLQVROG7vs?=
- =?us-ascii?Q?5ltNLZE8JkssufhWTiajPeCoE6npxx2Q1FP5Xy/HAflTVQMfHe/qav6VB+PA?=
- =?us-ascii?Q?K6wGPjhIdklEha3p0+RstbHijZbd4Z4iddItCqM8lk/w24iBbdFZZ+OXIL+/?=
- =?us-ascii?Q?Kl6EHKrxtZBYThKhmRH2HJCGW4/MELq7nKWYx237jKXG2D0Pt+FyhlBiD/3g?=
- =?us-ascii?Q?9B3Iv3L+v29SiWsU8PI1oLxn44au/G9kQ9rUqAymfkKwPN5DsE+lkuybAw37?=
- =?us-ascii?Q?NXJ4Jjv33nQd6JCQTl5kKARNLT388ZsiqwrSBcBbtbhIKjOEFJWv9qJSa/HJ?=
- =?us-ascii?Q?eSRVpQnFW0UudFGuXiLhy8aV1oOd9RnT1v2QdZ5bt09zhzfzovRla/vDlrG+?=
- =?us-ascii?Q?jBeLm5eXsJ9ueVJ3AhdUAqVYm8DjOI1w6IUDGVpN/ncG7Pz1abSVH4FNfEo6?=
- =?us-ascii?Q?WoSaDoxeQ795PnoRgeWHUZ1hG8+K61/67TqyeGIwxQl6ZY/FEQTzwiVNHXkr?=
- =?us-ascii?Q?0+9x+D4mmVe8dO2NUVv7UkyLfdqSjenJrPtQT9OAhFtOuSbuUel4U8mdMUEm?=
- =?us-ascii?Q?MRI8tqX0TuqAIuqMyG+w5ZJnpzEeEWkg7Zuesr+lSLNQQxY0c7XLb8DNMrqa?=
- =?us-ascii?Q?GDBVwjzJXgXGmSAKcR2RIFFzhosz78rXQ5K2dj+/rOcb5umRIT/nlgbGI9UV?=
- =?us-ascii?Q?4fWnFbOBbADnWbjG/OysZIrX19gQGHg/fl+9jtiH5b9zhZv2GM1zPbT1rE4I?=
- =?us-ascii?Q?t59981OraRwolQBvm8UbqnVldbW+PGtaswIcbm4Obyv1QcJZ8CJeq2shcmcg?=
- =?us-ascii?Q?y8CQ+J5SfNJ+jj05CWAMObUV6nJzMROSN8uM8XoOiiNo2pFp5XARxvRwFvGs?=
- =?us-ascii?Q?lMH4Z/HF5PBoLx4nvEKta3qTov7LbWXm6kIeiX2zGoW3iNbHwYS2kB/KXwhM?=
- =?us-ascii?Q?z1/i+hpZ7xBPRyuwLR41wy3nfRW+o/LZ6Fh8H4FhMtOljlRxEq3JgbNR11Bt?=
- =?us-ascii?Q?56Ta/neSi0tLf+osqsFuVCNy6XbNidb24GuI7D3jizJ/NUxGIMBYlE34drsC?=
- =?us-ascii?Q?c15l1Ujd6/P/GC5sHuxLXgWRQeCrfD3fIbcGQjsb3gniJfBFNcKgqzOqTgtm?=
- =?us-ascii?Q?IuvzbNqjsrUMXDXPUU4gcDiUhEswEb2qIROTxF8ffQm6PlMD5MyfgYeDHzrQ?=
- =?us-ascii?Q?20dP2aKQiDSt56yoQDb7rm2q61KiBSwWkEm8Yo02kTZ4yqxW4BX7NQcdI9yA?=
- =?us-ascii?Q?cZ4963AMDVmZWV+4cXUYIgrM5aUflmesMSQWm8vgZQUg0pYvMz42iT5onIda?=
- =?us-ascii?Q?msxai2CWWQ=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18D63322522;
+	Wed, 22 Apr 2026 07:24:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=188.40.3.216
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776842690; cv=none; b=EK+0xk/gS+98WXA5/+HIzF5xM0+hH+uv4f0ArYFpX4RHhNGYaYCEuCCwvgcprM/ClZ+NgomO2ygCfo5fFpFyz38yJ5xLtVxRgICt5BW+4PqIsBpVbYiedA5kjXYXfFv4koGBwF6PBbsJwXwipP3xesg6SBWjX6LyoDGYYjlZNcQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776842690; c=relaxed/simple;
+	bh=pDLgZhZV1BDTI/A1kcJhiLrCtM4XV5PRG6NSMG2yuTQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Qatu2E9LQTKB8znFDe9Jyx2Dk7zs2sZzn8PLEtTPj5BM5L14mUA2eiOqn28mrGz/W07kNlC4mTV/wm0dwFZDBJnQ4w69F/tOTDxiqQlxtm+iAbmsjrjbfvbpo3akxXCvVjhiyJyOaHM3Pv4lDNWtpPVuSylJgoXkCUBPWO5wQoo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ew.tq-group.com; spf=pass smtp.mailfrom=ew.tq-group.com; dkim=pass (2048-bit key) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b=Sd5qXAgE; arc=none smtp.client-ip=188.40.3.216
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ew.tq-group.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ew.tq-group.com
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=ew.tq-group.com; s=default2602; h=Content-Transfer-Encoding:Content-Type:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:In-Reply-To:References;
+	bh=OE89DnrGl7UWBx0jRUDDYIvH409TN5qqzHBWQ05oovE=; b=Sd5qXAgE23nIzFWy15O7NWbW/O
+	Di0DhNvTtxbK1pyMYDC58Duym5hA3dyAyH6138vrmvN8WbzPj+IxMTzKhFLn2QWsWl6kSI1CWx2js
+	mQAWLL0yrIsg1NhfGdi7CyLMJ6FNFUWgfHWVrwfrPDchMnMv+kjPsUsUayulyACrUhoRaA9g9xaiv
+	/aqOEQpxjyXwcksELeBE/DHuuTsJ3AiC2wYqAxu+cXWOAYdZYbB54XacjRk3NsL1+KqOwy3aWUjLM
+	sXCbAGCwvLT3+IGGDjgHv2OFbmhLcE3ufXShD2NJWTJO9ToeHyf/3BrFwFTpieoW7ezu3BhGUYXbH
+	WDvvHYmw==;
+Received: from sslproxy07.your-server.de ([78.47.199.104])
+	by www537.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.96.2)
+	(envelope-from <alexander.stein@ew.tq-group.com>)
+	id 1wFRwy-00046y-1A;
+	Wed, 22 Apr 2026 09:24:44 +0200
+Received: from localhost ([127.0.0.1])
+	by sslproxy07.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <alexander.stein@ew.tq-group.com>)
+	id 1wFRwx-0006eX-2z;
+	Wed, 22 Apr 2026 09:24:43 +0200
+From: Alexander Stein <alexander.stein@ew.tq-group.com>
+To: Frank Li <Frank.Li@nxp.com>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>
+Cc: Markus Niebel <Markus.Niebel@ew.tq-group.com>,
+	imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux@ew.tq-group.com,
+	linux-renesas-soc@vger.kernel.org,
+	Alexander Stein <alexander.stein@ew.tq-group.com>
+Subject: [PATCH v3 1/1] arm64: dts: add tqma9596la-mba95xxca
+Date: Wed, 22 Apr 2026 09:24:25 +0200
+Message-ID: <20260422072439.2917115-1-alexander.stein@ew.tq-group.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11346.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ee075635-c584-4a82-50a3-08dea03f13fb
-X-MS-Exchange-CrossTenant-originalarrivaltime: 22 Apr 2026 07:16:31.1159
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: P0LyRjJO2fqfyHxaJhCMHKxNH/CGoXlQItIqb4iLhydbSmLRoCoyBwLdQcp12FIsZQqBdumNUpDOBAPFN2iF8qgmwQ7GLmHQnA5mgb45lGE=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYWPR01MB10344
-X-Spamd-Result: default: False [1.34 / 15.00];
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Virus-Scanned: Clear (ClamAV 1.4.3/27978/Tue Apr 21 08:26:17 2026)
+X-Spamd-Result: default: False [0.34 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_REJECT(1.00)[cv is fail on i=2];
-	DMARC_POLICY_ALLOW(-0.50)[renesas.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
-	R_DKIM_ALLOW(-0.20)[bp.renesas.com:s=selector1];
+	MID_CONTAINS_FROM(1.00)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[ew.tq-group.com,quarantine];
+	R_DKIM_ALLOW(-0.20)[ew.tq-group.com:s=default2602];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-31486-lists,linux-renesas-soc=lfdr.de];
-	RCPT_COUNT_TWELVE(0.00)[18];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	FREEMAIL_TO(0.00)[nxp.com,gmail.com];
+	TAGGED_FROM(0.00)[bounces-31487-lists,linux-renesas-soc=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_CC(0.00)[intel.com,linaro.org,kernel.org,linux.intel.com,suse.de,gmail.com,ffwll.ch,ideasonboard.com,kwiboo.se,lists.freedesktop.org,vger.kernel.org,glider.be,bp.renesas.com];
+	RECEIVED_HELO_LOCALHOST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_TO(0.00)[nxp.com,pengutronix.de,gmail.com,kernel.org,glider.be];
+	RCPT_COUNT_TWELVE(0.00)[17];
+	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[biju.das.jz@bp.renesas.com,linux-renesas-soc@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[bp.renesas.com:+];
 	RCVD_COUNT_FIVE(0.00)[5];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[alexander.stein@ew.tq-group.com,linux-renesas-soc@vger.kernel.org];
+	DKIM_TRACE(0.00)[ew.tq-group.com:+];
+	DBL_PROHIBIT(0.00)[0.0.0.56:email,0.0.0.75:email];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
 	NEURAL_HAM(-0.00)[-1.000];
-	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[renesas.com:email,nxp.com:email,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,bp.renesas.com:dkim]
-X-Rspamd-Queue-Id: A6D3C442DBA
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[0.0.0.54:email,0.0.0.18:email,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,4.196.180.0:email,0.0.0.1:email,0.0.0.0:email]
+X-Rspamd-Queue-Id: A3002442EC3
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi Liu Ying,
+From: Markus Niebel <Markus.Niebel@ew.tq-group.com>
 
-> -----Original Message-----
-> From: Liu Ying <victor.liu@nxp.com>
-> Sent: 22 April 2026 07:05
-> Subject: Re: [PATCH v3] drm/bridge: ite-it6263: Support power cycle in ru=
-ntime
->=20
-> Hi Biju,
->=20
-> On Tue, Apr 21, 2026 at 11:53:32AM +0100, Biju wrote:
-> > From: Biju Das <biju.das.jz@bp.renesas.com>
-> >
-> > On the RZ/G3L SMARC EVK, suspend to RAM powers down the ITE IT6263 chip=
-.
-> > The display controller driver's system PM callbacks invoke
-> > drm_mode_config_helper_{suspend,resume}, which in turn call the
-> > bridge's atomic_{disable,enable} callbacks to handle suspend/resume
-> > for the bridge without dedicated PM ops.
-> >
-> > To support proper reinitialization after power loss, move reset_gpio
-> > into the it6263 struct so it is accessible beyond probe time. Relocate
-> > it6263_hw_reset(), it6263_lvds_set_i2c_addr(), it6263_lvds_config()
-> > and
-> > it6263_hdmi_config() from probe to atomic_enable, ensuring the chip is
-> > fully reset and reconfigured on every enable, including after a
-> > suspend/resume cycle.
-> >
-> > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> > ---
-> > Tested s2idle, s2ram and hotplug on Renesas RZ/G3L SMARC EVK platform.
-> > v2->v3:
-> >  * Updated commit header and description.
-> >  * Dropped it6263_bridge_{init,uninit}().
-> >  * Restored regulator_bulk_enable in probe().
-> >  * Dropped the variable powered, supplies and num_supplies from
-> >    struct it6263.
-> >  * Added reset, I2C address configuration, and LVDS/HDMI initialisation=
- to
-> >    the atomic_enable callback so that the hardware is fully reinitialis=
-ed
-> >    after each power cycle. Correspondingly, remove these steps from pro=
-be,
-> >    since they are no longer needed there.
-> >  * Dropped the remove callback as it is not needed.
-> > v1->v2:
-> >  * Dropped system PM callbacks instead using bridge's
-> >    atomic_{disable,enable} callbacks to handle suspend/resume.
-> > ---
-> >  drivers/gpu/drm/bridge/ite-it6263.c | 26 +++++++++++++-------------
-> >  1 file changed, 13 insertions(+), 13 deletions(-)
->=20
-> The subject no longer summaries what this patch does.
-> Can you change it to be something like:
-> drm/bridge: ite-it6263: Move chip initialization code from probe to atomi=
-c_enable ?
->=20
-> Otherwise, I'll provide my R-b tag.
+This adds support for TQMa95xxLA modules, designed to be soldered
+on a carrier board. MBa95xxCA is a carrier reference board / starter kit
+design.
 
-OK for me. Will incorporate this in v4.
+There is a common device tree for all variants with e.g. reduced
+CPU core / feature count.
 
-I will wait for feedback from others if any, before posting v4.
+Enable the external accessible PCIe controllers as host,
+add clocking and reset GPIO. While at it, add hogs for GPIO
+lines from the M.2 slots until M.2 connector driver is available.
 
-Cheers,
-Biju
+Signed-off-by: Markus Niebel <Markus.Niebel@ew.tq-group.com>
+Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+---
+Changes in v3:
+* Moved reserved-memory to board-lebel
+* Remove VPU reserved memory (unused for now)
+* Fix typo in connector comment
+
+Changes in v2:
+* removed useless regulator
+* added USB PD source configuration
+* Removed unused uart-has-rtscts properties (unused by LPUART)
+* Fixed RTS/CTS pullups in pinctrl
+* Added thermalzone on module
+
+ arch/arm64/boot/dts/freescale/Makefile        |   1 +
+ .../freescale/imx95-tqma9596la-mba95xxca.dts  | 961 ++++++++++++++++++
+ .../boot/dts/freescale/imx95-tqma9596la.dtsi  | 278 +++++
+ 3 files changed, 1240 insertions(+)
+ create mode 100644 arch/arm64/boot/dts/freescale/imx95-tqma9596la-mba95xxca.dts
+ create mode 100644 arch/arm64/boot/dts/freescale/imx95-tqma9596la.dtsi
+
+diff --git a/arch/arm64/boot/dts/freescale/Makefile b/arch/arm64/boot/dts/freescale/Makefile
+index 711e36cc2c990..b47db26224bb9 100644
+--- a/arch/arm64/boot/dts/freescale/Makefile
++++ b/arch/arm64/boot/dts/freescale/Makefile
+@@ -507,6 +507,7 @@ dtb-$(CONFIG_ARCH_MXC) += imx95-15x15-frdm.dtb
+ dtb-$(CONFIG_ARCH_MXC) += imx95-19x19-evk.dtb
+ dtb-$(CONFIG_ARCH_MXC) += imx95-19x19-evk-sof.dtb
+ dtb-$(CONFIG_ARCH_MXC) += imx95-toradex-smarc-dev.dtb
++dtb-$(CONFIG_ARCH_MXC) += imx95-tqma9596la-mba95xxca.dtb
+ dtb-$(CONFIG_ARCH_MXC) += imx95-tqma9596sa-mb-smarc-2.dtb
+ dtb-$(CONFIG_ARCH_MXC) += imx95-var-dart-sonata.dtb
+ dtb-$(CONFIG_ARCH_MXC) += imx95-verdin-nonwifi-dahlia.dtb
+diff --git a/arch/arm64/boot/dts/freescale/imx95-tqma9596la-mba95xxca.dts b/arch/arm64/boot/dts/freescale/imx95-tqma9596la-mba95xxca.dts
+new file mode 100644
+index 0000000000000..82d1d2f150124
+--- /dev/null
++++ b/arch/arm64/boot/dts/freescale/imx95-tqma9596la-mba95xxca.dts
+@@ -0,0 +1,961 @@
++// SPDX-License-Identifier: (GPL-2.0-or-later OR MIT)
++/*
++ * Copyright (c) 2024-2026 TQ-Systems GmbH <linux@ew.tq-group.com>,
++ * D-82229 Seefeld, Germany.
++ * Author: Alexander Stein
++ * Author: Markus Niebel
++ */
++
++/dts-v1/;
++
++#include <dt-bindings/leds/common.h>
++#include <dt-bindings/net/ti-dp83867.h>
++#include <dt-bindings/pwm/pwm.h>
++#include <dt-bindings/usb/pd.h>
++#include "imx95-tqma9596la.dtsi"
++
++/ {
++	model = "TQ-Systems i.MX95 TQMa95xxLA on MBa95xxCA";
++	compatible = "tq,imx95-tqma9596la-mba95xxca", "tq,imx95-tqma9596la", "fsl,imx95";
++	chassis-type = "embedded";
++
++	aliases {
++		ethernet0 = &enetc_port0;
++		ethernet1 = &enetc_port1;
++		ethernet2 = &enetc_port2;
++		gpio0 = &gpio1;
++		gpio1 = &gpio2;
++		gpio2 = &gpio3;
++		gpio3 = &gpio4;
++		i2c0 = &lpi2c1;
++		i2c1 = &lpi2c2;
++		i2c2 = &lpi2c3;
++		i2c3 = &lpi2c4;
++		i2c4 = &lpi2c5;
++		i2c5 = &lpi2c6;
++		i2c6 = &lpi2c7;
++		i2c7 = &lpi2c8;
++		mmc0 = &usdhc1;
++		mmc1 = &usdhc2;
++		rtc0 = &pcf85063;
++		rtc1 = &scmi_bbm;
++		serial0 = &lpuart1;
++		serial1 = &lpuart2;
++		serial2 = &lpuart3;
++		serial3 = &lpuart4;
++		serial4 = &lpuart5;
++		serial5 = &lpuart6;
++		serial6 = &lpuart7;
++		serial7 = &lpuart8;
++		spi0 = &flexspi1;
++	};
++
++	chosen {
++		stdout-path = &lpuart1;
++	};
++
++	backlight_lvds: backlight-lvds {
++		compatible = "pwm-backlight";
++		pwms = <&tpm5 2 100000 0>;
++		brightness-levels = <0 4 8 16 32 64 128 255>;
++		default-brightness-level = <7>;
++		enable-gpios = <&expander2 6 GPIO_ACTIVE_HIGH>;
++		power-supply = <&reg_12v0>;
++		status = "disabled";
++	};
++
++	clk_eth: clk-eth {
++		compatible = "fixed-clock";
++		#clock-cells = <0>;
++		clock-frequency = <156250000>;
++	};
++
++	/*
++	 * TODO: gate is disabled for now and GPIO are hogged
++	 * ENETC driver switches the clock far too late for ENETC2 + SFP
++	 */
++	clk_eth_gate: clk-eth-gate {
++		compatible = "gpio-gate-clock";
++		enable-gpios = <&expander2 0 GPIO_ACTIVE_HIGH>;
++		clocks = <&clk_eth>;
++		#clock-cells = <0>;
++		status = "disabled";
++	};
++
++	clk_xtal25: clk-xtal25 {
++		compatible = "fixed-clock";
++		#clock-cells = <0>;
++		clock-frequency = <25000000>;
++	};
++
++	gpio-keys {
++		compatible = "gpio-keys";
++		autorepeat;
++
++		button-b {
++			label = "BUTTON_B#";
++			linux,code = <BTN_1>;
++			gpios = <&expander1 0 GPIO_ACTIVE_LOW>;
++			wakeup-source;
++		};
++	};
++
++	gpio-leds {
++		compatible = "gpio-leds";
++
++		led-1 {
++			color = <LED_COLOR_ID_GREEN>;
++			function = LED_FUNCTION_STATUS;
++			gpios = <&expander2 13 GPIO_ACTIVE_HIGH>;
++			linux,default-trigger = "default-on";
++		};
++
++		led-2 {
++			color = <LED_COLOR_ID_AMBER>;
++			function = LED_FUNCTION_HEARTBEAT;
++			gpios = <&expander2 14 GPIO_ACTIVE_HIGH>;
++			linux,default-trigger = "heartbeat";
++		};
++	};
++
++	iio-hwmon {
++		compatible = "iio-hwmon";
++		io-channels = <&adc1 0>, <&adc1 1>, <&adc1 2>, <&adc1 3>,
++			      <&adc1 4>, <&adc1 5>, <&adc1 6>, <&adc1 7>;
++	};
++
++	reg_v1v8_mb: regulator-v1v8-mb {
++		compatible = "regulator-fixed";
++		regulator-name = "V_1V8_MB";
++		regulator-min-microvolt = <1800000>;
++		regulator-max-microvolt = <1800000>;
++		regulator-always-on;
++	};
++
++	reg_v3v3_mb: regulator-v3v3-mb {
++		compatible = "regulator-fixed";
++		regulator-name = "V_3V3_MB";
++		regulator-min-microvolt = <3300000>;
++		regulator-max-microvolt = <3300000>;
++		regulator-always-on;
++	};
++
++	reg_3v3a_10g: regulator-3v3a-10g {
++		compatible = "regulator-fixed";
++		regulator-name = "3V3A_10G";
++		regulator-min-microvolt = <3300000>;
++		regulator-max-microvolt = <3300000>;
++		gpio = <&expander2 15 GPIO_ACTIVE_HIGH>;
++		startup-delay-us = <2000>;
++		enable-active-high;
++	};
++
++	reg_12v0: regulator-12v0 {
++		compatible = "regulator-fixed";
++		regulator-name = "12V0";
++		regulator-min-microvolt = <12000000>;
++		regulator-max-microvolt = <12000000>;
++		gpio = <&expander1 15 GPIO_ACTIVE_HIGH>;
++		enable-active-high;
++	};
++
++	reg_pwm_fan: regulator-pwm-fan {
++		compatible = "regulator-fixed";
++		regulator-name = "FAN_PWR";
++		regulator-min-microvolt = <12000000>;
++		regulator-max-microvolt = <12000000>;
++		gpio = <&expander3 15 GPIO_ACTIVE_HIGH>;
++		enable-active-high;
++		vin-supply = <&reg_12v0>;
++	};
++
++	reg_lvds: regulator-lvds {
++		compatible = "regulator-fixed";
++		regulator-name = "LCD_PWR_EN";
++		regulator-min-microvolt = <3300000>;
++		regulator-max-microvolt = <3300000>;
++		gpio = <&expander2 7 GPIO_ACTIVE_HIGH>;
++		enable-active-high;
++	};
++
++	/* USB NC limitations, RM 162.1.2 VBUS limitations */
++	reg_vbus_usb3: regulator-vbus-usb3 {
++		compatible = "regulator-fixed";
++		regulator-min-microvolt = <5000000>;
++		regulator-max-microvolt = <5000000>;
++		regulator-name = "USB3_VBUS";
++		gpio = <&gpio4 1 GPIO_ACTIVE_HIGH>;
++		enable-active-high;
++	};
++
++	reserved-memory {
++		#address-cells = <2>;
++		#size-cells = <2>;
++		ranges;
++
++		linux_cma: linux,cma {
++			compatible = "shared-dma-pool";
++			reusable;
++			size = <0 0x28000000>;
++			alloc-ranges = <0 0x80000000 0 0x80000000>;
++			linux,cma-default;
++		};
++	};
++
++	sfp_xfi: sfp-xfi {
++		compatible = "sff,sfp";
++		pinctrl-names = "default";
++		pinctrl-0 = <&pinctrl_sfp>;
++		i2c-bus = <&lpi2c7>;
++		maximum-power-milliwatt = <2000>;
++		mod-def0-gpios = <&expander1 3 GPIO_ACTIVE_LOW>;
++		tx-fault-gpios = <&gpio2 30 GPIO_ACTIVE_HIGH>;
++		los-gpios = <&gpio2 31 GPIO_ACTIVE_HIGH>;
++		tx-disable-gpios = <&expander2 2 GPIO_ACTIVE_HIGH>;
++	};
++
++	sound {
++		compatible = "fsl,imx-audio-tlv320aic32x4";
++		model = "tqm-tlv320aic32";
++		audio-codec = <&tlv320aic3x04>;
++		audio-cpu = <&sai3>;
++		audio-routing =
++			"IN3_L", "Mic Jack",
++			"Mic Jack", "Mic Bias",
++			"Headphone Jack", "HPL",
++			"Headphone Jack", "HPR",
++			"IN1_L", "Line In Jack",
++			"IN1_R", "Line In Jack",
++			"Line Out Jack", "LOL",
++			"Line Out Jack", "LOR";
++	};
++};
++
++&adc1 {
++	status = "okay";
++};
++
++&enetc_port0 {
++	pinctrl-names = "default";
++	pinctrl-0 = <&pinctrl_enetc0>;
++	phy-handle = <&ethphy0>;
++	phy-mode = "rgmii-id";
++	status = "okay";
++};
++
++&enetc_port1 {
++	pinctrl-names = "default";
++	pinctrl-0 = <&pinctrl_enetc1>;
++	phy-handle = <&ethphy1>;
++	phy-mode = "rgmii-id";
++	status = "okay";
++};
++
++/* No support for XFI yet */
++&enetc_port2 {
++	sfp = <&sfp_xfi>;
++	phy-mode = "10gbase-r";
++	clocks = <&clk_eth>;
++	clock-names = "enet_ref_clk";
++	managed = "in-band-status";
++	status = "disabled";
++};
++
++&flexcan1 {
++	pinctrl-names = "default";
++	pinctrl-0 = <&pinctrl_flexcan1>;
++	status = "okay";
++};
++
++&flexcan2 {
++	pinctrl-names = "default";
++	pinctrl-0 = <&pinctrl_flexcan2>;
++	status = "okay";
++};
++
++&lpi2c2 {
++	tlv320aic3x04: audio-codec@18 {
++		compatible = "ti,tlv320aic32x4";
++		reg = <0x18>;
++		clocks = <&scmi_clk IMX95_CLK_SAI3>;
++		clock-names = "mclk";
++		reset-gpios = <&expander1 14 GPIO_ACTIVE_LOW>;
++		iov-supply = <&reg_v3v3_mb>;
++		ldoin-supply = <&reg_v3v3_mb>;
++	};
++
++	fan_controller: fan-controller@2f {
++		compatible = "microchip,emc2301", "microchip,emc2305";
++		reg = <0x2f>;
++		#address-cells = <1>;
++		#size-cells = <0>;
++		#pwm-cells = <3>;
++		status = "okay";
++
++		fan: fan@0 {
++			reg = <0x0>;
++			pwms = <&fan_controller 40000 PWM_POLARITY_INVERTED 1>;
++			#cooling-cells = <2>;
++			fan-supply = <&reg_pwm_fan>;
++		};
++	};
++
++	ptn5110: usb-typec@50 {
++		compatible = "nxp,ptn5110", "tcpci";
++		reg = <0x50>;
++		pinctrl-names = "default";
++		pinctrl-0 = <&pinctrl_typec>;
++		interrupt-parent = <&gpio2>;
++		interrupts = <28 IRQ_TYPE_LEVEL_LOW>;
++
++		typec_con: connector {
++			compatible = "usb-c-connector";
++			label = "X9";
++			power-role = "source";
++			data-role = "dual";
++			source-pdos = <PDO_FIXED(5000, 500, PDO_FIXED_USB_COMM)>;
++			self-powered;
++
++			port {
++				typec_con_hs: endpoint {
++					remote-endpoint = <&typec_hs>;
++				};
++			};
++		};
++	};
++
++	sensor_mb: temperature-sensor@1e {
++		compatible = "nxp,se97b", "jedec,jc-42.4-temp";
++		reg = <0x1e>;
++	};
++
++	eeprom_mb: eeprom@56 {
++		compatible = "nxp,se97b", "atmel,24c02";
++		reg = <0x56>;
++		pagesize = <16>;
++		vcc-supply = <&reg_v3v3_mb>;
++	};
++
++	pcieclk: clock-generator@68 {
++		compatible = "renesas,9fgv0441";
++		reg = <0x68>;
++		clocks = <&clk_xtal25>;
++		#clock-cells = <1>;
++	};
++
++	/* D39 IN/OUT 3V3 */
++	expander1: gpio@74 {
++		compatible = "ti,tca9539";
++		reg = <0x74>;
++		vcc-supply = <&reg_v3v3_mb>;
++		pinctrl-names = "default";
++		pinctrl-0 = <&pinctrl_expander1>;
++		gpio-controller;
++		#gpio-cells = <2>;
++		interrupt-controller;
++		#interrupt-cells = <2>;
++		interrupt-parent = <&gpio2>;
++		interrupts = <14 IRQ_TYPE_EDGE_FALLING>;
++
++		gpio-line-names =
++			/* 00 */ "BUTTON_B#", "CAM0_SYNC_3V3",
++			/* 02 */ "CAM1_SYNC_3V3", "SFP_MOD_ABS",
++			/* 04 */ "DIG_IN1", "DIG_IN2",
++			/* 06 */ "DIG_IN3", "DIG_IN4",
++			/* 08 */ "DIG_OUT_1_2_STATE", "DIG_OUT_3_4_STATE",
++			/* 10 */ "DIG_OUT_1_EN", "DIG_OUT_2_EN",
++			/* 12 */ "DIG_OUT_3_EN", "DIG_OUT_4_EN",
++			/* 14 */ "AUDIO_RST#", "12V_EN";
++	};
++
++	/* D40 OUT 3V3 */
++	expander2: gpio@75 {
++		compatible = "ti,tca9539";
++		reg = <0x75>;
++		vcc-supply = <&reg_3v3>;
++		gpio-controller;
++		#gpio-cells = <2>;
++
++		gpio-line-names =
++			/* 00 */ "ETH10G_REFCLK_EN", "ETH10G_REFCLK_RST#",
++			/* 02 */ "SFP_TX_DIS", "USB3_RESET#",
++			/* 04 */ "USB2_RESET#", "LCD_RESET#",
++			/* 06 */ "LCD_BLT_EN", "LCD_PWR_EN",
++			/* 08 */ "M2_KEYE_PERST#", "M2_KEYE_WDISABLE1#",
++			/* 10 */ "M2_KEYE_WDISABLE2#", "M2_KEYB_PERST#",
++			/* 12 */ "M2_KEYB_WDISABLE1#", "USER_LED1",
++			/* 14 */ "USER_LED2", "3V3A_10G_EN";
++
++		eth10g-refclk-en-hog {
++			gpio-hog;
++			gpios = <0 GPIO_ACTIVE_HIGH>;
++			output-high;
++			line-name = "ETH10G_REFCLK_EN";
++		};
++
++		eth10g-refclk-rst-hog {
++			gpio-hog;
++			gpios = <1 GPIO_ACTIVE_LOW>;
++			output-low;
++			line-name = "ETH10G_REFCLK_RST#";
++		};
++
++		m2_keye_wdisable1_hog: m2-keye-wdisable1-hog {
++			gpio-hog;
++			gpios = <9 GPIO_ACTIVE_LOW>;
++			output-low;
++			line-name = "M2_KEYE_WDISABLE1#";
++		};
++
++		m2_keye_wdisable2_hog: m2-keye-wdisable2-hog {
++			gpio-hog;
++			gpios = <10 GPIO_ACTIVE_LOW>;
++			output-low;
++			line-name = "M2_KEYE_WDISABLE2#";
++		};
++
++		m2-keyb-wdisable1-hog {
++			gpio-hog;
++			gpios = <12 GPIO_ACTIVE_LOW>;
++			output-low;
++			line-name = "M2_KEYB_WDISABLE1#";
++		};
++	};
++
++	/* D41 OUT 1V8 */
++	expander3: gpio@76 {
++		compatible = "ti,tca9539";
++		reg = <0x76>;
++		vcc-supply = <&reg_v1v8_mb>;
++		gpio-controller;
++		#gpio-cells = <2>;
++
++		gpio-line-names =
++			/* 00 */ "ENET1_RESET#", "ENET2_RESET#",
++			/* 02 */ "M2_KEYE_SDIO_RST#", "M2_KEYE_DEV_WLAN_WAKE#",
++			/* 04 */ "M2_KEYE_DEV_BT_WAKE", "M2_KEYB_W_DISABLE2#",
++			/* 06 */ "M2_KEYB_RST#", "M2_KEYB_FULL_CARD_PWR_OFF#",
++			/* 08 */ "M2_KEYB_DPR", "CAM0_PWR#",
++			/* 10 */ "CAM1_PWR#", "CAM0_RST#",
++			/* 12 */ "CAM1_RST#", "CAM0_TRIGGER",
++			/* 14 */ "CAM1_TRIGGER", "FAN_PWR_EN";
++
++		m2-keye-sdio-rst-hog {
++			gpio-hog;
++			gpios = <2 GPIO_ACTIVE_LOW>;
++			output-low;
++			line-name = "M2_KEYE_SDIO_RST#";
++		};
++
++		m2-keye-dev_wlan-wake-hog {
++			gpio-hog;
++			gpios = <3 GPIO_ACTIVE_LOW>;
++			input;
++			line-name = "M2_KEYE_DEV_WLAN_WAKE#";
++		};
++
++		m2-keye-dev_bt-wake-hog {
++			gpio-hog;
++			gpios = <4 GPIO_ACTIVE_LOW>;
++			input;
++			line-name = "M2_KEYE_DEV_BT_WAKE#";
++		};
++
++		m2-keyb-wdisable2-hog {
++			gpio-hog;
++			gpios = <5 GPIO_ACTIVE_LOW>;
++			output-low;
++			line-name = "M2_KEYB_WDISABLE1#";
++		};
++
++		m2-keyb-rst-hog {
++			gpio-hog;
++			gpios = <6 GPIO_ACTIVE_LOW>;
++			output-low;
++			line-name = "M2_KEYB_RST#";
++		};
++
++		m2-keyb-full-card-pwr-off-hog {
++			gpio-hog;
++			gpios = <7 GPIO_ACTIVE_LOW>;
++			output-low;
++			line-name = "M2_KEYB_FULL_CARD_PWR_OFF#";
++		};
++	};
++};
++
++/* X4 + SFP */
++&lpi2c7 {
++	clock-frequency = <400000>;
++	pinctrl-names = "default", "gpio";
++	pinctrl-0 = <&pinctrl_lpi2c7>;
++	pinctrl-1 = <&pinctrl_lpi2c7_recovery>;
++	scl-gpios = <&gpio2 7 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
++	sda-gpios = <&gpio2 6 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
++	status = "okay";
++
++	/* TODO: 0x19: retimer */
++
++	/* 0x50 / 0x51: SFP EEPROM */
++};
++
++/* X4 */
++&lpspi4 {
++	pinctrl-names = "default";
++	pinctrl-0 = <&pinctrl_lpspi4>;
++	cs-gpios = <&gpio5 13 GPIO_ACTIVE_LOW>, <&gpio5 14 GPIO_ACTIVE_LOW>;
++	status = "okay";
++};
++
++&lpuart1 {
++	/* console */
++	pinctrl-names = "default";
++	pinctrl-0 = <&pinctrl_lpuart1>;
++	status = "okay";
++};
++
++&lpuart2 {
++	/* SM */
++	pinctrl-names = "default";
++	pinctrl-0 = <&pinctrl_lpuart2>;
++	status = "reserved";
++};
++
++&lpuart5 {
++	/* X16 M.2 KEY E */
++	pinctrl-names = "default";
++	pinctrl-0 = <&pinctrl_lpuart5>;
++	status = "okay";
++};
++
++&lpuart7 {
++	/* X5 */
++	pinctrl-names = "default";
++	pinctrl-0 = <&pinctrl_lpuart7>;
++	status = "okay";
++};
++
++&lpuart8 {
++	/* X15 */
++	pinctrl-names = "default";
++	pinctrl-0 = <&pinctrl_lpuart8>;
++	linux,rs485-enabled-at-boot-time;
++	status = "okay";
++};
++
++&netc_blk_ctrl {
++	status = "okay";
++};
++
++&netc_emdio {
++	pinctrl-names = "default";
++	pinctrl-0 = <&pinctrl_emdio>;
++	status = "okay";
++
++	/* IRQ pin is AON GPIO, not usable */
++	ethphy0: ethernet-phy@0 {
++		compatible = "ethernet-phy-ieee802.3-c22";
++		reg = <0>;
++		reset-gpios = <&expander3 0 GPIO_ACTIVE_LOW>;
++		reset-assert-us = <500000>;
++		reset-deassert-us = <50000>;
++		ti,rx-internal-delay = <DP83867_RGMIIDCTL_2_50_NS>;
++		ti,tx-internal-delay = <DP83867_RGMIIDCTL_2_50_NS>;
++		ti,fifo-depth = <DP83867_PHYCR_FIFO_DEPTH_4_B_NIB>;
++		ti,dp83867-rxctrl-strap-quirk;
++		ti,clk-output-sel = <DP83867_CLK_O_SEL_OFF>;
++	};
++
++	ethphy1: ethernet-phy@1 {
++		compatible = "ethernet-phy-ieee802.3-c22";
++		reg = <1>;
++		pinctrl-names = "default";
++		pinctrl-0 = <&pinctrl_ethphy1>;
++		reset-gpios = <&expander3 1 GPIO_ACTIVE_LOW>;
++		reset-assert-us = <500000>;
++		reset-deassert-us = <50000>;
++		interrupt-parent = <&gpio4>;
++		interrupts = <0 IRQ_TYPE_LEVEL_LOW>;
++		ti,rx-internal-delay = <DP83867_RGMIIDCTL_2_50_NS>;
++		ti,tx-internal-delay = <DP83867_RGMIIDCTL_2_50_NS>;
++		ti,fifo-depth = <DP83867_PHYCR_FIFO_DEPTH_4_B_NIB>;
++		ti,dp83867-rxctrl-strap-quirk;
++		ti,clk-output-sel = <DP83867_CLK_O_SEL_OFF>;
++	};
++};
++
++&netc_timer {
++	status = "okay";
++};
++
++&netcmix_blk_ctrl {
++	status = "okay";
++};
++
++/* X16 M2 / E-Key mPCIe */
++&pcie0 {
++	pinctrl-0 = <&pinctrl_pcie0>;
++	pinctrl-names = "default";
++	clocks = <&scmi_clk IMX95_CLK_HSIO>,
++		 <&scmi_clk IMX95_CLK_HSIOPLL>,
++		 <&scmi_clk IMX95_CLK_HSIOPLL_VCO>,
++		 <&scmi_clk IMX95_CLK_HSIOPCIEAUX>,
++		 <&pcieclk 1>;
++	clock-names = "pcie", "pcie_bus", "pcie_phy", "pcie_aux", "ref";
++	reset-gpios = <&expander2 8 GPIO_ACTIVE_LOW>;
++	/* Not supported on REV.0100 */
++	/* supports-clkreq; */
++	status = "okay";
++};
++
++/* X17 M2 / B-Key PCIe */
++&pcie1 {
++	pinctrl-0 = <&pinctrl_pcie1>;
++	pinctrl-names = "default";
++	clocks = <&scmi_clk IMX95_CLK_HSIO>,
++		 <&scmi_clk IMX95_CLK_HSIOPLL>,
++		 <&scmi_clk IMX95_CLK_HSIOPLL_VCO>,
++		 <&scmi_clk IMX95_CLK_HSIOPCIEAUX>,
++		 <&pcieclk 0>;
++	clock-names = "pcie", "pcie_bus", "pcie_phy", "pcie_aux", "ref";
++	reset-gpios = <&expander2 11 GPIO_ACTIVE_LOW>;
++	/* Not supported on REV.0100 */
++	/* supports-clkreq; */
++	status = "okay";
++};
++
++&reg_sdvmmc {
++	status = "okay";
++};
++
++&sai3 {
++	#sound-dai-cells = <0>;
++	pinctrl-names = "default";
++	pinctrl-0 = <&pinctrl_sai3>;
++	assigned-clocks = <&scmi_clk IMX95_CLK_AUDIOPLL1_VCO>,
++			  <&scmi_clk IMX95_CLK_AUDIOPLL2_VCO>,
++			  <&scmi_clk IMX95_CLK_AUDIOPLL1>,
++			  <&scmi_clk IMX95_CLK_AUDIOPLL2>,
++			  <&scmi_clk IMX95_CLK_SAI3>;
++	assigned-clock-parents = <0>, <0>, <0>, <0>,
++				 <&scmi_clk IMX95_CLK_AUDIOPLL1>;
++	assigned-clock-rates = <3932160000>,
++			       <3612672000>, <393216000>,
++			       <361267200>, <12288000>;
++	fsl,sai-mclk-direction-output;
++	status = "okay";
++};
++
++&scmi_bbm {
++	linux,code = <KEY_POWER>;
++};
++
++&thermal_zones {
++	a55-thermal {
++		trips {
++			cpu_active0: trip-active0 {
++				temperature = <40000>;
++				hysteresis = <5000>;
++				type = "active";
++			};
++
++			cpu_active1: trip-active1 {
++				temperature = <48000>;
++				hysteresis = <3000>;
++				type = "active";
++			};
++
++			cpu_active2: trip-active2 {
++				temperature = <60000>;
++				hysteresis = <10000>;
++				type = "active";
++			};
++		};
++
++		cooling-maps {
++			map1 {
++				trip = <&cpu_active0>;
++				cooling-device = <&fan 0 2>;
++			};
++
++			map2 {
++				trip = <&cpu_active1>;
++				cooling-device = <&fan 3 5>;
++			};
++
++			map3 {
++				trip = <&cpu_active2>;
++				cooling-device = <&fan 6 10>;
++			};
++		};
++	};
++};
++
++&tpm3 {
++	pinctrl-names = "default";
++	pinctrl-0 = <&pinctrl_tpm3>;
++	status = "okay";
++};
++
++&tpm5 {
++	pinctrl-names = "default";
++	pinctrl-0 = <&pinctrl_tpm5>;
++};
++
++&usb2 {
++	dr_mode = "otg";
++	hnp-disable;
++	srp-disable;
++	adp-disable;
++	usb-role-switch;
++	disable-over-current;
++	samsung,picophy-pre-emp-curr-control = <3>;
++	samsung,picophy-dc-vol-level-adjust = <7>;
++	status = "okay";
++
++	port {
++		typec_hs: endpoint {
++			remote-endpoint = <&typec_con_hs>;
++		};
++	};
++};
++
++&usb3 {
++	status = "okay";
++};
++
++&usb3_dwc3 {
++	dr_mode = "host";
++	#address-cells = <1>;
++	#size-cells = <0>;
++	status = "okay";
++
++	hub_2_0: hub@1 {
++		compatible = "usb451,8142";
++		reg = <1>;
++		peer-hub = <&hub_3_0>;
++		reset-gpios = <&expander2 3 GPIO_ACTIVE_LOW>;
++		vdd-supply = <&reg_v3v3_mb>;
++		#address-cells = <1>;
++		#size-cells = <0>;
++
++		hub_2_1: hub@1 {
++			compatible = "usb424,2514";
++			reg = <1>;
++			reset-gpios = <&expander2 4 GPIO_ACTIVE_LOW>;
++			vdd-supply = <&reg_v3v3_mb>;
++			vdda-supply = <&reg_v3v3_mb>;
++		};
++	};
++
++	hub_3_0: hub@2 {
++		compatible = "usb451,8140";
++		reg = <2>;
++		peer-hub = <&hub_2_0>;
++		reset-gpios = <&expander2 3 GPIO_ACTIVE_LOW>;
++		vdd-supply = <&reg_v3v3_mb>;
++	};
++};
++
++&usb3_phy {
++	pinctrl-names = "default";
++	pinctrl-0 = <&pinctrl_usb3>;
++	vbus-supply = <&reg_vbus_usb3>;
++	status = "okay";
++};
++
++/* X7 µSD */
++&usdhc2 {
++	pinctrl-names = "default", "state_100mhz", "state_200mhz";
++	pinctrl-0 = <&pinctrl_usdhc2>;
++	pinctrl-1 = <&pinctrl_usdhc2_100mhz>;
++	pinctrl-2 = <&pinctrl_usdhc2_200mhz>;
++	vmmc-supply = <&reg_sdvmmc>;
++	cd-gpios = <&gpio3 0 GPIO_ACTIVE_LOW>;
++	no-mmc;
++	no-sdio;
++	disable-wp;
++	bus-width = <4>;
++	status = "okay";
++};
++
++&scmi_iomuxc {
++	pinctrl_enetc0: enetc0grp {
++		fsl,pins = <IMX95_PAD_ENET1_RD0__NETCMIX_TOP_ETH0_RGMII_RD0		0x1100>,
++			   <IMX95_PAD_ENET1_RD1__NETCMIX_TOP_ETH0_RGMII_RD1		0x1100>,
++			   <IMX95_PAD_ENET1_RD2__NETCMIX_TOP_ETH0_RGMII_RD2		0x1100>,
++			   <IMX95_PAD_ENET1_RD3__NETCMIX_TOP_ETH0_RGMII_RD3		0x1100>,
++			   <IMX95_PAD_ENET1_RXC__NETCMIX_TOP_ETH0_RGMII_RX_CLK		0x1100>,
++			   <IMX95_PAD_ENET1_RX_CTL__NETCMIX_TOP_ETH0_RGMII_RX_CTL	0x1100>,
++			   <IMX95_PAD_ENET1_TD0__NETCMIX_TOP_ETH0_RGMII_TD0		0x11e>,
++			   <IMX95_PAD_ENET1_TD1__NETCMIX_TOP_ETH0_RGMII_TD1		0x11e>,
++			   <IMX95_PAD_ENET1_TD2__NETCMIX_TOP_ETH0_RGMII_TD2		0x11e>,
++			   <IMX95_PAD_ENET1_TD3__NETCMIX_TOP_ETH0_RGMII_TD3		0x11e>,
++			   <IMX95_PAD_ENET1_TXC__NETCMIX_TOP_ETH0_RGMII_TX_CLK		0x11e>,
++			   <IMX95_PAD_ENET1_TX_CTL__NETCMIX_TOP_ETH0_RGMII_TX_CTL	0x11e>;
++	};
++
++	pinctrl_enetc1: enetc1grp {
++		fsl,pins = <IMX95_PAD_ENET2_RD0__NETCMIX_TOP_ETH1_RGMII_RD0		0x1100>,
++			   <IMX95_PAD_ENET2_RD1__NETCMIX_TOP_ETH1_RGMII_RD1		0x1100>,
++			   <IMX95_PAD_ENET2_RD2__NETCMIX_TOP_ETH1_RGMII_RD2		0x1100>,
++			   <IMX95_PAD_ENET2_RD3__NETCMIX_TOP_ETH1_RGMII_RD3		0x1100>,
++			   <IMX95_PAD_ENET2_RXC__NETCMIX_TOP_ETH1_RGMII_RX_CLK		0x1100>,
++			   <IMX95_PAD_ENET2_RX_CTL__NETCMIX_TOP_ETH1_RGMII_RX_CTL	0x1100>,
++			   <IMX95_PAD_ENET2_TD0__NETCMIX_TOP_ETH1_RGMII_TD0		0x11e>,
++			   <IMX95_PAD_ENET2_TD1__NETCMIX_TOP_ETH1_RGMII_TD1		0x11e>,
++			   <IMX95_PAD_ENET2_TD2__NETCMIX_TOP_ETH1_RGMII_TD2		0x11e>,
++			   <IMX95_PAD_ENET2_TD3__NETCMIX_TOP_ETH1_RGMII_TD3		0x11e>,
++			   <IMX95_PAD_ENET2_TXC__NETCMIX_TOP_ETH1_RGMII_TX_CLK		0x11e>,
++			   <IMX95_PAD_ENET2_TX_CTL__NETCMIX_TOP_ETH1_RGMII_TX_CTL	0x11e>;
++	};
++
++	pinctrl_ethphy0: ethphy0grp {
++		fsl,pins = <IMX95_PAD_PDM_BIT_STREAM0__AONMIX_TOP_GPIO1_IO_BIT9		0x1100>;
++	};
++
++	pinctrl_ethphy1: ethphy1grp {
++		fsl,pins = <IMX95_PAD_ENET1_MDC__GPIO4_IO_BIT0				0x1100>;
++	};
++
++	pinctrl_expander1: expander1grp {
++		fsl,pins = <IMX95_PAD_GPIO_IO14__GPIO2_IO_BIT14				0x1100>;
++	};
++
++	pinctrl_flexcan1: flexcan1grp {
++		fsl,pins = <IMX95_PAD_SAI1_TXC__AONMIX_TOP_CAN1_RX		0x1300>,
++			   <IMX95_PAD_SAI1_TXD0__AONMIX_TOP_CAN1_TX		0x31e>;
++	};
++
++	pinctrl_flexcan2: flexcan2grp {
++		fsl,pins = <IMX95_PAD_GPIO_IO25__CAN2_TX		0x31e>,
++			   <IMX95_PAD_GPIO_IO27__CAN2_RX		0x1300>;
++	};
++
++	pinctrl_lpi2c7: lpi2c7grp {
++		fsl,pins = <IMX95_PAD_GPIO_IO07__LPI2C7_SCL	0x40001b1e>,
++			   <IMX95_PAD_GPIO_IO06__LPI2C7_SDA	0x40001b1e>;
++	};
++
++	pinctrl_lpi2c7_recovery: lpi2c7recoverygrp {
++		fsl,pins = <IMX95_PAD_GPIO_IO07__GPIO2_IO_BIT7	0x40001b1e>,
++			   <IMX95_PAD_GPIO_IO06__GPIO2_IO_BIT6	0x40001b1e>;
++	};
++
++	pinctrl_lpspi4: lpspi4grp {
++		fsl,pins = <IMX95_PAD_GPIO_IO37__LPSPI4_SCK	0x91e>,
++			   <IMX95_PAD_GPIO_IO19__LPSPI5_SIN	0x191e>,
++			   <IMX95_PAD_GPIO_IO36__LPSPI4_SOUT	0x91e>,
++			   <IMX95_PAD_GPIO_IO34__GPIO5_IO_BIT14	0x91e>,
++			   <IMX95_PAD_GPIO_IO33__GPIO5_IO_BIT13	0x91e>;
++	};
++
++	pinctrl_lpuart1: lpuart1grp {
++		fsl,pins = <IMX95_PAD_UART1_TXD__AONMIX_TOP_LPUART1_TX		0x31e>,
++			   <IMX95_PAD_UART1_RXD__AONMIX_TOP_LPUART1_RX		0x1300>;
++	};
++
++	pinctrl_lpuart2: lpuart2grp {
++		fsl,pins = <IMX95_PAD_UART2_TXD__AONMIX_TOP_LPUART2_TX		0x31e>,
++			   <IMX95_PAD_UART2_RXD__AONMIX_TOP_LPUART2_RX		0x1300>;
++	};
++
++	pinctrl_lpuart5: lpuart5grp {
++		fsl,pins = <IMX95_PAD_GPIO_IO00__LPUART5_TX			0x31e>,
++			   <IMX95_PAD_GPIO_IO01__LPUART5_RX			0x1300>,
++			   <IMX95_PAD_GPIO_IO02__LPUART5_CTS_B			0x1300>,
++			   <IMX95_PAD_GPIO_IO03__LPUART5_RTS_B			0x31e>;
++	};
++
++	pinctrl_lpuart7: lpuart7grp {
++		fsl,pins = <IMX95_PAD_GPIO_IO08__LPUART7_TX			0x31e>,
++			   <IMX95_PAD_GPIO_IO09__LPUART7_RX			0x1300>,
++			   <IMX95_PAD_GPIO_IO10__LPUART7_CTS_B			0x1300>,
++			   <IMX95_PAD_GPIO_IO11__LPUART7_RTS_B			0x31e>;
++	};
++
++	pinctrl_lpuart8: lpuart8grp {
++		fsl,pins = <IMX95_PAD_GPIO_IO12__LPUART8_TX			0x31e>,
++			   <IMX95_PAD_GPIO_IO13__LPUART8_RX			0x1300>,
++			   <IMX95_PAD_GPIO_IO15__LPUART8_RTS_B			0x31e>;
++	};
++
++	pinctrl_emdio: emdiogrp {
++		fsl,pins = <IMX95_PAD_ENET2_MDC__NETCMIX_TOP_NETC_MDC		0x51e>,
++			   <IMX95_PAD_ENET2_MDIO__NETCMIX_TOP_NETC_MDIO		0x51e>;
++	};
++
++	pinctrl_pcie0: pcie0grp {
++		fsl,pins = <IMX95_PAD_GPIO_IO32__HSIOMIX_TOP_PCIE1_CLKREQ_B	0x111e>;
++	};
++
++	pinctrl_pcie1: pcie1grp {
++		fsl,pins = <IMX95_PAD_GPIO_IO35__HSIOMIX_TOP_PCIE2_CLKREQ_B	0x111e>;
++	};
++
++	pinctrl_sai3: sai3grp {
++		fsl,pins = <IMX95_PAD_GPIO_IO16__SAI3_TX_BCLK			0x51e>,
++			   <IMX95_PAD_GPIO_IO17__SAI3_MCLK			0x51e>,
++			   <IMX95_PAD_GPIO_IO20__SAI3_RX_DATA_BIT0		0x1300>,
++			   <IMX95_PAD_GPIO_IO21__SAI3_TX_DATA_BIT0		0x51e>,
++			   <IMX95_PAD_GPIO_IO26__SAI3_TX_SYNC			0x51e>;
++	};
++
++	pinctrl_retimer: retirmergrp {
++		fsl,pins = <IMX95_PAD_GPIO_IO29__GPIO2_IO_BIT29			0x1100>;
++	};
++
++	pinctrl_sfp: sfpgrp {
++		fsl,pins = <IMX95_PAD_GPIO_IO30__GPIO2_IO_BIT30			0x1100>,
++			   <IMX95_PAD_GPIO_IO31__GPIO2_IO_BIT31			0x1100>;
++	};
++
++	pinctrl_tpm3: tpm3grp {
++		fsl,pins = <IMX95_PAD_GPIO_IO24__TPM3_CH3			0x51e>;
++	};
++
++	pinctrl_tpm5: tpm5grp {
++		fsl,pins = <IMX95_PAD_GPIO_IO18__TPM5_CH2			0x51e>;
++	};
++
++	pinctrl_typec: typcegrp {
++		fsl,pins = <IMX95_PAD_GPIO_IO28__GPIO2_IO_BIT28			0x1100>;
++	};
++
++	pinctrl_usb3: usb3grp {
++		fsl,pins = <IMX95_PAD_ENET1_MDIO__GPIO4_IO_BIT1			0x31e>;
++	};
++
++	pinctrl_usdhc2: usdhc2grp {
++		fsl,pins = <IMX95_PAD_SD2_CD_B__GPIO3_IO_BIT0			0x1100>,
++			   <IMX95_PAD_SD2_CLK__USDHC2_CLK			0x51e>,
++			   <IMX95_PAD_SD2_CMD__USDHC2_CMD			0x31e>,
++			   <IMX95_PAD_SD2_DATA0__USDHC2_DATA0			0x131e>,
++			   <IMX95_PAD_SD2_DATA1__USDHC2_DATA1			0x131e>,
++			   <IMX95_PAD_SD2_DATA2__USDHC2_DATA2			0x131e>,
++			   <IMX95_PAD_SD2_DATA3__USDHC2_DATA3			0x131e>,
++			   <IMX95_PAD_SD2_VSELECT__USDHC2_VSELECT		0x51e>;
++	};
++
++	pinctrl_usdhc2_100mhz: usdhc2-100mhzgrp {
++		fsl,pins = <IMX95_PAD_SD2_CD_B__GPIO3_IO_BIT0			0x1100>,
++			   <IMX95_PAD_SD2_CLK__USDHC2_CLK			0x58e>,
++			   <IMX95_PAD_SD2_CMD__USDHC2_CMD			0x38e>,
++			   <IMX95_PAD_SD2_DATA0__USDHC2_DATA0			0x138e>,
++			   <IMX95_PAD_SD2_DATA1__USDHC2_DATA1			0x138e>,
++			   <IMX95_PAD_SD2_DATA2__USDHC2_DATA2			0x138e>,
++			   <IMX95_PAD_SD2_DATA3__USDHC2_DATA3			0x138e>,
++			   <IMX95_PAD_SD2_VSELECT__USDHC2_VSELECT		0x51e>;
++	};
++
++	pinctrl_usdhc2_200mhz: usdhc2-200mhzgrp {
++		fsl,pins = <IMX95_PAD_SD2_CD_B__GPIO3_IO_BIT0			0x1100>,
++			   <IMX95_PAD_SD2_CLK__USDHC2_CLK			0x5fe>,
++			   <IMX95_PAD_SD2_CMD__USDHC2_CMD			0x3fe>,
++			   <IMX95_PAD_SD2_DATA0__USDHC2_DATA0			0x13fe>,
++			   <IMX95_PAD_SD2_DATA1__USDHC2_DATA1			0x13fe>,
++			   <IMX95_PAD_SD2_DATA2__USDHC2_DATA2			0x13fe>,
++			   <IMX95_PAD_SD2_DATA3__USDHC2_DATA3			0x13fe>,
++			   <IMX95_PAD_SD2_VSELECT__USDHC2_VSELECT		0x51e>;
++	};
++};
+diff --git a/arch/arm64/boot/dts/freescale/imx95-tqma9596la.dtsi b/arch/arm64/boot/dts/freescale/imx95-tqma9596la.dtsi
+new file mode 100644
+index 0000000000000..aa2756c14e461
+--- /dev/null
++++ b/arch/arm64/boot/dts/freescale/imx95-tqma9596la.dtsi
+@@ -0,0 +1,278 @@
++// SPDX-License-Identifier: (GPL-2.0-or-later OR MIT)
++/*
++ * Copyright (c) 2024-2026 TQ-Systems GmbH <linux@ew.tq-group.com>,
++ * D-82229 Seefeld, Germany.
++ * Author: Alexander Stein
++ * Author: Markus Niebel
++ */
++
++/dts-v1/;
++
++#include <dt-bindings/gpio/gpio.h>
++#include "imx95.dtsi"
++
++/ {
++	memory@80000000 {
++		device_type = "memory";
++		/*
++		 * DRAM base addr, size : 2048 MiB DRAM
++		 * should be corrected by bootloader
++		 */
++		reg = <0 0x80000000 0 0x80000000>;
++	};
++
++	reg_1v8: regulator-1v8 {
++		compatible = "regulator-fixed";
++		regulator-name = "V_1V8";
++		regulator-min-microvolt = <1800000>;
++		regulator-max-microvolt = <1800000>;
++		regulator-always-on;
++	};
++
++	reg_3v3: regulator-3v3 {
++		compatible = "regulator-fixed";
++		regulator-name = "V_3V3";
++		regulator-min-microvolt = <3300000>;
++		regulator-max-microvolt = <3300000>;
++		regulator-always-on;
++	};
++
++	reg_sdvmmc: regulator-sdvmmc {
++		compatible = "regulator-fixed";
++		pinctrl-names = "default";
++		pinctrl-0 = <&pinctrl_sdvmmc>;
++		regulator-name = "SD_PWR_EN";
++		regulator-min-microvolt = <3300000>;
++		regulator-max-microvolt = <3300000>;
++		gpio = <&gpio3 7 GPIO_ACTIVE_HIGH>;
++		off-on-delay-us = <12000>;
++		enable-active-high;
++		/* can be enabled by mainboard with SD-Card support */
++		status = "disabled";
++	};
++};
++
++&adc1 {
++	vref-supply = <&reg_1v8>;
++};
++
++&flexspi1 {
++	pinctrl-names = "default";
++	pinctrl-0 = <&pinctrl_flexspi1>;
++	status = "okay";
++
++	flash0: flash@0 {
++		compatible = "jedec,spi-nor";
++		reg = <0>;
++		spi-max-frequency = <66000000>;
++		spi-tx-bus-width = <4>;
++		spi-rx-bus-width = <4>;
++		vcc-supply = <&reg_1v8>;
++
++		partitions {
++			compatible = "fixed-partitions";
++			#address-cells = <1>;
++			#size-cells = <1>;
++		};
++	};
++};
++
++/* System Manager */
++&gpio1 {
++	status = "reserved";
++};
++
++/* System Manager */
++&lpi2c1 {
++	status = "reserved";
++};
++
++&lpi2c2 {
++	clock-frequency = <400000>;
++	pinctrl-names = "default";
++	pinctrl-0 = <&pinctrl_lpi2c2>;
++	status = "okay";
++
++	pcf85063: rtc@51 {
++		compatible = "nxp,pcf85063a";
++		reg = <0x51>;
++		quartz-load-femtofarads = <7000>;
++	};
++
++	m24c64: eeprom@54 {
++		compatible = "atmel,24c64";
++		reg = <0x54>;
++		pagesize = <32>;
++		vcc-supply = <&reg_3v3>;
++	};
++
++	/* protectable identification memory (part of M24C64-D @54) */
++	eeprom@5c {
++		compatible = "atmel,24c64d-wl";
++		reg = <0x5c>;
++		pagesize = <32>;
++		vcc-supply = <&reg_3v3>;
++	};
++
++	imu@6b {
++		compatible = "st,ism330dhcx";
++		reg = <0x6b>;
++		vdd-supply = <&reg_3v3>;
++		vddio-supply = <&reg_3v3>;
++	};
++};
++
++&thermal_zones {
++	pf09-thermal {
++		polling-delay = <2000>;
++		polling-delay-passive = <250>;
++		thermal-sensors = <&scmi_sensor 2>;
++
++		trips {
++			pf09_alert: trip0 {
++				hysteresis = <2000>;
++				temperature = <140000>;
++				type = "passive";
++			};
++
++			pf09_crit: trip1 {
++				hysteresis = <2000>;
++				temperature = <155000>;
++				type = "critical";
++			};
++		};
++	};
++
++	pf53arm-thermal {
++		polling-delay = <2000>;
++		polling-delay-passive = <250>;
++		thermal-sensors = <&scmi_sensor 4>;
++
++		cooling-maps {
++			map0 {
++				trip = <&pf5301_alert>;
++				cooling-device =
++					<&A55_0 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>,
++					<&A55_1 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>,
++					<&A55_2 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>,
++					<&A55_3 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>,
++					<&A55_4 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>,
++					<&A55_5 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>;
++			};
++		};
++
++		trips {
++			pf5301_alert: trip0 {
++				hysteresis = <2000>;
++				temperature = <140000>;
++				type = "passive";
++			};
++
++			pf5301_crit: trip1 {
++				hysteresis = <2000>;
++				temperature = <155000>;
++				type = "critical";
++			};
++		};
++	};
++
++	pf53soc-thermal {
++		polling-delay = <2000>;
++		polling-delay-passive = <250>;
++		thermal-sensors = <&scmi_sensor 3>;
++
++		trips {
++			pf5302_alert: trip0 {
++				hysteresis = <2000>;
++				temperature = <140000>;
++				type = "passive";
++			};
++
++			pf5302_crit: trip1 {
++				hysteresis = <2000>;
++				temperature = <155000>;
++				type = "critical";
++			};
++		};
++	};
++};
++
++&usdhc1 {
++	pinctrl-names = "default", "state_100mhz", "state_200mhz";
++	pinctrl-0 = <&pinctrl_usdhc1>;
++	pinctrl-1 = <&pinctrl_usdhc1_100mhz>;
++	pinctrl-2 = <&pinctrl_usdhc1_200mhz>;
++	bus-width = <8>;
++	non-removable;
++	no-sdio;
++	no-sd;
++	status = "okay";
++};
++
++&wdog3 {
++	status = "okay";
++};
++
++&scmi_iomuxc {
++	pinctrl_flexspi1: flexspi1grp {
++		fsl,pins = <IMX95_PAD_XSPI1_SS0_B__FLEXSPI1_A_SS0_B	0x19e>,
++			   <IMX95_PAD_XSPI1_DATA0__FLEXSPI1_A_DATA_BIT0	0x19e>,
++			   <IMX95_PAD_XSPI1_DATA1__FLEXSPI1_A_DATA_BIT1	0x19e>,
++			   <IMX95_PAD_XSPI1_DATA2__FLEXSPI1_A_DATA_BIT2	0x19e>,
++			   <IMX95_PAD_XSPI1_DATA3__FLEXSPI1_A_DATA_BIT3	0x19e>,
++			   /* SION to allow clock loopback from pad */
++			   <IMX95_PAD_XSPI1_SCLK__FLEXSPI1_A_SCLK	0x4000019e>,
++			   <IMX95_PAD_XSPI1_DQS__FLEXSPI1_A_DQS		0x4000019e>;
++	};
++
++	pinctrl_lpi2c2: lpi2c2grp {
++		fsl,pins = <IMX95_PAD_I2C2_SCL__AONMIX_TOP_LPI2C2_SCL	0x4000191e>,
++			   <IMX95_PAD_I2C2_SDA__AONMIX_TOP_LPI2C2_SDA	0x4000191e>;
++	};
++
++	pinctrl_sdvmmc: sdvmmcgrp {
++		fsl,pins = <IMX95_PAD_SD2_RESET_B__GPIO3_IO_BIT7	0x11e>;
++	};
++
++	pinctrl_usdhc1: usdhc1grp {
++		fsl,pins = <IMX95_PAD_SD1_CLK__USDHC1_CLK	0x158e>,
++			   <IMX95_PAD_SD1_CMD__USDHC1_CMD	0x138e>,
++			   <IMX95_PAD_SD1_DATA0__USDHC1_DATA0	0x138e>,
++			   <IMX95_PAD_SD1_DATA1__USDHC1_DATA1	0x138e>,
++			   <IMX95_PAD_SD1_DATA2__USDHC1_DATA2	0x138e>,
++			   <IMX95_PAD_SD1_DATA3__USDHC1_DATA3	0x138e>,
++			   <IMX95_PAD_SD1_DATA4__USDHC1_DATA4	0x138e>,
++			   <IMX95_PAD_SD1_DATA5__USDHC1_DATA5	0x138e>,
++			   <IMX95_PAD_SD1_DATA6__USDHC1_DATA6	0x138e>,
++			   <IMX95_PAD_SD1_DATA7__USDHC1_DATA7	0x138e>,
++			   <IMX95_PAD_SD1_STROBE__USDHC1_STROBE	0x158e>;
++	};
++
++	pinctrl_usdhc1_100mhz: usdhc1-100mhzgrp {
++		fsl,pins = <IMX95_PAD_SD1_CLK__USDHC1_CLK	0x158e>,
++			   <IMX95_PAD_SD1_CMD__USDHC1_CMD	0x138e>,
++			   <IMX95_PAD_SD1_DATA0__USDHC1_DATA0	0x138e>,
++			   <IMX95_PAD_SD1_DATA1__USDHC1_DATA1	0x138e>,
++			   <IMX95_PAD_SD1_DATA2__USDHC1_DATA2	0x138e>,
++			   <IMX95_PAD_SD1_DATA3__USDHC1_DATA3	0x138e>,
++			   <IMX95_PAD_SD1_DATA4__USDHC1_DATA4	0x138e>,
++			   <IMX95_PAD_SD1_DATA5__USDHC1_DATA5	0x138e>,
++			   <IMX95_PAD_SD1_DATA6__USDHC1_DATA6	0x138e>,
++			   <IMX95_PAD_SD1_DATA7__USDHC1_DATA7	0x138e>,
++			   <IMX95_PAD_SD1_STROBE__USDHC1_STROBE	0x158e>;
++	};
++
++	pinctrl_usdhc1_200mhz: usdhc1-200mhzgrp {
++		fsl,pins = <IMX95_PAD_SD1_CLK__USDHC1_CLK	0x15fe>,
++			   <IMX95_PAD_SD1_CMD__USDHC1_CMD	0x13fe>,
++			   <IMX95_PAD_SD1_DATA0__USDHC1_DATA0	0x13fe>,
++			   <IMX95_PAD_SD1_DATA1__USDHC1_DATA1	0x13fe>,
++			   <IMX95_PAD_SD1_DATA2__USDHC1_DATA2	0x13fe>,
++			   <IMX95_PAD_SD1_DATA3__USDHC1_DATA3	0x13fe>,
++			   <IMX95_PAD_SD1_DATA4__USDHC1_DATA4	0x13fe>,
++			   <IMX95_PAD_SD1_DATA5__USDHC1_DATA5	0x13fe>,
++			   <IMX95_PAD_SD1_DATA6__USDHC1_DATA6	0x13fe>,
++			   <IMX95_PAD_SD1_DATA7__USDHC1_DATA7	0x13fe>,
++			   <IMX95_PAD_SD1_STROBE__USDHC1_STROBE	0x15fe>;
++	};
++};
+-- 
+2.43.0
+
 
