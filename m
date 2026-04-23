@@ -1,84 +1,85 @@
-Return-Path: <linux-renesas-soc+bounces-31593-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-31594-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 8KvNE2aH6mmP0QIAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-31593-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Apr 2026 22:56:06 +0200
+	id SGavM3qH6mmP0QIAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-31594-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Apr 2026 22:56:26 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8097C457742
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Apr 2026 22:56:05 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id B7D72457779
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Apr 2026 22:56:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 10DA3301FC30
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Apr 2026 20:55:12 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id AA8863031D99
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Apr 2026 20:55:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B5FAC35A938;
-	Thu, 23 Apr 2026 20:54:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B6C6735F18F;
+	Thu, 23 Apr 2026 20:54:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="supu+y2N"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="X1DL/19o"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-oi1-f169.google.com (mail-oi1-f169.google.com [209.85.167.169])
+Received: from mail-oi1-f179.google.com (mail-oi1-f179.google.com [209.85.167.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8D4135BDDC
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 23 Apr 2026 20:54:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4679235F5F9
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 23 Apr 2026 20:54:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776977680; cv=none; b=OtR48VBuBh1KrzWWEqsBHWjtcP1ncrrXOQCAoQ8qc3H4ZcrMkWjPoovUtbphVkk9oXNpGbguEO2258IZfPKz8nf+BV4xpq78lXTrGy02R7KLwhGGLoqZJ61kYa3zL1LnYtbqiTOX5ipsdo4zZ/F6om97KRIN550f6md90cu8NVY=
+	t=1776977687; cv=none; b=Q+nIyfkfGMAFFL+XYHX6GX2z+iYEn5KYB4rESXgg+hud0DVgl89aq0J2gNcoN71QmHh+M53crzWhAS4nSTqJcnp1SKQhtimbOCCvReTOus23UdrftAIz95Rr6gQPyc1JJ3K4s2x61ZswRa+w+vJreec8ASFosXvOlkJccQxayk8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776977680; c=relaxed/simple;
-	bh=siK3DbSjtbdXIzp+rb57NbLxo/EWi9u81nppU4wsdus=;
+	s=arc-20240116; t=1776977687; c=relaxed/simple;
+	bh=jPGjXS71/Sd5PdlEbYR5u6p1XmzzkhLL9WEpBvy8svQ=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=k1KpMa4wOWo4xGF7aq2mkRxFDqt7uBzLR5j1gO5yYupQA6xQDsEP4WRO6+APt2p5yeC0+Wj+d0vFAAbUQEmmII2jfe3HuNHqM0yeG0xBiI7smYlH32GAuanwRCtpJr02Rerpu0Tsgy+2NtM8ZHCgvim925WjENa8YjNM9YMZSQ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=supu+y2N; arc=none smtp.client-ip=209.85.167.169
+	 In-Reply-To:To:Cc; b=rgKKZ6PHhEaHrS9Ot83camUxtgZ64mTePBqaxRw/c/d4fET5VrNx3Em/cV8dKfhQiIO2Fb+LufDPBcxZ47jXxo777vqh/A/i6Apb88paTwq4fuHTmSIn9hy2JVfe+ZJJN12kDheF2p/wq7b6vb7fPRKA+QXYBX6sWxna0CBZw88=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=X1DL/19o; arc=none smtp.client-ip=209.85.167.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-oi1-f169.google.com with SMTP id 5614622812f47-479fc1fc048so1991719b6e.1
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 23 Apr 2026 13:54:38 -0700 (PDT)
+Received: by mail-oi1-f179.google.com with SMTP id 5614622812f47-479fc1fc048so1991787b6e.1
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 23 Apr 2026 13:54:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776977678; x=1777582478; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1776977683; x=1777582483; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=mJr2/Y7a9Z56nZcPhFHsPKIdw2ZGjJ+UXlDP2b9GwxI=;
-        b=supu+y2NIx92rw7Kdbu4ozgzwzF31jarAJvMDr5VczMg1QkJD3A02wPE37gD0ys67H
-         PQ6msvFifsvg9Ur99pSGMxluqsGhzsRr1t+CGT5iSwLOjg+zg/bXWXo7c9z791lUkiRe
-         hLAkm2pkNmGlQo9wyWV8r2MKS5v4DEMupNuZWPhWeyuQYMwMCZbEb0GD7VXtjD5DxyNy
-         KCrDELR74g8cWQkyvqaV8qIM4C2qKD8TVD6xmGs7HtYklidKPfTwDBjnFNnFm7cMWNdl
-         Al8qml4OJ01j/1NAi9IS2zzE7xpyvFkdzsPPtF/5fuJJnUy38lWu7JjbjdQp8LYPUPfz
-         mk1A==
+        bh=xAEAq+kQJrWXZQykWzpQy5kgtDlX9Aaw3Ob6jXsM1wQ=;
+        b=X1DL/19o0VPBhUzf5ni48dPCUdCxJUu3yagIlxMHB3ZFAQ01ObWBn8UGfpJU4gVyLn
+         +gUDbAAXfu9VTtBL9iqz8PWaB+/csnT7MKmnN/Ci41IHDQy4ktSZnkO83P3fUc7sc8Mw
+         MEl0uN6ScoYP4Ju1aucEi6jmKo3wcYg7bxUjPRy1TtjRw5+XNsZW+iDYFqYM6iz6FZxj
+         QW48u9XBg0I6np5Tjey2qItMlyB6uERW94aBEfdjVPwjoHwBYy5W0hnGIKauWcniOlLm
+         o3b5YXtfdvY4aLapstHi3tbztLHAZqfj6ghbL+tSODbOklZOCGrUmivG4wSMn/fAUF1g
+         +c1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776977678; x=1777582478;
+        d=1e100.net; s=20251104; t=1776977683; x=1777582483;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=mJr2/Y7a9Z56nZcPhFHsPKIdw2ZGjJ+UXlDP2b9GwxI=;
-        b=i0p+b6Waz3NdrGaGTiWIK9fB0SBvvgUwvlI1VMjETL4Vu/jW21iqRGwJhUzdgN8gD3
-         wa4YIgNsoFFu33dlnRApEbS/qSu3RV5v/V4ZXhH07kqBMfT3kTSLqkVyWnMH1TjE3vmD
-         xGwXnq+O5CGrbegbgUKJabmbxivF6XN3vNbZydJ85qOyEyjRtyUO2kg0uOi6yZyGXrPU
-         WbuyLO3MbLOUNOd9ZChRSQ2s/r+ZXNTG3Z9yf/ChgcXU87YOjkw91wG+PsW0xMLNmHaG
-         cc4fmrUh1Whh1HPIByoZ99MZqdVo3CoGSF3dBtPEXeoinFywbWy0khpcltn9tV8Tnc/l
-         KztA==
-X-Forwarded-Encrypted: i=1; AFNElJ87DdDMXEfT6Aav++4Pg55oX6athCJXgMvq7a8h1xlUUzgWyyav7OL0smxxERMxPdKeCt49A2M6He8pcWr4k83oyw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwAIf9ZNZhEtbFrdij9ZertZy63bvFlnxxgyXi4sK5mgERb/g0C
-	cZkYH5vLBP/8702aBC72K0o0Z3FRlTfkz1rvi3Wk4pDr+/lyj/VkZOt/
-X-Gm-Gg: AeBDievmhPyUYzhhbqYjWGkW3T3HeUz/K7m/a+MM1q5gVi/swwckmiciv6vkc4yOhVW
-	MPBlydMW5OMy8Ag728lHNL4Qw3sPxq5BDaofAJMIT+pOfx04ENyrJI48X1DONvlxKmOMGLsBHI9
-	xoiNBlIfuFpuiNZ6xAPiBFrZ44A8WssolSNZCENXGqhhvaPYjzpIY/b6s3ldLARtGwZCKvDwlRT
-	DCEDkFBdejDLKDLCG+WmDLcWmEV7/pThdfaoDRcjqueNKIJ4a/BKID+iBeCJutmV5p10A0uOJ52
-	qA2Oc/XLPEoGEgh7MlNs2qUA3NncIIQ8T54jgzjZxJ5203Ba7eYNA4qHv2zn/mEb6EtPNlow/E0
-	GWNnAOrDvLjJ/3voXyyx/k1UCqW3q5/HSKdb82M///+Qo2OGdsrUlzg7f+nd2XvkYAHsp0Ctt8n
-	Gt1L77F7nNG/mTiiyVLYFr0bS+3YpTzl3xJ3oVnaDyC9U7SPg+AUiSTz4VGX8NHkxZ+7FlQv0k
-X-Received: by 2002:a05:6808:d51:b0:466:f60b:19d7 with SMTP id 5614622812f47-4799c8febffmr15113908b6e.1.1776977677733;
-        Thu, 23 Apr 2026 13:54:37 -0700 (PDT)
+        bh=xAEAq+kQJrWXZQykWzpQy5kgtDlX9Aaw3Ob6jXsM1wQ=;
+        b=olm3Psp+XxK5cs1apGOvKK1jA/4vyH146v2E5LlrhqfGBzL6iQuXVVlsXaUQy88rkU
+         UA0xzk9nStnrb4UJ+unfgSGh9+6HyD1rJmNZqPghXWtjzG5ZySwv5NVo/6woMiA0D/IA
+         /IwagthhIUHNlujyQKLuK1G7PyppVQPoXEq6p0CcrNkzVDWWEi8vI10dB7j8UyLM9kMz
+         ToZ0eT4v9Hzo8F1ROe3NhxR+AO41aOuhjUUoKmnId3vZyd+K5msh7TGP+6rkvlCLZYGo
+         bmM//chZg7YiB2RbOhFwZJa4HQtNX6/d9HTxaxUlSWnRt6xKTC0MuDNoIOoInttRFz0h
+         dtmw==
+X-Forwarded-Encrypted: i=1; AFNElJ/emwCa4Dikn2ePOJYqA6nmmVXMWkd2ji1xWUFrPYLT89KxxUUX0T79uHS7uBVDbGlv+AP9lmgZ8i8eDkJNQF0msA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwhquLxo/OoFrubOYYOfd9A5XuTtv3oPIyUsclSCyb5LQBEeVde
+	VUm5rXAEvN+buDkhTFHvlcM5BDXa+pdKOXfuZ3DL/AbkaT2xUrRhrYdS
+X-Gm-Gg: AeBDievtvpmo/acJBmxwFeDi+rw9DEkBL6M5GKG7rfNdbFTWohjeehJZsF5hj4VHGyd
+	6n+wRA7jlycnHnET+Ftwtg7MYXDRbA8ARnd+SmgwvILPvqc2YH8PIIvNP0Flp9OjNsLin8zw5GD
+	OFmCGQUn4EabDp8wAev8LUtgKHazHvwo1ShLtjQxp0CsMH4F7tFaiSisqZwrIq4LPv7DURsKbAN
+	Qv1Vl+RFJcAkhxX4vfv95woZbqQ72xpqdkHyZwbK6hNVFXbuDozFwLuN6a/8RWOkm1E7g5waieJ
+	Eg63B08ft+X+eb22expK5zZmZaZfrVfH6r09vvKf5NdbjzqrjjD+CRc3WiV1+7uHcnK2MCCl7Ro
+	RWycf6xllr9FppJWazD4XnbZznxL98sLOA/RS+jDKRNB0XfHhsA7+Jo83ZXhNUSuVGRrHquQlpl
+	+52/WT4BMV/NcHv12Ec1Vvjk4Bgr79poHBhmFmdO8q9GoUs00ycu23fV0/XVWO/dypuXyPoBqDC
+	EhgP+09bNk=
+X-Received: by 2002:a05:6808:d4c:b0:45e:f443:dc3d with SMTP id 5614622812f47-4799c9424e2mr16765336b6e.13.1776977682728;
+        Thu, 23 Apr 2026 13:54:42 -0700 (PDT)
 Received: from [192.168.0.245] (c-98-38-17-99.hsd1.co.comcast.net. [98.38.17.99])
-        by smtp.googlemail.com with ESMTPSA id 5614622812f47-4799fead505sm14329744b6e.2.2026.04.23.13.54.33
+        by smtp.googlemail.com with ESMTPSA id 5614622812f47-4799fead505sm14329744b6e.2.2026.04.23.13.54.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Apr 2026 13:54:37 -0700 (PDT)
+        Thu, 23 Apr 2026 13:54:42 -0700 (PDT)
 From: Jim Cromie <jim.cromie@gmail.com>
-Date: Thu, 23 Apr 2026 14:53:48 -0600
-Subject: [PATCH v14 07/92] docs/dyndbg: update examples \012 to \n
+Date: Thu, 23 Apr 2026 14:53:49 -0600
+Subject: [PATCH v14 08/92] docs/dyndbg: explain flags parse 1st
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -87,7 +88,7 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260423-submit-dyndbg-classmap-foundation-v14-7-2b809a8019d0@gmail.com>
+Message-Id: <20260423-submit-dyndbg-classmap-foundation-v14-8-2b809a8019d0@gmail.com>
 References: <20260423-submit-dyndbg-classmap-foundation-v14-0-2b809a8019d0@gmail.com>
 In-Reply-To: <20260423-submit-dyndbg-classmap-foundation-v14-0-2b809a8019d0@gmail.com>
 To: Arnd Bergmann <arnd@arndb.de>, Jason Baron <jbaron@akamai.com>, 
@@ -182,24 +183,24 @@ Cc: linux-arch@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-stm32@st-md-mailman.stormreply.com, linux-renesas-soc@vger.kernel.org, 
  etnaviv@lists.freedesktop.org, Jim Cromie <jim.cromie@gmail.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1776977636; l=2677;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1776977636; l=1814;
  i=jim.cromie@gmail.com; s=20260203; h=from:subject:message-id;
- bh=siK3DbSjtbdXIzp+rb57NbLxo/EWi9u81nppU4wsdus=;
- b=ePiF0EDWwi/oQY3TXS9i+qRl3hbaq3feRkC0e2PDbzK0sheeYllu5PZJlb5eUbhbmthqySsq4
- IoWvb2TDFhCDz/i/TjB+nfqMjI3xELvbI8eTQStIQFj10HRY4dVJV1a
+ bh=jPGjXS71/Sd5PdlEbYR5u6p1XmzzkhLL9WEpBvy8svQ=;
+ b=HMPoys38nD06ZJHUUrHCqtojr3UfS4NPv3Z3vnBVFyI30FyzOStWh/NmjFhaCcjRBJPNZBJ17
+ GJd8iWMP66nCqhCyzWgR1+dBVaXdJOf5pW87LkLUcDicQIXZDja/brX
 X-Developer-Key: i=jim.cromie@gmail.com; a=ed25519;
  pk=C6E5ODlPQo7ZBynATXH9wg7K6HxP0pIXyf4s38Qw0XE=
 X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	FREEMAIL_CC(0.00)[vger.kernel.org,lists.freedesktop.org,lists.linux.dev,lists.infradead.org,st-md-mailman.stormreply.com,gmail.com];
-	TAGGED_FROM(0.00)[bounces-31593-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-31594-lists,linux-renesas-soc=lfdr.de];
 	FROM_HAS_DN(0.00)[];
 	FREEMAIL_TO(0.00)[arndb.de,akamai.com,kernel.org,suse.com,google.com,atomlin.com,linux-foundation.org,lwn.net,linuxfoundation.org,linux.intel.com,suse.de,gmail.com,ffwll.ch,intel.com,ursulin.net,amd.com,redhat.com,collabora.com,chromium.org,broadcom.com,bootlin.com,poorly.run,aol.com,raspberrypi.com,igalia.com,oss.qualcomm.com,linux.dev,somainline.org,linaro.org,hisilicon.com,pengutronix.de,nxp.com,rock-chips.com,sntech.de,foss.st.com,tomeuvizoso.net,arm.com,ideasonboard.com,kwiboo.se,oss.nxp.com,sys-base.io,loongson.cn,aosc.io,xry111.site,iscas.ac.cn,glider.be,armlinux.org.uk];
 	TO_DN_SOME(0.00)[];
@@ -207,7 +208,7 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	DKIM_TRACE(0.00)[gmail.com:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
 	FREEMAIL_FROM(0.00)[gmail.com];
 	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
@@ -219,59 +220,51 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,etnaviv];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[bootlin.com:email,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 8097C457742
+X-Rspamd-Queue-Id: B7D72457779
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-commit 47ea6f99d06e ("dyndbg: use ESCAPE_SPACE for cat control")
-changed the control-file to display format strings with "\n" rather
-than "\012".  Update the docs to match the new reality.
+When writing queries to >control, flags are parsed 1st, since they are
+the only required field, and they require specific compositions.  So
+if the flags draw an error (on those specifics), then keyword errors
+aren't reported.  This can be mildly confusing/annoying, so explain it
+instead.
 
+cc: linux-doc@vger.kernel.org
 Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
-Tested-by: Louis Chauvet <louis.chauvet@bootlin.com>
 Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
 ---
- Documentation/admin-guide/dynamic-debug-howto.rst | 20 ++++++++++----------
- 1 file changed, 10 insertions(+), 10 deletions(-)
+ Documentation/admin-guide/dynamic-debug-howto.rst | 17 +++++++++++++----
+ 1 file changed, 13 insertions(+), 4 deletions(-)
 
 diff --git a/Documentation/admin-guide/dynamic-debug-howto.rst b/Documentation/admin-guide/dynamic-debug-howto.rst
-index 095a63892257..4b14d9fd0300 100644
+index 4b14d9fd0300..9c2f096ed1d8 100644
 --- a/Documentation/admin-guide/dynamic-debug-howto.rst
 +++ b/Documentation/admin-guide/dynamic-debug-howto.rst
-@@ -38,12 +38,12 @@ You can view the currently configured behaviour in the *prdbg* catalog::
+@@ -109,10 +109,19 @@ The match-spec's select *prdbgs* from the catalog, upon which to apply
+ the flags-spec, all constraints are ANDed together.  An absent keyword
+ is the same as keyword "*".
  
-   :#> head -n7 /proc/dynamic_debug/control
-   # filename:lineno [module]function flags format
--  init/main.c:1179 [main]initcall_blacklist =_ "blacklisting initcall %s\012
--  init/main.c:1218 [main]initcall_blacklisted =_ "initcall %s blacklisted\012"
--  init/main.c:1424 [main]run_init_process =_ "  with arguments:\012"
--  init/main.c:1426 [main]run_init_process =_ "    %s\012"
--  init/main.c:1427 [main]run_init_process =_ "  with environment:\012"
--  init/main.c:1429 [main]run_init_process =_ "    %s\012"
-+  init/main.c:1179 [main]initcall_blacklist =_ "blacklisting initcall %s\n"
-+  init/main.c:1218 [main]initcall_blacklisted =_ "initcall %s blacklisted\n"
-+  init/main.c:1424 [main]run_init_process =_ "  with arguments:\n"
-+  init/main.c:1426 [main]run_init_process =_ "    %s\n"
-+  init/main.c:1427 [main]run_init_process =_ "  with environment:\n"
-+  init/main.c:1429 [main]run_init_process =_ "    %s\n"
+-
+-A match specification is a keyword, which selects the attribute of
+-the callsite to be compared, and a value to compare against.  Possible
+-keywords are:::
++Note that since the match-spec can be empty, the flags are checked 1st,
++then the pairs of keyword and value.  Flag errs will hide keyword errs::
++
++  bash-5.2# ddcmd mod bar +foo
++  dyndbg: read 13 bytes from userspace
++  dyndbg: query 0: "mod bar +foo" mod:*
++  dyndbg: unknown flag 'o'
++  dyndbg: flags parse failed
++  dyndbg: processed 1 queries, with 0 matches, 1 errs
++
++So a match-spec is a keyword, which selects the attribute of the
++callsite to be compared, and a value to compare against.  Possible
++keywords are::
  
- The 3rd space-delimited column shows the current flags, preceded by
- a ``=`` for easy use with grep/cut. ``=p`` shows enabled callsites.
-@@ -59,10 +59,10 @@ query/commands to the control file.  Example::
- 
-   :#> ddcmd '-p; module main func run* +p'
-   :#> grep =p /proc/dynamic_debug/control
--  init/main.c:1424 [main]run_init_process =p "  with arguments:\012"
--  init/main.c:1426 [main]run_init_process =p "    %s\012"
--  init/main.c:1427 [main]run_init_process =p "  with environment:\012"
--  init/main.c:1429 [main]run_init_process =p "    %s\012"
-+  init/main.c:1424 [main]run_init_process =p "  with arguments:\n"
-+  init/main.c:1426 [main]run_init_process =p "    %s\n"
-+  init/main.c:1427 [main]run_init_process =p "  with environment:\n"
-+  init/main.c:1429 [main]run_init_process =p "    %s\n"
- 
- Error messages go to console/syslog::
- 
+   match-spec ::= 'func' string |
+ 		 'file' string |
 
 -- 
 2.53.0
