@@ -1,85 +1,84 @@
-Return-Path: <linux-renesas-soc+bounces-31602-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-31603-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id oCXuMjyI6mnU0QIAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-31602-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Apr 2026 22:59:40 +0200
+	id iMVkGzWK6mk00gIAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-31603-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Apr 2026 23:08:05 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66F9245787B
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Apr 2026 22:59:40 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E176457AE6
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Apr 2026 23:08:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 1094E301BE92
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Apr 2026 20:56:56 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 08B1C311EB9A
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Apr 2026 20:57:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E927A3921C3;
-	Thu, 23 Apr 2026 20:55:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 754143AA4FA;
+	Thu, 23 Apr 2026 20:55:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IviKWGob"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XMrnpTIN"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-oi1-f175.google.com (mail-oi1-f175.google.com [209.85.167.175])
+Received: from mail-oi1-f178.google.com (mail-oi1-f178.google.com [209.85.167.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A41D386C2A
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 23 Apr 2026 20:55:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAEE339479E
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 23 Apr 2026 20:55:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776977726; cv=none; b=p8QRGrjpa7BNO2MgEeRFzrBkh5/fTsZChBQ+XGtn7wyyeFl2n/A1oqSye7gD5dr0vqx2b5j+gz16n4A+O0A1f1YPLIye3Hx68lsu5rQeZdhkcdMNnW4Zonit5CWXe1bqOwo7n+7DEMATyn31jfQBc/wutwm4+3RVhPlRudTw7UY=
+	t=1776977732; cv=none; b=LqX3StPZMJwDAXdyesspc2nyVHJ9lfBcGfhCqOBtmXedC4HTPJPQDNsHx9H3nhNId7yej5jTy6wKGHeJut6v17j2qYx/0JhhlyWHwPz7rnznyFxZMwj6Nd7Zr6YJClDaY2BBDS8ndWksCF/ekjaVViI6I+e/N4V3frz7Lbdvkq8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776977726; c=relaxed/simple;
-	bh=rYvUn020RtsWk+JKdan+vU+3QrQlTiC/mr8QmVX0tHI=;
+	s=arc-20240116; t=1776977732; c=relaxed/simple;
+	bh=R+IIRfrLLDcR6rFvCVkWfyCbB0nVdhMa0QC1tlhNRiA=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=ZCZkJuuogqjfkdGvDyrLGBdUXSr9T2ps7ucSHLf28geC4VcGZUKFC9o+Wb/Tbfs4I8vcJDN/mTVSGIGtVZtzAibDxZVQkKQjSqiML4Mx+8r3UrbeglI5eN4/ish3h933ZotOVH7Wt0U2uQr5FqfUHrkgXIdJni1fqlEAHkUtmik=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IviKWGob; arc=none smtp.client-ip=209.85.167.175
+	 In-Reply-To:To:Cc; b=B1MLmBzwUuGV/qqHFtvVw4evkiYquNWnlMSkbubisCzxmOspWc10m+jH5BLm7ogVZc/pwLcuP8EFPANuGPiDhC7/ES0sfs2hloUEkt2Kwiyu8jUH96L0vyUon9JtO0NrVFBM1DgllztFR4vZdD9CYLU+RpeNlrqHDarXjltWB74=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XMrnpTIN; arc=none smtp.client-ip=209.85.167.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-oi1-f175.google.com with SMTP id 5614622812f47-470145d7df5so4423763b6e.0
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 23 Apr 2026 13:55:24 -0700 (PDT)
+Received: by mail-oi1-f178.google.com with SMTP id 5614622812f47-479aa2dbea2so2588270b6e.0
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 23 Apr 2026 13:55:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776977723; x=1777582523; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1776977729; x=1777582529; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=LWmnMekq7wHtOMUbounQMpD+dtHuexoeQWO5HpDOPws=;
-        b=IviKWGobQC8HQaSHFPS25GCNyFsPkQmCZnzxhvANZ7RBAwwiEmAKjl65SKqeP12FUa
-         rc0J0gddOlTZ7O8RCp2xdgyHsMhCbg9Zr6AxdTdRqhqDhqAnrci2MIiYBnsM/Q5IE23z
-         4tn9PtjvYg1MawrMGMCUnQBlZv93OCa9wB1tRkO18m9lj3GTmpWMLA2NmI4gj5h67e0a
-         iwxsbJlu6QmbHF6k4WdFSojOvL5isTU5//oIJ1fkDgcwr1htnLVAP75TpNYP77XhpA7A
-         wnUFfgubNMJUhmqurkgYBwDEJcAaUqHc4HHCMigseIStqclOhwWXVHifcXwlsOY0i2fe
-         /eSQ==
+        bh=+ICkxfmcUuSMb3yZl4g/Y3yUkne/sOHePKJlImdhZsQ=;
+        b=XMrnpTINek9Oih8nXqwJrB9cm2NdgbDFrqn23k//uuV1Y+HxD7KW6bL2I5PvViLOCL
+         Py6OJjth3pucP+ze9YtPK80J8TqVhSrCRJOHcZ5hx6Cdkmto1Xg/EpVNHLf+nER4ZK+T
+         0sDBweIJ8Q0gXjVnJIfUmVnlCloJXGgKJ6blvIHQ3UTtrkPQjZMi5lTyGb8XpUW9slDL
+         LTWkuGu76IMXKqBfHWXo5Gp6lk7XbM64btt8UMWiDIRZpowCsyhj+0mEFkl97obEoIa7
+         JmCG4LpehFih9z0vn/ycA8pR72+hCs5tde/mXZGbcMI/DPhPcv1iH7miRSMxNFAU+8Jz
+         c2kA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776977723; x=1777582523;
+        d=1e100.net; s=20251104; t=1776977729; x=1777582529;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=LWmnMekq7wHtOMUbounQMpD+dtHuexoeQWO5HpDOPws=;
-        b=tSdht2EWa3drcd1M7eJJ3/rc7mdrE3aViSAemE08qHb+TIcGpCivCQhvVLHP6KHtve
-         g/cMsJ9ianri+pTekzfz3PAKT7WZrBpnofwplBY2mSGp3bxqZGt4UktHrRbpxGCZ7XCb
-         TB+a17f+AcpdjQ0BKwENJB3cNhe9a6m/ir7Wnc5xj5CSZOYiKsxb2yQQNwbrqkDHRaQI
-         /1AAcGdzJb4Pvf55jjAT5kmZSaNLqrTbzIKExBF/uShqVo2PKcGQ/zHN+wsyUQ70p2d/
-         DcUZs+xfcN+b4CTydbadju1SE2qxRQ/xZAihwHTu06iquiEh+Ow5BidEJ5GZCKQiyWEo
-         d9lA==
-X-Forwarded-Encrypted: i=1; AFNElJ9N6ikfFFdMT0PUO8HcSyh3b7hDBGCYIKtKgcBzIGgtDi5D3C8OpvqqZ73z7+u07w48S8HsOpIQ0vB4FCngi7YgpQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzhr17nxQBxR06IIr9pfhcP0PAPUBynkLxWSXFR3MmunYn9Wr5z
-	tVxm+nhTkEifYzIJBzCP6IY6r35HH//abLllqQxv5tE+O6JvF87cH0En
-X-Gm-Gg: AeBDietj5D+7ZuU9FN8bNX/or338+Ryx+03u/Z5mbaeoGHa4UDrkWs55VByteYJfLsC
-	KRuomDvtWE0pyqUZuhfnPSR/YGiaU8UcYsRkiNJeRAJrCXNyLChKPiEEdCePGm3g8L8wTPv9qZ+
-	rnLdquud2DKdyHeMOdKXuI6K1UjVKX+W5bWAiihCnh1DIXPy8ngZH5g/gan1ltAU9qz4P1RYA/0
-	zljJM4ZQIk+rcw33UGDLlHU9SIRzY2rmGLr66W350zm7NTFRqOQ7REnG9vxvhu7PPT+6uxFg2Pf
-	F12vpqPXJCQCXvuJ+s8y7xKnOl38djENkC1EhYlCXvY4MURqg7krTcHxoQCPfVweAPmE7Lflkye
-	xDZ6QhJw4aCzcjmcse5A1vQlpqYodofxRqUKGcFCqAJMJTr+VGQMAQ34FoTCx/ek18ZHjYjW/YJ
-	X2X18/dw7U3LZ+IQ6a4yT+fLmXGeaC+Vyl7/Qpg7P3yB6n32T6j97vf1VHkG8xd7QM/V9xxr75
-X-Received: by 2002:a05:6808:30a6:b0:47a:8c2:a569 with SMTP id 5614622812f47-47a08c2b6ffmr4178192b6e.16.1776977723462;
-        Thu, 23 Apr 2026 13:55:23 -0700 (PDT)
+        bh=+ICkxfmcUuSMb3yZl4g/Y3yUkne/sOHePKJlImdhZsQ=;
+        b=GbXtnfCUIs2S7tpyB1S9nyDddqWAFHUdWa8YhwwWPcpMBKDZDfD7pC5OFd7qeS7c3w
+         PjuRJGEjN//F7nM0Su8y0x7YIWj3e2o+Jb//spunYMb+9pb6TZHa70F9PGRaLErqEJ8P
+         ahI2V/7GfpUo7cpWKWzK8IdZWaXHX1j+VrjFsQ1T+CQKVMznoR4Z+zt5QyFKAyJA+mzJ
+         IvcvT6UVSfjneuUeXUlDfMJI1tIcIjYIesnP+frUd0antM+KupxfT6RZ87SMKz69ovMB
+         YA/Mbp/5n+R2aZbKqU657Gdu0Q1OXiXPbQobQjDIH2UzU5JEJcDhGXzaMbtKRx8p6fuK
+         1v/w==
+X-Forwarded-Encrypted: i=1; AFNElJ8LZmAXoQEAjPJVv2Hhy0txrtVx2r5hFZ9JXcMJCmNFm5q3HWP4Cg0wE8icQ/hlgm5Rb5zNE6ih6UtwS0cJK68JXg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwwoQpEWfPibwzaHA9EjV2Dr8sozickFGnAMNaoF7JuW+wlotz1
+	sKMa9ksGRWypoOh44KCd/zOAvFBm9E9cvvlw6vrnuW8U/Fp0+oAN6TMy
+X-Gm-Gg: AeBDieukvMRbqj5rSPZP1QJqJkjo7zF16AAf0mLW7BERR7rcKlCvRSIqHJ0svNETQZJ
+	87t/Gj/b+jL3SV24TecHAj8yTqzE9ayT9j9fy8tgI8+UWAYIXpe0812wIo6KX/yBW13Tq+2CDlu
+	FieYvl2dD7Xz2j+7zYpGEmCVLspYriYLsV1dPiMRDDcq9DQDHU1FgrNWb9NHDPaF15gDdDhkEs6
+	qJzSneHEcKgv80xnb4MxC91MLGTFd5ZfvaAH0Y0UA8lkuopOEfixYYxhuue3j//QAhOahmqjVQj
+	dL8lN2KNrCbj5Dus+CbUuNLomzuhGWTGcjG+cuEW8Ay3T+3yBNsuoCPeHkkofddOU0j7WM75ccG
+	qCxAazC2RoOU3cKB4VkCGPCiOXRoaPh4p++dXRj4MUuRcWmsmpyQI0c8KgZie9fWaPxfOjNRDLe
+	cWwn3FpE9KRy6s7NuYlmKvKSfhwLudjKBtyNrOAebzqGvvTZp1iLmpAuaWHIJwY/ullJuKpUyc
+X-Received: by 2002:a05:6808:3087:b0:479:ed26:fbc9 with SMTP id 5614622812f47-479ed271afamr8144285b6e.32.1776977728494;
+        Thu, 23 Apr 2026 13:55:28 -0700 (PDT)
 Received: from [192.168.0.245] (c-98-38-17-99.hsd1.co.comcast.net. [98.38.17.99])
-        by smtp.googlemail.com with ESMTPSA id 5614622812f47-4799fead505sm14329744b6e.2.2026.04.23.13.55.18
+        by smtp.googlemail.com with ESMTPSA id 5614622812f47-4799fead505sm14329744b6e.2.2026.04.23.13.55.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Apr 2026 13:55:22 -0700 (PDT)
+        Thu, 23 Apr 2026 13:55:27 -0700 (PDT)
 From: Jim Cromie <jim.cromie@gmail.com>
-Date: Thu, 23 Apr 2026 14:53:57 -0600
-Subject: [PATCH v14 16/92] dyndbg: tighten fn-sig of
- ddebug_apply_class_bitmap
+Date: Thu, 23 Apr 2026 14:53:58 -0600
+Subject: [PATCH v14 17/92] dyndbg: replace classmap list with a vector
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -88,7 +87,7 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260423-submit-dyndbg-classmap-foundation-v14-16-2b809a8019d0@gmail.com>
+Message-Id: <20260423-submit-dyndbg-classmap-foundation-v14-17-2b809a8019d0@gmail.com>
 References: <20260423-submit-dyndbg-classmap-foundation-v14-0-2b809a8019d0@gmail.com>
 In-Reply-To: <20260423-submit-dyndbg-classmap-foundation-v14-0-2b809a8019d0@gmail.com>
 To: Arnd Bergmann <arnd@arndb.de>, Jason Baron <jbaron@akamai.com>, 
@@ -183,24 +182,24 @@ Cc: linux-arch@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-stm32@st-md-mailman.stormreply.com, linux-renesas-soc@vger.kernel.org, 
  etnaviv@lists.freedesktop.org, Jim Cromie <jim.cromie@gmail.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1776977637; l=3865;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1776977637; l=6247;
  i=jim.cromie@gmail.com; s=20260203; h=from:subject:message-id;
- bh=rYvUn020RtsWk+JKdan+vU+3QrQlTiC/mr8QmVX0tHI=;
- b=tFbZdjV7MciYsoekfibU1xLnIm0McHd+qZoufi6Qwoju78bJh7IjWuWEa/8xk+JhTnDAZOLaD
- flLqPuMRIzZDbNQf6/8S2HArLtgfagG3/l8MSHTvIxtZw/h6U4tCPOs
+ bh=R+IIRfrLLDcR6rFvCVkWfyCbB0nVdhMa0QC1tlhNRiA=;
+ b=RHF83Dij8nxPmsEOm7saTDuSK3/jQSIZiie4RJ8onn/gQK1p3S7hCn4sL3FaH9k7MiaRqADym
+ sKuqswRdT9LB8esnHyU1DisRqBP+F0Kyq26OjPeJWBEw8ebARXnHPQF
 X-Developer-Key: i=jim.cromie@gmail.com; a=ed25519;
  pk=C6E5ODlPQo7ZBynATXH9wg7K6HxP0pIXyf4s38Qw0XE=
 X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	FREEMAIL_CC(0.00)[vger.kernel.org,lists.freedesktop.org,lists.linux.dev,lists.infradead.org,st-md-mailman.stormreply.com,gmail.com];
-	TAGGED_FROM(0.00)[bounces-31602-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-31603-lists,linux-renesas-soc=lfdr.de];
 	FROM_HAS_DN(0.00)[];
 	FREEMAIL_TO(0.00)[arndb.de,akamai.com,kernel.org,suse.com,google.com,atomlin.com,linux-foundation.org,lwn.net,linuxfoundation.org,linux.intel.com,suse.de,gmail.com,ffwll.ch,intel.com,ursulin.net,amd.com,redhat.com,collabora.com,chromium.org,broadcom.com,bootlin.com,poorly.run,aol.com,raspberrypi.com,igalia.com,oss.qualcomm.com,linux.dev,somainline.org,linaro.org,hisilicon.com,pengutronix.de,nxp.com,rock-chips.com,sntech.de,foss.st.com,tomeuvizoso.net,arm.com,ideasonboard.com,kwiboo.se,oss.nxp.com,sys-base.io,loongson.cn,aosc.io,xry111.site,iscas.ac.cn,glider.be,armlinux.org.uk];
 	TO_DN_SOME(0.00)[];
@@ -208,7 +207,7 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	DKIM_TRACE(0.00)[gmail.com:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	FREEMAIL_FROM(0.00)[gmail.com];
 	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
@@ -219,99 +218,187 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	NEURAL_HAM(-0.00)[-1.000];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,etnaviv];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,bootlin.com:email]
-X-Rspamd-Queue-Id: 66F9245787B
+	DBL_BLOCKED_OPENRESOLVER(0.00)[bootlin.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 0E176457AE6
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-old_bits arg is currently a pointer to the input bits, but this could
-allow inadvertent changes to the input by the fn.  Disallow this.
-And constify new_bits while here.
+Classmaps are stored in an elf section/array, but currently are
+individually list-linked onto dyndbg's per-module ddebug_table for
+operation. This is unnecessary.
+
+Just like dyndbg's descriptors, classes are packed in compile order;
+so even with many builtin modules employing multiple classmaps, each
+modules' maps are packed contiguously, and can be treated as a
+array-start-address & array-length.
+
+So this drops the whole list building operation done in
+ddebug_attach_module_classes(), and removes the list-head members.
+The "select-by-modname" condition is reused to find the start,end of
+the subrange.
+
+NOTE: This "filter-by-modname" on classmaps should really be done in
+ddebug_add_module(1); ie at least one step closer to ddebug_init(2),
+which already splits up pr-debug descriptors into subranges by
+modname, then calls (1) on each.  (2) knows nothing of classmaps
+currently, and doesn't need to.  For now, just add comment.
 
 Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
 Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
 ---
- lib/dynamic_debug.c | 21 +++++++++++----------
- 1 file changed, 11 insertions(+), 10 deletions(-)
+ include/linux/dynamic_debug.h |  1 -
+ lib/dynamic_debug.c           | 62 ++++++++++++++++++++++---------------------
+ 2 files changed, 32 insertions(+), 31 deletions(-)
 
+diff --git a/include/linux/dynamic_debug.h b/include/linux/dynamic_debug.h
+index 92627a03b4d1..9fd36339db52 100644
+--- a/include/linux/dynamic_debug.h
++++ b/include/linux/dynamic_debug.h
+@@ -84,7 +84,6 @@ enum class_map_type {
+ };
+ 
+ struct ddebug_class_map {
+-	struct list_head link;
+ 	struct module *mod;
+ 	const char *mod_name;	/* needed for builtins */
+ 	const char **class_names;
 diff --git a/lib/dynamic_debug.c b/lib/dynamic_debug.c
-index 4313c8803007..a18f4bc63473 100644
+index a18f4bc63473..94a66c8537ab 100644
 --- a/lib/dynamic_debug.c
 +++ b/lib/dynamic_debug.c
-@@ -607,7 +607,8 @@ static int ddebug_exec_queries(char *query, const char *modname)
+@@ -45,10 +45,11 @@ extern struct ddebug_class_map __start___dyndbg_classes[];
+ extern struct ddebug_class_map __stop___dyndbg_classes[];
  
- /* apply a new class-param setting */
- static int ddebug_apply_class_bitmap(const struct ddebug_class_param *dcp,
--				     unsigned long *new_bits, unsigned long *old_bits,
-+				     const unsigned long *new_bits,
-+				     const unsigned long old_bits,
- 				     const char *query_modname)
- {
- #define QUERY_SIZE 128
-@@ -616,12 +617,12 @@ static int ddebug_apply_class_bitmap(const struct ddebug_class_param *dcp,
- 	int matches = 0;
- 	int bi, ct;
+ struct ddebug_table {
+-	struct list_head link, maps;
++	struct list_head link;
+ 	const char *mod_name;
+-	unsigned int num_ddebugs;
+ 	struct _ddebug *ddebugs;
++	struct ddebug_class_map *classes;
++	unsigned int num_ddebugs, num_classes;
+ };
  
--	if (*new_bits != *old_bits)
-+	if (*new_bits != old_bits)
- 		v2pr_info("apply bitmap: 0x%lx to: 0x%lx for %s\n", *new_bits,
--			  *old_bits, query_modname ?: "'*'");
-+			  old_bits, query_modname ?: "'*'");
- 
- 	for (bi = 0; bi < map->length; bi++) {
--		if (test_bit(bi, new_bits) == test_bit(bi, old_bits))
-+		if (test_bit(bi, new_bits) == test_bit(bi, &old_bits))
- 			continue;
- 
- 		snprintf(query, QUERY_SIZE, "class %s %c%s", map->class_names[bi],
-@@ -633,9 +634,9 @@ static int ddebug_apply_class_bitmap(const struct ddebug_class_param *dcp,
- 		v2pr_info("bit_%d: %d matches on class: %s -> 0x%lx\n", bi,
- 			  ct, map->class_names[bi], *new_bits);
- 	}
--	if (*new_bits != *old_bits)
-+	if (*new_bits != old_bits)
- 		v2pr_info("applied bitmap: 0x%lx to: 0x%lx for %s\n", *new_bits,
--			  *old_bits, query_modname ?: "'*'");
-+			  old_bits, query_modname ?: "'*'");
- 
- 	return matches;
+ struct ddebug_query {
+@@ -149,12 +150,13 @@ static void vpr_info_dq(const struct ddebug_query *query, const char *msg)
  }
-@@ -691,7 +692,7 @@ static int param_set_dyndbg_classnames(const char *instr, const struct kernel_pa
- 				continue;
- 			}
- 			curr_bits ^= BIT(cls_id);
--			totct += ddebug_apply_class_bitmap(dcp, &curr_bits, dcp->bits, NULL);
-+			totct += ddebug_apply_class_bitmap(dcp, &curr_bits, *dcp->bits, NULL);
- 			*dcp->bits = curr_bits;
- 			v2pr_info("%s: changed bit %d:%s\n", KP_NAME(kp), cls_id,
- 				  map->class_names[cls_id]);
-@@ -701,7 +702,7 @@ static int param_set_dyndbg_classnames(const char *instr, const struct kernel_pa
- 			old_bits = CLASSMAP_BITMASK(*dcp->lvl);
- 			curr_bits = CLASSMAP_BITMASK(cls_id + (wanted ? 1 : 0 ));
  
--			totct += ddebug_apply_class_bitmap(dcp, &curr_bits, &old_bits, NULL);
-+			totct += ddebug_apply_class_bitmap(dcp, &curr_bits, old_bits, NULL);
- 			*dcp->lvl = (cls_id + (wanted ? 1 : 0));
- 			v2pr_info("%s: changed bit-%d: \"%s\" %lx->%lx\n", KP_NAME(kp), cls_id,
- 				  map->class_names[cls_id], old_bits, curr_bits);
-@@ -755,7 +756,7 @@ static int param_set_dyndbg_module_classes(const char *instr,
- 			inrep &= CLASSMAP_BITMASK(map->length);
+ static struct ddebug_class_map *ddebug_find_valid_class(struct ddebug_table const *dt,
+-							  const char *class_string, int *class_id)
++							const char *class_string,
++							int *class_id)
+ {
+ 	struct ddebug_class_map *map;
+-	int idx;
++	int i, idx;
+ 
+-	list_for_each_entry(map, &dt->maps, link) {
++	for (map = dt->classes, i = 0; i < dt->num_classes; i++, map++) {
+ 		idx = match_string(map->class_names, map->length, class_string);
+ 		if (idx >= 0) {
+ 			*class_id = idx + map->base;
+@@ -165,7 +167,6 @@ static struct ddebug_class_map *ddebug_find_valid_class(struct ddebug_table cons
+ 	return NULL;
+ }
+ 
+-#define __outvar /* filled by callee */
+ /*
+  * Search the tables for _ddebug's which match the given `query' and
+  * apply the `flags' and `mask' to them.  Returns number of matching
+@@ -227,7 +228,7 @@ static int ddebug_change(const struct ddebug_query *query,
+ 	unsigned int nfound = 0;
+ 	struct flagsbuf fbuf, nbuf;
+ 	struct ddebug_class_map *map = NULL;
+-	int __outvar valid_class;
++	int valid_class;
+ 
+ 	/* search for matching ddebugs */
+ 	mutex_lock(&ddebug_lock);
+@@ -1134,9 +1135,10 @@ static void *ddebug_proc_next(struct seq_file *m, void *p, loff_t *pos)
+ 
+ static const char *ddebug_class_name(struct ddebug_iter *iter, struct _ddebug *dp)
+ {
+-	struct ddebug_class_map *map;
++	struct ddebug_class_map *map = iter->table->classes;
++	int i, nc = iter->table->num_classes;
+ 
+-	list_for_each_entry(map, &iter->table->maps, link)
++	for (i = 0; i < nc; i++, map++)
+ 		if (class_in_range(dp->class_id, map))
+ 			return map->class_names[dp->class_id - map->base];
+ 
+@@ -1220,30 +1222,31 @@ static const struct proc_ops proc_fops = {
+ 	.proc_write = ddebug_proc_write
+ };
+ 
+-static void ddebug_attach_module_classes(struct ddebug_table *dt,
+-					 struct ddebug_class_map *classes,
+-					 int num_classes)
++static void ddebug_attach_module_classes(struct ddebug_table *dt, struct _ddebug_info *di)
+ {
+ 	struct ddebug_class_map *cm;
+-	int i, j, ct = 0;
++	int i, nc = 0;
+ 
+-	for (cm = classes, i = 0; i < num_classes; i++, cm++) {
++	/*
++	 * Find this module's classmaps in a subrange/wholerange of
++	 * the builtin/modular classmap vector/section.  Save the start
++	 * and length of the subrange at its edges.
++	 */
++	for (cm = di->classes, i = 0; i < di->num_classes; i++, cm++) {
+ 
+ 		if (!strcmp(cm->mod_name, dt->mod_name)) {
+-
+-			v2pr_info("class[%d]: module:%s base:%d len:%d ty:%d\n", i,
+-				  cm->mod_name, cm->base, cm->length, cm->map_type);
+-
+-			for (j = 0; j < cm->length; j++)
+-				v3pr_info(" %d: %d %s\n", j + cm->base, j,
+-					  cm->class_names[j]);
+-
+-			list_add(&cm->link, &dt->maps);
+-			ct++;
++			if (!nc) {
++				v2pr_info("start subrange, class[%d]: module:%s base:%d len:%d ty:%d\n",
++					  i, cm->mod_name, cm->base, cm->length, cm->map_type);
++				dt->classes = cm;
++			}
++			nc++;
  		}
- 		v2pr_info("bits:0x%lx > %s.%s\n", inrep, mod_name ?: "*", KP_NAME(kp));
--		totct += ddebug_apply_class_bitmap(dcp, &inrep, dcp->bits, mod_name);
-+		totct += ddebug_apply_class_bitmap(dcp, &inrep, *dcp->bits, mod_name);
- 		*dcp->bits = inrep;
- 		break;
- 	case DD_CLASS_TYPE_LEVEL_NUM:
-@@ -768,7 +769,7 @@ static int param_set_dyndbg_module_classes(const char *instr,
- 		old_bits = CLASSMAP_BITMASK(*dcp->lvl);
- 		new_bits = CLASSMAP_BITMASK(inrep);
- 		v2pr_info("lvl:%ld bits:0x%lx > %s\n", inrep, new_bits, KP_NAME(kp));
--		totct += ddebug_apply_class_bitmap(dcp, &new_bits, &old_bits, mod_name);
-+		totct += ddebug_apply_class_bitmap(dcp, &new_bits, old_bits, mod_name);
- 		*dcp->lvl = inrep;
- 		break;
- 	default:
+ 	}
+-	if (ct)
+-		vpr_info("module:%s attached %d classes\n", dt->mod_name, ct);
++	if (nc) {
++		dt->num_classes = nc;
++		vpr_info("module:%s attached %d classes\n", dt->mod_name, nc);
++	}
+ }
+ 
+ /*
+@@ -1275,10 +1278,9 @@ static int ddebug_add_module(struct _ddebug_info *di, const char *modname)
+ 	dt->num_ddebugs = di->num_descs;
+ 
+ 	INIT_LIST_HEAD(&dt->link);
+-	INIT_LIST_HEAD(&dt->maps);
+ 
+ 	if (di->classes && di->num_classes)
+-		ddebug_attach_module_classes(dt, di->classes, di->num_classes);
++		ddebug_attach_module_classes(dt, di);
+ 
+ 	mutex_lock(&ddebug_lock);
+ 	list_add_tail(&dt->link, &ddebug_tables);
+@@ -1391,8 +1393,8 @@ static void ddebug_remove_all_tables(void)
+ 	mutex_lock(&ddebug_lock);
+ 	while (!list_empty(&ddebug_tables)) {
+ 		struct ddebug_table *dt = list_entry(ddebug_tables.next,
+-						      struct ddebug_table,
+-						      link);
++						     struct ddebug_table,
++						     link);
+ 		ddebug_table_free(dt);
+ 	}
+ 	mutex_unlock(&ddebug_lock);
 
 -- 
 2.53.0
