@@ -1,214 +1,209 @@
-Return-Path: <linux-renesas-soc+bounces-31564-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-31565-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 4KK3AQcA6mkHrAIAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-31564-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Apr 2026 13:18:31 +0200
+	id oA9xAnwJ6mkzsgIAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-31565-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Apr 2026 13:58:52 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99120451311
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Apr 2026 13:18:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6D44451981
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Apr 2026 13:58:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 78CE9305679F
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Apr 2026 11:16:37 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 994D0301A1D3
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Apr 2026 11:54:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F3F303E6DEC;
-	Thu, 23 Apr 2026 11:16:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A44EB3EAC8B;
+	Thu, 23 Apr 2026 11:54:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="AcKEJtIy";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="DLxbRHvO"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="u04KJPJe"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4DAC3E5ECF
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 23 Apr 2026 11:16:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CCCE3E9F8E;
+	Thu, 23 Apr 2026 11:54:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776942996; cv=none; b=kThCym8pTNHd2G670sDtfKg1v7KMjx8GE4Du2Mb1aNzBiUPbg4JbpuItVLMovISjXokE3G6IHwxi9LU7jVqVMxEz2yHP1BoLnE2+Ou+TJbRQz1vG9A/QpQjN10+FwDsk0QGz6MKI4aIyduySqTQcMyWrJt3MzAv6gmTs+sbgNNo=
+	t=1776945259; cv=none; b=CK2l3GUDTb4Nz9GI2GQ/dAOaqgwLasO+YCoJaIGPB/zrpdMquSGKyuiUGJ5HdkaqcQk2EOQkRNZdnwtb2sVO1giNz3FIXMnMxcdeFyZJMiHRK5+sBkarVhXnsTzVgFRPHFUPmipHgG2huWTDO2TDwELQUGqh4yIgybMn7Y+kMMY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776942996; c=relaxed/simple;
-	bh=QdDejc48UM8nlCGxSIpUbXieNxzvddb1KXMnMSUPALA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=tcijfF6FdA5SeuwmNChbm8CaoxUqa1R4mRaaZu2sk1hmKy3cHj0/+lTXn3PY7gVQ7UAe4RLR2vIQSWihBg8K5y9qSRHAOhSWnMFCHtBWIArQQtwlVGL/+631mDsfUeQoYsXmNV1IOqz00InrazBOg4dcry/xSpaoQmwNNtZlkQk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=AcKEJtIy; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=DLxbRHvO; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 63N8u4gq3769021
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 23 Apr 2026 11:16:34 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	6EkrSS+3VgEY8uSY9jkXaDneMR0EApwn3j4Pyi4BsvM=; b=AcKEJtIylYjWGznS
-	kQ2pCo51oFxbcCiuMYCIK8i+1xfPfG3bN+IjtuUnMIMBeyLUxvz+URxenh81SNeL
-	QSrlcI2rv3+NKbKdrUfGjQTOs7mAF3dZIIxwitR9aEVxbufM1L6I1j8wJdrg4oTd
-	tqgO+OcoBuEaNS7dej6fedA6eped242wzXu4psRkioTxUrCADqt5ZEBL/2OclNU+
-	eqG9Z/k4loLPOTy2YgDl6jSc+K1aORFvlMfAwNGvgDJgsqyO1npP0w81LiOXanXk
-	IPsWI68+JM0jCwv02C8l/wgAfVvDxjbNPG3cP+qnuivnGA+AroySVHWeBrphBHHQ
-	7fKv1A==
-Received: from mail-ua1-f69.google.com (mail-ua1-f69.google.com [209.85.222.69])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4dq1hq3j2s-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 23 Apr 2026 11:16:34 +0000 (GMT)
-Received: by mail-ua1-f69.google.com with SMTP id a1e0cc1a2514c-9539bc7e2d0so10505712241.1
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 23 Apr 2026 04:16:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1776942994; x=1777547794; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=6EkrSS+3VgEY8uSY9jkXaDneMR0EApwn3j4Pyi4BsvM=;
-        b=DLxbRHvOsXaUy6FzcjcDMeUZTBvEDxBF0IVwlxx2whT0GCdg9wKNPvlVCCMtNErZEy
-         6fXCyt2193r3wH6yPYsb61crjZXw07LXEhmiwLoxhVtDVIUTBFumX8oBhu/bx1AhiXq1
-         ncW0O+B/bn4+NUdkh+6IujV16IffYy7FYhC50iYVDeK9ghwM/XWBdJjIQbEIPhk2VrUn
-         pumd6kB5SoDM+uTmKQ+JGPWsCJu4NPKPElnwDqyLhozf28DzqJk2nKscXQBKDTcVeLiw
-         jJ3OgjuFqeOvbz7oSK0hV9H5PDUxtpHHCZWXxY5K8mflzsw3UQ4pQyfFit4R4zlKHpXc
-         6qaA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776942994; x=1777547794;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=6EkrSS+3VgEY8uSY9jkXaDneMR0EApwn3j4Pyi4BsvM=;
-        b=jvH3KTZhL9JH35kpqgPzUV92A9V6PAPTKHK20cl7WAOkcidgkTbum5ZpvbXtDLhaY2
-         36oBjLGLqSBSLAf8jayZMKZuwzMh4DBmNtdpsxx9xjNst70NY1v9JEGSEjhrd60404Ul
-         5Jenp1gYqXwHdUwTEaD3wyvUbpfhNnh9w6Jxn/Cgtvk56uqt11xcgm8q8dfEpNQb99sW
-         TpECwN+jV97e5yv/g+9bO/zfBu4/ult0Bc50PdLbPgvXMSPmR37bx02nePx066ymss8p
-         e6A4r8P9Q9So3rhtQmy+MgL2xIshUlYu3TWlh9uq3ztXfCUw9DUqs8NNYT5pbNu5CV2V
-         DWWw==
-X-Forwarded-Encrypted: i=1; AFNElJ/R+9kbTi9ZUF0nophO4v8qpw3GZ8Z37xpLQKYm+/DY2SqQdArlpnjklEdbP5TJZGst0GjKdSBNTP5Yc4o+xVXeXw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw6nnEeZW8/SDCKuY8zWtSfXNmmwr34g2XaPS1cVKQ0M/n/ts4l
-	X8klzNjno6bD3WBLICTE0dHWuVxYRmR7Ns6QQGCBAgPqNNr2FQnua/rQuNxXmG7aeSmI7XWw6Ev
-	Y1so/7ceI14F0t4XVLzadz0ZJY4WOKzNSfW8qF7xt4I4gm/qwU+esjb6QFCPVqZ989G+8xRnD3w
-	==
-X-Gm-Gg: AeBDiet6dUYnVXxWqd/fyMXV333KCY3cofaDtKXuJrDKzB5wsl6/6rMsBnXoXCXRs5j
-	xTjZJcRrJI2c54HZ43vBnJ+eyz3HZA1xfsiGIvWseYQdX2X0hpFvSgLyQ8PqfQcjCxwlWDm5hm0
-	lGhGPw43e2h/YPA7DDPvL3vz0d0MoSlrWAj4ua71pdxyMv86Z7SwQsTVXDZItqksY4XSN/NqQ8P
-	oJ+QnKL6lsPksZkf8EZzdn0ur4un7KMfFEjpCRH/NVYruLccnLzOuMc2EZhBcPWnwSOl/6/TH8B
-	k4T0q8qzuJuGDY2If7F7A8u5oor0870iSrzjNRiMMShaZvn4qnm3sbNIc2qXe86T3DX+FnNH7Iw
-	DLpYmOz3zsc4R2qollopLbuOtm6hbaIBI7d21ERbs364G/BL2rI+8HX+fcPoR3PJ13pDcYrIFAy
-	g/sP8urLfHuq70koVG4DQ=
-X-Received: by 2002:a05:6102:689c:b0:609:444:e4be with SMTP id ada2fe7eead31-616fe256d4cmr9351153137.18.1776942993787;
-        Thu, 23 Apr 2026 04:16:33 -0700 (PDT)
-X-Received: by 2002:a05:6102:689c:b0:609:444:e4be with SMTP id ada2fe7eead31-616fe256d4cmr9351131137.18.1776942993344;
-        Thu, 23 Apr 2026 04:16:33 -0700 (PDT)
-Received: from ?IPV6:2a05:6e02:1041:c10:ae20:597c:99b8:d161? ([2a05:6e02:1041:c10:ae20:597c:99b8:d161])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43fe4e3a166sm51247890f8f.19.2026.04.23.04.16.31
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 23 Apr 2026 04:16:32 -0700 (PDT)
-Message-ID: <c2725698-a76a-4930-ba02-5ef656b3239f@oss.qualcomm.com>
-Date: Thu, 23 Apr 2026 13:16:31 +0200
+	s=arc-20240116; t=1776945259; c=relaxed/simple;
+	bh=CKtBlpi84UvX0YqdqZoI+dNv38AVb0m67CslbD+JITY=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=Lhkw6lxId39vFJnUX3h/kNSiu3jmzNZNS76DVJ+RTd42V67qubvi3M/EjBevtdfVS9TmPZuYYfLY1b3csTj7psvxX71iGCSjsO+z/sdOy7AnNkqzW3gkZGGlj0qPrs05XNtILFQfJsoGn2jzL6jQv+A9HOmOEUFtFOndM4jmFow=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=u04KJPJe; arc=none smtp.client-ip=185.171.202.116
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-04.galae.net (Postfix) with ESMTPS id BAC44C5EF0F;
+	Thu, 23 Apr 2026 11:54:55 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 63F71604EB;
+	Thu, 23 Apr 2026 11:54:14 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id C221D10460B5E;
+	Thu, 23 Apr 2026 13:53:46 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1776945250; h=from:subject:date:message-id:to:cc:mime-version:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=rdtm2Mh4NvOrdzs2o8Fw+gJ72Ofe3PZvxoUNrnpIO1Y=;
+	b=u04KJPJeSXFBhQCKkt2ZyvRWThFfZidRsxnYGqo6R+dyYSKJlvDD+mxl7yYbATWE5qRZfL
+	9R31Y8myN7D+SZ1mCmdZy3tVPAzk0CiJrQAb+lgVVn/2vGSsDiFwPHVXskGnhgZ6/eRAGO
+	tkfzQVeB88kRem3WOyssXTKj+qB/I/0ZkXzEcx4iMxMJGWlQQe8sE3MLORu9fEudmg5I/r
+	Fxtqtu9AqBMej3vNwWDkPYz7j9CXkRVuyYJ7wSOjM2GhjabZBAbKOflBREmZyU7rXTQ7XM
+	WIwwcE+nzmlILk0x4XpbRihQclnu2kfXZk/DoFJHeRPEevHJUFvmdwz+8bBxEA==
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+To: Andrzej Hajda <andrzej.hajda@intel.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Robert Foss <rfoss@kernel.org>,
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+	Jonas Karlman <jonas@kwiboo.se>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	Sasha Finkelstein <fnkl.kernel@gmail.com>,
+	Janne Grunau <j@jannau.net>,
+	Liu Ying <victor.liu@nxp.com>,
+	Douglas Anderson <dianders@chromium.org>,
+	Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>,
+	Lucas Stach <l.stach@pengutronix.de>,
+	Frank Li <Frank.Li@nxp.com>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Paul Cercueil <paul@crapouillou.net>,
+	Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
+	Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	Rob Clark <robin.clark@oss.qualcomm.com>,
+	Dmitry Baryshkov <lumag@kernel.org>,
+	Abhinav Kumar <abhinav.kumar@linux.dev>,
+	Jessica Zhang <jesszhan0024@gmail.com>,
+	Sean Paul <sean@poorly.run>,
+	Marijn Suijten <marijn.suijten@somainline.org>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	Sandy Huang <hjc@rock-chips.com>,
+	=?UTF-8?q?Heiko=20St=C3=BCbner?= <heiko@sntech.de>,
+	Andy Yan <andy.yan@rock-chips.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Mikko Perttunen <mperttunen@nvidia.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Icenowy Zheng <zhengxingda@iscas.ac.cn>,
+	Jingoo Han <jingoohan1@gmail.com>,
+	Inki Dae <inki.dae@samsung.com>,
+	Seung-Woo Kim <sw0312.kim@samsung.com>,
+	Kyungmin Park <kyungmin.park@samsung.com>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Alim Akhtar <alim.akhtar@samsung.com>,
+	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Marek Vasut <marex@denx.de>,
+	Stefan Agner <stefan@agner.ch>,
+	Jyri Sarha <jyri.sarha@iki.fi>,
+	Michal Simek <michal.simek@amd.com>
+Cc: Hui Pu <Hui.Pu@gehealthcare.com>,
+	Ian Ray <ian.ray@gehealthcare.com>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	dri-devel@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org,
+	asahi@lists.linux.dev,
+	imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mips@vger.kernel.org,
+	linux-mediatek@lists.infradead.org,
+	linux-amlogic@lists.infradead.org,
+	linux-arm-msm@vger.kernel.org,
+	freedreno@lists.freedesktop.org,
+	linux-rockchip@lists.infradead.org,
+	linux-tegra@vger.kernel.org,
+	linux-samsung-soc@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	Luca Ceresoli <luca.ceresoli@bootlin.com>
+Subject: [PATCH 35/41] drm/rockchip: lvds: remove now-redundant call to drm_connector_attach_encoder()
+Date: Thu, 23 Apr 2026 13:53:28 +0200
+Message-ID: <20260423115334.444750-1-luca.ceresoli@bootlin.com>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260423-drm-bridge-connector-attach_encoder-v2-0-2ae6ca69b390@bootlin.com>
+References: <20260423-drm-bridge-connector-attach_encoder-v2-0-2ae6ca69b390@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 00/10] Add MTU3 for RZ/T2H and RZ/N2H
-To: Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Daniel Lezcano <daniel.lezcano@kernel.org>,
-        Thomas Gleixner
- <tglx@kernel.org>, Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley
- <conor+dt@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd
- <sboyd@kernel.org>, Lee Jones <lee@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>
-Cc: linux-iio@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-clk@vger.kernel.org
-References: <20260410163530.383818-1-cosmin-gabriel.tanislav.xa@renesas.com>
-Content-Language: en-US
-From: Daniel Lezcano <daniel.lezcano@oss.qualcomm.com>
-In-Reply-To: <20260410163530.383818-1-cosmin-gabriel.tanislav.xa@renesas.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDIzMDExMiBTYWx0ZWRfX5oQGRMbTUcbt
- 1/ozo0SHpOFwuJpEZ1r7J2FktMh5lOdPp2Os1N0wMRvYUF5JDv6eQgjyqRx3HaX0O+zTPU15/zB
- utXpudFc9Q8yueh10P5ZolZyGDbf4Q+O1T9UUgVNkKJpi7Qe71+y6+N+tMz6Rjy9TPC6hvM4fjq
- Qjrht56vTIxMggvua9uwi55Hm6mdR9hFzEAD0tFdFfnGu+CvkIaririMDXfiVpHsC9PdKWK7IfD
- v7WwXKlRIIU/czEMpAARHDyf3zec1PIe42jkY0Ixgi/k91HyoRI4F8Pg3Y1Pj/k/zg+qJrOvEuR
- y5du4CIHDGYxCArQgMXYO72QLwkyFfp1SHVa5GN5CkGXr/2+Qes8XfitD8E4ocrOsA934e2Qjvg
- KCuVD+AzIMy+rve/JGvrJaf8lSxRFVRb3MJ3sglgE2k4li4swLo4TGrZS+G+0/a5tD9gf0g+fHN
- OCyvwZp3Xmk158OkIEA==
-X-Proofpoint-ORIG-GUID: c5viMYceCpCr9gsqEttfvy8uLdmUUcfS
-X-Proofpoint-GUID: c5viMYceCpCr9gsqEttfvy8uLdmUUcfS
-X-Authority-Analysis: v=2.4 cv=TJt1jVla c=1 sm=1 tr=0 ts=69e9ff92 cx=c_pps
- a=UbhLPJ621ZpgOD2l3yZY1w==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=A5OVakUREuEA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=3WHJM1ZQz_JShphwDgj5:22 a=DZ5GKLsTfbtHXbNd-uAA:9
- a=QEXdDO2ut3YA:10 a=TOPH6uDL9cOC6tEoww4z:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-04-23_03,2026-04-21_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 spamscore=0 priorityscore=1501 phishscore=0 clxscore=1011
- malwarescore=0 bulkscore=0 lowpriorityscore=0 impostorscore=0 suspectscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2604200000 definitions=main-2604230112
-X-Spamd-Result: default: False [-0.66 / 15.00];
+Content-Transfer-Encoding: 8bit
+X-Last-TLS-Session-Version: TLSv1.3
+X-Spamd-Result: default: False [0.84 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
-	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[bootlin.com,reject];
+	R_MISSING_CHARSET(0.50)[];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[bootlin.com:s=dkim];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-31564-lists,linux-renesas-soc=lfdr.de];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,oss.qualcomm.com:dkim,oss.qualcomm.com:mid,qualcomm.com:dkim];
-	FREEMAIL_TO(0.00)[renesas.com,bp.renesas.com,kernel.org,glider.be,gmail.com,baylibre.com,pengutronix.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[18];
 	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
+	FREEMAIL_TO(0.00)[intel.com,linaro.org,kernel.org,ideasonboard.com,kwiboo.se,gmail.com,linux.intel.com,suse.de,ffwll.ch,jannau.net,nxp.com,chromium.org,oss.nxp.com,pengutronix.de,crapouillou.net,collabora.com,baylibre.com,googlemail.com,oss.qualcomm.com,linux.dev,poorly.run,somainline.org,rock-chips.com,sntech.de,nvidia.com,iscas.ac.cn,samsung.com,glider.be,bp.renesas.com,denx.de,agner.ch,iki.fi,amd.com];
+	TAGGED_FROM(0.00)[bounces-31565-lists,linux-renesas-soc=lfdr.de];
+	RECEIVED_HELO_LOCALHOST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	DKIM_TRACE(0.00)[bootlin.com:+];
 	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[daniel.lezcano@oss.qualcomm.com,linux-renesas-soc@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[luca.ceresoli@bootlin.com,linux-renesas-soc@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
 	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
-	MID_RHS_MATCH_FROM(0.00)[];
+	RCPT_COUNT_GT_50(0.00)[78];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_COUNT_SEVEN(0.00)[7]
-X-Rspamd-Queue-Id: 99120451311
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[bootlin.com:email,bootlin.com:dkim,bootlin.com:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: A6D44451981
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On 4/10/26 18:35, Cosmin Tanislav wrote:
-> The Renesas RZ/T2H (R9A09G077) and RZ/N2H (R9A09G087) SoCs have an MTU3
-> block. Add support for them and fix the non-existing TCIU8 interrupt.
-> 
-> V2:
->   * reword to mention that TCIU8 used to exist
->   * squash "move required resets to conditional" into
->     "document RZ/{T2H,N2H}"
->   * disable the resets in the else branch of the condition
-> 
-> Cosmin Tanislav (10):
->    clk: renesas: r9a09g077: add MTU3 module clock
->    mfd: rz-mtu3: use device-managed reset deassert
->    mfd: rz-mtu3: use device-managed mfd_add_devices()
->    mfd: rz-mtu3: store &pdev->dev in local variable
->    mfd: rz-mtu3: make reset optional
->    dt-bindings: timer: renesas,rz-mtu3: remove TCIU8 interrupt
->    dt-bindings: timer: renesas,rz-mtu3: document RZ/{T2H,N2H}
+drm_connector_attach_encoder() is now called by
+drm_bridge_connector_init().
 
-Applied patches 6 and 7
+Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+---
+ drivers/gpu/drm/rockchip/rockchip_lvds.c | 6 ------
+ 1 file changed, 6 deletions(-)
 
-Thanks
-
+diff --git a/drivers/gpu/drm/rockchip/rockchip_lvds.c b/drivers/gpu/drm/rockchip/rockchip_lvds.c
+index 75f898a10cbc..7a0c4fa29f2f 100644
+--- a/drivers/gpu/drm/rockchip/rockchip_lvds.c
++++ b/drivers/gpu/drm/rockchip/rockchip_lvds.c
+@@ -628,12 +628,6 @@ static int rockchip_lvds_bind(struct device *dev, struct device *master,
+ 			ret = PTR_ERR(connector);
+ 			goto err_free_bridge;
+ 		}
+-
+-		ret = drm_connector_attach_encoder(connector, encoder);
+-		if (ret < 0) {
+-			drm_err(drm_dev, "failed to attach encoder: %d\n", ret);
+-			goto err_free_bridge;
+-		}
+ 	}
+ 
+ 	pm_runtime_enable(dev);
+-- 
+2.53.0
 
 
