@@ -1,85 +1,85 @@
-Return-Path: <linux-renesas-soc+bounces-31589-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-31590-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id SEBiMw2H6mmP0QIAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-31589-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Apr 2026 22:54:37 +0200
+	id cJZYFCOH6mmP0QIAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-31590-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Apr 2026 22:54:59 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id B69B145766B
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Apr 2026 22:54:37 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1067A45769B
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Apr 2026 22:54:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id ED3C1301752E
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Apr 2026 20:54:23 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 47B3C301CAAF
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Apr 2026 20:54:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 09FA934DB77;
-	Thu, 23 Apr 2026 20:54:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CC5DC34C9A3;
+	Thu, 23 Apr 2026 20:54:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Fg0UHOPU"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qQLMuef3"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-oi1-f181.google.com (mail-oi1-f181.google.com [209.85.167.181])
+Received: from mail-oi1-f178.google.com (mail-oi1-f178.google.com [209.85.167.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDAAF34C9A6
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 23 Apr 2026 20:54:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB8BE351C2B
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 23 Apr 2026 20:54:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776977660; cv=none; b=l3nHw6KiXKVeMTvdMV15P9wd8lH6Vojrv+WODhCArkhUQiwA6DzYW9O7EjTiUrZWJiAwv9cSS2YaHO5tsxUYxQSGcF5x9uZXevSJTsbNvM8Bk0QJQ3FEXtQnEY+Fy07TqOyZjKTP9715TRRoCywnemBZJwbKDiyPygAAuhdLDaQ=
+	t=1776977665; cv=none; b=biHhw6BbjHP21no072o64hPbUGlgND5CKdo1hre4wAujIOQpdbL0Byfl/VQWxmw0vdM85g9AUOAiV55BmypNveXiRU3yVCt1F6vzx2MeNosUoMisIFY1RUC/bTjlXAfaxSTHC5UwH3IAn0zs8JwfQfMrEag61zt35QceQsewdc8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776977660; c=relaxed/simple;
-	bh=dBPobWcjtsCPloRIZNIq7WrMQXPNqrRK7ZbNyYlUKjY=;
+	s=arc-20240116; t=1776977665; c=relaxed/simple;
+	bh=sNU5+ypIpAa5nAh/P3nhq7a8EpP2K+tX+yS4ogUpRkQ=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=SY9lA4pQRwvvi7B3vHH9ZIKLFfgs9cJBJ8L5medd7c46ItVJPC2D5BtgEvOu9RmQYUyLuc/hyKvWbQCnWV/+afcqHeMmSMXGIXOyJt7fRjhfM/fBH6YNRb3L2G6gmveXsQ6i87aWzFRacZsg+nHaxaNuh1pH2rTBxLO7l1iA93U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Fg0UHOPU; arc=none smtp.client-ip=209.85.167.181
+	 In-Reply-To:To:Cc; b=IoG7I027PH6512QyJhfo+pF3QEyncUkUPXz1XeeEqecRH9loooGlPaY++o+Htye5Gce0OcZu0WujhR0hgBrCgStyotyDBlNZTKzZeuPNX7KjodQOwJLCHKiyTsmyf8PQCZTDJgDV/xAAhb8NlV3NfSrr812VRkdm4jVN0Rx8ZD0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qQLMuef3; arc=none smtp.client-ip=209.85.167.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-oi1-f181.google.com with SMTP id 5614622812f47-479e4835e16so2476029b6e.1
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 23 Apr 2026 13:54:18 -0700 (PDT)
+Received: by mail-oi1-f178.google.com with SMTP id 5614622812f47-4645dde00a7so5778868b6e.1
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 23 Apr 2026 13:54:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776977658; x=1777582458; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1776977663; x=1777582463; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=l1peIZB1cJ4wCWYePEqyi4U4OHQkEIk0zc+fw2Nxhlo=;
-        b=Fg0UHOPUqrNzgVTCaq6NLGlMykLum6UIqhj/kE8ZNtuUJTletZXBvfh51Yxu4oE32O
-         qwBzERZTtZh8DZiIAq82tI5f2MQw6I1hcXEl3hspjoLC1u5v+Oh7D/ibuPLseKk1skwW
-         2wCxSBitaaBS/xQM44NZjwZp9MyrEKYii4vpPEmebYvFJzahWZW6qdFnwr3wZB6L8UsQ
-         5GAIgSq0dt8tHdAKvECLBjeccCBMoR7LViMhLi7S/c12DkPWYpHmbEpKj0r2hQktth6W
-         xDd17MZuPJEnmg2oAEJZneNVMX0En3oUOekHayC0caKGV6cw06BNDS7eKnw0/OKHgwHf
-         WWig==
+        bh=XeWez1t8td9fUSkTZ45jVnBaujfXA4urEuOR5XIVYjA=;
+        b=qQLMuef3LzqQu1Lasgqwf/N7OqbYXnjZQ7pdUc8QDt9vqIFjO1hWHw18h1iTfZgHzu
+         CrV9OMN/HJaCw6tr6btes2tf33Op8RXrinFZIctqWRb06j9eD1tTX0bb11cEVHHsIbs7
+         KhyDY5x6pEDkIrzNLP2+0bHKVgO73Ey0ZD3jK6Nxy8rfdeoDZ1S+5h+PUaGFewXhQoRY
+         q4TKzOHBusGjSvKXQgPZh91GBjH30R3SCB1GuOeLi/LoVKkeo9hH428jFN2jHX31RQtX
+         wAyP6494FZW/PVVbhZ/0EfxIw8X+FSfrZCNJ5OkOR4HtnUSorzcVSVYzk905YWlZoP7/
+         F3NA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776977658; x=1777582458;
+        d=1e100.net; s=20251104; t=1776977663; x=1777582463;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=l1peIZB1cJ4wCWYePEqyi4U4OHQkEIk0zc+fw2Nxhlo=;
-        b=jUGIPdU6JYWTAUB06eN7kakK2Ixp8WXZ2qlmjmFenvGy40ZlM/tebwz1HXYisvyB9X
-         QzMfgrJkRGsppFAr8QZ7X87c4+EQA1LQPtVbXCFUEV+bp50CUFipQxYGsssqOHYYT7Os
-         jwZ8PakN/eBAEc1THZGbagHQ2IUhaDw+l1RUgtq8XlGQEuOzbIEr9W93n0RYGT6A5ThD
-         MBpIbEKkol/OlS1vo89BYGa+e6uGg1DY4fgA8ZknUdePPUG74zoa7vYP1IC/yPhJ/AdO
-         4nhOhTIWuakZQOlJG5Zvahh/NIY6X1KdSPBcdYw/RT8OBP9GB3VwuITAY7+5qiFQXTwQ
-         6UhA==
-X-Forwarded-Encrypted: i=1; AFNElJ8RUG4+qorLEoEzXaQDOqa0SrnUcxeTRclVQ5sKY+e+3MEtUZDxTho8ZMwV9jCNaPNqX5/4KCp3rcaZoPtNiKhqKg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyFOwzUfGpgzIlBYgQP8FEm6ODhz6xL4Gi35Agv58TfDYgdeDNM
-	mIKLb/QthupHMgXABIHfdntHTYJlOf/gFafHnGKs37CtGbnJTPJB+cMN
-X-Gm-Gg: AeBDieu+yrUn4D+5/hkTW54S/J7bv5EFtPCGUKrOK7G4Cj0XEkkfa0+Uc19Stklv9Xe
-	y6z3Q+5UtDPz1jAG9R29VijlAwWHA1ArXznoirSRsSNP0fbFlu+Gm1LNEE9FpdFuI8lQilwPsVZ
-	f/BFfW9StSN05HWvf+9R1GEsaqjJgyqJk3j/4z0cupUnrtPoZIUZsC/pesgcYrNKKeq6bmrR2Vp
-	k01Lbjcg4qrEoYCT8qllueetZbb1jsOMcfTa2H1BW6ssfOKbtg/i02bMgNG4AFkr6uTGeFCze82
-	WsvyePgS8fDWs8c1osqDclzlt6rejGMl16tIFzjSvWif+bKB4kDnI5NRtnCHUlMLCMXK7Qf6qqS
-	QHm+oyiSuPNf64DqChfezQ/87ddLgdhFh70/rl5hE0c4eVvj+KyxaqThsqqBg5gDPWSMqxOrF4e
-	uTj7m+IVI4vUYjjT5y5tG7RuFwVTBhbwfKL9woUxJh1Py/joM7REsUeTvA01WJPZ53gpMIfaM7
-X-Received: by 2002:a05:6808:80b3:b0:479:d937:c4f4 with SMTP id 5614622812f47-479d937d218mr11467409b6e.19.1776977657796;
-        Thu, 23 Apr 2026 13:54:17 -0700 (PDT)
+        bh=XeWez1t8td9fUSkTZ45jVnBaujfXA4urEuOR5XIVYjA=;
+        b=jV6GyRgf7VOY4uEIQ9DiYT6XrPOKLIgya+FIKcr7aG19HNMNCRzud7Nl/Zbryzsb8A
+         1s4JJg411YZxoRC0vKW3WFi8cYycnWefgc0h9mtLk32JULobye0WdJ1lB/k9XPsnNLMn
+         d8KkemNpIJkBvQHZ9oJS3mVvryc4emuy8v3sTiRsb577N8EgtQzIeOSfrIU1FffLYsen
+         boLHW2gyt1VZN7mMTwwqObWeWloxUqnS2BFEqbgoFX0tqXpcs6NcmxDNQVrshRI61v4M
+         BDfhsC54Dm3JWMSZg0ZN/QMuxcUG4yZGBxQEt2rZgpsODBMkIDSyHxBgyMLpU2LhJF7a
+         MiQQ==
+X-Forwarded-Encrypted: i=1; AFNElJ8zPsjWYfI+mpjLPzITvl1sxyl3pj7fVA5LDRbg5/+PTLfEHfwaeCG8DqqatoL3/XOoJ89r8/GLLxXSQ5On+IUn1w==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwfGhpTAVMLNcoi0q9D8j8AurTbINQ3rCReqGJGzSn/Q07ny9LJ
+	FtAt+oNh0K1kyv49AM1MwxPtvwNQeVmczNXChKcXYPyk5IDAayDkSaui
+X-Gm-Gg: AeBDieu7TsQ+Iy8tlXzoOdakd6l4UlReQOCiaqrfqI86zbokd3NooEEmx0sPfQt2Vfq
+	Y9rJAoJPRPpRau0NUF1J3jkkw+/uyM/UN+LyGmBYmv2e7uvH02mea2MTUt4caa+vlBooIuRM9Uw
+	j337xhUtPNDY8urZBZi7Q2zACdktssAtcvGYbyklLJ035+1H42OxXhcJeu6TDk3bdjBs4wPpnrW
+	8ZtS6VjvxKQ++32WEuKecuyh04B2+dWECfR7WA4JhGRUJXxzx6HQ3iuj693xLQRQBnyj9H1aAQP
+	hudQ1oVR8Jz7fNHUM+aji7aN6aLRbSKHON+/8Umk8wIAU4A1emldZm7PugMMTmbSrv2HDHoTWH5
+	T4kC/Ai5QQD9Yb9EqiaoSlmS7EamAF6BCVlrWMZPuaPuOvVG76O9KPqMfPmUZ4cyiidEakdraZs
+	70v7RJ/KNFfzHV8HvicsBncc7P/haTCH/rgKiT3eX3Q3xGGaTXIv5O3uC/PaT+5atpKx+mEafj
+X-Received: by 2002:a05:6808:308b:b0:453:58dc:c006 with SMTP id 5614622812f47-4799bc8ecdcmr12645103b6e.3.1776977662798;
+        Thu, 23 Apr 2026 13:54:22 -0700 (PDT)
 Received: from [192.168.0.245] (c-98-38-17-99.hsd1.co.comcast.net. [98.38.17.99])
-        by smtp.googlemail.com with ESMTPSA id 5614622812f47-4799fead505sm14329744b6e.2.2026.04.23.13.54.13
+        by smtp.googlemail.com with ESMTPSA id 5614622812f47-4799fead505sm14329744b6e.2.2026.04.23.13.54.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Apr 2026 13:54:17 -0700 (PDT)
+        Thu, 23 Apr 2026 13:54:22 -0700 (PDT)
 From: Jim Cromie <jim.cromie@gmail.com>
-Date: Thu, 23 Apr 2026 14:53:44 -0600
-Subject: [PATCH v14 03/92] dyndbg.lds.S: fix lost dyndbg sections in
- modules
+Date: Thu, 23 Apr 2026 14:53:45 -0600
+Subject: [PATCH v14 04/92] vmlinux.lds.h: drop unused HEADERED_SECTION*
+ macros
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -88,7 +88,7 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260423-submit-dyndbg-classmap-foundation-v14-3-2b809a8019d0@gmail.com>
+Message-Id: <20260423-submit-dyndbg-classmap-foundation-v14-4-2b809a8019d0@gmail.com>
 References: <20260423-submit-dyndbg-classmap-foundation-v14-0-2b809a8019d0@gmail.com>
 In-Reply-To: <20260423-submit-dyndbg-classmap-foundation-v14-0-2b809a8019d0@gmail.com>
 To: Arnd Bergmann <arnd@arndb.de>, Jason Baron <jbaron@akamai.com>, 
@@ -183,24 +183,24 @@ Cc: linux-arch@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-stm32@st-md-mailman.stormreply.com, linux-renesas-soc@vger.kernel.org, 
  etnaviv@lists.freedesktop.org, Jim Cromie <jim.cromie@gmail.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1776977636; l=3738;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1776977636; l=1428;
  i=jim.cromie@gmail.com; s=20260203; h=from:subject:message-id;
- bh=dBPobWcjtsCPloRIZNIq7WrMQXPNqrRK7ZbNyYlUKjY=;
- b=Mq2FY9AhjybUNh2r2+R0eLZQJzbkYdY8eG/KkpbUCrUKuD8lbuRInjAtfOok3gY1b6jjhzeKk
- GFNhcQdx8P8CNk525EAsuvFZk9vQbFQyGNTNmtsMmoZIKphPxa+siA1
+ bh=sNU5+ypIpAa5nAh/P3nhq7a8EpP2K+tX+yS4ogUpRkQ=;
+ b=HjA55O/V4Utgz/Is+2KPNeba99m7x06Pmf6eKmFuis60V6Ckv9Whwi8Vq/ULE1QgolctL7g58
+ bkmCuf3PSdMCJgld6ykSOAGyPlyeM4J3BFTe9HpTql06GTY7Wia+MgQ
 X-Developer-Key: i=jim.cromie@gmail.com; a=ed25519;
  pk=C6E5ODlPQo7ZBynATXH9wg7K6HxP0pIXyf4s38Qw0XE=
 X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	FREEMAIL_CC(0.00)[vger.kernel.org,lists.freedesktop.org,lists.linux.dev,lists.infradead.org,st-md-mailman.stormreply.com,gmail.com];
-	TAGGED_FROM(0.00)[bounces-31589-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-31590-lists,linux-renesas-soc=lfdr.de];
 	FROM_HAS_DN(0.00)[];
 	FREEMAIL_TO(0.00)[arndb.de,akamai.com,kernel.org,suse.com,google.com,atomlin.com,linux-foundation.org,lwn.net,linuxfoundation.org,linux.intel.com,suse.de,gmail.com,ffwll.ch,intel.com,ursulin.net,amd.com,redhat.com,collabora.com,chromium.org,broadcom.com,bootlin.com,poorly.run,aol.com,raspberrypi.com,igalia.com,oss.qualcomm.com,linux.dev,somainline.org,linaro.org,hisilicon.com,pengutronix.de,nxp.com,rock-chips.com,sntech.de,foss.st.com,tomeuvizoso.net,arm.com,ideasonboard.com,kwiboo.se,oss.nxp.com,sys-base.io,loongson.cn,aosc.io,xry111.site,iscas.ac.cn,glider.be,armlinux.org.uk];
 	TO_DN_SOME(0.00)[];
@@ -208,7 +208,7 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	DKIM_TRACE(0.00)[gmail.com:+];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
 	FREEMAIL_FROM(0.00)[gmail.com];
 	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
@@ -219,124 +219,46 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	NEURAL_HAM(-0.00)[-1.000];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,etnaviv];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[akamai.com:email,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: B69B145766B
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 1067A45769B
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-In an (unused) experimental variation of this series, I had trouble
-with __dyndbg* sections getting lost in drm drivers.  While it didn't
-happen in this series, it exposed a non-obvious weakness.  So fix it,
-by following the model demonstrated in codetag.lds.h.
+These macros are unused, no point in carrying them any more.
 
-Introduce include/asm-generic/dyndbg.lds.h, with 2 macros:
+NB: these macros were just moved to bounded_sections.lds.h, from
+vmlinux.lds.h, which is the known entity, and therefore more
+meaningful in the 1-line summary, so thats what I used as the topic.
 
-DYNDBG_SECTIONS() gets the 2 BOUNDED_SECTION_BY(__yndbg*) calls from
-vmlinux.lds.h DATA_DATA, which now includes the new file and calls the
-new macro.
-
-MOD_DYNDBG_SECTIONS also has the 2 BOUNDED_SECTION_BY calls, but wraps
-them with output section syntax to keep them as known and separate ELF
-sections in the module.ko.
-
-dyndbg.lds.h includes (reuses) bounded-section.lds.h
-
-scripts/module.lds.S: now calls MOD_DYNDBG_SECTIONS right before the
-CODETAG macro (consistent with their placements in vmlinux.lds.h), and
-also includes dyndbg.lds.h
-
-This isolates vmlinux.lds.h from further __dyndbg section additions.
-
-CC: Arnd Bergmann <arnd@arndb.de>
 Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
 ---
- MAINTAINERS                       |  1 +
- include/asm-generic/dyndbg.lds.h  | 19 +++++++++++++++++++
- include/asm-generic/vmlinux.lds.h |  6 ++----
- scripts/module.lds.S              |  2 ++
- 4 files changed, 24 insertions(+), 4 deletions(-)
+ include/asm-generic/bounded_sections.lds.h | 15 ---------------
+ 1 file changed, 15 deletions(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 5fcb7b991776..5c75109d2ee3 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -9069,6 +9069,7 @@ DYNAMIC DEBUG
- M:	Jason Baron <jbaron@akamai.com>
- M:	Jim Cromie <jim.cromie@gmail.com>
- S:	Maintained
-+F:	include/asm-generic/dyndbg.lds.h
- F:	include/linux/dynamic_debug.h
- F:	lib/dynamic_debug.c
- F:	lib/test_dynamic_debug.c
-diff --git a/include/asm-generic/dyndbg.lds.h b/include/asm-generic/dyndbg.lds.h
-new file mode 100644
-index 000000000000..f95683aa16b6
---- /dev/null
-+++ b/include/asm-generic/dyndbg.lds.h
-@@ -0,0 +1,19 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+#ifndef __ASM_GENERIC_DYNDBG_LDS_H
-+#define __ASM_GENERIC_DYNDBG_LDS_H
-+
-+#include <asm-generic/bounded_sections.lds.h>
-+#define DYNDBG_SECTIONS()					\
-+	. = ALIGN(8);						\
-+	BOUNDED_SECTION_BY(__dyndbg, ___dyndbg)			\
-+	BOUNDED_SECTION_BY(__dyndbg_classes, ___dyndbg_classes)
-+
-+#define MOD_DYNDBG_SECTIONS()                                           \
-+	__dyndbg : {							\
-+		BOUNDED_SECTION_BY(__dyndbg, ___dyndbg)			\
-+	}								\
-+	__dyndbg_classes : {						\
-+		BOUNDED_SECTION_BY(__dyndbg_classes, ___dyndbg_classes)	\
-+	}
-+
-+#endif /* __ASM_GENERIC_DYNDBG_LDS_H */
-diff --git a/include/asm-generic/vmlinux.lds.h b/include/asm-generic/vmlinux.lds.h
-index acb4aadd74da..9324066aab51 100644
---- a/include/asm-generic/vmlinux.lds.h
-+++ b/include/asm-generic/vmlinux.lds.h
-@@ -340,6 +340,7 @@
- /*
-  * .data section
-  */
-+#include <asm-generic/dyndbg.lds.h>
- #define DATA_DATA							\
- 	*(.xiptext)							\
- 	*(DATA_MAIN)							\
-@@ -353,10 +354,7 @@
- 	*(.data..do_once)						\
- 	STRUCT_ALIGN();							\
- 	*(__tracepoints)						\
--	/* implement dynamic printk debug */				\
--	. = ALIGN(8);							\
--	BOUNDED_SECTION_BY(__dyndbg_classes, ___dyndbg_classes)		\
--	BOUNDED_SECTION_BY(__dyndbg, ___dyndbg)				\
-+	DYNDBG_SECTIONS()						\
- 	CODETAG_SECTIONS()						\
- 	LIKELY_PROFILE()		       				\
- 	BRANCH_PROFILE()						\
-diff --git a/scripts/module.lds.S b/scripts/module.lds.S
-index 2dc4c8c3e667..027c5c286ea0 100644
---- a/scripts/module.lds.S
-+++ b/scripts/module.lds.S
-@@ -10,6 +10,7 @@
- #endif
+diff --git a/include/asm-generic/bounded_sections.lds.h b/include/asm-generic/bounded_sections.lds.h
+index 43e79603d4af..f5876e68cbe7 100644
+--- a/include/asm-generic/bounded_sections.lds.h
++++ b/include/asm-generic/bounded_sections.lds.h
+@@ -20,19 +20,4 @@
  
- #include <asm-generic/codetag.lds.h>
-+#include <asm-generic/dyndbg.lds.h>
+ #define BOUNDED_SECTION(_sec)	 BOUNDED_SECTION_BY(_sec, _sec)
  
- SECTIONS {
- 	/DISCARD/ : {
-@@ -59,6 +60,7 @@ SECTIONS {
- 		*(.rodata..L*)
- 	}
- 
-+	MOD_DYNDBG_SECTIONS()
- 	MOD_SEPARATE_CODETAG_SECTIONS()
- }
- 
+-#define HEADERED_SECTION_PRE_LABEL(_sec_, _label_, _BEGIN_, _END_, _HDR_) \
+-	_HDR_##_label_	= .;						\
+-	KEEP(*(.gnu.linkonce.##_sec_))					\
+-	BOUNDED_SECTION_PRE_LABEL(_sec_, _label_, _BEGIN_, _END_)
+-
+-#define HEADERED_SECTION_POST_LABEL(_sec_, _label_, _BEGIN_, _END_, _HDR_) \
+-	_label_##_HDR_ = .;						\
+-	KEEP(*(.gnu.linkonce.##_sec_))					\
+-	BOUNDED_SECTION_POST_LABEL(_sec_, _label_, _BEGIN_, _END_)
+-
+-#define HEADERED_SECTION_BY(_sec_, _label_)				\
+-	HEADERED_SECTION_PRE_LABEL(_sec_, _label_, __start, __stop)
+-
+-#define HEADERED_SECTION(_sec)	 HEADERED_SECTION_BY(_sec, _sec)
+-
+ #endif /* _ASM_GENERIC_BOUNDED_SECTIONS_H */
 
 -- 
 2.53.0
