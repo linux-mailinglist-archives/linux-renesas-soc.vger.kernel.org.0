@@ -1,60 +1,60 @@
-Return-Path: <linux-renesas-soc+bounces-31526-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-31527-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id WG6JFHTk6WkGmwIAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-31526-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Apr 2026 11:20:52 +0200
+	id wLyYJpjk6WkGmwIAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-31527-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Apr 2026 11:21:28 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D6E044F47F
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Apr 2026 11:20:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9107C44F4D1
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Apr 2026 11:21:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 7B1FC301CC76
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Apr 2026 09:19:17 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 74FC8301574A
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Apr 2026 09:19:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3235D3E4C6F;
-	Thu, 23 Apr 2026 09:18:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C0B663E4C6B;
+	Thu, 23 Apr 2026 09:19:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="ijf/QDDm"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="2uMOlouz"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1A433E4C83;
-	Thu, 23 Apr 2026 09:18:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75B553E3DBD;
+	Thu, 23 Apr 2026 09:19:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776935925; cv=none; b=T0EY7CG47n9O5yX8VKAR7QClSfZyuQmavvweNaKYvvjQPXETuzJBPOyCD+f73PZHguV3/JabSsrkCHamFuqaoK53AVOROU2vhHMmftoLVsY5giut2jJ15QTFQrglASrdhZNZ7OaO2FV8ZEMyMO7o68IqBZtMFvjX9svqg8olH3w=
+	t=1776935947; cv=none; b=BTKkkwH0OMbD4Ex33AzdBDAQ0ZGKx9BDNSKmF7yId6ynIy2HrAl20Pjkv9yuiL/uQGQoOhxJoGOkY/60zuXeBHZZJHD+cus+lax+EIxjpSPMdwfB1vH2g+wJGhGKSXUQX2t7YqBeNFjypu4jpnlXqbzedRPcc3m5x+YiCBLoLaE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776935925; c=relaxed/simple;
-	bh=c8kwj/UjyqKEmn6cTAZptLrH+S4OFYBxlXqFh5Jw6/Q=;
+	s=arc-20240116; t=1776935947; c=relaxed/simple;
+	bh=NaNPqq7PK9FO7orGJsiNLF8vmH6D5TZFn5WNmO1KP7c=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=V7wAw0hmcvcuQ0MyLLRffC62DL2eNLrTWBehpNAFQNwAALZKL9ECOSaGdsubawrM6AtxV7y+Ul6DIk3g8Tf3M3jgFRjunT/McsmjF/vHWBRv4eWwHTgjhVMnTxUFnF+n3lw30wNcY8992ANffwW0dbnK7lEKLynIwOsaQsAFUyU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=ijf/QDDm; arc=none smtp.client-ip=185.246.85.4
+	 In-Reply-To:To:Cc; b=RNMXyxz+LtiwsvNXt53EnVy8wCsow4yGHeWSXFHr8hVC8CcV0323n/huMo19m1XuDHp6DyTOBCE1zrVAvEdvDz7AY2zmaONii/o11T0PemOGP9ZeGQG3euh0zjYaqE0kiXbkxjuaF4TtUC/TKFErVxqA3QXUvdYbi8JtJ2i1biE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=2uMOlouz; arc=none smtp.client-ip=185.246.84.56
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id 837B44E42AC4;
-	Thu, 23 Apr 2026 09:18:38 +0000 (UTC)
+	by smtpout-02.galae.net (Postfix) with ESMTPS id 67FB11A33BD;
+	Thu, 23 Apr 2026 09:18:56 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 4C6CA604EB;
-	Thu, 23 Apr 2026 09:18:38 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 979C910460BE5;
-	Thu, 23 Apr 2026 11:18:17 +0200 (CEST)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 3026E60495;
+	Thu, 23 Apr 2026 09:18:56 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 542A210460BE8;
+	Thu, 23 Apr 2026 11:18:34 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1776935913; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	t=1776935932; h=from:subject:date:message-id:to:cc:mime-version:content-type:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=eYx7IOqgBWH75sp8rtfzDgWlREeGLJn8efXikvG6Twg=;
-	b=ijf/QDDmejsA8obTGAcFBsmkzdv1bKBCJOz5zmo1XDRUz1lqc6ESgd+djioKFpTKOc/8n/
-	4qe4eSSeM1e5Rw2oYe5LTYDyrorqZbLrKNvSbt8nY29ohkdrWi2TtWFSmWBhC6uu4MO3XJ
-	Gc2JG7Otef/6fUFo1atn1D40DJR2xETu9HA5CJy/5NJN27gX5CIUDZDt4jG20+gSP7TB7N
-	54TwNsY2NKeHJHDEFAE6Ck4wcXs8TG0UTTN3voBtYpkKWYqhH7luaCRx8+Sv0bGwVidMco
-	npeuNlBeKo0VAMAMPb1GPJZi7Qxgnkavfltu4oHI7eBi61iA+qT66WEjBEJJPg==
+	bh=6gpUsC6lDjNzt/YijaD07G77mGEQjp4FP2wsZCfPAjE=;
+	b=2uMOlouziIfMkKvpsuq3Be1WfRv6Q9Wmih7F1CKkC8JSAQTjGs1R2/NTKpg5/PdcDxIxwv
+	NLfOlAArnhD1TTHxx5XUxbxDtP5lTV67Ly+oVY3REtfcdW4Ai9oxBS/C2SZMkdzhIYoEl0
+	o7+32v07VZm+5YLQUviXeNCN5o4YltlvJ3AQMG1X14kyh8yCjHBBBP0LOFf33nqJec/ezR
+	Afc5UsKSYO+tlwesNMZpiSGTAB9KOvJGZIj0CbqVOfqQmjcc4RwnULKoaoaXwsen2Q0mLE
+	utaR85PFCGuk/GuujhgxM9WCXt0TQVJcyBaUwgzBh4nfsXzwpsLZNMyY8JMXTw==
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Thu, 23 Apr 2026 11:16:57 +0200
-Subject: [PATCH v2 03/41] drm/bridge: adv7511: remove now-redundant call to
- drm_connector_attach_encoder()
+Date: Thu, 23 Apr 2026 11:16:58 +0200
+Subject: [PATCH v2 04/41] drm/bridge: ite-it6263: remove now-redundant call
+ to drm_connector_attach_encoder()
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -63,7 +63,7 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260423-drm-bridge-connector-attach_encoder-v2-3-2ae6ca69b390@bootlin.com>
+Message-Id: <20260423-drm-bridge-connector-attach_encoder-v2-4-2ae6ca69b390@bootlin.com>
 References: <20260423-drm-bridge-connector-attach_encoder-v2-0-2ae6ca69b390@bootlin.com>
 In-Reply-To: <20260423-drm-bridge-connector-attach_encoder-v2-0-2ae6ca69b390@bootlin.com>
 To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
@@ -136,7 +136,7 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	FREEMAIL_TO(0.00)[oss.qualcomm.com,intel.com,linaro.org,kernel.org,ideasonboard.com,kwiboo.se,gmail.com,linux.intel.com,suse.de,ffwll.ch,jannau.net,nxp.com,chromium.org,oss.nxp.com,pengutronix.de,crapouillou.net,collabora.com,baylibre.com,googlemail.com,linux.dev,poorly.run,somainline.org,rock-chips.com,sntech.de,nvidia.com,iscas.ac.cn,samsung.com,glider.be,bp.renesas.com,denx.de,agner.ch,iki.fi,amd.com];
-	TAGGED_FROM(0.00)[bounces-31526-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-31527-lists,linux-renesas-soc=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	RECEIVED_HELO_LOCALHOST(0.00)[];
 	DKIM_TRACE(0.00)[bootlin.com:+];
@@ -152,29 +152,28 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	NEURAL_HAM(-0.00)[-1.000];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,bootlin.com:email,bootlin.com:dkim,bootlin.com:mid,qualcomm.com:email]
-X-Rspamd-Queue-Id: 6D6E044F47F
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,bootlin.com:email,bootlin.com:dkim,bootlin.com:mid]
+X-Rspamd-Queue-Id: 9107C44F4D1
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
 drm_connector_attach_encoder() is now called by
 drm_bridge_connector_init().
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 ---
- drivers/gpu/drm/bridge/adv7511/adv7511_drv.c | 2 --
+ drivers/gpu/drm/bridge/ite-it6263.c | 2 --
  1 file changed, 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-index 6bd76c1fb007..f318080f1139 100644
---- a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-+++ b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-@@ -768,8 +768,6 @@ static int adv7511_connector_init(struct adv7511 *adv)
- 		return PTR_ERR(connector);
+diff --git a/drivers/gpu/drm/bridge/ite-it6263.c b/drivers/gpu/drm/bridge/ite-it6263.c
+index 4f3ebb7af4d4..2ea49245e700 100644
+--- a/drivers/gpu/drm/bridge/ite-it6263.c
++++ b/drivers/gpu/drm/bridge/ite-it6263.c
+@@ -697,8 +697,6 @@ static int it6263_bridge_attach(struct drm_bridge *bridge,
+ 		return ret;
  	}
  
--	drm_connector_attach_encoder(connector, bridge->encoder);
+-	drm_connector_attach_encoder(connector, encoder);
 -
  	return 0;
  }
