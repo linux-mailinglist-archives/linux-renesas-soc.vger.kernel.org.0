@@ -1,367 +1,439 @@
-Return-Path: <linux-renesas-soc+bounces-31522-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-31523-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id sBSGN87b6WmNlwIAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-31522-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Apr 2026 10:43:58 +0200
+	id 6GebFBLk6WlQmgIAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-31523-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Apr 2026 11:19:14 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D25544EB43
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Apr 2026 10:43:57 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id D2B4C44F38E
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Apr 2026 11:19:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 555B03018289
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Apr 2026 08:43:05 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id E35FF306AA4E
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Apr 2026 09:18:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C19653DEAEA;
-	Thu, 23 Apr 2026 08:43:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 13B4C3491C2;
+	Thu, 23 Apr 2026 09:18:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="v4N7Vg0o"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="q5bujtby"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from TY3P286CU002.outbound.protection.outlook.com (mail-japaneastazon11010014.outbound.protection.outlook.com [52.101.229.14])
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A50636492A;
-	Thu, 23 Apr 2026 08:43:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.229.14
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776933784; cv=fail; b=IkZsaWOg6NFOFwhUwmsEz2q2JN0HpeyInvsJIg44vwRi/gXUe5Uqnoxc/i9lEcr6jrra7UKKOUrtoYYrcPTlub+mhRNWqZrShTfOtzKYah5viA4RuHXjFFw/c533jOqF1d5e5bM7xfL+7PtIvY8BkYQJUalP78cP3toXfr0xWpU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776933784; c=relaxed/simple;
-	bh=ce5YnD6Dd8m0lnLI6wFKhE9uW2udocLpK6owIFj4+kM=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=MFUHYLWHyNJr4oke1Cdx9qy14V6fwcC8deUhD2uV4QN7crOJyvq6LtcYBP491+QhfeTsnU+5C/ZmbfNJH9ph4uArz0t68cRA2qj8FAUF4CNpRsL9+w9bvBbHdq6ZyYGqRNSgM1dZ2q758cenTf++qhk8U5RNYwh4AOtUpuIF7Bs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=v4N7Vg0o; arc=fail smtp.client-ip=52.101.229.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=vMz/vEf05h6uU4QdT+2Ifjfe4wi5fLfg5VN8Q+zV0NCOCyznjokZiRD6z7zQSY6JRaWuh4M6duYRaqjjJIuNyRLpBRICANV3ebMs8+ng1XvJaIjdDfphCcdimDBNAb4ZbrkrkALZjF8+O6mMWbBzn7B/5Qs9+0CGPEo10v/JDJ0lXEN7OPjBFyoayeWm5+i5Vfr5v9yo/DhnLUNJJ4XTu+FC2dkuhdH4bIWGPJyfRPro5GTdP/tu2O4fqicAxDdZ0t6xaPB5r2aVdROI5waWUBpnYnE1zAeZjnNbfyUb6CJtubv+NudWEv450ru7puDoL2QJDVeWfpVTQJAkT+saWA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=vJfVin2w08yklHKOlEqd6NWTobx8Nr8JimQ1fpHxfdU=;
- b=c0hoBTx5ZbQSUQifFNPZqjquZfmoSzdJUZZhETHBjyjS38blakVdqbu0pTEQVAKZpnzHWRDJf0Y3lqi2+J//A1bBNgOlJnJJrLyHxX7qJrsy73Yfg/zq/6VKMYOGGecpKm6d49oad8uiSyDRh0C1WeXc5QLN/oJxLwSv+qu4YLFqAZYlq3YQ/SVon55JUEco3Zy8gIfm5lxgjwjrDqVQyaIFxs5d3B3Cw0MCZ8tVlkD4RIevQSira7Du0ejhu/RfTgp4xEyrvRJWpvupfJLjY0V2wjefSuuyZlh6SsFcOFRGrrRnde2JwXb0PgCOmn5ZI6cBlAyaTSJjld5Mmz3bNA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vJfVin2w08yklHKOlEqd6NWTobx8Nr8JimQ1fpHxfdU=;
- b=v4N7Vg0o72rbE3g0R/qGcc9PZyEbmQZ8UkdIDyIS/YaTxy6/uqAtATMOJhXK04akdeLlJvxhAbjeLxim79n6Mx2PHKGFlR7pBtPq/5UPwq1rvY1CU/RtCUh3OCfkNR9C2G4g7iCgq2NWwJwrcBYfeiY0RunUVa44ure7Vjkgz/4=
-Received: from TY6PR01MB17377.jpnprd01.prod.outlook.com (2603:1096:405:35b::6)
- by OSCPR01MB15578.jpnprd01.prod.outlook.com (2603:1096:604:3c1::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9846.21; Thu, 23 Apr
- 2026 08:42:59 +0000
-Received: from TY6PR01MB17377.jpnprd01.prod.outlook.com
- ([fe80::f373:26d6:86c4:6aa3]) by TY6PR01MB17377.jpnprd01.prod.outlook.com
- ([fe80::f373:26d6:86c4:6aa3%6]) with mapi id 15.20.9846.021; Thu, 23 Apr 2026
- 08:42:59 +0000
-From: John Madieu <john.madieu.xa@bp.renesas.com>
-To: Rob Herring <robh@kernel.org>
-CC: Geert Uytterhoeven <geert+renesas@glider.be>, Kuninori Morimoto
-	<kuninori.morimoto.gx@renesas.com>, Vinod Koul <vkoul@kernel.org>, Mark Brown
-	<broonie@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Michael
- Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, Conor
- Dooley <conor+dt@kernel.org>, Frank Li <Frank.Li@kernel.org>, Liam Girdwood
-	<lgirdwood@gmail.com>, magnus.damm <magnus.damm@gmail.com>, Thomas Gleixner
-	<tglx@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai
-	<tiwai@suse.com>, Philipp Zabel <p.zabel@pengutronix.de>, Claudiu.Beznea
-	<claudiu.beznea@tuxon.dev>, Biju Das <biju.das.jz@bp.renesas.com>, Fabrizio
- Castro <fabrizio.castro.jz@renesas.com>, Prabhakar Mahadev Lad
-	<prabhakar.mahadev-lad.rj@bp.renesas.com>, John Madieu
-	<john.madieu@gmail.com>, "linux-renesas-soc@vger.kernel.org"
-	<linux-renesas-soc@vger.kernel.org>, "linux-clk@vger.kernel.org"
-	<linux-clk@vger.kernel.org>, "devicetree@vger.kernel.org"
-	<devicetree@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "dmaengine@vger.kernel.org"
-	<dmaengine@vger.kernel.org>, "linux-sound@vger.kernel.org"
-	<linux-sound@vger.kernel.org>
-Subject: RE: [PATCH v2 06/24] ASoC: dt-bindings: Add RZ/G3E (R9A09G047) sound
- binding
-Thread-Topic: [PATCH v2 06/24] ASoC: dt-bindings: Add RZ/G3E (R9A09G047) sound
- binding
-Thread-Index: AQHcwoA3qbwp6I+hdUiOegM/HOfDd7Xgr/WAgAvBIxA=
-Date: Thu, 23 Apr 2026 08:42:58 +0000
-Message-ID:
- <TY6PR01MB17377A994ADC23E7513E585F5FF2A2@TY6PR01MB17377.jpnprd01.prod.outlook.com>
-References: <20260402090524.9137-1-john.madieu.xa@bp.renesas.com>
- <20260402090524.9137-7-john.madieu.xa@bp.renesas.com>
- <20260415205733.GA354660-robh@kernel.org>
-In-Reply-To: <20260415205733.GA354660-robh@kernel.org>
-Accept-Language: en-US, en-GB
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TY6PR01MB17377:EE_|OSCPR01MB15578:EE_
-x-ms-office365-filtering-correlation-id: d130320e-a8ae-4ae4-8b8e-08dea1145292
-x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|7416014|1800799024|366016|376014|18002099003|38070700021|56012099003|22082099003;
-x-microsoft-antispam-message-info:
- MpfORgNINFLLHuv//89n/AapInSZKgCDRGDQ+NIsSHDO1xBKZ5XwN8nmX7EOYDnienxhqqqd/KC0/h29lsZdAPDT1W0WCCs9X/RsNNgNobL7FD/JIQ8tzTk2hhouDFJzfnS0UAZCzoBrMiD3lXvami4+v/4trRraHNh3fPGNMzLob47MmoaDhcmqxxd+MGFeUiqJrRtTbN4WvRPA5XV20ITWb6/1GZRXo5RoQlWFOkQj7MBha39VdKWRDEPFEK9xhGMnd6aESMZ/pgrAIp31gbbAcZpOxCrxDcdbQJ5nZ+RwBkXwRC5T4nQSBGtQ2DpLum7MNrbX/usUNzZLufFBn1B8dbYCW2lcYP3fxEO0AN9zGDttF5q6aLO+8YosT4cWwOGO35z5tNalkYeh8EjceJ0YVTPdQNDaaYXoWLUdS/2b7CV2A5AEIo6FwYx8r1fLc7+wJEuTwCOc/VPy5e44Fd7uqEBKL+RCnbZpni0CbkZLtg1/ssWYTJ51Ad0JssTLcqnNg1HTEtqjnkbikWMMMikwVBWcLAX77W7aVn2B0A74lfsriC9JfMM6bJu2En5/gTspbsYS9RGrDVeiZRye0L/K8XKxZkulcGz2uBwdjE2+ZobiLTmSLUZvZFgC+ddO98jMbdY+HaFYeLufoy56fVLuKjem8WrgRplJfuFTUcl7SMRrTP8Bqiy/cX/Se3IBk2d1h5QBwfWUVqnnGRTIiLSPK/eqredaBdJTV16SENoouwk7z61xwOlRNYdLRF0T
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY6PR01MB17377.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(1800799024)(366016)(376014)(18002099003)(38070700021)(56012099003)(22082099003);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?76/uNsjNGbo6UbU4apHhqISe0g2X9eR1T2BOko2PA/yP3TWOx9y76piJ1PtB?=
- =?us-ascii?Q?+kPbfNhnscGgQVlqDj1J1SlVOZUusM0RRqNFl+7Zw0wvXrAht2H+tyoXQZmW?=
- =?us-ascii?Q?BrzlFxfbXbA7iNki3SyGp433amZbusqqzXseaLG4+f4+kjH3FnHPQvc3TR4p?=
- =?us-ascii?Q?SzNri1QPdFJ4VufL5FVdhG5oaqoOKdPdToCUpX0oNMzmQbTJO51pgHOzjpHN?=
- =?us-ascii?Q?3x77XW6AnsnFku2xrtZ962VJHpd0n7YXlpblpsswJYLbY++MXOVfAbFOv72v?=
- =?us-ascii?Q?/9Am3faPGGH1Zyfe8oa1CL/jfbMwNB2RIuuuO0jAn7tXY041m6oPlw1hODlJ?=
- =?us-ascii?Q?pwSZB1Yhnpl95Yk+gDnfypb+E2Sx+ZgwheEAA/DyDQ/Y3hvJyRZjoZINs9nG?=
- =?us-ascii?Q?SC3BsuQPMUu5IEHKQpeFJCcvp7G+S6N4c1nbfYL+hpu6qRg4G9yLS49CBwZT?=
- =?us-ascii?Q?JOtOPESXW8uzWsmOby4KKkqBSrl0lqv3C+K7PpiX3We94FX+TfM62S4qpnlU?=
- =?us-ascii?Q?EX8Zet0wux/VTLVGofwHIfaU8zFfR68Uj5ikJpU3aKUsKZJTGM9APjnMGp5V?=
- =?us-ascii?Q?hE14WqnoLpaxsiAY2J0WWQAzQQKu+yPw8tyMxCK2TtWwdX+SqxdRqPlK2Krv?=
- =?us-ascii?Q?XIxIfFfaEsJ42OMnE2ScGrf4GPXcrBlNWWuuPve4xEuYjnEhFzIOL7z8Gxi/?=
- =?us-ascii?Q?kbgHbhnvyCjWdIabJaV1qt523eMDPtdCvpa9+It381FkOsb/j6o2gJvt7NRB?=
- =?us-ascii?Q?mssYRYIRwcBx8rCccfZefayMIRw4dr3izDFXve9rEJKkY6OmiPmnLDeHAJup?=
- =?us-ascii?Q?ufTCYT37S6+gjiajp+1F/YHqgrNHhhw3BuMv5AlC+DWWZC4VA22DOiQpZOtT?=
- =?us-ascii?Q?/cS91doMpGrT+DPZqP4NI8JnzZIoTeIkdqfcl24FrteY6Z66gTmztIm68LFZ?=
- =?us-ascii?Q?btq8ccTU4qMsTfkQ4KXCUR1mO8TmI0Bz2B2cyFlUIckIssI4URYpCiP6SH5r?=
- =?us-ascii?Q?uSHi9EB2fgLx49WuZuWTUvDGp3LWU6wBmdAJkeLfDsK8dGEX/B4548SS7tEI?=
- =?us-ascii?Q?+cu8SSI/HFkvPCTUa+3f2FOkjsKC1BZ6G2Cxol3PAUUJcYrS6S/a3DRz+6qd?=
- =?us-ascii?Q?gWVFAuJCDJuWaq14RyabPW7tYt+QjmwUYqRquKlqltgciCU9NBdeCrqp+Rmb?=
- =?us-ascii?Q?RjS2dvh0aAn9goFWbOOP/OL0vNJbGP7BayNN9buSVCQwKhwr9esHVo/tyf9C?=
- =?us-ascii?Q?E2I8E80dOWW7iFflN25nb5Dn+3/K053XMyUt7UVc+fbuGIqRMF6SoAxJbmQf?=
- =?us-ascii?Q?9woeFWCs03qJUAoywEBo0Cuq1dzmHI9sLA1QLZ/gB7ZBP1U6Lgy9m2CPzL0O?=
- =?us-ascii?Q?H+oVzTOJewgIoqAEp5tufh1aFBuc6oA6rmS8drA3cH+cUgM8GnbGFeCtqBBZ?=
- =?us-ascii?Q?MMcbreL6bxDemqKi9BkY4FNW0dHvypYS6oEifF3NF6f32D3fUMaiuvSEixXi?=
- =?us-ascii?Q?HROPkEdzA8xB9iLzHG36WULEWg5w5UBvZ/2JDOW721LstLIUotFfuDGISlwJ?=
- =?us-ascii?Q?rihRHonpZvKwjGvqmIannfqmjk+VQIGtCq2sNGi0knU9WW71dA5MgeTIpA4+?=
- =?us-ascii?Q?1/He0EcqK1VZw6PQ63dP30REYbPp5qCWYwwa9K7cTzJFzZcavCDZziIJw0Ct?=
- =?us-ascii?Q?cUAy1ukcCUHuIMJcQe36Z/KoLuQYmSe7yiETjFXkSD6zx0R5tn3hHjAvjBEX?=
- =?us-ascii?Q?Ak4kxie8Of19uGR8gT1h3Uf64Iqk4nM=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7CA63E3C71;
+	Thu, 23 Apr 2026 09:17:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776935880; cv=none; b=txjIzIx+9OJNlhzHMl7McZKNuZH8thypA7a+D7WHExTSLup5zTSYw3jyLIH07NVjoANc/9qtt9Xh880YBL4yFK1vL8qO5xGmT/oU6BWHpdPsJyZWKdlpFncMK8R4N1mOTf/WGPXVkg7q1WpKTIP9JGQLHEuY6hp/KfYAQ+tVqds=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776935880; c=relaxed/simple;
+	bh=0bibXgXYmMmsNZM5CWvR8AEmesPhJX/+aPZvwFEcwIc=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=hTWbaXksmBrxWFmdkwiNJDSevy09myK/1v/T46/2kraoUJbjCp5H86u5rGbA5waabWsC3HglUd2cd/P6ccMOcqUFM0ziNslUgh2GxQBKG1W8Ej/Rsa6yRkGJJ4IniMbfwTjUCFcgNWHNxPxVSr/oqyfNIqGIvDxYOah77AwGwoI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=q5bujtby; arc=none smtp.client-ip=185.246.85.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-03.galae.net (Postfix) with ESMTPS id 1CC9B4E42AC4;
+	Thu, 23 Apr 2026 09:17:48 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id C6D47604EB;
+	Thu, 23 Apr 2026 09:17:47 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 8ED6210460A92;
+	Thu, 23 Apr 2026 11:17:22 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1776935862; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding; bh=fg+cfL7RFhXRqyxQ+5IEhbipfMHZKY0UpIKJXrJ9fFQ=;
+	b=q5bujtbykq4zXmP/ViiTPdoLiG5rI0IaZoAA1hMcWIsLUIjEVEl28d937PxTSzkcMAo/iZ
+	FfPwWtnuuqp+IknsHgvp3qm2VGtVpuHNGfMwGTXr2NkdUJOEtPHMV4UHRqdwWxLZYY/52V
+	TZjndhPSGi4MLc5sduluxvM9nY9F6d73IxJ7XGYOWbGdcr5LPkjFcaZUqMHKClI3ggDkmt
+	vv2RfEgf0BziLtsSNwVeni3K0HcfWG0FFpxhXmTS2A0O9EMNfYm5uB4MovAIlAdrmlJuqv
+	x5G5QDqMA5j0QJvF0aKhDcR51xqodoTterNKBN6akBGsCUESvx0TKhaoHu4wbA==
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Subject: [PATCH v2 00/41] drm/display: bridge-connector: attach encoder to
+ the connector
+Date: Thu, 23 Apr 2026 11:16:54 +0200
+Message-Id: <20260423-drm-bridge-connector-attach_encoder-v2-0-2ae6ca69b390@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TY6PR01MB17377.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d130320e-a8ae-4ae4-8b8e-08dea1145292
-X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Apr 2026 08:42:58.9914
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: QxaYnkq/oO/cXZaDiRgTLjVdeydq5tHqNXxtnHIL+0sUv/cE4f95yACZUNnDFjF1vHqkQL0YZ4RcrjBT5CtWC+w08bn3/TXsF2X+zo3Jsag=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSCPR01MB15578
-X-Spamd-Result: default: False [1.34 / 15.00];
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAIbj6WkC/42OQQ7CIBBFr9KwFkOJhcaV9zCNgWFqx1gwgI2m6
+ d2lNe5dvsz/78/MEkbCxI7VzCJOlCj4AnJXMRiMvyInV5hJIZU41Iq7OHIbyZULBO8Rcojc5Gx
+ guKCH4DByUE1tQDRaND0rpkfEnl7byrn7cnraW+mu6jUxUCqe9/bGVK+536L+a3GqueBK29a2v
+ W21NCcbQr6T30MYWbcsywfd2mBG6gAAAA==
+X-Change-ID: 20260416-drm-bridge-connector-attach_encoder-c651ac05705f
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Sasha Finkelstein <fnkl.kernel@gmail.com>, Janne Grunau <j@jannau.net>, 
+ Liu Ying <victor.liu@nxp.com>, Douglas Anderson <dianders@chromium.org>, 
+ Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>, 
+ Lucas Stach <l.stach@pengutronix.de>, Frank Li <Frank.Li@nxp.com>, 
+ Sascha Hauer <s.hauer@pengutronix.de>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Fabio Estevam <festevam@gmail.com>, Philipp Zabel <p.zabel@pengutronix.de>, 
+ Paul Cercueil <paul@crapouillou.net>, 
+ Anitha Chrisanthus <anitha.chrisanthus@intel.com>, 
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>, 
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
+ Rob Clark <robin.clark@oss.qualcomm.com>, 
+ Dmitry Baryshkov <lumag@kernel.org>, 
+ Abhinav Kumar <abhinav.kumar@linux.dev>, 
+ Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>, 
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
+ Sandy Huang <hjc@rock-chips.com>, 
+ =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
+ Andy Yan <andy.yan@rock-chips.com>, 
+ Thierry Reding <thierry.reding@gmail.com>, 
+ Mikko Perttunen <mperttunen@nvidia.com>, 
+ Jonathan Hunter <jonathanh@nvidia.com>, 
+ Icenowy Zheng <zhengxingda@iscas.ac.cn>, Jingoo Han <jingoohan1@gmail.com>, 
+ Inki Dae <inki.dae@samsung.com>, Seung-Woo Kim <sw0312.kim@samsung.com>, 
+ Kyungmin Park <kyungmin.park@samsung.com>, 
+ Krzysztof Kozlowski <krzk@kernel.org>, 
+ Alim Akhtar <alim.akhtar@samsung.com>, 
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
+ Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, 
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
+ Geert Uytterhoeven <geert+renesas@glider.be>, 
+ Magnus Damm <magnus.damm@gmail.com>, Biju Das <biju.das.jz@bp.renesas.com>, 
+ Marek Vasut <marex@denx.de>, Stefan Agner <stefan@agner.ch>, 
+ Jyri Sarha <jyri.sarha@iki.fi>, Michal Simek <michal.simek@amd.com>
+Cc: Hui Pu <Hui.Pu@gehealthcare.com>, Ian Ray <ian.ray@gehealthcare.com>, 
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ Luca Ceresoli <luca.ceresoli@bootlin.com>, asahi@lists.linux.dev, 
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+ linux-mips@vger.kernel.org, linux-mediatek@lists.infradead.org, 
+ linux-amlogic@lists.infradead.org, linux-arm-msm@vger.kernel.org, 
+ freedreno@lists.freedesktop.org, linux-rockchip@lists.infradead.org, 
+ linux-tegra@vger.kernel.org, linux-samsung-soc@vger.kernel.org, 
+ linux-renesas-soc@vger.kernel.org
+X-Mailer: b4 0.15.2
+X-Last-TLS-Session-Version: TLSv1.3
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_REJECT(1.00)[cv is fail on i=2];
-	DMARC_POLICY_ALLOW(-0.50)[renesas.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[bp.renesas.com:s=selector1];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[bootlin.com,reject];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_DKIM_ALLOW(-0.20)[bootlin.com:s=dkim];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_TWELVE(0.00)[27];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-31522-lists,linux-renesas-soc=lfdr.de];
-	FREEMAIL_CC(0.00)[glider.be,renesas.com,kernel.org,baylibre.com,gmail.com,perex.cz,suse.com,pengutronix.de,tuxon.dev,bp.renesas.com,vger.kernel.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_TO(0.00)[oss.qualcomm.com,intel.com,linaro.org,kernel.org,ideasonboard.com,kwiboo.se,gmail.com,linux.intel.com,suse.de,ffwll.ch,jannau.net,nxp.com,chromium.org,oss.nxp.com,pengutronix.de,crapouillou.net,collabora.com,baylibre.com,googlemail.com,linux.dev,poorly.run,somainline.org,rock-chips.com,sntech.de,nvidia.com,iscas.ac.cn,samsung.com,glider.be,bp.renesas.com,denx.de,agner.ch,iki.fi,amd.com];
+	TAGGED_FROM(0.00)[bounces-31523-lists,linux-renesas-soc=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	RECEIVED_HELO_LOCALHOST(0.00)[];
+	DKIM_TRACE(0.00)[bootlin.com:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[john.madieu.xa@bp.renesas.com,linux-renesas-soc@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[bp.renesas.com:+];
-	RCVD_COUNT_FIVE(0.00)[5];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,dt];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[luca.ceresoli@bootlin.com,linux-renesas-soc@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	RCPT_COUNT_GT_50(0.00)[79];
+	MID_RHS_MATCH_FROM(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[devicetree.org:url,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,renesas.com:email,bp.renesas.com:dkim]
-X-Rspamd-Queue-Id: 1D25544EB43
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: D2B4C44F38E
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi Rob,
+This series simplifies using the bridge-connector by removing the need to
+attach the newly created connector to the encoder.
 
-Thanks fort he review.
+== Series description
 
-> -----Original Message-----
-> From: Rob Herring <robh@kernel.org>
-> Sent: Mittwoch, 15. April 2026 22:58
-> To: John Madieu <john.madieu.xa@bp.renesas.com>
-> Subject: Re: [PATCH v2 06/24] ASoC: dt-bindings: Add RZ/G3E (R9A09G047)
-> sound binding
->=20
-> On Thu, Apr 02, 2026 at 11:05:05AM +0200, John Madieu wrote:
-> > The RZ/G3E shares the same audio IP as the R-Car variants but differs
-> > in several aspects: it supports up to 5 DMA controllers per audio
-> > channel, requires additional clocks (47 total including per-SSI ADG
-> > clocks, SCU domain clocks and SSIF supply) and additional reset lines
-> > (14 total including SCU, ADG and Audio DMAC peri-peri resets).
-> >
-> > Add a dedicated devicetree binding for the RZ/G3E sound controller.
-> > The binding references the common renesas,rsnd-common.yaml schema for
-> > shared property and subnode definitions.
-> >
-> > Signed-off-by: John Madieu <john.madieu.xa@bp.renesas.com>
-> > ---
-> >
-> > Changes:
-> >
-> > v2: New patch
-> >
-> >  .../sound/renesas,r9a09g047-sound.yaml        | 371 ++++++++++++++++++
-> >  1 file changed, 371 insertions(+)
-> >  create mode 100644
-> > Documentation/devicetree/bindings/sound/renesas,r9a09g047-sound.yaml
-> >
-> > diff --git
-> > a/Documentation/devicetree/bindings/sound/renesas,r9a09g047-sound.yaml
-> > b/Documentation/devicetree/bindings/sound/renesas,r9a09g047-sound.yaml
-> > new file mode 100644
-> > index 000000000000..1dfe9bab3382
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/sound/renesas,r9a09g047-sound.
-> > +++ yaml
-> > @@ -0,0 +1,371 @@
-> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause) %YAML 1.2
-> > +---
-> > +$id:
-> > +http://devicetree.org/schemas/sound/renesas,r9a09g047-sound.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: Renesas RZ/G3E Sound Controller
-> > +
-> > +maintainers:
-> > +  - Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-> > +  - John Madieu <john.madieu.xa@bp.renesas.com>
-> > +
-> > +description:
-> > +  The RZ/G3E (R9A09G047) integrates an R-Car compatible sound
-> > +controller
-> > +  with extended DMA channel support (up to 5 DMACs per direction),
-> > +additional
-> > +  clock domains, and additional reset lines compared to the R-Car
-> > +Gen2/Gen3
-> > +  variants.
-> > +
-> > +allOf:
-> > +  - $ref: renesas,rsnd-common.yaml#
-> > +
-> > +properties:
-> > +  compatible:
-> > +    const: renesas,r9a09g047-sound
-> > +
-> > +  reg:
-> > +    maxItems: 5
-> > +
-> > +  reg-names:
-> > +    items:
-> > +      - const: scu
-> > +      - const: adg
-> > +      - const: ssiu
-> > +      - const: ssi
-> > +      - const: audmapp
-> > +
-> > +  clocks:
-> > +    maxItems: 47
-> > +
-> > +  clock-names:
-> > +    items:
-> > +      - const: ssi-all
-> > +      - const: ssi.9
-> > +      - const: ssi.8
-> > +      - const: ssi.7
-> > +      - const: ssi.6
-> > +      - const: ssi.5
-> > +      - const: ssi.4
-> > +      - const: ssi.3
-> > +      - const: ssi.2
-> > +      - const: ssi.1
-> > +      - const: ssi.0
-> > +      - const: src.9
-> > +      - const: src.8
-> > +      - const: src.7
-> > +      - const: src.6
-> > +      - const: src.5
-> > +      - const: src.4
-> > +      - const: src.3
-> > +      - const: src.2
-> > +      - const: src.1
-> > +      - const: src.0
-> > +      - const: mix.1
-> > +      - const: mix.0
-> > +      - const: ctu.1
-> > +      - const: ctu.0
-> > +      - const: dvc.0
-> > +      - const: dvc.1
-> > +      - const: clk_a
-> > +      - const: clk_b
-> > +      - const: clk_c
-> > +      - const: clk_i
-> > +      - const: ssif_supply
-> > +      - const: scu
-> > +      - const: scu_x2
-> > +      - const: scu_supply
-> > +      - const: adg.ssi.9
-> > +      - const: adg.ssi.8
-> > +      - const: adg.ssi.7
-> > +      - const: adg.ssi.6
-> > +      - const: adg.ssi.5
-> > +      - const: adg.ssi.4
-> > +      - const: adg.ssi.3
-> > +      - const: adg.ssi.2
-> > +      - const: adg.ssi.1
-> > +      - const: adg.ssi.0
-> > +      - const: audmapp
-> > +      - const: adg
-> > +
-> > +  resets:
-> > +    maxItems: 14
-> > +
-> > +  reset-names:
-> > +    items:
-> > +      - const: ssi-all
-> > +      - const: ssi.9
-> > +      - const: ssi.8
-> > +      - const: ssi.7
-> > +      - const: ssi.6
-> > +      - const: ssi.5
-> > +      - const: ssi.4
-> > +      - const: ssi.3
-> > +      - const: ssi.2
-> > +      - const: ssi.1
-> > +      - const: ssi.0
-> > +      - const: scu
-> > +      - const: adg
-> > +      - const: audmapp
-> > +
-> > +  rcar_sound,dvc:
-> > +    description: DVC subnode.
-> > +    type: object
->=20
-> Move 'additionalProperties' here.
->=20
+Currently all users of the bridge-connector must call
+drm_connector_attach_encoder() immediately after a successful
+drm_bridge_connector_init().
 
-I share your opinion, but version 5 [1] has already been published.
-I received feedback from Krzysztof throughout the series, which
-aligned with your views. I hope you don't mind if we continue from v5
-(where there is no longer a split due to a major divergence following
-Krzysztof's recommendations). Is that Ok for you ?
+This is an unnecessary burden for users. Move the call to the end of
+drm_bridge_connector_init() so all callers can be simplified.
 
-[1] https://lore.kernel.org/all/20260417-energetic-practical-frigatebird-5b=
-93ad@quoll/=20
+ * Patch 1 adds a drm_connector_attach_encoder() call at the end of
+   drm_bridge_connector_init()
+ * The other patches remove drm_connector_attach_encoder() after all
+   drm_bridge_connector_init() calls, ordered from the simplest ones
+   (only the last one is somewhat non-obvious)
 
-Regards,
-john
+The Cc list is huge due to the many drivers touched. I sent v1 to a reduced
+Cc list to ensure there is an agreement about the overall idea. That seems
+to be the case, so now it's time to copy all drivers maintainers.
+
+It would be nice to apply all of this series at once to avoid duplicated
+calls to drm_connector_attach_encoder() in the interim. That would be
+harmless beacuse drm_connector_attach_encoder() is idempotent, but
+unpleasant.
+
+== Additional rationale (for the curious)
+
+Besides making the usage of the bridge-connector a bit simpler, this series
+is in preparation for DRM bridge hotplug. Here's why, feel free to skip if
+you don't care.
+
+The old bridge hotplug proposals I have sent in the past [1] were based on
+a hotplug-bridge driver to sit between the last fixed bridge and the first
+hotplugged bridge. Discussion with the community led to the need of
+removing the hotplug-bridge and let common DRM code handle hotplug. The
+common place of code that appears the most suitable for hotplug handling is
+the bridge-connector, which is by now the recommended way to handle
+connector instantiation after a bridge chain.
+
+So I'm in the process of extending the bridge-connector to be the central
+point to handle bridge hotplug. Turns out the need to call
+drm_connector_attach_encoder() after drm_bridge_connector_init() has
+returned is adding big headaches to such work. So I'm send this long but
+simple series to both simplify bridge-connector usage and remove one
+obstacle from the bridge hotplug work. This series is relevant by itself
+anyway.
+
+[1] https://lore.kernel.org/lkml/20250206-hotplug-drm-bridge-v6-26-9d6f2c9c3058@bootlin.com/
+
+== Grand plan
+
+This is part of the work to support hotplug of DRM bridges. The grand plan
+was discussed in [0].
+
+Here's the work breakdown (➜ marks the current series):
+
+ 1. … add refcounting to DRM bridges struct drm_bridge,
+      based on devm_drm_bridge_alloc()
+    A. ✔ add new alloc API and refcounting (v6.16)
+    B. ✔ convert all bridge drivers to new API (v6.17)
+    C. ✔ kunit tests (v6.17)
+    D. ✔ add get/put to drm_bridge_add/remove() + attach/detach()
+         and warn on old allocation pattern (v6.17)
+    E. … add get/put on drm_bridge accessors
+       1. ✔ drm_bridge_chain_get_first_bridge(), add cleanup action (v6.18)
+       2. ✔ drm_bridge_get_prev_bridge() (v6.18)
+       3. ✔ drm_bridge_get_next_bridge() (v6.19)
+       4. ✔ drm_for_each_bridge_in_chain() (v6.19)
+       5. ✔ drm_bridge_connector_init (v6.19)
+       6. ✔ protect encoder bridge chain with a mutex (v7.2)
+       7. … of_drm_find_bridge
+          a. ✔ add of_drm_get_bridge() (v7.0),
+	       convert basic direct users (v7.0-v7.1)
+	  b. ✔ convert direct of_drm_get_bridge() users, part 2 (v7.0)
+	  c. ✔ convert direct of_drm_get_bridge() users, part 3 (v7.0)
+	  d. ✔ convert direct of_drm_get_bridge() users, part 4 (v7.1-v7.2)
+	  e. … convert bridge-only drm_of_find_panel_or_bridge() users
+       8. drm_of_find_panel_or_bridge, *_of_get_bridge
+       9. ✔ enforce drm_bridge_add before drm_bridge_attach (v6.19)
+    F. ✔ debugfs improvements
+       1. ✔ add top-level 'bridges' file (v6.16)
+       2. ✔ show refcount and list lingering bridges (v6.19)
+ 2. … handle gracefully atomic updates during bridge removal
+    A. ✔ Add drm_bridge_enter/exit() to protect device resources (v7.0)
+    B. … protect private_obj removal from list
+    C. ✔ Add drm_bridge_clear_and_put() (v7.1)
+ 3. … DSI host-device driver interaction
+ 4. ✔ removing the need for the "always-disconnected" connector
+ 5. ✔ Migrate i.MX LCDIF driver to bridge-connector (v7.2)
+ 6. ➜ DRM bridge hotplug
+    A. ➜ Bridge hotplug management in the DRM core
+       1. ➜ bridge-connector: attach encoder to the connector
+    B.   Device tree description
+
+[0] https://lore.kernel.org/lkml/20250206-hotplug-drm-bridge-v6-0-9d6f2c9c3058@bootlin.com/#t
+
+Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+---
+Changes in v2:
+- patch 1: update kdoc
+- patch 41: fix by rewriting it fully
+- update cover letter
+- Link to v1: https://patch.msgid.link/20260417-drm-bridge-connector-attach_encoder-v1-0-67b8b8fb872a@bootlin.com
+
+To: Andrzej Hajda <andrzej.hajda@intel.com>
+To: Neil Armstrong <neil.armstrong@linaro.org>
+To: Robert Foss <rfoss@kernel.org>
+To: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+To: Jonas Karlman <jonas@kwiboo.se>
+To: Jernej Skrabec <jernej.skrabec@gmail.com>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+To: Maxime Ripard <mripard@kernel.org>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+To: David Airlie <airlied@gmail.com>
+To: Simona Vetter <simona@ffwll.ch>
+To: Sasha Finkelstein <fnkl.kernel@gmail.com>
+To: Janne Grunau <j@jannau.net>
+To: Liu Ying <victor.liu@nxp.com>
+To: Douglas Anderson <dianders@chromium.org>
+To: Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>
+To: Lucas Stach <l.stach@pengutronix.de>
+To: Frank Li <Frank.Li@nxp.com>
+To: Sascha Hauer <s.hauer@pengutronix.de>
+To: Pengutronix Kernel Team <kernel@pengutronix.de>
+To: Fabio Estevam <festevam@gmail.com>
+To: Philipp Zabel <p.zabel@pengutronix.de>
+To: Paul Cercueil <paul@crapouillou.net>
+To: Anitha Chrisanthus <anitha.chrisanthus@intel.com>
+To: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+To: Matthias Brugger <matthias.bgg@gmail.com>
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+To: Kevin Hilman <khilman@baylibre.com>
+To: Jerome Brunet <jbrunet@baylibre.com>
+To: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+To: Rob Clark <robin.clark@oss.qualcomm.com>
+To: Dmitry Baryshkov <lumag@kernel.org>
+To: Abhinav Kumar <abhinav.kumar@linux.dev>
+To: Jessica Zhang <jesszhan0024@gmail.com>
+To: Sean Paul <sean@poorly.run>
+To: Marijn Suijten <marijn.suijten@somainline.org>
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+To: Sandy Huang <hjc@rock-chips.com>
+To: Heiko Stübner <heiko@sntech.de>
+To: Andy Yan <andy.yan@rock-chips.com>
+To: Thierry Reding <thierry.reding@gmail.com>
+To: Mikko Perttunen <mperttunen@nvidia.com>
+To: Jonathan Hunter <jonathanh@nvidia.com>
+To: Icenowy Zheng <zhengxingda@iscas.ac.cn>
+To: Jingoo Han <jingoohan1@gmail.com>
+To: Inki Dae <inki.dae@samsung.com>
+To: Seung-Woo Kim <sw0312.kim@samsung.com>
+To: Kyungmin Park <kyungmin.park@samsung.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+To: Alim Akhtar <alim.akhtar@samsung.com>
+To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+To: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+To: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+To: Magnus Damm <magnus.damm@gmail.com>
+To: Biju Das <biju.das.jz@bp.renesas.com>
+To: Marek Vasut <marex@denx.de>
+To: Stefan Agner <stefan@agner.ch>
+To: Jyri Sarha <jyri.sarha@iki.fi>
+To: Michal Simek <michal.simek@amd.com>
+Cc: Hui Pu <Hui.Pu@gehealthcare.com>
+Cc: Ian Ray <ian.ray@gehealthcare.com>
+Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Cc: dri-devel@lists.freedesktop.org
+Cc: linux-kernel@vger.kernel.org
+Cc: asahi@lists.linux.dev
+Cc: imx@lists.linux.dev
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-mips@vger.kernel.org
+Cc: linux-mediatek@lists.infradead.org
+Cc: linux-amlogic@lists.infradead.org
+Cc: linux-arm-msm@vger.kernel.org
+Cc: freedreno@lists.freedesktop.org
+Cc: linux-rockchip@lists.infradead.org
+Cc: linux-tegra@vger.kernel.org
+Cc: linux-samsung-soc@vger.kernel.org
+Cc: linux-renesas-soc@vger.kernel.org
+
+---
+Luca Ceresoli (41):
+      drm/display: bridge-connector: attach the encoder to the created connector
+      drm: adp: remove now-redundant call to drm_connector_attach_encoder()
+      drm/bridge: adv7511: remove now-redundant call to drm_connector_attach_encoder()
+      drm/bridge: ite-it6263: remove now-redundant call to drm_connector_attach_encoder()
+      drm/bridge: ti-sn65dsi86: remove now-redundant call to drm_connector_attach_encoder()
+      drm/imx/dcss: remove now-redundant call to drm_connector_attach_encoder()
+      drm/imx: ldb: remove now-redundant call to drm_connector_attach_encoder()
+      drm/imx: parallel-display: remove now-redundant call to drm_connector_attach_encoder()
+      drm/imx/lcdc: remove now-redundant call to drm_connector_attach_encoder()
+      drm/ingenic: remove now-redundant call to drm_connector_attach_encoder()
+      drm/kmb/dsi: remove now-redundant call to drm_connector_attach_encoder()
+      drm/mediatek: mtk_dpi: remove now-redundant call to drm_connector_attach_encoder()
+      drm/mediatek: mtk_dsi: remove now-redundant call to drm_connector_attach_encoder()
+      drm/meson: encoder_cvbs: remove now-redundant call to drm_connector_attach_encoder()
+      drm/meson: encoder_hdmi: remove now-redundant call to drm_connector_attach_encoder()
+      drm/msm/dp: remove now-redundant call to drm_connector_attach_encoder()
+      drm/msm/hdmi: remove now-redundant call to drm_connector_attach_encoder()
+      drm/omapdrm: remove now-redundant call to drm_connector_attach_encoder()
+      rm/rockchip: cdn-dp: remove now-redundant call to drm_connector_attach_encoder()
+      drm/rockchip: rk3066_hdmi: remove now-redundant call to drm_connector_attach_encoder()
+      drm/tegra: hdmi: remove now-redundant call to drm_connector_attach_encoder()
+      drm/tegra: rgb: remove now-redundant call to drm_connector_attach_encoder()
+      drm/tests: bridge: remove now-redundant call to drm_connector_attach_encoder()
+      drm: verisilicon: remove now-redundant call to drm_connector_attach_encoder()
+      drm/exynos: exynos_dp: remove now-redundant call to drm_connector_attach_encoder()
+      drm: rcar-du: encoder: remove now-redundant call to drm_connector_attach_encoder()
+      drm: renesas: rz-du: rzg2l_du_encoder: remove now-redundant call to drm_connector_attach_encoder()
+      drm/rockchip: analogix_dp: remove now-redundant call to drm_connector_attach_encoder()
+      drm/rockchip: dw_dp: remove now-redundant call to drm_connector_attach_encoder()
+      drm/rockchip: dw_hdmi_qp: remove now-redundant call to drm_connector_attach_encoder()
+      drm/rockchip: inno-hdmi: remove now-redundant call to drm_connector_attach_encoder()
+      drm/msm/mdp4: remove now-redundant call to drm_connector_attach_encoder()
+      drm/msm/dsi: remove now-redundant call to drm_connector_attach_encoder()
+      drm/mxsfb/lcdif: remove now-redundant call to drm_connector_attach_encoder()
+      drm/rockchip: lvds: remove now-redundant call to drm_connector_attach_encoder()
+      drm/tidss: remove now-redundant call to drm_connector_attach_encoder()
+      drm/tilcdc: remove now-redundant call to drm_connector_attach_encoder()
+      drm: zynqmp_kms: remove now-redundant call to drm_connector_attach_encoder()
+      drm/imx: remove now-redundant call to drm_connector_attach_encoder()
+      drm/rockchip: rgb: remove now-redundant call to drm_connector_attach_encoder()
+      drm: renesas: shmobile: remove now-redundant call to drm_connector_attach_encoder()
+
+ drivers/gpu/drm/adp/adp_drv.c                     |  2 --
+ drivers/gpu/drm/bridge/adv7511/adv7511_drv.c      |  2 --
+ drivers/gpu/drm/bridge/ite-it6263.c               |  2 --
+ drivers/gpu/drm/bridge/ti-sn65dsi86.c             |  2 --
+ drivers/gpu/drm/display/drm_bridge_connector.c    | 11 +++++++++--
+ drivers/gpu/drm/exynos/exynos_dp.c                |  2 +-
+ drivers/gpu/drm/imx/dc/dc-kms.c                   |  8 +-------
+ drivers/gpu/drm/imx/dcss/dcss-kms.c               |  2 --
+ drivers/gpu/drm/imx/ipuv3/imx-ldb.c               |  2 --
+ drivers/gpu/drm/imx/ipuv3/parallel-display.c      |  2 --
+ drivers/gpu/drm/imx/lcdc/imx-lcdc.c               |  2 --
+ drivers/gpu/drm/ingenic/ingenic-drm-drv.c         |  2 --
+ drivers/gpu/drm/kmb/kmb_dsi.c                     |  2 +-
+ drivers/gpu/drm/mediatek/mtk_dpi.c                |  1 -
+ drivers/gpu/drm/mediatek/mtk_dsi.c                |  1 -
+ drivers/gpu/drm/meson/meson_encoder_cvbs.c        |  2 --
+ drivers/gpu/drm/meson/meson_encoder_hdmi.c        |  2 --
+ drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c          |  7 -------
+ drivers/gpu/drm/msm/dp/dp_drm.c                   |  2 --
+ drivers/gpu/drm/msm/dsi/dsi_manager.c             |  4 ----
+ drivers/gpu/drm/msm/hdmi/hdmi.c                   |  2 --
+ drivers/gpu/drm/mxsfb/lcdif_drv.c                 |  6 ------
+ drivers/gpu/drm/omapdrm/omap_drv.c                |  2 --
+ drivers/gpu/drm/renesas/rcar-du/rcar_du_encoder.c |  2 +-
+ drivers/gpu/drm/renesas/rz-du/rzg2l_du_encoder.c  |  2 +-
+ drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c | 16 +++++++---------
+ drivers/gpu/drm/rockchip/analogix_dp-rockchip.c   |  2 +-
+ drivers/gpu/drm/rockchip/cdn-dp-core.c            |  2 --
+ drivers/gpu/drm/rockchip/dw_dp-rockchip.c         |  2 +-
+ drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c    |  2 +-
+ drivers/gpu/drm/rockchip/inno_hdmi-rockchip.c     |  2 +-
+ drivers/gpu/drm/rockchip/rk3066_hdmi.c            |  2 --
+ drivers/gpu/drm/rockchip/rockchip_lvds.c          |  6 ------
+ drivers/gpu/drm/rockchip/rockchip_rgb.c           |  9 ---------
+ drivers/gpu/drm/tegra/hdmi.c                      |  2 --
+ drivers/gpu/drm/tegra/rgb.c                       |  2 --
+ drivers/gpu/drm/tests/drm_bridge_test.c           |  2 --
+ drivers/gpu/drm/tidss/tidss_encoder.c             |  6 ------
+ drivers/gpu/drm/tilcdc/tilcdc_encoder.c           |  6 ------
+ drivers/gpu/drm/verisilicon/vs_bridge.c           |  1 -
+ drivers/gpu/drm/xlnx/zynqmp_kms.c                 |  6 ------
+ 41 files changed, 25 insertions(+), 117 deletions(-)
+---
+base-commit: 77fec37c895fcbdefbcec97cefd6d1f5cfdf1e3a
+change-id: 20260416-drm-bridge-connector-attach_encoder-c651ac05705f
+
+Best regards,
+--  
+Luca Ceresoli <luca.ceresoli@bootlin.com>
+
 
