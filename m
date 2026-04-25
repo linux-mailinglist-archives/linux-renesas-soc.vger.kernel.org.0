@@ -1,237 +1,183 @@
-Return-Path: <linux-renesas-soc+bounces-31650-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-31651-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 8m62Nthk7GmjYQAAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-31650-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 25 Apr 2026 08:53:12 +0200
+	id GOBKF+Vk7GmjYQAAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-31651-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 25 Apr 2026 08:53:25 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CB9E46539C
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 25 Apr 2026 08:53:11 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 527BF4653B1
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 25 Apr 2026 08:53:23 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 566BA300DF5F
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 25 Apr 2026 06:53:10 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 10D5D3005159
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 25 Apr 2026 06:53:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AD73A1B6D1A;
-	Sat, 25 Apr 2026 06:53:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2F0E042048;
+	Sat, 25 Apr 2026 06:53:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="LeZm311D"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IqSLsyJ3"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from OS0P286CU010.outbound.protection.outlook.com (mail-japanwestazon11011033.outbound.protection.outlook.com [40.107.74.33])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 577F91C3BF7;
-	Sat, 25 Apr 2026 06:53:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.74.33
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777099989; cv=fail; b=gwCYX88R/zkIsKrOljENZxshyYc1vN9mi1TIL1uqDDnMfeTybvGQNEDIGYlgCM+r5XZoRUc6V7jjYL/15JLhi1A6xXi9VfysA5yZMy3m07Ir1LfPEbUhdkm8NxT3UPRxrUqB/Z+wh+rQmSiGB8SvrFa+mDsL8xIaIC2wA5KeEew=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777099989; c=relaxed/simple;
-	bh=reK+tR1STyw3IFETJ830mOkWycczTxBVbeHTeSNjBBY=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=Ek0YMHfM/KD3w2XxCv3eoBxsZ9LvRjFx9ckNZa9wEfq1PgP13hn/HyrdbnIcN6CetMPfAqFVNISjj9RFUx9ePm4WEzR/e/1p8fRtdZYe/fuUQunnNQsQ9suV3k9I+v+/PjfBVio+yjKE82oxDfcZAenQrIxnf2S2XhNMm+n/+9M=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=LeZm311D; arc=fail smtp.client-ip=40.107.74.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=xyXL7En2+IcDRNaqIRdW9IwFbnHI+riGevGxRJTRtxSZ21cHLPx8F2fBIkLxj7g7fzhcGVFoj4KaidYxirX9e6MxbrhmH7a7cn9F0cidyRYdeHwiZh2nqHU6zy2dc66iDcIou2P0B+0XKyvRhuMffhKKG3tjKf6AaPoAOaLD/fbF63ys1DnbB//3M7B1wcpWazgWpOnwF3TCI2ukhGqQtkwwFnDm3KYLgXw8aekjy5//HAYs7lWK77Cgir7rr8Rk+w171fTVJQc8YTBJokMVoFHFcxcH3KmFsoKR0PGCAAcVtnpYnE54lJLmx6YkGSF+u3Ory3JBO2//7sIoyPmxag==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=yBla7XxbRaUvyliPbBFn9BICXmnVb7EdPTIP40PS+iA=;
- b=b1CgqXef0HgD2KiKqmJ1mvdfhiU6NbUJ08BGfiCcXgqY9D2p9799QkIv117bJfj6+iEXvwaYPEaij6W7J0QWqnMy88bFB4v7blWoOM+oBoHW0olj+zbbvz5ohnq+emu2VFe8bAr776E1Z75YF6pvrUVuvdfrmOqqkyRynQcxZkQZ71ZinLz9vOe64QEFR/0UN1foJGu9mLRe2Uu7UOKsqKd0dyR4yFrIi7A0h4jGuca5emHswcpM5+ZWApyGjwuRMW26C03HF1msvnjatEOSPO7XCjp85L7HdoEJQBx55eZn2s0QCMxALxN/Wmz+cFUHypELaD2eBx9wCiqb2HOczA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=yBla7XxbRaUvyliPbBFn9BICXmnVb7EdPTIP40PS+iA=;
- b=LeZm311DaK55A6bQ0DUOwBL0Lcc+O0B4OBuPxQ960q7jRTJt6p2/flrOv6KY8AWy3aH/icHzE/55zLiwop9ryBgNYs/cHPsyekCs/BG+652BC4PgIntnFcBkwsWB+YCbHjtNib+4UQqgXAF1xMLfvbnk/5CvPDWVng0LDVKwzBI=
-Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com (2603:1096:400:3d0::7)
- by OSRPR01MB11632.jpnprd01.prod.outlook.com (2603:1096:604:22f::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9846.23; Sat, 25 Apr
- 2026 06:53:03 +0000
-Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com
- ([fe80::87d1:4928:d55:97de]) by TY3PR01MB11346.jpnprd01.prod.outlook.com
- ([fe80::87d1:4928:d55:97de%4]) with mapi id 15.20.9846.023; Sat, 25 Apr 2026
- 06:53:03 +0000
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: John Madieu <john.madieu.xa@bp.renesas.com>, Fabrizio Castro
-	<fabrizio.castro.jz@renesas.com>, "broonie@kernel.org" <broonie@kernel.org>
-CC: Cosmin-Gabriel Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>,
-	"linux-spi@vger.kernel.org" <linux-spi@vger.kernel.org>,
-	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"john.madieu@gmail.com" <john.madieu@gmail.com>
-Subject: RE: [PATCH] spi: rzv2h-rspi: Fix silent failure in clock setup error
- path
-Thread-Topic: [PATCH] spi: rzv2h-rspi: Fix silent failure in clock setup error
- path
-Thread-Index: AQHc1F3qmPAX2PfN8kSommC34KWovbXvVyiw
-Date: Sat, 25 Apr 2026 06:53:03 +0000
-Message-ID:
- <TY3PR01MB1134681BA16B917E7B9D9FB3B86282@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-References: <20260425024725.2393632-1-john.madieu.xa@bp.renesas.com>
-In-Reply-To: <20260425024725.2393632-1-john.madieu.xa@bp.renesas.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TY3PR01MB11346:EE_|OSRPR01MB11632:EE_
-x-ms-office365-filtering-correlation-id: 7f53ed14-19bd-4f2d-a5c7-08dea2974c5c
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|1800799024|366016|376014|38070700021|18002099003|22082099003|56012099003;
-x-microsoft-antispam-message-info:
- 1R0fuSPagSwXRnRw/I3n/AUhGk/SOnsw8KV5Foy7B5H/aPuxijFCc5HzWZIezMz9RY6mjgin4bHdO5I7oV4nF19ofscFcxjRfoMVisZt2qeFSOlNoPyq8j7DLHwrnLDRZLFNZHNMn/7iFJ1BrU5WRO6/vihOVZcmUjZOm6bZ3e7gS60BT4fhVHrcRoLgGMckG6IEN+6bh3ilXoPzhTeNI+1dyYukjydA4yWgD5gNevJav5wlt7Oq49bi4jWG8ozndt66NJ1ZSD8zCzwVRbatTcztR2BzsLvwbKCUncuzzq83dBK86sX3tW93DTKIZRN1BqSKvMxQ8dM8oEihC00sQOxEZXd/8JCv4Yr44kSgh+RJWbZ6Wm6Sy3tKKEpu58MSiy4ooJhn9kqgIFeU443W5AmXe/dlLR7nTD12yzPG89kWkOIytxkPbED1rewBZHUxmbAzGQkJL9iBOL6mjE/lE+CJjWG0CrwMETr6ViY5tMsiWOtg2t2AaDfFycsAdW9nBfcfkht1TE4HYMmAA//5p25PHQE4W8brY9eYsuFpVG9WOTmk1hPUWooPrQVan8YY070JLF1pWGqZ21QbuD3D5iytuI5d9MxQyqFtCJQ8gRp+aRO6bs8xBmtlk/mcV7k2J8eJCJLMzsNwpLfFi/84N3da8t+g6/1JuMihaPJcgMlsMXy77hUJ5uy44w3qsB3VbiDgamJJldhhhDRE6NFsq4JbSRVNRaX8G7SyAiMju45fHi4jJc72yxg17Xw53DJ6LJK9s16vslr4KrBq5wcGQwDB/smYT+UM5SCY3KNQF7Y=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB11346.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(38070700021)(18002099003)(22082099003)(56012099003);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?Y07Zd7ok+YOhsvbYh9boGLjTLudOmQcA5jSSX+6m+4EG3798y1ZtBxtXzQ0u?=
- =?us-ascii?Q?atcAYv+mvthfM9bQUyVtpSUQK2c2pYltm49AlvWhiBnk2AhJ4Rrc/y2YJXE0?=
- =?us-ascii?Q?fA32OV4A0vyXLoj0/ZaXdHl3yPfqSJAJvR2aXdWKiEtZMUeUQUao1FlBa9mK?=
- =?us-ascii?Q?rumSHYSrkOdMPZDZQhYnS0qHGqPjwAgFahDf/fnJFgJHrvjv887YoLBwewFI?=
- =?us-ascii?Q?Aimo7nsd7Ostt3q5DYZQs1N3iahuRNEmKLfnb68xrb/W9NI36ta93l1euD0L?=
- =?us-ascii?Q?MKs9yzPop449ObZYGBFRrlh09A4xsQA5tT5Ek81J7rajB6+fUHgqbPmR9l5O?=
- =?us-ascii?Q?OWN8pMDR//yYqRDpMMaR1qVhlajEs+LNw0/9C6tG/ktnyxv9kjmgkh3gSgFQ?=
- =?us-ascii?Q?D9vmIr4nl0sFh2ax2DF8QP6oSq6RaYCDfyIUhcc53oxKm9io+Q1jUjIIlU6u?=
- =?us-ascii?Q?M0bOaXdeAr8hf9r2UnK8R3VhY/FXpYjGz38jH4yN3mu7cUTJVVb6/R6sqs3T?=
- =?us-ascii?Q?trX8ljHTU7ItqE/wsfxjur2Pbjw7Zne1KaY+zJDuw6iT/MZJJlo+7ePwS6JD?=
- =?us-ascii?Q?OLVUvRWmTGNw9SQxmvMui+HQ45SQ8rCl6aR3JLAk4L3X+PIflkQwtWmBD4HV?=
- =?us-ascii?Q?TXZPXDryzmOAZC9miuBCRVZ8GO27L548GrTLTe7tOf9VsX72xVV9TnrKglUA?=
- =?us-ascii?Q?ehLNmupyNFeZ2Ts83rUKRF53qUa9LJrs6EqQfrtjlzbvse3JfTVDg9OPKGWo?=
- =?us-ascii?Q?HvGTOlu/I87VcYB398eeflKSirJir521xrevbk/0CEkJ8GdkX/3hJZl8zBMv?=
- =?us-ascii?Q?BfBYP2VsLJQBAQsS/vwQdWFXEFWElrs8yrMwO6p/ZV+Bn6n3ILR31kCKhTTg?=
- =?us-ascii?Q?pQi9UqQvoIu2jkGdxAXXFzcGu2um1VVCXBMrPwfSBVpVkZ775dWvtkLFPB2s?=
- =?us-ascii?Q?wagY2pqB5r1HPevaEd+zF5ZIY60hlxinY2ce7pnIvrsZlkdoZBP4vI8Ryj6G?=
- =?us-ascii?Q?JFZr0SBeCX/edwPG7wFoqR4zkSHa40Faz+l25e8PFV8yNJaLyHFJDuZGVkGD?=
- =?us-ascii?Q?/xAqb5xCVExyI3pWnrDCeBiTgjQIWWN5u/rLW5U8Kco7bMX3tziJiCAJtG0P?=
- =?us-ascii?Q?p+oGHLSdoYH3yZl/Dng5hQmyHsDdu2GYB9Dknc70rolOL01Ywp+vfOrtRWOY?=
- =?us-ascii?Q?T7Vm7kAS04mV8lQq139gxWLAyUms5argxrrEoUqEGt2hQ3bU+IpQ3GkGwgvy?=
- =?us-ascii?Q?Ugf67685zZFX6Y9cZM6OgxUtLdNFfBJrbc7USU6gN7e7+CcT3bVWMtV3hD7V?=
- =?us-ascii?Q?4/msEr6TPrW9nlAp5DSyZ8ByEY/xTeZowyREYwlptBh0TyqTh20cVG+/vtvT?=
- =?us-ascii?Q?VjOPuqJpNCWBYjJhsQbTf2EIQwdnWhWfBmxqzJ89SHtX8kdNVlgtPlg8EK5A?=
- =?us-ascii?Q?9IcINBtymVGUBexqZv/fRIReWrvIeRJDBLPIxGDKhShmdJBIX5S6a5yYkKvQ?=
- =?us-ascii?Q?BthzQSdkdlXkXEPEXuoeP12A+V6uND0iDu5F5V+hSLZNU2mijL9Pr4zn9GVo?=
- =?us-ascii?Q?PNqiQXfaRF5eK7vxgQ9T84c7fzBObTnIZy90UwMveFWtNt/phidu13b8xhuP?=
- =?us-ascii?Q?JXbVe8yUyzd7/wItMSKUT7ONM4SGAMYsGMVXNl5QgbCnwIr9o2+89+ZjCVdQ?=
- =?us-ascii?Q?ByEt8Hp48GzPVZLDGCUWHYtsjQ80NXxkJRpZXb4J2PZ2jaw1vcW/176VbpG7?=
- =?us-ascii?Q?zmd7e8xC1Q=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 916D51B6D1A
+	for <linux-renesas-soc@vger.kernel.org>; Sat, 25 Apr 2026 06:53:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777100000; cv=none; b=mHz/k0YEDILGiC78wWaBVLX6fDZuJ82m1j+tcw+4jlAiII0speDXFXL/MM7lfSnx3dl1nSRLUJMo33SciSY/JR8+QO5uL+TsJcFymRzReaJ+2ep5By9GJcmkll1TwqbrPsNsz0C08Bd3R7C6ptZsIWbopDy7szcqseLXmFMCI8c=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777100000; c=relaxed/simple;
+	bh=okiY73dt7o66EHWCAEXncn4yaF6LYclfN3PitI99O2M=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=r16jaPQ0zjr8pF6YBhgMHkjB08Q54DxRfYgIeGS3wbKKUPPzH2vHtkkgXQ4dE/Rqn/lcydRBDK1D/tey14OowgFim/cz64prZDg8d+gx452+swsb4MPZ/BYRUu3mftLtL26L4nDCjKnIAqhZL0NAlaimq2C0XJCKfrXCqH+yGuo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IqSLsyJ3; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1777099999; x=1808635999;
+  h=date:from:to:cc:subject:message-id;
+  bh=okiY73dt7o66EHWCAEXncn4yaF6LYclfN3PitI99O2M=;
+  b=IqSLsyJ3+AiiZEmlXz/mhhJu1T9j+9ZR47lb02VGuLktT78KsaCWkCy1
+   eBTegA8NKclae3nYNaCoU6LmKltjE8pQK9DmY6aEqPpLspWcMtEcMUeSZ
+   R+jjuzE36WNdo4xYdm7FgoJrGL4f4Z2jkk44cUawuper8g5dLV3ILQxlf
+   h6HgofNJy395kj/tEnQFMkmu3JkBGU/RPzcHNqFu8DvKmnB1gD4JZSI5X
+   8DHIniNiEBR0dJCoOFZMkFS8lATO6K8Koj7H18sA66wOkDMO6sJiBxo/O
+   fCF4OvwnHrHOTIEWbqLPY14RMGpdWAOIcW2KJe47oeit6xzaAyYYtDIn/
+   Q==;
+X-CSE-ConnectionGUID: EBXqU5tNTGKB+J6gMx7q4g==
+X-CSE-MsgGUID: Z64ymTVmQyKOlqLjmsUoIw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11766"; a="81930558"
+X-IronPort-AV: E=Sophos;i="6.23,198,1770624000"; 
+   d="scan'208";a="81930558"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2026 23:53:18 -0700
+X-CSE-ConnectionGUID: g57N2h0HSt6hNQtifmndwA==
+X-CSE-MsgGUID: 9Gjsouo+TsiX7npkxZivTA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,198,1770624000"; 
+   d="scan'208";a="229953295"
+Received: from lkp-server01.sh.intel.com (HELO aa799cca880d) ([10.239.97.150])
+  by fmviesa007.fm.intel.com with ESMTP; 24 Apr 2026 23:53:16 -0700
+Received: from kbuild by aa799cca880d with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wGWt8-000000006Wf-2val;
+	Sat, 25 Apr 2026 06:53:14 +0000
+Date: Sat, 25 Apr 2026 14:53:10 +0800
+From: kernel test robot <lkp@intel.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: linux-renesas-soc@vger.kernel.org
+Subject: [geert-renesas-devel:master] BUILD SUCCESS
+ f13e3ccc3b008cddadb246fb32469c7b7cce03c3
+Message-ID: <202604251402.d7inGAqI-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11346.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7f53ed14-19bd-4f2d-a5c7-08dea2974c5c
-X-MS-Exchange-CrossTenant-originalarrivaltime: 25 Apr 2026 06:53:03.7717
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 8adxsWxTZ8C9EoKko4tlmYI+1uFwFG+Z0c5cBf+ZhazHe7i2UZE7MYJ7Fpm2WRwUuNQKmTzgKjnEPxGjQjtbKJBajZ5aPfGKWYgaT8Q1S1c=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSRPR01MB11632
-X-Rspamd-Queue-Id: 2CB9E46539C
+X-Rspamd-Queue-Id: 527BF4653B1
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [1.34 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_REJECT(1.00)[cv is fail on i=2];
-	DMARC_POLICY_ALLOW(-0.50)[renesas.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[bp.renesas.com:s=selector1];
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	TAGGED_FROM(0.00)[bounces-31650-lists,linux-renesas-soc=lfdr.de];
-	FREEMAIL_CC(0.00)[renesas.com,vger.kernel.org,gmail.com];
+	RCPT_COUNT_TWO(0.00)[2];
 	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-31651-lists,linux-renesas-soc=lfdr.de];
+	DKIM_TRACE(0.00)[intel.com:+];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	TO_DN_SOME(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[lkp@intel.com,linux-renesas-soc@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[biju.das.jz@bp.renesas.com,linux-renesas-soc@vger.kernel.org];
-	DKIM_TRACE(0.00)[bp.renesas.com:+];
 	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-renesas-soc];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[bp.renesas.com:dkim,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,TY3PR01MB11346.jpnprd01.prod.outlook.com:mid]
+	RCVD_COUNT_FIVE(0.00)[6];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:dkim,intel.com:mid,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
 
-Hi John,
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git master
+branch HEAD: f13e3ccc3b008cddadb246fb32469c7b7cce03c3  Merge branch 'renesas-dts-for-v7.2' into renesas-devel
 
-Thanks for the patch.
+elapsed time: 854m
 
-> -----Original Message-----
-> From: John Madieu <john.madieu.xa@bp.renesas.com>
-> Sent: 25 April 2026 03:47
-> Subject: [PATCH] spi: rzv2h-rspi: Fix silent failure in clock setup error=
- path
->=20
-> rzv2h_rspi_setup_clock() is declared to return u32 but returns -EINVAL wh=
-en no valid clock parameters
-> are found. Cast to u32, -EINVAL becomes 0xffffffea, which is a non-zero v=
-alue. The caller in
-> rzv2h_rspi_prepare_message() guards against failure with:
->=20
-> 	rspi->freq =3D rzv2h_rspi_setup_clock(rspi, speed_hz);
-> 	if (!rspi->freq)
-> 		return -EINVAL;
->=20
-> Because 0xffffffea is non-zero, the check is bypassed and the controller =
-proceeds to program SPBR/SPCMD
-> with stale values, leading to an unknown bit rate.
->=20
-> Return 0 on the failed-search path, consistent with the existing
-> clk_set_rate() failure path which already returns 0.
->=20
-> Fixes: 77d931584dd3 ("spi: rzv2h-rspi: make transfer clock rate finding c=
-hip-specific")
-> Signed-off-by: John Madieu <john.madieu.xa@bp.renesas.com>
+configs tested: 58
+configs skipped: 5
 
-Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-Cheers,
-Biju
+tested configs:
+alpha                   allnoconfig    gcc-15.2.0
+alpha                  allyesconfig    gcc-15.2.0
+arc                    allmodconfig    gcc-15.2.0
+arc                     allnoconfig    gcc-15.2.0
+arc                    allyesconfig    gcc-15.2.0
+arm                     allnoconfig    clang-23
+arm                    allyesconfig    gcc-15.2.0
+arm64                  allmodconfig    clang-19
+arm64                   allnoconfig    gcc-15.2.0
+csky                   allmodconfig    gcc-15.2.0
+csky                    allnoconfig    gcc-15.2.0
+hexagon                allmodconfig    clang-17
+hexagon                 allnoconfig    clang-23
+i386                    allnoconfig    gcc-14
+i386                   allyesconfig    gcc-14
+i386        randconfig-001-20260425    gcc-13
+i386        randconfig-003-20260425    gcc-14
+loongarch              allmodconfig    clang-19
+loongarch               allnoconfig    clang-23
+m68k                   allmodconfig    gcc-15.2.0
+m68k                    allnoconfig    gcc-15.2.0
+m68k                   allyesconfig    gcc-15.2.0
+m68k                      defconfig    gcc-15.2.0
+microblaze              allnoconfig    gcc-15.2.0
+microblaze             allyesconfig    gcc-15.2.0
+microblaze                defconfig    gcc-15.2.0
+mips                   allmodconfig    gcc-15.2.0
+mips                    allnoconfig    gcc-15.2.0
+mips                   allyesconfig    gcc-15.2.0
+nios2                  allmodconfig    gcc-11.5.0
+nios2                   allnoconfig    gcc-11.5.0
+openrisc               allmodconfig    gcc-15.2.0
+openrisc                allnoconfig    gcc-15.2.0
+openrisc                  defconfig    gcc-15.2.0
+parisc                 allmodconfig    gcc-15.2.0
+parisc                  allnoconfig    gcc-15.2.0
+parisc                 allyesconfig    gcc-15.2.0
+parisc                    defconfig    gcc-15.2.0
+powerpc                 allnoconfig    gcc-15.2.0
+riscv                  allmodconfig    clang-23
+riscv                   allnoconfig    gcc-15.2.0
+riscv                  allyesconfig    clang-16
+s390                   allmodconfig    clang-18
+s390                    allnoconfig    clang-23
+s390                   allyesconfig    gcc-15.2.0
+sh                     allmodconfig    gcc-15.2.0
+sh                      allnoconfig    gcc-15.2.0
+sh                     allyesconfig    gcc-15.2.0
+sparc                   allnoconfig    gcc-15.2.0
+sparc64                allmodconfig    clang-23
+um                     allmodconfig    clang-19
+um                      allnoconfig    clang-23
+um                     allyesconfig    gcc-14
+x86_64                 allmodconfig    clang-20
+x86_64                  allnoconfig    clang-20
+x86_64                 allyesconfig    clang-20
+x86_64                rhel-9.4-rust    clang-20
+xtensa                  allnoconfig    gcc-15.2.0
 
-> ---
->  drivers/spi/spi-rzv2h-rspi.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/drivers/spi/spi-rzv2h-rspi.c b/drivers/spi/spi-rzv2h-rspi.c =
-index
-> f45af5884638..1655efda7d20 100644
-> --- a/drivers/spi/spi-rzv2h-rspi.c
-> +++ b/drivers/spi/spi-rzv2h-rspi.c
-> @@ -579,7 +579,7 @@ static u32 rzv2h_rspi_setup_clock(struct rzv2h_rspi_p=
-riv *rspi, u32 hz)
->  		rspi->info->find_pclk_rate(rspi->pclk, hz, &best_clock);
->=20
->  	if (!best_clock.clk_rate)
-> -		return -EINVAL;
-> +		return 0;
->=20
->  	ret =3D clk_set_rate(best_clock.clk, best_clock.clk_rate);
->  	if (ret)
-> --
-> 2.25.1
-
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
