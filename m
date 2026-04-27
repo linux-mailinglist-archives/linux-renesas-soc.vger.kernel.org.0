@@ -1,227 +1,211 @@
-Return-Path: <linux-renesas-soc+bounces-31685-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-31686-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id IM65Krq772mLFQEAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-31685-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 Apr 2026 21:40:42 +0200
+	id 0IWjC6W+72kdFgEAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-31686-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 Apr 2026 21:53:09 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id B09FB4796D5
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 Apr 2026 21:40:41 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id BC0544798DD
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 Apr 2026 21:53:08 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 84F1530095C3
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 Apr 2026 19:40:38 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id C14D9300BB85
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 Apr 2026 19:53:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 961A33DA5D8;
-	Mon, 27 Apr 2026 19:40:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="O+1dsbRQ"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AECB041C2F1;
+	Mon, 27 Apr 2026 19:53:06 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BCEF391508
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 27 Apr 2026 19:40:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.54
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777318835; cv=pass; b=WJ21H/n9Lbkj8dodSaFi0NkndAKSnuV+I/0wUiw0F4ijCllE0JdlkkzjmWuLMMTNvUug+hsh1/rPPwQSc0N3cT8BvTP/+IFJDz4Gice7nagHxZ+gLemtH3rdWFUZzZjnSfQTNlT7x8rTbaBb6N0BWVzCbQWEY5k8X6Kw3TYVD38=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777318835; c=relaxed/simple;
-	bh=ygGcJnN9WVRJNS+yiYYNkS29kIFHkLuMZQJgWl1yhr8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=NEeoC7Zxuf5OToCXBB1LYkFi1wNPIY090PSdpndXFgfV6lJRXktNDS2RIvnOcQgwHUnB8/OIRp/Tn0mzgmzNcM+21M19uQH0Tf2ruGMnaRCBUx3QvB7ci1sHJliai+G3R/SDGHF9ZFst8qOrhjELik2dwfMTYTmni6cVirSiikI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=O+1dsbRQ; arc=pass smtp.client-ip=209.85.128.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4838c15e3cbso98847105e9.3
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 27 Apr 2026 12:40:33 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1777318832; cv=none;
-        d=google.com; s=arc-20240605;
-        b=O4xPc6D/ob44TuLBwFKqReCdRu4YkGgbtrrTIrtc11usDiGe75cNCoKBW21O5Hvaji
-         JKAxs9D5HNFTFNMni72a2WkX0Ab7fptgvLHi61rkFdx36XtPyKQ17jfdlxWzJNQWRUmH
-         NA+QXc4f+WUtAlibZ1yF+bYkBsdV/pFx0Sifa9n8T9FYJYSElgSpkoDs5jKaBQRQ9kAC
-         xEaW4XE5ZpP2kHOyW3StrXoQ8YaOadiCdvsaRvao/aaIyzOeNaZ4nw1T/ssmAi6NTLle
-         95SOVwKPy2e5QO/y1WKTqwk1HDqBHbozWMfIGCd5+XDmiEoE5RFbWeSZ6ID63CykPJyk
-         G1+g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=EgCEMaKeQwn6Nx1ZFnoUZ74Xp+Kv4ne+E3wSIOgk/8w=;
-        fh=FCQ7+cWZWdcLiHYZ0DLMGgvowTRcpTqyVP2VWGAqfvY=;
-        b=j3AipKkmh4JkRBtlJkK7gyRd9vdfIwR2vXhFQcZ9wmr2Ut/emBzTXZvcTGA7zEuUBj
-         tkA5k3OttLJtdCTgCcdhlThvoGmpokypYaK7TLFKvAAeL9/Z2o1BK9cLIB2rpKvzRbbd
-         P7ByGfkMNczbQZBomBqfB15evirrElcgN3GCj0r5NwLOhN+oDuQ65D8nkxgc7XyhwDl6
-         kY0uzalMtlrWJ9AtbYftv0tywwxmL6N2coIzjllBz8m+DuilDKLhYGSCXQyReOOEPPJ5
-         1e3bNheWuQFOiggqUmmnbppd69xM/Sl/EDvEzmvMn+Bcd7vSaf5wItKu7ebqXy4pR774
-         B+cw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777318832; x=1777923632; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=EgCEMaKeQwn6Nx1ZFnoUZ74Xp+Kv4ne+E3wSIOgk/8w=;
-        b=O+1dsbRQ12YD/zSe2y8yCzpGSAy4dyualdVBI5qwskrHUxhbLAECiY5l9KUIuZLetG
-         S1uLxGj7XPquNSH2Pqfv46wzUr7di3Db2z/AggTX5IUst37hHTJovqyldZRet/Lx9gbl
-         asuZFbas8lf+n0jWGexZeQ9YbObJz4isqJPjesWdlYBeV1DQLpYkhPvmocqptifLRcft
-         Ga1npEo5I8//ZY/3oaj2wnsM4UCPVDXS1d9jgLRP8UecL7hPbIIvjsDTh+JoCqTmFNU2
-         ig64yupI0TmgIZi19ZeAxwI60hoJXAeuil42Z5jYud5xFsDvpvmOcEk1UX6fd8ozmg6g
-         BEuA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777318832; x=1777923632;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=EgCEMaKeQwn6Nx1ZFnoUZ74Xp+Kv4ne+E3wSIOgk/8w=;
-        b=iG/WCqGE4fs1eUOzm8OQBMIRV+td5ggsG1BCfFLHc3/D0GaWhPcI2PAKJBmNTDtmDL
-         d0G4wrPZbtVxu5nA4xtwCPnMnpBtFxT3Usd8jdRh1eIOHWVUUHlmERGUzOk8ZSZmdXMX
-         FXUbiiXPuSRS/lEp1+pZKkwcpqRsVQXxTfF8LyIbicXwuLEMrGxKTMW3hwbXHYvpXvnK
-         xoBzSi6VFpCc4UNqUVN+a7gJkyoDw4FsOwQNcNitCW0NP02uem93k18xiq6rQ3YDsBC3
-         FfTzwDaLISzidwMc99+ZD4TPOKRszZYHfjHyGkru421QnaQVlBKdaOyrMLdoQf9FEXB6
-         iBXQ==
-X-Forwarded-Encrypted: i=1; AFNElJ+Me+b+Prd8kDpPQuZjNZM8hcPo9PBTXZ8EQoJMUjTW3nWny76gyEMT5fcvJGNZ4AIvtQVLSJXyrfmIdAlei8MbWQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwOxcHXsbHqeAXIT9U/DolHv5DNBdL4qlPQCE+b6CV19C3J69Eb
-	Kmll+w5qQb8WXREd70rKpNLawxCrd3kpuNoV2cJ1zFHGu1DS7F3F+ApAcV+0Qx/EwPGWXGAbxcB
-	7G/08w+jXTqzVwBr+RV/4OPm8Dw/1X4g=
-X-Gm-Gg: AeBDievypoXQ6lBEoHM/VQXRiJEXiaK9xasp0iH8PlH6wzV0xIWpOawWdeHSB/xolHQ
-	4Jx3iDeTGfxwt3Vz/z+1/sJCjTEehpoW3sxLiA8QPqhnmSR2fKwxRMDH+PdTzEGcdutAwCDQ0sQ
-	ZOmQ6a3YZzEFyElfS40aCjsaAMx/KFDnfPZKNSolkxPMxDPb9/VnTI+gw1Tcw8SpAXrR1VIAVqX
-	v9KCKIgqqn1d4CG66ZK2ogwStYcgxr//bsvC5I8ZD2EoShTIEdrkQpN7MwbMbD831z1pK0jPmmO
-	tJH9dL9hgPszPOFqF92ZqYQfcFdVI4h8cuvLa74VJCNgXGAeuP6s0Gvb309SzgM6z8+SYUc71Wb
-	756k=
-X-Received: by 2002:a05:600c:a103:b0:48a:761:57fe with SMTP id
- 5b1f17b1804b1-48a779b1e37mr1303525e9.0.1777318832222; Mon, 27 Apr 2026
- 12:40:32 -0700 (PDT)
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EF39D3ED113;
+	Mon, 27 Apr 2026 19:53:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.172
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777319586; cv=none; b=VTF//sM6IeeqqEMgx7SOube1h8KlwuF1h84CpQ8tx5DJSjQPyJI/8nLXx8PxTKBvOlbynmcKQ0miRUXVQ0SrPQZOjQcRglSM/k59WAI7PdlnnTn6uEMNrXO4jyv67p1JZ0oQDmMlNJbzJhYQHf3bILxmx72PhSimeKogj2WxcbI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777319586; c=relaxed/simple;
+	bh=rrCTkf0YrcIjR4xCQNu3mBHY7Oi7PjSHPQSAD2y1jZw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=LHwdNsYc6uyQiwLxjYtmMzqLs04NpFGqXMECvmIBsHaxldrwbwF9FAEfsSdj1pkzxMto8ykdGDETjhLrgTgnhgzKW75lcdCGHBFeVgkhVYXrehsajE7v27Sz5IgWAAE20FmGgNpPd6jQCIxQdVvgA4BT7DRSDN482NEhePlFg3k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; arc=none smtp.client-ip=210.160.252.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
+X-CSE-ConnectionGUID: g1R6AtjKSc6XXZDk9QyuEQ==
+X-CSE-MsgGUID: V/1qxHOeQ2yp2jX/DEtgfw==
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie6.idc.renesas.com with ESMTP; 28 Apr 2026 04:47:55 +0900
+Received: from vm01.adwin.renesas.com (unknown [10.226.92.8])
+	by relmlir5.idc.renesas.com (Postfix) with ESMTP id AA95B4001B5C;
+	Tue, 28 Apr 2026 04:47:52 +0900 (JST)
+From: Ovidiu Panait <ovidiu.panait.rb@renesas.com>
+To: vkoul@kernel.org,
+	neil.armstrong@linaro.org,
+	biju.das.jz@bp.renesas.com
+Cc: linux-phy@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	Ovidiu Panait <ovidiu.panait.rb@renesas.com>
+Subject: [PATCH] phy: renesas: phy-rzg3e-usb3: Fix runtime PM underflow during suspend
+Date: Mon, 27 Apr 2026 19:47:41 +0000
+Message-ID: <20260427194741.161533-1-ovidiu.panait.rb@renesas.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260427112824.231150-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20260427112824.231150-2-prabhakar.mahadev-lad.rj@bp.renesas.com> <ae9_afsqmGDcczhW@redhat.com>
-In-Reply-To: <ae9_afsqmGDcczhW@redhat.com>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Mon, 27 Apr 2026 20:40:05 +0100
-X-Gm-Features: AVHnY4JzJ2U4LeHB9K-Y3U0QY9v7Tbii2KPRfbKBGk3czlEv-B3AFYoxs0riKi0
-Message-ID: <CA+V-a8teW5RghDJYAth0ZPndavt4HbsPA5Z-fzngsdvqbTBHhQ@mail.gmail.com>
-Subject: Re: [PATCH v4 1/2] clk: divider: Add KUnit tests for
- clk_divider_bestdiv() ULONG_MAX handling
-To: Brian Masney <bmasney@redhat.com>
-Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, linux-kernel@vger.kernel.org, 
-	linux-clk@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	Biju Das <biju.das.jz@bp.renesas.com>, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Rspamd-Queue-Id: B09FB4796D5
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: BC0544798DD
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+X-Spamd-Result: default: False [0.14 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
+	DMARC_POLICY_SOFTFAIL(0.10)[renesas.com : SPF not aligned (relaxed), No valid DKIM,none];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-31685-lists,linux-renesas-soc=lfdr.de];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	TAGGED_FROM(0.00)[bounces-31686-lists,linux-renesas-soc=lfdr.de];
+	RCVD_COUNT_FIVE(0.00)[5];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	MIME_TRACE(0.00)[0:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	FROM_NEQ_ENVFROM(0.00)[ovidiu.panait.rb@renesas.com,linux-renesas-soc@vger.kernel.org];
+	R_DKIM_NA(0.00)[];
+	NEURAL_HAM(-0.00)[-0.901];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[prabhakarcsengg@gmail.com,linux-renesas-soc@vger.kernel.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
+	RCPT_COUNT_SEVEN(0.00)[7];
+	TO_DN_SOME(0.00)[];
+	TAGGED_RCPT(0.00)[linux-renesas-soc];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,renesas.com:mid,renesas.com:email]
 
-Hi Brian,
+On the Renesas RZ/V2H platform, if the xhcd driver is unbound and the
+system is suspended afterwards, a PM underflow error will occur:
 
-Thank you for the review.
+ # echo 15850000.usb > /sys/bus/platform/drivers/xhci-renesas-hcd/unbind
+ # systemctl suspend
+ 15870000.usb-phy: PM: dpm_run_callback(): genpd_resume_noirq returns -13
+ 15870000.usb-phy: PM: failed to resume noirq: error -13
+ 15870000.usb-phy: Runtime PM usage count underflow!
 
-On Mon, Apr 27, 2026 at 4:23=E2=80=AFPM Brian Masney <bmasney@redhat.com> w=
-rote:
->
-> Hi Lad,
->
-> On Mon, Apr 27, 2026 at 12:28:23PM +0100, Prabhakar wrote:
-> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> >
-> > Add KUnit tests to verify the behaviour of clk_divider_bestdiv() when
-> > clk_round_rate() is called with ULONG_MAX, which is the canonical way
-> > to probe the maximum rate a clock can produce.
-> >
-> > Two test cases are introduced:
-> >
-> > - clk_divider_bestdiv_ulong_max_returns_max_rate: registers a 1 GHz
-> >   fixed-rate parent driving a table-based divider whose smallest entry
-> >   is div=3D2 (entries: 2, 4, 8). Calls clk_hw_round_rate(div_hw, ULONG_=
-MAX)
-> >   and checks the result.
-> >
-> > - clk_divider_bestdiv_mux_ulong_max_returns_max_rate: places a two-inpu=
-t
-> >   mux (4 GHz and 2 GHz fixed-rate parents, CLK_SET_RATE_PARENT) ahead o=
-f
-> >   the same table-based divider to verify correct parent selection under
-> >   ULONG_MAX.
-> >
-> > Both tests use an explicit clk_div_table with a minimum divider of 2 so
-> > that the pre-loop maxdiv clamping in clk_divider_bestdiv():
-> >
-> >     maxdiv =3D min(ULONG_MAX / rate, maxdiv);
-> >
-> > clamps maxdiv to 1, causing _next_div() to return 2 on the first
-> > iteration and skip the loop body entirely. This makes bestdiv fall back
-> > to the maximum divider, returning the minimum rate rather than the
-> > maximum.
-> >
-> > The expected values intentionally reflect the buggy output:
-> >   - test 1: PARENT_RATE_1GHZ / 8  (minimum rate, not maximum)
-> >   - test 2: 0                      (invalid, loop never populated bestd=
-iv)
-> >
-> > These will be corrected to PARENT_RATE_1GHZ / 2 and PARENT_RATE_4GHZ / =
-2
-> > respectively once the fix to clk_divider_bestdiv() is applied.
-> >
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->
-> [snip]
->
-> > +     KUNIT_ASSERT_EQ(test, 0,
-> > +                     kunit_add_action_or_reset(test,
-> > +                                               (kunit_action_t *)clk_h=
-w_unregister_fixed_rate,
-> > +                                               parent_hw));
->
-> You can use KUNIT_DEFINE_ACTION_WRAPPER() to avoid that cast. There's
-> some examples in drivers/clk/clk_kunit_helpers.c.
->
-Thank you for the pointer, I will make use of the
-KUNIT_DEFINE_ACTION_WRAPPER() macro.
+Since the PHY framework is managing the runtime PM of the PHY via
+phy_power_on()/phy_power_off(), there is no need for the PHY driver to
+manipulate the runtime PM state during suspend.
 
-Cheers,
-Prabhakar
+To fix this, remove the runtime PM calls from the suspend/resume paths
+and add a get/put pair inside rzg3e_phy_usb3_init_helper() to make sure
+the clock is enabled during init, even when there is no consumer for
+the PHY.
 
-> With that fixed:
->
-> Reviewed-by: Brian Masney <bmasney@redhat.com>
->
+Also, change the suspend ops from NOIRQ_SYSTEM_SLEEP_PM_OPS to
+SYSTEM_SLEEP_PM_OPS because runtime PM is disabled during the noirq phase
+and pm_runtime_resume_and_get() would not actually enable the device clock.
+
+Fixes: ee5f1a3f90a4 ("phy: renesas: Add Renesas RZ/G3E USB3.0 PHY driver")
+Signed-off-by: Ovidiu Panait <ovidiu.panait.rb@renesas.com>
+---
+ drivers/phy/renesas/phy-rzg3e-usb3.c | 31 ++++++++++++++++------------
+ 1 file changed, 18 insertions(+), 13 deletions(-)
+
+diff --git a/drivers/phy/renesas/phy-rzg3e-usb3.c b/drivers/phy/renesas/phy-rzg3e-usb3.c
+index 6b3453ea0004..055775e1a0f7 100644
+--- a/drivers/phy/renesas/phy-rzg3e-usb3.c
++++ b/drivers/phy/renesas/phy-rzg3e-usb3.c
+@@ -64,6 +64,7 @@
+ #define USB3_TEST_LANECONFIG0_DEFAULT		(0xd)
+ 
+ struct rz_usb3 {
++	struct device *dev;
+ 	void __iomem *base;
+ 	struct reset_control *rstc;
+ 	bool skip_reinit;
+@@ -130,11 +131,21 @@ static int rzg3e_phy_usb3test_phy_init(void __iomem *base)
+ 	return 0;
+ }
+ 
+-static int rzg3e_phy_usb3_init_helper(void __iomem *base)
++static int rzg3e_phy_usb3_init_helper(struct rz_usb3 *r)
+ {
+-	rzg3e_phy_usb2test_phy_init(base);
++	int ret;
++
++	ret = pm_runtime_resume_and_get(r->dev);
++	if (ret)
++		return ret;
++
++	rzg3e_phy_usb2test_phy_init(r->base);
+ 
+-	return rzg3e_phy_usb3test_phy_init(base);
++	ret = rzg3e_phy_usb3test_phy_init(r->base);
++
++	pm_runtime_put_sync(r->dev);
++
++	return ret;
+ }
+ 
+ static int rzg3e_phy_usb3_init(struct phy *p)
+@@ -143,7 +154,7 @@ static int rzg3e_phy_usb3_init(struct phy *p)
+ 	int ret = 0;
+ 
+ 	if (!r->skip_reinit)
+-		ret = rzg3e_phy_usb3_init_helper(r->base);
++		ret = rzg3e_phy_usb3_init_helper(r);
+ 
+ 	return ret;
+ }
+@@ -187,6 +198,7 @@ static int rzg3e_phy_usb3_probe(struct platform_device *pdev)
+ 
+ 	platform_set_drvdata(pdev, r);
+ 	phy_set_drvdata(phy, r);
++	r->dev = dev;
+ 
+ 	provider = devm_of_phy_provider_register(dev, of_phy_simple_xlate);
+ 	if (IS_ERR(provider))
+@@ -199,7 +211,6 @@ static int rzg3e_phy_usb3_suspend(struct device *dev)
+ {
+ 	struct rz_usb3 *r = dev_get_drvdata(dev);
+ 
+-	pm_runtime_put(dev);
+ 	reset_control_assert(r->rstc);
+ 	r->skip_reinit = false;
+ 
+@@ -215,27 +226,21 @@ static int rzg3e_phy_usb3_resume(struct device *dev)
+ 	if (ret)
+ 		return ret;
+ 
+-	ret = pm_runtime_resume_and_get(dev);
++	ret = rzg3e_phy_usb3_init_helper(r);
+ 	if (ret)
+ 		goto reset_assert;
+ 
+-	ret = rzg3e_phy_usb3_init_helper(r->base);
+-	if (ret)
+-		goto pm_put;
+-
+ 	r->skip_reinit = true;
+ 
+ 	return 0;
+ 
+-pm_put:
+-	pm_runtime_put(dev);
+ reset_assert:
+ 	reset_control_assert(r->rstc);
+ 	return ret;
+ }
+ 
+ static const struct dev_pm_ops rzg3e_phy_usb3_pm = {
+-	NOIRQ_SYSTEM_SLEEP_PM_OPS(rzg3e_phy_usb3_suspend, rzg3e_phy_usb3_resume)
++	SYSTEM_SLEEP_PM_OPS(rzg3e_phy_usb3_suspend, rzg3e_phy_usb3_resume)
+ };
+ 
+ static const struct of_device_id rzg3e_phy_usb3_match_table[] = {
+-- 
+2.34.1
+
 
