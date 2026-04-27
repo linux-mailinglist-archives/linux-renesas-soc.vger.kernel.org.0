@@ -1,178 +1,178 @@
-Return-Path: <linux-renesas-soc+bounces-31672-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-31673-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id iPrcCQst72mb8wAAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-31672-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 Apr 2026 11:31:55 +0200
+	id 4AUlNgMu72mb8wAAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-31673-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 Apr 2026 11:36:03 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0AD346FF48
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 Apr 2026 11:31:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DC0B46FFCA
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 Apr 2026 11:36:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id EEB4B300821D
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 Apr 2026 09:31:38 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id CAD323015C9E
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 Apr 2026 09:35:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A2EE23B2FF4;
-	Mon, 27 Apr 2026 09:31:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=dolcini.it header.i=@dolcini.it header.b="Oui0MOT0"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7BEC83750B2;
+	Mon, 27 Apr 2026 09:35:45 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail11.truemail.it (mail11.truemail.it [217.194.8.81])
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A4A139A7F2;
-	Mon, 27 Apr 2026 09:31:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.194.8.81
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBA082848A7
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 27 Apr 2026 09:35:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777282296; cv=none; b=Y6QPpD/REBR03oFTohKkwiyxCNdatJ54i0rwpiwg2wXPkMckdDxSUv+weBCsqxjpSyqmI8CGOo6sFtct3qLZM8iQIM3loh/6BjhkcEiWkoiQrhWc9Ua/1arLa4rxsfDoDsA/eMN4dmD04Wq6FOHj/yFExairzeAlitGpEbxMq4A=
+	t=1777282545; cv=none; b=Qzx9hWCodZLjTRarb+x6qxj9ca7Omp1YpshOg2PbF146S0iay6qgitd1qiN8b15qJ/f5PkUV35Ogy24bk+Thj0NlEvdsyqtwUKl77Cc7+LJmIK2U1wKMKycBPkhoHZLkatjI2ts7oN0U3VeW2k4bUXM6m+zjJ2dzhZEDHBrgUfM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777282296; c=relaxed/simple;
-	bh=A0oXCMrybLIEwLDt5XmVSSXvZtqREUvn/lU0xjuCu6A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=X7RlpiH4U48fP7xcaHQwOPkJx6htsaGnPx/MwzSXv/GL4y1XOtjahdgAfzubHJTJZpvxhlhpyLUHYpH73D6e7E/yAlG8/oXPCbNJ0LVVMEelN69/jc1rkvvotwD8JEamtzY10Gjt8bdUiiRyOv5QuQDhFk/zbA/TQHDdIN2G1eY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=dolcini.it; spf=pass smtp.mailfrom=dolcini.it; dkim=pass (2048-bit key) header.d=dolcini.it header.i=@dolcini.it header.b=Oui0MOT0; arc=none smtp.client-ip=217.194.8.81
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=dolcini.it
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dolcini.it
-Received: from francesco-nb (248.201.173.83.static.wline.lns.sme.cust.swisscom.ch [83.173.201.248])
-	by mail11.truemail.it (Postfix) with ESMTPA id 39F831FB1B;
-	Mon, 27 Apr 2026 11:31:31 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dolcini.it;
-	s=default; t=1777282292;
-	bh=3f+ipyipbG9ve74SWingHtpF8ckpjt3qTGqxppXfFzY=; h=From:To:Subject;
-	b=Oui0MOT0x94+2dM3R5uOpRffJ9Wx9j6ylSA9QAkTg92XTx+dn56JG7xkyoASs/fa6
-	 jeurKD+LfLijfHlA9mg6wH5OqqjaEOvDVucHz17xzhALz3mdyDx+/MsPHaZVp+YVxJ
-	 VIU34BPvnoFHTPl+YThEFIUGqU6HzI1TbxO1HNl3JHKluUYtK9yGDDeiUXDnyOF/Yz
-	 U9rQ8naikD2oQ8qGchfq7QlTttc7kMhUh/sUuzk97naTvYQq6FTtCPfwqgnIJIqwXO
-	 eWElkycEwmM5cl9ZVK2doQf8R3IWlYTNVaMEWuAXQbf20IyJv35NG87Vt7cb+pgGT3
-	 aaV344jJwI6MA==
-Date: Mon, 27 Apr 2026 11:31:27 +0200
-From: Francesco Dolcini <francesco@dolcini.it>
-To: Francesco Dolcini <francesco@dolcini.it>, peng.fan@oss.nxp.com,
-	Alexander Stein <alexander.stein@ew.tq-group.com>,
-	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Cc: Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>, Chen-Yu Tsai <wens@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>, Frank Li <Frank.Li@nxp.com>,
-	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-	imx@lists.linux.dev, linux-renesas-soc@vger.kernel.org,
-	linux-sunxi@lists.linux.dev, driver-core@lists.linux.dev,
-	regressions@lists.linux.dev
-Subject: Re: [PATCH v2 6/9] soc: imx8m: don't access of_root directly
-Message-ID: <20260427093127.GA50667@francesco-nb>
-References: <20260223-soc-of-root-v2-0-b45da45903c8@oss.qualcomm.com>
- <20260223-soc-of-root-v2-6-b45da45903c8@oss.qualcomm.com>
- <6593091.DvuYhMxLoT@steina-w>
- <20260427064704.GA17710@francesco-nb>
+	s=arc-20240116; t=1777282545; c=relaxed/simple;
+	bh=GGByPRbKiZCMiBixxbxKzpR7CpahMYzsWAFszsM9luc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=SCUx2LycTjCUhGOLE1OHmA7/GaLhpvEgZbZAB8/HdoBVfvNqX9fTnfLJDs31TbuW/fU4STvccpxXVKURIJqwXWj+rWg+dENnlZF7jJ+7qmFdKhbFyWM4PCn1+liQAh9sCufbAV0jMhfWlIV56hYB5C5+lFbt6xPTeB2FRtv/QOk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.208.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-6729c6f0ca7so12060210a12.0
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 27 Apr 2026 02:35:42 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777282541; x=1777887341;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=SKaphviOKh6WHGvvV2s3OO7+pEMmVDq4wkrroHAe/4E=;
+        b=RmToIgtaKS9OMKdihfIzmZJW0DAFMJG4Hcno6Wg8w33IGODwGN7ri3y0MDeeRTeyty
+         UXVfzxyMMY8XjEiSu/0A/u0jqprhzwn0MtKhlD1qhvRKBXSxmo3jallR3b5vpVUc4069
+         NECPCyncKo/AM0majwJErtNZLNHcED2T9trmmlw4McCRO/6HNDDyFwG04jXnSNMUn86E
+         UUUgtsTQredbzO+1f4WkoZjHApOUS2bjgDZT9g0VMUTp1agFhFh+iuWLAeGEuI5EntRn
+         aWtqh6gvVi8VuEJkuwIo0e6F9y2XOmDtg6cTto/StX2H3C4Ydd4I1NLbCp6hLg7+Rq9/
+         K9Nw==
+X-Forwarded-Encrypted: i=1; AFNElJ+3QnXnFMR5KiP99EUo4C4ka+mll4cFN1ELaj2/2XFwDgLVHyUbJSLcwgT41nh7t2QDdX3vyC14yAEqucnukAniDA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxYa2G3IEay/db+vsuLBPYI6NTPwYmvWewxM7YAqwBJnY9F2jBx
+	Js+jGh0vsj8PuTL4KcplWaRDoA1noNycurvYsfXRgM2G2r33Wh0KfX5ZEZ7ZorgQZs4=
+X-Gm-Gg: AeBDiesTg90i2Qu5RLpanVKTioF9XNa7RGYzrMjUsTakboSXXny09X34n1yMpk+nIDG
+	Hik12Z0Ho6KPnFECdAxDpmjA0nAWQS8treqy3kRHzON9dbB7ztgJpoZPIBYzHctm4ePvANetrUA
+	cU5iLw3e1tEn7dmpVZfaUl07gnwygjV4sokGxk3K19weDasHVilKr1T/RQow7fZwpBBV64feuif
+	7Zb/NQc5qo5wdISy7LugAQ/neqtQ09Ia3SIIz1QsOlaLxX8wKsoBmTCl0dbSMOC5shi0pETUzia
+	+ozzdL83qs6kllW+GpHoeQ2phIoV0act6z+BgcyvgGBLMVY6PqgfknRCydsACouN0CAoLVpyRaU
+	H7nfYX3DIcKQsDCqjAJVvFoV0B4Vw4YnPnshkeJ1DW5+DNLtWYpo5gBcgC4X7Kl//NzeNiInb7P
+	oRZ72GKHON+8kFozNwlqI/4jNauWHES4sfcB5N37keDNSPEMBIonT9ziLoahGu0qT+/Br7M6A=
+X-Received: by 2002:a17:907:72d3:b0:b97:1d24:c004 with SMTP id a640c23a62f3a-ba419a54651mr1856710866b.21.1777282539825;
+        Mon, 27 Apr 2026 02:35:39 -0700 (PDT)
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com. [209.85.218.41])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ba455926c61sm1069162066b.63.2026.04.27.02.35.38
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 27 Apr 2026 02:35:38 -0700 (PDT)
+Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-ba67b332bbaso1151524966b.0
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 27 Apr 2026 02:35:38 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ/Pq42Xw8UhelX0mnRaFsVAOCHNs+PQ+S+NXW2ZMml14qzxJrORKKLapw26cY2xPWO9XsoCW8b0bV7iznJbo2L1kw==@vger.kernel.org
+X-Received: by 2002:a17:906:fd84:b0:bb5:8562:823c with SMTP id
+ a640c23a62f3a-bb585628661mr33199266b.10.1777282537883; Mon, 27 Apr 2026
+ 02:35:37 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260427064704.GA17710@francesco-nb>
-X-Rspamd-Queue-Id: C0AD346FF48
+References: <20260330132349.149391-1-biju.das.jz@bp.renesas.com>
+ <20260330132349.149391-3-biju.das.jz@bp.renesas.com> <CAMuHMdVr8FKx-n7OEgFf6vufzPRK-XrYDEPn_Ki0siknT57DOw@mail.gmail.com>
+ <TY3PR01MB11346170F9CFA9DA98539A3F5862B2@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+In-Reply-To: <TY3PR01MB11346170F9CFA9DA98539A3F5862B2@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 27 Apr 2026 11:35:23 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVRK2W_F4ST41W9snChH-f3WtCmPtePQzj+oZnjcKp1og@mail.gmail.com>
+X-Gm-Features: AVHnY4J59OtRzGhWHPYLLecHfzizRVy-LGPVJfLunkpA2TvBZiT6a3LEqeQg1Yc
+Message-ID: <CAMuHMdVRK2W_F4ST41W9snChH-f3WtCmPtePQzj+oZnjcKp1og@mail.gmail.com>
+Subject: Re: [PATCH 2/5] clk: renesas: r9a08g046: Add CA55 core clocks
+To: Biju Das <biju.das.jz@bp.renesas.com>
+Cc: "biju.das.au" <biju.das.au@gmail.com>, Michael Turquette <mturquette@baylibre.com>, 
+	Stephen Boyd <sboyd@kernel.org>, 
+	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>, 
+	"linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Rspamd-Queue-Id: 3DC0B46FFCA
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.16 / 15.00];
+X-Spamd-Result: default: False [0.04 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[dolcini.it,none];
-	R_DKIM_ALLOW(-0.20)[dolcini.it:s=default];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-31672-lists,linux-renesas-soc=lfdr.de];
+	FREEMAIL_CC(0.00)[gmail.com,baylibre.com,kernel.org,vger.kernel.org,bp.renesas.com];
+	TAGGED_FROM(0.00)[bounces-31673-lists,linux-renesas-soc=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	RCPT_COUNT_TWELVE(0.00)[29];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[kernel.org,linuxfoundation.org,pengutronix.de,gmail.com,glider.be,sholland.org,nxp.com,lists.infradead.org,vger.kernel.org,lists.ozlabs.org,lists.linux.dev];
+	DMARC_NA(0.00)[linux-m68k.org];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[francesco@dolcini.it,linux-renesas-soc@vger.kernel.org];
-	DKIM_TRACE(0.00)[dolcini.it:+];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,i.mx:url]
+	FROM_HAS_DN(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[geert@linux-m68k.org,linux-renesas-soc@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	NEURAL_HAM(-0.00)[-0.987];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	R_DKIM_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-renesas-soc];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,mail.gmail.com:mid,glider.be:email,linux-m68k.org:email]
 
-+Peng
+On Fri, 24 Apr 2026 at 15:24, Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> > From: Geert Uytterhoeven <geert@linux-m68k.org>
+> > On Mon, 30 Mar 2026 at 15:23, Biju <biju.das.au@gmail.com> wrote:
+> > > From: Biju Das <biju.das.jz@bp.renesas.com>
+> > >
+> > > Add CA55 core clock entries.
+> > >
+> > > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> >
+> > > --- a/drivers/clk/renesas/r9a08g046-cpg.c
+> > > +++ b/drivers/clk/renesas/r9a08g046-cpg.c
+> >
+> > > @@ -25,15 +26,24 @@
+> > >  #define G3L_DIVPL2A            DDIV_PACK(G3L_CPG_PL2_DDIV, 0, 2)
+> > >  #define G3L_DIVPL2B            DDIV_PACK(G3L_CPG_PL2_DDIV, 4, 2)
+> > >  #define G3L_DIVPL3A            DDIV_PACK(G3L_CPG_PL3_DDIV, 0, 2)
+> > > +#define G3L_DIV_CA55_CORE0     DDIV_PACK(G3L_CPG_CA55CORE_DDIV, 0, 3)
+> > > +#define G3L_DIV_CA55_CORE1     DDIV_PACK(G3L_CPG_CA55CORE_DDIV, 4, 3)
+> > > +#define G3L_DIV_CA55_CORE2     DDIV_PACK(G3L_CPG_CA55CORE_DDIV, 8, 3)
+> > > +#define G3L_DIV_CA55_CORE3     DDIV_PACK(G3L_CPG_CA55CORE_DDIV, 12, 3)
+> > >  #define G3L_SDIV_ETH_A         DDIV_PACK(G3L_CPG_ETH_SDIV, 0, 2)
+> > >  #define G3L_SDIV_ETH_B         DDIV_PACK(G3L_CPG_ETH_SDIV, 4, 1)
+> > >  #define G3L_SDIV_ETH_C         DDIV_PACK(G3L_CPG_ETH_SDIV, 8, 2)
+> > >  #define G3L_SDIV_ETH_D         DDIV_PACK(G3L_CPG_ETH_SDIV, 12, 1)
+> > >
+> > >  /* RZ/G3L Clock status configuration. */
+> > > +#define G3L_DIVPL1_STS         DDIV_PACK(G3L_CLKDIVSTATUS, 0, 1)
+> >
+> > G3L_DIVPL1_STS is unused.  Perhaps you wanted to add the I-clock, too?
+> > If not, please let me know, and I can drop this while applying.
+>
+> Please drop it.
 
-Hello all,
+OK.
 
-On Mon, Apr 27, 2026 at 08:47:04AM +0200, Francesco Dolcini wrote:
-> On Tue, Mar 24, 2026 at 11:24:09AM +0100, Alexander Stein wrote:
-> > Hi,
-> > 
-> > Am Montag, 23. Februar 2026, 14:37:21 CET schrieb Bartosz Golaszewski:
-> > > Don't access of_root directly as it reduces the build test coverage for
-> > > this driver with COMPILE_TEST=y and OF=n. Use existing helper functions
-> > > to retrieve the relevant information.
-> > > 
-> > > Suggested-by: Rob Herring <robh@kernel.org>
-> > > Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-> > 
-> > today I noticed the following warning running next-20260323:
-> > > caam 30900000.crypto: No clock data provided for i.MX SoC
-> > 
-> > This happens when there is no matching against the soc_id.
-> > 
-> > Checking the source it turns out this patch is the cause that the SoC info
-> > does not provide soc_id anymore.
-> > next-20260323:
-> > > $ grep . /sys/devices/soc0/*
-> > > /sys/devices/soc0/family:Freescale i.MX
-> > > /sys/devices/soc0/machine:TQ-Systems i.MX8MPlus TQMa8MPxL on MBa8MP-RAS314
-> > > grep: /sys/devices/soc0/power: Is a directory
-> > > /sys/devices/soc0/revision:unknown
-> > > /sys/devices/soc0/serial_number:0000000000000000
-> > > grep: /sys/devices/soc0/subsystem: Is a directory
-> > 
-> > reverting this patch (2524b293a59e586afd06358d0b191ab57208a920):
-> > > $ grep . /sys/devices/soc0/*
-> > > /sys/devices/soc0/family:Freescale i.MX
-> > > /sys/devices/soc0/machine:TQ-Systems i.MX8MPlus TQMa8MPxL on MBa8MP-RAS314
-> > > grep: /sys/devices/soc0/power: Is a directory
-> > > /sys/devices/soc0/revision:1.1
-> > > /sys/devices/soc0/serial_number:469677A693A4B8CE131D180033E44903
-> > > /sys/devices/soc0/soc_id:i.MX8MP
-> > > grep: /sys/devices/soc0/subsystem: Is a directory
-> > 
-> > soc_id is restored. Now that I write these lines I noticed that
-> > serial_number also contained empty value which is restored with the revert.
-> 
-> Any update on this? I would say this is a regression in 7.1-rc1.
-> 
-> I noticed the same issue, and CAAM is not working.
-> 
-> [    0.000000] Linux version 7.1.0-rc1-0.0.0-devel (oe-user@oe-host) (aarch64-tdx-linux-gcc (GCC) 15.2.0, GNU ld (GNU Binutils) 2.46) #1 SMP PREEMPT Sun Apr 26 21:19:00 UTC 2026
-> ...
-> [   10.611139] caam 30900000.crypto: No clock data provided for i.MX SoC
-> [   10.611211] caam 30900000.crypto: probe with driver caam failed with error -22
+> > The rest LGTM, so
+> > Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-I guess this is the fix
+Thanks, will queue in renesas-clk for v7.2.
 
-https://lore.kernel.org/all/20260427-soc-imx8m-fix-v1-1-1fe5b43d8090@nxp.com/
+Gr{oetje,eeting}s,
 
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
