@@ -1,114 +1,113 @@
-Return-Path: <linux-renesas-soc+bounces-31704-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-31705-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id iEwPMJG78GmFXwEAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-31704-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Apr 2026 15:52:17 +0200
+	id TgjEF5m58GmFXwEAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-31705-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Apr 2026 15:43:53 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5507486481
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Apr 2026 15:52:16 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id EBC85486245
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Apr 2026 15:43:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id F27CA310422C
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Apr 2026 13:27:44 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 4B5E3302719F
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Apr 2026 13:31:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 315CB47DD63;
-	Tue, 28 Apr 2026 13:19:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 713F7481673;
+	Tue, 28 Apr 2026 13:20:08 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AC6F47DD5B
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 28 Apr 2026 13:19:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 101FB478E3D
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 28 Apr 2026 13:20:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777382369; cv=none; b=BwlmANwxPguC+ifGY3TS5veZMlW67jCdL9psiNLqcLhv85OPnOjZYUBTTf5rh6byPCiGJ5t9rzc3rKqRq9sVHqJFXC1Ku+g1MiBwSgvHg1gi91OneynwBCH9rJu7lve/alpKgOc5XwEe4wcjATjGy37KhXFwIjIIvQS/5VpBZ6A=
+	t=1777382408; cv=none; b=Gu2gmpKKJo6luI9kZ7eSZ94u8VxplZLO2+Tu4PTr5WZVKU3RtsmWXwxh+SH/7DFlLSFF6Z7ZfUULJZPbWQhxNHwMb4fB2DfGsLflAcbgoLgoNVDM2cRNF/0svHmfS1OHyNF1LRQD3P+6YaOLMqsMEUNR4uQZSHEVTb71dAG/BxY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777382369; c=relaxed/simple;
-	bh=/E3XKoT0w+vQTJbgWHyNtXapROKYDf+fSxEynSNAbZY=;
+	s=arc-20240116; t=1777382408; c=relaxed/simple;
+	bh=FPAb7eFztQAdAiJh/8k58TDgQsL4LvZ8AVOE+11y1Jk=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=mWnZLRExPKqxfuskuWOnCDygFlumNmWBGjOfdS6YLfPQSeIMJ5dYicA4CzXnd2EEYmraomvgWVnec5GIuW3Nk7xHcJpfHApJeRvDwyFaN3w5hPk8k6vu9wadFGi9WJl7OmjoZmta5jrLygjMzopnI6e+cE7WP58LWhBnfNrfkU8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.208.45
+	 To:Cc:Content-Type; b=YJca2YwzC9YEiM2oVbdNIdi/J6HCuuEAw4x+rOzCBueF0fkWs/D4HeUC6TnQR2laAyx2d0QdY6iGnzYISTwxNaxmgLfx/s8d8dNH+NjI857edjpmETJwE+E8eMoRpisOuLFC2Vrc5POqYasb1B6jRYKB7qpjrp9AmrXeFbh1v4k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.208.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-671c24f23b1so16768507a12.0
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 28 Apr 2026 06:19:26 -0700 (PDT)
+Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-672645dbfeaso12795593a12.0
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 28 Apr 2026 06:20:06 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777382365; x=1777987165;
+        d=1e100.net; s=20251104; t=1777382405; x=1777987205;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=xOrCyBOHZnjD++HpzPH5915Nu0xCIbNF1pbfx1fKwzE=;
-        b=LGrNGyXOB1T4hTD023dFdrEPfLJ5d7LsjThz9hYDr2dfAF8QuSS6LOh5QGn7a/kqRi
-         c3ZiilWVK/ssbqqJTgg24e6sSIs9vU34UOglsW2jcOG5++FVi9z4UA8k2kFiu4ZI+t/z
-         AT1fLj92itkwRn5dNU7zRyhlvyutrfDstH/Bokv+zaqiiKWaU0j8dquR8NdLlnOFInJL
-         jQmviANSGaG090i8DYVEe3cvx5OO/p0CRR0w1GyPeqwKp66Smjnvh7WUSF6auPXPPFM1
-         vWaYHBmsSjhZBzhXv8eoas+ALdfyMSbDlbcvo5VZxTOdWPDMgJI9orIncu7IOb/Np4FT
-         KjzA==
-X-Forwarded-Encrypted: i=1; AFNElJ+CTy9wue8lfJhMB3HCfT9sg5/Y6ZZWK7NjAuJGiEcU2TSY3s4yq3XPbpC8LtLN5osyfEFu6niFG7LhD7Vy7SEmWA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyNNZIqbqlGdQ16dugtUtSGbrJzQVghW9EYZecN2RkMr51AhuRr
-	hGGiHjdeQfPrhvabNDr4xMCuNoKjajzNtQblm7+QUlKwJNQYmidZMqG72k7+s1HyQ9I=
-X-Gm-Gg: AeBDievN/0Lbzncn/i0pSoA8wqbhH4BKeCZihcXpcecV+fCVZd5eiNmBsIXFGmUuSc8
-	0GedFX3g17YlOvwvmhAtM0RHhWWw1yAE0IHFVO46YaIiILvNRz3yBniOdqZxxNMDPi0joiHqYwr
-	KW6KAJiVF0Wm6LiyaQSduUEjI5TzgDBCmw5Rx/9w9qN5ye+iurx4y9N/S2SVwGec+eFCFmh/1qz
-	Qqn0TPkwCRCAIvcgGFC5VB1JdLH3pSV+zEQoJ7hCc0lhjhXlCtA6XSj+PF9UZPv2leYszse7vyC
-	TSdGwtYlii1IfOK2AeAgAM56vaEEeYGh5QoVSrVUwBYHq3EdiAAnyW2NiWX5XoTb117rJx3GG0H
-	dpSnAiUgZZ6nZ3Epq5bvb+5i9LrabhB8nKY2qFrxuN7fboDWJTuXfGlPPp4hFWDG96VV/N+Rb0A
-	3dkk0wcs0VD6hSKuc8GDSmG7UuV+lVSnX+YcEgG6Mw+XSfj6YrettHUmwQz0y5jiCyXh2MUNE=
-X-Received: by 2002:a05:6402:538a:b0:674:40c3:f047 with SMTP id 4fb4d7f45d1cf-679bb05e13emr1584825a12.12.1777382365233;
-        Tue, 28 Apr 2026 06:19:25 -0700 (PDT)
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com. [209.85.208.54])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-679b68632fesm734785a12.28.2026.04.28.06.19.23
+        bh=DKTOlmD1/yBlktMHm6WBqCZN7HgZX4UxFY9kLSyUAjY=;
+        b=Drey/sFMMkBbv2CTPEeKVnRovEZg11Z93ZF75+7DfgxwJkqMzVQqv0Jw/XbOZoe7sA
+         7k6C2+J6iWbNkDhLfQw1XLo7DwqvaUbnI21C0lMFiLCX8DTbotR7uQOf5EOKGPNfEX1i
+         PTKKjA4GiTITfAoBIw3j1SmSVrdis6sHPn5oZoqX1UAT0BP5E3gdSShfzQouCXWns/af
+         iBnj5OZces7II1LVIaiROnIPy44NEVWL7BbCzWc+1mzus/bFvyzHI2XvYjwpvqzsKKQi
+         NAxV9DLmL2S2P+u9Pz2fwWstQa7wQ77HGzqiV+bRTnSkIIvO+xULzwvVz6gba0373S2d
+         UCxw==
+X-Forwarded-Encrypted: i=1; AFNElJ+qiJ40Rg6ccJDPF4RNK53WujGzDuE2wjhN2YsjkcxXwBGr98yP+zwzvqW/6iotiJL7pmqwS2Yc1POhHbSZKqL/zA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyevTbHGNzDsX4xyPHtGYKjt3RGrSdUPCDXZJM2g89wXocox+QK
+	dFIieeUSLhJtpXCDQoW+RgA6oy6H9wBnBKWy1Gd6+nWC/Ks3Oy/SWTMwGYBUwBjw7gg=
+X-Gm-Gg: AeBDiesq1lcvjunpz2/C+2Pb8yLKGyGOBZooXcDektI5h/oLig89IfeFHl47jGcOGvJ
+	rUijyeVg2OwUBtNzty54uotCdN+B20iUG/roX7IPhNZyeA+YkSaDuzbocGPv5Tvi4sZ9R4+Yr2P
+	ktie1gmrhbXHCp+AZkNng6ymzxcgDltzq9QYuhbq/MJ3xuJP4qkoJYhI/zpLkxKBHZORYN+WEZL
+	R7sq/0SW8HXg57LaXBUrygs7v4EXms2xJLIXn/mf2VWt64/0XwYCu8xDuumKPz7SZ7dRZPjuqbl
+	NVgIlpknZmIHDGq8DFs+GZA43x6PnvZCybvZhb1f7pgBM0dcFkgBLmljgtei/iboAnk/li1WrVo
+	gAIGXZSge3XYLPA5LGqd3wG1mR3R93E/ERvmYhsahKkT8g9nsYn2ZlqLv5UvuRm7bpfKsxs6+my
+	8RlQuT4S6i4m9r2KDrNETIdwKchuCs5qgU8V9ZuHEovR3b2/GRYv2kCtoCkDgzahrvPH2ZDwY=
+X-Received: by 2002:a05:6402:a0dc:b0:676:989f:ec4b with SMTP id 4fb4d7f45d1cf-679bb04c0cfmr1243478a12.5.1777382405224;
+        Tue, 28 Apr 2026 06:20:05 -0700 (PDT)
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com. [209.85.208.45])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-679b67638ccsm829477a12.0.2026.04.28.06.20.02
         for <linux-renesas-soc@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 28 Apr 2026 06:19:23 -0700 (PDT)
-Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-67893fba9c3so10481805a12.2
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 28 Apr 2026 06:19:23 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ+yr8+mIV7j0Q9wHyfsaGMNeaK4R7Fgw9jNB+AQ16jMmd4z6+ZHX081HqsMzZXOiLC9iS94TkdjUCOUic13jQ0Q0Q==@vger.kernel.org
-X-Received: by 2002:a05:6402:35c6:b0:670:d548:da79 with SMTP id
- 4fb4d7f45d1cf-679bb04e595mr1487937a12.3.1777382363526; Tue, 28 Apr 2026
- 06:19:23 -0700 (PDT)
+        Tue, 28 Apr 2026 06:20:02 -0700 (PDT)
+Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-676a89de629so12302144a12.1
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 28 Apr 2026 06:20:02 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ9Ss0gdDXefctFGGgz4nFX0HjLiPbcTwVex2t5T+uxtAjbEKU/2M1twv5vAGnfED+eF28x20SGURRkwO+iSr+A90Q==@vger.kernel.org
+X-Received: by 2002:a05:6402:46d5:b0:679:3604:7152 with SMTP id
+ 4fb4d7f45d1cf-679bb0614bcmr1319707a12.11.1777382401908; Tue, 28 Apr 2026
+ 06:20:01 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260317101627.174491-1-biju.das.jz@bp.renesas.com> <20260317101627.174491-5-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20260317101627.174491-5-biju.das.jz@bp.renesas.com>
+References: <20260317101627.174491-1-biju.das.jz@bp.renesas.com> <20260317101627.174491-6-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20260317101627.174491-6-biju.das.jz@bp.renesas.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 28 Apr 2026 15:19:08 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWs-4N1hYjHQH-g3KdmSw2t3JhhaW42A7a2nnzBqv4qSQ@mail.gmail.com>
-X-Gm-Features: AVHnY4K36oRkybc-Wo7oOtFtVEmMALNhAn_-9C3YcdDGdDqwib0z0T-D9L2K0tI
-Message-ID: <CAMuHMdWs-4N1hYjHQH-g3KdmSw2t3JhhaW42A7a2nnzBqv4qSQ@mail.gmail.com>
-Subject: Re: [PATCH v3 4/8] pinctrl: renesas: rzg2l: Add support for selecting
- power source for {WDT,AWO,ISO}
+Date: Tue, 28 Apr 2026 15:19:47 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUXQNfg9fh9BEr+KYkVjFg7T9hTXEUk6ki7xxZEzDYKBQ@mail.gmail.com>
+X-Gm-Features: AVHnY4JZdWFymL3Kj462clduhRgIeDNaRCdbfE_Fk-jr51VVXMeTXi-HgJjqU08
+Message-ID: <CAMuHMdUXQNfg9fh9BEr+KYkVjFg7T9hTXEUk6ki7xxZEzDYKBQ@mail.gmail.com>
+Subject: Re: [PATCH v3 5/8] pinctrl: renesas: rzg2l: Add OEN support for RZ/G3L
 To: Biju <biju.das.au@gmail.com>
 Cc: Linus Walleij <linusw@kernel.org>, Biju Das <biju.das.jz@bp.renesas.com>, 
 	linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org, 
 	linux-kernel@vger.kernel.org, 
 	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Rspamd-Queue-Id: D5507486481
+X-Rspamd-Queue-Id: EBC85486245
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-1.46 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	FROM_HAS_DN(0.00)[];
 	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-31704-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-31705-lists,linux-renesas-soc=lfdr.de];
 	DMARC_NA(0.00)[linux-m68k.org];
 	FREEMAIL_TO(0.00)[gmail.com];
 	RCVD_TLS_LAST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-renesas-soc];
 	PRECEDENCE_BULK(0.00)[];
@@ -116,21 +115,21 @@ X-Spamd-Result: default: False [-1.46 / 15.00];
 	TO_DN_SOME(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[6];
 	R_DKIM_NA(0.00)[];
-	NEURAL_HAM(-0.00)[-0.890];
+	NEURAL_HAM(-0.00)[-0.970];
 	RCPT_COUNT_SEVEN(0.00)[7];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,linux-m68k.org:email,mail.gmail.com:mid,renesas.com:email]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,linux-m68k.org:email,renesas.com:email,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
 
 Hi Biju,
 
 On Tue, 17 Mar 2026 at 11:16, Biju <biju.das.au@gmail.com> wrote:
 > From: Biju Das <biju.das.jz@bp.renesas.com>
 >
-> The RZ/G3L SoC has support for setting power source that are not
-> controlled by the following voltage control registers:
->   - SD_CH{0,1,2}_POC, XSPI_POC, ETH{0,1}_POC, I3C_SET.POC
->
-> Add support for selecting voltages using OTHER_POC register for
-> setting I/O domain voltage for WDT, ISO and AWO.
+> Add support for configuring the ETH_MODE register on the RZ/G3L SoC to
+> enable output-enable control for specific pins. On this SoC, certain
+> pins such as P{B,E}1_ISO need to support switching between input and
+> output modes depending on the PHY interface mode (e.g., RMII vs RGMII).
+> This functionality maps to the 'output-enable' property in the device
+> tree and requires explicit control via the ETH_MODE register.
 >
 > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 
@@ -138,109 +137,49 @@ Thanks for your patch!
 
 > --- a/drivers/pinctrl/renesas/pinctrl-rzg2l.c
 > +++ b/drivers/pinctrl/renesas/pinctrl-rzg2l.c
-> @@ -63,10 +63,18 @@
->  #define PIN_CFG_SMT                    BIT(16) /* Schmitt-trigger input control */
->  #define PIN_CFG_ELC                    BIT(17)
->  #define PIN_CFG_IOLH_RZV2H             BIT(18)
-> +#define PIN_CFG_PVDD1833_OTH_AWO_POC   BIT(19) /* known on RZ/G3L only */
-> +#define PIN_CFG_PVDD1833_OTH_ISO_POC   BIT(20) /* known on RZ/G3L only */
-> +#define PIN_CFG_WDTOVF_N_POC           BIT(21) /* known on RZ/G3L only */
->
->  #define RZG2L_SINGLE_PIN               BIT_ULL(63)     /* Dedicated pin */
->  #define RZG2L_VARIABLE_CFG             BIT_ULL(62)     /* Variable cfg for port pins */
->
-> +#define PIN_CFG_OTHER_POC_MASK \
-> +                                       (PIN_CFG_PVDD1833_OTH_AWO_POC | \
-> +                                        PIN_CFG_PVDD1833_OTH_ISO_POC | \
-> +                                        PIN_CFG_WDTOVF_N_POC)
-> +
->  #define RZG2L_MPXED_COMMON_PIN_FUNCS(group) \
->                                         (PIN_CFG_IOLH_##group | \
->                                          PIN_CFG_PUPD | \
-> @@ -146,6 +154,7 @@
->  #define SD_CH(off, ch)         ((off) + (ch) * 4)
->  #define ETH_POC(off, ch)       ((off) + (ch) * 4)
->  #define QSPI                   (0x3008)
-> +#define OTHER_POC              (0x3028) /* known on RZ/G3L only */
->
->  #define PVDD_2500              2       /* I/O domain voltage 2.5V */
->  #define PVDD_1800              1       /* I/O domain voltage <= 1.8V */
-> @@ -906,6 +915,12 @@ static int rzg2l_caps_to_pwr_reg(const struct rzg2l_register_offsets *regs, u32
->                 return ETH_POC(regs->eth_poc, 1);
->         if (caps & PIN_CFG_IO_VMC_QSPI)
->                 return QSPI;
-> +       if (caps & PIN_CFG_PVDD1833_OTH_AWO_POC)
-> +               return OTHER_POC;
-> +       if (caps & PIN_CFG_PVDD1833_OTH_ISO_POC)
-> +               return OTHER_POC;
-> +       if (caps & PIN_CFG_WDTOVF_N_POC)
-> +               return OTHER_POC;
-
-"if (caps & PIN_CFG_OTHER_POC_MASK)" would cover all cases at once.
-
->
->         return -EINVAL;
+> @@ -1198,6 +1198,23 @@ static int rzg2l_write_oen(struct rzg2l_pinctrl *pctrl, unsigned int _pin, u8 oe
+>         return 0;
 >  }
-> @@ -925,6 +940,13 @@ static int rzg2l_get_power_source(struct rzg2l_pinctrl *pctrl, u32 pin, u32 caps
->                 return pwr_reg;
 >
->         val = readb(pctrl->base + pwr_reg);
-> +       if (pwr_reg == OTHER_POC) {
-> +               u32 poc = FIELD_GET(PIN_CFG_OTHER_POC_MASK, caps);
-> +               u8 offs = ffs(poc) - 1;
-
-Yesterday I thought "Why not store the bit number itself?", but after
-a night of sleep, I had my aha-moment...
-While clever, it is rather fragile to rely on the three PIN_CFG_*
-values to match the order of the bits in the OTHER_POC registers.
-So please check which PIN_CFG_* flag is set instead.
-
-Perhaps rzg2l_caps_to_pwr_reg() should return both a register offset and
-a bitmask, to be used with field_prep() and field_get()?
-
+> +static int rzg3l_pin_to_oen_bit(struct rzg2l_pinctrl *pctrl, unsigned int _pin)
+> +{
+> +       u64 *pin_data = pctrl->desc.pins[_pin].drv_data;
+> +       u8 port, pin;
 > +
-> +               val = (val >> offs) & 0x1;
-> +       }
+> +       if (*pin_data & RZG2L_SINGLE_PIN)
+> +               return -EINVAL;
 > +
->         switch (val) {
->         case PVDD_1800:
->                 return 1800;
-> @@ -943,6 +965,7 @@ static int rzg2l_set_power_source(struct rzg2l_pinctrl *pctrl, u32 pin, u32 caps
->         const struct rzg2l_hwcfg *hwcfg = pctrl->data->hwcfg;
->         const struct rzg2l_register_offsets *regs = &hwcfg->regs;
->         int pwr_reg;
-> +       u8 poc_val;
->         u8 val;
-
-u8 poc_val, val;
-
->
->         if (caps & PIN_CFG_SOFT_PS) {
-
-> @@ -970,6 +993,17 @@ static int rzg2l_set_power_source(struct rzg2l_pinctrl *pctrl, u32 pin, u32 caps
->         if (pwr_reg < 0)
->                 return pwr_reg;
->
-> +       if (pwr_reg == OTHER_POC) {
-> +               u32 poc = FIELD_GET(PIN_CFG_OTHER_POC_MASK, caps);
-> +               u8 offs = ffs(poc) - 1;
+> +       pin = RZG2L_PIN_ID_TO_PIN(_pin);
+> +       if (pin != pctrl->data->hwcfg->oen_max_pin)
+> +               return -EINVAL;
 > +
-> +               val = readb(pctrl->base + pwr_reg);
-
-if (poc_val)
-    val += BIT(offs);
-else
-    val &= ~BIT(offs);
-
-> +               val &= ~BIT(offs);
-> +               val |= (poc_val << offs);
-> +       } else {
-> +               val = poc_val;
-> +       }
+> +       port = RZG2L_PIN_ID_TO_PORT(_pin);
 > +
->         writeb(val, pctrl->base + pwr_reg);
->         pctrl->settings[pin].power_source = ps;
->
+> +       return (port == pctrl->data->hwcfg->oen_max_port) ? 1 : 0;
+
+IMHO these oen_max_* comparisons are very obscure. For the casual
+reader, it is far from obvious there are only two valid combinations.
+
+Why not use the same logic as on RZ/G2L?
+
+        /*
+         * We can determine which Ethernet interface we're dealing with from
+         * the caps.
+         */
+        if (caps & PIN_CFG_IO_VMC_ETH0)
+                return 0;
+        if (caps & PIN_CFG_IO_VMC_ETH1)
+                return 1;
+
+        return -EINVAL;
+
+I think you can even reuse rzg2l_pin_to_oen_bit()?
+
+> +}
+> +
+>  static int rzg3s_pin_to_oen_bit(struct rzg2l_pinctrl *pctrl, unsigned int _pin)
+>  {
+>         u64 *pin_data = pctrl->desc.pins[_pin].drv_data;
 
 Gr{oetje,eeting}s,
 
