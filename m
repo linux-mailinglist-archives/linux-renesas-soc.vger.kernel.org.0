@@ -1,351 +1,430 @@
-Return-Path: <linux-renesas-soc+bounces-31688-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-31689-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id YCPVJO5Q8GlNRgEAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-31688-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Apr 2026 08:17:18 +0200
+	id cPdWIxJb8GlQSAEAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-31689-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Apr 2026 09:00:34 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A8FE47DFA7
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Apr 2026 08:17:17 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 03E9347E5FF
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Apr 2026 09:00:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 3926230089AB
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Apr 2026 06:17:17 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 08290300443B
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Apr 2026 07:00:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6E33C2D0610;
-	Tue, 28 Apr 2026 06:17:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 15A59372B48;
+	Tue, 28 Apr 2026 07:00:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="CG/YuTMu"
+	dkim=pass (1024-bit key) header.d=valinux.co.jp header.i=@valinux.co.jp header.b="RsuTtQNC"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from TY3P286CU002.outbound.protection.outlook.com (mail-japaneastazon11010013.outbound.protection.outlook.com [52.101.229.13])
+Received: from TYVP286CU001.outbound.protection.outlook.com (mail-japaneastazon11021098.outbound.protection.outlook.com [52.101.125.98])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71A633101B9;
-	Tue, 28 Apr 2026 06:17:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.229.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF16F361DB1;
+	Tue, 28 Apr 2026 07:00:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.125.98
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777357035; cv=fail; b=clZyhOs0+5ofo11CMgWgBbzB58bMEmAbvcvDx3660PLiWIYjKtlHv3k5BG9o2r3x06HCN+4FW2numS2viw0l0Q3NRJ8IWnQVphJVO0lmeaOIrSVkp1cg/lJ+mjPqhZISYAje1hsKMNPp6ohzsEBykorV6SSDJm99Scg2jDt1vc8=
+	t=1777359627; cv=fail; b=fY2X1ogupuYH9hxdTpKMbwf+4ubO0CO3t4xCL5WW8Dy0XO+9FJihhfKAO22rOvwkO9BrYWhOWJ5H/pWAjNToSM8gNcZILHli4GRsT27MSAQNKNcIIrN4YYep/tAEtdC8p08r92M72LWkwyWIghb9TLRpEQdJ/X7NvT88aZW4TP8=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777357035; c=relaxed/simple;
-	bh=BIa2h7DhRf1ba4XDEEwXnr+FKzIVbMJCvidHCCYeruM=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=KzCiUNY7rRyWdlJ6c0n8hquFFI8xi46bCrB6iIjkqmI3X1HR0NX0FHD8HmW8qLYLWernYT/BEFujSjiUP5JMXxWsVDK+50LUv07PqkeYZe3I6NioW00a445wFrQYT3En6QM5avVC80H3fK7BEXlKHGGixCV8ytRI92FrTYCUHqk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=CG/YuTMu; arc=fail smtp.client-ip=52.101.229.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
+	s=arc-20240116; t=1777359627; c=relaxed/simple;
+	bh=EcCJ6Huvei6uZkRqnvABVpCamsdiy4v//qC/5rO4PEM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=VLPlxvtGrailIaURWVH/ABVIzpB38Z9e8fwF8eN4Lzrs9mYbOe/4NRODeN8eXkt+c/+Kmk51pyhzllg57QrbBpCiNoywfOgzwlER9ABZ8b7SCC7KFW1FKttkiBtH/zuyx+0u9QE5NWsyPy0y/+Y2qPE9/N4XFIQldGBvJ7SU1wQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=valinux.co.jp; spf=pass smtp.mailfrom=valinux.co.jp; dkim=pass (1024-bit key) header.d=valinux.co.jp header.i=@valinux.co.jp header.b=RsuTtQNC; arc=fail smtp.client-ip=52.101.125.98
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=valinux.co.jp
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=valinux.co.jp
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=yZMA/88aFU4yp8H0fqpZMAf5hAM6YASoZOxVr2DayT9ws63eo3rZy6WpB/TNQsAZz0Spv+oOI4ymIcYK1VHSJecBzy17/Wf0237+dnb2p2SlmsYR2RVbhgbq8S24KlJ7VBq8EByQsOZF7pjKJuVqfPWcz+vjlGhiYTw/0LiPk1HZ4tQpj7gGvrjnZA8TvhwoPj//eQZB1epi4QkQqyKh5azMVytKNsVIrU3uSXwkdqCBbpj1W+CCY7ogvFBXMsoNKCBTU2HGeqcdz8VpNEO7+CrooUWoxPHZwzSOrBrYfp638EqOhwdXC6S1HXQjbdjjH8TmFFOljyQ0kXqV4NOqJw==
+ b=mCCwU0XBrNRD3IRuGvpq1M06kVanKX+1SnQFQhrfVL1egTSF6U3VclUDmsUJu+kvMi0RjtoO/6+Lm4v+ZSOUzGDxv942zdqSclQ+V3ObktPRUGPv+zst6lM20GpuTMW6GlGFsBgIST4FcVXcfkb7YoQBjOLPCVFWbtPVNkZq2IAHP82MKqu5UjCxbDu07yeBfVKNnz9bYkQ/qrICd3XZH9v+eN4vrnQCnAmFuRSfj1FIHHFon3IZSETxD9odHqZBFhMyFAPMiI8PA/XnGHs1EMO4C/aTd5kNioY5LiFvw5WoyvLj7RZoim5hPOHttrP2YUnPmC4mCaiJgvk9CsFmlA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=5vdmBEWoP0p6rFdyAf1rZp5qTWZYtyt4N3uaPTxhS98=;
- b=AuNMPT8FDAh/35MFgGoKt7waOa7GHOXGquqlOMe++ck6V9AjMwbiVZbKrtPuMS5Pmp5bWlQMUtyEr0DJc++c5ETX5B5yOHyvm1G3Q5u5vdrJYU/3fe9c3XIppedLCGImSExc8dn+IEArr+t15K4L1dDXpIWDSyx6HzDwZfi9cvSFO1/HO7qWZgWv+2u1qZ5CbSGI7fsD5kL/6lZ1bA902yA/+pkYOfPO3O7T1/FtbyGPUARzFYl2Q3kKywpS1oPP9LWfQ50gmMIRuKMdfOqcAsvgNJxveurpdyIlg6RSLUfMxurOPELIij/o9ODiAaUo9oJJGYJBg5edeOFFnt3fDg==
+ bh=I5tj+cUxqfRHhTIddTtw4FDu3EdDPXpJeuaHY9p59EY=;
+ b=mjzeS6iu6JcRJTOYk0L0R8vRdf3+5gCsN+etPrlN4YHlksTzqNYXyXctERp1nwAHoRyriW6+6VCV/gi2pNoCRkfRjDWzHgVIWxzCjmZH5IBwYpdJPML7M/5z+QsQ38eE5OsP8C3DmKhVVlEPo+4vzg7tg5ehABJ/0RhpOK5FsVY9wWx7ik/rQHjMU7MZNuVNvX7t5W1cXiQQYbBQlKvsLpUT9ZaciS/4AtjdamiRCynvChvSVLAKuwmtL//lwO6nb1ki5Kyb8PgZSwO9kC/U/6NNlPoZGo1Zd1AZghKNowtnMqic7oafF3P4JEDxJo1oeiTAbK9VNE/VS09nalGrCg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ smtp.mailfrom=valinux.co.jp; dmarc=pass action=none
+ header.from=valinux.co.jp; dkim=pass header.d=valinux.co.jp; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=valinux.co.jp;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=5vdmBEWoP0p6rFdyAf1rZp5qTWZYtyt4N3uaPTxhS98=;
- b=CG/YuTMunDjkVGZ5SYj/wXURZp54zsTnCWr392ct6Ku0Melfz7i6QRqEacx9Q6f83eH9jFSMIyYfva62eh465E+NjqgixzmRifXYxzOdBKd4wEn7G+CLj9UEib+JjalRRbS+SwtdFvoE7vSxCGH6Ub21vnMrpDxnTX2cWpT3REo=
-Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com (2603:1096:400:3d0::7)
- by TYWPR01MB8605.jpnprd01.prod.outlook.com (2603:1096:400:13e::5) with
+ bh=I5tj+cUxqfRHhTIddTtw4FDu3EdDPXpJeuaHY9p59EY=;
+ b=RsuTtQNCew3UU9oKcXy9HRnOXwg6Z2QL7W4UnqAg96KMFrhbcT4DggbiZXdKsa5vnnNAPonrwag5GgkMBVvAz3w7VtncDd2Dbnx3w+DOzqb//t6Eh+kEtMrebjDd2tSOAtEDjHGGBuS9iFuGsYmykmKohQ94wpUaZt9/Y7Szuow=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=valinux.co.jp;
+Received: from TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM (2603:1096:405:38f::10)
+ by TY7P286MB5403.JPNP286.PROD.OUTLOOK.COM (2603:1096:405:1f3::5) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9846.26; Tue, 28 Apr
- 2026 06:17:10 +0000
-Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com
- ([fe80::87d1:4928:d55:97de]) by TY3PR01MB11346.jpnprd01.prod.outlook.com
- ([fe80::87d1:4928:d55:97de%4]) with mapi id 15.20.9846.025; Tue, 28 Apr 2026
- 06:17:08 +0000
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Ovidiu Panait <ovidiu.panait.rb@renesas.com>, "vkoul@kernel.org"
-	<vkoul@kernel.org>, "neil.armstrong@linaro.org" <neil.armstrong@linaro.org>
-CC: "linux-phy@lists.infradead.org" <linux-phy@lists.infradead.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
-	Ovidiu Panait <ovidiu.panait.rb@renesas.com>
-Subject: RE: [PATCH] phy: renesas: phy-rzg3e-usb3: Fix runtime PM underflow
- during suspend
-Thread-Topic: [PATCH] phy: renesas: phy-rzg3e-usb3: Fix runtime PM underflow
- during suspend
-Thread-Index: AQHc1n6/R7hZJapUgEme8pFZ2/rXrrXz+kOQ
-Date: Tue, 28 Apr 2026 06:17:08 +0000
-Message-ID:
- <TY3PR01MB11346819FE6253E90C7B4F88486372@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-References: <20260427194741.161533-1-ovidiu.panait.rb@renesas.com>
-In-Reply-To: <20260427194741.161533-1-ovidiu.panait.rb@renesas.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TY3PR01MB11346:EE_|TYWPR01MB8605:EE_
-x-ms-office365-filtering-correlation-id: ca895923-0a68-4401-b615-08dea4edc6e6
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|376014|366016|1800799024|56012099003|18002099003|22082099003|38070700021;
-x-microsoft-antispam-message-info:
- /ooAuoCvb/WNCJdkq1OpR2xXRsNxF8KcklNlj0vrEoIaIKsG09e1uImKRwFHre7ufI8+DXTdPj0gKGCVMN9u4i5LAWUqgbOxxrdBEgEqHyqYmTlZzi7NPxy7Zugl/OX9nRxHc/Og0qh/9IPWAT82eAeCS8nXU7GpE9zwHPRebBsNX8cjlxaAWYGLNjmydEAtf6OekxuCSQ7Pt2bAqPBbHleE1isdeAB/B7DO7FfCZcpAaR6O2qnfNYeqAbXAD/QzPyh7HbOIaDgHG9hYqNAmgk/49uHzK8nZ+l44XsROdx5INVOVM6ES4OkDf5b2LsUYyX7lPKVGBSPPfGY1Q/r4E6muzSVYrVqBkdG3vOwA1O+2eF4gfDgGows3mmJRlPYkv+gokKtUjB30CkLlxn8aYVnaTsPk7yiYHqiqs40YbWuEysQ3wI1myBSK6/IPR3tAum56NK9BEnnYbb7FdXJ8rTwE+sE9nuYYTMUwXAtERhDVL8J3ZLEOfyd3JzbJo+UVh2WOml3T3+9bXwAVcvP3VN2GD1WZP7+m+uOMb3b41IKYqNDFUM7OyTYBRGc+YjJNEztuHi3YGQxYRUdLv0dq6ULAkBFPRqYZYwM6QTtHAfPNwuaZD8MY62Y8a/g9ucCU14xEdV633KaIY4gRzC1QIBuaXwS7SnsrOUK9kRc1flUnduDcwVH/T7Smc1th85YHZWNbOmttRdscPeigtGZukXCw/tzUhh13lixyH2cJV/UD/9OBr0dBx2GIx1i/bFPh
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB11346.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(56012099003)(18002099003)(22082099003)(38070700021);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?ZsBDLSVaCY4sPaf6eHFgbLU6bTn2RZs//Rls1CAYmhX2a6xFa7zdo45ghT1F?=
- =?us-ascii?Q?/syriaK8jWGyqZ2GKstomniW/NikhPLruuO8apjdkeCXrl1L4tPtQBMZ9V0e?=
- =?us-ascii?Q?ucPQlgkCNhXG1/JrApH8J3+92e2133nhDy5xJ8ApLi82Ak6AV+aHjXbsg9KP?=
- =?us-ascii?Q?s1DmUDC698B/6iV2qWasN9/vqTlqEj0loOrkUwzZG0r2zCIw9wZ2zwaR8RPT?=
- =?us-ascii?Q?DQ4mOZYUvLJZJ7D5qb9uKyOH4FIw+kidSjUV2xuXJjgYBkMDxRO4Otko81i+?=
- =?us-ascii?Q?luxvaoxEgaqnBMNrlIqR2A5Ty7FGA+cdGLKVWUoc40XMSr8GNmJKnUBpIhiF?=
- =?us-ascii?Q?gPZ+dFyCGtnvJGhEDi33JTUNLD3+eoEqrhM3H3KoGpbrhYKpLqiXMsXA/NdQ?=
- =?us-ascii?Q?vCJpMqL7zukfeuhIgbAcL698gaG8EfF1LyFqmv5aEG+421Hj3ZOc1ClPHeNh?=
- =?us-ascii?Q?CKEkB7NtMsRMK991DoXMK2qDUv/9b6shEel9L6VrCDk2ty3kh0DpesiKWfD7?=
- =?us-ascii?Q?fHgD6lEmtJnKBXiPXpjtKfWukLL73mRaO+TZGig/3y/eFOosjcHfNxZNcCV3?=
- =?us-ascii?Q?lv301tnPjPXuQctVUTEIUiLEfsJDfBYnTR8YMNl5h3uy00Jxp0QHfgtbR3S5?=
- =?us-ascii?Q?dA+jVtFRo9htGVPRAR8ITGD8I+G89NjAqdJTwaXjKoSj5D800KhhhqfGFBTq?=
- =?us-ascii?Q?G1B5MpkwnBVDxYta5xbcaaRUwjPmH/UAQlXo760FAFPIJelH9rND8O55aVFU?=
- =?us-ascii?Q?PqP1/PlpdCvhkHLR5O/G0qdEt1waeJwDPjP03NLCz96zkqdcy03kmBjyd9/l?=
- =?us-ascii?Q?Pp7mjQlf9DQOjfTwwn/ZQnA1uuS895l14biLbzobdSdMsMxd2B84gVpfQ7lX?=
- =?us-ascii?Q?YqRcdwClD23g1pBTH3GufT6ndskRliJzDrX8MzRk4kLy2GimU9+5utdzct8u?=
- =?us-ascii?Q?hXn+F0M42NBWlKTvnX+yAkoZYoj1zBtSE42Kf8SI4/B4yR/rOAFnBChnysVx?=
- =?us-ascii?Q?Nv6XZv4iVyDGpTq9ZGoNfeIcURrjqQtPiXOeURt+OD81bp3dcMIKrAOXu6aX?=
- =?us-ascii?Q?XR7hzuOJAQ936dPIsC1yiPklyl8ZrZ+E/D3N6u309ZxUamDvPQcZhLYaGlia?=
- =?us-ascii?Q?ZlyVGc/2G6BDRp+YOYLWQIYRYyL433qsGTFcf+ZAL+C2q1wfnQRAKYmv9YfK?=
- =?us-ascii?Q?K0iB4zTUbebPa3i5r7pvNz01xhNC4HmXOOLvzZ14DV7k7seP9QcKs7MfkXPm?=
- =?us-ascii?Q?OO8I4I9fLEIFWxHut1wvOVo+DylNbp7niJTU0+pmPY5tkec8MEpC86ZG+DQl?=
- =?us-ascii?Q?SSKLKDJRXBu+OPj0wN2tO8pIkCbjhl5/hvIUIZp0+NZsX3BYG18PIoF2x9U6?=
- =?us-ascii?Q?+fO6fNlMqPlS6lvABLwfjI/64MxPOw32ERlNk5qXgYbYwqpBaIOiKKgYDWNI?=
- =?us-ascii?Q?Vep636b/QLPlhGGMFFLqdbfgkZMW6QR0CEbS01B5j7G5wdi2beL1zcehKI/5?=
- =?us-ascii?Q?gKzrHa6XBZO7/eUxTPJmECBTiEi/G2mVEJ0GtG6GodFTFF3cbkp6tjP/eueW?=
- =?us-ascii?Q?zrfKnJYmk6DIY64u/f5nIRpK9Q+1eAvLCg6Oz6JpTknFx5oTR+0P/f/nILTh?=
- =?us-ascii?Q?8ghNr/QvoFKemlB/828wGkpkQWhJDNW/NvJQPoqDRtvk//1kVEav9tleeTcf?=
- =?us-ascii?Q?kklZI4MF78aNWLoV1HrZNJFYpQLWaxnoS8CO1eMM/ZWwjHruioGXsSkYoGRy?=
- =?us-ascii?Q?ZA23Mlib0w=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ 2026 07:00:21 +0000
+Received: from TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM
+ ([fe80::2305:327c:28ec:9b32]) by TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM
+ ([fe80::2305:327c:28ec:9b32%5]) with mapi id 15.20.9846.025; Tue, 28 Apr 2026
+ 07:00:21 +0000
+Date: Tue, 28 Apr 2026 16:00:20 +0900
+From: Koichiro Den <den@valinux.co.jp>
+To: Marek Vasut <marek.vasut+renesas@mailbox.org>
+Cc: linux-pci@vger.kernel.org, stable@vger.kernel.org, 
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Lorenzo Pieralisi <lpieralisi@kernel.org>, 
+	Magnus Damm <magnus.damm@gmail.com>, Manivannan Sadhasivam <mani@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, 
+	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] PCI: rcar-gen4: Limit Max_Read_Request_Size and
+ Max_Payload_Size to 256 Bytes
+Message-ID: <oeb2uiudm7afzzzy3f5rykzctfnxlsydit6ww5raohcbxo3v34@hmnqr2ud42kq>
+References: <20260425233845.459175-1-marek.vasut+renesas@mailbox.org>
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260425233845.459175-1-marek.vasut+renesas@mailbox.org>
+X-ClientProxiedBy: TY4PR01CA0081.jpnprd01.prod.outlook.com
+ (2603:1096:405:36c::19) To TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:405:38f::10)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TY7P286MB7722:EE_|TY7P286MB5403:EE_
+X-MS-Office365-Filtering-Correlation-Id: ed6e95b0-3fe3-470d-cb61-08dea4f3d069
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|7416014|366016|376014|1800799024|10070799003|56012099003|18002099003|22082099003|11006099003;
+X-Microsoft-Antispam-Message-Info:
+	OveEztDybQdWDoMPrcTIIQnkKlb9v8HhgpDBp5Wp6QWwvWLeo+PLg2ARBZH09Q99Mik0/+rAly6vSG26x/Q1Wnwel44MzAQPB3hTlJwhNKEMTAboZMBdz/4xAgaHIpSGrCNw93iLOXUFtJkZTM1ZYSk3cVNXIauraypY4x97gP/uzuQb3c87oRLvdZ4y7bhhGKh4DLgj8trYc4CE1bVMAVkL4V9+ailH1S14wLPdlxFpHczu7M7eJKSwKOdTvxSFFS/FBvF6isGfj5KQKTFPovGEeIbFN0pgcHwcCpbB7BJLY1fmHT0jX1DCAFP+SCL/yctmA3OoyniqLdz2KN+I2cgCvmTrvz0IHapvT7aAwInUv8xuhfLDT11WTtGe+VX7KtSiMito4yxvMWMnqyjS2ZLAD4SArgNZ/3TLmtitPZfGrl6DUpzqnvudSrU8lt6ukn19eRQ2UpZwNRFA2tAmBODBS7FamkiyAtW5PX9eYf1cDY9FONRuJCbYgj/1cfObnI3s8Yp5a0P8F8NkbPEyql2HaPTG8sPHljGH0SKFgAZPJ1VqBpm5yOIVbDGpr+wuDBvmHqO0VHunZkgfzX9wFouNGhvHVra2X1PJjfaDAWRd1xUg3kft/u6dnjqjEswJ1A4mFpQLSFwzYpoEOg2yCxWmqEoR0epI5Nn/8/gbq7tlpTwj5kzf7c77JDu0Sv/yfPkpT7HLN9y+U6Pnpe0BcTDBYQx8wsOPdHVYU7327zE=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(7416014)(366016)(376014)(1800799024)(10070799003)(56012099003)(18002099003)(22082099003)(11006099003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?WGw2ZFJ3OFd6NXdLa1BQWG84L1FDNmZxWmRFUXlobE1mUW5EME1nQTVuZmVQ?=
+ =?utf-8?B?ZzFNNjlqSTU2ZlhpRUIrdE5HZk44WUlIUUNEVmhZV2NqVFdPQ2dzL0ZGcDdS?=
+ =?utf-8?B?cndXdXZVeWVib3gxbk5RMlJvOGNmcnpFK1BDTlU2VDJWTFpLMlJLQTVoSzFG?=
+ =?utf-8?B?dVorbTVKQ3Y5ZVlSK1NBMThxUlpNWXJCRU5DeSsweGROYmxRWHZOblM2czhj?=
+ =?utf-8?B?UDNZNWU3U3owVitLeUtJWTdTc2RNR1NOOTJHUDJGNU9ZMVhCVnlQZzBuOU53?=
+ =?utf-8?B?bFp1K2FaUERYNVdqbS9WWSt2aHR2TnFhWjlVOGtjblFYSnlwazYyQmRMSDdP?=
+ =?utf-8?B?RVpRbmIwWCtlTEphZk52NVE0cTgvUGMwR21rTngrVGpZYnZ2SVVJNlh4bmE4?=
+ =?utf-8?B?NWI2TjJXYzJHQXVFdndPYXprMEErbXNSYXVLYXBPQTN5akJIaU0rL2F5SkZD?=
+ =?utf-8?B?c05BdDdoMW5EcG9ZZkxaTDdCVC9NbDR5dmI4OWEzOXIrUTlRUXNYSFY1bnVT?=
+ =?utf-8?B?cEJZZmlUVG16anQ1M2xPNVhoYTVTWS96TjV5eUttdFdLU0ZVMGlwZ2VDZVVB?=
+ =?utf-8?B?SG85dDQ2UmVXN3poOVovNzBvcXZPODM2dEVVZ2QzbVpmL3VZNWZ1SWxZelo5?=
+ =?utf-8?B?bWtxWU0wcDMvMzV3eHZ6SHRteFIxWkhaRlYrcHgxRWJRUTZHVHVsZjgvWGdL?=
+ =?utf-8?B?dE9rMmtUMXVhU3dsTG1VT1JEc2M0a29xZUdzZlJ1K2RKOC9tM0x4VmgwYUxZ?=
+ =?utf-8?B?OFNmQWV5V3hWbHlXQjhpV3I0OUxtRll0OW8zVGI0R1hycldzeTIyQ3duTXUy?=
+ =?utf-8?B?d29RbEpTYmt0b21wUlRQb3NSNnFocjJXUFpvbnB6UGw3ajBHaWJDTDB0TG9n?=
+ =?utf-8?B?SjJRdGtoaHBvQVJrWEQ0WFdtcGgxTFVhMVN4Y0RwcHpwUkhTaENFdWt4SlRM?=
+ =?utf-8?B?OFd5NVZ2NFgyRlYwSjhIaDMwc1BNK0VNKzROT0I1QmgzNHo2TE8xUm9QUFls?=
+ =?utf-8?B?cWRqWWJjK0hTTzhhN094VGUvVk4xaHY4dHBNemVOaTZUWEE4dmdPVW9zT1lk?=
+ =?utf-8?B?NHNsaURzTis5NUYzNVRxSWIvMTM2L1l3RjRDdmo0QUpkaEx5aHdhbFo4bWNV?=
+ =?utf-8?B?bkJtdEpCdTdvcFE0L2hPZUhDczIxajlLbmEwS1V5clp3Qy9lRTIxLy9Hcmor?=
+ =?utf-8?B?YkRrcHRPNlFVZ1U5dmE2Mk1yaW9BRy83RS9TeE9uOXNTU0V5aThKYmhrYk04?=
+ =?utf-8?B?b1hmZ2xpQlRqQ0hmZEVqMVNvMnoyRXcvVFdULzFUSm5CU2lwQjhLYisrNm1r?=
+ =?utf-8?B?NnRjM2pxZXNtN3dKQWNyRGw0bVZNdStPSW56WW5wQlIzc3Z4R1NscmVEN0hz?=
+ =?utf-8?B?OGR5QUUwRWxwRXVqSkVjVndoNDZmZWQvYVphZWR0dy9jbHE5a3R2SCtsSFlG?=
+ =?utf-8?B?UFJtWjkyWGxDRFUySHkzaVRwT1ZJalp0MzhCNXJKUEJjeHZFakZITTZESHdn?=
+ =?utf-8?B?a0t2Q3lwWXdiZi95STJBL2w4WkdBK2NoSFFyUWdINDY1dWpOeXQycWhIS0lC?=
+ =?utf-8?B?SVA0c2NmbENQNlNNMXkzd05FRlEraU82T1N4bjd5SVJrRk5YbmJjOENCRDZ0?=
+ =?utf-8?B?V2NRbVZvR0piTmJ4dVVyVWtrekJWZG1zUXRNKzRHUUg3cXE5QnhXNmZMNVdu?=
+ =?utf-8?B?c0s4TzRGdmlkam02b2J0V2tXa2dmbkIvZ2s5dWJRL0tqTlZIV3FpcWpwZzh6?=
+ =?utf-8?B?SGg3bGJOVm1aT3lLN3M1SmduWVRsTDltMDc0Um9LK2xjMy8rRE1raDFTQ0dG?=
+ =?utf-8?B?ckRSVGwyeExRakg1cUhRaUdlbkFJQ2hGN2QvUEhOOStOTjlYMlM1cGZmelhN?=
+ =?utf-8?B?T3lsaHU3N0RKa0FwaWZHdnk4WFd1emVUM3pkdEV0a1lqRnhHU1ZKVWtKQjI0?=
+ =?utf-8?B?dFo5c2pudUpBN3FhTHhZYWRkKzFOQkt0aSt5b0RvN1lZQVpOazZzOGw5N2du?=
+ =?utf-8?B?TER5MnlPaHNZWGZva2RPZWNUTGl2SEE1RTFJdW5hd0dvOGNuSXNlTEhjdEdx?=
+ =?utf-8?B?ZVd1OXAwWHVjZEFpTnB6bldxQXJWN0ROcXFkSThyUWFVUXpJQTUzRTQyYXRj?=
+ =?utf-8?B?WXU1a0t6ZUhMYzc4QmVoYjBXVHMwQXZyTDc2c2wxa3pQdVhaVXUvTjFvbCtR?=
+ =?utf-8?B?a3p2UloyaVFQUDI1dkJwYlNsSytqbHNLek1qRnh4WjhFc0pRMHpFczMyQ0tu?=
+ =?utf-8?B?anBWZU9mWUpkWGdGdDB0M1RNYUhnVEpDc2k5VXRmV3d1YStvdWNZZkxCQUUz?=
+ =?utf-8?B?TnYzaEV1MVMzaHpvUEJuMkhkem8vQkZHSUxqdy9sVTdEcWtCTTV2cVlhMnN2?=
+ =?utf-8?Q?LKSWWMQlB22OW2IclfxFMbj1auMtoY7VC038P?=
+X-OriginatorOrg: valinux.co.jp
+X-MS-Exchange-CrossTenant-Network-Message-Id: ed6e95b0-3fe3-470d-cb61-08dea4f3d069
+X-MS-Exchange-CrossTenant-AuthSource: TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11346.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ca895923-0a68-4401-b615-08dea4edc6e6
-X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Apr 2026 06:17:08.4023
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Apr 2026 07:00:21.5201
  (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 1WONc7heP/6+7Vs2zewkIOFlq4cKR8oGlJ8gTVODSy+BNFa2gtyh7w2zLNjH053q6EyouYSVvzy3IHLFQbNwYfpgMWJxFNkZToIf+vPAJ4M=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYWPR01MB8605
-X-Rspamd-Queue-Id: 2A8FE47DFA7
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 7a57bee8-f73d-4c5f-a4f7-d72c91c8c111
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: rPybDxYnQir36fMknjPM1jsvXrf5lZZPwRLdarLSbo+T2+173tOyX43ljZJhlQWszUEahyIEJrjJHOweTZl6OQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY7P286MB5403
+X-Rspamd-Queue-Id: 03E9347E5FF
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.16 / 15.00];
+X-Spamd-Result: default: False [1.84 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_REJECT(1.00)[cv is fail on i=2];
-	DMARC_POLICY_ALLOW(-0.50)[renesas.com,none];
-	R_DKIM_ALLOW(-0.20)[bp.renesas.com:s=selector1];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[valinux.co.jp,none];
+	R_DKIM_ALLOW(-0.20)[valinux.co.jp:s=selector1];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-31688-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-31689-lists,linux-renesas-soc=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	TO_DN_SOME(0.00)[];
-	DKIM_TRACE(0.00)[bp.renesas.com:+];
-	MISSING_XM_UA(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[13];
+	FREEMAIL_CC(0.00)[vger.kernel.org,kernel.org,google.com,glider.be,gmail.com,renesas.com];
+	DKIM_TRACE(0.00)[valinux.co.jp:+];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[biju.das.jz@bp.renesas.com,linux-renesas-soc@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[den@valinux.co.jp,linux-renesas-soc@vger.kernel.org];
+	TO_DN_SOME(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-renesas-soc];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,renesas.com:email,bp.renesas.com:dkim]
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mailbox.org:email,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,glider.be:email,renesas.com:email,valinux.co.jp:dkim,valinux.co.jp:email]
 
-Hi Ovidiu,
-
-Thanks for the patch
-
-> -----Original Message-----
-> From: Ovidiu Panait <ovidiu.panait.rb@renesas.com>
-> Sent: 27 April 2026 20:48
-> Subject: [PATCH] phy: renesas: phy-rzg3e-usb3: Fix runtime PM underflow d=
-uring suspend
->=20
-> On the Renesas RZ/V2H platform, if the xhcd driver is unbound and the sys=
-tem is suspended afterwards, a
-> PM underflow error will occur:
->=20
->  # echo 15850000.usb > /sys/bus/platform/drivers/xhci-renesas-hcd/unbind
->  # systemctl suspend
->  15870000.usb-phy: PM: dpm_run_callback(): genpd_resume_noirq returns -13
->  15870000.usb-phy: PM: failed to resume noirq: error -13
->  15870000.usb-phy: Runtime PM usage count underflow!
->=20
-> Since the PHY framework is managing the runtime PM of the PHY via phy_pow=
-er_on()/phy_power_off(), there
-> is no need for the PHY driver to manipulate the runtime PM state during s=
-uspend.
->=20
-> To fix this, remove the runtime PM calls from the suspend/resume paths an=
-d add a get/put pair inside
-> rzg3e_phy_usb3_init_helper() to make sure the clock is enabled during ini=
-t, even when there is no
-> consumer for the PHY.
->=20
-> Also, change the suspend ops from NOIRQ_SYSTEM_SLEEP_PM_OPS to SYSTEM_SLE=
-EP_PM_OPS because runtime PM
-> is disabled during the noirq phase and pm_runtime_resume_and_get() would =
-not actually enable the device
-> clock.
->=20
-> Fixes: ee5f1a3f90a4 ("phy: renesas: Add Renesas RZ/G3E USB3.0 PHY driver"=
-)
-> Signed-off-by: Ovidiu Panait <ovidiu.panait.rb@renesas.com>
+On Sun, Apr 26, 2026 at 01:38:28AM +0200, Marek Vasut wrote:
+> R-Car Gen4 PCIe controller has a hardware limitation of 256 Bytes
+> maximum payload size. The PCIe DMA generates requests of size up
+> to minimum(Max_Read_Request_Size, Max_Payload_Size). Force limit
+> both Max_Read_Request_Size and Max_Payload_Size to 256 Bytes and
+> propagate this limit to all downstream devices.
+> 
+> This limitation can be triggered for example by using an NVMe SSD
+> which does not use host memory buffer, Samsung 980 PRO is such an
+> SSD. Affected SSD reports 'hmpre' field as 0:
+> "
+> $ nvme id-ctrl /dev/nvme0 | grep hmpre
+> hmpre     : 0
+> "
+> 
+> The symptom is a read from the SSD which wraps around at 256 Byte
+> boundary. The test for this symptom can be implemented by writing
+> 512 Byte of random data into the SSD and reading the data back. If
+> the read back data repeat after 256 Bytes, the device is affected.
+> "
+> $ dd if=/dev/urandom of=/tmp/data.bin bs=256 count=2 \
+>   dd if=/tmp/data.bin of=/dev/nvme0n1 bs=256 count=2 \
+>   dd if=/dev/nvme0n1 bs=256 count=2 of=/tmp/readback.bin
+> "
+> 
+> Expected data:
+> "
+> $ hexdump -vC /tmp/data.bin
+> 00000000  97 81 b7 3b 0e 38 2b 4d  a7 d3 e0 47 ff c2 4b ca
+> 00000010  c1 85 98 f0 4a ac 03 a0  3b ab f3 19 44 dd 06 8b
+> ...
+> 00000100  7a ce 3c b2 e1 d5 d9 11  88 63 10 59 76 3c dc 32 <-- random
+> 00000110  72 32 2a 7d a3 e1 aa 13  7c da 58 a1 7b 21 11 50 <-- data
+> "
+> 
+> Faulty readback, collected without this change in place:
+> "
+> $ hexdump -vC /tmp/readback.bin
+> 00000000  97 81 b7 3b 0e 38 2b 4d  a7 d3 e0 47 ff c2 4b ca <---.
+> 00000010  c1 85 98 f0 4a ac 03 a0  3b ab f3 19 44 dd 06 8b <-. |
+> ...                                                          | |
+> 00000100  97 81 b7 3b 0e 38 2b 4d  a7 d3 e0 47 ff c2 4b ca <-:-+- repeated
+> 00000110  c1 85 98 f0 4a ac 03 a0  3b ab f3 19 44 dd 06 8b <-+--- data
+>      ^^^
+>       |
+>       '--- Repeat starts at offset 0x100 = 256 Bytes
+> "
+> 
+> Fixes: 0d0c551011df ("PCI: rcar-gen4: Add R-Car Gen4 PCIe controller support for host mode")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
 > ---
->  drivers/phy/renesas/phy-rzg3e-usb3.c | 31 ++++++++++++++++------------
->  1 file changed, 18 insertions(+), 13 deletions(-)
->=20
-> diff --git a/drivers/phy/renesas/phy-rzg3e-usb3.c b/drivers/phy/renesas/p=
-hy-rzg3e-usb3.c
-> index 6b3453ea0004..055775e1a0f7 100644
-> --- a/drivers/phy/renesas/phy-rzg3e-usb3.c
-> +++ b/drivers/phy/renesas/phy-rzg3e-usb3.c
-> @@ -64,6 +64,7 @@
->  #define USB3_TEST_LANECONFIG0_DEFAULT		(0xd)
->=20
->  struct rz_usb3 {
-> +	struct device *dev;
-
-Do you need dev as struct phy has dev member [1]?
-
-[1]
-https://elixir.bootlin.com/linux/v6.0-rc4/source/include/linux/phy/phy.h#L1=
-53
-
->  	void __iomem *base;
->  	struct reset_control *rstc;
->  	bool skip_reinit;
-> @@ -130,11 +131,21 @@ static int rzg3e_phy_usb3test_phy_init(void __iomem=
- *base)
->  	return 0;
->  }
->=20
-> -static int rzg3e_phy_usb3_init_helper(void __iomem *base)
-
-you can add one more function parameter dev here.
-
-static int rzg3e_phy_usb3_init_helper(struct device *dev, void __iomem *bas=
-e)
-
-> +static int rzg3e_phy_usb3_init_helper(struct rz_usb3 *r)
+> Cc: "Krzysztof Wilczyński" <kwilczynski@kernel.org>
+> Cc: Bjorn Helgaas <bhelgaas@google.com>
+> Cc: Geert Uytterhoeven <geert+renesas@glider.be>
+> Cc: Koichiro Den <den@valinux.co.jp>
+> Cc: Lorenzo Pieralisi <lpieralisi@kernel.org>
+> Cc: Magnus Damm <magnus.damm@gmail.com>
+> Cc: Manivannan Sadhasivam <mani@kernel.org>
+> Cc: Rob Herring <robh@kernel.org>
+> Cc: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+> Cc: linux-kernel@vger.kernel.org
+> Cc: linux-pci@vger.kernel.org
+> Cc: linux-renesas-soc@vger.kernel.org
+> ---
+>  drivers/pci/controller/dwc/pcie-rcar-gen4.c | 56 +++++++++++++++++++++
+>  1 file changed, 56 insertions(+)
+> 
+> diff --git a/drivers/pci/controller/dwc/pcie-rcar-gen4.c b/drivers/pci/controller/dwc/pcie-rcar-gen4.c
+> index 8b03c42f8c84c..82f0a074a71da 100644
+> --- a/drivers/pci/controller/dwc/pcie-rcar-gen4.c
+> +++ b/drivers/pci/controller/dwc/pcie-rcar-gen4.c
+> @@ -576,6 +576,7 @@ static int r8a779f0_pcie_ltssm_control(struct rcar_gen4_pcie *rcar, bool enable)
+>  static void rcar_gen4_pcie_additional_common_init(struct rcar_gen4_pcie *rcar)
 >  {
-> -	rzg3e_phy_usb2test_phy_init(base);
-> +	int ret;
+>  	struct dw_pcie *dw = &rcar->dw;
+> +	u16 offset = dw_pcie_find_capability(dw, PCI_CAP_ID_EXP);
+>  	u32 val;
+>  
+>  	val = dw_pcie_readl_dbi(dw, PCIE_PORT_LANE_SKEW);
+> @@ -584,11 +585,66 @@ static void rcar_gen4_pcie_additional_common_init(struct rcar_gen4_pcie *rcar)
+>  		val |= BIT(6);
+>  	dw_pcie_writel_dbi(dw, PCIE_PORT_LANE_SKEW, val);
+>  
+> +	val = dw_pcie_readl_dbi(dw, offset + PCI_EXP_DEVCTL);
+> +	val &= ~(PCI_EXP_DEVCTL_PAYLOAD | PCI_EXP_DEVCTL_READRQ);
+> +	val |= PCI_EXP_DEVCTL_PAYLOAD_256B | PCI_EXP_DEVCTL_READRQ_256B;
+> +	dw_pcie_writel_dbi(dw, offset + PCI_EXP_DEVCTL, val);
 > +
-> +	ret =3D pm_runtime_resume_and_get(r->dev);
-> +	if (ret)
-> +		return ret;
-> +
-> +	rzg3e_phy_usb2test_phy_init(r->base);
->=20
-> -	return rzg3e_phy_usb3test_phy_init(base);
-> +	ret =3D rzg3e_phy_usb3test_phy_init(r->base);
-> +
-> +	pm_runtime_put_sync(r->dev);
-> +
-> +	return ret;
+>  	val = readl(rcar->base + PCIEPWRMNGCTRL);
+>  	val |= APP_CLK_REQ_N | APP_CLK_PM_EN;
+>  	writel(val, rcar->base + PCIEPWRMNGCTRL);
 >  }
->=20
->  static int rzg3e_phy_usb3_init(struct phy *p) @@ -143,7 +154,7 @@ static=
- int
-> rzg3e_phy_usb3_init(struct phy *p)
->  	int ret =3D 0;
->=20
->  	if (!r->skip_reinit)
-> -		ret =3D rzg3e_phy_usb3_init_helper(r->base);
-> +		ret =3D rzg3e_phy_usb3_init_helper(r);
 
-ret =3D rzg3e_phy_usb3_init_helper(&p->dev, r->base);
+Hello Marek,
 
->=20
->  	return ret;
->  }
-> @@ -187,6 +198,7 @@ static int rzg3e_phy_usb3_probe(struct platform_devic=
-e *pdev)
->=20
->  	platform_set_drvdata(pdev, r);
+The patch makes sense to me. Let me ask two questions:
 
->  	phy_set_drvdata(phy, r);
-> +	r->dev =3D dev;
+1. Could r8a779f0 (R-Car S4-8) be handled as well, perhaps by adding a separate
+   .additional_common_init() implementation for it?
 
-Drop this.
+   As far as I can see, the r8a779f0 match data currently does not use
+   rcar_gen4_pcie_additional_common_init().
 
->=20
->  	provider =3D devm_of_phy_provider_register(dev, of_phy_simple_xlate);
->  	if (IS_ERR(provider))
-> @@ -199,7 +211,6 @@ static int rzg3e_phy_usb3_suspend(struct device *dev)=
-  {
->  	struct rz_usb3 *r =3D dev_get_drvdata(dev);
->=20
-> -	pm_runtime_put(dev);
->  	reset_control_assert(r->rstc);
->  	r->skip_reinit =3D false;
->=20
-> @@ -215,27 +226,21 @@ static int rzg3e_phy_usb3_resume(struct device *dev=
-)
->  	if (ret)
->  		return ret;
->=20
-> -	ret =3D pm_runtime_resume_and_get(dev);
-> +	ret =3D rzg3e_phy_usb3_init_helper(r);
+2. Did you also happen to test V4H/V4M in endpoint (EP) mode, with the local
+   eDMA engine issuing MRd requests toward host memory? Your commit message
+   describes an NVMe device as the requester, but I'm wondering whether the same
+   256B limit was also verified for the R-Car EP DMA requester path.
 
-	ret =3D rzg3e_phy_usb3_init_helper(dev, r->base);
 
-With the above addressed,
 
-Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
+(*) The background for my question 2:
 
-Cheers,
-Biju
+   I only have access to S4 Spider boards. In my RC <-> EP setup, where the EP
+   side uses the local eDMA engine to issue MRd requests toward the RC, 256-byte
+   MRd requests still appear to corrupt the transferred data. With the following
+   change on top of your patch, my DMA-read tests become stable:
 
->  	if (ret)
->  		goto reset_assert;
->=20
-> -	ret =3D rzg3e_phy_usb3_init_helper(r->base);
-> -	if (ret)
-> -		goto pm_put;
-> -
->  	r->skip_reinit =3D true;
->=20
->  	return 0;
->=20
-> -pm_put:
-> -	pm_runtime_put(dev);
->  reset_assert:
->  	reset_control_assert(r->rstc);
->  	return ret;
->  }
->=20
->  static const struct dev_pm_ops rzg3e_phy_usb3_pm =3D {
-> -	NOIRQ_SYSTEM_SLEEP_PM_OPS(rzg3e_phy_usb3_suspend, rzg3e_phy_usb3_resume=
-)
-> +	SYSTEM_SLEEP_PM_OPS(rzg3e_phy_usb3_suspend, rzg3e_phy_usb3_resume)
->  };
->=20
->  static const struct of_device_id rzg3e_phy_usb3_match_table[] =3D {
-> --
-> 2.34.1
+   ---8<-----8<---
 
+   diff --git a/drivers/pci/controller/dwc/pcie-rcar-gen4.c b/drivers/pci/controller/dwc/pcie-rcar-gen4.c
+   index 82f0a074a71d..6910b9cd9d7b 100644
+   --- a/drivers/pci/controller/dwc/pcie-rcar-gen4.c
+   +++ b/drivers/pci/controller/dwc/pcie-rcar-gen4.c
+   @@ -595,6 +595,18 @@ static void rcar_gen4_pcie_additional_common_init(struct rcar_gen4_pcie *rcar)
+           writel(val, rcar->base + PCIEPWRMNGCTRL);
+    }
+   
+   +static void r8a779f0_additional_common_init(struct rcar_gen4_pcie *rcar)
+   +{
+   +       struct dw_pcie *dw = &rcar->dw;
+   +       u16 offset = dw_pcie_find_capability(dw, PCI_CAP_ID_EXP);
+   +       u32 val;
+   +
+   +       val = dw_pcie_readl_dbi(dw, offset + PCI_EXP_DEVCTL);
+   +       val &= ~(PCI_EXP_DEVCTL_PAYLOAD | PCI_EXP_DEVCTL_READRQ);
+   +       val |= PCI_EXP_DEVCTL_PAYLOAD_128B | PCI_EXP_DEVCTL_READRQ_128B;
+   +       dw_pcie_writel_dbi(dw, offset + PCI_EXP_DEVCTL, val);
+   +}
+   +
+    static void rcar_gen4_rc_pcie_quirk(struct pci_dev *dev)
+    {
+           static const struct pci_device_id rcar_gen4_pcie_rc_devid = {
+   @@ -796,11 +808,13 @@ static int rcar_gen4_pcie_ltssm_control(struct rcar_gen4_pcie *rcar, bool enable
+    }
+   
+    static struct rcar_gen4_pcie_drvdata drvdata_r8a779f0_pcie = {
+   +       .additional_common_init = r8a779f0_additional_common_init,
+           .ltssm_control = r8a779f0_pcie_ltssm_control,
+           .mode = DW_PCIE_RC_TYPE,
+    };
+   
+    static struct rcar_gen4_pcie_drvdata drvdata_r8a779f0_pcie_ep = {
+   +       .additional_common_init = r8a779f0_additional_common_init,
+           .ltssm_control = r8a779f0_pcie_ltssm_control,
+           .mode = DW_PCIE_EP_TYPE,
+    };
+
+   ---8<-----8<---
+
+   One detail which might be important is that limiting only MPS does not appear
+   to be sufficient in my setup. MPS=128B with MRRS=256B still seems broken,
+   while MPS=128B with MRRS=128B works fine. I wonder whether this is because
+   the "MPS" term in the min(MRRS, MPS) limit for DMA read transfers may
+   effectively be tied to the DMA read buffer segment size / MPSS rather than
+   only to DevCtl.MPS. I'm not sure about this yet though.
+
+   One more thing I noticed in the manuals:
+
+     R-Car S4 R19UH0161EJ0130 Rev.1.30 Jun. 16, 2025:
+       Type00 MPSS initial = 256B, PCI R, Internal R/W
+       Type01 MPSS initial = 128B, PCI R, Internal R
+
+     R-Car V4H R19UH0186EJ0130 Rev.1.30 Apr. 21, 2025
+       Type00 MPSS initial = 256B, PCI R, Internal R
+       Type01 MPSS initial = 128B, PCI R, Internal R/W
+
+   I'm still unsure, but this difference might be relevant. In particular, in
+   V4H/V4M RC mode your patch programs DevCtl.MPS to 256B, but does not change
+   Type01 MPSS. I wonder if the Type01 MPSS should also be updated to 256B first
+   on SoCs where the manual says it is writable from the internal bus, or if I'm
+   missing something here.
+
+
+
+Best regards,
+Koichiro
+
+>  
+> +static void rcar_gen4_rc_pcie_quirk(struct pci_dev *dev)
+> +{
+> +	static const struct pci_device_id rcar_gen4_pcie_rc_devid = {
+> +		PCI_DEVICE(PCI_VENDOR_ID_RENESAS, 0x0030),
+> +		.class = PCI_CLASS_BRIDGE_PCI_NORMAL, .class_mask = ~0
+> +	};
+> +	struct pci_bus *bus = dev->bus;
+> +	struct pci_dev *bridge;
+> +
+> +	if (pci_is_root_bus(bus))
+> +		bridge = dev;
+> +
+> +	/* Look for the host bridge */
+> +	while (!pci_is_root_bus(bus)) {
+> +		bridge = bus->self;
+> +		bus = bus->parent;
+> +	}
+> +
+> +	if (!bridge)
+> +		return;
+> +
+> +	if (!pci_match_one_device(&rcar_gen4_pcie_rc_devid, bridge))
+> +		return;
+> +
+> +	/*
+> +	 * R-Car Gen4 PCIe controller has a hardware limitation of 256 Bytes
+> +	 * maximum payload size. The PCIe DMA generates requests of size up
+> +	 * to minimum(Max_Read_Request_Size, Max_Payload_Size). Force limit
+> +	 * both Max_Read_Request_Size and Max_Payload_Size to 256 Bytes and
+> +	 * propagate this limit to all downstream devices.
+> +	 *
+> +	 * For details, refer to:
+> +	 * R-Car S4 R19UH0161EJ0130 Rev.1.30 Jun. 16, 2025 or
+> +	 * R-Car V4H R19UH0186EJ0130 Rev.1.30 Apr. 21, 2025 or
+> +	 * R-Car V4M R19UH0217EJ0100 Rev.1.00 Dec. 12, 2025,
+> +	 * chapters 104.1.1 Features and 104.3.9 DMA Transfer
+> +	 * section DMA Read Transfer.
+> +	 */
+> +	if (pcie_get_readrq(dev) > 256) {
+> +		dev_info(&dev->dev, "Limiting MRRS to 256 bytes\n");
+> +		pcie_set_readrq(dev, 256);
+> +	}
+> +
+> +	if (pcie_get_mps(dev) > 256) {
+> +		dev_info(&dev->dev, "Limiting MPS to 256 bytes\n");
+> +		pcie_set_mps(dev, 256);
+> +	}
+> +}
+> +DECLARE_PCI_FIXUP_ENABLE(PCI_ANY_ID, PCI_ANY_ID, rcar_gen4_rc_pcie_quirk);
+> +
+>  static void rcar_gen4_pcie_phy_reg_update_bits(struct rcar_gen4_pcie *rcar,
+>  					       u32 offset, u32 mask, u32 val)
+>  {
+> -- 
+> 2.53.0
+> 
 
