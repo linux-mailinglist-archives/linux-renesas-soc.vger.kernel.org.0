@@ -1,245 +1,227 @@
-Return-Path: <linux-renesas-soc+bounces-31756-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-31757-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id AHRVO7v28WmElwEAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-31756-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Apr 2026 14:16:59 +0200
+	id SE3sLRoP8mkwngEAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-31757-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Apr 2026 16:00:58 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2289493F6F
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Apr 2026 14:16:58 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 566E8495441
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Apr 2026 16:00:48 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id C92983003BE2
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Apr 2026 12:16:55 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 5A77D30C8C62
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Apr 2026 13:55:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 423D37404E;
-	Wed, 29 Apr 2026 12:16:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3535737A4BA;
+	Wed, 29 Apr 2026 13:55:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="aaye5le9";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="aIpiukdD"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A41DF34EF0F
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 29 Apr 2026 12:16:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F6AC318ED7
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 29 Apr 2026 13:55:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777465013; cv=none; b=V7AIvqKbEQox/h1ZFV3HC0emPZGoaTTWJOFB7ypO6+L4scRuz4LIIJ4UZpNFSU1a1d/hmOH1J0CW92910pX91Drfc75UklFyxuGaJsP3y+tPKQy0ALGhDY/Gmu6GxKnSejL9cEhkO5reN3ssEGXbhXk0z192aMnBKucW9PfvbyQ=
+	t=1777470949; cv=none; b=WXFEMNTWXvpBmZSSrJcN4AHRTEp+2YXYRreddOnad151TKcXq83KNBevb20bHx9Yn/JJK2NuAkLTfJ8OOkCRRd0aky0K6KCstRoB3qN1uOoSeMrQNkcXxsLRDzKWtoMnWG71aUYKGPmLFDujkjZcTm1ZW6vZcldxCp+rg7+Pm8o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777465013; c=relaxed/simple;
-	bh=KOGV9jLH5RXBywSOyxQCqGJvaYR1+Y2TL0szPQtLy74=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=payG6mSP5FR6yp4oXnlPbwB3LU7C4snB4LYeWds3VpcTmyxLpP0iEt1CALMvumE4ihM4hbiDA2vUcpmzJcBUnPngZUpeKtXZi0elj2PQ2jRnmsz2Q7QJ+wzfFhO74TcFGFPhiBzEz7KSMwbIOAd5+yPdDYOaFvPYGql/3XbbE4g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.218.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-b941762394aso1723987266b.1
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 29 Apr 2026 05:16:51 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777465010; x=1778069810;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+	s=arc-20240116; t=1777470949; c=relaxed/simple;
+	bh=buDqtxL5iiA+P59BL7gOogsMTPfTAbw/6u3MZ3bRXX0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=iojNo2ZKiLFJqEm1nFUvDW7mIEbatYrOZ9Eg0mrwqCtJMIsqOwunL1yDcqQSsZynZMqF57hsyjqFFxdcl08Bbw8HM03NzfUdsI8BaQCCLCRSBlqApau/8JzlJYXR2qJQqqFHjs8GlsU2cGZIEJa4dPDn/H9kmiHHnm3ctfIUazU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=aaye5le9; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=aIpiukdD; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1777470945;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=E4gmtst5bATy4vi+nqQOmDuupzzNRv5w7Vbola4ydK4=;
+	b=aaye5le9VF60v6sPq4CiCo/9qzuijopOb5flH3s2LuBRfAMvPzMGoAoqOxQUO0Mah2s6I7
+	xZwl9Rt/ndjWlsIfBeDqIBI5tNcIpm5MaQnpq6TY6iuFhvQPjgIjN4ZmdwPGdTCf/gn/hW
+	6NQxs60dSSYqLLlGdFhQxLqCDm4jyOA=
+Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
+ [209.85.219.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-161-TjkA0aQOMFGZOLyFILfJBw-1; Wed, 29 Apr 2026 09:55:44 -0400
+X-MC-Unique: TjkA0aQOMFGZOLyFILfJBw-1
+X-Mimecast-MFC-AGG-ID: TjkA0aQOMFGZOLyFILfJBw_1777470943
+Received: by mail-qv1-f72.google.com with SMTP id 6a1803df08f44-8a275472d89so199209666d6.1
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 29 Apr 2026 06:55:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=redhat.com; s=google; t=1777470943; x=1778075743; darn=vger.kernel.org;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=DYIYCIsBtJDK4jXwWO2JUdTXoGJvuUmgU1KwSHdoXoc=;
-        b=FmCGYMOBt5Uu4yL2rnMWapcWsHfghrD9qmBe5IeAMbsaB69PmAJhcNxB2palZIKWV+
-         7xDHmGJk8nNEsGuOF2JUDNB7wvMN+c9kO5Ie9hfXQrWSMrnk6Wc6GfQneyX20A+RM9uY
-         pqgETq2aGN5x3kqFi/sHtpRR1ZHOT6sbDn9WV5Q4sVH3UuNsqRXAnxZJSYUdpIii0yJh
-         w5YtlGcrbnHmdtJPHKGBABpgNr979cbdy9ZvYHRbo/3m8tKfzhWnVAFkC2l6F/edP7vY
-         ZY/SPFr3nwnvj0vI4MgUhk2lkN3VQtGM535pOMDJ16XKnYm3xeXvT8Nf2oUQfCR9gDu6
-         M6aw==
-X-Forwarded-Encrypted: i=1; AFNElJ88GkVUhIk7eurlMcbwuKHgqCNZ4fAgR9X3gu5eDRwgRoKsB4Rhqmv1vmk9VECIwaYmTVgJF0q3YdVQiOighaSQfQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxJQMxue3n3uXTGamjs0Izzm8I9PsUu/tPm4245c84zZ4pPpVmW
-	kU9dzGGbReGE2ZBHhjQ3DL1wf5chvzqblgLyCf3nfJlVywq9ScVXEwjvOhsVvVJjl0U=
-X-Gm-Gg: AeBDiesik4fbaeHlZUo5pMZVeIjKYeL7lcCHZ+4iXJpJEVHHPRSnLFQWgTBPe+fZCI1
-	rCnE8QTKcSyAh2l3YMC29LvCc61gkAbzZtLgcbyyd6Kx//u1Q16BPK/IMxDL7+lauoA1gABr12k
-	MjA3hYnzWt65BUtjBXOoLpuYYS46MpJC7uSHvIRU7T+ucDEfBpCMNmRSWTpMarUSdpuGMecm7B1
-	2HibWUyjmK3p/NdvlWb+/V6BSpYGY1fNd0XWjRKyDHxmW64raJrFB+/2KwA2uk7/eepkFjVZH5Y
-	+RMSvqTnAkTHjk/Pq2ivxXw1o9QwNy/n4e8h6Sa16ltgtKd+1fIgv+/Xy+6lNWkyMCf0fKFo4/7
-	vLLg2XF/OyGDb7D1Z6gQPlkxHtN6n/CUMkLe8SGGSEFaXxtOG5aLQr9brtJaxr11XC6ELDproZ/
-	gyBGy/rQjK03SBQgXS+tQvxhAFQm7WnSNZEsoW9t1CfksAULpdTQI3JTbEYklqlEVoQUOGgC0=
-X-Received: by 2002:a17:907:8714:b0:bae:8734:18b4 with SMTP id a640c23a62f3a-bb8023bc02dmr328224566b.16.1777465009691;
-        Wed, 29 Apr 2026 05:16:49 -0700 (PDT)
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com. [209.85.208.53])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-bb9859381fcsm85966966b.45.2026.04.29.05.16.47
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 29 Apr 2026 05:16:48 -0700 (PDT)
-Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-672c12e95e9so17484259a12.2
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 29 Apr 2026 05:16:47 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ9JAXTGZBibV3KayFVNRiu2DbkGo0KUGkUGgxH4zNF73p9p7rKYuwRwI+frIqzQQY5y4R6YcLLxDqrVYmElXCmtkg==@vger.kernel.org
-X-Received: by 2002:a05:6402:2b8d:b0:676:9c6d:7448 with SMTP id
- 4fb4d7f45d1cf-679bb0969d8mr3789280a12.22.1777465006980; Wed, 29 Apr 2026
- 05:16:46 -0700 (PDT)
+        bh=E4gmtst5bATy4vi+nqQOmDuupzzNRv5w7Vbola4ydK4=;
+        b=aIpiukdDtwMfeu5U8x7pAWQk1igCGTDDEl1VOIRCChHAvLkCYOLBCQMfizk5Wc6fa1
+         GOG7IQiJq7VDTj0HSc8ckVqTRf1S3/KpuB0/d32uzyX0YHIZtw7RBZqAx+ZKrN4UVTfo
+         Wk1sSJ6utW7+ydSYNVH+UhTbbxJlUjVTI7IZn1ILhR0IfiXHZB5FK1FPmbY826fn3LT0
+         VwS6vJoA4sAMMTPJlEBvIFwXLFoDtJDwsQN34h9RA3ZoKjoIjywy/A2laQ+5cpldXa7L
+         yxl2MXhjHWhVfwRurbF3kN1ap7u0rixf/xvcabi7NTBsFk9RW779MIc6azHgnNL/kLMM
+         gDcQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777470943; x=1778075743;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=E4gmtst5bATy4vi+nqQOmDuupzzNRv5w7Vbola4ydK4=;
+        b=VPbirn+XbBD7q1+9VoV+T5pqhevKxqTwlaW18bGP4ce+q7Nb5emxLUlj88DbK20/dX
+         +rjv2gIyz46CWPfMfdQa11QPLcE5naLC1ZvAIP5x/25OOVZMrUrz4p5urpnuyOVAnwYV
+         cbSr75w0rs9pjoPtKqCETHTisazyAYJSUVlSokvRrjTy65hwnB6AdOYIn1+avvknOn22
+         kYaPtLX0Q23/D8UHZ0UXUZJ9Ftn5yPRQkicB9RWNNmosbmLOMEA1QFyR/BR+chafhqp/
+         scGUFG8W6zZdWVvNeZMm+1f3xTYM3T/2/GyBYOWFhWHcMzbY1KVhR82X8qeRlVJCUFTa
+         t4bA==
+X-Forwarded-Encrypted: i=1; AFNElJ8JySZqMvFfwvHN9TY5GODd1ZNrjqBQgiiQoNXsF9RpJPtyBs2iGawnF5VC5g0p78y9QoywvpkP0OqLNKqIau3ANQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx5VVzwoDtPXX7abhiIv+AnjFgoAdp+lpxJHiEQnIrYBhtFbhCR
+	9v7oawvchK6b/JP4+eqS+5lzePrA50TmihYwMW92rxxWxlDj+rpyOOkDGmPydzN1g/HA1knAzGw
+	gIhMIEF+yIGzN49R7dG6cs8weWjlfLn+1QCgxHb5SUk+p++MSy146szXT8/788ERy4P6Fc58Y
+X-Gm-Gg: AeBDiesmutNX/GXywCCfq9zfjVaK6eNeCmq4PFfYh/sH41Rda2lMNXfxhRTRNzRfGd0
+	77+oJfp5VdnEIT1pTrUZWYAEa6CSRgV2Kj0DfYIBB7JhDLAzaWlYO6hksFEhiOgODe5D7lDNIdw
+	FL9nwlsJXK2L9cjYfjmQ4fFOK071GyYxDqYSlwsXSktK6L376YbqL8USOPcKSGjb6xdxBU/oxtQ
+	vJNWYCOR0shue3mCJm6/EvG5WnukqLH9nY1WVOs1dHAoZtu1hQz7N9foVOtgba9YfoXjJR7zNzd
+	Yq+dez2BZJUBGS47Tsn2W0SL/rmPqmGKoB56ytgFLSC6fJAkelwtsSdRSTW+pHmIRVzvTqLyF9u
+	hmx3jXxw7gT6ygjl/fLXh9r+s8a08QXozcz15RMu5gk+mHKBfKO/xW1LhGCbX6fhfpfM=
+X-Received: by 2002:a05:6214:600e:b0:8ac:aeb0:2eb4 with SMTP id 6a1803df08f44-8b3ede04448mr57443896d6.45.1777470943517;
+        Wed, 29 Apr 2026 06:55:43 -0700 (PDT)
+X-Received: by 2002:a05:6214:600e:b0:8ac:aeb0:2eb4 with SMTP id 6a1803df08f44-8b3ede04448mr57443326d6.45.1777470943011;
+        Wed, 29 Apr 2026 06:55:43 -0700 (PDT)
+Received: from redhat.com (c-73-183-52-120.hsd1.pa.comcast.net. [73.183.52.120])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8b3ef86e2f1sm21005096d6.48.2026.04.29.06.55.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 29 Apr 2026 06:55:42 -0700 (PDT)
+Date: Wed, 29 Apr 2026 09:55:39 -0400
+From: Brian Masney <bmasney@redhat.com>
+To: Stephen Boyd <sboyd@kernel.org>
+Cc: Michael Turquette <mturquette@baylibre.com>, linux-clk@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Sudeep Holla <sudeep.holla@kernel.org>,
+	Abel Vesa <abelvesa@kernel.org>,
+	Andrea della Porta <andrea.porta@suse.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Chanwoo Choi <cw00.choi@samsung.com>, Frank Li <Frank.Li@nxp.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Orson Zhai <orsonzhai@gmail.com>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Sylwester Nawrocki <s.nawrocki@samsung.com>,
+	Tudor Ambarus <tudor.ambarus@linaro.org>,
+	Alim Akhtar <alim.akhtar@samsung.com>, arm-scmi@vger.kernel.org,
+	Chunyan Zhang <zhang.lyra@gmail.com>,
+	Cristian Marussi <cristian.marussi@arm.com>,
+	Fabio Estevam <festevam@gmail.com>, imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-samsung-soc@vger.kernel.org, Peng Fan <peng.fan@nxp.com>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>
+Subject: Re: [PATCH v2 01/12] clk: add new flag CLK_ROUNDING_NOOP
+Message-ID: <afIN2y_PCGofGAKD@redhat.com>
+References: <20260309-clk-det-rate-fw-managed-v2-0-c48ef5a3100a@redhat.com>
+ <20260309-clk-det-rate-fw-managed-v2-1-c48ef5a3100a@redhat.com>
+ <177742893645.5403.3938693995862346406@localhost.localdomain>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260419193718.133174-1-marek.vasut+renesas@mailbox.org> <20260419193718.133174-7-marek.vasut+renesas@mailbox.org>
-In-Reply-To: <20260419193718.133174-7-marek.vasut+renesas@mailbox.org>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 29 Apr 2026 14:16:33 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdV5NRFjGmLLSAFkst=y_v=haZ9_-oiZ7_3M2J1s5jiJSQ@mail.gmail.com>
-X-Gm-Features: AVHnY4J_eIQauePt3-ENfJ0vvJTMmNJqoEy-L_5paGzJVO5LgQ5rAyTsYv0XxdM
-Message-ID: <CAMuHMdV5NRFjGmLLSAFkst=y_v=haZ9_-oiZ7_3M2J1s5jiJSQ@mail.gmail.com>
-Subject: Re: [PATCH 6/7] arm64: dts: renesas: r8a779md: Add Renesas R-Car
- R8A779MD M3Le DTs
-To: Marek Vasut <marek.vasut+renesas@mailbox.org>
-Cc: linux-arm-kernel@lists.infradead.org, 
-	Nguyen Tran <nguyen.tran.pz@bp.renesas.com>, Conor Dooley <conor+dt@kernel.org>, 
-	David Airlie <airlied@gmail.com>, 
-	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
-	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
-	Magnus Damm <magnus.damm@gmail.com>, Maxime Ripard <mripard@kernel.org>, 
-	Michael Turquette <mturquette@baylibre.com>, Rob Herring <robh@kernel.org>, 
-	Simona Vetter <simona@ffwll.ch>, Stephen Boyd <sboyd@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, 
-	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, devicetree@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linux-clk@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	Wolfram Sang <wsa+renesas@sang-engineering.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Rspamd-Queue-Id: E2289493F6F
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <177742893645.5403.3938693995862346406@localhost.localdomain>
+User-Agent: Mutt/2.3.1 (2026-03-20)
+X-Rspamd-Queue-Id: 566E8495441
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.04 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[redhat.com,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[redhat.com:s=mimecast20190719,redhat.com:s=google];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FROM_HAS_DN(0.00)[];
-	TAGGED_FROM(0.00)[bounces-31756-lists,linux-renesas-soc=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	DMARC_NA(0.00)[linux-m68k.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[lists.infradead.org,bp.renesas.com,kernel.org,gmail.com,ideasonboard.com,renesas.com,baylibre.com,ffwll.ch,suse.de,vger.kernel.org,lists.freedesktop.org,sang-engineering.com];
-	RCPT_COUNT_TWELVE(0.00)[23];
 	MIME_TRACE(0.00)[0:+];
+	URIBL_MULTI_FAIL(0.00)[sea.lore.kernel.org:server fail];
+	ASN_FAIL(0.00)[1.2.3.5.c.f.2.1.0.0.0.0.0.0.0.0.b.d.0.0.1.0.0.e.a.0.c.3.0.0.6.2.asn6.rspamd.com:query timed out];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-31757-lists,linux-renesas-soc=lfdr.de];
+	FREEMAIL_CC(0.00)[baylibre.com,vger.kernel.org,kernel.org,suse.com,linux.alibaba.com,samsung.com,nxp.com,glider.be,gmail.com,pengutronix.de,linaro.org,arm.com,lists.linux.dev,lists.infradead.org];
+	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
-	MISSING_XM_UA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[29];
 	RCVD_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[geert@linux-m68k.org,linux-renesas-soc@vger.kernel.org];
-	NEURAL_SPAM(0.00)[0.033];
-	R_DKIM_NA(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[bmasney@redhat.com,linux-renesas-soc@vger.kernel.org];
+	DKIM_TRACE(0.00)[redhat.com:+];
+	NEURAL_HAM(-0.00)[-0.999];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
+	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,dt];
-	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[0.0.0.1:email,renesas.com:email,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,mail.gmail.com:mid,mailbox.org:email]
+	TO_DN_SOME(0.00)[]
 
-Hi Marek,
+On Tue, Apr 28, 2026 at 07:15:36PM -0700, Stephen Boyd wrote:
+> Quoting Brian Masney (2026-03-09 07:38:40)
+> > diff --git a/drivers/clk/clk.c b/drivers/clk/clk.c
+> > index fd418dc988b1c60c49e3ac9c0c44aa132dd5da28..1187e5b1dbc123d2d2c1f43690d7dcf75a7c4ac3 100644
+> > --- a/drivers/clk/clk.c
+> > +++ b/drivers/clk/clk.c
+> > @@ -1673,7 +1690,7 @@ EXPORT_SYMBOL_GPL(clk_hw_forward_rate_request);
+> >  
+> >  static bool clk_core_can_round(struct clk_core * const core)
+> >  {
+> > -       return core->ops->determine_rate;
+> > +       return core->ops->determine_rate || clk_is_rounding_noop(core);
+> >  }
+> >  
+> >  static int clk_core_round_rate_nolock(struct clk_core *core,
+> > @@ -3528,6 +3545,7 @@ static const struct {
+> >         ENTRY(CLK_IS_CRITICAL),
+> >         ENTRY(CLK_OPS_PARENT_ENABLE),
+> >         ENTRY(CLK_DUTY_CYCLE_PARENT),
+> > +       ENTRY(CLK_ROUNDING_NOOP),
+> >  #undef ENTRY
+> >  };
+> >  
+> > @@ -3906,13 +3924,19 @@ static int __clk_core_init(struct clk_core *core)
+> >  
+> >         /* check that clk_ops are sane.  See Documentation/driver-api/clk.rst */
+> >         if (core->ops->set_rate && !core->ops->determine_rate &&
+> > -             core->ops->recalc_rate) {
+> > +             core->ops->recalc_rate && !clk_is_rounding_noop(core)) {
+> >                 pr_err("%s: %s must implement .determine_rate in addition to .recalc_rate\n",
+> >                        __func__, core->name);
+> >                 ret = -EINVAL;
+> >                 goto out;
+> >         }
+> >  
+> > +       if (clk_is_rounding_noop(core) && core->ops->determine_rate) {
+> > +               pr_err("%s: %s cannot implement both .determine_rate and CLK_ROUNDING_NOOP\n",
+> > +                      __func__, core->name);
+> > +               goto out;
+> > +       }
+> > +
+> 
+> This hunk has me irked. I'd rather we export some function like
+> clk_determine_rate_noop() that just returns 0 instead of adding another
+> flag. The chance that someone can get it wrong goes down and you can
+> naturally grep for any clks that are using determine_rate() without
+> having to also include this flag in the grep. It makes it easier to
+> reason about as well because we can have code that just checks for
+> determine_rate presence instead of both (i.e. clk_core_can_round() isn't
+> changed). Plus a clk_ops structure is more self-contained because it
+> doesn't rely on the clk flags to go with it.
 
-CC wsa
+I also like the clk_determine_rate_noop() approach much better as well.
+I'll send a new version.
 
-On Sun, 19 Apr 2026 at 21:38, Marek Vasut
-<marek.vasut+renesas@mailbox.org> wrote:
-> From: Nguyen Tran <nguyen.tran.pz@bp.renesas.com>
->
-> Add support for the Renesas R-Car M3Le (R8A779MD) SoC, a variant of the
-> R-Car M3-N (R8A77965) SoC. The Renesas M3Le SoC is a register-compatible
-> variant of the R8A77965 (M3-N) with reduced set of peripherals.
->
-> Signed-off-by: Nguyen Tran <nguyen.tran.pz@bp.renesas.com>
-> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+Thanks,
+Brian
 
-Thanks for your patch!
-
-> --- /dev/null
-> +++ b/arch/arm64/boot/dts/renesas/r8a779md.dtsi
-> @@ -0,0 +1,48 @@
-> +// SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +/*
-> + * Device Tree Source for the R-Car M3Le (R8A779MD) SoC
-> + *
-> + * Copyright (C) 2025-2026 Renesas Electronics Corp.
-> + */
-> +
-> +#include "r8a77965.dtsi"
-> +
-> +/ {
-> +       compatible = "renesas,r8a779md", "renesas,r8a77965";
-> +};
-> +
-> +/delete-node/ &csi20;
-> +/delete-node/ &drif00;
-> +/delete-node/ &drif01;
-> +/delete-node/ &drif10;
-> +/delete-node/ &drif11;
-> +/delete-node/ &drif20;
-> +/delete-node/ &drif21;
-> +/delete-node/ &drif30;
-> +/delete-node/ &drif31;
-> +/delete-node/ &hdmi0;
-> +/delete-node/ &mlp;
-> +/delete-node/ &pciec1;
-> +/delete-node/ &sata;
-> +/delete-node/ &sdhi3;
-
-I am not sure disabling sdhi3 is correct.
-The R-Car M3Le documentation says:
-
-   "M3Le does not support MMC1.
-    M3Le supports one MMC channel (MMC0) only.
-    SD3 is used only for SDHI and is not used for MMC.
-    M3Le does not support MMC HS400 class transfer rate."
-
-The main R-Car Gen3 documentation says:
-
-   "This LSI has four SD card interfaces (SDHI0 to SDHI3), two of
-    which can also be used as MMC interfaces (SDHI2 and SDHI3)."
-
-So while MMC1 is indeed sdhi3, sdhi3 can still be used in SD mode?
-Do we need a new compatible value, as R-Car M3Le does not support HS400?
-
-> +/delete-node/ &usb3_peri0;
-> +/delete-node/ &usb3_phy0;
-> +/delete-node/ &vin0csi20;
-> +/delete-node/ &vin1csi20;
-> +/delete-node/ &vin2csi20;
-> +/delete-node/ &vin3csi20;
-> +/delete-node/ &vin4csi20;
-> +/delete-node/ &vin5csi20;
-> +/delete-node/ &vin6csi20;
-> +/delete-node/ &vin7csi20;
-> +/delete-node/ &xhci0;
-
-Shouldn't the following be disabled, too?
-  - ohci1, ehci1, and usb2_phy1,
-  - cmm1 and vspd1 (cfr. DU below).
-
-> +
-> +&du {
-> +       compatible = "renesas,du-r8a779md";
-
-Assuming the DU needs a new compatible value...
-
-> +       renesas,cmms = <&cmm0>, <&cmm3>;
-> +       renesas,vsps = <&vspd0 0>, <&vspd1 0>;
-
-Shouldn't this be
-
-    renesas,vsps = <&vspd0 0>, <&vspd0 1>;
-
-? DU1 is unused, but DU3 is used.
-
-> +
-> +       ports {
-> +               /delete-node/ port@1;
-> +       };
-> +};
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
 
