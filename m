@@ -1,151 +1,152 @@
-Return-Path: <linux-renesas-soc+bounces-31739-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-31740-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 6D0wJ3iA8WlYhQEAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-31739-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Apr 2026 05:52:24 +0200
+	id AGWGFCKu8WmwjgEAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-31740-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Apr 2026 09:07:14 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5907048ED45
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Apr 2026 05:52:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D666349034F
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Apr 2026 09:07:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 440CA309F1ED
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Apr 2026 03:48:05 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id C16E93040C7D
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Apr 2026 07:00:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A8C6D396D0A;
-	Wed, 29 Apr 2026 03:47:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Z7i+osfd"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 998883A1A58;
+	Wed, 29 Apr 2026 07:00:44 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ua1-f42.google.com (mail-ua1-f42.google.com [209.85.222.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7753A393DD8;
-	Wed, 29 Apr 2026 03:47:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6328F3A0E93
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 29 Apr 2026 07:00:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777434432; cv=none; b=TlSvTBliDO98wa3O7EgxzZkI2o9dU+wpBcS8LfqfXPTsAF76FP2fLG2OHbXuw8oqmja+eOJTkw06yKdlA48QmOMzjjFk1Q7NTozMO/eLozwBLAKlaQO5tfmQeO2/jdipboXc/ISDLJCPAoG6/tI1HocLmeXEAfr8iPE9bGwG33E=
+	t=1777446044; cv=none; b=SdDNMm5F9ANrWI1RERJFL7r4ZrtxvDQmxxVA1Oyct+PhCXGk613p+QmY00Vf/S0qoPxdghYA6n2siLbQAR32UPTzK8l8EIO4mGnYSkeAxbPaYmLkao4BbthAB9AGlAK0hQzFjXnyhWcQ8R8wtTWMsQcHhQNx0JAO32QGlaS0XS0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777434432; c=relaxed/simple;
-	bh=kmlYhPPO7si0Y03tGLFg/g4545mtNj4YJC/GOASuHs8=;
-	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
-	 To:Date:Message-ID; b=gSXrUGxooi1vm/M7dj9qS3MolOrc0RqRRCo8HyvuiGblgwoItt2obMMf058qOv0T3bHo5Y0rfPzPjIipE9DGGurMG9YdxX7Q/0TjGCv1uVn1Ez6/pErrYgGpE+yZOe//gf9KlGlx8pmsJVb5VONuF7I2KzShsxnZuLYF6Umao5c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Z7i+osfd; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 036F4C2BCB4;
-	Wed, 29 Apr 2026 03:47:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777434432;
-	bh=kmlYhPPO7si0Y03tGLFg/g4545mtNj4YJC/GOASuHs8=;
-	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-	b=Z7i+osfdORJpLv7U6encAiWyXyx6atxjZPWZVVbqE2/pL83dB8+zxlHAfglmmEiFw
-	 zGSJX/ihv8yAC+/otyArnUyZRppIPrjwD3iBv7NuzZIxAvd1lJMpm8z5nOAgO8ZQuN
-	 eCtxgFCbgjutDuN+OeIsZ6Z/zkBVWZS6+K9rnXJqDwtMyJcmawuuMJxxVisZKmA+s2
-	 lUHDG90TeAgWyK7aPoAINvcsDaTLjAsJb9qGEdadMzkeP5eDAj3JVkTff6zoAbrAmC
-	 bJ1Bi6rOQtTqptfN6MrH3a2rrWATqrg1Hmwm3aB3LDBJ8rPd3tJ7p3vWsT/1H7Au+P
-	 JJ1j3PTYt7Sew==
-Content-Type: text/plain; charset="utf-8"
+	s=arc-20240116; t=1777446044; c=relaxed/simple;
+	bh=fwUCd2OO9r+K7cZl7yfax8OQL7g2mPXYtDj8o9TBPYQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=tL/7EzKc5fztN+ykwS2ogiyRiJ+yrju4iH7YJqNAjFOM2K5Sg1apUDw+SoZkFx8EahEsFlwOJfv3SiA9QJcZRgQJDzi478BxqSkcXqNddQSF0o4hiqh2X65be4UBAabeE92FYNmv5F/FtmCzAfQRUm1wjpLtQzKJIAXc1hVGGMw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ua1-f42.google.com with SMTP id a1e0cc1a2514c-9567aa1a047so3596855241.0
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 29 Apr 2026 00:00:42 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777446041; x=1778050841;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=sxfHvn5RDAY/xqK2xFryyMAtewdPervAdenhp8f5XRg=;
+        b=OkhMA6kZu9Ekedc5bpDMa2ql5LO+xOJwqvu2UMODM2zsWPpqjJIyCxdaUqFlGTX5Zc
+         O9KDm52gFI9FbKUpTYFuA1x30gtRjC43EzfXQRNqhMPBdwt59z8B63RBjb4KgKG3u3wS
+         YhYS4N8FjFV8WSA/6QCkrZ2dAUafi4YIu2tmHkv3HPW0flQKHH6OmP/4WEKIK+J9lt80
+         rEvp6nD+I+lnbDL8Ev5dIvlzQr+CKE1Q2SztsPhXcpKOp46s2Qzia+jYqF5IFiyB0bMO
+         edUiYOXiFIICwX/pZdU2kKK5ypEOqkPUGdQl2/0WLQcr1AwTmlRE4BTZwmMju1J+dOv6
+         fr9w==
+X-Gm-Message-State: AOJu0YzQe6rTEPp0Wz5ZFI4LgqeFCITEHjqNM1lVfGNsGrb+xhCgRAWo
+	qcvGpnVf2gh+QC6t4AApISPHm/jqDbJnZBUwxeP1gpGeZ4JoeBJq8muOYueA8QEeSX0=
+X-Gm-Gg: AeBDiesgbPf0/PujP3xrrCdcPVyPTjEJAa4wx4jprO7eIa94/lZMZpE+59l09g4rmV4
+	GyescF4qNgwPmmxgOh4gIKWz0+hg6K467m9gCmEF0WhaXFiHtLF+ZyHHyhqaampev3udzsT4r8E
+	e06HiyvqZ6+QrPENy0OUoPwWJfGDZ11oncnGJRBEhiFz/xDK06mAVXunrva5kc4E9D4tEXWWy71
+	CPR0pJhfBizh6ayrOi8zENds+NkH4qQSycYCQp/A8qMAehU7me/XtzR8yPo0f2yJXokHM8ZvuLf
+	XwoRSNy1FloFuXezab2OZ3Fe1Zb525yej2CzC4ehFnTXD0/0eh3oZ/vMIpve7sfQeK+E2ug9NuP
+	DWigC89nF6UNoAFEAAfFsy0NspDV2BnG3pVg1qAm5/JyxjgH3AjvhvTAr/N2uoMu7RVvfvariF3
+	t1ia5g3DfFLjXBmgdOdhpfkyE1wzLFWrgw1DtPd1DR4Fjm8ZkGRwhY9ROneqJcSrQpNLqlX6Ums
+	Fk=
+X-Received: by 2002:a67:e108:0:b0:609:2677:80f8 with SMTP id ada2fe7eead31-628057b6a39mr2782329137.0.1777446041292;
+        Wed, 29 Apr 2026 00:00:41 -0700 (PDT)
+Received: from mail-vk1-f182.google.com (mail-vk1-f182.google.com. [209.85.221.182])
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-95cb7831df4sm560701241.12.2026.04.29.00.00.40
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 29 Apr 2026 00:00:40 -0700 (PDT)
+Received: by mail-vk1-f182.google.com with SMTP id 71dfb90a1353d-56f8b51db2cso3780458e0c.1
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 29 Apr 2026 00:00:40 -0700 (PDT)
+X-Received: by 2002:a05:6122:21ab:b0:56f:61d8:86d7 with SMTP id
+ 71dfb90a1353d-573a55d0781mr3033698e0c.7.1777446040132; Wed, 29 Apr 2026
+ 00:00:40 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20260309-clk-det-rate-fw-managed-v2-1-c48ef5a3100a@redhat.com>
-References: <20260309-clk-det-rate-fw-managed-v2-0-c48ef5a3100a@redhat.com> <20260309-clk-det-rate-fw-managed-v2-1-c48ef5a3100a@redhat.com>
-Subject: Re: [PATCH v2 01/12] clk: add new flag CLK_ROUNDING_NOOP
-From: Stephen Boyd <sboyd@kernel.org>
-Cc: linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org, Brian Masney <bmasney@redhat.com>, Sudeep Holla <sudeep.holla@kernel.org>, Abel Vesa <abelvesa@kernel.org>, Andrea della Porta <andrea.porta@suse.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, Bjorn Andersson <andersson@kernel.org>, Chanwoo Choi <cw00.choi@samsung.com>, Frank Li <Frank.Li@nxp.com>, Geert Uytterhoeven <geert+renesas@glider.be>, Krzysztof Kozlowski <krzk@kernel.org>, Orson Zhai <orsonzhai@gmail.com>, Sascha Hauer <s.hauer@pengutronix.de>, Sylwester Nawrocki <s.nawrocki@samsung.com>, Tudor Ambarus <tudor.ambarus@linaro.org>, Alim Akhtar <alim.akhtar@samsung.com>, arm-scmi@vger.kernel.org, Chunyan Zhang <zhang.lyra@gmail.com>, Cristian Marussi <cristian.marussi@arm.com>, Fabio Estevam <festevam@gmail.com>, imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org, linux-samsung-soc@vger.kernel.org, Peng Fan <peng.fan@nxp.com>, Pengutronix Ker
- nel Team <kernel@pengutronix.de>
-To: Brian Masney <bmasney@redhat.com>, Michael Turquette <mturquette@baylibre.com>
-Date: Tue, 28 Apr 2026 19:15:36 -0700
-Message-ID: <177742893645.5403.3938693995862346406@localhost.localdomain>
-User-Agent: alot/0.12
-X-Rspamd-Queue-Id: 5907048ED45
+References: <20260402112709.13002-1-wsa+renesas@sang-engineering.com> <20260402112709.13002-2-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20260402112709.13002-2-wsa+renesas@sang-engineering.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 29 Apr 2026 09:00:28 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWj6wutXOkfcnnzPZ4D97fhOW+o1ainQDNiST9y_pBbPw@mail.gmail.com>
+X-Gm-Features: AVHnY4LVVMFZMc-zJ6qM9FvMwoB3GcpitrWZbQQMaLuKtqtGKMymMdA0uRBA4X4
+Message-ID: <CAMuHMdWj6wutXOkfcnnzPZ4D97fhOW+o1ainQDNiST9y_pBbPw@mail.gmail.com>
+Subject: Re: [PATCH v4 1/3] dt-bindings: soc: renesas: Document MFIS IP core
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc: linux-renesas-soc@vger.kernel.org, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Marek Vasut <marek.vasut@mailbox.org>, 
+	linux-kernel@vger.kernel.org, 
+	Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>, Magnus Damm <magnus.damm@gmail.com>, 
+	Rob Herring <robh@kernel.org>, Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Rspamd-Queue-Id: D666349034F
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [1.54 / 15.00];
+X-Spamd-Result: default: False [0.04 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_REJECT(1.00)[signature check failed: fail, {[1] = sig:subspace.kernel.org:reject}];
-	DMARC_POLICY_ALLOW_WITH_FAILURES(-0.50)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-31739-lists,linux-renesas-soc=lfdr.de];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FREEMAIL_CC(0.00)[vger.kernel.org,kernel.org,mailbox.org,oss.qualcomm.com,gmail.com];
+	TAGGED_FROM(0.00)[bounces-31740-lists,linux-renesas-soc=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	NEURAL_SPAM(0.00)[0.963];
-	RCPT_COUNT_TWELVE(0.00)[30];
-	RCVD_COUNT_THREE(0.00)[4];
+	DMARC_NA(0.00)[linux-m68k.org];
+	NEURAL_SPAM(0.00)[0.075];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	R_DKIM_REJECT(0.00)[kernel.org:s=k20201202];
-	DMARC_POLICY_ALLOW(0.00)[kernel.org,quarantine];
+	MISSING_XM_UA(0.00)[];
+	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
-	FROM_NEQ_ENVFROM(0.00)[sboyd@kernel.org,linux-renesas-soc@vger.kernel.org];
+	RCVD_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,redhat.com,kernel.org,suse.com,linux.alibaba.com,samsung.com,nxp.com,glider.be,gmail.com,pengutronix.de,linaro.org,arm.com,lists.linux.dev,lists.infradead.org];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[geert@linux-m68k.org,linux-renesas-soc@vger.kernel.org];
 	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	DKIM_TRACE(0.00)[kernel.org:-];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[localhost.localdomain:mid,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+	R_DKIM_NA(0.00)[];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,dt];
+	RCPT_COUNT_SEVEN(0.00)[10];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,glider.be:email,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,qualcomm.com:email,sang-engineering.com:email,linux-m68k.org:email]
 
-Quoting Brian Masney (2026-03-09 07:38:40)
-> diff --git a/drivers/clk/clk.c b/drivers/clk/clk.c
-> index fd418dc988b1c60c49e3ac9c0c44aa132dd5da28..1187e5b1dbc123d2d2c1f4369=
-0d7dcf75a7c4ac3 100644
-> --- a/drivers/clk/clk.c
-> +++ b/drivers/clk/clk.c
-> @@ -1673,7 +1690,7 @@ EXPORT_SYMBOL_GPL(clk_hw_forward_rate_request);
-> =20
->  static bool clk_core_can_round(struct clk_core * const core)
->  {
-> -       return core->ops->determine_rate;
-> +       return core->ops->determine_rate || clk_is_rounding_noop(core);
->  }
-> =20
->  static int clk_core_round_rate_nolock(struct clk_core *core,
-> @@ -3528,6 +3545,7 @@ static const struct {
->         ENTRY(CLK_IS_CRITICAL),
->         ENTRY(CLK_OPS_PARENT_ENABLE),
->         ENTRY(CLK_DUTY_CYCLE_PARENT),
-> +       ENTRY(CLK_ROUNDING_NOOP),
->  #undef ENTRY
->  };
-> =20
-> @@ -3906,13 +3924,19 @@ static int __clk_core_init(struct clk_core *core)
-> =20
->         /* check that clk_ops are sane.  See Documentation/driver-api/clk=
-.rst */
->         if (core->ops->set_rate && !core->ops->determine_rate &&
-> -             core->ops->recalc_rate) {
-> +             core->ops->recalc_rate && !clk_is_rounding_noop(core)) {
->                 pr_err("%s: %s must implement .determine_rate in addition=
- to .recalc_rate\n",
->                        __func__, core->name);
->                 ret =3D -EINVAL;
->                 goto out;
->         }
-> =20
-> +       if (clk_is_rounding_noop(core) && core->ops->determine_rate) {
-> +               pr_err("%s: %s cannot implement both .determine_rate and =
-CLK_ROUNDING_NOOP\n",
-> +                      __func__, core->name);
-> +               goto out;
-> +       }
-> +
+On Thu, 2 Apr 2026 at 13:27, Wolfram Sang
+<wsa+renesas@sang-engineering.com> wrote:
+> Document the Renesas Multifunctional Interface (MFIS) as found on the
+> Renesas R-Car X5H (r8a78000) SoC. MFIS includes features like Mailbox/HW
+> Spinlock/Product Register/Error Injection/Error Detection and the likes.
+> Family-compatible values are not introduced here because MFIS is usually
+> very different per SoC.
+>
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+> Changes since v3:
+>
+> * dropped superfluous constraints (Thanks, Geert!)
+> * added tags from Krzysztof and Geert (Thanks!)
 
-This hunk has me irked. I'd rather we export some function like
-clk_determine_rate_noop() that just returns 0 instead of adding another
-flag. The chance that someone can get it wrong goes down and you can
-naturally grep for any clks that are using determine_rate() without
-having to also include this flag in the grep. It makes it easier to
-reason about as well because we can have code that just checks for
-determine_rate presence instead of both (i.e. clk_core_can_round() isn't
-changed). Plus a clk_ops structure is more self-contained because it
-doesn't rely on the clk flags to go with it.
+Thanks, will queue in renesas-devel for v7.2.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
