@@ -1,56 +1,56 @@
-Return-Path: <linux-renesas-soc+bounces-31754-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-31755-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id oM0xOBLx8WkOlwEAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-31754-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Apr 2026 13:52:50 +0200
+	id eDIoKCbx8WkOlwEAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-31755-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Apr 2026 13:53:10 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32F67493C05
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Apr 2026 13:52:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 328C7493C1D
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Apr 2026 13:53:10 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 2D371309B0D4
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Apr 2026 11:51:14 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id B2987302C907
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Apr 2026 11:51:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ACCD93F23A6;
-	Wed, 29 Apr 2026 11:51:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 81C593E8C49;
+	Wed, 29 Apr 2026 11:51:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="NytjCkyG"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="Zdg5iybp"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 704E13F23C1;
-	Wed, 29 Apr 2026 11:51:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F61A3F2107
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 29 Apr 2026 11:51:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777463473; cv=none; b=EuvuV3DqfFNHF3wydDF4cvXEIg3ZWyaTVPTLo8aS5589oeXSlQnT6e8zEQB3k/9gyxuAoFwa09p/pRCNOeOfdLnpMdth2GAPt8HRLTzgJdkeakD9FiVqG6qED/0U7Zj9qcQxVKjIlRCNwLHZAFuIhv3FZPK4EJGpuNdu5jKtLcE=
+	t=1777463476; cv=none; b=Zs2cEQEZ+s4v7GzrhICbqNjQzGOVdVdCdl3kCrtW2XNf77rGkwGvwNQOsAkLge7l1Mp/45qN3gbwOVHolUAxw6UKDPBan9h/k4vrMiwXCbz+qpEAP2Z7ltFZMEq6Yxz7qhbY3sURU7HREiAynvH4mVWHm/D3gc8HawiQiIpq1R8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777463473; c=relaxed/simple;
-	bh=YB0zZ417pPJLv9gKaLWcEu6H1usATHagKlTF7j6mUHE=;
+	s=arc-20240116; t=1777463476; c=relaxed/simple;
+	bh=VAJSA2xgO3c4cQcXZQBkqY65yBvsEuuS1NjB7gElWtY=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=d3ErhFZneNwsL7oQZYFcV2pXwG25SrvKomE8jUzUTeamk7kXQzGtSsvwe0EFXsb5/FwZ13CxM2pDYK4iwtEwHIs8d1p98eKJvDLsqu6wH5/f6HoP0Jp4rr2TH0ac0+4kX66DmfxdBnjODV6d4uJmM4agB28W5bKCMAsFH43D/qQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=NytjCkyG; arc=none smtp.client-ip=185.171.202.116
+	 MIME-Version; b=D2ijaQ7AYJhnzYOeq0s8XuGfc85PqsTgLIvlODmH4RAalfnk6cXuOtkbTQvQUXISh+Xa3gEOONBJABgc0E+SNtXu7u+YRpsUef83WAe++Ooxc9Mf9rYFgct0IB2kmvrLIKrcN/bLjDbqwNd88VBvP7b9szpBL6stMpBVGHLWYIs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=Zdg5iybp; arc=none smtp.client-ip=185.246.84.56
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id 39F37C5EF2A;
-	Wed, 29 Apr 2026 11:51:53 +0000 (UTC)
+	by smtpout-02.galae.net (Postfix) with ESMTPS id D702B1A33E7;
+	Wed, 29 Apr 2026 11:51:10 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 26FBB601DF;
-	Wed, 29 Apr 2026 11:51:09 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id BF39610728DD6;
-	Wed, 29 Apr 2026 13:51:06 +0200 (CEST)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id AD0E2601DF;
+	Wed, 29 Apr 2026 11:51:10 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id CA08010729012;
+	Wed, 29 Apr 2026 13:51:08 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1777463468; h=from:subject:date:message-id:to:cc:mime-version:
+	t=1777463469; h=from:subject:date:message-id:to:cc:mime-version:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=XFdnAQ+zG+czHlNsfQu+J0GXRK/1/96xZW3qt2+UsSs=;
-	b=NytjCkyG9DnqNC2lIaS677PEpQAmQ4fi7jimqD8eamoGsB+Sv8GOOGRF29fJN73D5LYBpe
-	IVvVgCDech47zrdwPu6BYWCh3PWqc5obCLz7YRzsP4Wd2MA2CGC+VOH4yxYp4fNsKq/LcY
-	53EdwVgWi4jFJ7SNpQ9ln/p6EegU+hyB44bRHHr9+5MKG5y2XebAwxBqBWZPp3bY6oI4BN
-	7nJU1r3FtevgcGGD/DjS/Db7fUcjrreGDUh5M9SysTbO68YkVqNTE0U0flxzh4KIBo2kbH
-	COpIhk26sHGN10/494ppA1ZQPuF4bmHJ/LtRq1gX6YC5zNNLRLwAVsxptBryGA==
+	bh=kYgU7p+5G7jRn2Lu2neiA6JjUceaSNvUkJDhIyk539E=;
+	b=Zdg5iybpl50u7W6h5DFjstn0a8BWQtxfafcPB2bcM9TYKLAvWFqs66pfSKmtm7P3pzmiqY
+	O4WyrW3q4ovV9HRkBsU7KGUrazY3Hv5xZJV4lfgii7qacpTpqhqYlhCNL8+WJpiIqxf+9x
+	PRW9xiL9vfk4trACNdFQMDv5dpDmfeXS1SsBKWyS6/TC9CCk0imLEM8J93s1g3a3BzeKDB
+	IvjHZMonKaTiTtI3Ju11c8tUo2DkQ2JMX2wGC+4QNUxOHwfcgia+IgEMW0KWxX5rF3lx7o
+	PD4Mfhy6bFzkLe93GkxdIVFgiNhKy9a64V6mSKul9vQno28eozIPS+fEdWHErQ==
 From: "Herve Codina (Schneider Electric)" <herve.codina@bootlin.com>
 To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
 	Herve Codina <herve.codina@bootlin.com>,
@@ -67,9 +67,9 @@ Cc: linux-renesas-soc@vger.kernel.org,
 	Pascal Eberhard <pascal.eberhard@se.com>,
 	Miquel Raynal <miquel.raynal@bootlin.com>,
 	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: [PATCH v2 3/4] ARM: dts: r9a06g032: Add support for timers
-Date: Wed, 29 Apr 2026 13:50:22 +0200
-Message-ID: <20260429115054.158160-4-herve.codina@bootlin.com>
+Subject: [PATCH v2 4/4] MAINTAINERS: Add the Renesas RZ/N1 timers driver entry
+Date: Wed, 29 Apr 2026 13:50:23 +0200
+Message-ID: <20260429115054.158160-5-herve.codina@bootlin.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260429115054.158160-1-herve.codina@bootlin.com>
 References: <20260429115054.158160-1-herve.codina@bootlin.com>
@@ -81,7 +81,7 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Last-TLS-Session-Version: TLSv1.3
-X-Rspamd-Queue-Id: 32F67493C05
+X-Rspamd-Queue-Id: 328C7493C1D
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.66 / 15.00];
@@ -95,7 +95,7 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCPT_COUNT_TWELVE(0.00)[15];
-	TAGGED_FROM(0.00)[bounces-31754-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-31755-lists,linux-renesas-soc=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
 	RCVD_TLS_LAST(0.00)[];
 	RECEIVED_HELO_LOCALHOST(0.00)[];
@@ -112,67 +112,34 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	NEURAL_HAM(-0.00)[-1.000];
 	TO_DN_SOME(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[3.10.58.144:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,3.10.52.160:email,3.10.54.168:email,bootlin.com:email,bootlin.com:dkim,bootlin.com:mid,3.27.11.64:email]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[bootlin.com:email,bootlin.com:dkim,bootlin.com:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
 
-In the Renesas RZ/N1 SoCs family, two timers block are available.
-
-Each block contains 8 timers composed of 6 16-bits timers and 2 32-bits
-timers.
-
-Each timer has its own interrupt line.
-
-Describe those timers blocks.
+After contributing the driver, add myself as the maintainer for the
+Renesas RZ/N1 timers driver.
 
 Signed-off-by: Herve Codina (Schneider Electric) <herve.codina@bootlin.com>
 ---
- arch/arm/boot/dts/renesas/r9a06g032.dtsi | 34 ++++++++++++++++++++++++
- 1 file changed, 34 insertions(+)
+ MAINTAINERS | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/arch/arm/boot/dts/renesas/r9a06g032.dtsi b/arch/arm/boot/dts/renesas/r9a06g032.dtsi
-index 442ea26b40f5..ba3f011e8c17 100644
---- a/arch/arm/boot/dts/renesas/r9a06g032.dtsi
-+++ b/arch/arm/boot/dts/renesas/r9a06g032.dtsi
-@@ -722,6 +722,40 @@ gpioirqmux: interrupt-controller@51000480 {
- 			status = "disabled";
- 		};
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 2fb1c75afd16..6f0bc793d657 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -22708,6 +22708,13 @@ S:	Maintained
+ F:	Documentation/devicetree/bindings/rtc/renesas,rzn1-rtc.yaml
+ F:	drivers/rtc/rtc-rzn1.c
  
-+		timer0: timer@51001000 {
-+			compatible = "renesas,r9a06g032-timer", "renesas,rzn1-timer";
-+			reg = <0x51001000 0x400>;
-+			clocks = <&sysctrl R9A06G032_HCLK_TIMER0>;
-+			clock-names = "pclk";
-+			power-domains = <&sysctrl>;
-+			interrupts = <GIC_SPI 112 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 113 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 114 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 115 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 116 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 117 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 118 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 119 IRQ_TYPE_LEVEL_HIGH>;
-+			status = "disabled";
-+		};
++RENESAS RZ/N1 TIMERS DRIVER
++M:	Herve Codina <herve.codina@bootlin.com>
++L:	linux-renesas-soc@vger.kernel.org
++S:	Maintained
++F:	Documentation/devicetree/bindings/timer/renesas,rzn1-timer.yaml
++F:	drivers/clocksource/timer-rzn1.c
 +
-+		timer1: timer@51002000 {
-+			compatible = "renesas,r9a06g032-timer", "renesas,rzn1-timer";
-+			reg = <0x51002000 0x400>;
-+			clocks = <&sysctrl R9A06G032_HCLK_TIMER1>;
-+			clock-names = "pclk";
-+			power-domains = <&sysctrl>;
-+			interrupts = <GIC_SPI 120 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 121 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 122 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 123 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 124 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 125 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 126 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 127 IRQ_TYPE_LEVEL_HIGH>;
-+			status = "disabled";
-+		};
-+
- 		can0: can@52104000 {
- 			compatible = "renesas,r9a06g032-sja1000", "renesas,rzn1-sja1000";
- 			reg = <0x52104000 0x800>;
+ RENESAS RZ/N1 USBF CONTROLLER DRIVER
+ M:	Herve Codina <herve.codina@bootlin.com>
+ L:	linux-renesas-soc@vger.kernel.org
 -- 
 2.53.0
 
