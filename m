@@ -1,50 +1,45 @@
-Return-Path: <linux-renesas-soc+bounces-31843-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-31844-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id aEykFad182mt4AEAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-31843-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 Apr 2026 17:30:47 +0200
+	id MH6DHg5182ly4AEAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-31844-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 Apr 2026 17:28:14 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1EAF4A4CCC
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 Apr 2026 17:30:46 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 39B014A4BE8
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 Apr 2026 17:28:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 715CC301545E
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 Apr 2026 15:20:28 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 9BF2C300AB21
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 Apr 2026 15:24:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 318D42D9ECD;
-	Thu, 30 Apr 2026 15:20:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6E7512F3C1F;
+	Thu, 30 Apr 2026 15:24:54 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18E98221721;
-	Thu, 30 Apr 2026 15:20:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 504902E7657;
+	Thu, 30 Apr 2026 15:24:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777562428; cv=none; b=qGAEQx/t8WyHGnW7PESUTRliqirczQidBofqjJk9dqZSYQkEKqW7M2IjxQiOEOyCYEGV12D5Lp4PMCPsDUn7/JeAnMHP3wGrqnxCE6Ev51hDqwEAUESRtX/2nTklHH8hncGpELD108zerfmHGv9Zh1lbgOW0sY1UOALTZs5cHWQ=
+	t=1777562693; cv=none; b=Y09wYv9QvSmKTyzLPDoo3EoM6Z5gD/2Z4gh5Omg2E2INK88NhTvAldJtMTIOKaidMJ9BHwWnYJ61o1ppShd2YazQWH4IeyMeVmvKwBuWyqMK22/JjuT7pJAbN5rQx7AZtgKrc/ehnLwDvNKykbwcNB1O5SjoS6fIpurrF+SQMjY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777562428; c=relaxed/simple;
-	bh=UXdgL7Io2m47hjEgzyGGcAaNUDvLFCqeVjmlOvOayeU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=aR+4KYZeyQZ3sZr/A8A+hAEK9NzqSpQwCJC5zjqR/5eOW1Krkj8YUJKRWTz1IMqXkXhUfaWBj2IwDs0/bX8RUhCxzsMB91gapCAFlKDYJFdziPhJDIdxNnoV7UN31SzxA4ur2F0yUG91jW425llzJSYMRGOcbm27PnKFKA0QIUc=
+	s=arc-20240116; t=1777562693; c=relaxed/simple;
+	bh=Go5IO0ICsgjbSg2VRkkV0bj8rpVzNKrIIPdwX1/qHOw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=iRVpGdvutBZfLOMrcdgLzI9SKmTlX9fMdeCZn0xa5kxMy6LLIFdN8Gk6f0PFks7A+zSXKtg/gEFxSK+fKVwXUJqTgbayb0sngevgcfhKGldsiU9Ie62SVk2CfnFGxEawXjQtEJiCJgExazDAVRoqCBgf2OWibRc2HVH2jGZm788=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7695EC2BCB9;
-	Thu, 30 Apr 2026 15:20:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 99A14C2BCB3;
+	Thu, 30 Apr 2026 15:24:51 +0000 (UTC)
 From: Geert Uytterhoeven <geert+renesas@glider.be>
-To: Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Biju Das <biju.das.jz@bp.renesas.com>
+To: Linus Walleij <linusw@kernel.org>
 Cc: linux-renesas-soc@vger.kernel.org,
-	linux-clk@vger.kernel.org,
+	linux-gpio@vger.kernel.org,
 	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH 2/3] clk: renesas: rzg2l: Refactor rzg3l_cpg_pll_clk_endisable()
-Date: Thu, 30 Apr 2026 17:20:18 +0200
-Message-ID: <9cda94b9b37c562a305f4dd6091fd71246764fd2.1777562043.git.geert+renesas@glider.be>
+Subject: [PATCH] pinctrl: renesas: sh-pfc: Implement .pin_config_group_get() callback
+Date: Thu, 30 Apr 2026 17:24:42 +0200
+Message-ID: <130ce567f23fd6eef8f5fa7273480a0e3ff2d1d9.1777562482.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <cover.1777562043.git.geert+renesas@glider.be>
-References: <cover.1777562043.git.geert+renesas@glider.be>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -52,87 +47,96 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: F1EAF4A4CCC
+X-Rspamd-Queue-Id: 39B014A4BE8
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.54 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-0.96 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-31843-lists,linux-renesas-soc=lfdr.de,renesas];
-	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	DMARC_NA(0.00)[glider.be];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_THREE(0.00)[4];
+	TAGGED_FROM(0.00)[bounces-31844-lists,linux-renesas-soc=lfdr.de,renesas];
+	DMARC_NA(0.00)[glider.be];
+	RCVD_COUNT_THREE(0.00)[4];
+	RCVD_TLS_LAST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	PRECEDENCE_BULK(0.00)[];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
 	FROM_NEQ_ENVFROM(0.00)[geert@glider.be,linux-renesas-soc@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	NEURAL_HAM(-0.00)[-0.303];
-	MID_RHS_MATCH_FROM(0.00)[];
+	TO_DN_SOME(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
 	R_DKIM_NA(0.00)[];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[glider.be:mid,glider.be:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+	NEURAL_HAM(-0.00)[-0.974];
+	MID_RHS_MATCH_FROM(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[glider.be:mid,glider.be:email,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
 
-Reduce duplication by introducing mon_mask.
-Eliminate an else branch by moving common parts into variable
-pre-initializations.
+When reading /sys/kernel/debug/pinctrl/*.pinctrl-sh-pfc/pinconf-groups
+while CONFIG_DEBUG_PINCTRL is enabled, the user is confronted with a
+seemlingly endless stream of identical messages on the console:
+
+    sh-pfc e6060000.pinctrl: cannot get configuration for pin group, missing group config get function in driver
+
+Fix this by implementing the sh_pfc_pinconf_ops.pin_config_group_get()
+callback.
 
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
-No change in generated code.
----
- drivers/clk/renesas/rzg2l-cpg.c | 16 +++++++---------
- 1 file changed, 7 insertions(+), 9 deletions(-)
+Tested on R-Car M2-W, R-Car H3 ES2.0, and R-Car V4M (more to follow).
+To be queued in renesas-pinctrl for v7.2.
 
-diff --git a/drivers/clk/renesas/rzg2l-cpg.c b/drivers/clk/renesas/rzg2l-cpg.c
-index f98b6eb4f501c676..426e93dc7a9891bf 100644
---- a/drivers/clk/renesas/rzg2l-cpg.c
-+++ b/drivers/clk/renesas/rzg2l-cpg.c
-@@ -1197,27 +1197,25 @@ static int rzg3l_cpg_pll_clk_endisable(struct clk_hw *hw, bool enable)
- {
- 	struct pll_clk *pll_clk = to_pll(hw);
- 	struct rzg2l_cpg_priv *priv = pll_clk->priv;
-+	u32 mon_mask = RZG3L_PLL_MON_RESETB | RZG3L_PLL_MON_LOCK;
-+	u32 val = RZG3L_PLL_STBY_RESETB_WEN;
- 	u32 stby_offset, mon_offset;
--	u32 val, mon_val;
-+	u32 mon_val = 0;
- 	int ret;
+ drivers/pinctrl/renesas/pinctrl.c | 25 +++++++++++++++++++++++++
+ 1 file changed, 25 insertions(+)
+
+diff --git a/drivers/pinctrl/renesas/pinctrl.c b/drivers/pinctrl/renesas/pinctrl.c
+index 3a742f74ecd1dcdf..8585ed4bcfe0961d 100644
+--- a/drivers/pinctrl/renesas/pinctrl.c
++++ b/drivers/pinctrl/renesas/pinctrl.c
+@@ -719,6 +719,30 @@ static int sh_pfc_pinconf_set(struct pinctrl_dev *pctldev, unsigned _pin,
+ 	return 0;
+ }
  
- 	stby_offset = RZG3L_PLL_STBY_OFFSET(pll_clk->conf);
- 	mon_offset = RZG3L_PLL_MON_OFFSET(pll_clk->conf);
- 
- 	if (enable) {
--		val = RZG3L_PLL_STBY_RESETB_WEN | RZG3L_PLL_STBY_RESETB;
--		mon_val = RZG3L_PLL_MON_RESETB | RZG3L_PLL_MON_LOCK;
--	} else {
--		val = RZG3L_PLL_STBY_RESETB_WEN;
--		mon_val = 0;
-+		val |= RZG3L_PLL_STBY_RESETB;
-+		mon_val = mon_mask;
- 	}
- 
- 	writel(val, priv->base + stby_offset);
- 
- 	/* ensure PLL is in normal/standby mode */
--	ret = readl_poll_timeout_atomic(priv->base + mon_offset, val, mon_val ==
--					(val & (RZG3L_PLL_MON_RESETB | RZG3L_PLL_MON_LOCK)),
--					10, 100);
-+	ret = readl_poll_timeout_atomic(priv->base + mon_offset, val,
-+					mon_val == (val & mon_mask), 10, 100);
- 	if (ret)
- 		dev_err(priv->dev, "Failed to %s PLL 0x%x/%pC\n", enable ?
- 			"enable" : "disable", stby_offset, hw->clk);
++static int sh_pfc_pinconf_group_get(struct pinctrl_dev *pctldev,
++				    unsigned int group, unsigned long *config)
++{
++	struct sh_pfc_pinctrl *pmx = pinctrl_dev_get_drvdata(pctldev);
++	const unsigned int *pins = pmx->pfc->info->groups[group].pins;
++	unsigned int num_pins = pmx->pfc->info->groups[group].nr_pins;
++	unsigned long prev_config = 0;
++	int ret;
++
++	for (unsigned int i = 0; i < num_pins; ++i) {
++		ret = sh_pfc_pinconf_get(pctldev, pins[i], config);
++		if (ret)
++			return ret;
++
++		/* configs should match for all pins in the group */
++		if (i && prev_config != *config)
++			return -ENOTSUPP;
++
++		prev_config = *config;
++	}
++
++	return 0;
++}
++
+ static int sh_pfc_pinconf_group_set(struct pinctrl_dev *pctldev, unsigned group,
+ 				    unsigned long *configs,
+ 				    unsigned num_configs)
+@@ -745,6 +769,7 @@ static const struct pinconf_ops sh_pfc_pinconf_ops = {
+ 	.is_generic			= true,
+ 	.pin_config_get			= sh_pfc_pinconf_get,
+ 	.pin_config_set			= sh_pfc_pinconf_set,
++	.pin_config_group_get		= sh_pfc_pinconf_group_get,
+ 	.pin_config_group_set		= sh_pfc_pinconf_group_set,
+ 	.pin_config_config_dbg_show	= pinconf_generic_dump_config,
+ };
 -- 
 2.43.0
 
