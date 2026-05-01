@@ -1,271 +1,219 @@
-Return-Path: <linux-renesas-soc+bounces-31863-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-31864-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id cC08JuZ49GliBgIAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-31863-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 01 May 2026 11:56:54 +0200
+	id QGA9Nld/9GmXBwIAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-31864-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 01 May 2026 12:24:23 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5A674AB6D7
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 01 May 2026 11:56:53 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id D38714AB99B
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 01 May 2026 12:24:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 720423005D27
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 May 2026 09:56:52 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id BD0D43004065
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 May 2026 10:24:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 197D4382F19;
-	Fri,  1 May 2026 09:56:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D6D2C386566;
+	Fri,  1 May 2026 10:24:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="pA/SG4ND";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="jb6xZRp0"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IOToTaHd"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from fhigh-b7-smtp.messagingengine.com (fhigh-b7-smtp.messagingengine.com [202.12.124.158])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 322F937648D;
-	Fri,  1 May 2026 09:56:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.158
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 536383859EC
+	for <linux-renesas-soc@vger.kernel.org>; Fri,  1 May 2026 10:24:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777629410; cv=none; b=uZTDwANQAmdcGoervVzZzZzibX7DQDUwkwX+vM+Irzy6deKvI2tgUtqzlh7+TeqL3He16RZTXz+NfYj2v5fRt9KlbulpqfFbaLx0aEwB4Zdmvk+nI4n1ieKkR6+ybPs93DuMjj+qs/3E1BBZehE9N2Ulzm1sG1UAQnMLWBVFSEU=
+	t=1777631058; cv=none; b=C/yZILNFPv8ElQyMOh+1UBUvmBQHxG415ZPhnel9vPjN1GHeThqOb8bkiicNKxgUkv+n25nBwsDxA2LFrEcY5E3T+G8QOck++hjjfowv8kGauclQ4jEY9CkEABgszsF4VKfthroxJFlF+E2YS3SiyFJDpA4F0+uYk+fVHEh1H0I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777629410; c=relaxed/simple;
-	bh=xkmd82RUYG5KiSvpdFUVX5vVkkk4O6llL0QfHCzNy6E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pTltcElWr3M92A0vfjyHUnIe9D8SHroFvXkr+40WrkIBeKIL0Ol2Ut67OorrMU/8S+9ov2D9taKVqgQMoYAkyoZKOxL/C3M6FO+XTmFd0h+od6AB3UY6MRkzyBtCTiyy9fQsPJF848f3V8qWmlio3oP5yuEfbrMqg4WjXsCqoWs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=pA/SG4ND; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=jb6xZRp0; arc=none smtp.client-ip=202.12.124.158
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id 6179C7A00EC;
-	Fri,  1 May 2026 05:56:44 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-06.internal (MEProxy); Fri, 01 May 2026 05:56:44 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1777629404;
-	 x=1777715804; bh=uAESboFKnySwKs6D2+s2OjVRVncaD9sdlhpIm8QtCnw=; b=
-	pA/SG4ND0P40yLOAt5DqD3XC2tG71u/t4BSXe5mi4X/MQ2IuN+AABZQbDmDzQ083
-	z3GONWTo5QREL7Rtw6gBT/hwFU9GUrwm82GL+O8D6fiELvuQ6pJabJtTsyaqP0lk
-	trKfWUqWIQZ0nKStMk4L2qF1s+ML/hBsIL/BE+/ggPUIsdrspItQsWvDBK/FLDWv
-	bBv6utNKLHWZk0G2cFOIN+Ibyoy7VXgznhlivINgLtXStes5KbMQtMDSP+paknFv
-	O+tFTpMCnsApuOc40/tXmXAIlarGHRZOI+dzPHPRvfKg8jKeWORJgM+H+9r0iTsx
-	6h1VgrdJ0EIjoeuG5vxc4w==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1777629404; x=
-	1777715804; bh=uAESboFKnySwKs6D2+s2OjVRVncaD9sdlhpIm8QtCnw=; b=j
-	b6xZRp0eQb/w4rRNNjkgxk4ShGv8yRpTBmITL4SvjoGYhwelx+Zt52GnRVyUMT2w
-	BZFDR2OT0QKvSscR9nUVk2cwOjUFS74Y1XFdbitplDtT7CQv7Y3G2wFln3j10+ZG
-	9V9eAsBetNumFoim+BRIvpT1VCuYLfN0g9j3wvOR1LAsgvUyUXl5GeABS0bvcCQX
-	03jgPdMCFXIfZDCDDqwQ0Ltx6noDkl5d898cIIfz6FuPW4Mo3Ii3TVbUhu+4wI8P
-	cS8teFe4LEObX2BWuT0hNi0lSd6KkI4euSpxwHylkN5v/C4n8rcHD5Bd2hhT+X3G
-	VAzaEme17jSefsOvFaXqg==
-X-ME-Sender: <xms:23j0aRtsCkfi8fkLiHSgAWiPh6xI_UviR_RP5fVKGZSiR7gSivHQWg>
-    <xme:23j0aWdHLJBh8sWAb7PCZP9y3He5bwJXsV-pb9r_QdlMrMT4gKzvS1eizFBVmGOVm
-    1-tflu46kncfsEqpOvdcfQq5qB6dakH9s06gZ1dxiRAe8cI9NSXqXs>
-X-ME-Received: <xmr:23j0aW9BuNIzahK9z6phajRCkziC9s6RP1HfRyEasOfi8M38KPhbRLsPoMJJs3hk6jgWUY4nwZhvYCL0krM6IgjpDdLWYeOqyatL>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdekleeklecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
-    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
-    hrpeffhffvvefukfhfgggtugfgjgesthekredttddtjeenucfhrhhomheppfhikhhlrghs
-    ucfunpguvghrlhhunhguuceonhhikhhlrghsrdhsohguvghrlhhunhgusehrrghgnhgrth
-    gvtghhrdhsvgeqnecuggftrfgrthhtvghrnhepveetgedtvddvhfdtkeeghfeffeehteeh
-    keekgeefjeduieduueelgedtheekkeetnecuvehluhhsthgvrhfuihiivgeptdenucfrrg
-    hrrghmpehmrghilhhfrhhomhepnhhikhhlrghsrdhsohguvghrlhhunhgusehrrghgnhgr
-    thgvtghhrdhsvgdpnhgspghrtghpthhtohepkedpmhhouggvpehsmhhtphhouhhtpdhrtg
-    hpthhtohepmhhhuhhnheduvdesghhmrghilhdrtghomhdprhgtphhtthhopehmtghhvghh
-    rggssehkvghrnhgvlhdrohhrghdprhgtphhtthhopehgvggvrhhtodhrvghnvghsrghsse
-    hglhhiuggvrhdrsggvpdhrtghpthhtohepmhgrghhnuhhsrdgurghmmhesghhmrghilhdr
-    tghomhdprhgtphhtthhopehlihhnuhigqdhmvgguihgrsehvghgvrhdrkhgvrhhnvghlrd
-    horhhgpdhrtghpthhtoheplhhinhhugidqrhgvnhgvshgrshdqshhotgesvhhgvghrrdhk
-    vghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrd
-    hkvghrnhgvlhdrohhrghdprhgtphhtthhopegrvgekjeektddttdesghhmrghilhdrtgho
-    mh
-X-ME-Proxy: <xmx:23j0aZR2RQpfTJcDp5UN3qIK9AjgSsBAJhhglpKynXZDtOsocU9rdw>
-    <xmx:23j0afpJqvf_XUTH35JyLxD-_srQ9sylBuu9s8j6iLE-9nsnNbnzdQ>
-    <xmx:23j0aenQ_H1qycnaTjO3Igyb_YZGbPL73QITqH0wgUqkfjAZiKUoYA>
-    <xmx:23j0aQd5ou5fofgb5Ut9vVo96NNyxMHvJHqObnle5TjKzomOPXdIlg>
-    <xmx:3Hj0aVfzqk_dXFw5q7z60wm6TtxL7hEStSHMfY0OOSewjayG-jWM-ghN>
-Feedback-ID: i80c9496c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 1 May 2026 05:56:43 -0400 (EDT)
-Date: Fri, 1 May 2026 11:56:41 +0200
-From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
-To: Myeonghun Pak <mhun512@gmail.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	s=arc-20240116; t=1777631058; c=relaxed/simple;
+	bh=QnkNnx9k8UNt0OzcapqQjvj9/iFCN7S7MPJtuIjyvqQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Lm/A5vK792MsG1Wbou1BSHexzwLCMGz2dRBqtLNx4lFo5NQiv2I+EFo1O+kiOoUktL8RTodxT1PehysLp/yG+DA467C++sFJfsjGZ1fAJi/jLvl6cIpEwfM7kk0V3Cl+nwABOegipjTdVqHEseit1Zom8P/Kgmy659uQlPajO1A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IOToTaHd; arc=none smtp.client-ip=209.85.128.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-488ff90d6c7so17775395e9.2
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 01 May 2026 03:24:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1777631056; x=1778235856; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Tjdh99dmMY77j16LsBzv2dEuLqYqGw+VhQyABiovB2k=;
+        b=IOToTaHda46GVhULUWEUd0N6CA6+cso4UAyI7xb2Sh0m6dRBn/fW6PJX8zO1FCnuav
+         go+kmCygBSEFFcZ+cJuXiAYw+AfcPpnrkzHFTLmX3F/FENFzBWYsIKpAn3NRjGQg203H
+         1Lj19Ci2SKXMWNWVuWGxIo5TmbCdcgob11ZULVdRuqpoqKzU8RSqVccbzUlxxbOSDFfK
+         jn5sWHI02yBvlG3SzXQ6m29circSEDmAJiULxjxMKRmikoKCNkfM2Ys2X2LblLYbG+TP
+         NDUbv4zoCA/M9bJC+QWxu7K4AGRMB8C0WS+GpanFv11bGm4npSriXudHNkVlYeQ/LU4v
+         V9uA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777631056; x=1778235856;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Tjdh99dmMY77j16LsBzv2dEuLqYqGw+VhQyABiovB2k=;
+        b=KS477zUssD23c3FQnqBEixnjNxqO8dpnGmbrkhn8zhf/VlZQq4eC8ycoI9v9hCX0Zw
+         YUcefMB5ppkx7C6Fr5b7YE7C9R5Z3vv8H45au6d4ybEJ4xiBdtBfHItTbGAZKs4Elws+
+         048rqmcF99jxJkXYjLG1ApzRLdTobfeiZfjHWegSnmkLfb1Kpd8uFyaqEOtIsScck+Wp
+         Lb2k6YnpJQ9780pp92itP/gdLwbMABmasRsD+Xd+MvMNZbnpFtQsgWfd1f/hECjNGviq
+         PcXbqEwYsL2rOvJ3daACMVviPRB2cvkpzz2ljNQloH61fMmN/ZVZH5bYxLoBUUTmNP5w
+         lgMA==
+X-Gm-Message-State: AOJu0Ywbk1q+nQwVfh0lZZsZp5FwySBXPL8N99RIvgQQQDxI6XgvCVX9
+	LP9jwAFI1Ybn/GM7JWZbNSP//yK4Zj3dtfArwF1PsNxKBO0DFecewGjy
+X-Gm-Gg: AeBDiesz2QuQbKNy90UVHekpf13Nefo1Fxth48CpzIhvfgXgFEd0r1Xv+i8zJGF2mDl
+	DAO/cFwD+fkZsaJ4Z5uuCpUFyealrLv8aj+FTEYe89i7ENzRd/Qqz2XtDd/lKl+CKXSAfnF2Puz
+	jPUJ7AX3l0fwjrEa3UURGHGZ0LGVEeW/0ZvvR64NIyk548e0iny0Y46TmT8wdpzvXHF+3KQ6cLX
+	Y+WYzG/L6tKby3YQmckdol1m/JIfkj0bXzRWGZ0pBRfVrGjOA1HOKLpIgMqbASXIXrUe9TjryHo
+	X+tYw0uBxCQIWbNYiwaYTNQmRdNQ2XNC0KLiQYxXFL92rRDUzSiJDr41mIkKlpcR4HyXxWpwUwZ
+	Ijslj9lezCHd8H7U0El0WoBfl+/0se9X5npbTqC4nTD8rtvAvJgaqwrIqt0axKvxSuc0wtzogi0
+	sgZz0ZSor0ri/7LN03/5MpitYrR1/NpXjNozc9fqQJMhdiLy0mFfYfGWDKyqKX5Ch7aiExV6v+c
+	QOGlHjsJ/2ZuOGv8Mkl1+ooGJjfsTNLv38oePYDsLKqPbGb9U1d35Qi0g==
+X-Received: by 2002:a05:600d:6:b0:48a:5970:1fe1 with SMTP id 5b1f17b1804b1-48a83d6a8b6mr90374315e9.4.1777631055567;
+        Fri, 01 May 2026 03:24:15 -0700 (PDT)
+Received: from iku.Home ([2a06:5906:61b:2d00:1220:5ff:c603:f3ad])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-44a8ef52854sm4405895f8f.12.2026.05.01.03.24.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 01 May 2026 03:24:15 -0700 (PDT)
+From: Prabhakar <prabhakar.csengg@gmail.com>
+X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	=?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
 	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>, linux-media@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Ijae Kim <ae878000@gmail.com>
-Subject: Re: [PATCH] media: rcar-vin: Clean up notifier on probe failure
-Message-ID: <20260501095641.GF6708@ragnatech.se>
-References: <20260428125708.93102-1-mhun512@gmail.com>
+	Magnus Damm <magnus.damm@gmail.com>,
+	linux-pci@vger.kernel.org
+Cc: linux-renesas-soc@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Prabhakar <prabhakar.csengg@gmail.com>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH v2] dt-bindings: PCI: renesas,r9a08g045-pcie: Add RZ/V2N support
+Date: Fri,  1 May 2026 11:24:07 +0100
+Message-ID: <20260501102407.29462-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260428125708.93102-1-mhun512@gmail.com>
-X-Rspamd-Queue-Id: B5A674AB6D7
+X-Rspamd-Queue-Id: D38714AB99B
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Spamd-Result: default: False [0.84 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	MID_RHS_MATCH_TO(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[ragnatech.se,none];
-	R_DKIM_ALLOW(-0.20)[ragnatech.se:s=fm2,messagingengine.com:s=fm3];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_MISSING_CHARSET(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[kernel.org,glider.be,gmail.com,vger.kernel.org];
-	URIBL_MULTI_FAIL(0.00)[sea.lore.kernel.org:server fail,ragnatech.se:server fail,messagingengine.com:server fail];
+	TAGGED_FROM(0.00)[bounces-31864-lists,linux-renesas-soc=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	DKIM_TRACE(0.00)[ragnatech.se:+,messagingengine.com:+];
+	FREEMAIL_TO(0.00)[bp.renesas.com,kernel.org,google.com,glider.be,gmail.com,vger.kernel.org];
 	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-31863-lists,linux-renesas-soc=lfdr.de];
+	FROM_HAS_DN(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[niklas.soderlund@ragnatech.se,linux-renesas-soc@vger.kernel.org];
-	MISSING_XM_UA(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	MID_RHS_MATCH_FROM(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	RCPT_COUNT_TWELVE(0.00)[18];
+	FREEMAIL_CC(0.00)[vger.kernel.org,gmail.com,bp.renesas.com,renesas.com];
+	FROM_NEQ_ENVFROM(0.00)[prabhakarcsengg@gmail.com,linux-renesas-soc@vger.kernel.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,messagingengine.com:dkim,ragnatech.se:email,ragnatech.se:dkim,ragnatech.se:mid]
+	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
+	NEURAL_HAM(-0.00)[-0.995];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	TO_DN_SOME(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[bp.renesas.com:mid,devicetree.org:url,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
 
-Hello Myeonghun and Ijae,
+From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Thanks for your patch.
+Document the Renesas RZ/V2N PCIe host controller, which is compatible with
+the RZ/G3E PCIe IP and therefore uses it as a fallback compatible. The
+only difference is that it uses device ID 0x003B.
 
-On 2026-04-28 21:57:04 +0900, Myeonghun Pak wrote:
-> rvin_group_notifier_init() initializes the group notifier before
-> parsing the graph and adding async connections. If parsing fails
-> after that point, the function returns without cleaning up the
-> notifier, leaving the async connections and their fwnode references
-> behind.
-> 
-> The Gen2/default probe path also fails to drop the group reference
-> when rvin_group_notifier_init() returns an error after
-> rvin_group_get() succeeded. Unlike a successful probe, .remove() is
-> not called for this path, so the probe error path must unwind it
-> directly.
-> 
-> Route notifier-init failures through a common cleanup path, clear
-> the cached async connection pointers after cleanup, and make the
-> default probe path mirror the CSI-2/ISP group unwind.
-> 
-> Fixes: 856b49c71ae5 ("media: rcar-vin: Merge all notifiers")
-> Co-developed-by: Ijae Kim <ae878000@gmail.com>
-> Signed-off-by: Ijae Kim <ae878000@gmail.com>
-> Signed-off-by: Myeonghun Pak <mhun512@gmail.com>
+Make the binding title generic to avoid extending the title for each new
+SoC, and update the description to list the supported SoCs and their
+capabilities.
 
-Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+---
+v1->v2:
+- Updated the title
+- device-id value updated to lowercase
 
-> ---
->  .../media/platform/renesas/rcar-vin/rcar-core.c    | 32 ++++++++++++++++++----
->  1 file changed, 26 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-core.c b/drivers/media/platform/renesas/rcar-vin/rcar-core.c
-> index c8d564aa1e..8ba8d49c3e 100644
-> --- a/drivers/media/platform/renesas/rcar-vin/rcar-core.c
-> +++ b/drivers/media/platform/renesas/rcar-vin/rcar-core.c
-> @@ -318,6 +318,20 @@ static const struct v4l2_async_notifier_operations rvin_group_notify_ops = {
->  	.complete = rvin_group_notify_complete,
->  };
->  
-> +static void rvin_group_notifier_cleanup(struct rvin_group *group)
-> +{
-> +	v4l2_async_nf_cleanup(&group->notifier);
-> +
-> +	guard(mutex)(&group->lock);
-> +
-> +	for (unsigned int i = 0; i < RCAR_VIN_NUM; i++)
-> +		if (group->vin[i])
-> +			group->vin[i]->parallel.asc = NULL;
-> +
-> +	for (unsigned int i = 0; i < ARRAY_SIZE(group->remotes); i++)
-> +		group->remotes[i].asc = NULL;
-> +}
-> +
->  static int rvin_group_parse_of(struct rvin_dev *vin, unsigned int port,
->  			       unsigned int id)
->  {
-> @@ -440,7 +454,7 @@ static int rvin_group_notifier_init(struct rvin_dev *vin, unsigned int port,
->  		/* Parse local subdevice. */
->  		ret = rvin_parallel_parse_of(vin->group->vin[i]);
->  		if (ret)
-> -			return ret;
-> +			goto err_cleanup;
->  
->  		/* Parse shared subdevices. */
->  		for (id = 0; id < max_id; id++) {
-> @@ -449,7 +463,7 @@ static int rvin_group_notifier_init(struct rvin_dev *vin, unsigned int port,
->  
->  			ret = rvin_group_parse_of(vin->group->vin[i], port, id);
->  			if (ret)
-> -				return ret;
-> +				goto err_cleanup;
->  		}
->  	}
->  
-> @@ -460,11 +474,14 @@ static int rvin_group_notifier_init(struct rvin_dev *vin, unsigned int port,
->  	ret = v4l2_async_nf_register(&vin->group->notifier);
->  	if (ret < 0) {
->  		vin_err(vin, "Notifier registration failed\n");
-> -		v4l2_async_nf_cleanup(&vin->group->notifier);
-> -		return ret;
-> +		goto err_cleanup;
->  	}
->  
->  	return 0;
-> +
-> +err_cleanup:
-> +	rvin_group_notifier_cleanup(vin->group);
-> +	return ret;
->  }
->  
->  /* -----------------------------------------------------------------------------
-> @@ -1228,8 +1245,11 @@ static int rcar_vin_probe(struct platform_device *pdev)
->  		break;
->  	default:
->  		ret = rvin_group_get(vin, rvin_parallel_setup_links, NULL);
-> -		if (!ret)
-> +		if (!ret) {
->  			ret = rvin_group_notifier_init(vin, 0, 0);
-> +			if (ret)
-> +				rvin_group_put(vin);
-> +		}
->  
->  		if (vin->info->scaler)
->  			vin->scaler = vin->info->scaler;
-> @@ -1264,7 +1284,7 @@ static void rcar_vin_remove(struct platform_device *pdev)
->  
->  	if (&vin->v4l2_dev == vin->group->notifier.v4l2_dev) {
->  		v4l2_async_nf_unregister(&vin->group->notifier);
-> -		v4l2_async_nf_cleanup(&vin->group->notifier);
-> +		rvin_group_notifier_cleanup(vin->group);
->  	}
->  
->  	rvin_group_put(vin);
-> -- 
-> 2.49.0
+Note this patch was originally sent as part of series [0], as RZ/V2H
+support needs discussion sending this single patch. The RZ/V2N support
+can be merged independently of RZ/V2H.
 
+[0] https://lore.kernel.org/all/20260318124450.163471-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
+---
+ .../bindings/pci/renesas,r9a08g045-pcie.yaml  | 23 ++++++++++++-------
+ 1 file changed, 15 insertions(+), 8 deletions(-)
+
+diff --git a/Documentation/devicetree/bindings/pci/renesas,r9a08g045-pcie.yaml b/Documentation/devicetree/bindings/pci/renesas,r9a08g045-pcie.yaml
+index a67108c48feb..90086909e921 100644
+--- a/Documentation/devicetree/bindings/pci/renesas,r9a08g045-pcie.yaml
++++ b/Documentation/devicetree/bindings/pci/renesas,r9a08g045-pcie.yaml
+@@ -4,21 +4,27 @@
+ $id: http://devicetree.org/schemas/pci/renesas,r9a08g045-pcie.yaml#
+ $schema: http://devicetree.org/meta-schemas/core.yaml#
+ 
+-title: Renesas RZ/G3S PCIe host controller
++title: Renesas RZ/G3S PCIe host controller (and similar SoCs)
+ 
+ maintainers:
+   - Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+ 
+-description:
+-  Renesas RZ/G3{E,S} PCIe host controllers comply with PCIe
+-  Base Specification 4.0 and support up to 5 GT/s (Gen2) for RZ/G3S and
+-  up to 8 GT/s (Gen3) for RZ/G3E.
++description: |
++  PCIe host controller found in Renesas RZ/G3S and similar SoCs complies
++  with PCIe Base Specification 4.0 and supports different link speeds
++  depending on the SoC variant:
++    - Gen2 (5 GT/s): RZ/G3S
++    - Gen3 (8 GT/s): RZ/G3E, RZ/V2N
+ 
+ properties:
+   compatible:
+-    enum:
+-      - renesas,r9a08g045-pcie # RZ/G3S
+-      - renesas,r9a09g047-pcie # RZ/G3E
++    oneOf:
++      - enum:
++          - renesas,r9a08g045-pcie # RZ/G3S
++          - renesas,r9a09g047-pcie # RZ/G3E
++      - items:
++          - const: renesas,r9a09g056-pcie # RZ/V2N
++          - const: renesas,r9a09g047-pcie
+ 
+   reg:
+     maxItems: 1
+@@ -152,6 +158,7 @@ patternProperties:
+         enum:
+           - 0x0033
+           - 0x0039
++          - 0x003b
+ 
+       clocks:
+         items:
 -- 
-Kind Regards,
-Niklas Söderlund
+2.54.0
+
 
