@@ -1,79 +1,79 @@
-Return-Path: <linux-renesas-soc+bounces-31960-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-31961-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id kGg+AK/1+Glr3gIAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-31960-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 04 May 2026 21:38:23 +0200
+	id eLSLBvr7+Gmo3wIAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-31961-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 04 May 2026 22:05:14 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52C444C34F8
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 04 May 2026 21:38:21 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F6D64C3660
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 04 May 2026 22:05:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id D4F7A3027117
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  4 May 2026 19:37:52 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 5633A300862E
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  4 May 2026 20:05:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 503FB3FBEA8;
-	Mon,  4 May 2026 19:37:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C3AC02DF138;
+	Mon,  4 May 2026 20:04:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SSCcPRq5"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="d2XOCKS7"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
+Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 033CB3D3016
-	for <linux-renesas-soc@vger.kernel.org>; Mon,  4 May 2026 19:37:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95B51299929
+	for <linux-renesas-soc@vger.kernel.org>; Mon,  4 May 2026 20:04:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777923469; cv=none; b=dPOt+NmXJfk8jVIWVcs6ghAxniVkIqp/cIbC0IiGkmVdnc9Mq0u8GrL0fYeqn8T16JcP8C0hMfB7jHRlUU9rYuXAIH6GHKzFQ3N3u26Rc47DeGdIlSq+jpl6GhI4D/MQ6CD7a6qnKoecSHW0zAiPAZci04iz2EZ8rRlmwJYSRo8=
+	t=1777925099; cv=none; b=lPx0h+CkbX1svJVXRQYxcv8QEc6w/k7PqaEmehARFjxeIihLaU0jhN2jkHVTx2BOj5eY7tNoX4wIVz3t/d0DiRXi0z9pcZQsULojxgrz8AsUhm17V6Rm59umCUjRMTk68gF4prvlRD+7SOXhBjvY8WghinTP+/mPyEJWh9wxlEo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777923469; c=relaxed/simple;
-	bh=1JOyIRRgBwbB/DhfXPbjmSn8yLF9GaFDLeyZF/pITec=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Cc0KzrUv/My9pGeyRRZUJUuhtrArw923VlCSK4pv/UJNE92/DZ5vYW5xQKG1xR2UqbwL29+XAYPuUC3+bOPLzyLH99/OZ/UE+rmq65rsz7WwuQdm4duIFS/XMHs4UiPcn60YuRv8lFhssT5isYIZsz6iI1e/MsvatZGyBtChEoE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SSCcPRq5; arc=none smtp.client-ip=209.85.210.172
+	s=arc-20240116; t=1777925099; c=relaxed/simple;
+	bh=9FExhyEXJ4WBPBrmzB7MamfjwiWuLla0OnVKfsSONcs=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=azt9EdDwKLBB02QHsfyRlegBQNYBSZUnzATc9pLPi69tZCcw2wP0bx7N2VH2rNeThIy3Q5fh55qikb6tnSsneW5SRJXKbIvX995ITRL2yYwLPvOFUSshXCxjFT6s8H8XKSgHzPYpEy8IbGRFP+BLfC07njolmKZKkPS8sWFQpLk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=d2XOCKS7; arc=none smtp.client-ip=209.85.216.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-8296d553142so3363897b3a.3
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 04 May 2026 12:37:46 -0700 (PDT)
+Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-3651fa24c6bso1476003a91.2
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 04 May 2026 13:04:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777923466; x=1778528266; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1777925098; x=1778529898; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=f0aIguRQYWYljT8AmitpZ9/B4tpFTi2ewvWnvOjrRTM=;
-        b=SSCcPRq5Ssgo+8Kjf84DWCka94hZLFw8sTMgiVgfAdZ1DQ+yt7bu/gXG2voYqFe0g9
-         3lB90HgwGgAKXsshtNsxiHxB+A7gsX6qRPjdpVANMcXc71OsTg5gV8WccvI34K1sEiOm
-         K+ZepyzbKqay8soo1WLsl7r+7H+pixbstcegEedpIW8ScTfVMVLEkl25e7nb1ELW0iFN
-         Rw8+o9qXQ8JVCApGCZaEl5avy4g1zjo5h09naV5/Ix3d+qTorKyJmocfxvtNFYlKIOe1
-         4DTga03LkTI7/GwXY7eovJG222znrMkQyN4qvDGn2P/V3U0Wbadp2fQ4VCFodgK5H6Bq
-         7iBw==
+        bh=x/sRxkDkVrRV3H5gNylpkzPThQXe+Qe8Y/t+6Rr0fC0=;
+        b=d2XOCKS7dwWVlHah/Rj5orx2VjgSTfgHgi9L/6CQOyxvMSm5NkPm9S82gXhbnIZ/Ad
+         8yDtG3Ln3xl/3lAHMlVl7OF6V5LnkmtDrAruOIJS6hSwmGKE4LWg5hOaH7CY2zXGAIkA
+         HQ/olcQDRb8iNI4jPMbasHvqpN80tIeLDXfkQhnclIwzKmSHnOCTogXEa6WHkKwR/Hd7
+         ff4uP4tFM5J/NZwFsqV+MWNBsvHEi+9HRFJ0t0AWvuPbQE3uAG0YMl5dwV2bWCs2KBn/
+         EqvGKhTzNqzRvqGHjXeffB0CM7bF2lGhf8uYOXhoKx2PDkGErJ5nAwG0T0er9Lx/ujvz
+         NQUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777923466; x=1778528266;
+        d=1e100.net; s=20251104; t=1777925098; x=1778529898;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=f0aIguRQYWYljT8AmitpZ9/B4tpFTi2ewvWnvOjrRTM=;
-        b=rVAlTUiDlsR5DnHdyHxgl+3TlQF9UsOfv0S1KZkNBVK8qqDngXhAj/h9IMePSX/JiA
-         PCak52rGgrE3kQ1BsrJspQRLqhQXxMdUD/cnmpRwJY5vREjscOL3c1w3gM8LcNgt4qT5
-         JbrHRlLZiiKEcmJF7hdaPLUO+9MIZpyOfJJoGw2QxE2mEPumrzOF7jg4ZLSTebeSPLy6
-         9RhCJayEKs8orzAf/2ExcnL91EBkC6Hsz66fDjLsrfSZLOzpsgjN6qe9OI6uznZuRG6e
-         YhHeyTcHl2Zl4BF96EIgFRymF4+6hkQcWyfHsXg5vNhLBcrAS8Tc5GwcHWn9Kbdpt1BD
-         GxDg==
-X-Forwarded-Encrypted: i=1; AFNElJ8O4eoQYboY3HKn4gQlmpcTgLbdXpmlfTXOCk+fzQ7Kq1pZaGyFvtROtinc8IGAs2G1SKJCwe5Tx3WMCMNcwU9r6A==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy/e+qWDy93i7Ih7G8tmvaAH5i+vzrXR+Rb2cgWQGE8zEu6mPGQ
-	0d7aUfBP05R5tkCL+BmzLB3fDe+mj9i72kBefgKJnjG2Hvu9NB6NB05S
-X-Gm-Gg: AeBDietY6xH7yh4Fg0KKaxJy4hptKQ+d+j3zRJeeCboGvxHYUwTRGcGV8AxsCZgkcFo
-	WOwo+eAdj3Me5XFfd5BgDFgEXLU5WrFw8EzQeSyJgIR9lmcqxEI3Jg7cXViD8FxUvs10M2xxGDf
-	AekaSW7MOszfpKaMZ2EPZ+9WO9JXkM58AD8ZP7cKiJgj36m6zu6a2lqZHdftXiZf7839CW1FRdB
-	Fbue6RuooP9aKX0JFrD9RMWveS8LXPLlJ4W8pSa3tAy0XAa0giM3tobNotEpapkcu+UbrwibBRC
-	SXt0ikjnSPws+4yLMijZNm27JL9PIq2Lmp/e7UqLJKD+KNcyaYNcnG4IvPYvGmO/o1RNCofdN9C
-	XgfQ+l2XCeM28pqiJo+osHuoyPNUkpJruqp820h6B9VnJm4rJoKbJ+Ow9CmofO3DKOR5saDMHqD
-	A2K7s9dODyOFg6+GQVtI18mMEcKYYTDD3s8L95M+AHq63Kq6r47b37NA2gEA/RkpZifj00lmbL
-X-Received: by 2002:a05:6a00:3a15:b0:82f:761:2b49 with SMTP id d2e1a72fcca58-8352d2b0b51mr9887750b3a.49.1777923466340;
-        Mon, 04 May 2026 12:37:46 -0700 (PDT)
+        bh=x/sRxkDkVrRV3H5gNylpkzPThQXe+Qe8Y/t+6Rr0fC0=;
+        b=Km/as/yTKJnAXrljY9A0/ultaEb/tn8WIgImk15HFnk4nZcM7M+VedcVxThazbZgG7
+         SAjJPMpiRnqCHKQ+4lSIYKcdkVkFACfJaJZdXS/sBCOQ6eQ1r9fMwgfsS0PYH+NnyxiZ
+         0+0liuF5EuRl2MlzNssi9GEiW3msIMsrGa94FY0TnhYa6XeZ/jXJrSQjJYYokU2k86sY
+         SatI/1hXzxs/RFx8hUKT9ypzKVmTX1MleaX8ihzUhJZQd3HIDFBIzbf7d5ZHMlDuofZs
+         gNg3uVILTVwhS+sHEDpgzMP5efIyC8+XqNQv06PhNL73JfRjfDLVN0uECCZcUiDIdUv/
+         PHGg==
+X-Forwarded-Encrypted: i=1; AFNElJ+7Na4PhVjz5//7MHNr0birucN+Pewr/fH56EP9kJ3zwcWaRvrgbGoQcokQHAztZg8M5HSOQSCNED8rRVuw2+SLIw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxJFTG7ZbS7HZ8lGv5H5ABDvPW5MOTTjptTn0k+spcUCYWPGq3K
+	sFzZkOqYbzGPu8NBdHa6QP1rcwEZPww13dO+3SbnL1zLDSf3lbIkjrQr
+X-Gm-Gg: AeBDievVdp00ynENVRzjJUoMmegI0Sm4kFy4Km+eI0kwXWxvmmQtFeyDcfQ2IYZaUsW
+	Gf30+H3YKqiu1FchXT2Z3Lzom2N7AQwemTBbPIVsQZ+bB35qOzxikz8kgiBpA8U2yAqwYAB+8ET
+	w37xe9ASSkkN2/tbxaBukmZIi11v6IDpmE7g5EMUxEvNuKQriDGGX6pryl2TaXSEwmG6lOIBPzd
+	v2PeU0+hhqDe3WAiVAkb1VR0SS8ocW7DZ2iNfKwcgg8chsBb5Pyb7CG2Q2fcatrBDjo3nAscWdl
+	UgUQetHpYhD0u4JK+W8yyR9Vfa3LK6Z4otfQZI2++Dsa07HBa/gWaiRGB0lVSRkEvRiriyHg1r4
+	Q6WMw3gMQhCiMT7T3m86F1KlgDnWaHTzNcOV6ccD2TDztDSyBt39AhqCfFNGMjfjliV32FQutO7
+	X1PnaXBCcg04T9KVAlSWZZb6R7kC+OyFUo88lDT7xjPDZfrR/EL5NYaJPi8SsDOoVTt2AZGOKp
+X-Received: by 2002:a17:90b:578b:b0:35b:e51a:ec77 with SMTP id 98e67ed59e1d1-3657747c6b0mr314095a91.16.1777925097943;
+        Mon, 04 May 2026 13:04:57 -0700 (PDT)
 Received: from localhost.localdomain ([115.110.225.242])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8392aeed4e2sm88980b3a.15.2026.05.04.12.37.42
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-364bdf2aa41sm20545525a91.4.2026.05.04.13.04.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 May 2026 12:37:45 -0700 (PDT)
+        Mon, 04 May 2026 13:04:57 -0700 (PDT)
 From: Shitalkumar Gandhi <shital.gandhi45@gmail.com>
 X-Google-Original-From: Shitalkumar Gandhi <shitalkumar.gandhi@cambiumnetworks.com>
 To: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
@@ -86,11 +86,10 @@ Cc: Jakub Kicinski <kuba@kernel.org>,
 	netdev@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Shitalkumar Gandhi <shitalkumar.gandhi@cambiumnetworks.com>,
-	Felix Gu <ustc.gu@gmail.com>
-Subject: [PATCH net] i2c: sun6i-p2wi: fix of_node reference leak in probe
-Date: Tue,  5 May 2026 01:06:59 +0530
-Message-Id: <20260504193659.3515669-1-shitalkumar.gandhi@cambiumnetworks.com>
+	Shitalkumar Gandhi <shitalkumar.gandhi@cambiumnetworks.com>
+Subject: [PATCH net] net: rtsn: fix mdio_node leak in rtsn_mdio_alloc()
+Date: Tue,  5 May 2026 01:33:56 +0530
+Message-Id: <20260504200356.3529873-1-shitalkumar.gandhi@cambiumnetworks.com>
 X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
@@ -99,81 +98,77 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 52C444C34F8
+X-Rspamd-Queue-Id: 1F6D64C3660
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.16 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-1.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCPT_COUNT_TWELVE(0.00)[12];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	TAGGED_FROM(0.00)[bounces-31960-lists,linux-renesas-soc=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_CC(0.00)[kernel.org,davemloft.net,google.com,redhat.com,lunn.ch,vger.kernel.org,cambiumnetworks.com,gmail.com];
+	TO_DN_SOME(0.00)[];
+	DKIM_TRACE(0.00)[gmail.com:+];
 	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-31961-lists,linux-renesas-soc=lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[shitalgandhi45@gmail.com,linux-renesas-soc@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
 	RCVD_COUNT_FIVE(0.00)[5];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	NEURAL_HAM(-0.00)[-0.999];
 	TAGGED_RCPT(0.00)[linux-renesas-soc];
-	NEURAL_HAM(-0.00)[-0.989];
-	TO_DN_SOME(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[cambiumnetworks.com:mid,cambiumnetworks.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[cambiumnetworks.com:mid,cambiumnetworks.com:email,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
 
-of_get_next_available_child() returns a device_node pointer with an
-incremented reference count.  The reference taken in p2wi_probe() for
-the optional child node was dropped on neither the early return when
-the "reg" property is missing/invalid nor on the success path, so a
-reference is leaked once on every successful probe and twice on every
-failed one.
+of_get_child_by_name() takes a reference. The rtsn_reset() and
+rtsn_change_mode() failure paths jump to out_free_bus and leak
+mdio_node.
 
-Use the scoped __free(device_node) cleanup helper at the point of
-acquisition so the reference is dropped automatically on every exit
-path.
+Add out_put_node to drop it before falling through.
 
-Suggested-by: Felix Gu <ustc.gu@gmail.com>
-Link: https://lore.kernel.org/linux-i2c/20260201-p2wi-v1-1-e0ec9cda82b3@gmail.com/
-Fixes: 3e833490fae5 ("i2c: sunxi: add P2WI (Push/Pull 2 Wire Interface) controller support")
-
+Fixes: b0d3969d2b4d ("net: ethernet: rtsn: Add support for Renesas Ethernet-TSN")
 Signed-off-by: Shitalkumar Gandhi <shitalkumar.gandhi@cambiumnetworks.com>
 ---
- drivers/i2c/busses/i2c-sun6i-p2wi.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/net/ethernet/renesas/rtsn.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/i2c/busses/i2c-sun6i-p2wi.c b/drivers/i2c/busses/i2c-sun6i-p2wi.c
-index fb5280b8cf7f..652b37b57159 100644
---- a/drivers/i2c/busses/i2c-sun6i-p2wi.c
-+++ b/drivers/i2c/busses/i2c-sun6i-p2wi.c
-@@ -184,7 +184,6 @@ static int p2wi_probe(struct platform_device *pdev)
- {
- 	struct device *dev = &pdev->dev;
- 	struct device_node *np = dev->of_node;
--	struct device_node *childnp;
- 	unsigned long parent_clk_freq;
- 	u32 clk_freq = I2C_MAX_STANDARD_MODE_FREQ;
- 	struct p2wi *p2wi;
-@@ -223,7 +222,8 @@ static int p2wi_probe(struct platform_device *pdev)
- 	 * In this case the target_addr is set to -1 and won't be checked when
- 	 * launching a P2WI transfer.
- 	 */
--	childnp = of_get_next_available_child(np, NULL);
-+	struct device_node *childnp __free(device_node) =
-+		of_get_next_available_child(np, NULL);
- 	if (childnp) {
- 		ret = of_property_read_u32(childnp, "reg", &target_addr);
- 		if (ret) {
+diff --git a/drivers/net/ethernet/renesas/rtsn.c b/drivers/net/ethernet/renesas/rtsn.c
+index 03a2669f0518..c46d991cceb5 100644
+--- a/drivers/net/ethernet/renesas/rtsn.c
++++ b/drivers/net/ethernet/renesas/rtsn.c
+@@ -797,11 +797,11 @@ static int rtsn_mdio_alloc(struct rtsn_private *priv)
+ 	/* Enter config mode before registering the MDIO bus */
+ 	ret = rtsn_reset(priv);
+ 	if (ret)
+-		goto out_free_bus;
++		goto out_put_node;
+ 
+ 	ret = rtsn_change_mode(priv, OCR_OPC_CONFIG);
+ 	if (ret)
+-		goto out_free_bus;
++		goto out_put_node;
+ 
+ 	rtsn_modify(priv, MPIC, MPIC_PSMCS_MASK | MPIC_PSMHT_MASK,
+ 		    MPIC_PSMCS_DEFAULT | MPIC_PSMHT_DEFAULT);
+@@ -823,7 +823,8 @@ static int rtsn_mdio_alloc(struct rtsn_private *priv)
+ 	priv->mii = mii;
+ 
+ 	return 0;
+-
++out_put_node:
++	of_node_put(mdio_node);
+ out_free_bus:
+ 	mdiobus_free(mii);
+ 	return ret;
 -- 
 2.25.1
 
