@@ -1,162 +1,160 @@
-Return-Path: <linux-renesas-soc+bounces-31929-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-31930-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id ALp1Ea9W+GnTtAIAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-31929-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 04 May 2026 10:19:59 +0200
+	id SMWSD15d+GnatQIAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-31930-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 04 May 2026 10:48:30 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id D87C44BA16D
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 04 May 2026 10:19:58 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 390334BA7E1
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 04 May 2026 10:48:29 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id DE9D43004DD4
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  4 May 2026 08:19:57 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 66A36300869E
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  4 May 2026 08:48:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6712F31ED8B;
-	Mon,  4 May 2026 08:19:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5542134B1AD;
+	Mon,  4 May 2026 08:47:51 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f175.google.com (mail-vk1-f175.google.com [209.85.221.175])
+Received: from mail-vk1-f174.google.com (mail-vk1-f174.google.com [209.85.221.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71B883016EE
-	for <linux-renesas-soc@vger.kernel.org>; Mon,  4 May 2026 08:19:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8A57345CBE
+	for <linux-renesas-soc@vger.kernel.org>; Mon,  4 May 2026 08:47:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777882796; cv=none; b=L+m8WDpKpYKAIcsFM9DJvWqV5hALX5FLPRqdj/cLkrKgN2OwTd7AevHdYEwmxRL9xwuhVLR3IcVznxXLQ9K3xwkFwdmRGnXffyDsAb+Jmi58LAXOo68mec9cOx2ybpmO5tsERAqJHTyOMnK5Un/pgijlyaYqW4XhA0RRWQcY2PA=
+	t=1777884471; cv=none; b=caRN8SyaDNri3P8QjyJs2lKYV3D11U0axaHqV387mIoerm+ZQ/mFeH0t/SF2rJIl60EhRdc4BklF3AiGsAdoo1Gk0ypMj8+bZznJbuL+5T8zFeL0wQ1E98G+2PGoBg/7QKyqPWHtE8f7F9w/vbvzIvW4mZV4deKDiR/9rCJYG2Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777882796; c=relaxed/simple;
-	bh=ufP7vWp08CvNF0edUBUSk2pG6uz8C46BeoX5YxHUf7Q=;
+	s=arc-20240116; t=1777884471; c=relaxed/simple;
+	bh=9ThezaybU6JMwgX8EqkJ2e4UKZQQL7Vuu4i/Sg0xHEE=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=AoNi3oQyimaJDM8VF3KtRZ8vNiJHfDMHKUUcqFZ41xvLJtz8whNKEZrtaTzxypGmEk3VYCi2y1rFjRk66PKOpGmCxUUFYIK8jlgLLgGdhRn39TfQyXl3TTVMl4qIqvQ4slH3T9sPm8EXNF/vFA2O/cNmpwtH7dQLQbE8lI24Zs8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.175
+	 To:Cc:Content-Type; b=F8aI0IZ4mhfXJmqgjwfreb9gw1mQ3B/jUUbq1+Lq2qNmHX5jRmKMiw7rAcrDK15rcgEr6ydIQNcKcAqKml7xoTSkkZeb3rF/7LNnX0g+HStbBgY5NIqvUlqHj17Jr9KkZgyIrqGGezhVxf3n4kU2bi0oyFkZ9Ge2XhdNlGGzwAQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f175.google.com with SMTP id 71dfb90a1353d-575320e6f2aso314985e0c.0
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 04 May 2026 01:19:54 -0700 (PDT)
+Received: by mail-vk1-f174.google.com with SMTP id 71dfb90a1353d-57516bb40b9so881907e0c.1
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 04 May 2026 01:47:49 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777882793; x=1778487593;
+        d=1e100.net; s=20251104; t=1777884469; x=1778489269;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=9bVJNr48mbuXqcLtQanZN2nd/IOT9Q1mbdvULl7e7Mc=;
-        b=pUVXimPoKxA+C2bneD/IPOW4A/bDaaYeVpeMjV+xWwH9KCI4R9l9+2UPV4HFqcZyT9
-         gR0mpw8QZ+63hnOisImN7vCTNk0nz6mv4YJglnZYboG9HkZgNZx+pGy8Evku0WpOHWfL
-         pDsH1k+Cu+jyOpZlyuvvefRWR6ZF6DWZN2w1gk8QEoZH45dZpkFiH+OHCUifuStjeRrV
-         Lw63WJ9cYLHFcUJMxG6P4sa3Dwc7heZVsX3rKx5uLQFJKlgK414q/IFy06JpILDDMHnJ
-         dpi0l/pDOoJ1TdW2WCbl0ii6fHLWKYcnnC63AH6zaYz9GT3SVB36LTptomKJ0hErXMUl
-         CUCQ==
-X-Forwarded-Encrypted: i=1; AFNElJ9pRu2kkqE9vLpVC04p7ytvXhAQru11Qc43Nuy4MUlP6UFOrrsys6MAxiG4knYyOobkSDG1uCCpHeAw8Ki1sTIs5w==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyiYnU2B2L+9Dt5OQVMT+S4rjk3px1CNd0AW+NMonmvpjLJMEWQ
-	oId6HZ9BcPJAAIYfoJ+ToNKbFt8UdR/8BO9FqdMxzjkw6HOW2KnzPyScpEtynNxB
-X-Gm-Gg: AeBDievAdXzATA6BuiQs4abS0L20DsHtlbaaghW9GT8BmejmOD3ugITetwteDplGA48
-	zhnd/hvcLRVK9MuHYmKxd5sMRJLIQ5Rxi1wySuynOg7cfGX+2vBwjYzM+QqZHBGoDUeXEXdY/+4
-	fiF6DFmE9ioQMHd1X0d2MTREhLB2hpMW6wVpPB4MBxsWoga4TTsfhRuweIPzgZY/bEjQtSlcYzW
-	MShSCYks5eNUOkHpZ9K1Ve0nudADJfqrOfWxoibaYbgtrodPD5svFCGMcE/BRvVCC09vMwXiKR1
-	9pVb+E4tuokRQPyeSuz0GFZ/xgxcOOrveYuNr3foH7aUG4fHz15gYp3a5QAL+t4mGkjN6+1Wn2h
-	UY/QHYVCRrxTqW3LJLizaWdyY5uErd5wZPbj/jbLwpeXLTfxPhPbT3Z1FbT2zHuwA20+dlPb97N
-	3NcDry6RyYDemUusdrkIm/VdH++W9TE0y1MxDCML41Sfr3xn0dqDhyvOqnYbvc6/hL9hiXHq4=
-X-Received: by 2002:a05:6122:e14e:b0:56b:1eb:d396 with SMTP id 71dfb90a1353d-5750c6eccd5mr3817244e0c.14.1777882793462;
-        Mon, 04 May 2026 01:19:53 -0700 (PDT)
-Received: from mail-ua1-f53.google.com (mail-ua1-f53.google.com. [209.85.222.53])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-574a6c6c582sm5809874e0c.9.2026.05.04.01.19.52
+        bh=d7dAimrYwm3G27zNKOrwjz8dgHuGQ7JjwxtM6TGtY+M=;
+        b=pUh3kBC1K0EXNA12iCwHYUR9zWVRWAGlg17SOZRUaxrmnq5O0wa3L499SDSdGh/kKD
+         QDr7oG8xZ9Vc1s0a6b5A+Cwa87bfMTC1XIsNaYvJQdKVxau8eapU2u3VGfsT25nslu5w
+         0sIP+56M43JCSFwIWUUjDNOCJWeT6kWxVOfK3BvVmRY0erhGq/QKGY2QTjg9WhZBNZIW
+         c9pNfsXxRl4MyvXj7RiPpaC5FhBFQokY1jDNzHi0HB3OcRasRwp4MF7hYPNqbl2HWAUB
+         wUhhA1AS1YP0NHlISzh/0ldbpNvheQ8udspoyuWLnYkYRS0j72m2ukEReXbtARuVd9Vi
+         fXxA==
+X-Forwarded-Encrypted: i=1; AFNElJ+jiHmY0dFWWdO9eCLxzmiehjnpw6N8xFUUVU5QGQOBGIEOekQzVRUhx9jNS24DShaMJfqp27FUuko93wNKNzD3jg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyFOJecKmw8TCTAekqN419fGNHfgqHq4DH+eEuCrTTFqtVolZgL
+	0PmoLCceET3AcKhBHlXQaDBPpaNRMQWg8n1Dja0BWvGepQgkAiq3YCIGfPb12mGH
+X-Gm-Gg: AeBDieud55lDPxSdA/gfXrlcdQJGC56r4FlwKA05my1mE4MgPvFmKF/tQ+urcHQ258+
+	FrnqlPG6q1/B591GaVKK8rEFkXR7ArIvRLmMNeelY0gXtki4/i9Cpye9Qmpw2OZIwTGKxGdEjLJ
+	dfeioEbAV2OGFLSO2IarbWZisEXWRrev54CfGHPp3U7sMRYnX8IJQCArQhbyptFd6oKyszcdnwU
+	Bn9i1FcpFEi9X7S5pEXILo/1gp3IKcyTczZXzCrkCgQdPOOxCDCgnvTcNGNQjKyyh1OgrLnhLMT
+	attmGDHiNmFqJLO0pkHgngKfEfGkm2oPdZFztgSijbn599mI/rb4djFLlbkxx/oz3796WgiZgqx
+	OGk275heokBwKE6sR16xnR2IBX7HlzzzJ9h1QLbGVmDgzamP20SZLAoPh1Sf6dwFh4pk5Wq04Hq
+	5+z1uLILr0q+3skXBH/C6cnkEmGIj93LeLLp6bE74fh1aUpfTAbL8ZVMWbPmKW+TQEEd4MfP9p7
+	hros0iSMjU0Ug==
+X-Received: by 2002:a05:6102:1046:b0:62f:2ecd:3c9a with SMTP id ada2fe7eead31-62f2ecd4eb1mr1209775137.2.1777884468798;
+        Mon, 04 May 2026 01:47:48 -0700 (PDT)
+Received: from mail-vk1-f173.google.com (mail-vk1-f173.google.com. [209.85.221.173])
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-95ce068694csm5219332241.0.2026.05.04.01.47.48
         for <linux-renesas-soc@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 04 May 2026 01:19:53 -0700 (PDT)
-Received: by mail-ua1-f53.google.com with SMTP id a1e0cc1a2514c-95d04f205beso832324241.3
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 04 May 2026 01:19:52 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ/2LFqH7tS6ML/q5DrYyeJQnlHJi0vzYlyO18hDPKuFrPLduYln2SG+PNSxO4oSnF3Auku+kgHwgPcPBdGWMtPgyg==@vger.kernel.org
-X-Received: by 2002:a05:6102:809e:b0:605:6089:674a with SMTP id
- ada2fe7eead31-62d8754d144mr3013701137.23.1777882792441; Mon, 04 May 2026
- 01:19:52 -0700 (PDT)
+        Mon, 04 May 2026 01:47:48 -0700 (PDT)
+Received: by mail-vk1-f173.google.com with SMTP id 71dfb90a1353d-56a86f0a23bso4019724e0c.0
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 04 May 2026 01:47:48 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ8PAiF9Q+0P8haYihl0WUCQ395cS8mMzBlvDpW7qsDvABLq+m1yGqtoUAVS9A1N++pxo41UgRDckqYHaXayD48kEw==@vger.kernel.org
+X-Received: by 2002:a05:6102:6053:b0:605:6615:d9dd with SMTP id
+ ada2fe7eead31-62d84a737edmr3283917137.3.1777884468126; Mon, 04 May 2026
+ 01:47:48 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260503154439.27362-1-marek.vasut+renesas@mailbox.org> <20260503-vagabond-barge-dac8ececfc11@spud>
-In-Reply-To: <20260503-vagabond-barge-dac8ececfc11@spud>
+References: <20260503-rzg2-sr-boards-v1-0-8545677f93ca@solid-run.com>
+In-Reply-To: <20260503-rzg2-sr-boards-v1-0-8545677f93ca@solid-run.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 4 May 2026 10:19:40 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdV-4jRYfF8LxdP9XrDuKDsAp7ZXdpCChdp=CanE0xGPUA@mail.gmail.com>
-X-Gm-Features: AVHnY4L_7YXtlo4qE1y_LYqC7rM20qjGgpwaQzzNh45fY7gYtsmwSqrimcTuATY
-Message-ID: <CAMuHMdV-4jRYfF8LxdP9XrDuKDsAp7ZXdpCChdp=CanE0xGPUA@mail.gmail.com>
-Subject: Re: [PATCH] schemas: Allow clocks: property in cache nodes
-To: Conor Dooley <conor@kernel.org>
-Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>, devicetree@vger.kernel.org, 
-	Conor Dooley <conor+dt@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Rob Herring <robh@kernel.org>, 
-	linux-renesas-soc@vger.kernel.org
+Date: Mon, 4 May 2026 10:47:35 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdV=SVDL=7vShMgBas4KyUy7_XWs_9khLZSdggJofsA+VA@mail.gmail.com>
+X-Gm-Features: AVHnY4Ja_beTfs2zJQEP15HITljg2EdKPb6XLKJOnEpV1VMzgSNE4T0gDnfoB8Q
+Message-ID: <CAMuHMdV=SVDL=7vShMgBas4KyUy7_XWs_9khLZSdggJofsA+VA@mail.gmail.com>
+Subject: Re: [PATCH 0/4] arm64: dts: renesas: Add various SolidRun RZ/G2 based boards
+To: Josua Mayer <josua@solid-run.com>
+Cc: Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Jon Nettleton <jon@solid-run.com>, Mikhail Anikin <mikhail.anikin@solid-run.com>, 
+	Yazan Shhady <yazan.shhady@solid-run.com>, linux-renesas-soc@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-X-Rspamd-Queue-Id: D87C44BA16D
+X-Rspamd-Queue-Id: 390334BA7E1
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-1.46 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	FROM_HAS_DN(0.00)[];
 	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-31929-lists,linux-renesas-soc=lfdr.de];
+	FREEMAIL_CC(0.00)[gmail.com,kernel.org,solid-run.com,vger.kernel.org];
 	RCVD_TLS_LAST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
-	MIME_TRACE(0.00)[0:+];
 	DMARC_NA(0.00)[linux-m68k.org];
+	TAGGED_FROM(0.00)[bounces-31930-lists,linux-renesas-soc=lfdr.de];
+	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,dt];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[geert@linux-m68k.org,linux-renesas-soc@vger.kernel.org];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	NEURAL_HAM(-0.00)[-0.985];
-	RCPT_COUNT_SEVEN(0.00)[7];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
 	R_DKIM_NA(0.00)[];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,dt];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,glider.be:email,mailbox.org:email,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,linux-m68k.org:email]
+	NEURAL_HAM(-0.00)[-0.984];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,mail.gmail.com:mid,linux-m68k.org:email,solid-run.com:url,solid-run.com:email]
 
-Hi Conor,
+Hi Josua,
 
-On Sun, 3 May 2026 at 20:09, Conor Dooley <conor@kernel.org> wrote:
-> On Sun, May 03, 2026 at 05:44:13PM +0200, Marek Vasut wrote:
-> > Renesas R-Mobile APE6 currently describes clock which supply the cache
-> > controller in their DT using "clocks" property. This is not the only
-> > hardware that has cache controller clock controllable via some sort of
-> > clock controller, for example Altera SoCFPGA Cyclone V and Arria V also
-> > has controllable cache controller clock. Allow clocks: property in cache
-> > controller node to allow users to fully describe such hardware.
+On Sun, 3 May 2026 at 13:18, Josua Mayer <josua@solid-run.com> wrote:
+> Add support for a variety of oliRun RZ/G2 based SoMs and the
+> HummingBoard IIoT Evaluation board.
 >
-> Hmm, shouldn't these cache controllers have dedicated bindings that
-> enforce their clock requirements?
+> Bindings are added for all currently known supported boards, namely:
+> - HummingBoard IIoT
+> - HummingBoard Pro
+> - HummingBoard Ripple
+>
+> Device-tree are only added for the first board to reduce effort.
+>
+> Signed-off-by: Josua Mayer <josua@solid-run.com>
 
-Just a few general comments:
-  - All electronics needs power, so "power-domains" should always
-    be permitted,
-  - All synchronous logic needs a clock, so "clocks" should always
-    be permitteded,
-  - All reasonably complex circuits need a reset, so "resets" should
-    always be permitted.
+Thanks for your series!
 
-> > Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+FTR, I found documentation (incl. schematics) at:
+  - RZ/G2L SYSTEM ON MODULE
+    https://www.solid-run.com/embedded-industrial-iot/renesas-rz-family/rz-g2l-som/
+  - RZ/V2L SYSTEM ON MODULE
+    https://www.solid-run.com/embedded-industrial-iot/renesas-rz-family/rz-v2l-som/#documentation
+  - RZ/G2LC SYSTEM ON MODULE
+    https://www.solid-run.com/embedded-industrial-iot/renesas-rz-family/rz-g2lc-som/
+  - RZ/G2UL SYSTEM ON MODULE
+    https://www.solid-run.com/embedded-industrial-iot/renesas-rz-family/rz-g2ul-som/
+  - HUMMINGBOARD RZ/G2L IIOT
+    https://www.solid-run.com/embedded-industrial-iot/renesas-rz-family/hummingboard-rz-series-sbcs/hummingboard-rz-g2l-iot-sbc/
+  - HUMMINGBOARD RZ/G2L PRO
+    https://www.solid-run.com/embedded-industrial-iot/renesas-rz-family/hummingboard-rz-series-sbcs/hummingboard-rz-g2l-sbc/
+  - HUMMINGBOARD RZ/G2LC BASE
+    https://www.solid-run.com/embedded-industrial-iot/renesas-rz-family/hummingboard-rz-series-sbcs/hummingboard-rz-g2lc-base/
 
-As I have sent the same patch before[1]:
-Acked-by: Geert Uytterhoeven <geert+renesas@glider.be>
-
-> > --- a/dtschema/schemas/cache.yaml
-> > +++ b/dtschema/schemas/cache.yaml
-> > @@ -33,6 +33,9 @@ properties:
-> >    compatible:
-> >      const: cache
-> >
-> > +  clocks:
-> > +    maxItems: 1
-> > +
-> >    power-domains:
-> >      maxItems: 1
-
-[1] https://lore.kernel.org/20260113075243.1192477-1-geert+renesas@glider.be/
+I believe "BASE" is the Ripple?
 
 Gr{oetje,eeting}s,
 
