@@ -1,81 +1,81 @@
-Return-Path: <linux-renesas-soc+bounces-31949-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-31950-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 2KO3F3Cz+GmWzAIAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-31949-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 04 May 2026 16:55:44 +0200
+	id +FsQNzC1+Gm3zAIAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-31950-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 04 May 2026 17:03:12 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13EDA4C0372
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 04 May 2026 16:55:43 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id C96384C0592
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 04 May 2026 17:03:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 4B24130A23B9
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  4 May 2026 14:46:41 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 46E7D3071AEC
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  4 May 2026 14:46:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B78A03E0C7A;
-	Mon,  4 May 2026 14:45:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 04CD83793B3;
+	Mon,  4 May 2026 14:45:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FYpxs5Uc"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ms8+S/N/"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53B873DF000
-	for <linux-renesas-soc@vger.kernel.org>; Mon,  4 May 2026 14:45:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26F5A3DA7EC
+	for <linux-renesas-soc@vger.kernel.org>; Mon,  4 May 2026 14:45:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777905931; cv=none; b=sRCFHVecZOWmMy1JyqWU9Lr9dxcaWqtwvTjnKwAY9qjjF8GgxMjxge6vnne8LDIwAP1yhJLhzytmR+ycWPX5DgucN+Qxv4NQlPcJYs13nxA4Um9s/05FG+eAq9DxNVMfbIzwMJF+REeMzqRrHtalp7QlK+Qi45Z3O4c4xgEB3h4=
+	t=1777905931; cv=none; b=fel4SbDic6ABfQsbcuPBn5a0w/oaFhN/6NnxsuWXurOmIPKDAW/RD1QWc65wccGWcNGCcHZFeuHQ+bZE58TscSfpp7c4T6sCU/vkw3mDZsb2JTl49VBTP0d5rsjAnaucE+RdnP3eFFklgIH2k39zKR94Anu+aFpJJUsfXq9HtZM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1777905931; c=relaxed/simple;
-	bh=IuPuNT0iWwufeeItnNYuVUA1dN8Pvp00SEXIeDTiV0g=;
+	bh=DvSb/KRNVV3hvhkSLVMtHE11LLpVX9uZOzPUpgHDgA4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ZnNX3qpvCXNAz1yVdhYGXRT5297YDl93dx1wOjI711wopsPLKszDjTBeUr56QUl0EWJN5ry5sVQZ96ofWkz38rNdYbAIlewmEKuZFHus5wgl9tMfNPofmkjuVv/d0gSlvzXhq3C9yplQAej4/GbyYZae+0GE20UHkG0UGfl3FHc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FYpxs5Uc; arc=none smtp.client-ip=209.85.128.41
+	 MIME-Version; b=r+yZtcmtM4YYPNQ7UlWkf/ubf2Iim+Dnl8r4q6vvgitBjbG+O5t+i1fMJOqUvSB08NVZbUI4SZoG/xO/8KqD4e5As9KX/3bzBtT0xrz5oF33hm4giSbsbZAqo4fgcFL352EFR2ZP93VRH65FrTyCvguuw7WhVKnqGOaCvk1QrKM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ms8+S/N/; arc=none smtp.client-ip=209.85.128.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-48a7fe4f40bso44075695e9.0
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-488b3f8fa2bso47638265e9.1
         for <linux-renesas-soc@vger.kernel.org>; Mon, 04 May 2026 07:45:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20251104; t=1777905928; x=1778510728; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=X5fkkKuXHHDwakN2Kt3vbnokuaWWi6ricw4daqx44Ro=;
-        b=FYpxs5UcX1THOKjpk/RZYZB1KPAb2XaPtY5t82ilvKWkBpyFr01qW1G1G4Vn+i98qb
-         CDvyxjCn0yxLaiUff1SHCg8uSFSkCppiAucbcmXSKgWWRWAyMlOTQ8tl4XbY8d9D3Zcz
-         LMI/g1BoOmas5hICsjoebSlUkiZtgoQRtcPbEywM1E81XNzJ/UDWRNUCpD2TUKzBsuN9
-         /G4xpbWwE0gigs0I7oVlaCTQCT5XYqwoCH3qmBOLMTnx+fHPW2x+6GFNFiWTfeq/g26p
-         MkFdzq7PDJujMBuRMtzJPAimiwtblvEoVT6gZALtqmi590+ZtCRVRsOHagX5W19l/+Wy
-         6Amw==
+        bh=XuEh6EHtxHCxSq+G/rcSFvtM5yky+sac6bh6RW7yjz0=;
+        b=Ms8+S/N/V5tv6cxPhhjjrlBfkCdXMhGPlXZb8BG2oZfBePR/8jfjPUufhk7MBf9UJm
+         IJLcVqDhPKcra+CeF1xKdybXxA2NOzoZhvdzgd4Jl9UrBorBErBIFcKfuO01TVt4omCE
+         SNIyqy7twcHOoBPgBCCg4BS8xUpXbBgzsjsoC112Xzw9QyeHQiPPoGxCrDhbkXNLkCCt
+         GshorA3FT5kY3R7LmrhT1wnzKxF/3yegfNGh8W0DWdSzsJkmvUEc/7NZntKUIheOPCu7
+         TrXWS4lOWxQO7QhCgKiTeQsY4jtpBDqtQV4GWR3x5P7px7c5bjZO968DHz6NjbnZjzwv
+         b8qA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20251104; t=1777905928; x=1778510728;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=X5fkkKuXHHDwakN2Kt3vbnokuaWWi6ricw4daqx44Ro=;
-        b=J6fgFXIC5meqen7WWnE+FQz3lJ5H2fTrC9W32P/oWkpP4h6NF+iGsuug8TIyEEql94
-         KER9Ik7AJ1BqlgiW3nIBzasHxzJK/VOe7kYtsI82V7775Cl2YJeWm/aMkw0FzswAMxWd
-         Q2jmNtZjVQ1I3kUngR5EyPyKq6kZeYjq9BsWMY0PkKKUL+zPurzj6u+DXTIvVjx3SzD8
-         d5uTLBPHoGyiQtzJucrTKDadLTuloNB3xP5UxlCIgsa0StG5bYO2vO54SmUmA9oByFEJ
-         IbJj/xphaVAYeb59PL9T1UvJf2Ym0o+faBdyB4V8MMqtGIzBXPV5uWfC1U1hjQCZQzzA
-         mvRA==
-X-Forwarded-Encrypted: i=1; AFNElJ/FSVJPtPkZCCUfWuYSguRHGptXa3htcRbCpD32K8HF88g3EDLWXFKLawcPkkLYIPYBpgS1ckaoV5xeCLncRgJddg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyBgiH49M8U8U3s6w+tgh5DshotaLMnd5qSD09FiPZCKZBbcuiR
-	WALt2isQILEIlhNihLQt0GgPkcR5VcXntYM2V4pAEWzzcDPsjNRv6+8Z
-X-Gm-Gg: AeBDieuuvgcVzscoZjNsni4EsbwJL0qNlWCabLaq3dE73I8Nk9bpDSdSB/C+3hSsAEt
-	mUaruwy+4kjw2KQ6z5xtIpb98XTSs1Kl5Aeeo0IHfsPIkoQofjWIV14OMwCEqn9G53LrFFfDxPZ
-	NT6op8dhASNVvPwmeAgW+X7IgESlkNxJ718YHv65JeGMUEIk+DRNVDtXjf7KIVjjSh1W3vhajjo
-	Hu7tdXtTztgYpzfwLGlYOsW/Ablj+UaHoIVUSYT0gSCKYNV+KeS+jXyNk5W2qpdVsMeVVXINn6a
-	OXV9wzjsHjDudE/Mz/xVIAxod3P0o/pjKVZu+jPwAPrLzc9yTi5+efI/3RFA5WFiGaZR8aCo/Jq
-	iU99hlrryxa/jZnJJ1GybFRvTloxoqDYKpsnUxf2XfuUKpwpMaopDmOBsubnLVVgGv32Hdzt+LS
-	Kfishb3EDcUKju6TglX/yyiiODg9gCM2i0ZsT42fT5OD6auAVgLQgVfW2RKyoaPpBNkx2Otw==
-X-Received: by 2002:a05:600c:c170:b0:48a:80cb:1bb4 with SMTP id 5b1f17b1804b1-48a98671d52mr158941185e9.22.1777905927533;
-        Mon, 04 May 2026 07:45:27 -0700 (PDT)
+        bh=XuEh6EHtxHCxSq+G/rcSFvtM5yky+sac6bh6RW7yjz0=;
+        b=D2bXYFTLYv3ysHN8StmzvHvHWazaQyECB8I/eh3HEGzo1fwYtB0VenT/PI14Vz/VRE
+         bymcsBe4SiVpZs4KN0oYxlWBAmSemk8zWjwtple2aX68Bw1omYB0qVQ7+QjkeUVdw6aB
+         nESgPn8d3rEv7LUdV2BtjjgIpWbNKZC2K1k4BS4cUzkWENYXNeYtf2hiclhLDAsbUFxm
+         5wSaYrmccIIVH6eP/pv4pvox3Lawv0GkiuM8y7aolZwuOt/f6WKCuZMP+3ld1haXtmUB
+         iishNAiwO4um2B9XSuzykJeBe//X7DU6hNNY5lI4k4KP+CvA4zhG0pCaevrlFnFdvXQn
+         WqdA==
+X-Forwarded-Encrypted: i=1; AFNElJ+3Pvu26Hp27KxmFlQ/cRUeMDNOH7Ix1QutIrsyjit6cowEhZYHi77pSpS3pLBUOxotuajvXw4LfeyWRUhMba5lPA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yycy+i6V2bDv9IiK16t5rwYZwvBQ8PK5ws+TBiNc+Lg3+0g3kTX
+	1Zo73dIi0xoS+MOlVwf4+yp5p6GVw/GxdKBbKRDMlxZs55sImoy8Zt9U
+X-Gm-Gg: AeBDiesEju3rK7tA9Ui6MOmf/4lIxdEN3hTQ7agWMqWvRWR6l5QKhTL2iHe3NdOjSLd
+	bSHMEI/vgwmaoELw5Gsn5syMsq9QBcPjzqSpHmqexIVMsKdHKD3pB77HT9NxfhSiU2PBN0rIJyb
+	fUNtvEJhWB+OEeLsJpx0mrSppuKNWixeqWHZJPwxa3Jzsaly8tNxQ5NW+Lfd8Airjp0+9Ekz9Lq
+	c9AeY1eb0NlS/GjkMVDbE/uKZcz881pC2My2sttsw8fdAmMWCFpFN+STG8thFywqk5KxcSZTimp
+	PHCFrpOtwDU7o8xUEu9NtJ8LDkAL/prw5PfKeZMZPJRLr3FcGyHiswHlxd3qNAyphzYl99x8f1W
+	TAdUNnVDRRrq7JWwslsrVVyEkIg8rr/wVc9VMDhk+X1RzK6tpMy7Ixeh5DTZPmlk339toam6mjh
+	x1xRlzYo0Do+LTHOIn6bT2PD7dNegFo9eoeZZCmsvEtyyDmx3+hum6WW16bdU=
+X-Received: by 2002:a5d:648d:0:b0:43f:e571:184d with SMTP id ffacd0b85a97d-44951508317mr19130124f8f.28.1777905928444;
+        Mon, 04 May 2026 07:45:28 -0700 (PDT)
 Received: from localhost.localdomain ([2a00:23c4:a758:8a01:6444:b23f:58b2:338c])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-44a981defa6sm24371239f8f.24.2026.05.04.07.45.26
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-44a981defa6sm24371239f8f.24.2026.05.04.07.45.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 May 2026 07:45:27 -0700 (PDT)
+        Mon, 04 May 2026 07:45:28 -0700 (PDT)
 From: Biju <biju.das.au@gmail.com>
 X-Google-Original-From: Biju <biju.das.jz@bp.renesas.com>
 To: Geert Uytterhoeven <geert+renesas@glider.be>,
@@ -88,9 +88,9 @@ Cc: Biju Das <biju.das.jz@bp.renesas.com>,
 	linux-kernel@vger.kernel.org,
 	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
 	Biju Das <biju.das.au@gmail.com>
-Subject: [PATCH 2/3] clk: renesas: rzg3s/rzg3l: Simplify PLL configuration macro
-Date: Mon,  4 May 2026 15:45:18 +0100
-Message-ID: <20260504144523.153906-3-biju.das.jz@bp.renesas.com>
+Subject: [PATCH 3/3] clk: renesas: rzg2l: Rename RZG3L-prefixed PLL macros to CPG-prefixed ones
+Date: Mon,  4 May 2026 15:45:19 +0100
+Message-ID: <20260504144523.153906-4-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260504144523.153906-1-biju.das.jz@bp.renesas.com>
 References: <20260504144523.153906-1-biju.das.jz@bp.renesas.com>
@@ -101,7 +101,7 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 13EDA4C0372
+X-Rspamd-Queue-Id: C96384C0592
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.16 / 15.00];
@@ -110,13 +110,13 @@ X-Spamd-Result: default: False [-0.16 / 15.00];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	R_MISSING_CHARSET(0.50)[];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	TAGGED_FROM(0.00)[bounces-31949-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-31950-lists,linux-renesas-soc=lfdr.de];
 	RCVD_COUNT_FIVE(0.00)[5];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
@@ -126,145 +126,88 @@ X-Spamd-Result: default: False [-0.16 / 15.00];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	RCPT_COUNT_SEVEN(0.00)[10];
-	NEURAL_HAM(-0.00)[-0.996];
+	NEURAL_HAM(-0.00)[-0.997];
 	DKIM_TRACE(0.00)[gmail.com:+];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
 	FREEMAIL_FROM(0.00)[gmail.com];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[bp.renesas.com:mid,renesas.com:email,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[renesas.com:email,bp.renesas.com:mid,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
 
 From: Biju Das <biju.das.jz@bp.renesas.com>
 
-Replace the per-SoC G3S_PLL146_CONF() and G3L_PLL1467_CONF() macros with
-a unified CPG_PLL_CONF(stby, setting) macro defined in rzg2l-cpg.h.
+Rename RZG3L_PLL_STBY_OFFSET(), RZG3L_PLL_STBY_RESETB,
+RZG3L_PLL_STBY_RESETB_WEN, RZG3L_PLL_MON_OFFSET(), RZG3L_PLL_MON_RESETB,
+and RZG3L_PLL_MON_LOCK to their CPG_PLL_* equivalents to reflect that
+these macros are not RZG3L-specific and are shared across SoCs.
 
-Drop the now-redundant GET_REG_SAMPLL_CLK1() and GET_REG_SAMPLL_SETTING()
-macros, replacing the latter with CPG_PLL1_SETTING_OFFSET() using
-FIELD_GET() to extract the offset value. Update RZG3L_PLL_MON_OFFSET() to
-use CPG_PLL_STBY_OFFSET() + 0xc directly.
+Also fold CPG_PLL_MON_OFFSET() into rzg2l-cpg.c alongside the other
+CPG_PLL_*_OFFSET() helpers introduced in previous patches.
 
 No functional changes.
 
 Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 ---
- drivers/clk/renesas/r9a08g045-cpg.c |  5 +----
- drivers/clk/renesas/r9a08g046-cpg.c |  7 ++-----
- drivers/clk/renesas/rzg2l-cpg.c     | 11 +++++------
- drivers/clk/renesas/rzg2l-cpg.h     |  1 +
- 4 files changed, 9 insertions(+), 15 deletions(-)
+ drivers/clk/renesas/rzg2l-cpg.c | 25 ++++++++++++-------------
+ 1 file changed, 12 insertions(+), 13 deletions(-)
 
-diff --git a/drivers/clk/renesas/r9a08g045-cpg.c b/drivers/clk/renesas/r9a08g045-cpg.c
-index 1232fec913eb..9610676058de 100644
---- a/drivers/clk/renesas/r9a08g045-cpg.c
-+++ b/drivers/clk/renesas/r9a08g045-cpg.c
-@@ -50,9 +50,6 @@
- #define G3S_SEL_SDHI1		SEL_PLL_PACK(G3S_CPG_SDHI_DSEL, 4, 2)
- #define G3S_SEL_SDHI2		SEL_PLL_PACK(G3S_CPG_SDHI_DSEL, 8, 2)
- 
--/* PLL 1/4/6 configuration registers macro. */
--#define G3S_PLL146_CONF(clk1, clk2, setting)	((clk1) << 22 | (clk2) << 12 | (setting))
--
- #define DEF_G3S_MUX(_name, _id, _conf, _parent_names, _mux_flags, _clk_flags) \
- 	DEF_TYPE(_name, _id, CLK_TYPE_MUX, .conf = (_conf), \
- 		 .parent_names = (_parent_names), \
-@@ -134,7 +131,7 @@ static const struct cpg_core_clk r9a08g045_core_clks[] __initconst = {
- 
- 	/* Internal Core Clocks */
- 	DEF_FIXED(".osc_div1000", CLK_OSC_DIV1000, CLK_EXTAL, 1, 1000),
--	DEF_G3S_PLL(".pll1", CLK_PLL1, CLK_EXTAL, G3S_PLL146_CONF(0x4, 0x8, 0x100),
-+	DEF_G3S_PLL(".pll1", CLK_PLL1, CLK_EXTAL, CPG_PLL_CONF(0, 0x100),
- 		    1100000000UL),
- 	DEF_FIXED(".pll2", CLK_PLL2, CLK_EXTAL, 200, 3),
- 	DEF_FIXED(".pll3", CLK_PLL3, CLK_EXTAL, 200, 3),
-diff --git a/drivers/clk/renesas/r9a08g046-cpg.c b/drivers/clk/renesas/r9a08g046-cpg.c
-index 0004b9516fdf..0657dc01ff8a 100644
---- a/drivers/clk/renesas/r9a08g046-cpg.c
-+++ b/drivers/clk/renesas/r9a08g046-cpg.c
-@@ -56,9 +56,6 @@
- #define G3L_SEL_ETH1_CLK_TX_I	SEL_PLL_PACK(G3L_CPG_ETH_SSEL, 11, 1)
- #define G3L_SEL_ETH1_CLK_RX_I	SEL_PLL_PACK(G3L_CPG_ETH_SSEL, 12, 1)
- 
--/* PLL 1/4/6/7 configuration registers macro. */
--#define G3L_PLL1467_CONF(clk1, clk2, setting)	((clk1) << 22 | (clk2) << 12 | (setting))
--
- enum clk_ids {
- 	/* Core Clock Outputs exported to DT */
- 	LAST_DT_CORE_CLK = R9A08G046_USB_SCLK,
-@@ -154,11 +151,11 @@ static const struct cpg_core_clk r9a08g046_core_clks[] __initconst = {
- 	DEF_INPUT("eth1_rxc_rx_clk", CLK_ETH1_RXC_RX_CLK_IN),
- 
- 	/* Internal Core Clocks */
--	DEF_G3L_PLL(".pll1", CLK_PLL1, CLK_EXTAL, G3L_PLL1467_CONF(0x4, 0x8, 0x100),
-+	DEF_G3L_PLL(".pll1", CLK_PLL1, CLK_EXTAL, CPG_PLL_CONF(0, 0x100),
- 		    1200000000UL),
- 	DEF_FIXED(".pll2", CLK_PLL2, CLK_EXTAL, 200, 3),
- 	DEF_FIXED(".pll3", CLK_PLL3, CLK_EXTAL, 200, 3),
--	DEF_G3L_PLL(".pll6", CLK_PLL6, CLK_EXTAL, G3L_PLL1467_CONF(0x54, 0x58, 0),
-+	DEF_G3L_PLL(".pll6", CLK_PLL6, CLK_EXTAL, CPG_PLL_CONF(0x50, 0),
- 		    500000000UL),
- 	DEF_FIXED(".pll2_div2", CLK_PLL2_DIV2, CLK_PLL2, 1, 2),
- 	DEF_FIXED(".pll3_div2", CLK_PLL3_DIV2, CLK_PLL3, 1, 2),
 diff --git a/drivers/clk/renesas/rzg2l-cpg.c b/drivers/clk/renesas/rzg2l-cpg.c
-index c6f9f3417ce9..7e5173a37f3a 100644
+index 7e5173a37f3a..498f2f1030cc 100644
 --- a/drivers/clk/renesas/rzg2l-cpg.c
 +++ b/drivers/clk/renesas/rzg2l-cpg.c
-@@ -58,14 +58,15 @@
- #define RZG3S_DIV_NF		GENMASK(12, 1)
- #define RZG3S_SEL_PLL		BIT(0)
- 
-+#define CPG_PLL1_SETTING_OFFSET(conf)	FIELD_GET(GENMASK(11, 0), (conf))
+@@ -62,13 +62,12 @@
  #define CPG_PLL_STBY_OFFSET(conf)	FIELD_GET(GENMASK(23, 12), (conf))
  #define CPG_PLL_CLK1_OFFSET(x)		(CPG_PLL_STBY_OFFSET(x) + 0x4)
  #define CPG_PLL_CLK2_OFFSET(x)		(CPG_PLL_STBY_OFFSET(x) + 0x8)
++#define CPG_PLL_MON_OFFSET(x)		(CPG_PLL_STBY_OFFSET(x) + 0xc)
  
--#define RZG3L_PLL_STBY_OFFSET(x)	(GET_REG_SAMPLL_CLK1(x) - 0x4)
-+#define RZG3L_PLL_STBY_OFFSET(x)	(CPG_PLL1_SETTING_OFFSET(x))
- #define RZG3L_PLL_STBY_RESETB		BIT(0)
- #define RZG3L_PLL_STBY_RESETB_WEN	BIT(16)
--#define RZG3L_PLL_MON_OFFSET(x)		(GET_REG_SAMPLL_CLK1(x) + 0x8)
-+#define RZG3L_PLL_MON_OFFSET(x)		(CPG_PLL_STBY_OFFSET(x) + 0xc)
- #define RZG3L_PLL_MON_RESETB		BIT(0)
- #define RZG3L_PLL_MON_LOCK		BIT(4)
+-#define RZG3L_PLL_STBY_OFFSET(x)	(CPG_PLL1_SETTING_OFFSET(x))
+-#define RZG3L_PLL_STBY_RESETB		BIT(0)
+-#define RZG3L_PLL_STBY_RESETB_WEN	BIT(16)
+-#define RZG3L_PLL_MON_OFFSET(x)		(CPG_PLL_STBY_OFFSET(x) + 0xc)
+-#define RZG3L_PLL_MON_RESETB		BIT(0)
+-#define RZG3L_PLL_MON_LOCK		BIT(4)
++#define CPG_PLL_STBY_RESETB		BIT(0)
++#define CPG_PLL_STBY_RESETB_WEN		BIT(16)
++#define CPG_PLL_MON_RESETB		BIT(0)
++#define CPG_PLL_MON_LOCK		BIT(4)
  
-@@ -75,8 +76,6 @@
- #define CLK_MRST_R(reg)		(0x180 + (reg))
+ #define CLK_ON_R(reg)		(reg)
+ #define CLK_MON_R(reg)		(0x180 + (reg))
+@@ -1218,8 +1217,8 @@ static int rzg3l_cpg_pll_clk_is_enabled(struct clk_hw *hw)
+ {
+ 	struct pll_clk *pll_clk = to_pll(hw);
+ 	struct rzg2l_cpg_priv *priv = pll_clk->priv;
+-	u32 val = readl(priv->base + RZG3L_PLL_MON_OFFSET(pll_clk->conf));
+-	u32 mon_val = RZG3L_PLL_MON_RESETB | RZG3L_PLL_MON_LOCK;
++	u32 val = readl(priv->base + CPG_PLL_MON_OFFSET(pll_clk->conf));
++	u32 mon_val = CPG_PLL_MON_RESETB | CPG_PLL_MON_LOCK;
  
- #define GET_REG_OFFSET(val)		((val >> 20) & 0xfff)
--#define GET_REG_SAMPLL_CLK1(val)	((val >> 22) & 0xfff)
--#define GET_REG_SAMPLL_SETTING(val)	((val) & 0xfff)
+ 	/* Ensure both RESETB and LOCK bits are set */
+ 	return (mon_val == (val & mon_val));
+@@ -1229,17 +1228,17 @@ static int rzg3l_cpg_pll_clk_endisable(struct clk_hw *hw, bool enable)
+ {
+ 	struct pll_clk *pll_clk = to_pll(hw);
+ 	struct rzg2l_cpg_priv *priv = pll_clk->priv;
+-	u32 mon_mask = RZG3L_PLL_MON_RESETB | RZG3L_PLL_MON_LOCK;
+-	u32 val = RZG3L_PLL_STBY_RESETB_WEN;
++	u32 mon_mask = CPG_PLL_MON_RESETB | CPG_PLL_MON_LOCK;
++	u32 val = CPG_PLL_STBY_RESETB_WEN;
+ 	u32 stby_offset, mon_offset;
+ 	u32 mon_val = 0;
+ 	int ret;
  
- #define CPG_WEN_BIT		BIT(16)
+-	stby_offset = RZG3L_PLL_STBY_OFFSET(pll_clk->conf);
+-	mon_offset = RZG3L_PLL_MON_OFFSET(pll_clk->conf);
++	stby_offset = CPG_PLL_STBY_OFFSET(pll_clk->conf);
++	mon_offset = CPG_PLL_MON_OFFSET(pll_clk->conf);
  
-@@ -1147,14 +1146,14 @@ static unsigned long rzg3s_cpg_pll_clk_recalc_rate(struct clk_hw *hw,
- 	u32 nir, nfr, mr, pr, val, setting;
- 	u64 rate;
- 
--	setting = GET_REG_SAMPLL_SETTING(pll_clk->conf);
-+	setting = CPG_PLL1_SETTING_OFFSET(pll_clk->conf);
- 	if (setting) {
- 		val = readl(priv->base + setting);
- 		if (val & RZG3S_SEL_PLL)
- 			return pll_clk->default_rate;
+ 	if (enable) {
+-		val |= RZG3L_PLL_STBY_RESETB;
++		val |= CPG_PLL_STBY_RESETB;
+ 		mon_val = mon_mask;
  	}
  
--	val = readl(priv->base + GET_REG_SAMPLL_CLK1(pll_clk->conf));
-+	val = readl(priv->base + CPG_PLL_CLK1_OFFSET(pll_clk->conf));
- 
- 	pr = 1 << FIELD_GET(RZG3S_DIV_P, val);
- 	/* Hardware interprets values higher than 8 as p = 16. */
-diff --git a/drivers/clk/renesas/rzg2l-cpg.h b/drivers/clk/renesas/rzg2l-cpg.h
-index 17ec6f285c21..bd6169f62538 100644
---- a/drivers/clk/renesas/rzg2l-cpg.h
-+++ b/drivers/clk/renesas/rzg2l-cpg.h
-@@ -59,6 +59,7 @@
- #define CPG_CLKSTATUS_SELSDHI1_STS	BIT(29)
- 
- #define CPG_SAM_PLL_CONF(stby)		((stby) << 12)
-+#define CPG_PLL_CONF(stby, setting)	((stby) << 12 | (setting))
- 
- #define DDIV_PACK(offset, bitpos, size) \
- 		(((offset) << 20) | ((bitpos) << 12) | ((size) << 8))
 -- 
 2.43.0
 
