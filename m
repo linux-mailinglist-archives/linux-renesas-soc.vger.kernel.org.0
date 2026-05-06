@@ -1,48 +1,48 @@
-Return-Path: <linux-renesas-soc+bounces-32139-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-32133-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id eHpLNdRd+2n2aAMAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-32139-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 06 May 2026 17:27:16 +0200
+	id EJMzM9Ze+2kuaQMAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-32133-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 06 May 2026 17:31:34 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BA454DD306
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 06 May 2026 17:27:16 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 82F6D4DD407
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 06 May 2026 17:31:34 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 5A8DC3029120
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 May 2026 15:26:22 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 720FC30A8E81
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 May 2026 15:25:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0EC6E49551F;
-	Wed,  6 May 2026 15:25:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EF3AE48C417;
+	Wed,  6 May 2026 15:25:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="ORxpGjQJ"
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="TPY5+qpw"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.4])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20A2A49219C;
-	Wed,  6 May 2026 15:25:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C5F8305E32;
+	Wed,  6 May 2026 15:25:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778081125; cv=none; b=Q4ptf/NmqNYFQWUcUst/XwlBpsf7YRT5Vm275ACa8dyw/qoB9OflSZxprGk/Y8/Y0PtvJILTMdwsjEYnK38zNhmoq92KKP52WxO4BNIcTDjFjczBVGDI7O7qZunC70Khu7QbL0Fmx/wK6he/dJk8hWdJOX4KrJSfEN0ea5BGoR4=
+	t=1778081121; cv=none; b=XY6dGPAiPkICaSVVGPKdl0R6TT4jQO6FP8Wf9KAfXZxBfe6cS53rVh0B0eYvtlHyiiK8OEf8jHDjyjBq+208otv2dfL4lFgkRCu6fR5eQ8W/wLt4fuW7leCD+gXnq/60HsrqLZGCxgHJWngaklfYUQp1SqpHbXTUb5DhRgO2SoI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778081125; c=relaxed/simple;
-	bh=G0FMgyUyO0ZfGOOdQVnL8bDKgkjDFXxYECNke1oaX4g=;
+	s=arc-20240116; t=1778081121; c=relaxed/simple;
+	bh=8RSvHgYPL2alwIZrECLHiUWVHieN2Z9SRt7jPvr24Nw=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=N0dCoQgiMv7iHVih1kzX7eQzaq3bSG/v7xSLIPJTH3XUtQAE7OUX1Yxr80NxjlGOtXixkRt5Ty13dJuDavqkKga/FvRaCXnjm5IXq7bnGjuRobthsGIfTCwlUgjN7ytHFMy8CzlhNYBenzJXsSkBlcOxg5U0h4e3Yxvpik17A7w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=ORxpGjQJ; arc=none smtp.client-ip=117.135.210.4
+	 MIME-Version; b=t/BSZEQuOl1RQoL1V9Bbhgq3KXB3utBDIpn5n/i5BzWmsHquoXQwYSHDkBct9HMQIpkB8oG4GT0e94ncHn7EJV+46Q1PjOCEXd+2IR/LQo9T4uMd1EaN+chkTm1rpjeHRPpWRpbTdf11+yuX+RKYGAvLzRtEv+fBrNuZrxTZbsA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=TPY5+qpw; arc=none smtp.client-ip=117.135.210.4
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=8f
-	YT+L8xujiw5+/Qen2DspUJWPjgtV6UMGsDVRY0cUw=; b=ORxpGjQJCvXUb8Tvix
-	QGSzijb+F36amAMRqRzzmnASTnmVEvZHKV9f3uyBrtOUd8BgKDstr1CoimQHhbyt
-	BxulBaoF81LkfW9Ggaf12Uj6s7SohMZq43+mdkMyT7FwQ06bSfaqckw+1nX365Fb
-	lavDSZktYOnJS761Hljeyu6dk=
+	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=tp
+	7iBmKEeToHBfnghM1mY5+mcwB0MOqh5PUwFfpbteU=; b=TPY5+qpwXptAnLUh8Q
+	EDOo86MRSINt0ckXXgtI7UP+/Y79denmZwR6kiQUrUN+y6QvMoit0jQOAiqg/95J
+	I83z1sZ9bVyuccU7RPhaZ8qzJUhau+WQ+SwXfdxWuYtlV6IpJ6DDYvtCr+X2sAz3
+	UJSF6msBQxTZzfHebcedC/n/g=
 Received: from zhb.. (unknown [])
-	by gzga-smtp-mtada-g0-0 (Coremail) with SMTP id _____wCHAqsXXftpv5CgDg--.43926S7;
-	Wed, 06 May 2026 23:24:14 +0800 (CST)
+	by gzga-smtp-mtada-g0-0 (Coremail) with SMTP id _____wCHAqsXXftpv5CgDg--.43926S8;
+	Wed, 06 May 2026 23:24:15 +0800 (CST)
 From: Hans Zhang <18255117159@163.com>
 To: bhelgaas@google.com,
 	lpieralisi@kernel.org,
@@ -65,9 +65,9 @@ Cc: robh@kernel.org,
 	linux-pci@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Hans Zhang <18255117159@163.com>
-Subject: [PATCH v2 5/8] PCI: dwc: Use common pcie_wait_after_link_train() helper
-Date: Wed,  6 May 2026 23:23:43 +0800
-Message-Id: <20260506152346.166056-6-18255117159@163.com>
+Subject: [PATCH v2 6/8] PCI: aardvark: Add 100 ms delay after link training
+Date: Wed,  6 May 2026 23:23:44 +0800
+Message-Id: <20260506152346.166056-7-18255117159@163.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20260506152346.166056-1-18255117159@163.com>
 References: <20260506152346.166056-1-18255117159@163.com>
@@ -78,13 +78,13 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:_____wCHAqsXXftpv5CgDg--.43926S7
-X-Coremail-Antispam: 1Uf129KBjvJXoW7tw1rAFW7WryDZw4xXw4DCFg_yoW8Grykpa
-	98JF4FkFy8JF43ua1DC3Z3ury5X3ZxArW7GFZ3Wa4fZa47ArZFqr10q34Sq34xXrsFvr1a
-	qr17tF17GwsrAF7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0piI38bUUUUU=
-X-CM-SenderInfo: rpryjkyvrrlimvzbiqqrwthudrp/xtbCxB+3W2n7XR85JgAA34
-X-Rspamd-Queue-Id: 8BA454DD306
+X-CM-TRANSID:_____wCHAqsXXftpv5CgDg--.43926S8
+X-Coremail-Antispam: 1Uf129KBjvJXoW7Jw48Gr13Zr1UKFW8Ww4fGrg_yoW8Jr4Dpa
+	y3GF97KF1ktr43ua1UAayfWFy3WanI9a47Jrn7Kw13ZF9xWrWUGr1j9393KFnIyw4vvr13
+	G3W3ta4xCa13Za7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0zEubyiUUUUU=
+X-CM-SenderInfo: rpryjkyvrrlimvzbiqqrwthudrp/xtbC7AC4XGn7XSDh8QAA33
+X-Rspamd-Queue-Id: 82F6D4DD407
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.66 / 15.00];
@@ -93,7 +93,7 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[163.com,none];
 	R_DKIM_ALLOW(-0.20)[163.com:s=s110527];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
@@ -104,7 +104,7 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FREEMAIL_FROM(0.00)[163.com];
 	RCPT_COUNT_TWELVE(0.00)[21];
-	TAGGED_FROM(0.00)[bounces-32139-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-32133-lists,linux-renesas-soc=lfdr.de];
 	DKIM_TRACE(0.00)[163.com:+];
 	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
@@ -112,42 +112,40 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	FROM_HAS_DN(0.00)[];
 	FREEMAIL_CC(0.00)[kernel.org,ti.com,vger.kernel.org,lists.infradead.org,163.com];
 	NEURAL_HAM(-0.00)[-1.000];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
 	TAGGED_RCPT(0.00)[linux-renesas-soc];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
 
-The DWC driver already implements the 100 ms delay required by PCIe
-r6.0 sec 6.6.1 by checking pci->max_link_speed and calling msleep(100).
+The Aardvark PCIe controller driver waits for the link to come up but
+does not implement the mandatory 100 ms delay after link training
+completes for speeds greater than 5.0 GT/s (PCIe r6.0 sec 6.6.1).
 
-Replace the open-coded msleep() with the new common helper
-pcie_wait_after_link_train() to reduce code duplication and improve
-maintainability. No functional change intended.
+The driver already maintains a 'link_gen' field that holds the negotiated
+link speed. Use it together with pcie_wait_after_link_train() to insert
+the required delay immediately after confirming that the link is up.
 
 Signed-off-by: Hans Zhang <18255117159@163.com>
 ---
- drivers/pci/controller/dwc/pcie-designware.c | 8 +-------
- 1 file changed, 1 insertion(+), 7 deletions(-)
+ drivers/pci/controller/pci-aardvark.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/pci/controller/dwc/pcie-designware.c b/drivers/pci/controller/dwc/pcie-designware.c
-index c11cf61b8319..e5808d4b3867 100644
---- a/drivers/pci/controller/dwc/pcie-designware.c
-+++ b/drivers/pci/controller/dwc/pcie-designware.c
-@@ -799,13 +799,7 @@ int dw_pcie_wait_for_link(struct dw_pcie *pci)
- 		return -ETIMEDOUT;
+diff --git a/drivers/pci/controller/pci-aardvark.c b/drivers/pci/controller/pci-aardvark.c
+index e34bea1ff0ac..526351c21c49 100644
+--- a/drivers/pci/controller/pci-aardvark.c
++++ b/drivers/pci/controller/pci-aardvark.c
+@@ -350,8 +350,10 @@ static int advk_pcie_wait_for_link(struct advk_pcie *pcie)
+ 
+ 	/* check if the link is up or not */
+ 	for (retries = 0; retries < LINK_WAIT_MAX_RETRIES; retries++) {
+-		if (advk_pcie_link_up(pcie))
++		if (advk_pcie_link_up(pcie)) {
++			pcie_wait_after_link_train(pcie->link_gen);
+ 			return 0;
++		}
+ 
+ 		usleep_range(LINK_WAIT_USLEEP_MIN, LINK_WAIT_USLEEP_MAX);
  	}
- 
--	/*
--	 * As per PCIe r6.0, sec 6.6.1, a Downstream Port that supports Link
--	 * speeds greater than 5.0 GT/s, software must wait a minimum of 100 ms
--	 * after Link training completes before sending a Configuration Request.
--	 */
--	if (pci->max_link_speed > 2)
--		msleep(PCIE_RESET_CONFIG_WAIT_MS);
-+	pcie_wait_after_link_train(pci->max_link_speed);
- 
- 	offset = dw_pcie_find_capability(pci, PCI_CAP_ID_EXP);
- 	val = dw_pcie_readw_dbi(pci, offset + PCI_EXP_LNKSTA);
 -- 
 2.34.1
 
