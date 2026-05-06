@@ -1,168 +1,179 @@
-Return-Path: <linux-renesas-soc+bounces-32156-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-32157-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 4Fe6DTBl+2kuaQMAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-32156-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 06 May 2026 17:58:40 +0200
+	id ECZ0BdZn+2llawMAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-32157-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 06 May 2026 18:09:58 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5E8F4DDBC6
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 06 May 2026 17:58:39 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id ADEBD4DDE3B
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 06 May 2026 18:09:57 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 191533008248
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 May 2026 15:58:37 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id AAA0D307EC72
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 May 2026 16:03:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A3E2D13DDA4;
-	Wed,  6 May 2026 15:58:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 65F243F7888;
+	Wed,  6 May 2026 16:03:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OB3k4Y1S"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rErI/Xa/"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA7BC477E41
-	for <linux-renesas-soc@vger.kernel.org>; Wed,  6 May 2026 15:58:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AD373F23B5;
+	Wed,  6 May 2026 16:03:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778083110; cv=none; b=Cvh3vz5geBMvkgbu7CccQQb9Xll4WkgxNX6mriu3IdjxubBGhP3rApYWRX/3oarxdsMcbZpBxhNy/2KtpF76jX5QP4L5jQCh21N0rTW6CKYLfP6bAicKI9Ele4PJDD4HREvq/TCDZQOSfjo+4IB1NkJW10pnrykQKcY5QkGBS0Q=
+	t=1778083412; cv=none; b=ZD4IDqgFDH0SxTD+SloEPnSWLIAFbTAK7E2bseeXv8NBwimrGIXAABu8mAOSsZRYTmLwc2T+Ahqa091T1A4hSVOUgHaXrJqGLO1RBFMZjtJvcyqshMX7Kr/1e/PN8jvXbiQ3ERdthLvAlYBXVqR8+BDFNaHQb4PFHYNJzLXZgl4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778083110; c=relaxed/simple;
-	bh=wyMxM6YQD+S8i1bLWoADdlaRZYIbQTZSquyAK63yc3Q=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=j/T48Rlxx5g+7/o3Tcl+D/WflwNFM7RWtt/MfWS9fXxWkIrk1gabYdDzKgkZMM8jJTyCGMjo0EuJEViAiy57YmATE7XXk7y0DlMcWVbdYPEk9ECTgLEBA9uKRqqTsdBSn01rp/PFm0YKlyRMqsVH4cSEe2Ir+Hj3zHoPCajW+48=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OB3k4Y1S; arc=none smtp.client-ip=209.85.128.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-488af9fdaa7so35252535e9.1
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 06 May 2026 08:58:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778083104; x=1778687904; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=SLxt3NAzP2ZNWQv4kMfhbYlGVoizEwbznGwwg4XaRZ4=;
-        b=OB3k4Y1SXtVJPqjW7sco4WOXMAPVO5G0OrNZ7g5lfYRmPAeTQuNPQtqMwH/2qqluLR
-         tAac7KtQ0zMhbXlpC/bv6RJICAGPsVQrucIPBgvKvvnxELq0T4skI+pgReaIKIwhd0dC
-         sttYPKEfy8hU0TnzU237KqfY0ttXFeMx8NZLsJfMjp2NUImUr+W38tV7vpGLRwLssVT0
-         V9FShe0XexK/J51mTtca+OF3ZU663Z2ENZJKNn26C8VrDUtPUEY4rfNRl/ZHKM3ToEen
-         10vRQHOTT5n/6YBcsIUDQ9k7gzU08Vi+gBHhTfnEjFVQJjLAZfux7yL1KlI6Isd2YiaN
-         Ab5A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778083104; x=1778687904;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=SLxt3NAzP2ZNWQv4kMfhbYlGVoizEwbznGwwg4XaRZ4=;
-        b=eNDr+tp1FzzFTifCKgHsqjZ2Xnw+iQ/n5beMNV1c3PwuuzSpIqObctBzwK1cZrUhi2
-         ZDudiRI5r35lOYCv5WrduYYTepX8is2/pj7HQpqLtwjeqtPy8Pq7D096In3YP3ZJgiXf
-         /G5GdUoHErhjgqCEFdFH5CjbgcGfUhKoRYGuv0EURql4wqIVKBt4POQ2AXxb8UmI8PzK
-         uu1jNVFwHvZva9QNt7jNeMALuqEfFMDiq2OL7lOIZ//00KTaWpmTjnjD+m44B7fP3Z9J
-         aZDwaf6GL+hkH+I5vk24NmYb9T5F6wF5lacyCCCi7lGBx14Gk/jmO8m1q0rKm6G73eM0
-         yAPA==
-X-Gm-Message-State: AOJu0Yw8jvVSRtVY2xR+VFQrKYDxA2nByRyGxC0xPwWdJ33Z175h3tzB
-	IeGAKFFsKoCx8gdgwaoy/4ySLMmiPe70RHv5SN5GtYu2oMyZweWSIjqf
-X-Gm-Gg: AeBDietRhSdjJ0tcrzxaA5H2QPjkTPFF0PUS6R6PVUqCpdR0FapuUz0L1ZdoceMHQ3j
-	aKjKAIt+ADNZjJCAceCMQOfs0c/GGklUoRhF9fj+83pGWEYR6ZFTxyeE6Eyz1Xl0xFy7PtAP1wu
-	+mLs1H7ahgOrV7293GjGvlcrUmd/C9NgXAyU1lM5exkdcPeCrStm5yFGjzOazKQzZVl6UxZddsY
-	zzg0ND15UGPyk/6xPZ0vBvv1jlJXl0kXlf1HEx43ulnjox64v5aQFTfHQqxOIv/t+QNwFCqnl5P
-	pGPvsUS5EI1nzjfhHv5qqAChsVR2UajApSeFWSR7dZkpoDHrD0HQR6INteUHqnhXxb4/G3dg5zt
-	+Ff83kjwzJyjp9kvaSGiaz8qgXqI/5g5o1TRhAlbe8VN2onUylcFtEx4jgrv3/vwWk1oHXy9+6S
-	K3jl8fZDFev99zCZJga1juSM7PODBS8g3B6tjGdgNm74bMCQA9b3g9Bchk520c1RbpMeUx0liVc
-	W/YUkAmB8wvi3zY2/iiPEtQ/gwG13/tqbEtBlLCpYipXjEnIHrsssLaSA==
-X-Received: by 2002:a05:600c:6dcc:b0:48a:5301:bb5c with SMTP id 5b1f17b1804b1-48e51f2f786mr40594565e9.16.1778083104255;
-        Wed, 06 May 2026 08:58:24 -0700 (PDT)
-Received: from iku.example.org ([2a06:5906:61b:2d00:3dcb:40a8:a5b9:2327])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48e530b2039sm21345205e9.5.2026.05.06.08.58.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 May 2026 08:58:23 -0700 (PDT)
-From: Prabhakar <prabhakar.csengg@gmail.com>
-X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>
-Cc: linux-renesas-soc@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Prabhakar <prabhakar.csengg@gmail.com>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH 2/2] arm64: dts: renesas: r9a09g056n48-rzv2n-evk: Add alias for on-SoC RTC
-Date: Wed,  6 May 2026 16:58:04 +0100
-Message-ID: <20260506155804.3984418-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260506155804.3984418-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20260506155804.3984418-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+	s=arc-20240116; t=1778083412; c=relaxed/simple;
+	bh=D7wD6AzQrfQznPONV9GRM3q9KpiebSKEPsnKHA4ZTg0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kcjOEAoVWnbndlJtCVZZyxbzrBMRezs1CiGZXWPfMp2XQnF0RfXWFmfT83EEZ4galaM4eg8Y6YCswQz+ATU7zC63nIy9djwmbl1QoWGBKg9KIetgqchGS/GQRFmnK5JkS4+txeo6pvcA+iNpttnMiK+ZM+1xJ/mJwok5uJyPDwE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rErI/Xa/; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 04DA5C2BCB0;
+	Wed,  6 May 2026 16:03:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778083410;
+	bh=D7wD6AzQrfQznPONV9GRM3q9KpiebSKEPsnKHA4ZTg0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=rErI/Xa/Sz0vIh+pL7XfyNJMZYTiQrj/hBdSpM4Tz7W6bsYY6WwTXAlSV+KHa7b0F
+	 KGnevHCvYPNuBWT8voXSIYzlkTEoNi6zB/PKxDq+4xKYo4TIDAOyG4KLGOVkY2EGcp
+	 PYxctxHRTEIqJiH/YmgF14GoBiiRWYCdoVTdb6q8ZUDqvruBa9xMWnaQ30Wff3gLNn
+	 YejsgZua3jATErmQAkcK+i9TIBk95Gtjyd/rb8Sbj4HHroO2CnEWrbarj0CfiHd6B+
+	 TO5al7zrda2resDqCebdMiDvkkSGV/kUTsqbnmPAJV3JTAP0TI4XUIyPIpHx8X/M7E
+	 0EAnbDC1Jk+0g==
+Date: Wed, 6 May 2026 21:33:21 +0530
+From: Manivannan Sadhasivam <mani@kernel.org>
+To: Hans Zhang <18255117159@163.com>
+Cc: bhelgaas@google.com, lpieralisi@kernel.org, kwilczynski@kernel.org, 
+	vigneshr@ti.com, jingoohan1@gmail.com, thomas.petazzoni@bootlin.com, 
+	pali@kernel.org, ryder.lee@mediatek.com, jianjun.wang@mediatek.com, 
+	claudiu.beznea.uj@bp.renesas.com, mpillai@cadence.com, robh@kernel.org, s-vadapalli@ti.com, 
+	linux-omap@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-mediatek@lists.infradead.org, linux-renesas-soc@vger.kernel.org, linux-pci@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 2/8] PCI: cadence: LGA: Add max_link_speed field and
+ 100 ms delay after link training
+Message-ID: <jmqw5tmgbpou5lanjcnolrpmipgnny6chm53wqybtqg4epfuql@cxqryplrmylk>
+References: <20260506152346.166056-1-18255117159@163.com>
+ <20260506152346.166056-3-18255117159@163.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: C5E8F4DDBC6
+In-Reply-To: <20260506152346.166056-3-18255117159@163.com>
+X-Rspamd-Queue-Id: ADEBD4DDE3B
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-1.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-32156-lists,linux-renesas-soc=lfdr.de];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_TO(0.00)[glider.be,gmail.com,kernel.org];
-	RCPT_COUNT_TWELVE(0.00)[12];
-	FREEMAIL_CC(0.00)[vger.kernel.org,gmail.com,bp.renesas.com,renesas.com];
-	MIME_TRACE(0.00)[0:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[prabhakarcsengg@gmail.com,linux-renesas-soc@vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-32157-lists,linux-renesas-soc=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	RCVD_COUNT_FIVE(0.00)[5];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,dt];
-	NEURAL_HAM(-0.00)[-1.000];
+	FREEMAIL_TO(0.00)[163.com];
+	RCPT_COUNT_TWELVE(0.00)[20];
+	RCVD_COUNT_THREE(0.00)[4];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_CC(0.00)[google.com,kernel.org,ti.com,gmail.com,bootlin.com,mediatek.com,bp.renesas.com,cadence.com,vger.kernel.org,lists.infradead.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[mani@kernel.org,linux-renesas-soc@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	TAGGED_RCPT(0.00)[linux-renesas-soc];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[renesas.com:email,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,bp.renesas.com:mid]
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
 
-From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+On Wed, May 06, 2026 at 11:23:40PM +0800, Hans Zhang wrote:
+> The Cadence LGA (Legacy Architecture IP) PCIe host controller currently
+> lacks the mandatory 100 ms delay after link training completes for speeds
+> > 5.0 GT/s, as required by PCIe r6.0 sec 6.6.1.
+> 
+> Add a 'max_link_speed' field to struct cdns_pcie to record the maximum
+> supported link speed (or the currently configured speed). In the common
+> host layer function cdns_pcie_host_start_link(), after the link has been
+> successfully established, call pcie_wait_after_link_train() to insert the
+> required delay if max_link_speed > 2.
+> 
+> Glue drivers must set max_link_speed appropriately (e.g., from the device
+> tree property "max-link-speed") to enable the delay.
+> 
 
-The RZ/V2N SoC provides an internal RTC, which is enabled in the DT.
-The RZ/V2N EVK board also includes an external RTC in the RAA215300
-PMIC.
+You need to club those glue driver patches into this one. Otherwise, you'll end
+up breaking bisectability.
 
-Add an "rtc0" alias pointing to the on-SoC RTC node to ensure a stable
-device numbering.
+- Mani
 
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
----
- arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk.dts | 1 +
- 1 file changed, 1 insertion(+)
+> Signed-off-by: Hans Zhang <18255117159@163.com>
+> ---
+>  drivers/pci/controller/cadence/pcie-cadence-host-common.c | 4 ++++
+>  drivers/pci/controller/cadence/pcie-cadence.h             | 2 ++
+>  2 files changed, 6 insertions(+)
+> 
+> diff --git a/drivers/pci/controller/cadence/pcie-cadence-host-common.c b/drivers/pci/controller/cadence/pcie-cadence-host-common.c
+> index 2b0211870f02..51376f69d007 100644
+> --- a/drivers/pci/controller/cadence/pcie-cadence-host-common.c
+> +++ b/drivers/pci/controller/cadence/pcie-cadence-host-common.c
+> @@ -14,6 +14,7 @@
+>  
+>  #include "pcie-cadence.h"
+>  #include "pcie-cadence-host-common.h"
+> +#include "../../pci.h"
+>  
+>  #define LINK_RETRAIN_TIMEOUT HZ
+>  
+> @@ -115,6 +116,9 @@ int cdns_pcie_host_start_link(struct cdns_pcie_rc *rc,
+>  	if (!ret && rc->quirk_retrain_flag)
+>  		ret = cdns_pcie_retrain(pcie, pcie_link_up);
+>  
+> +	if (!ret)
+> +		pcie_wait_after_link_train(pcie->max_link_speed);
+> +
+>  	return ret;
+>  }
+>  EXPORT_SYMBOL_GPL(cdns_pcie_host_start_link);
+> diff --git a/drivers/pci/controller/cadence/pcie-cadence.h b/drivers/pci/controller/cadence/pcie-cadence.h
+> index 574e9cf4d003..e222b095d2b6 100644
+> --- a/drivers/pci/controller/cadence/pcie-cadence.h
+> +++ b/drivers/pci/controller/cadence/pcie-cadence.h
+> @@ -86,6 +86,7 @@ struct cdns_plat_pcie_of_data {
+>   * @ops: Platform-specific ops to control various inputs from Cadence PCIe
+>   *       wrapper
+>   * @cdns_pcie_reg_offsets: Register bank offsets for different SoC
+> + * @max_link_speed: maximum supported link speed
+>   */
+>  struct cdns_pcie {
+>  	void __iomem		             *reg_base;
+> @@ -98,6 +99,7 @@ struct cdns_pcie {
+>  	struct device_link	             **link;
+>  	const  struct cdns_pcie_ops          *ops;
+>  	const  struct cdns_plat_pcie_of_data *cdns_pcie_reg_offsets;
+> +	int				     max_link_speed;
+>  };
+>  
+>  /**
+> -- 
+> 2.34.1
+> 
 
-diff --git a/arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk.dts b/arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk.dts
-index 00e5455ea5ab..65c93e5e3f98 100644
---- a/arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk.dts
-+++ b/arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk.dts
-@@ -26,6 +26,7 @@ aliases {
- 		i2c7 = &i2c7;
- 		i2c8 = &i2c8;
- 		mmc1 = &sdhi1;
-+		rtc0 = &rtc;
- 		serial0 = &scif;
- 	};
- 
 -- 
-2.54.0
-
+மணிவண்ணன் சதாசிவம்
 
