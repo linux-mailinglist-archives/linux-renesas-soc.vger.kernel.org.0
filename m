@@ -1,139 +1,156 @@
-Return-Path: <linux-renesas-soc+bounces-32112-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-32114-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id gI1rJ6Tr+mkZUQMAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-32112-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 06 May 2026 09:20:04 +0200
+	id MOjzOYrx+ml1UgMAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-32114-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 06 May 2026 09:45:14 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CC094D7220
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 06 May 2026 09:20:03 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 62D864D75CE
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 06 May 2026 09:45:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id CF38F3054CDD
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 May 2026 07:19:54 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id C5970301DF55
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 May 2026 07:45:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5214C374736;
-	Wed,  6 May 2026 07:19:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5717B3CF670;
+	Wed,  6 May 2026 07:45:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="DUX5hekG"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f174.google.com (mail-vk1-f174.google.com [209.85.221.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B44836BCC3
-	for <linux-renesas-soc@vger.kernel.org>; Wed,  6 May 2026 07:19:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFB5D3CF695;
+	Wed,  6 May 2026 07:45:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778051990; cv=none; b=OWs6mnzeCnXJoqvfoe6HNZIl+6of86GQnCuAjsnW7lCukIyJw8cRuqxG9bNLn/25uWcv8kuRU9tRGuCmgiJ4N8gjzYyYMeZ7zVx3yGmf4xTtWTI9L95AUicHgTnrl47I/IKL7x3/8XL3itNvcWXqyu0+v7ZCTkKJqFx9Pey6MTw=
+	t=1778053510; cv=none; b=XRbrw6Ld52mTRlAmwxZTxGFawR2OPWBw0yjbfejk81ZZoC4TEgGNCnI+BbEh3JXxHpzNyEl65zh4YNdKrYpHerCWlao/Yh/kw7lAu6suaRya9eON03RXJDw83hPsoirnlc0FMe8RBLei3PnSvE1QIpAeevl/RdnJ8T6uq5z/y10=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778051990; c=relaxed/simple;
-	bh=kCaOvIzrUuZaZ9zllpWZlClqzHH+Po6WdcxW6bwXC1o=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Xq3G5fzqSwvA3oag3UpALJ2AEiubollpiF/+KxWB9zhDCEio/awBQLwdo7B9gPOb95gT+oP59QrS0xQ/OQhyrt/87ndM1MRFrY6KrJiQJUs7g3tTINZplFnx5ITdbOWiLP7IspSo2qjJl3tDKGCyoLYVNneZAlLbhBhuICNWMPA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f174.google.com with SMTP id 71dfb90a1353d-56a86f0a23bso6224117e0c.0
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 06 May 2026 00:19:48 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778051988; x=1778656788;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=vFUn+S4/jA9VkVtPTANA9vhies8/mQGo7p0EcziVSIc=;
-        b=XPLgt2oJcVfOY5cTYKX5B1ERPiH343Gnhd1rTuS4gaO+HhIVZAviM8lofQnJh/0T2l
-         Hs3xAqXTHMWLEfYuwYzaoNPQDjSqb0n2NJm39ORrrooLPQl2KIIqMxqX+Z5FNrC8NNGD
-         1AGHwxtgEdUHYB4mE/4tRBD9tpr+Tua5PUlUzCm8yUMJA2kgMv0V/3IsSyyk6jXoZi31
-         UUonKmmZYk8u0svLmn1SAaM2qqRzbfLUL0wusGM66TZyUR2bTwqipGfAci0ZqBRMWTc6
-         Du4X5kGVaIiChUbmiWs6c6ESfCqm9hmMvKA+9TsWO1PjvMxvg2f70tB6cQZJzciuo4HS
-         AvTg==
-X-Forwarded-Encrypted: i=1; AFNElJ9840//iN+n7Nci5pB5BZlRQeZgE1zfXohT+w06uxWTSlc75M2ejk5oETesiCjMftiGjEPa9jA1SyF4qK0041Nitg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxHjQM+KbaI6gcKQNvr5j544tVwxz837w8pke978XLL3kvGLAZa
-	u5Nl26V7+JD6eLFTM6cmM8CKo5xrZJTS9XInVX18iKKY4nOhk0V+oPrC2u6LFf7j
-X-Gm-Gg: AeBDieuaNUsMNpkgm0pJbYJdvrZSaFtBzmsNTy5eMaaJVMo4a0O1Nu0EeKRs4zSIOuJ
-	yGqIjG/N+ySWk2n2fGQGWSZuD16k6E+Lb1Y7An+Te8UyLwk9h6Px2IK1RasK5b1lqLxl1yZ9Ux7
-	IYRZd4z2MNQl8T2jbJN6x0X5gnuSPoL0cOxKWxPHkEc4RjAHDfduE3Pgc1p1xt+0hS2acsoyXRB
-	JTT0CzLvCl9zqMvKPcKuCQZc1DDYnJCtDgedmSJGKryLyxoYRTwLAT8/1dm0WzTpq02YTCOLD1e
-	PjH/Bga0zqgVlKelwM52tG9CvIeiYpOu+atTP+/TmjtriyEzaLk9/hYLSx84vhXFG0i31RH/nL2
-	sHQALJ4SvE1QFz55QrzKWAeYjQAQ5rOQhIi55ZyRBXJVlAhDEXwDr9iC3A0AX0xKHTEV68jsrWS
-	U2fOzoQRYSpkMywEvkmPcDCxmK2MVL/SB+N/oCnAXVvU8ghBxQMKVECLwGwCxkUVGNohjkj6M/D
-	9nZs89U5g==
-X-Received: by 2002:a05:6123:163:b0:575:352f:ead0 with SMTP id 71dfb90a1353d-575595589f7mr1297492e0c.6.1778051987952;
-        Wed, 06 May 2026 00:19:47 -0700 (PDT)
-Received: from mail-vs1-f50.google.com (mail-vs1-f50.google.com. [209.85.217.50])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-95ce0b71f31sm8421828241.13.2026.05.06.00.19.46
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 06 May 2026 00:19:46 -0700 (PDT)
-Received: by mail-vs1-f50.google.com with SMTP id ada2fe7eead31-628086439b6so4476806137.2
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 06 May 2026 00:19:46 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ99Y2Aq45An7Goi1GBHLFhsonW9qWDzUA9eIjelPveGbh0XF5A/PcaLtkgIXMNcJM7jyRli9P+3E6GbigY5UFrEnA==@vger.kernel.org
-X-Received: by 2002:a05:6102:5787:b0:62f:3abe:907f with SMTP id
- ada2fe7eead31-630f8e78da2mr845360137.4.1778051985729; Wed, 06 May 2026
- 00:19:45 -0700 (PDT)
+	s=arc-20240116; t=1778053510; c=relaxed/simple;
+	bh=/SSiiVNcG6Dr70JSz9aZJkOI5mbAtoVtckNTE0FlKY8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fSTj4kRtGPFfGSWtJDTbe+CzI1yhibnIPkoB0USHAIk9R1XKYueGmE/YF0IvpYdnCx30sETEtFz/Xdjsf5eEyUVdEwl0tgutd9C5f2u6dmiQH3OZzgKNU/qEhqO5M04o551SzlxxRelJtQ1wnyF0IkgkREdVqilBGpv+avmquCk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=DUX5hekG; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from ideasonboard.com (net-93-65-100-155.cust.vodafonedsl.it [93.65.100.155])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id A658378E;
+	Wed,  6 May 2026 09:45:00 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1778053500;
+	bh=/SSiiVNcG6Dr70JSz9aZJkOI5mbAtoVtckNTE0FlKY8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=DUX5hekG/CQLhLakH0Pjl+6O0Fu8KM1hvEyjk0H45jER/AfAJUoccRNkxrWoKfF+o
+	 OkHbpUZRrpWD6NtqNk9ZZkRAdBgswqiyIzGZeCxyMbFd/mWsH/7h+NUD59RnSU8lR3
+	 +omdbPDe5cwLhZG5KtX3EETLmwh7P2bQvGqZq4bk=
+Date: Wed, 6 May 2026 09:45:00 +0200
+From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Cc: Jai Luthra <jai.luthra+renesas@ideasonboard.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [v8 01/14] media: Add RPP_X1_PARAMS and RPP_X1_STATS meta formats
+Message-ID: <afrxNOsSoDO2mq9c@zed>
+References: <20260504010556.2796398-1-niklas.soderlund+renesas@ragnatech.se>
+ <20260504010556.2796398-2-niklas.soderlund+renesas@ragnatech.se>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260505-clk-determine-rate-noop-v3-0-f3f829fbacdf@redhat.com> <20260505-clk-determine-rate-noop-v3-8-f3f829fbacdf@redhat.com>
-In-Reply-To: <20260505-clk-determine-rate-noop-v3-8-f3f829fbacdf@redhat.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 6 May 2026 09:19:34 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVWBx0Ob8BUWaRzeK_4OEHA1wwhfdPcBSG+jGV7dbbqgw@mail.gmail.com>
-X-Gm-Features: AVHnY4LSv9zQeRlq1BPG1reoiAmWUtec3W-OeL3hQqk0PVXd-J0IaxIjKyjNPVs
-Message-ID: <CAMuHMdVWBx0Ob8BUWaRzeK_4OEHA1wwhfdPcBSG+jGV7dbbqgw@mail.gmail.com>
-Subject: Re: [PATCH v3 08/15] clk: renesas: rzg2l-cpg: use clk_determine_rate_noop()
-To: Brian Masney <bmasney@redhat.com>
-Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, linux-clk@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Rspamd-Queue-Id: 4CC094D7220
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260504010556.2796398-2-niklas.soderlund+renesas@ragnatech.se>
+X-Rspamd-Queue-Id: 62D864D75CE
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.46 / 15.00];
+X-Spamd-Result: default: False [-0.16 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
+	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-32112-lists,linux-renesas-soc=lfdr.de];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-32114-lists,linux-renesas-soc=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DMARC_NA(0.00)[linux-m68k.org];
-	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[ideasonboard.com:+];
 	MISSING_XM_UA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[geert@linux-m68k.org,linux-renesas-soc@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	RCVD_COUNT_FIVE(0.00)[6];
-	R_DKIM_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-renesas-soc];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[linux-m68k.org:email,glider.be:email,mail.gmail.com:mid]
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[jacopo.mondi@ideasonboard.com,linux-renesas-soc@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,ragnatech.se:email]
 
-On Wed, 6 May 2026 at 02:50, Brian Masney <bmasney@redhat.com> wrote:
-> Drop the driver-specific empty determine_rate() function and use the new
-> shared clk_determine_rate_noop() helper.
+Hi Niklas
+
+On Mon, May 04, 2026 at 03:05:43AM +0200, Niklas Söderlund wrote:
+> From: Jai Luthra <jai.luthra+renesas@ideasonboard.com>
 >
-> Signed-off-by: Brian Masney <bmasney@redhat.com>
+> Register V4L2 metadata fourcc codes for the Dreamchip RPP-X1 ISP
+> parameters and statistics buffers. These formats are used by the driver
+> to exchange ISP configuration and 3A statistics with userspace through
+> the extensible parameters framework.
+>
+> Signed-off-by: Jai Luthra <jai.luthra+renesas@ideasonboard.com>
+> Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Acked-by: Geert Uytterhoeven <geert+renesas@glider.be>
+As pointed out in the review of the previous version you need to add
+documentation for the formats in
+Documentation/userspace-api/media/v4l/metafmt-dcc-rppx1.rst (or
+similar)
 
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+> ---
+>  drivers/media/v4l2-core/v4l2-ioctl.c | 2 ++
+>  include/uapi/linux/videodev2.h       | 4 ++++
+>  2 files changed, 6 insertions(+)
+>
+> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
+> index a2b650f4ec3c..cd3f4a86e27f 100644
+> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
+> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+> @@ -1471,6 +1471,8 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
+>  	case V4L2_META_FMT_C3ISP_STATS:		descr = "Amlogic C3 ISP Statistics"; break;
+>  	case V4L2_META_FMT_MALI_C55_PARAMS:	descr = "ARM Mali-C55 ISP Parameters"; break;
+>  	case V4L2_META_FMT_MALI_C55_STATS:	descr = "ARM Mali-C55 ISP 3A Statistics"; break;
+> +	case V4L2_META_FMT_RPP_X1_PARAMS:	descr = "Dreamchip RPP-X1 ISP Parameters"; break;
+> +	case V4L2_META_FMT_RPP_X1_STATS:	descr = "Dreamchip RPP-X1 ISP Statistics"; break;
+>  	case V4L2_PIX_FMT_NV12_8L128:	descr = "NV12 (8x128 Linear)"; break;
+>  	case V4L2_PIX_FMT_NV12M_8L128:	descr = "NV12M (8x128 Linear)"; break;
+>  	case V4L2_PIX_FMT_NV12_10BE_8L128:	descr = "10-bit NV12 (8x128 Linear, BE)"; break;
+> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+> index eda4492e40dc..1f78b5378b3b 100644
+> --- a/include/uapi/linux/videodev2.h
+> +++ b/include/uapi/linux/videodev2.h
+> @@ -889,6 +889,10 @@ struct v4l2_pix_format {
+>  #define V4L2_META_FMT_MALI_C55_PARAMS	v4l2_fourcc('C', '5', '5', 'P') /* ARM Mali-C55 Parameters */
+>  #define V4L2_META_FMT_MALI_C55_STATS	v4l2_fourcc('C', '5', '5', 'S') /* ARM Mali-C55 3A Statistics */
+>
+> +/* Vendor specific - used for Dreamchip RPP-X1 ISP */
+> +#define V4L2_META_FMT_RPP_X1_PARAMS	v4l2_fourcc('D', 'R', '1', 'P') /* Dreamchip RPP-X1 Parameters */
+> +#define V4L2_META_FMT_RPP_X1_STATS	v4l2_fourcc('D', 'R', '1', 'S') /* Dreamchip RPP-X1 Statistics */
+> +
+>  #ifdef __KERNEL__
+>  /*
+>   * Line-based metadata formats. Remember to update v4l_fill_fmtdesc() when
+> --
+> 2.54.0
+>
 
