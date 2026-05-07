@@ -1,212 +1,166 @@
-Return-Path: <linux-renesas-soc+bounces-32239-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-32240-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id aN3EHRCI/GleRAAAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-32239-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 07 May 2026 14:39:44 +0200
+	id UOh/EBGJ/GleRAAAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-32240-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 07 May 2026 14:44:01 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE2B24E84DB
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 07 May 2026 14:39:43 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id A6D984E85A0
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 07 May 2026 14:44:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 956EF300FC5F
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  7 May 2026 12:39:10 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id A9E29300CFCB
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  7 May 2026 12:43:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 20C7D3E9280;
-	Thu,  7 May 2026 12:39:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Qcv4v1bH"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 82A693C4540;
+	Thu,  7 May 2026 12:43:59 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF7FB3AB29C;
-	Thu,  7 May 2026 12:39:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 253483B19BC
+	for <linux-renesas-soc@vger.kernel.org>; Thu,  7 May 2026 12:43:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778157550; cv=none; b=Rbic3yCWRMPyYa+32C0ri1HMmHJ8V553N8hq2EsqBA3n1kLXQAX+wQExYbDpHEBlsJtFcpjEj4OkHwFsSDtAmN/ARjC/f6879gHvXwmjdwUI/D21bCaR3QcRfhQBoyEMuc6flMqEZAxAcd1QizwTBNHVwPRev6k002BZNMkxr5Y=
+	t=1778157839; cv=none; b=uYlLTkl9AvSt9QkZbbUcx8gKuQC17DhdLeJtzT2ieW+kNHuyq7wHHzs/jkh+HXD4iOgDKDteurDatyL1O5udIOO3T8DxrndGEqwn46OGnQBIJY73obQZ+xm+t2THW6MElm67rX89Z4hrb11K/lb21rMph1o6B7aFFiQluqzjV/k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778157550; c=relaxed/simple;
-	bh=ZRoerlwEnzlnNkH9tTetVKXXmZ5mHTFiMjf1xYjx6jM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HEFGuhS+5T/Y4mF1jZXEdjSVr0DK3Kmgg7XYKPXPoNH95gwQtR/WXUi0KGvHNXZcj2O/OG8CgsPLe9jA2tP6OZYlJQeMhv6EZYabDptn1LiU3+7WohWmIdQL+hqAZkJVCeZtbxImSY32ykhBj3rAV520PvTX582+MhrU+BmQECQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Qcv4v1bH; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 04848C2BCC4;
-	Thu,  7 May 2026 12:39:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778157549;
-	bh=ZRoerlwEnzlnNkH9tTetVKXXmZ5mHTFiMjf1xYjx6jM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Qcv4v1bHfWBgMevqFCqAQOdpI90mi+npBfY7W8swT2Ju6lQnLsuIvctXCQbxVzjlr
-	 49NXik3IE4zybYGODcxm3cp8pGzYf26ZJVP73VGSmTCkvrL3HOJRRnFszMempQ9p+g
-	 v/Vp9enMEG55eV/JqeX1dyY0vlfsSCnt4oSQuH6/vKbTuywg8O7/cXGzUtuNfeB9HC
-	 //278odiUWL2x8pd3LvMLSmL9wHrVEJfAv9aZUUk+OaG7PcTlt73VozO95Y+qvFozl
-	 YEzLEzt3qxpE9EVf2CrwKtcKkgE8IczTApLwxDKWVNYWYYtExLLsAHJ39wwQTit6MB
-	 Lt6uH0sxibB4A==
-Date: Thu, 7 May 2026 13:39:03 +0100
-From: Lee Jones <lee@kernel.org>
-To: Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>
-Cc: Biju Das <biju.das.jz@bp.renesas.com>,
-	Daniel Lezcano <daniel.lezcano@kernel.org>,
-	Thomas Gleixner <tglx@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>, linux-iio@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-clk@vger.kernel.org
-Subject: Re: [PATCH v2 02/10] mfd: rz-mtu3: use device-managed reset deassert
-Message-ID: <20260507123903.GI305027@google.com>
-References: <20260410163530.383818-1-cosmin-gabriel.tanislav.xa@renesas.com>
- <20260410163530.383818-3-cosmin-gabriel.tanislav.xa@renesas.com>
+	s=arc-20240116; t=1778157839; c=relaxed/simple;
+	bh=rft0aVnDH8ZzPFslD/JdSdefiUxSK0vyAFPTrermtaI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=hJCE+oSzKm+0qGIgmZWBtQWbD/79zNT+z0naTbUhXftO6bs6mXVrn87S8Y19gBWi4pMFI38dtXQ2LJ1xRPpknfipI94W0mwvsxzIl+jdjOdV2KvzRHE/kUWagcV7N0Lxi8xgCyN6xFbGP9Tl/vJBNfRWObhg4cnlKOb4kc1Zt4Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.218.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-bc2a455fd55so114734166b.2
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 07 May 2026 05:43:57 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778157837; x=1778762637;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=XU1MIdjdd4TqOwGpxaQwie0Eo0zv2bJJ/ujL1e37AW0=;
+        b=AdCT0b80HW/+jEoJgVogXsnyy9/ecVvn/TY59Vbu2idYhqqAMhrFOWonj3ya4d4s2g
+         ag30icgYoTQSKdj5A8Y7cd3/VloDG3IBYraE+HBPJOcxQxCeHGqBWOSPWUNd/DZmJ3Cq
+         AHy2VJBzne47BODm/k6defXClXyt1yOVodwyrrE/a/eLm18FPbyaCvyPZJ9nysp8GAMz
+         CjF4THOQmgIGmyYQyX5jQsC0v/HaqzVvn1nHEBeHW6uRL6JV/M3RM+b+xERXJurKpe4C
+         /X4FzXj9Ntfqxxggj+L41ZaWxTIBOrl55J4+3fHJbblOb1AjYm+NUYntnPF8NTvCzGeQ
+         3Cvw==
+X-Forwarded-Encrypted: i=1; AFNElJ9BI9KMF61SsLkxILZT18AX6P04mFFZtwbfm2dSv94CCFjTT4egfFCbUpbrgUgtypEj4jCPYgmoIysv6gg0ylVbPA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwLCsjy/r1t/3ViuXy03CeTbshruYsYgPEmrire5c5B8U++ihvr
+	CzOb9SXgOU8TPNI3FylZ686sEeM3gSNwLPncz6xBrYxFsIkJYcFk3uiQWNzQshzLmY0=
+X-Gm-Gg: AeBDieuovst5JUEcZNd47ZDngzY7bGOjOWvO2WDOHI7Mp9jGLG738cxs6FN//FiM60C
+	LyMl+wmj03kxmr3c/FnksLG2H3oh9oKlxqzHdX6UUWsy+xndlwC7B1L63b8Ex7m7JG5/U8E4oDX
+	3NlCkREgTY7x4YwDjNUg95sHNGIMDCtBmJih3b+RSsZsJ0ADo9tYYRqOWFcMqQX+b64hGZk0ce4
+	XuyfFrO5m32CSrOdheY2zWWOZoy69k+sgtPx9A0MMKgyW8/4RqqS9orGiCKo4ju1asp28f8Ne4h
+	gRgZkfbxis+Gw1LfrR51O6NOBFTqAVy2gBUmm2dAjUHIFHhb0DHiZ8/hFdqQxwaede1IbP6yLxO
+	576AzrMs5dnOd2l0clneOOPNT6tvSUhp9dKHNmVYRvM0ihFcnA4WmvEc9hqRC46kkUzQrKM/ID0
+	WXERqZ2S4dmjjEHQYr17+sGTYgYsYdTe26qnEyM2df9rJjRapgFlN2POm7EaHofY2PCjfKGOkg4
+	phJP5TXdQ==
+X-Received: by 2002:a17:907:1c20:b0:bab:cac3:b9c9 with SMTP id a640c23a62f3a-bc56d037fcfmr442664966b.28.1778157836239;
+        Thu, 07 May 2026 05:43:56 -0700 (PDT)
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com. [209.85.218.45])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-bc8351448a8sm77937066b.50.2026.05.07.05.43.53
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 07 May 2026 05:43:55 -0700 (PDT)
+Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-bc1f3a393c0so117999466b.0
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 07 May 2026 05:43:53 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ9jL2+YT2qFxM2h8UYljKHvkrGdEtzB3PN1uGW+4VhiqSubBpUxLpffPxIDwuodMMWTYFJDLyyt37q9NtAZsRQuIg==@vger.kernel.org
+X-Received: by 2002:a17:906:7944:b0:bb7:be3b:ba3e with SMTP id
+ a640c23a62f3a-bc56e01902emr413569866b.45.1778157833530; Thu, 07 May 2026
+ 05:43:53 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260410163530.383818-3-cosmin-gabriel.tanislav.xa@renesas.com>
-X-Rspamd-Queue-Id: CE2B24E84DB
+References: <20260505071544.8965-1-biju.das.jz@bp.renesas.com> <20260505071544.8965-2-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20260505071544.8965-2-biju.das.jz@bp.renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Thu, 7 May 2026 14:43:40 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdU2Dt4=ptwoaXNttV6gAa=G4mtGRYtA_z3qdqcUtd8A2w@mail.gmail.com>
+X-Gm-Features: AVHnY4I9idqK1VcaIrFYUBfD3vXqjTzr4uBBYEWs1epY9RmzhXeZEn8Y3hIUwgM
+Message-ID: <CAMuHMdU2Dt4=ptwoaXNttV6gAa=G4mtGRYtA_z3qdqcUtd8A2w@mail.gmail.com>
+Subject: Re: [PATCH 1/3] clk: renesas: r9a08g046: Add clock and reset entries
+ for the RSCI
+To: Biju <biju.das.au@gmail.com>
+Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+	Biju Das <biju.das.jz@bp.renesas.com>, Brian Masney <bmasney@redhat.com>, 
+	linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, 
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Rspamd-Queue-Id: A6D984E85A0
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
+X-Spamd-Result: default: False [0.04 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-32239-lists,linux-renesas-soc=lfdr.de];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FREEMAIL_CC(0.00)[bp.renesas.com,kernel.org,glider.be,gmail.com,baylibre.com,pengutronix.de,vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
 	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[lee@kernel.org,linux-renesas-soc@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	FROM_HAS_DN(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	DMARC_NA(0.00)[linux-m68k.org];
+	TAGGED_FROM(0.00)[bounces-32240-lists,linux-renesas-soc=lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[17];
+	TAGGED_RCPT(0.00)[linux-renesas-soc];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[geert@linux-m68k.org,linux-renesas-soc@vger.kernel.org];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_COUNT_FIVE(0.00)[6];
+	R_DKIM_NA(0.00)[];
+	NEURAL_HAM(-0.00)[-0.990];
+	RCPT_COUNT_SEVEN(0.00)[9];
 	TO_DN_SOME(0.00)[]
 X-Rspamd-Action: no action
 
-On Fri, 10 Apr 2026, Cosmin Tanislav wrote:
+Hi Biju,
 
-> Replace devm_reset_control_get_exclusive() and the manual
-> reset_control_deassert()/reset_control_assert() with handling by
-> devm_reset_control_get_exclusive_deasserted().
-> 
-> While at it, remove struct rz_mtu3_priv::rstc and use a local variable
-> for it as it is not needed inside rz_mtu3_reset_assert().
-> 
-> Rename rz_mtu3_reset_assert() to rz_mtu3_mfd_remove() to accurately
-> describe its usage since it no longer calls reset_control_assert().
-> 
-> Signed-off-by: Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>
-> ---
-> 
-> V2:
->  * no changes
-> 
->  drivers/mfd/rz-mtu3.c | 23 +++++++----------------
->  1 file changed, 7 insertions(+), 16 deletions(-)
-> 
-> diff --git a/drivers/mfd/rz-mtu3.c b/drivers/mfd/rz-mtu3.c
-> index 9cdfef610398f..6b9c6831dffa9 100644
-> --- a/drivers/mfd/rz-mtu3.c
-> +++ b/drivers/mfd/rz-mtu3.c
-> @@ -21,7 +21,6 @@
->  
->  struct rz_mtu3_priv {
->  	void __iomem *mmio;
-> -	struct reset_control *rstc;
->  	spinlock_t lock;
->  };
->  
-> @@ -301,13 +300,9 @@ void rz_mtu3_disable(struct rz_mtu3_channel *ch)
->  }
->  EXPORT_SYMBOL_GPL(rz_mtu3_disable);
->  
-> -static void rz_mtu3_reset_assert(void *data)
-> +static void rz_mtu3_mfd_remove(void *data)
+On Tue, 5 May 2026 at 09:15, Biju <biju.das.au@gmail.com> wrote:
+> From: Biju Das <biju.das.jz@bp.renesas.com>
+>
+> Add clock and reset entries for the Serial Communications Interface (RSCI)
+> found on the RZ/G3L SoC. This includes various dividers and mux clocks
+> needed for the four RSCI channels.
+>
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 
-Remove any mention of "mfd".
+Thanks for your patch!
 
->  {
-> -	struct rz_mtu3 *mtu = dev_get_drvdata(data);
-> -	struct rz_mtu3_priv *priv = mtu->priv_data;
-> -
->  	mfd_remove_devices(data);
+> --- a/drivers/clk/renesas/r9a08g046-cpg.c
+> +++ b/drivers/clk/renesas/r9a08g046-cpg.c
+> @@ -137,6 +167,7 @@ static const char * const sel_eth0_rm[] = { ".pll6_div10", "eth0_rxc_rx_clk" };
+>  static const char * const sel_eth1_tx[] = { ".div_eth1_tr", "eth1_txc_tx_clk" };
+>  static const char * const sel_eth1_rx[] = { ".div_eth1_tr", "eth1_rxc_rx_clk" };
+>  static const char * const sel_eth1_rm[] = { ".pll6_div10", "eth1_rxc_rx_clk" };
+> +static const char * const sel_rsci[] = { ".pll2_div5", ".pll2_div6", ".pll2_div7", ".pll2_div2_4" };
 
-Why not use devm_mfd_add_devices() instead?
+OK if I rename sel_rsci to sel_rsci_rspi while applying, so it can
+be reused?
 
-> -	reset_control_assert(priv->rstc);
->  }
->  
->  static const struct mfd_cell rz_mtu3_devs[] = {
-> @@ -321,6 +316,7 @@ static const struct mfd_cell rz_mtu3_devs[] = {
->  
->  static int rz_mtu3_probe(struct platform_device *pdev)
->  {
-> +	struct reset_control *rstc;
+>  static const char * const sel_eth0_clk_tx_i[] = { ".sel_eth0_tx", ".div_eth0_rm" };
+>  static const char * const sel_eth0_clk_rx_i[] = { ".sel_eth0_rx", ".div_eth0_rm" };
+>  static const char * const sel_eth1_clk_tx_i[] = { ".sel_eth1_tx", ".div_eth1_rm" };
 
-This shouldn't go above the main device data structs.
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-clk for v7.2.
 
->  	struct rz_mtu3_priv *priv;
->  	struct rz_mtu3 *ddata;
->  	unsigned int i;
-> @@ -340,15 +336,14 @@ static int rz_mtu3_probe(struct platform_device *pdev)
->  	if (IS_ERR(priv->mmio))
->  		return PTR_ERR(priv->mmio);
->  
-> -	priv->rstc = devm_reset_control_get_exclusive(&pdev->dev, NULL);
-> -	if (IS_ERR(priv->rstc))
-> -		return PTR_ERR(priv->rstc);
-> +	rstc = devm_reset_control_get_exclusive_deasserted(&pdev->dev, NULL);
-> +	if (IS_ERR(rstc))
-> +		return PTR_ERR(rstc);
->  
->  	ddata->clk = devm_clk_get(&pdev->dev, NULL);
->  	if (IS_ERR(ddata->clk))
->  		return PTR_ERR(ddata->clk);
->  
-> -	reset_control_deassert(priv->rstc);
->  	spin_lock_init(&priv->lock);
->  	platform_set_drvdata(pdev, ddata);
->  
-> @@ -361,14 +356,10 @@ static int rz_mtu3_probe(struct platform_device *pdev)
->  	ret = mfd_add_devices(&pdev->dev, 0, rz_mtu3_devs,
->  			      ARRAY_SIZE(rz_mtu3_devs), NULL, 0, NULL);
->  	if (ret < 0)
-> -		goto err_assert;
-> +		return ret;
->  
-> -	return devm_add_action_or_reset(&pdev->dev, rz_mtu3_reset_assert,
-> +	return devm_add_action_or_reset(&pdev->dev, rz_mtu3_mfd_remove,
->  					&pdev->dev);
-> -
-> -err_assert:
-> -	reset_control_assert(priv->rstc);
-> -	return ret;
->  }
->  
->  static const struct of_device_id rz_mtu3_of_match[] = {
-> -- 
-> 2.53.0
+Gr{oetje,eeting}s,
+
+                        Geert
 
 -- 
-Lee Jones
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
