@@ -1,65 +1,65 @@
-Return-Path: <linux-renesas-soc+bounces-32202-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-32203-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id MLiRIdBb/GndOQAAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-32202-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 07 May 2026 11:30:56 +0200
+	id mHh3IsNb/GndOQAAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-32203-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 07 May 2026 11:30:43 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id C56ED4E5EC9
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 07 May 2026 11:30:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E21374E5EB3
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 07 May 2026 11:30:42 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 5AA0A30131D9
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  7 May 2026 09:23:43 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 7518830B511A
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  7 May 2026 09:23:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2DC7D3BED27;
-	Thu,  7 May 2026 09:23:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 341DF3A784A;
+	Thu,  7 May 2026 09:23:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="Fx6THQEW"
+	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="EpI0gzs9"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from OS0P286CU010.outbound.protection.outlook.com (mail-japanwestazon11011027.outbound.protection.outlook.com [40.107.74.27])
+Received: from OS0P286CU011.outbound.protection.outlook.com (mail-japanwestazon11010042.outbound.protection.outlook.com [52.101.228.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C251430CDB6;
-	Thu,  7 May 2026 09:23:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.74.27
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 816643612EF;
+	Thu,  7 May 2026 09:23:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.228.42
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778145822; cv=fail; b=XO1b6vW5I0hSH1iEvSaQapUX5D5CR/Mwem9YHpCfLbHatLqJaaPyXckG5ZDUGf/e45KBKmrXNinuatEohB/5ng7YvdWAachmGnsZSc5yuBZDuJ0YPVg1scfW+ikQ8mc/EJlbmbmcT9N/0mszwmH2KS6jwqpk6+BzBePtk05alR0=
+	t=1778145830; cv=fail; b=sh9OA26sMxoDsWN6yquoWjb50cSrJbbSGFnan9tq/zzn5TTx4CSL/ccxXkjRkq4X36LtdQE+vceNTBqZ8Inqt07jRUWL3MIdqZAIZiifPS5rJoJi7SCs5o/RsDJJVBe01XXWpaYyYAwvWl6wbrwwCOtz8imcZOF9sgkdjS/waho=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778145822; c=relaxed/simple;
-	bh=cbqZarwtgdN5Vmc/ZzAiPxDhrPc2etnSsDOYnsqAs5M=;
+	s=arc-20240116; t=1778145830; c=relaxed/simple;
+	bh=hltvl7nB77utS4B450QsbfBEQVBMMlqWivV3j8qoy14=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=ZLmTuw3nzoHEtqz1KB24ze5fxIZiOsUmCtlq7iIKUZTh0N+xo8tBaz6vj6J5AX2aQr0f1GreYl2rPZ0aGOoUNK+6htSsTm+F9Ry02fRXPU28b9vAEV2eGoH0log/vUIGGe6YM1pxoLkLeD8SKx6YoTHuZVijCao1BDdtKHt+q8Y=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=Fx6THQEW; arc=fail smtp.client-ip=40.107.74.27
+	 Content-Type:MIME-Version; b=hwAQSG7z+rJk43blaWpX4wfEweufjylhkctHQk8GF2P0KEw8Xrp+uKlHF2cIYKSYURTIOwKSP+M/xmb8opzIeW01jRIx6/jTbCgmaz56s4kkvwEIfVQZfXojEnd5GvotdTbTwJ2C6gpHmlmL1GquBHgUKqFeVRw3FkoIZTS7xI0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=EpI0gzs9; arc=fail smtp.client-ip=52.101.228.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=KVEuBC3vvEqUIeUHKZObu8Ue8DvDc8eFbew2qGOIpWxPCVcePiHRf29E6k489RZ4f2Irof3526k+gA6mvb1wOc0QdGsEppMvVya5gihl3SLBzG2eozlIlTgjTIuZ6dePjizfZlEJB9Jh9j3OJ0fthCmKWUOhNreo7iQ0yNpNdaaNRV+o6GfFJCFFIE712icPIuO5xyCwLHQ2cFyAsGIVHAuHPGmK8hjaD4VdMAeszOJpfuuSCj2lKKNjgbDfbFB2BecwDqI6+gCkeMpkEsLUM1zxR0ze3oe5hRJ+9ZtJYZCygJKV8QSmZu40FW5uGnfk6tyWVxbZP2/CHg39/GDzYw==
+ b=MLKkBgqDximcNfgtxQF/6Ya/TgINMn6JFRlyNSHGXAmX91kDFvkSN49sjVoDVzbatHDOyoVwt5kQfEW6/TB670CcDrL6VN0dh8RTS1d6oHFAzMLwAIMK59udvk8p1DeqSD3lbwQ77XlcfSAwEslR8L0z3RSVgw2YB8px/yBHK1uoVDjDuKG07U0cvzmKqHn5exYhjcAh3amjr9TfANfO5hvW3ZwDkkmsOjP5wMAPFf3c/0urRNP5N0N2EOd7zqFdnRLlBIum26DUlvCdpZOluNH7SWuXLeNS95CVZZaeRuyoyXOvXzu4Af88g1BPDfEb0Bp3kXLUFHOzilEdTEghIw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=1Oq8YN0lL74t6wOIy9BhaeRdSko8/Sg/Lx/4l92vkS0=;
- b=M8y4I+ynz5eZvreFSbcvLpSw5iG3Xx7dnG0guNCDx8UTemdd/7yadJttGX3d9P/qUu73ZkCwvBA3W4YQAnPPblkikz77BqsBly4R5wUlL+HMV/KyXEVVrPJf2IYqEO9Ljl5Jy7Z/GhsTQ4XarF2LIDEUpXcWGNQOMjgcQiqEtEkH7Lzp7ogPhsRJkeJ8x4FDue+U9Q1HhBqmVSuPgofyNFKOonhbMdKahVmugg4GpPBxnisfnSyCUImjUhXb/NXswSGSSGFn88rPblNkgaUYujQdysiB1b3HBGSW9oDO5op0PF+usgmXBUlrSMU2xfqpmKM2WhpWIwwnJbP5uZLl2w==
+ bh=P1sRjZcH+K1TGTalzDqGsGfSTC5eYIKo0VKMa7qGj1Q=;
+ b=HnI7p80CMFxUgufJeZROdsscXzdW24mVYUcFiVCYa8pM1bCSrk3zVbEj4f2L4Fb8ZqRg3cgdExU0zXl+vMn8nr0a6nHgc7RWfV3uirmrys5BONTm3ZXCAbfq68eAo9nSggqpnlvWomY1oTWHV9DMV56mZxi5pffwfQgBDwD3p3VLUFERBbRo33yWqWGyXQSwEjpOLW8kfYMeY9cxvDvmrb4YbZLII38UJgw8dVQl3El9juW33pa2VP6pmUjeWUr01KXQzztMOfokIQO/adSaVdFDtZCK08oIHQTiEVcArMxgt5gmioRQ8wvUbDKd3dwkky6LhIMRNQHS/t08bFMWmA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
  header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1Oq8YN0lL74t6wOIy9BhaeRdSko8/Sg/Lx/4l92vkS0=;
- b=Fx6THQEWQvM7QSO28vSRd2t4ADlt1JR1ZA/1gdJx6bWUn2yHD95Yl5mwGeYmCENb+qVlJqVQAZ+D6nw2Gf7ZSx1z+2DeviNhoFZ9udD3R3ZS06HfAvAjnPmNiL7j2xzUwSqOM8990eKw9uXchwuUnd0Q6/qpesOJNOitIwv9uNc=
+ bh=P1sRjZcH+K1TGTalzDqGsGfSTC5eYIKo0VKMa7qGj1Q=;
+ b=EpI0gzs9ouzuxK9+hcmt914twxMkGaO0tY3iql9Nlow7U6fOteiYSmzVuq9YkQIFc0zj2nvIHHRoAhV4zlQLe/DoDr4D6vqNAsiHK8ENILxfpeg5yyntwZOGnD9bBjIkUs9E9evisE2gaZNBbXWEZcWDAkdXV25zuPjFB+mcHLE=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=bp.renesas.com;
 Received: from TYCPR01MB11947.jpnprd01.prod.outlook.com (2603:1096:400:3e1::6)
  by TYRPR01MB16094.jpnprd01.prod.outlook.com (2603:1096:405:2e4::13) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9891.17; Thu, 7 May
- 2026 09:23:38 +0000
+ 2026 09:23:45 +0000
 Received: from TYCPR01MB11947.jpnprd01.prod.outlook.com
  ([fe80::33f1:f7cd:46be:e4d8]) by TYCPR01MB11947.jpnprd01.prod.outlook.com
  ([fe80::33f1:f7cd:46be:e4d8%5]) with mapi id 15.20.9891.016; Thu, 7 May 2026
- 09:23:38 +0000
+ 09:23:45 +0000
 From: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
 To: tomm.merciai@gmail.com,
 	geert@linux-m68k.org,
@@ -82,9 +82,9 @@ Cc: linux-renesas-soc@vger.kernel.org,
 	dri-devel@lists.freedesktop.org,
 	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v7 11/13] drm: renesas: rz-du: Add multi-VSP instance support in plane selection
-Date: Thu,  7 May 2026 11:21:39 +0200
-Message-ID: <4bc31522770407416e62703c458a6f06d3b3996d.1778141145.git.tommaso.merciai.xr@bp.renesas.com>
+Subject: [PATCH v7 12/13] drm: renesas: rz-du: Add RZ/G3E support
+Date: Thu,  7 May 2026 11:21:40 +0200
+Message-ID: <b321c9c57c32aa17a294ff608b02df8746c220c6.1778141145.git.tommaso.merciai.xr@bp.renesas.com>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <cover.1778141145.git.tommaso.merciai.xr@bp.renesas.com>
 References: <cover.1778141145.git.tommaso.merciai.xr@bp.renesas.com>
@@ -101,60 +101,60 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: TYCPR01MB11947:EE_|TYRPR01MB16094:EE_
-X-MS-Office365-Filtering-Correlation-Id: c2f2890a-5b1e-4d1b-0f7e-08deac1a51d1
+X-MS-Office365-Filtering-Correlation-Id: b4d082c9-e07b-495b-0ab3-08deac1a5663
 X-LD-Processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
- BCL:0;ARA:13230040|366016|52116014|7416014|376014|1800799024|38350700014|22082099003|18002099003|56012099003;
+ BCL:0;ARA:13230040|366016|52116014|7416014|376014|1800799024|38350700014|22082099003|18002099003|56012099003|3023799003;
 X-Microsoft-Antispam-Message-Info:
- jLsabt6FNBldxO42/sRt2IimMgkhxViAREIa/mlpH/dR5mmgusNfZ4PweIkGhOCmIPMJ8rWUyRlFLaOg1TuP6IWJS2hjQaN1yCTFD/n50ZMBFXE8ORol4LV/0wQrYDCrLqaxQfmqHmmUxc+UjwVkWLG9Qy4/znKCJafLsHGPtgJDWDu7tNt4D8+nsK5xr30sV0LTLE1lw0/cQMOXnskLyECiu3swzD/UP9FHiI7gmRMaKRUCyWStxlDqlDaPxA0sZAuHjRFwtR3Q0GT29+4lR4X8ORccWAobyLNnpFnlgSqpmYmLyTmshqnkqUoWXQ88PXjxu3yeU4tPtCTK3Q4+1grRgzouOPeAmtZMWpZivghMPadi++hQu+zl1UrOYJwkxw3dE5gCnalOi9BSnC94ehBzcEe1ywazET5wSparmPZvnS0VPJl7v7oCdc9uSAKvhM6558Y+ok3pAVjx9B7jOVWpFkMG6cn2YVMRb0MyiFofiMXyzGdFaUnAZuicsARBHLL5EdorpzDTKdxEEWIRufdgTkZ9A1+g1Ai+GVwuK/nj0Dtud39+p5zp4rr+yizpaUJ4q0y4EMTLgtrqvc8p2yqZNbF6CNdXigR7ogQ5fCjMce3MMZpGyiR4CPh/KqbDRA1eKUw1WwlJD6hIKbGqsB5O+BmfLaNOpOVpNqtE4FasfM5/gwD9jMeeMTm+srSQIuHSiKIPDVn4rE5SkCQ6UN/q59jE/Erd5U46JsxeNYidVbeMCsyUyMsninNv0N0k
+ Vg/8sFWa+Q796+/cORaC+9izs/m2jMeSkmvoBsmuT3W6ymCz964HhGC/kWSH0h4fRzngT2BmLgajEwp2/0j0876QDvsE3LQPShYxT7HhWVtoyi9hQ4YwYN266nyWPj6ZUnZO3fl6HgklU/9V6ZTNhUdH03s80O3h0ZUbPv8ZENmMyxnZWK6sN6Q8ebaFbuQiUECeniiUNRgzX0vOilvBw/LXbb4TI/6SEKmKSjty763Bb57RZo16mK5ySQTu1lCxW2qwvNMI3GjtzO8pC/mlfyBePJqD/xrLYi3JEe2NtfNwebeq393g44/6PLQIFAz4iWFaxd4MNxnSPlVV2rXMI8b8RQM7W8rlb7FrHhW/qwVZ9hH8242s3Qm0MZeqL6xGkymFZgY4t27CuQMoCPndXuG+X5jS4FEQQ4/EJ8nI35Mn9jGA133VOA7Ctpac9AM52Mj/B1TFcbLXsvdhLWw8nYprpXdzbmavrlWZxrYPt4oExh0r082Y9PCydkBM4QFR8rstkI4tOh8okM8vqPxP4z6aIYbePog/XYiyvhajy7ZO65/p6gomWz9zvbAQTCUkDQw4WqqpK4EB+HA0CRa13IVjY6h6+bJQHlAboVMTSTxLupVbiVOstAdvoLxdn7Krtj3bRqvFMrzjCJY9lLFY/OH3oDztYD5B2DdrSoghvXu32egXYRkVpOXj3zCevi5P96BF7VjWqJlehbUzzRmEvzFPcXhiyl+sqi4Xi9vwi0uahj6ft1cwACvlDGq8pgvM
 X-Forefront-Antispam-Report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB11947.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(52116014)(7416014)(376014)(1800799024)(38350700014)(22082099003)(18002099003)(56012099003);DIR:OUT;SFP:1101;
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB11947.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(52116014)(7416014)(376014)(1800799024)(38350700014)(22082099003)(18002099003)(56012099003)(3023799003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
- =?us-ascii?Q?DTDhhOm2mifkp1iP2ClCPPzTc72clxAO328TLDyN4WWLxmkCojo4jb8DDeQK?=
- =?us-ascii?Q?ccvGdgV7xjmhW6bWlQS+V0ZUMcw4p+iJ8AYxTrd0LZkTiM/AjhKfmBvuvW42?=
- =?us-ascii?Q?9iSizxeesWTNoW7rNX/KOw1SqQKU66C5JA+C+rVNal4JBZb9NupbTfJ2+aMU?=
- =?us-ascii?Q?GmXpoETxLXUk6Q9YzCAfyYyqK3bPPM3hKCm6i/tyva65MOwgknA+V7N0yJjC?=
- =?us-ascii?Q?QbbyzLZc3txQg7HMCU8l9eCWbbQxzmRonP759iuyq4JT9GqUersMpuOw92yc?=
- =?us-ascii?Q?QNnKEfaMBXxhOkIHc5savh39HgudkHIQ2mdbTiqWf2gq33orCb7gaPj46FWG?=
- =?us-ascii?Q?QrBg7o2KvhX+EGselOhFXxBDqsG3LNEWzU31PrjlL+ms9wsVNFF2ntXPZoT5?=
- =?us-ascii?Q?XUTN/1euJDOj+dJ0O82L/KcQrtMop5EevWhKX/SANpm1pohdeJvK58Ovqxlv?=
- =?us-ascii?Q?paV+fyi4xO1iY46BhpmZcqufxsRe/5anOMUdgp+cLvnI+SSBPp1qxoZqGQ6b?=
- =?us-ascii?Q?pCSbu1bzmqy8DSfp6i1BpMvnp77gKboyF3OAsMiM9uX5eND5XSaYawnUfUM7?=
- =?us-ascii?Q?hLLbEjz3vNCgszxOkf16kmEuNe5q0Hj+C7dyBs4D1WZ8uqYueHibzsCtuant?=
- =?us-ascii?Q?69ewkhiEbNgrSbemT2eME6UxRYlUbLHy3/XsWcXMabOZsFN3Bdf7m8pa8AL6?=
- =?us-ascii?Q?zcdc2M4heoR9wRla1vwbUoBcXXeuUWcIWpPil5/UI3tfPYE3TvA7KfUSN/SL?=
- =?us-ascii?Q?F37C5ChYi3Q9fYUi/wsUhIUGt1pvhDT8ublkTSkm26Pr0+05rWhrxfzVzzvA?=
- =?us-ascii?Q?g51b6nJhb8SxaWgdc6ZOW8ZTtov01SMDeTm0v2SASQEv9G9ziMwX7NcS30JK?=
- =?us-ascii?Q?aR5UNO9DqMdYTUeFll7dO0UQ0ZavXFXtMjvweK9mXy+d8KuUZUxG7txB9/fp?=
- =?us-ascii?Q?20PlWHxZWhnmnjqaUCT3fb/nsfHkkHtFc3JPnfACy0co3/eu15l63Lw5SLbS?=
- =?us-ascii?Q?BaT5wYaxLwHuupoagcJQTcShc8vv8B2OUrQomJpnCQ3wmyb3S1hKhcQVkXIW?=
- =?us-ascii?Q?S9zdFTghO+rw5SLz45vaH9R49qZVrhcVwc1kIdWvrEW6q40QAiGokpHwYi78?=
- =?us-ascii?Q?6wkMJSXhxgvHB5RGfPFSiOxyDKAhJ0Fd2Xq+h0ytVt/7XlsVhrZ0vUWBrokM?=
- =?us-ascii?Q?vi2PwEn8ASM6l3ETk+Lb9eV4fHRWqFa42CJ7fuvIy5e531cpm00OC+9wrN4T?=
- =?us-ascii?Q?qhXVg0BFOGwdJ884jntVgvxz35X7t/qADexJccUTRUU/mAddlS8jwMRFiYYT?=
- =?us-ascii?Q?pOwIzT4qK15alY9bzY8NWtyQ3sE95nAd0XlPQMO6pYrAsffUfRTEUPgSr1jA?=
- =?us-ascii?Q?rJC8Q9dv6p7+2NVL54uVc1PVe5wwvJhIQ3r3pISRD0r1bKFWD1aqx8O5YR+b?=
- =?us-ascii?Q?81ZiG0zY+JvOUypL5hPtWrHsHtDTFdITp9Pf9PCmpeDTIzwTKV1bUcuyXT/Y?=
- =?us-ascii?Q?IBZM9/dl527rACIu3zgkfvJxiFGHO9SQwGKrKPOe5uqhiXI7FSo74wWGpRGz?=
- =?us-ascii?Q?1IKpWcz4Pwnxf1H47immKGTqP97chSLWUgFCiRUKpdokjEN6QO5273LoYCkE?=
- =?us-ascii?Q?Np55PrVhh7tF5sMQjufQRsrTe0txfsgeVqvya7qV7x+0rUzb5RmK1f6Kk85f?=
- =?us-ascii?Q?GFREYHTbUpF3aVyMXyxloQbZVevBhwMRx0O6o9bv1bWAfPY96M2zEDGapUUm?=
- =?us-ascii?Q?pNTMdLGRK5aBds1ttOwKpoeWdMS0atD8ozGr2iSifsXAJs0If5TC?=
+ =?us-ascii?Q?zGEwH/W5A0HDLPo9PQAtUckR3fxOt4EcxS/Z6JFifqS/Sd5xuQYP8D1vnnBd?=
+ =?us-ascii?Q?RY+gW8DkhW4eQFLqpUwj/OeJjnl58htPeYelGWNK4xauro4SL/rru/LRFnF+?=
+ =?us-ascii?Q?wO9Ztwy3VOLSDwQo+PoWqrgiNPpl7uZdovSdNwwLTlIOvnhJWkt9wfKk3zO9?=
+ =?us-ascii?Q?UHpKLuZU7ZZyExZocWzQYM3ewHWMGUvBJcZkNAsSeU6hbPOqfPGjBHM1GtLi?=
+ =?us-ascii?Q?t5HOujy4tKBOERbl76fhemO1clh9oLqrexFEwHml19mbiSg9KbTgk4WzgUZE?=
+ =?us-ascii?Q?whxHnDRRGKMHyhuz9GsE9XHNMa9Qj8r2KzxPdYpVFloeftNF85qyZA4GJH16?=
+ =?us-ascii?Q?OAHQWDom5vS22hLAtNSb1c7DKkKVVpmMc/NJhMXRt6XYmyOL3CT6jn+B5EeU?=
+ =?us-ascii?Q?DhfdFEn9rmiKsW7TPPY0IqTLdl2mo8LKRAzb0x90fKIO8/TCwkfi3UUQ0Fp2?=
+ =?us-ascii?Q?Y9IGw6CFZTaV1E5nxqSnWfOVzmT0xjkFWn8spScFSf9rkCxiygm90Qx/roAq?=
+ =?us-ascii?Q?LkJMWiF12opD7oeUidCtVAHB1PdhlxnT+sqxJl9cw39ooTEdQuk4+qBEE/JG?=
+ =?us-ascii?Q?EhHY8C96+tFaJYL+f8xlGvFc2ozP0W97ELYokR9Bk+QVAMWCZautNVAQrE2i?=
+ =?us-ascii?Q?sH7SqvjZ47g9mbcjP29Y4FF/yUprqDjAb00RrrN1YgsK/jQcdS838qovSNQc?=
+ =?us-ascii?Q?R5Yaa1mZQc3MQUWoimIhgFNuxCziA0GgxJtyr9A1IynyYWZUBrHqaQOZA3bW?=
+ =?us-ascii?Q?Qk79k+V7GiVcEXT/SUUZFeaaDhO7aCYwckzefd7mITjgX/zzVxwKKNi3jbyE?=
+ =?us-ascii?Q?58fLnWLivqV2UlJV4cYHjT/RUHBCqL+5BB1raT2DHELWiGwkVSmul2R0f6KY?=
+ =?us-ascii?Q?TS+srGBhVWrqPNWFbpc/6nBovKYmLjPkuXMczd8owURaSJAJjLTCoNOuuKTr?=
+ =?us-ascii?Q?TzCqC6uMaJmRxohFjN3ZtN+knauhEpXuRuZVENxJbK9vL9vEtRR6TIQspOdJ?=
+ =?us-ascii?Q?8/95jCpK2POpE46rF0j88vkhCi6wDxx96OKUPRqZeAAWsaGQcBX3QrCTLlQF?=
+ =?us-ascii?Q?1PBs3l/0A2BNf1kdcX/SNoba9oyh6Cx1RdUTapm6iuqrshDNdnmVQ7aJHI3b?=
+ =?us-ascii?Q?zwTTQxjapY1A3y7H+/eGKbt577ge3jQNHPoz8GVmsZhPamakwIeDGdebSRPQ?=
+ =?us-ascii?Q?ixBRmxDpqrMUJZLNd4RM86zL31Y0dPF7nyO3i9m/3S5OYyzE5OdD+0DHyKys?=
+ =?us-ascii?Q?QjUEIbqhi7pPjiyei42RKKD6kjej0ESlPXNmzRBvplLrNzdTUvDvcGLq1xCK?=
+ =?us-ascii?Q?DWGgX1b/dLwIa626x1a6RXk2hJgYfBjf4KP/kaF4nrM95GtgxI+vJjWGw5Wo?=
+ =?us-ascii?Q?5PoOzveGu0TFIRJmZlBMiSHri1QU8ntFrti3emXk37kUBjG+DQMFs557uWCG?=
+ =?us-ascii?Q?nZpZa+bGSDsJqFVzxMaXFE8jV+ypLeeAZ7DhiRWcnqqFl9lGTwbWrFmdROrX?=
+ =?us-ascii?Q?RMwD/WJS2jSK5Fmy+/t4byy18UYCIUIA/y+W/jXnHPagAodsfI7AA0tW/7Tf?=
+ =?us-ascii?Q?uu5YGcyTqN8/QBkwCGaKhgQyc/qRULGy/o/nMmnGGykIEd8zamvNiYsyB7L/?=
+ =?us-ascii?Q?UnpA0k3363QY2Z6+rei57ZQ8rE4qIN5VliNOHaIJxKmZkXlQi7lNeUTKt5iI?=
+ =?us-ascii?Q?1Kmr+WZM9h1PX9Z74VbfyBGFIa0X1JFWpeeMqjayq4VA/cuvknFhzBksEjB8?=
+ =?us-ascii?Q?DQG4YIGeKo25htDsWA36ITeX4oXYlovPVMoQc1YVGZIwD5m7KrTT?=
 X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c2f2890a-5b1e-4d1b-0f7e-08deac1a51d1
+X-MS-Exchange-CrossTenant-Network-Message-Id: b4d082c9-e07b-495b-0ab3-08deac1a5663
 X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB11947.jpnprd01.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 May 2026 09:23:38.1366
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 May 2026 09:23:45.5888
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: b9zZnplCs8Key+S1fybHJWFIVxOgOVVhXr/Br81/pe4Bs0G8Xul5Pf0He0UmNKc/jOIzT/OggtdkpEubdf7vsmigCFtdxLOLXVhp4X0mJVsJi0XzPXw/BuCzw9yXv0K0
+X-MS-Exchange-CrossTenant-UserPrincipalName: uWkS81XKq0t4AW6z0H01gwvw8GkNFPJsG/9p09W6ii7HALlCTwmucP6QHC9fSQsschWzk023kl2589ZGqBP5rsQ920BjRULuwXXgYMUo1mMykK7gTxoos/pR2tgcQ+9x
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYRPR01MB16094
-X-Rspamd-Queue-Id: C56ED4E5EC9
+X-Rspamd-Queue-Id: E21374E5EB3
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [2.84 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
@@ -170,7 +170,7 @@ X-Spamd-Result: default: False [2.84 / 15.00];
 	MIME_TRACE(0.00)[0:+];
 	RCPT_COUNT_TWELVE(0.00)[21];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-32202-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-32203-lists,linux-renesas-soc=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	FREEMAIL_TO(0.00)[gmail.com,linux-m68k.org,ideasonboard.com];
 	FREEMAIL_CC(0.00)[vger.kernel.org,bp.renesas.com,gmail.com,ffwll.ch,linux.intel.com,kernel.org,suse.de,pengutronix.de,glider.be,ideasonboard.com,lists.freedesktop.org];
@@ -184,38 +184,231 @@ X-Spamd-Result: default: False [2.84 / 15.00];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
 	NEURAL_HAM(-0.00)[-0.999];
 	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,bp.renesas.com:mid,bp.renesas.com:dkim,renesas.com:email]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,bp.renesas.com:mid,bp.renesas.com:dkim,renesas.com:email,renesas.com:url]
 X-Rspamd-Action: no action
 
-rzg2l_du_vsp_get_drm_plane() scans all DRM planes for a matching
-pipe_index, but with multiple VSP instances two planes belonging to
-different VSPs can share the same index.  Add a vsp pointer check so
-the search is scoped to the CRTC's own VSP instance.
+The RZ/G3E SoC has 2 LCD controllers (LCDC), each containing a Frame
+Compression Processor (FCPVD), a Video Signal Processor (VSPD), and a
+Display Unit (DU).
 
-No functional change for single-VSP platforms.
+LCDC0 supports DSI and LVDS (single or dual-channel) outputs.
+LCDC1 supports DSI, LVDS (single-channel), and RGB outputs.
+
+Depending on the selected output, the correct SMUX2 clock parent must be
+chosen based on the requested duty cycle:
+
+ - Index 0 for LVDS -> CDIV7_DSIx_CLK (DUTY H/L=4/3, 4/7 duty cycle)
+ - Index 1 for DSI/DPAD -> CSDIV_2to16_PLLDSIx (symmetric 50% duty cycle)
+
+To support this behavior, introduce the `RZG2L_DU_FEATURE_SMUX2_DSI_CLK`
+feature flag.
+
+Add support for the RZ/G3E SoC by introducing:
+ - `rzg2l_du_r9a09g047_info` structure
+ - The `renesas,r9a09g047-du` compatible string
+
+Additionally, introduce the missing output definitions
+`RZG2L_DU_OUTPUT_LVDS{0,1}`.
+
+Introduce `rzg2l_du_crtc_atomic_check()` helper to store the routes from
+the CRTC output to the DU outputs.
+
+Bump RZG2L_DU_MAX_CRTCS and RZG2L_DU_MAX_VSPS to 2.
 
 Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
 ---
 v6->v7:
- - New patch.
+ - Removed feature flag usage, rebased on top of T2H/N2H LCDC series [1]
+   [1] https://patchwork.global.renesas.com/project/spl2-reviews/list/?series=694&state=%2A&archive=both
+ - Reworked commit body as now outputs routing is based on endpoint id
+   instead of port number.
+ - Fixed rzg2l_du_r9a09g047_info instead of rzg2l_du_r9a09g047_du_info.
+ - Added bump of RZG2L_DU_MAX_CRTCS and RZG2L_DU_MAX_VSPS to 2.
 
- drivers/gpu/drm/renesas/rz-du/rzg2l_du_vsp.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+v5->v6:
+ - Aligned ports numbering with the bindings changes.
 
-diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_vsp.c b/drivers/gpu/drm/renesas/rz-du/rzg2l_du_vsp.c
-index bc205c25cd21..1edbcb9f134f 100644
---- a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_vsp.c
-+++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_du_vsp.c
-@@ -80,7 +80,8 @@ struct drm_plane *rzg2l_du_vsp_get_drm_plane(struct rzg2l_du_crtc *crtc,
- 	drm_for_each_plane(plane, &rcdu->ddev) {
- 		struct rzg2l_du_vsp_plane *vsp_plane = to_rzg2l_vsp_plane(plane);
+v4->v5:
+ - Fixed RG2L_DU_FEATURE_SMUX2_DSI_CLK to RZG2L_DU_FEATURE_SMUX2_DSI_CLK,
+   update commit body accordingly.
+ - Added features field documentation.
+
+v3->v4:
+ - No changes.
+
+v2->v3:
+ - No changes.
+
+v1->v2:
+ - Instead of using clk-provider API to select the right parent clock,
+   based on the outputs. Just set the correct duty cycle based on the
+   output, this reflects at CPG lvl to select the right parent.
+ - Updated commit message accordingly.
+
+ drivers/gpu/drm/renesas/rz-du/rzg2l_du_crtc.c | 48 +++++++++++++++++++
+ drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.c  | 28 ++++++++++-
+ drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.h  |  7 ++-
+ 3 files changed, 80 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_crtc.c b/drivers/gpu/drm/renesas/rz-du/rzg2l_du_crtc.c
+index 3e8b6cca6d57..5c455391015f 100644
+--- a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_crtc.c
++++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_du_crtc.c
+@@ -65,10 +65,31 @@
+ static void rzg2l_du_crtc_set_display_timing(struct rzg2l_du_crtc *rcrtc)
+ {
+ 	const struct drm_display_mode *mode = &rcrtc->crtc.state->adjusted_mode;
++	struct rzg2l_du_crtc_state *rstate = to_rzg2l_crtc_state(rcrtc->crtc.state);
++	struct rzg2l_du_device *rcdu = rcrtc->dev;
+ 	unsigned long mode_clock = mode->clock * 1000;
+ 	u32 ditr0, ditr1, ditr2, ditr3, ditr4, pbcr0;
  
--		if (vsp_plane->index == pipe_index)
-+		if (vsp_plane->vsp == crtc->vsp &&
-+		    vsp_plane->index == pipe_index)
- 			break;
+ 	clk_prepare_enable(rcrtc->rzg2l_clocks.dclk);
++
++	if (rzg2l_du_has(rcdu, RZG2L_DU_FEATURE_SMUX2_DSI_CLK)) {
++		struct clk *clk_parent;
++
++		clk_parent = clk_get_parent(rcrtc->rzg2l_clocks.dclk);
++
++		/*
++		 * Request appropriate duty cycle to let the clock driver select
++		 * the correct parent:
++		 * - CDIV7_DSIx_CLK (LVDS path): DUTY H/L=4/3, 4/7 duty cycle
++		 * - CSDIV_2to16_PLLDSIx (DSI/RGB path): symmetric 50% duty cycle
++		 */
++		if (rstate->outputs == BIT(RZG2L_DU_OUTPUT_LVDS0) ||
++		    rstate->outputs == BIT(RZG2L_DU_OUTPUT_LVDS1))
++			clk_set_duty_cycle(clk_parent, 4, 7);
++		else
++			clk_set_duty_cycle(clk_parent, 1, 2);
++	}
++
+ 	clk_set_rate(rcrtc->rzg2l_clocks.dclk, mode_clock);
+ 
+ 	ditr0 = (DU_DITR0_DEMD_HIGH
+@@ -252,6 +273,32 @@ static void rzg2l_du_crtc_stop(struct rzg2l_du_crtc *rcrtc)
+  * CRTC Functions
+  */
+ 
++static int rzg2l_du_crtc_atomic_check(struct drm_crtc *crtc,
++				      struct drm_atomic_commit *state)
++{
++	struct drm_crtc_state *crtc_state = drm_atomic_get_new_crtc_state(state,
++									  crtc);
++	struct rzg2l_du_crtc_state *rstate = to_rzg2l_crtc_state(crtc_state);
++	struct drm_encoder *encoder;
++
++	/* Store the routes from the CRTC output to the DU outputs. */
++	rstate->outputs = 0;
++
++	drm_for_each_encoder_mask(encoder, crtc->dev,
++				  crtc_state->encoder_mask) {
++		struct rzg2l_du_encoder *renc;
++
++		/* Skip the writeback encoder. */
++		if (encoder->encoder_type == DRM_MODE_ENCODER_VIRTUAL)
++			continue;
++
++		renc = to_rzg2l_encoder(encoder);
++		rstate->outputs |= BIT(renc->output);
++	}
++
++	return 0;
++}
++
+ static void rzg2l_du_crtc_atomic_enable(struct drm_crtc *crtc,
+ 					struct drm_atomic_commit *state)
+ {
+@@ -300,6 +347,7 @@ static void rzg2l_du_crtc_atomic_flush(struct drm_crtc *crtc,
+ }
+ 
+ static const struct drm_crtc_helper_funcs crtc_helper_funcs = {
++	.atomic_check = rzg2l_du_crtc_atomic_check,
+ 	.atomic_flush = rzg2l_du_crtc_atomic_flush,
+ 	.atomic_enable = rzg2l_du_crtc_atomic_enable,
+ 	.atomic_disable = rzg2l_du_crtc_atomic_disable,
+diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.c b/drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.c
+index 887b840e63d2..59dd7572c730 100644
+--- a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.c
++++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.c
+@@ -53,6 +53,29 @@ static const struct rzg2l_du_device_info rzg2l_du_r9a07g044_info = {
  	}
+ };
  
++static const struct rzg2l_du_device_info rzg2l_du_r9a09g047_info = {
++	.features = RZG2L_DU_FEATURE_SMUX2_DSI_CLK,
++	.channels_mask = BIT(0) | BIT(1),
++	.routes = {
++		[RZG2L_DU_OUTPUT_DSI0] = {
++			.possible_outputs = BIT(0) | BIT(1),
++			.ep = 0,
++		},
++		[RZG2L_DU_OUTPUT_DPAD0] = {
++			.possible_outputs = BIT(0) | BIT(1),
++			.ep = 1,
++		},
++		[RZG2L_DU_OUTPUT_LVDS0] = {
++			.possible_outputs = BIT(0) | BIT(1),
++			.ep = 2,
++		},
++		[RZG2L_DU_OUTPUT_LVDS1] = {
++			.possible_outputs = BIT(0) | BIT(1),
++			.ep = 3,
++		},
++	},
++};
++
+ static const struct rzg2l_du_device_info rzg2l_du_r9a09g057_info = {
+ 	.channels_mask = BIT(0),
+ 	.routes = {
+@@ -79,6 +102,7 @@ static const struct rzg2l_du_device_info rzg2l_du_r9a09g077_info = {
+ static const struct of_device_id rzg2l_du_of_table[] = {
+ 	{ .compatible = "renesas,r9a07g043u-du", .data = &rzg2l_du_r9a07g043u_info },
+ 	{ .compatible = "renesas,r9a07g044-du", .data = &rzg2l_du_r9a07g044_info },
++	{ .compatible = "renesas,r9a09g047-du", .data = &rzg2l_du_r9a09g047_info },
+ 	{ .compatible = "renesas,r9a09g057-du", .data = &rzg2l_du_r9a09g057_info },
+ 	{ .compatible = "renesas,r9a09g077-du", .data = &rzg2l_du_r9a09g077_info },
+ 	{ /* sentinel */ }
+@@ -90,7 +114,9 @@ const char *rzg2l_du_output_name(enum rzg2l_du_output output)
+ {
+ 	static const char * const names[] = {
+ 		[RZG2L_DU_OUTPUT_DSI0] = "DSI0",
+-		[RZG2L_DU_OUTPUT_DPAD0] = "DPAD0"
++		[RZG2L_DU_OUTPUT_DPAD0] = "DPAD0",
++		[RZG2L_DU_OUTPUT_LVDS0] = "LVDS0",
++		[RZG2L_DU_OUTPUT_LVDS1] = "LVDS1"
+ 	};
+ 
+ 	if (output >= ARRAY_SIZE(names))
+diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.h b/drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.h
+index eed8e1215f08..649cd9b70223 100644
+--- a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.h
++++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.h
+@@ -21,10 +21,13 @@ struct device;
+ struct drm_property;
+ 
+ #define RZG2L_DU_FEATURE_DPIO_OE	BIT(0)	/* Has DPIO output enable control */
++#define RZG2L_DU_FEATURE_SMUX2_DSI_CLK	BIT(1)	/* Select SMUX2 clock parent via duty cycle */
+ 
+ enum rzg2l_du_output {
+ 	RZG2L_DU_OUTPUT_DSI0,
+ 	RZG2L_DU_OUTPUT_DPAD0,
++	RZG2L_DU_OUTPUT_LVDS0,
++	RZG2L_DU_OUTPUT_LVDS1,
+ 	RZG2L_DU_OUTPUT_MAX,
+ };
+ 
+@@ -62,8 +65,8 @@ struct rzg2l_du_device_info {
+ 	unsigned int features;
+ };
+ 
+-#define RZG2L_DU_MAX_CRTCS		1
+-#define RZG2L_DU_MAX_VSPS		1
++#define RZG2L_DU_MAX_CRTCS		2
++#define RZG2L_DU_MAX_VSPS		2
+ #define RZG2L_DU_MAX_DSI		1
+ 
+ struct rzg2l_du_device {
 -- 
 2.54.0
 
