@@ -1,217 +1,201 @@
-Return-Path: <linux-renesas-soc+bounces-32279-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-32281-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id KGu2MyO8/WmOiQAAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-32279-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 08 May 2026 12:34:11 +0200
+	id IeG2KPLJ/Wm2jAAAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-32281-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 08 May 2026 13:33:06 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75B734F5112
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 08 May 2026 12:34:10 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FB1C4F5CDA
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 08 May 2026 13:33:06 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 685F03019E40
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  8 May 2026 10:34:10 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id D7C0F300A8EB
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  8 May 2026 11:17:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 928543BFE44;
-	Fri,  8 May 2026 10:34:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2E717393DF3;
+	Fri,  8 May 2026 11:17:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qoQW5PU/"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ua1-f52.google.com (mail-ua1-f52.google.com [209.85.222.52])
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 244262D2382
-	for <linux-renesas-soc@vger.kernel.org>; Fri,  8 May 2026 10:34:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A99239448B
+	for <linux-renesas-soc@vger.kernel.org>; Fri,  8 May 2026 11:17:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778236449; cv=none; b=AW+y2HnINkA241fL+kvqz/BthTLXP635TitSxZtNdxiwEF1kqTrFplZlq4KYUb/61jg/YxPFAt7d64La3YlN9kFcWXOCUnJmKEwIQ7VsFcNJntpqg4A5elfh77ogPucwGun1E35tN+JTUTz6EAfkRfNEX17N94pAlrPIe43g7tI=
+	t=1778239075; cv=none; b=HLYt9WWcb8eyFyTdnLzzGdV0zRoWP5RLFH6Igf08tyIgd3xaFxLNRLRta6zve65YgE0qAX+l+IsiQOfd5VGGta3JQhNIbUhV/zO7fsbD3StVgpytgqJeRinaAImVHAx0MXULo7NJ/hcjJDps320AbOWnConHxhctmjj948uReMI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778236449; c=relaxed/simple;
-	bh=36lBpAkEr0H2Wsx1O/r0B32FSIwBe2F6o8wScyIxU0A=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=GSGIVYDP67cSUdEJCv8LxVX44PCiI53DTtJU626TR82Q7Gzbl/N1fO4zjiycdnLh5uowRMRBA90ThGJLMOd31ZyCI0GLTu2K6trO4Ov93fFozBnhIllTh3UTbsl/ov+9xzVWTmvMIxor0A1LPZXP3/7OHOfXaPd/fSc6pykXUbM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+	s=arc-20240116; t=1778239075; c=relaxed/simple;
+	bh=cih7KlGPpFgUEiNss2zxTKa0s7P9pJ/t9FSqGyajF5Q=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=thPccbrXptqjkS02oyLHEb0S6Ynsmy0FNGniCZn3UTR6in+CacYCCJiHtnx9OHjltx3Ai/aHixp9gich1D2fOn+2ohtCIUl2YD+9BeXdY+OM5Kc9QYw7vguO07828rQRUoXytCbx/DEQSRC3Pff/B+PH76jLrebsGNEFiN9LgFQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qoQW5PU/; arc=none smtp.client-ip=209.85.221.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ua1-f52.google.com with SMTP id a1e0cc1a2514c-944168e8c5fso1097607241.2
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 08 May 2026 03:34:07 -0700 (PDT)
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-44a74032ff8so1408087f8f.1
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 08 May 2026 04:17:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778239069; x=1778843869; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=a++Qkbe0N+QcN8OOW7PnS6Fd5+vAfw/HCIN0DGOehPI=;
+        b=qoQW5PU/ocOIDWH4Y4s1oi2scwRHbI8lKD7J12PTQ0ZI/1EbMKUbd0vmPDxKRnzcGH
+         CptoQxgBX8jNYjliO8zdQqt9xei8gixbQsEICZjIwOTFnqSXZ5vcMaVmzDWQ1vWmI7m+
+         p4EGjSVPGkK5p71KlZpfTwaOEZOrNI44RyNtdSdcdwshkg+Yu5VYejBRtnfLexKYTHgm
+         J3Zm4vywuGXGxVg7Hia8pYvG/4XL7l3WsXDMFH2KpUMVHq+Q1nsik/1sLr4EPxBblpWW
+         1weuKoY4+8YhSWwkiisXfPP+892r+Mq5ihScQKOTpexCFizXhu4xSqHeKtMH88Z7lfZb
+         40fA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778236447; x=1778841247;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20251104; t=1778239069; x=1778843869;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=LZIqmD8zZ0qFeOi8hR6tlVmjP85Y0OQ26EIUPvE1H2I=;
-        b=aBgTEvJHv+PPndyQgwUdRcOkjQ2yNklkBUIni6EM3A7I1N9iYa20V5uEYblXiEKXIZ
-         xNVWL1sYR+HTtKBuD4ywMp8yuM7KvL1NZrWSIU2nNI8QDyZMeZNyYJLXG/KVzxjKc9b1
-         e4tAMRbW0W8r197TWFpF9HpdTr74zzWwhGrS9wi11HqTbZWhxNAH42hXPMsw3qg0rYpi
-         fnHZ3GOJKM799SpqmUO7vOEy8dqaBWU3BXguluEs6KMcHwHPx67hgpDDBhxYcYyzk8pr
-         uf0N1P+bOFOjYsYZ5fkHM3cO0G9Pr4uPgs+6cq2GSJfJTBBkpV/3zY4fyBl82C2JwoLo
-         sbWw==
-X-Forwarded-Encrypted: i=1; AFNElJ+H6/E3bVmh1n1AzASr+jCDyc5ndODA31lF0oYyGv9NpeXFepxNPK2XS2dTm/ZJMiiZwEjeIyEXTJuJyaZfLbIgxQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwMfdOWbeVsWMhxutOYpK7c2QESdW/Ytg+Ikf+GDom5IzHXOvH7
-	ESBc/2vtdbI2F/3iMkAN5IyWlm/zpc09t4qMJe3DZeJwc8Zgu3a3dM0thXLzaPe7p+U=
-X-Gm-Gg: Acq92OGG8mtycCi0rrbs9+QTk5BxTZyCN4HEm1bgIKkx1eiOBOSS78ZVlnYWcMPdko3
-	i8QIJ6csdY2OC+4tXcNbZcLze8NfOtZU9A5I4+WXOY0ZYuUy72ORPM4k1pE703wMk1c2aineeZo
-	ylgsmIRk6nSYYXYAhPjfIVwp5Av5i/ne93Fzps8Qhumw4vDKZBdkvVQREZiPWCkIUIP6zTrS0kI
-	xBG0XXkDAXPuByJBbQ6WFiXtiADY8nTHsKE/fEKoDui4VlJgCrpi6kbVWZpRs3cEAciy8wN/y7g
-	wszd+IcZd8ZjvFNn4BOEFDDTJuu22GDWydOcJOhKs27nNCMP3UNR9lyz/zlluxw7FzLLh8GD72S
-	12SkoayCftFlHHMBTSEp3GZhmKqxnDQPop3R9oT+xR6M0O+kWAdFWkBbECZzZ7UgcY/AKoNaZdF
-	BW/BvJD7XhzvvG7IPC9qWBY/0v9KmgQGgAvmBApwdtCs7KHhy4H74IV6MnJWjO
-X-Received: by 2002:a67:e70d:0:b0:605:17b8:16dc with SMTP id ada2fe7eead31-630f902ee3cmr6525482137.20.1778236446855;
-        Fri, 08 May 2026 03:34:06 -0700 (PDT)
-Received: from mail-ua1-f49.google.com (mail-ua1-f49.google.com. [209.85.222.49])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-63140216a98sm638766137.8.2026.05.08.03.34.06
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 08 May 2026 03:34:06 -0700 (PDT)
-Received: by mail-ua1-f49.google.com with SMTP id a1e0cc1a2514c-94b07fddecbso1102187241.1
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 08 May 2026 03:34:06 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ/Dk7SWzZRCh6d6O/kFO0dNn99Z/CN9hgbSN1TO0mENEQIKBjvZvY2FGxfOtTLIk4CwgRj3qIp9qBv0dNejAhPUfw==@vger.kernel.org
-X-Received: by 2002:a05:6102:3048:b0:614:bef5:637c with SMTP id
- ada2fe7eead31-630f8c2bb7dmr6450388137.0.1778235990622; Fri, 08 May 2026
- 03:26:30 -0700 (PDT)
+        bh=a++Qkbe0N+QcN8OOW7PnS6Fd5+vAfw/HCIN0DGOehPI=;
+        b=mn4TlDu4/9YKBoFFXPpv2i3gXWBwZ2a+V1qscGcHN7Xb+dYSuwbRk5Fe/iBFYUq+YV
+         ywG7FYCWR7YEE1P2nrlYYsvK0QXtDgAtc1dIeDONKgHxY2CazC+DFgV82cJhlIsewYlT
+         Wm5s9AfXqGcqkvA/iv9j62JafdDBriq0NInEas2BhmLSEgXjt3ojuQsEHAPBujaI9Ijc
+         r7BAh1WN/dgBYZ9mVWApsSbXs4PPpkQ/w7b3X2QopS+bhfT2MTXIWBDsCdCJnNV6ZLxZ
+         771jefdAl4Z+xRjSnad2UqnhsjVHTTDEXtOU7o+2Ce7cqblxc2w74dQQdx70KUvnuaqZ
+         7xYA==
+X-Forwarded-Encrypted: i=1; AFNElJ9h4ADb8ObfZX3UQ3oct+XhV7D/4fMlm/87VDXH0ROLIB9fleuSZV/0bIcCzw31Yb3f4ZLkUwMk494O5/NROXu3Pg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyVqG2Bl+5+nrl68MnA7TeBWh7Iy7uC4vgUhhx1dx2p3VWtwiyz
+	2jKzpgDB3aawuELPOg0xOTr4lgiUO8LqTkmAbMNzDwPv14jQ7HDlP1m7
+X-Gm-Gg: Acq92OHtcKUpXhXRUeAPFBD9DtsYkIX+76r1kk7Ww4TZedaWM26bgdJ7MlU5ciLTAT0
+	/zjYyGUTu1AxdALGdDFuZ71ajF8YwpkkcPg/bD/myEwjp9i+15p8QrvfLy8lSzbIHCTIkdtNTmb
+	IGBotZ+p/V/ocRil1i7wHxw3NDX5pvAh2SP6r4a9xqADeyjkGJdlp4mxXZZ3bJotNizkDmch+Po
+	51iD2UFgX6FJfdCVmHojoNE1PiUG2YfnUTfl2svTFLRMDQP79+soFGe9xeDepYlqsAFKkfSCH+D
+	h04vVDPhJ7kn+mtExu7YDmbyleTmBXCBo+zrAQY6GOc3YcbyAEJY0EzgOyWwX5duF0U/IxfKkbR
+	mt7lUHS82sMnE2F17bT5s0/aW/berZ3pUrBGNL4prN8FhxzWqQoKhA+jmueoAcp15u8xqpSw7bn
+	nRmpDxRW980Y19tKAQXGnd6NFvHJKZus1gne7cWVpruqHTIDmPBRmGXc1pOBsvKi8u2ijNUN/6O
+	O3+NSfqpncenwp8Gxl2ExBlKsnzJmcKGIY3f6WijSfjDADA
+X-Received: by 2002:a05:6000:288f:b0:43e:a8ad:975e with SMTP id ffacd0b85a97d-4515ce1c8damr20978761f8f.27.1778239068762;
+        Fri, 08 May 2026 04:17:48 -0700 (PDT)
+Received: from iku.Home ([2a06:5906:61b:2d00:74ae:919a:e57c:bd9c])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-454916df968sm3535563f8f.25.2026.05.08.04.17.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 08 May 2026 04:17:48 -0700 (PDT)
+From: Prabhakar <prabhakar.csengg@gmail.com>
+X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To: Biju Das <biju.das.jz@bp.renesas.com>,
+	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>
+Cc: dri-devel@lists.freedesktop.org,
+	linux-renesas-soc@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Prabhakar <prabhakar.csengg@gmail.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH v2 0/4] Add DU support for RZ/T2H and RZ/N2H SoCs
+Date: Fri,  8 May 2026 12:17:40 +0100
+Message-ID: <20260508111744.771659-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1776793163.git.geert+renesas@glider.be> <72e2a0e7a5abda02fe36b3f5851842f7a77b2593.1776793163.git.geert+renesas@glider.be>
- <aekXUvIPb8nkhdKu@pluto> <CAMuHMdWJvMH+a1RqozbaCxxH_8M569JcruTFa8PW+87FysnjHw@mail.gmail.com>
- <ae6Zp54NhKlVes8J@pluto>
-In-Reply-To: <ae6Zp54NhKlVes8J@pluto>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 8 May 2026 12:26:19 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWK3Noh5ZQVWT9C0EKyXZePMaJ97C0A_syK+xCb_=abeQ@mail.gmail.com>
-X-Gm-Features: AVHnY4J3TVnOKvIG81cskhXstanCgVV2EYjhdTAUgyNfFJiiKyj4H0BCwyLVTfY
-Message-ID: <CAMuHMdWK3Noh5ZQVWT9C0EKyXZePMaJ97C0A_syK+xCb_=abeQ@mail.gmail.com>
-Subject: Re: [PATCH/RFC 05/14] firmware: arm_scmi: Add scmi_get_base_info()
-To: Cristian Marussi <cristian.marussi@arm.com>
-Cc: Sudeep Holla <sudeep.holla@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Magnus Damm <magnus.damm@gmail.com>, Saravana Kannan <saravanak@kernel.org>, 
-	Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, Ulf Hansson <ulfh@kernel.org>, 
-	"Rafael J . Wysocki" <rafael@kernel.org>, Kevin Hilman <khilman@baylibre.com>, 
-	Florian Fainelli <florian.fainelli@broadcom.com>, 
-	Wolfram Sang <wsa+renesas@sang-engineering.com>, 
-	Marek Vasut <marek.vasut+renesas@mailbox.org>, 
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, arm-scmi@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-renesas-soc@vger.kernel.org, 
-	linux-clk@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Rspamd-Queue-Id: 75B734F5112
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: 2FB1C4F5CDA
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.04 / 15.00];
+X-Spamd-Result: default: False [6.34 / 15.00];
+	SEM_URIBL(3.50)[0.0.0.0:email];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	MID_RHS_MATCH_TO(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
 	MAILLIST(-0.15)[generic];
+	BAD_REP_POLICIES(0.10)[];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[kernel.org,gmail.com,baylibre.com,pengutronix.de,broadcom.com,sang-engineering.com,mailbox.org,renesas.com,vger.kernel.org,lists.infradead.org];
-	TAGGED_FROM(0.00)[bounces-32279-lists,linux-renesas-soc=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	DMARC_NA(0.00)[linux-m68k.org];
+	TAGGED_FROM(0.00)[bounces-32281-lists,linux-renesas-soc=lfdr.de];
+	R_DKIM_ALLOW(0.00)[gmail.com:s=20251104];
+	FREEMAIL_TO(0.00)[bp.renesas.com,ideasonboard.com,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,pengutronix.de,glider.be];
+	GREYLIST(0.00)[pass,body];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	FREEMAIL_CC(0.00)[lists.freedesktop.org,vger.kernel.org,gmail.com,renesas.com,bp.renesas.com];
+	RCPT_COUNT_TWELVE(0.00)[20];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[24];
 	MIME_TRACE(0.00)[0:+];
-	MISSING_XM_UA(0.00)[];
-	FROM_HAS_DN(0.00)[];
+	DMARC_POLICY_ALLOW(0.00)[gmail.com,none];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[geert@linux-m68k.org,linux-renesas-soc@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
-	NEURAL_HAM(-0.00)[-0.970];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
-	R_DKIM_NA(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	FROM_NEQ_ENVFROM(0.00)[prabhakarcsengg@gmail.com,linux-renesas-soc@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,dt];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,arm.com:email,linux-m68k.org:email]
-X-Rspamd-Action: no action
+	NEURAL_SPAM(0.00)[0.595];
+	R_SPF_ALLOW(0.00)[+ip4:172.234.253.10:c];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	ARC_ALLOW(0.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[renesas.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,bp.renesas.com:mid,0.0.0.0:email]
+X-Rspamd-Action: add header
+X-Spam: Yes
 
-Hi Cristian,
+From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-On Mon, 27 Apr 2026 at 01:03, Cristian Marussi <cristian.marussi@arm.com> wrote:
-> On Fri, Apr 24, 2026 at 02:08:55PM +0200, Geert Uytterhoeven wrote:
-> > On Wed, 22 Apr 2026 at 20:45, Cristian Marussi <cristian.marussi@arm.com> wrote:
-> > > Also because this should be one of the selling point of the SCMI stack
-> > > in a virtualized environment: you can ship the same kernel drivers with
-> > > the same DT and you know that ID=<N> will always identify the specific
-> > > resource that is needed by your driver without worrying about the fact
-> > > that in reality in the backstage the effectively managed physical resource
-> > > could be different across different platforms, because that does not matter
-> >
-> > This sounds strange to me, do I understand it correctly?
-> > So the ID should (1) be tied to the use-case, and not to the underlying
-> > hardware, and (2) be the same for different platforms?
-> >
-> > For (1): Then we must not put these IDs in DT at all, as DT is supposed
-> >     to describe the hardware (and firmware IDs in DT were IMHO already
-> >     a stretch before).
-> > For (2): How can there be a contiguous list of IDs, as not all platforms
-> >     may have the same underlying hardware?
->
-> I would NOT say that an SCMI FW must behave like this regarding IDs, but it
-> is a possible SCMI deployed setup that can be useful in virtualized setups
->
-> I mean, the DT describes the hardware of course BUT when you refer to
-> some of this hardware DT bits from some other subsystem by referencing a
-> phandle, even in the non-SCMI world, you are in fact selecting a specific
-> resource that fit you use case, right ? Can we say this ?
-> I mean you needed that specific clock or regulator that you described
-> previously so as to be able to enable some other piece of HW...
->
-> Now, the SCMI provides an abstraction on top of this, since you really
-> discover domain IDs of a specific class (clocks/regulators etc) you are
-> in fact describing an HW abstraction that you then refer with the usual
-> phandle...also because there is NOT so much SCMI hardware to describe,
-> given that the HW is handled transparently (opaquely really :P) by the
-> driver on the FW side...
->
-> ...you basically obtain such domain ID, usable as phandles through dynamic
-> SCMI enumeration so that you can use it all over your DT to make use of such
-> resources...
->
-> ...on top of this, consider that the SCMI server CAN provide to its agents
-> a per-agent-view of the world, IOW it can (and should) expose to a specific
-> agent ONLY the resources needed by that agent, i.e. it can expose the set
-> of resources 1-N to two distinct agents and that does NOT mean that the
-> underlying physical resource mapped by ID=3 in both agents has to be
-> effectively the same piece of hardware: it could be the case, and this
-> would be useful to exposed and managed properly a shared resource, or
-> it could also be that the same ID=3 could refer to completely distinct
-> pieces of the same class of hardware...(same protocol same class of
-> resource...)
+Hi All,
 
-Exposing only the clocks/reset/power domains the agent can use,
-in a contiguous list of IDS, means that the number space changes,
-depending on which resources are exposed.
+This series adds support for the Display Unit (DU) on the RZ/T2H
+and RZ/N2H (R9A09G087) SoCs. The DU on these platforms is
+functionally similar to the RZ/G2UL DU but includes some SoC
+specific differences such as a single output port and explicit
+DPI output enable control. The series includes the following
+changes:
+1. Add device tree bindings for the RZ/T2H and RZ/N2H DU variants,
+   including a new compatible string.
+2. Make the DU reset control optional to allow probing on RZ/T2H
+   where the DU does not have a reset line.
+3. Move pixel clock validation logic to per-SoC constraints in
+   rzg2l_du_device_info to accommodate different clock limits
+   across SoCs.
+4. Implement support for the RZ/T2H DU variant in the driver,
+   including handling of the DPI output enable signal.
 
-Suppose you have a system where you want to assign a specific hardware
-block in the SoC to the realtime CPU core instead of the application
-CPU core running Linux.
-That means all resources used by that block must no longer be exposed
-to the Linux agent, and the corresponding IDs must be removed from
-the ID space exposed to Linux.  As the ID space must be sequential
-and contiguous, the IDs must be renumbered, impacting resources that
-are exposed to Linux.  As these IDs are used in the SoC .dtsi, they
-must be changed there, too, However, these IDs have become part of
-the stable DT ABI, and thus cannot be changed.
+Patches are rebased on next-20260507 and apply on drm-next.
 
-This patch series fixes that issue, too, by describing the actual
-hardware in DT, and doing the mapping to exposed SCMI features in the
-kernel, based on which firmware version is running on the SCP.
+v1->v2:
+- Dropped the "port" property in favor of "ports" with a single port@0
+  child, to align with the existing RZ/G2L bindings and simplify the
+  device tree structure.
+- Updated the commit message to reflect the change from "port" to "ports".
+- Dropped storing info pointer in struct rzg2l_du_encoder as it's not
+  needed.
+- Add Reviewed-by tags from Laurent for patches 2-4.
+- Rebase on latest next-20260507.
 
-Gr{oetje,eeting}s,
+Cheers,
+Prabhakar
 
-                        Geert
+Lad Prabhakar (4):
+  dt-bindings: display: renesas,rzg2l-du: Add RZ/T2H and RZ/N2H support
+  drm: renesas: rz-du: Make DU reset control optional for RZ/T2H support
+  drm: renesas: rz-du: Move mode_valid logic to per-SoC clock limits
+  drm: renesas: rz-du: Add support for RZ/T2H SoC
+
+ .../bindings/display/renesas,rzg2l-du.yaml    | 20 +++++++++++++++++--
+ drivers/gpu/drm/renesas/rz-du/rzg2l_du_crtc.c |  9 +++++++--
+ drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.c  | 16 +++++++++++++++
+ drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.h  | 14 +++++++++++++
+ .../gpu/drm/renesas/rz-du/rzg2l_du_encoder.c  |  6 +++++-
+ 5 files changed, 60 insertions(+), 5 deletions(-)
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+2.54.0
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
 
