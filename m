@@ -1,82 +1,82 @@
-Return-Path: <linux-renesas-soc+bounces-32282-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-32283-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id ELyOO2rG/Wn2iwAAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-32282-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 08 May 2026 13:18:03 +0200
+	id aBt6DHHG/WkpigAAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-32283-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 08 May 2026 13:18:09 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8D2C4F5975
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 08 May 2026 13:18:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A73844F5993
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 08 May 2026 13:18:08 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 93930303BB86
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  8 May 2026 11:18:01 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 13E983036E8D
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  8 May 2026 11:18:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 689C0397E73;
-	Fri,  8 May 2026 11:17:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 874AC39478D;
+	Fri,  8 May 2026 11:17:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ITVf5MUF"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TuLr2mqE"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 561ED39447C
-	for <linux-renesas-soc@vger.kernel.org>; Fri,  8 May 2026 11:17:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EA02395D9F
+	for <linux-renesas-soc@vger.kernel.org>; Fri,  8 May 2026 11:17:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778239076; cv=none; b=QuxIqBtN0CW0t4kJlBidgmYwX/SJKAVYymk2G8gNOuT/QR2+4bzVskGxEqNS6gKdzxk2JhagyxdYHjyEikLEXiIOGaLJgds7LxvwzvtnB89Iv4LSiYVH5QH7A9kQOUgFhkPZrZHtUBR3kd/A8y40UB8FO1kH0HfE2xXAS0OoC9I=
+	t=1778239077; cv=none; b=ryXJg7AghZf3UlCWKGVWsBBq1LiFnp2p7t9MRZhPCg+DKsGAupX9y8LwpdAbmh0Pq8UTZhPc9SUg6vRe+YmCt9iFs8mc/iWfdipvyCk8XGEduN9tGoIipHOfhRVdW1WLOMI1NAbrc4Y5X3FY7Mf4SZPesBFRD1CqZns/dIVdwrA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778239076; c=relaxed/simple;
-	bh=C7OdMfskX1yrAh3+I7YrVhMxB61DSFtW1LvR/WZMIrs=;
+	s=arc-20240116; t=1778239077; c=relaxed/simple;
+	bh=+TSTHFtFLuuB6HazSo0/aJnEWaGHqLHJYHChrI/1coE=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=HL6JapyBqKPGDlAAd/ygdqEjctF+wW9dBONAGPyfiMGHz9xA66D+x8pVmJPTqMJjIiUSrmATZiIG0qffq6JMtsM1EZgNG7eSrh8aHLK0vd0Lmn359jbUvKP0gxP+jxYltq1bMWpgYWZN3LYLtmz+DnEA3ouP5MPtGNxCXzZrqDs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ITVf5MUF; arc=none smtp.client-ip=209.85.221.50
+	 MIME-Version; b=Kr2gJXNewyJeE57FahyopMbesTCf3HbfaYDGMQoIoSAq31ztp3uLOkMunWU9650gf7NuvST7BvQp3cz9JL9vIXc5IKu0yOrUT1ng7y2AGzzkMsRNrVVyQq85pacJZaiziTnl3Q0Ux1GEhxLver6pBS/h2oY14zBRc/SXY7FlbJE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TuLr2mqE; arc=none smtp.client-ip=209.85.221.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-44985f4ab0fso1096140f8f.0
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 08 May 2026 04:17:52 -0700 (PDT)
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-43d64313c39so1456989f8f.3
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 08 May 2026 04:17:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778239071; x=1778843871; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1778239072; x=1778843872; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=39w49gZKpFRzhgKjJD0rTXzt/7rwWxh4HEQyrYnkNBo=;
-        b=ITVf5MUFk40pa11mzI8mybuavlrncSTBVb+JMrRh9ybkpSXDKzIJhJpZ4pkP0b8vqy
-         rbt+duMoCMr4Z1xrYmcCKcLMV18jsJa2C/cRHFsIDfIN+lwtOoyZfRYuRqqHpOtGBBQm
-         nlSFJlYK5T50Z0HMY9ldQglgLLH/fd+td6DnWtmJduqOazNHl5nFk5jo2+K3XYTJQfKp
-         EqcrGo75KO264I9OQWwchX0pFrIi5sd7p3na8T3mm9pK7PG7X7P5M8Bhg1R6+BvAfPj9
-         V+PV3JqwtE6dSEv1Ahf+R6npYO3n+T20dekyW/MmX28/NVgh29mL6WdMxmCzJ42EhqEb
-         4vWQ==
+        bh=yPP4JL0RAe1XpX/h7T3lnNJ3/faSIVf5jmqwVJovOao=;
+        b=TuLr2mqEK5CMwdN9VxUdr7QC2X8UiW0YDiE694TysVE5MOSfn+4KL35gbMZqNmj9rb
+         xU8rAVo31irnv4H1Ob/68w2i8V9KpW1fAsuMnv2cyRPMhxpBmSVaDTcBLa0MdEGIyqZl
+         fg66dmCz3CHHjzF57aXATYKg2u+5tw3gWqx5p6GGA7PoTE5ei0xfYHYbyzZseXRaDJdV
+         Sx51t0z5cj3ZPwbPZOaCJH9fM2Po/KmP5IaG7o5gnJy6l0BSWqiNf/HmbKk5Y8IiTujH
+         SE3kjrRX+gS9IU5+8kKY7oyQVdO4Ysvkl9LTnbrZGe661BVKh1eLEd6qA8K9fZ/eiK9o
+         cIPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778239071; x=1778843871;
+        d=1e100.net; s=20251104; t=1778239072; x=1778843872;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=39w49gZKpFRzhgKjJD0rTXzt/7rwWxh4HEQyrYnkNBo=;
-        b=pifPB0voLptb1gH3CKTEj7/Dbqxgx9/bRLUWEYipRvmYwSCc/LYl/GApPJnNS9jx+w
-         kGdHHVdXnvjfKFKxEjKPspjAWvfONCBRBEzbH3Z4mdolBMt4bIz5TGLWZ4YsT3CgQy25
-         XDBPDM3wzLA9bTKWzY88SaIDeyg4Zi1fhqps3h0yXtDfpAhw1aDfRyoeFRCsJwK91zOS
-         2Npz453WH9gyqfoxvmqSw/10QCev/cHjJfrUA7SxxgQwrIDkW7l/ii9xCA9jx4gYFhVH
-         i7I0oNGVrCXBqC+NQ1CRGXAuQH1JO8GerkQi8ghoOPRRAMxSU0GUjn9WRoEaLxmXhS81
-         89ZA==
-X-Forwarded-Encrypted: i=1; AFNElJ8xiNrtAUiW+isCqUcVFJrx84aGBePMLLXwPysGc1vsSGonFYDAGrqgP4BQi0fM/flnkeEnZv4tge8uayq7dWLqlQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YziVCmO3UvWSGcI0FWQn1O+vVV6ZJTBKV1yZK2F6mRnjC9DhM3e
-	XerWtJcM3TFfwiAfipap9KkAdcFTDEGjC97G3tgGSez2pxLMGyI4+UPr
-X-Gm-Gg: Acq92OGTD9vzLxhMGIT6oJ0TTCD3FFH7as6+ow53JEIlOkfzVkPGOM44dZAINDkxeEl
-	/nwSIl9u5OxgN6sskahh0SM1YVrWkwnkUVAS/F3i7UyfQBa/JfpuQFRQurTnc6VP3PQ/k5f0lPs
-	BHgIatljLg4eWAkheh6VkVtp+u74fj4dq2uSk741pwzG0HQTkl7FuB4h0b/QLg2rxFrvpz3QFvV
-	7j3F7XL8MOZJgHmMAFI/8apoMH4fZWj9EO1n8NxA3fApdZqGaV85Bqy2Mi7NlW233sm56YEi3Rg
-	SM8JyyOssjBO5w1cKVWXm3FkJyiWV8mDD6Yj4rNpytOgZu0VvosV36z1gr6fe5/iMRv/BYSffd3
-	KH68WFvBNcuaoOWaqKwbY68nEmxMJh/OfZ+JPbajHNHqMLaq73cCL+GKTq+8BlOlBFdFlECSSgj
-	bI1HpS3woc7Unjl/38UlZYOf0TWskhuwwCo+JNjxXhdt/lp73dCtFiYepg0XAvifwsn39A+TQLx
-	urD5N5S7yOT4WxwCVkNYsK4c7e7ubDHOaKJmOkwwlD6Ze78
-X-Received: by 2002:a05:6000:40c7:b0:448:7420:9ada with SMTP id ffacd0b85a97d-4515b0570fcmr17977390f8f.9.1778239070587;
-        Fri, 08 May 2026 04:17:50 -0700 (PDT)
+        bh=yPP4JL0RAe1XpX/h7T3lnNJ3/faSIVf5jmqwVJovOao=;
+        b=rrTzEHGIo0RiZvVhDWVBnuf8jvUdXfBSK2gXT9XAIbGNf6OdaGR10vRDJqX1VqStYf
+         w1Htwag4FLkGAeT60ZRC77FfLGjdvSN48cqeqTPx8BZUO4lpH+fcVms3azTuc7eyyqFd
+         KY++UMDnBMSZLHwdg8LRtdfWR1WQ/QCnkU6IZ3hdKYm6KnEC83YuP7iLeRq8g2RmaKGk
+         53MQuAjSTQXfc9BZIrl2mwfCPHUTibOH++UTDYxwvDbXxEkaePbD1rZ5pv8kqp07Un4v
+         3x+2FpUpSxPM3tTvSZnlbGOwta5gdiidwlx0d1pkPovffZXyUaLPz0PfjqR6PRKfQX9i
+         pxIg==
+X-Forwarded-Encrypted: i=1; AFNElJ+xF23jVYKCsWvxi7QDgAww9DgVnr8TRug9VJtlt7YVHz9+XCHU2PQlnxZnCYpnpz/jUzZcbCvyxBmhvjoDxGvY/Q==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxSoSKv9Gro9r31OUdAuoEsqLDoQHyZUSblISrWSk4MbvuaC0Ka
+	9/9iCVjs2bNszrHeP7ay/YMrDlnNLL4QkpXzGmyyOS/pOmGrJS6jwD1a
+X-Gm-Gg: Acq92OE53X5tHX6fN/NQzsB87n0n9lc4GdRACZvujbAYCawh7zvutiKgdgYz16nCZgC
+	XOfZSS2APn3cea/74/PmsBQ156IWhZz2ahpepIA10S4fJPMbWNu8QvHPMDlppKy1lfrwByFsXtX
+	YR6G7efqgT8UrUEoZdQ7tlr+LZqPFjIB8Y2NjPaNuFSgLAxwgjaAdjTvGNXAwz8Axf09uqqZoek
+	/pBXFouIE3yhb8nrWka+p/2p/kuDjEJKbXiJHjZrCXA4rL1CxzhRxYYvgDhjrsiTE1dozFNXSAP
+	VqxrI9iGXAdzKZeqYGS+wN7n0vPAV/Gpelk7YvLsv5MMu7msYj5ogj73ZxZcM9kyfzc1bNfG/E7
+	F+FqnImD+heJiHpvh0McbzJGPWhmGPjWmby3iXJw633QA9Al7VlILLpd6Nas5UrClC/TAb9B7Uy
+	S2FMEGl12jTOGaC5VYgiNPTgzgwo5fc1VQ2UBxMMiQ3L8b+cFFDlnOy0CCsikEK9Q9e7OcSkTSE
+	QMYOBr5NvQE0Do8B8eizgdt7ohT1i1RlFcglw==
+X-Received: by 2002:a05:6000:1868:b0:44f:da54:da6c with SMTP id ffacd0b85a97d-4515ce1c84emr20981373f8f.26.1778239071736;
+        Fri, 08 May 2026 04:17:51 -0700 (PDT)
 Received: from iku.Home ([2a06:5906:61b:2d00:74ae:919a:e57c:bd9c])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-454916df968sm3535563f8f.25.2026.05.08.04.17.49
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-454916df968sm3535563f8f.25.2026.05.08.04.17.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 May 2026 04:17:50 -0700 (PDT)
+        Fri, 08 May 2026 04:17:51 -0700 (PDT)
 From: Prabhakar <prabhakar.csengg@gmail.com>
 X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 To: Biju Das <biju.das.jz@bp.renesas.com>,
@@ -99,9 +99,9 @@ Cc: dri-devel@lists.freedesktop.org,
 	Prabhakar <prabhakar.csengg@gmail.com>,
 	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
 	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v2 2/4] drm: renesas: rz-du: Make DU reset control optional for RZ/T2H support
-Date: Fri,  8 May 2026 12:17:42 +0100
-Message-ID: <20260508111744.771659-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH v2 3/4] drm: renesas: rz-du: Move mode_valid logic to per-SoC clock limits
+Date: Fri,  8 May 2026 12:17:43 +0100
+Message-ID: <20260508111744.771659-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20260508111744.771659-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 References: <20260508111744.771659-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
@@ -112,7 +112,7 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: A8D2C4F5975
+X-Rspamd-Queue-Id: A73844F5993
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [0.84 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
@@ -125,7 +125,7 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-32282-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-32283-lists,linux-renesas-soc=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	FREEMAIL_TO(0.00)[bp.renesas.com,ideasonboard.com,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,pengutronix.de,glider.be];
 	MIME_TRACE(0.00)[0:+];
@@ -149,33 +149,83 @@ X-Rspamd-Action: no action
 
 From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Update the DU CRTC initialisation to request the reset control using
-devm_reset_control_get_optional_shared(). On RZ/T2H SoCs the DU block does
-not expose a reset line, and treating the reset as mandatory prevents the
-driver from probing on those platforms.
+Move pixel clock validation from a fixed encoder check to per SoC
+constraints stored in rzg2l_du_device_info.
+
+Pixel clock limits differ across SoCs in the RZ DU family and cannot be
+expressed by a single shared rule. For example, RZ/G2UL (R9A07G043U)
+limits the DPAD0 pixel clock to 83.5 MHz, while other SoCs such as
+RZ/T2H require a wider operating range.
+
+Add mode_clock_min and mode_clock_max fields to rzg2l_du_device_info to
+describe the supported pixel clock range for each SoC. Update
+rzg2l_du_encoder_mode_valid() to return MODE_CLOCK_LOW when the pixel
+clock falls below mode_clock_min and MODE_CLOCK_HIGH when it exceeds
+mode_clock_max.
+
+Set the pixel clock limits for RZ/G2UL(R9A07G043U) to 20.875MHz minimum
+and 83.5MHz maximum.
 
 Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 ---
 v1->v2:
-- Added Reviewed-by tag from Laurent Pinchart.
+- Dropped storing info pointer in struct rzg2l_du_encoder as it's not needed.
 ---
- drivers/gpu/drm/renesas/rz-du/rzg2l_du_crtc.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.c     | 2 ++
+ drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.h     | 4 ++++
+ drivers/gpu/drm/renesas/rz-du/rzg2l_du_encoder.c | 6 +++++-
+ 3 files changed, 11 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_crtc.c b/drivers/gpu/drm/renesas/rz-du/rzg2l_du_crtc.c
-index 26b95153ce88..48065f4952a3 100644
---- a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_crtc.c
-+++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_du_crtc.c
-@@ -380,7 +380,7 @@ int rzg2l_du_crtc_create(struct rzg2l_du_device *rcdu)
- 	struct drm_plane *primary;
- 	int ret;
+diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.c b/drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.c
+index 0fef33a5a089..3b7162c6e1f4 100644
+--- a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.c
++++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.c
+@@ -35,6 +35,8 @@ static const struct rzg2l_du_device_info rzg2l_du_r9a07g043u_info = {
+ 			.port = 0,
+ 		},
+ 	},
++	.mode_clock_min = 20875,
++	.mode_clock_max = 83500,
+ };
  
--	rcrtc->rstc = devm_reset_control_get_shared(rcdu->dev, NULL);
-+	rcrtc->rstc = devm_reset_control_get_optional_shared(rcdu->dev, NULL);
- 	if (IS_ERR(rcrtc->rstc)) {
- 		dev_err(rcdu->dev, "can't get cpg reset\n");
- 		return PTR_ERR(rcrtc->rstc);
+ static const struct rzg2l_du_device_info rzg2l_du_r9a07g044_info = {
+diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.h b/drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.h
+index 58806c2a8f2b..885558eb9547 100644
+--- a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.h
++++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.h
+@@ -44,10 +44,14 @@ struct rzg2l_du_output_routing {
+  * struct rzg2l_du_device_info - DU model-specific information
+  * @channels_mask: bit mask of available DU channels
+  * @routes: array of CRTC to output routes, indexed by output (RZG2L_DU_OUTPUT_*)
++ * @mode_clock_min: minimum pixel clock in kHz
++ * @mode_clock_max: maximum pixel clock in kHz
+  */
+ struct rzg2l_du_device_info {
+ 	unsigned int channels_mask;
+ 	struct rzg2l_du_output_routing routes[RZG2L_DU_OUTPUT_MAX];
++	u32 mode_clock_min;
++	u32 mode_clock_max;
+ };
+ 
+ #define RZG2L_DU_MAX_CRTCS		1
+diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_encoder.c b/drivers/gpu/drm/renesas/rz-du/rzg2l_du_encoder.c
+index 0e567b57a408..5c672549bc84 100644
+--- a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_encoder.c
++++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_du_encoder.c
+@@ -50,8 +50,12 @@ rzg2l_du_encoder_mode_valid(struct drm_encoder *encoder,
+ 			    const struct drm_display_mode *mode)
+ {
+ 	struct rzg2l_du_encoder *renc = to_rzg2l_encoder(encoder);
++	struct rzg2l_du_device *rcdu = to_rzg2l_du_device(renc->base.dev);
++	const struct rzg2l_du_device_info *info = rcdu->info;
+ 
+-	if (renc->output == RZG2L_DU_OUTPUT_DPAD0 && mode->clock > 83500)
++	if (info->mode_clock_min && mode->clock < info->mode_clock_min)
++		return MODE_CLOCK_LOW;
++	if (info->mode_clock_max && mode->clock > info->mode_clock_max)
+ 		return MODE_CLOCK_HIGH;
+ 
+ 	return MODE_OK;
 -- 
 2.54.0
 
