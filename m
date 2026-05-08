@@ -1,301 +1,443 @@
-Return-Path: <linux-renesas-soc+bounces-32276-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-32277-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id cAeEIl20/WkXhwAAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-32276-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 08 May 2026 12:01:01 +0200
+	id AGTJNmO2/Wm4hwAAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-32277-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 08 May 2026 12:09:39 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72A0D4F4A77
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 08 May 2026 12:01:01 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4802D4F4CA2
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 08 May 2026 12:09:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 4534F301E741
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  8 May 2026 10:00:52 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id CE92730B7724
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  8 May 2026 10:02:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A891B3CD8C1;
-	Fri,  8 May 2026 10:00:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KlE/lom5"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 067ED389E1A;
+	Fri,  8 May 2026 10:02:19 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+Received: from mail-ua1-f50.google.com (mail-ua1-f50.google.com [209.85.222.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9A802F8EB2
-	for <linux-renesas-soc@vger.kernel.org>; Fri,  8 May 2026 10:00:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.41
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778234446; cv=pass; b=ciJ/Hu+8rh8oP+D224CiOHKPj1Yp2uwNjsopG23SCv56WQn2LFcNl23Bh24yN5UW4pbvfxU2IwiomGyzGZFwqtNFp3WjuInxeEg2oa6gRbjq7KRrKDcRU6R+AhbRxekXfUYM/A612AW71ooDSam+yNtSeRCeCahF/2NAFNhn8us=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778234446; c=relaxed/simple;
-	bh=m0x77AzGjGh0isowfSdBEMq0CPkAgUrYvNRavBNdh2o=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E6AC33262F
+	for <linux-renesas-soc@vger.kernel.org>; Fri,  8 May 2026 10:02:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.50
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778234538; cv=none; b=l/L229VvrDK5fUOfwjFSEuBoYogUybcXmixsn6vivsl0utn03Vsu19fvu6srynm/eX3P6mM5mnsRU9ztfRWyXp2FvluAXEDBxRhJ6v7N2o0TYdh8hXcZJT2Gkux3wJytfwjumUI7bfZ6is1Ch4IB4vjG29I0HN+oL/pTpyvJIoU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778234538; c=relaxed/simple;
+	bh=xvmoJSJ1vW711/dM2ob3bppJLYip6cz95f5WmwJa1pE=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=la4iYzERgdG2W79LdFybmbNluaMJp0wnhPm71BXODmo1iLOkfeBvaCtK3WZsDzi9fF4jAxLqoVht76eTzOzDoCCy9n3LmlU+EQ8AJbbt1hewoJLvUgV/DWYTPVCOo2kUK3gh98T/VhBkHRuPPFblCM2DnwvMYT+s6DizSSuFGtQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KlE/lom5; arc=pass smtp.client-ip=209.85.221.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	 To:Cc:Content-Type; b=H8kqgLPlJxXSSkNlIlcVKIPzfr3j8oONAA0qDOlodgC144XcgKC8vFr+4Tuos00BF/eWLbeTJgQnWIXrR7lfOtnv8eIg7Pnl/DPQt0y6S6h8Rci8iWGDp13KKJeONZKpiwFbwvqsr+WSHD5n8dDhLwqZvbEybIfHhX10EKMDYVQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-43eb05b1875so1106225f8f.3
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 08 May 2026 03:00:43 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1778234442; cv=none;
-        d=google.com; s=arc-20240605;
-        b=BVwwcISCLG+31H1oI6xo+kHgLFdalx+z6sraWId6ZAeXvC6RKlvuT4/8EgohqU9OCZ
-         hem9jcn0ACrPXCq+EwWMpgTsIUft18FvhwAGyFES+ipQsIL59QeoMJVrG5Td+ds/gkhG
-         n5IA2hbso0k3Zx2rZSP6aBjjfiIiNXKesC1881ig1/yuopjwKMv1dYDO31Tkzmj9DPAg
-         YllmFRiFIuD97FVIUlX3cNLhgZ3KSI6HmNNufKXvUdBW+4+TKXlBPddoK0McS58l5HTb
-         NTdvQNuha4p0HpsYq4TO9i+zcnpxktMI52L8S+AK2WUMBfXd6NXAisrcPruKET0KkdNe
-         YlAg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=u+geW7HzvpvuwmCodYfbhbpyQH/Dv/H3RYeFTEhDvMY=;
-        fh=A5y6GS0z9bJr+sot5pSxt2dM76KBFhId1XbfFQmYFQ4=;
-        b=jfWkvaSRzBdcCA9uqznWVIhxPrWuYGpkALKsE3xz0jYSqBCQ+BPXr/eoE4q6089aN9
-         LkteFbmPi+pMfIxK6YzNfVoeFb99u5THJlZiYvZOovbGU6sBI3qRARvdyzI5U8BYjRng
-         MisJF36pWX7n0AbnEfEF6wl+QwHvAxiGCdPq01hL+qD7I4KF1Ju/aKw7FyMTO2lsdqYE
-         NEIjarvebzWr3I2AF3fBdFVYFWhDm3Zcnsz1U8Futk9TJxtBhQe+AQKUFlV+tvDiBlaH
-         klyH3mdMspg3RinB3IUftxKE/bWMyNporqFzld5l3Y7MWby2gMBbHhnvAvdhTO7FpRKK
-         Y/DQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778234442; x=1778839242; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=u+geW7HzvpvuwmCodYfbhbpyQH/Dv/H3RYeFTEhDvMY=;
-        b=KlE/lom5IRyPonrqxV45mZiuDRdla2MN9mU/YtiQhTwxPdnuUPsZREoZ2RZ5Q9n9tV
-         adBD6ziAvdQjFmHmC9nWNqDev+5YrTJ3Pp3naoq0n9MZQ4AXgvF3+pGZ9hSV6s1Cp+Zr
-         QcdcVKmp09ZUMZ5sJQMtmWyi23DGibz7X2F791MdMgHc9SPlV8nrz+EarTyAi/TbuIf0
-         Vb39AnRr9nu+W05+mQOO5O2lBhsgVm+CUriu1eQOdX2+pjt+JYhOeyOoBOSv2E0QPW59
-         4uqbn+03cl+0Cr5dVbhqQ2rinzao16naIS8ev0x3hycozekXvKCT9z3482yvIzfLnHvG
-         VoYA==
+Received: by mail-ua1-f50.google.com with SMTP id a1e0cc1a2514c-94ac7f22d23so516582241.3
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 08 May 2026 03:02:13 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778234442; x=1778839242;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=u+geW7HzvpvuwmCodYfbhbpyQH/Dv/H3RYeFTEhDvMY=;
-        b=j9m4yGSBt+i16AUMrAd3VMqAfLCtNcD2OXS1vv+fKSpXeY41S5ylydbudZoAPGijaE
-         Z8AjpzRa6h1WQMQ+6ZqMo4wM7vr+TBfO/2joMLsXwUgz+zSxkpaJFBLGIjwWB5opwwNr
-         BtTXnmxI3wtpEghlGQ3pu8a1NTVx3Xg6VFvmjKoagp/jQ8LKj/f7v4eeNQHieRqYWbsY
-         zS1zSAR31sJdpqbIN2N5tPSAAG4pvIAj1pMM7AEJvnV3wZ0TY9sZ1MjSuASJ2m6bYO7V
-         s4eMaIP3sTZ1aG7zVWD6UQDYKK7slPuyKWArkFKTZsls2BBOipbMJvNvf61wYMo/+82J
-         QFgw==
-X-Forwarded-Encrypted: i=1; AFNElJ8lZEAuDfSx0gJWbxL+QxjTJ84q8ATvBL//34OSirOQ5ok/MpiG8zEsaJ9fDnYnJGG8ewE+wuZaWBelv8m29ZLgEQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwIsNjvGXEa3D6t8dLOE7W9y3gcGxkLFK8rtVCso3Jw7qwgKsTY
-	ePNH3xVkTQRTSdvZf6ok0yPbox2p5wY/bsitdCiQUobnYEjikChFhhhnF1FTV/eSWz29vvOiWPW
-	H3koWItO0V3CN/WAhkCqanwVpXVnlnTQ=
-X-Gm-Gg: Acq92OG/aSRYDaWI61/7P4uJDglKX5lYewYeGHpFKqVWeAx/nfx40fSTdp67mKkBYX6
-	7/cRBzYpwvbO1WpAsQgRlR2kA1tuvELMl2qIy7FoRZBsMDHfJM4nif5H5hqEk93NPKEQVDuRkow
-	U2g4rmX5G1YB0+Q3+oMFYvYtA4zQr8pLcGgUMncPCJX2q9nN7Q3X/y/76pnQSDYlzNDZXBU4m2o
-	t4fqD5JH1d/1xwwvxy7Tip4/UJPOwTEqbswZzA6ywNoOhqw7xvvqSKfl7HSZIQ4jnNbJUURRuhn
-	aGPoS/83g5427NiYeaqFpdDZvkpo+0vKZEXzlRtRKX+axjRkbNJKPGhr2wvVc/GjzjUGXFfVfQx
-	GDCnE
-X-Received: by 2002:a5d:5f90:0:b0:448:7049:a6c9 with SMTP id
- ffacd0b85a97d-4515b056c3emr18956040f8f.5.1778234441801; Fri, 08 May 2026
- 03:00:41 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1778234532; x=1778839332;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=pcl8IC5svK1OXmJv9TpTHeh/oYwzMHlG3MjWZjSCGcQ=;
+        b=Ay9iWHiAHJCeqagAylW1gNl8AIRQquK7ADww028dY7qfbSwOKyP00JjdVBE8lLnlQ1
+         zmh+OR/fcRqCVPgUU5r2xIUU1q+szDlLR36lZCNhn412DhhtEfHu8xIQqx2wKDVthsMJ
+         fMeraxJaYmVqyHKkWPyvVBjzLC76hrksnEfIwE7fulStF08iZktY72Dipue30rVdj2h5
+         /UvmhROCke15lVUN9Asn9SDeJozkjIsxDBMI15J5yviyLqfq9jy5qgEiXcRVDJG7QFSH
+         N8DwRPH0pedNmYgc8/ByDKqTa5+QSV8TRjs1lRzUkgxuGEAVS/STETr5YKzolv7sSLWY
+         xeeQ==
+X-Forwarded-Encrypted: i=1; AFNElJ/JVgIirTX/NYev2iBhQtrhcsE+5u5prjhBhIo53BeyfPWXF2CkMySM21BqDE4Xrk+pKQCQgueY/6XOynqWYJlzxA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywt1E4zdvN4YGSwp++GCLM11/IAb0x/TeV//w217yIQxbsBveHU
+	ajkCjCcdWCWFAWnCnz2EFgP974MD1Zq5BIVzjemx9TKNviZ7Xs7/LNQg+ntE0L24Heg=
+X-Gm-Gg: Acq92OEjxg5/8ph+WW3YLFvO8TbLDJ6oV4YfomzX9IM0rd+zJ7SE/EPjsJZsElJJ9B3
+	1hjhl96l4QQyzDqatQrmedDJAp+wecOjiBuHx7JRBdpo7wbEdWr2CuJcGpOm50gdDhusNGjO5bd
+	vRIFZ1fsKcs2rZunEZASautEyMwLDaPcae+NpMK2fUgWOguWt4xQtWFgwi6s9mk97Ryi2KvXA08
+	Se1p9MCAxbPme/SF3eVh2hSI0S9k1wRFsDhR56QRb0K+alaoY1oAc8h08z1tP4Qsot6Tzdb7Itc
+	KfTOYwvrYLSm1uy/3ri254st0NbLe5gvq6BKXROyLk40/HeztcQHDNuIkK8qVjH0vrsX9yQGOik
+	Vkv5z1zkyb//5hikIHDKBtqji0CFlJTJn3fIjn4gdIBu0zrdQrFWTYhR72x+6vqFNUJiI37IdtB
+	oV9z9rd6bG5YEKrwRIEZtu/CL6mtiqYaYcPfrs+aPWjzoJFSEeUOfzSYwHzTMhqFe9
+X-Received: by 2002:a05:6122:45a1:b0:575:352f:eac0 with SMTP id 71dfb90a1353d-575595a40e0mr5969451e0c.7.1778234522819;
+        Fri, 08 May 2026 03:02:02 -0700 (PDT)
+Received: from mail-vk1-f181.google.com (mail-vk1-f181.google.com. [209.85.221.181])
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-95f21a10d2dsm574817241.5.2026.05.08.03.01.59
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 08 May 2026 03:02:00 -0700 (PDT)
+Received: by mail-vk1-f181.google.com with SMTP id 71dfb90a1353d-5637886c92aso879692e0c.0
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 08 May 2026 03:01:59 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ/5lgcFBUSn3oHSUhrYY2QT1o/RQ+KHROWkKojK9WMFD5orPdEUEDdjZTAf48B0IYIpDy5+6OxqbyLrFmxov7c/dg==@vger.kernel.org
+X-Received: by 2002:a05:6123:a8:b0:56e:e7b5:17d3 with SMTP id
+ 71dfb90a1353d-575595d06b6mr6630766e0c.8.1778234516982; Fri, 08 May 2026
+ 03:01:56 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260429170012.366537-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20260429170012.366537-4-prabhakar.mahadev-lad.rj@bp.renesas.com> <20260506201400.GC1652535@killaraus.ideasonboard.com>
-In-Reply-To: <20260506201400.GC1652535@killaraus.ideasonboard.com>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Fri, 8 May 2026 11:00:15 +0100
-X-Gm-Features: AVHnY4LP8csuKz7LBRlHomSywlqEiEgGQCH4EJ0easAGNDrVsix2yt5Y_eKl99w
-Message-ID: <CA+V-a8u_74SmeAKAXUqSKyWvp41pJavd_b_ESUOozCnrifBEpA@mail.gmail.com>
-Subject: Re: [PATCH 3/4] drm: renesas: rz-du: Move mode_valid logic to per-SoC
- clock limits
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Biju Das <biju.das.jz@bp.renesas.com>, David Airlie <airlied@gmail.com>, 
-	Simona Vetter <simona@ffwll.ch>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>, 
+References: <20260402163126.12135-1-john.madieu.xa@bp.renesas.com> <20260402163126.12135-3-john.madieu.xa@bp.renesas.com>
+In-Reply-To: <20260402163126.12135-3-john.madieu.xa@bp.renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 8 May 2026 12:01:44 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUyf1HPqAArdy8nsOuW3qxExOEAeO72221A0w1mCtXrVg@mail.gmail.com>
+X-Gm-Features: AVHnY4LLjavjc6b4hOixot-jTxjcDtq_QAYXdyxTt9JPymFC7dc2OhGNdgp1wPY
+Message-ID: <CAMuHMdUyf1HPqAArdy8nsOuW3qxExOEAeO72221A0w1mCtXrVg@mail.gmail.com>
+Subject: Re: [PATCh v3 2/8] clk: renesas: r9a09g047: Add audio clock and reset support
+To: John Madieu <john.madieu.xa@bp.renesas.com>
+Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+	Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>, 
 	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, Geert Uytterhoeven <geert+renesas@glider.be>, 
-	Magnus Damm <magnus.damm@gmail.com>, dri-devel@lists.freedesktop.org, 
-	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+	Biju Das <biju.das.jz@bp.renesas.com>, john.madieu@gmail.com, 
+	linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Rspamd-Queue-Id: 72A0D4F4A77
+X-Rspamd-Queue-Id: 4802D4F4CA2
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+X-Spamd-Result: default: False [-1.46 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-32276-lists,linux-renesas-soc=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[baylibre.com,kernel.org,gmail.com,bp.renesas.com,vger.kernel.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	RCPT_COUNT_TWELVE(0.00)[20];
-	FREEMAIL_CC(0.00)[bp.renesas.com,gmail.com,ffwll.ch,linux.intel.com,kernel.org,suse.de,pengutronix.de,glider.be,lists.freedesktop.org,vger.kernel.org,renesas.com];
+	RCPT_COUNT_TWELVE(0.00)[13];
+	TAGGED_FROM(0.00)[bounces-32277-lists,linux-renesas-soc=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	DMARC_NA(0.00)[linux-m68k.org];
+	MIME_TRACE(0.00)[0:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[prabhakarcsengg@gmail.com,linux-renesas-soc@vger.kernel.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[geert@linux-m68k.org,linux-renesas-soc@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	NEURAL_HAM(-0.00)[-0.987];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,dt];
+	R_DKIM_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[renesas.com:email,mail.gmail.com:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,linux-m68k.org:email]
 X-Rspamd-Action: no action
 
-Hi Laurent,
+Hi John,
 
-Thank you for the review.
+On Thu, 2 Apr 2026 at 18:32, John Madieu <john.madieu.xa@bp.renesas.com> wrote:
+> Add clock and reset entries for audio-related modules on the RZ/G3E SoC.
+>
+> Target modules are:
+>  - SSIU (Serial Sound Interface Unit) with SSI ch0-ch9
+>  - SCU (Sampling Rate Converter Unit) with SRC ch0-ch9, DVC ch0-ch1,
+>    CTU/MIX ch0-ch1
+>  - ADMAC (Audio DMA Controller)
+>  - ADG (Audio Clock Generator) with divider input clocks and audio
+>    master clock outputs
+>
+> While at it, reorder plldty_div16 to group it with other plldty fixed
+> dividers.
+>
+> Signed-off-by: John Madieu <john.madieu.xa@bp.renesas.com>
 
-On Wed, May 6, 2026 at 9:14=E2=80=AFPM Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
->
-> On Wed, Apr 29, 2026 at 06:00:11PM +0100, Prabhakar wrote:
-> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> >
-> > Move pixel clock validation from a fixed encoder check to per SoC
-> > constraints stored in rzg2l_du_device_info.
-> >
-> > Pixel clock limits differ across SoCs in the RZ DU family and cannot be
-> > expressed by a single shared rule. For example, RZ/G2UL (R9A07G043U)
-> > limits the DPAD0 pixel clock to 83.5 MHz, while other SoCs such as
-> > RZ/T2H require a wider operating range.
-> >
-> > Add mode_clock_min and mode_clock_max fields to rzg2l_du_device_info to
-> > describe the supported pixel clock range for each SoC. Update
-> > rzg2l_du_encoder_mode_valid() to return MODE_CLOCK_LOW when the pixel
-> > clock falls below mode_clock_min and MODE_CLOCK_HIGH when it exceeds
-> > mode_clock_max.
-> >
-> > Set the pixel clock limits for RZ/G2UL(R9A07G043U) to 20.875MHz minimum
-> > and 83.5MHz maximum.
-> >
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > ---
-> >  drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.c     | 2 ++
-> >  drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.h     | 4 ++++
-> >  drivers/gpu/drm/renesas/rz-du/rzg2l_du_encoder.c | 6 +++++-
-> >  drivers/gpu/drm/renesas/rz-du/rzg2l_du_encoder.h | 2 ++
-> >  4 files changed, 13 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.c b/drivers/gpu=
-/drm/renesas/rz-du/rzg2l_du_drv.c
-> > index 0fef33a5a089..3b7162c6e1f4 100644
-> > --- a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.c
-> > +++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.c
-> > @@ -35,6 +35,8 @@ static const struct rzg2l_du_device_info rzg2l_du_r9a=
-07g043u_info =3D {
-> >                       .port =3D 0,
-> >               },
-> >       },
-> > +     .mode_clock_min =3D 20875,
-> > +     .mode_clock_max =3D 83500,
-> >  };
-> >
-> >  static const struct rzg2l_du_device_info rzg2l_du_r9a07g044_info =3D {
-> > diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.h b/drivers/gpu=
-/drm/renesas/rz-du/rzg2l_du_drv.h
-> > index 58806c2a8f2b..885558eb9547 100644
-> > --- a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.h
-> > +++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.h
-> > @@ -44,10 +44,14 @@ struct rzg2l_du_output_routing {
-> >   * struct rzg2l_du_device_info - DU model-specific information
-> >   * @channels_mask: bit mask of available DU channels
-> >   * @routes: array of CRTC to output routes, indexed by output (RZG2L_D=
-U_OUTPUT_*)
-> > + * @mode_clock_min: minimum pixel clock in kHz
-> > + * @mode_clock_max: maximum pixel clock in kHz
-> >   */
-> >  struct rzg2l_du_device_info {
-> >       unsigned int channels_mask;
-> >       struct rzg2l_du_output_routing routes[RZG2L_DU_OUTPUT_MAX];
-> > +     u32 mode_clock_min;
-> > +     u32 mode_clock_max;
-> >  };
-> >
-> >  #define RZG2L_DU_MAX_CRTCS           1
-> > diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_encoder.c b/drivers=
-/gpu/drm/renesas/rz-du/rzg2l_du_encoder.c
-> > index d53068733c66..ad02efec1c23 100644
-> > --- a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_encoder.c
-> > +++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_du_encoder.c
-> > @@ -50,8 +50,11 @@ rzg2l_du_encoder_mode_valid(struct drm_encoder *enco=
-der,
-> >                           const struct drm_display_mode *mode)
-> >  {
-> >       struct rzg2l_du_encoder *renc =3D to_rzg2l_encoder(encoder);
-> > +     const struct rzg2l_du_device_info *info =3D renc->info;
->
-> You could use
->
->         struct rzg2l_du_device *rcdu =3D to_rzg2l_du_device(renc->base.de=
-v);
->         const struct rzg2l_du_device_info *info =3D rcdu->info;
->
-> and avoid the info pointer in struct rzg2l_du_encoder. Up to you.
->
-Agreed, I will drop the info pointer for now.
+Thanks for your patch!
 
-> >
-> > -     if (renc->output =3D=3D RZG2L_DU_OUTPUT_DPAD0 && mode->clock > 83=
-500)
-> > +     if (info->mode_clock_min && mode->clock < info->mode_clock_min)
-> > +             return MODE_CLOCK_LOW;
-> > +     if (info->mode_clock_max && mode->clock > info->mode_clock_max)
-> >               return MODE_CLOCK_HIGH;
->
-> The new check now applies to all outputs, not just the DPAD0 output. Is
-> that intentional ?
->
-The RZ/G2UL SoC only supports DPAD0 so the check is redundant.
+> --- a/drivers/clk/renesas/r9a09g047-cpg.c
+> +++ b/drivers/clk/renesas/r9a09g047-cpg.c
+> @@ -22,6 +22,9 @@ enum clk_ids {
+>         CLK_AUDIO_EXTAL,
+>         CLK_RTXIN,
+>         CLK_QEXTAL,
+> +       CLK_AUDIO_CLKA,
 
-> >
-> >       return MODE_OK;
-> > @@ -107,6 +110,7 @@ int rzg2l_du_encoder_init(struct rzg2l_du_device  *=
-rcdu,
-> >       if (IS_ERR(renc))
-> >               return PTR_ERR(renc);
-> >
-> > +     renc->info =3D rcdu->info;
-> >       renc->output =3D output;
-> >       drm_encoder_helper_add(&renc->base, &rzg2l_du_encoder_helper_func=
-s);
-> >
-> > diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_encoder.h b/drivers=
-/gpu/drm/renesas/rz-du/rzg2l_du_encoder.h
-> > index 3e430c1f6132..39a1d178b856 100644
-> > --- a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_encoder.h
-> > +++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_du_encoder.h
-> > @@ -14,10 +14,12 @@
-> >  #include <linux/container_of.h>
-> >
-> >  struct rzg2l_du_device;
-> > +struct rzg2l_du_device_info;
-> >
-> >  struct rzg2l_du_encoder {
-> >       struct drm_encoder base;
-> >       enum rzg2l_du_output output;
-> > +     const struct rzg2l_du_device_info *info;
->
-> If you want to keep a pointer here to avoid going through
-> to_rzg2l_du_device(), I would store a backpointer to rzg2l_du_device
-> instead of just an info pointer, it could come handy in other places.
->
-As agreed above I will drop this pointer for now.
+Please drop this, as the AUDIO_CLKA clock is provided by the
+existing CLK_AUDIO_EXTAL pin.
 
-Cheers,
-Prabhakar
+> +       CLK_AUDIO_CLKB,
+> +       CLK_AUDIO_CLKC,
+>
+>         /* PLL Clocks */
+>         CLK_PLLCM33,
+> @@ -34,6 +37,8 @@ enum clk_ids {
+>         /* Internal Core Clocks */
+>         CLK_PLLCM33_DIV3,
+>         CLK_PLLCM33_DIV4,
+> +       CLK_PLLCM33_DIV4_DDIV2,
+> +       CLK_PLLCM33_DIV4_DDIV2_DIV2,
+>         CLK_PLLCM33_DIV5,
+>         CLK_PLLCM33_DIV16,
+>         CLK_PLLCM33_GEAR,
+> @@ -41,15 +46,19 @@ enum clk_ids {
+>         CLK_SMUX2_XSPI_CLK1,
+>         CLK_PLLCM33_XSPI,
+>         CLK_PLLCLN_DIV2,
+> +       CLK_PLLCLN_DIV4,
+>         CLK_PLLCLN_DIV8,
+>         CLK_PLLCLN_DIV16,
+>         CLK_PLLCLN_DIV20,
+> +       CLK_PLLCLN_DIV32,
+>         CLK_PLLCLN_DIV64,
+>         CLK_PLLCLN_DIV256,
+>         CLK_PLLCLN_DIV1024,
+>         CLK_PLLDTY_ACPU,
+>         CLK_PLLDTY_ACPU_DIV2,
+>         CLK_PLLDTY_ACPU_DIV4,
+> +       CLK_PLLDTY_DIV2,
+> +       CLK_PLLDTY_DIV4,
+>         CLK_PLLDTY_DIV8,
+>         CLK_PLLDTY_RCPU,
+>         CLK_PLLDTY_RCPU_DIV4,
+> @@ -64,6 +73,7 @@ enum clk_ids {
+>         CLK_PLLDTY_DIV16,
+>         CLK_PLLVDO_CRU0,
+>         CLK_PLLVDO_GPU,
+> +       CLK_CDIV5_MAINOSC,
+>
+>         /* Module Clocks */
+>         MOD_CLK_BASE,
+> @@ -120,6 +130,9 @@ static const struct cpg_core_clk r9a09g047_core_clks[] __initconst = {
+>         DEF_INPUT("audio_extal", CLK_AUDIO_EXTAL),
+>         DEF_INPUT("rtxin", CLK_RTXIN),
+>         DEF_INPUT("qextal", CLK_QEXTAL),
+> +       DEF_INPUT("audio_clka", CLK_AUDIO_CLKA),
+
+Please drop this.
+
+> +       DEF_INPUT("audio_clkb", CLK_AUDIO_CLKB),
+> +       DEF_INPUT("audio_clkc", CLK_AUDIO_CLKC),
+>
+>         /* PLL Clocks */
+>         DEF_FIXED(".pllcm33", CLK_PLLCM33, CLK_QEXTAL, 200, 3),
+> @@ -135,6 +148,11 @@ static const struct cpg_core_clk r9a09g047_core_clks[] __initconst = {
+>         DEF_FIXED(".pllcm33_div5", CLK_PLLCM33_DIV5, CLK_PLLCM33, 1, 5),
+>         DEF_FIXED(".pllcm33_div16", CLK_PLLCM33_DIV16, CLK_PLLCM33, 1, 16),
+>
+> +       DEF_DDIV(".pllcm33_div4_ddiv2", CLK_PLLCM33_DIV4_DDIV2, CLK_PLLCM33_DIV4,
+> +                CDDIV0_DIVCTL1, dtable_2_64),
+> +       DEF_FIXED(".pllcm33_div4_ddiv2_div2", CLK_PLLCM33_DIV4_DDIV2_DIV2,
+> +                 CLK_PLLCM33_DIV4_DDIV2, 1, 2),
+
+These two clocks are unused?
+
+> +
+>         DEF_DDIV(".pllcm33_gear", CLK_PLLCM33_GEAR, CLK_PLLCM33_DIV4, CDDIV0_DIVCTL1, dtable_2_64),
+>
+>         DEF_SMUX(".smux2_xspi_clk0", CLK_SMUX2_XSPI_CLK0, SSEL1_SELCTL2, smux2_xspi_clk0),
+> @@ -142,9 +160,11 @@ static const struct cpg_core_clk r9a09g047_core_clks[] __initconst = {
+>         DEF_CSDIV(".pllcm33_xspi", CLK_PLLCM33_XSPI, CLK_SMUX2_XSPI_CLK1, CSDIV0_DIVCTL3,
+>                   dtable_2_16),
+>         DEF_FIXED(".pllcln_div2", CLK_PLLCLN_DIV2, CLK_PLLCLN, 1, 2),
+> +       DEF_FIXED(".pllcln_div4", CLK_PLLCLN_DIV4, CLK_PLLCLN, 1, 4),
+>         DEF_FIXED(".pllcln_div8", CLK_PLLCLN_DIV8, CLK_PLLCLN, 1, 8),
+>         DEF_FIXED(".pllcln_div16", CLK_PLLCLN_DIV16, CLK_PLLCLN, 1, 16),
+>         DEF_FIXED(".pllcln_div20", CLK_PLLCLN_DIV20, CLK_PLLCLN, 1, 20),
+> +       DEF_FIXED(".pllcln_div32", CLK_PLLCLN_DIV32, CLK_PLLCLN, 1, 32),
+
+This clock is unused?
+
+>         DEF_FIXED(".pllcln_div64", CLK_PLLCLN_DIV64, CLK_PLLCLN, 1, 64),
+>         DEF_FIXED(".pllcln_div256", CLK_PLLCLN_DIV256, CLK_PLLCLN, 1, 256),
+>         DEF_FIXED(".pllcln_div1024", CLK_PLLCLN_DIV1024, CLK_PLLCLN, 1, 1024),
+> @@ -152,7 +172,10 @@ static const struct cpg_core_clk r9a09g047_core_clks[] __initconst = {
+>         DEF_DDIV(".plldty_acpu", CLK_PLLDTY_ACPU, CLK_PLLDTY, CDDIV0_DIVCTL2, dtable_2_64),
+>         DEF_FIXED(".plldty_acpu_div2", CLK_PLLDTY_ACPU_DIV2, CLK_PLLDTY_ACPU, 1, 2),
+>         DEF_FIXED(".plldty_acpu_div4", CLK_PLLDTY_ACPU_DIV4, CLK_PLLDTY_ACPU, 1, 4),
+> +       DEF_FIXED(".plldty_div2", CLK_PLLDTY_DIV2, CLK_PLLDTY, 1, 2),
+> +       DEF_FIXED(".plldty_div4", CLK_PLLDTY_DIV4, CLK_PLLDTY, 1, 4),
+
+These two clocks are unused?
+
+>         DEF_FIXED(".plldty_div8", CLK_PLLDTY_DIV8, CLK_PLLDTY, 1, 8),
+> +       DEF_FIXED(".plldty_div16", CLK_PLLDTY_DIV16, CLK_PLLDTY, 1, 16),
+>
+>         DEF_FIXED(".plleth_250_fix", CLK_PLLETH_DIV_250_FIX, CLK_PLLETH, 1, 4),
+>         DEF_FIXED(".plleth_125_fix", CLK_PLLETH_DIV_125_FIX, CLK_PLLETH_DIV_250_FIX, 1, 2),
+> @@ -164,9 +187,9 @@ static const struct cpg_core_clk r9a09g047_core_clks[] __initconst = {
+>         DEF_SMUX(".smux2_gbe0_rxclk", CLK_SMUX2_GBE0_RXCLK, SSEL0_SELCTL3, smux2_gbe0_rxclk),
+>         DEF_SMUX(".smux2_gbe1_txclk", CLK_SMUX2_GBE1_TXCLK, SSEL1_SELCTL0, smux2_gbe1_txclk),
+>         DEF_SMUX(".smux2_gbe1_rxclk", CLK_SMUX2_GBE1_RXCLK, SSEL1_SELCTL1, smux2_gbe1_rxclk),
+> -       DEF_FIXED(".plldty_div16", CLK_PLLDTY_DIV16, CLK_PLLDTY, 1, 16),
+>         DEF_DDIV(".plldty_rcpu", CLK_PLLDTY_RCPU, CLK_PLLDTY, CDDIV3_DIVCTL2, dtable_2_64),
+>         DEF_FIXED(".plldty_rcpu_div4", CLK_PLLDTY_RCPU_DIV4, CLK_PLLDTY_RCPU, 1, 4),
+> +       DEF_FIXED(".cdiv5_mainosc", CLK_CDIV5_MAINOSC, CLK_QEXTAL, 1, 5),
+
+This clock is unused?
+
+>
+>         DEF_DDIV(".pllvdo_cru0", CLK_PLLVDO_CRU0, CLK_PLLVDO, CDDIV3_DIVCTL3, dtable_2_4),
+>         DEF_DDIV(".pllvdo_gpu", CLK_PLLVDO_GPU, CLK_PLLVDO, CDDIV3_DIVCTL1, dtable_2_64),
+> @@ -460,6 +483,96 @@ static const struct rzv2h_mod_clk r9a09g047_mod_clks[] __initconst = {
+>                                                 BUS_MSTOP(3, BIT(4))),
+>         DEF_MOD("tsu_1_pclk",                   CLK_QEXTAL, 16, 10, 8, 10,
+>                                                 BUS_MSTOP(2, BIT(15))),
+> +       DEF_MOD("ssif_clk",                     CLK_PLLCLN_DIV8, 15, 5, 7, 21,
+
+ssif_0_clk?
+
+> +                                               BUS_MSTOP(2, BIT(3) | BIT(4))),
+> +       DEF_MOD("scu_clk",                      CLK_PLLCLN_DIV8, 15, 6, 7, 22,
+
+scu_0_clk?
+
+> +                                               BUS_MSTOP(2, BIT(0) | BIT(1))),
+> +       DEF_MOD("scu_clkx2",                    CLK_PLLCLN_DIV4, 15, 7, 7, 23,
+
+scu_0_clkx2?
+
+> +                                               BUS_MSTOP(2, BIT(0) | BIT(1))),
+> +       DEF_MOD("admac_clk",                    CLK_PLLCLN_DIV8, 15, 8, 7, 24,
+
+dmacpp_0_clk?
+
+> +                                               BUS_MSTOP(2, BIT(5))),
+> +       DEF_MOD("adg_clks1",                    CLK_PLLCLN_DIV8, 15, 9, 7, 25,
+
+adg_0_clks1?
+
+> +                                               BUS_MSTOP(2, BIT(2))),
+> +       DEF_MOD("adg_clk_200m",                 CLK_PLLCLN_DIV8, 15, 10, 7, 26,
+
+adg_0_clk_195m?
+
+> +                                               BUS_MSTOP(2, BIT(2))),
+> +       DEF_MOD("adg_audio_clka",               CLK_AUDIO_CLKA, 15, 11, 7, 27,
+
+adg_0_audio_clka?
+Parent is CLK_AUDIO_EXTAL.
+
+> +                                               BUS_MSTOP(2, BIT(2))),
+> +       DEF_MOD("adg_audio_clkb",               CLK_AUDIO_CLKB, 15, 12, 7, 28,
+
+adg_0_audio_clkb?
+
+> +                                               BUS_MSTOP(2, BIT(2))),
+> +       DEF_MOD("adg_audio_clkc",               CLK_AUDIO_CLKC, 15, 13, 7, 29,
+
+adg_0_audio_clk_c?
+
+> +                                               BUS_MSTOP(2, BIT(2))),
+> +       DEF_MOD("adg_ssi0_clk",                 CLK_PLLCLN_DIV8, 22, 0, -1, -1,
+> +                                               BUS_MSTOP(2, BIT(2))),
+> +       DEF_MOD("adg_ssi1_clk",                 CLK_PLLCLN_DIV8, 22, 1, -1, -1,
+> +                                               BUS_MSTOP(2, BIT(2))),
+> +       DEF_MOD("adg_ssi2_clk",                 CLK_PLLCLN_DIV8, 22, 2, -1, -1,
+> +                                               BUS_MSTOP(2, BIT(2))),
+> +       DEF_MOD("adg_ssi3_clk",                 CLK_PLLCLN_DIV8, 22, 3, -1, -1,
+> +                                               BUS_MSTOP(2, BIT(2))),
+> +       DEF_MOD("adg_ssi4_clk",                 CLK_PLLCLN_DIV8, 22, 4, -1, -1,
+> +                                               BUS_MSTOP(2, BIT(2))),
+> +       DEF_MOD("adg_ssi5_clk",                 CLK_PLLCLN_DIV8, 22, 5, -1, -1,
+> +                                               BUS_MSTOP(2, BIT(2))),
+> +       DEF_MOD("adg_ssi6_clk",                 CLK_PLLCLN_DIV8, 22, 6, -1, -1,
+> +                                               BUS_MSTOP(2, BIT(2))),
+> +       DEF_MOD("adg_ssi7_clk",                 CLK_PLLCLN_DIV8, 22, 7, -1, -1,
+> +                                               BUS_MSTOP(2, BIT(2))),
+> +       DEF_MOD("adg_ssi8_clk",                 CLK_PLLCLN_DIV8, 22, 8, -1, -1,
+> +                                               BUS_MSTOP(2, BIT(2))),
+> +       DEF_MOD("adg_ssi9_clk",                 CLK_PLLCLN_DIV8, 22, 9, -1, -1,
+> +                                               BUS_MSTOP(2, BIT(2))),
+
+Specifying CLK_PLLCLN_DIV8 as the parent for these ten clocks
+is probably a (temporary?) simplication, as they are generated by the
+ADG, from adg_0_clk_195m or adg_audio_clk[abc]?
+
+> +       DEF_MOD("dvc0_clk",                     CLK_PLLCLN_DIV8, 23, 0, -1, -1,
+> +                                               BUS_MSTOP(2, BIT(0) | BIT(1))),
+> +       DEF_MOD("dvc1_clk",                     CLK_PLLCLN_DIV8, 23, 1, -1, -1,
+> +                                               BUS_MSTOP(2, BIT(0) | BIT(1))),
+> +       DEF_MOD("ctu0_mix0_clk",                CLK_PLLCLN_DIV8, 23, 2, -1, -1,
+> +                                               BUS_MSTOP(2, BIT(0) | BIT(1))),
+> +       DEF_MOD("ctu1_mix1_clk",                CLK_PLLCLN_DIV8, 23, 3, -1, -1,
+> +                                               BUS_MSTOP(2, BIT(0) | BIT(1))),
+> +       DEF_MOD("src0_clk",                     CLK_PLLCLN_DIV8, 23, 4, -1, -1,
+> +                                               BUS_MSTOP(2, BIT(0) | BIT(1))),
+> +       DEF_MOD("src1_clk",                     CLK_PLLCLN_DIV8, 23, 5, -1, -1,
+> +                                               BUS_MSTOP(2, BIT(0) | BIT(1))),
+> +       DEF_MOD("src2_clk",                     CLK_PLLCLN_DIV8, 23, 6, -1, -1,
+> +                                               BUS_MSTOP(2, BIT(0) | BIT(1))),
+> +       DEF_MOD("src3_clk",                     CLK_PLLCLN_DIV8, 23, 7, -1, -1,
+> +                                               BUS_MSTOP(2, BIT(0) | BIT(1))),
+> +       DEF_MOD("src4_clk",                     CLK_PLLCLN_DIV8, 23, 8, -1, -1,
+> +                                               BUS_MSTOP(2, BIT(0) | BIT(1))),
+> +       DEF_MOD("src5_clk",                     CLK_PLLCLN_DIV8, 23, 9, -1, -1,
+> +                                               BUS_MSTOP(2, BIT(0) | BIT(1))),
+> +       DEF_MOD("src6_clk",                     CLK_PLLCLN_DIV8, 23, 10, -1, -1,
+> +                                               BUS_MSTOP(2, BIT(0) | BIT(1))),
+> +       DEF_MOD("src7_clk",                     CLK_PLLCLN_DIV8, 23, 11, -1, -1,
+> +                                               BUS_MSTOP(2, BIT(0) | BIT(1))),
+> +       DEF_MOD("src8_clk",                     CLK_PLLCLN_DIV8, 23, 12, -1, -1,
+> +                                               BUS_MSTOP(2, BIT(0) | BIT(1))),
+> +       DEF_MOD("src9_clk",                     CLK_PLLCLN_DIV8, 23, 13, -1, -1,
+> +                                               BUS_MSTOP(2, BIT(0) | BIT(1))),
+> +       DEF_MOD("scu_supply_clk",               CLK_PLLCLN_DIV8, 23, 14, -1, -1,
+> +                                               BUS_MSTOP(2, BIT(0) | BIT(1))),
+> +       DEF_MOD("ssif_supply_clk",              CLK_PLLCLN_DIV8, 24, 0, -1, -1,
+
+ssiu_supply_clk?
+
+> +                                               BUS_MSTOP(2, BIT(3) | BIT(4))),
+> +       DEF_MOD("ssi0_clk",                     CLK_PLLCLN_DIV8, 24, 1, -1, -1,
+> +                                               BUS_MSTOP(2, BIT(3) | BIT(4))),
+> +       DEF_MOD("ssi1_clk",                     CLK_PLLCLN_DIV8, 24, 2, -1, -1,
+> +                                               BUS_MSTOP(2, BIT(3) | BIT(4))),
+> +       DEF_MOD("ssi2_clk",                     CLK_PLLCLN_DIV8, 24, 3, -1, -1,
+> +                                               BUS_MSTOP(2, BIT(3) | BIT(4))),
+> +       DEF_MOD("ssi3_clk",                     CLK_PLLCLN_DIV8, 24, 4, -1, -1,
+> +                                               BUS_MSTOP(2, BIT(3) | BIT(4))),
+> +       DEF_MOD("ssi4_clk",                     CLK_PLLCLN_DIV8, 24, 5, -1, -1,
+> +                                               BUS_MSTOP(2, BIT(3) | BIT(4))),
+> +       DEF_MOD("ssi5_clk",                     CLK_PLLCLN_DIV8, 24, 6, -1, -1,
+> +                                               BUS_MSTOP(2, BIT(3) | BIT(4))),
+> +       DEF_MOD("ssi6_clk",                     CLK_PLLCLN_DIV8, 24, 7, -1, -1,
+> +                                               BUS_MSTOP(2, BIT(3) | BIT(4))),
+> +       DEF_MOD("ssi7_clk",                     CLK_PLLCLN_DIV8, 24, 8, -1, -1,
+> +                                               BUS_MSTOP(2, BIT(3) | BIT(4))),
+> +       DEF_MOD("ssi8_clk",                     CLK_PLLCLN_DIV8, 24, 9, -1, -1,
+> +                                               BUS_MSTOP(2, BIT(3) | BIT(4))),
+> +       DEF_MOD("ssi9_clk",                     CLK_PLLCLN_DIV8, 24, 10, -1, -1,
+> +                                               BUS_MSTOP(2, BIT(3) | BIT(4))),
+>  };
+>
+>  static const struct rzv2h_reset r9a09g047_resets[] __initconst = {
+> @@ -538,6 +651,20 @@ static const struct rzv2h_reset r9a09g047_resets[] __initconst = {
+>         DEF_RST(13, 13, 6, 14),         /* GE3D_RESETN */
+>         DEF_RST(13, 14, 6, 15),         /* GE3D_AXI_RESETN */
+>         DEF_RST(13, 15, 6, 16),         /* GE3D_ACE_RESETN */
+> +       DEF_RST(14, 1, 6, 18),          /* SSIF_0_ASYNC_RESET_SSI */
+> +       DEF_RST(14, 2, 6, 19),          /* SSIF_0_SYNC_RESET_SSI0 */
+> +       DEF_RST(14, 3, 6, 20),          /* SSIF_0_SYNC_RESET_SSI1 */
+> +       DEF_RST(14, 4, 6, 21),          /* SSIF_0_SYNC_RESET_SSI2 */
+> +       DEF_RST(14, 5, 6, 22),          /* SSIF_0_SYNC_RESET_SSI3 */
+> +       DEF_RST(14, 6, 6, 23),          /* SSIF_0_SYNC_RESET_SSI4 */
+> +       DEF_RST(14, 7, 6, 24),          /* SSIF_0_SYNC_RESET_SSI5 */
+> +       DEF_RST(14, 8, 6, 25),          /* SSIF_0_SYNC_RESET_SSI6 */
+> +       DEF_RST(14, 9, 6, 26),          /* SSIF_0_SYNC_RESET_SSI7 */
+> +       DEF_RST(14, 10, 6, 27),         /* SSIF_0_SYNC_RESET_SSI8 */
+> +       DEF_RST(14, 11, 6, 28),         /* SSIF_0_SYNC_RESET_SSI9 */
+> +       DEF_RST(14, 12, 6, 29),         /* SCU_RESET_SRU */
+
+SCU_0_RESET_SRU?
+
+> +       DEF_RST(14, 13, 6, 30),         /* ADMAC_ARESETN */
+
+DMACPP_0_ARST?
+
+> +       DEF_RST(14, 14, 6, 31),         /* ADG_RST_RESET_ADG */
+
+ADG_0_RST_RESET_ADG?
+
+>         DEF_RST(15, 8, 7, 9),           /* TSU_1_PRESETN */
+>  };
+>
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
