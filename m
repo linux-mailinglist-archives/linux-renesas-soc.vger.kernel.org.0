@@ -1,49 +1,49 @@
-Return-Path: <linux-renesas-soc+bounces-32289-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-32290-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id qJCOKe8C/mlYmAAAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-32289-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 08 May 2026 17:36:15 +0200
+	id KPfOOQoD/mlYmAAAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-32290-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 08 May 2026 17:36:42 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3389C4F8CC0
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 08 May 2026 17:36:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 649664F8CF5
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 08 May 2026 17:36:42 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id D537D309C1B7
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  8 May 2026 15:33:38 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id BF70F30A0575
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  8 May 2026 15:33:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 810563FCB2A;
-	Fri,  8 May 2026 15:33:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 587753FD12B;
+	Fri,  8 May 2026 15:33:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="Yy6ACcdH"
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="CkBDpsTP"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C81133FB042;
-	Fri,  8 May 2026 15:33:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B7BD83FB05C;
+	Fri,  8 May 2026 15:33:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778254413; cv=none; b=CPP3kwWt3jOKetbiPGdbJAuPcHnzm7wmEWkkCRVIlmiSquVei64CAkdFUUPwWnxbfy0BBkH05ucEFKmGiHP1ESKcEC+72KRxcVkM0wgqSrGKc+GBwzutgdzjaiL/lN5kQ5odBS3aQ6kNaTzkad2CuZAMnAs+NHk7VvknMMyEJDM=
+	t=1778254416; cv=none; b=GRx7m1iT22AHwwF8eAmMOzwQJpZvsGE7GANL5vnzTsKaWKiByKSgKgMfhVf7xkv9TO9edwRJFH7xpp6miXQ3S1iRNRNY7/rFOiUvO8aAZRfIF3l+7cNRHbwa+4MTencKkRyfBj3SP9eoy9IdMwTETgYLsNQzPP/Xbw8dyXxapoA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778254413; c=relaxed/simple;
-	bh=WC1R4qV6I0MneBfZAXWbYrl3W9fg6IoQSFQXIfGStN0=;
+	s=arc-20240116; t=1778254416; c=relaxed/simple;
+	bh=FouQA+bv5j1EdgH3z1eqPEIT8/R9xB/bagn+V+J4Zec=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Xf/PWRoLMQXYbzpGL+jwFKf+BxBrqgrl8Rr3KWnVj8lbUO4HPM8Q+pmOVBylvdMQGPFokmoY2nBReuJuBdkCYrtqK2bfrph1S2W3STfIop3LuG8y9BX5DDZHIfrzRlX95ShvTVmfn3zJaXt9gcLctcxYRGIr5xdzQRXiAeypptg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=Yy6ACcdH; arc=none smtp.client-ip=217.140.110.172
+	 MIME-Version; b=op2zXLrOyFIPMGTe4uewg5OUDO2IdtzvkNWDJ+n0v5cUV9nrrSOLMDX12yu+P1b98hC1A9bFZ+3vnbIzRrrbruvUBfhne/NwbrYDUNEST1JJkdKkL3Z0u4/LHpu76OjgT5fbDIB1ef9wyr3J8TO0pBUxKVktDHc1oDHk/LS5WM8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=CkBDpsTP; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C24EC35A1;
-	Fri,  8 May 2026 08:33:25 -0700 (PDT)
-Received: from pluto.fritz.box (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 4E2F63F836;
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C6325359E;
 	Fri,  8 May 2026 08:33:28 -0700 (PDT)
+Received: from pluto.fritz.box (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 743F63F836;
+	Fri,  8 May 2026 08:33:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1778254411; bh=WC1R4qV6I0MneBfZAXWbYrl3W9fg6IoQSFQXIfGStN0=;
+	t=1778254414; bh=FouQA+bv5j1EdgH3z1eqPEIT8/R9xB/bagn+V+J4Zec=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Yy6ACcdHyLZwFPRCF5YoZsDdCuDhNbBt53WgsgTwkw5pXMphDJEm+JyJI2BoHwtBe
-	 sUJIU06Ry2i450l66La1uIHRU+A2pnqmVqLQkQ/T3HFRMtdfC0O9IpZ5HJV+/ICqdX
-	 pN015g+eu9rv8vr9PbbexLDueaXqzkVfgo7iEtjo=
+	b=CkBDpsTPkap51NtTKTkH61LfsmVJoygGaWWLw8PJ7Vyb/nPrHR7mwKoCQhjuEa2md
+	 FwIUj/E+qbclws9F2vloxdYT52jBqVw6HZthpC7ou0JC6lOaOGHkIlFofw422jTZWO
+	 RAawwhAvzEzusEPfZE6op+RZxN63fFDL1MkeGxms=
 From: Cristian Marussi <cristian.marussi@arm.com>
 To: linux-kernel@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
@@ -61,12 +61,10 @@ Cc: sudeep.holla@arm.com,
 	geert+renesas@glider.be,
 	kuninori.morimoto.gx@renesas.com,
 	marek.vasut+renesas@gmail.com,
-	Cristian Marussi <cristian.marussi@arm.com>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>
-Subject: [PATCH v4 01/15] clk: scmi: Fix clock rate rounding
-Date: Fri,  8 May 2026 16:32:46 +0100
-Message-ID: <20260508153300.2224715-2-cristian.marussi@arm.com>
+	Cristian Marussi <cristian.marussi@arm.com>
+Subject: [PATCH v4 02/15] firmware: arm_scmi: Add clock determine_rate operation
+Date: Fri,  8 May 2026 16:32:47 +0100
+Message-ID: <20260508153300.2224715-3-cristian.marussi@arm.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260508153300.2224715-1-cristian.marussi@arm.com>
 References: <20260508153300.2224715-1-cristian.marussi@arm.com>
@@ -77,7 +75,7 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 3389C4F8CC0
+X-Rspamd-Queue-Id: 649664F8CF5
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [0.84 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
@@ -90,10 +88,10 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[arm.com,broadcom.com,gmail.com,linaro.org,foss.st.com,oss.nxp.com,amd.com,glider.be,renesas.com,baylibre.com,kernel.org];
-	RCPT_COUNT_TWELVE(0.00)[19];
+	FREEMAIL_CC(0.00)[arm.com,broadcom.com,gmail.com,linaro.org,foss.st.com,oss.nxp.com,amd.com,glider.be,renesas.com];
+	RCPT_COUNT_TWELVE(0.00)[17];
 	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-32289-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-32290-lists,linux-renesas-soc=lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
 	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
@@ -107,49 +105,123 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	NEURAL_HAM(-0.00)[-0.998];
 	TO_DN_SOME(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[arm.com:email,arm.com:mid,arm.com:dkim,baylibre.com:email,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,arm.com:email,arm.com:mid,arm.com:dkim]
 X-Rspamd-Action: no action
 
-While the do_div() helper used for rounding expects its divisor argument
-to be a 32bits quantity, the currently provided divisor parameter is a
-64bit value that, as a consequence, is silently truncated and a possible
-source of bugs.
+Add a clock operation to help determining the effective rate, closest to
+the required one, that a specific clock can support.
 
-Fix by using the proper div64_ul helper.
+Calculation is currently performed kernel side and the logic is taken
+directly from the SCMI Clock driver: embedding the determinate rate logic
+in the protocol layer enables simplifications in the SCMI Clock protocol
+interface and will more easily accommodate further evolutions where such
+determine_rate logic into is optionally delegated to the platform SCMI
+server.
 
-Cc: Michael Turquette <mturquette@baylibre.com>
-Cc: Stephen Boyd <sboyd@kernel.org>
-Cc: linux-clk@vger.kernel.org
-Fixes: 7a8655e19bdb ("clk: scmi: Fix the rounding of clock rate")
 Signed-off-by: Cristian Marussi <cristian.marussi@arm.com>
 ---
- drivers/clk/clk-scmi.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+v1 --> v2
+ - use the fixed rounding algo using div64_ul
 
-diff --git a/drivers/clk/clk-scmi.c b/drivers/clk/clk-scmi.c
-index 6b286ea6f121..b6a12f3bc123 100644
---- a/drivers/clk/clk-scmi.c
-+++ b/drivers/clk/clk-scmi.c
-@@ -10,9 +10,9 @@
- #include <linux/device.h>
- #include <linux/err.h>
- #include <linux/of.h>
+Spoiler alert next SCMI spec will most probably include a new
+CLOCK_DETERMINE_RATE command to delegate to the platform such calculations,
+so this clock proto_ops will be needed anyway sooner or later
+---
+ drivers/firmware/arm_scmi/clock.c | 42 +++++++++++++++++++++++++++++++
+ include/linux/scmi_protocol.h     |  6 +++++
+ 2 files changed, 48 insertions(+)
+
+diff --git a/drivers/firmware/arm_scmi/clock.c b/drivers/firmware/arm_scmi/clock.c
+index ab36871650a1..54b55517b759 100644
+--- a/drivers/firmware/arm_scmi/clock.c
++++ b/drivers/firmware/arm_scmi/clock.c
+@@ -5,6 +5,7 @@
+  * Copyright (C) 2018-2022 ARM Ltd.
+  */
+ 
 +#include <linux/math64.h>
  #include <linux/module.h>
- #include <linux/scmi_protocol.h>
--#include <asm/div64.h>
+ #include <linux/limits.h>
+ #include <linux/sort.h>
+@@ -624,6 +625,46 @@ static int scmi_clock_rate_set(const struct scmi_protocol_handle *ph,
+ 	return ret;
+ }
  
- #define NOT_ATOMIC	false
- #define ATOMIC		true
-@@ -83,7 +83,7 @@ static int scmi_clk_determine_rate(struct clk_hw *hw,
- 
- 	ftmp = req->rate - fmin;
- 	ftmp += clk->info->range.step_size - 1; /* to round up */
--	do_div(ftmp, clk->info->range.step_size);
-+	ftmp = div64_ul(ftmp, clk->info->range.step_size);
- 
- 	req->rate = ftmp * clk->info->range.step_size + fmin;
- 
++static int scmi_clock_determine_rate(const struct scmi_protocol_handle *ph,
++				     u32 clk_id, unsigned long *rate)
++{
++	u64 fmin, fmax, ftmp;
++	struct scmi_clock_info *clk;
++	struct clock_info *ci = ph->get_priv(ph);
++
++	if (!rate)
++		return -EINVAL;
++
++	clk = scmi_clock_domain_lookup(ci, clk_id);
++	if (IS_ERR(clk))
++		return PTR_ERR(clk);
++
++	/*
++	 * If we can't figure out what rate it will be, so just return the
++	 * rate back to the caller.
++	 */
++	if (clk->rate_discrete)
++		return 0;
++
++	fmin = clk->range.min_rate;
++	fmax = clk->range.max_rate;
++	if (*rate <= fmin) {
++		*rate = fmin;
++		return 0;
++	} else if (*rate >= fmax) {
++		*rate = fmax;
++		return 0;
++	}
++
++	ftmp = *rate - fmin;
++	ftmp += clk->range.step_size - 1; /* to round up */
++	ftmp = div64_ul(ftmp, clk->range.step_size);
++
++	*rate = ftmp * clk->range.step_size + fmin;
++
++	return 0;
++}
++
+ static int
+ scmi_clock_config_set(const struct scmi_protocol_handle *ph, u32 clk_id,
+ 		      enum clk_state state,
+@@ -936,6 +977,7 @@ static const struct scmi_clk_proto_ops clk_proto_ops = {
+ 	.info_get = scmi_clock_info_get,
+ 	.rate_get = scmi_clock_rate_get,
+ 	.rate_set = scmi_clock_rate_set,
++	.determine_rate = scmi_clock_determine_rate,
+ 	.enable = scmi_clock_enable,
+ 	.disable = scmi_clock_disable,
+ 	.state_get = scmi_clock_state_get,
+diff --git a/include/linux/scmi_protocol.h b/include/linux/scmi_protocol.h
+index aafaac1496b0..28579c145045 100644
+--- a/include/linux/scmi_protocol.h
++++ b/include/linux/scmi_protocol.h
+@@ -91,6 +91,10 @@ enum scmi_clock_oem_config {
+  * @info_get: get the information of the specified clock
+  * @rate_get: request the current clock rate of a clock
+  * @rate_set: set the clock rate of a clock
++ * @determine_rate: determine the effective rate that can be supported by a
++ *		    clock calculating the closest allowed rate.
++ *		    Note that @rate is an input/output parameter used both to
++ *		    describe the requested rate and report the closest match
+  * @enable: enables the specified clock
+  * @disable: disables the specified clock
+  * @state_get: get the status of the specified clock
+@@ -108,6 +112,8 @@ struct scmi_clk_proto_ops {
+ 			u64 *rate);
+ 	int (*rate_set)(const struct scmi_protocol_handle *ph, u32 clk_id,
+ 			u64 rate);
++	int (*determine_rate)(const struct scmi_protocol_handle *ph, u32 clk_id,
++			      unsigned long *rate);
+ 	int (*enable)(const struct scmi_protocol_handle *ph, u32 clk_id,
+ 		      bool atomic);
+ 	int (*disable)(const struct scmi_protocol_handle *ph, u32 clk_id,
 -- 
 2.53.0
 
