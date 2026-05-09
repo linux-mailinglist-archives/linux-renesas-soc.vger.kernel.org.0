@@ -1,145 +1,160 @@
-Return-Path: <linux-renesas-soc+bounces-32309-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-32310-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 2DyDJhtC/mkZogAAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-32309-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 08 May 2026 22:05:47 +0200
+	id 4LxRNEdg/2m35wAAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-32310-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 09 May 2026 18:26:47 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id A179B4FB542
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 08 May 2026 22:05:46 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 10F9B500755
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 09 May 2026 18:26:46 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 9E94C3003714
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  8 May 2026 20:05:43 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id B614D3010C13
+	for <lists+linux-renesas-soc@lfdr.de>; Sat,  9 May 2026 16:26:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7CDC227979A;
-	Fri,  8 May 2026 20:05:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 80BE32F1FD0;
+	Sat,  9 May 2026 16:26:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="JHXVJTH/"
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="QNwnNxpr"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.4])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4F05327C09
-	for <linux-renesas-soc@vger.kernel.org>; Fri,  8 May 2026 20:05:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F34F928642B;
+	Sat,  9 May 2026 16:26:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778270742; cv=none; b=okXi4gx951DtTckuacyn04vnUJo/E0JtlgUXp1kYkbYG9Z7Hpj99ej37b8ADUmx29zIpJb7A/jclX2UqzXRdILVSOB3mLr69atsa26gDGo/XaME1XZAL2/ceTDdAT8rPl3JljrfCCtjSYyGhKtPiQGgj1TrWKdjU/1J7acOfVHQ=
+	t=1778344001; cv=none; b=ideYrtDSUubg6mjag4GymCx8fu5HMySXSvwnvz7St/mfdn0ZF2PletfecpL5mXM+lVuQVZW01c5chPpwLWbHBYM7dVc/couKPwGahdYEbUi4jxTMNxOjHCvj0ycLQiephCbE/NkPnDX5oCYCsvMHW+n58FN9CnlMVuWaZzqlTLg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778270742; c=relaxed/simple;
-	bh=r4416AwSwAlXUvbYN9/pdEv2Sgs4/cvKtROm5nF5qm4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kzImCvDOOxIg7E6z7oVMZnGg7Ct6fWbi4FWQj6LN1PSn9j8933swP82gDsZSNR58/WiO9lI/CMVozyBZd2CIxZzom/GeYYBjDppHdAIwOflv5YMslVOXmJrFqfWfWmbSkPXG+6g8lmLW+shO+Ht4jDXBwPX9bfr5VTYHB3YYbv0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=JHXVJTH/; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=r441
-	6AwSwAlXUvbYN9/pdEv2Sgs4/cvKtROm5nF5qm4=; b=JHXVJTH/aEchqgXjIvxA
-	dvJxfdWenCZWqCuU/XOaTraCn5ipTIAB6p8/r1tvB0cSIK9Rze1olhM0ZTcNJV58
-	qEW/2nZoHLlqzeiu9gxi2xmpNvGkXoaT6twrk30Zq0/DFXQ/+wS34uCdF7d8xCl/
-	lx8YEm3fOVjL3PXLtYBCNs1cE91N8qvI9wFikL6BLYFtTJOCSZhMIXFi65KvfxIg
-	U2Tm7Z89L6/KDP8pgi0I01w7mYdKTBYJi1MjBvTa4XBW7DCXKZPpFx8F6G9r/y6e
-	JCmxDaLkzPkBvM3gsgjIr3qejpyGJv4BQpSRn8tCY362Bx0K4jh7yzo+4EnBeecC
-	mg==
-Received: (qmail 1639903 invoked from network); 8 May 2026 22:05:29 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 8 May 2026 22:05:29 +0200
-X-UD-Smtp-Session: l3s3148p1@bFco61NR0rcujntg
-Date: Fri, 8 May 2026 22:05:29 +0200
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Guenter Roeck <linux@roeck-us.net>
-Cc: linux-renesas-soc@vger.kernel.org,
-	"Herve Codina (Schneider Electric)" <herve.codina@bootlin.com>,
-	Wim Van Sebroeck <wim@linux-watchdog.org>,
-	linux-watchdog@vger.kernel.org
-Subject: Re: [PATCH v4 3/4] watchdog: rzn1: remove now obsolete interrupt
- support
-Message-ID: <af5CCdbNlCYt90SN@shikoro>
-References: <20260507102410.43384-1-wsa+renesas@sang-engineering.com>
- <20260507102410.43384-4-wsa+renesas@sang-engineering.com>
- <6958a9c5-8ba7-49a1-bd49-1dc6e2f7b9f0@roeck-us.net>
+	s=arc-20240116; t=1778344001; c=relaxed/simple;
+	bh=aBZF33Pr9/96AEPUQMpQeHadYjHExm9L2z4OKt7kbeE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=X07UkOEljV7mvn4m5Ltk9g/spswq9XOHZEbeZTTgPc2jh2sR6zquWujh5jkKOBhEYjnXiT4+yjw2n6XUo7A9+tbfN8Ctq24OgCaubwYs3AEYJQdLabLk/ibBcP6v2f3h5BcoPrdSYD2EBGV61DGHaSqZZahXLSa/ew65p0I0bjg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=QNwnNxpr; arc=none smtp.client-ip=117.135.210.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=Message-ID:Date:MIME-Version:Subject:To:From:
+	Content-Type; bh=Yolk7fPVSsosJ3+V1HG/g+3kb5mEYUGoiAatqyto7So=;
+	b=QNwnNxprHHJUW4PbRByVgKv8H/imUdQGoJjvkX/EUA+Eo4EOgoN3fXXG/YFjUD
+	RCZw7p7hHvAFaD7xgsZA0twZgcRMC0emc+V0FzVJidZqk4Clo93Xmta7ExoLcWQ1
+	mMZ1Fx0EyXnaAa2I8HKBo3TN9DpBamsrne72PUdUBxsnk=
+Received: from [192.168.50.71] (unknown [])
+	by gzga-smtp-mtada-g0-1 (Coremail) with SMTP id _____wBnQtTpX_9pIRSmAQ--.47405S2;
+	Sun, 10 May 2026 00:25:14 +0800 (CST)
+Message-ID: <4f063568-0f5c-42ad-acc5-2d6ca5b546ad@163.com>
+Date: Sun, 10 May 2026 00:25:13 +0800
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="nfOk955Hsib93T1X"
-Content-Disposition: inline
-In-Reply-To: <6958a9c5-8ba7-49a1-bd49-1dc6e2f7b9f0@roeck-us.net>
-X-Rspamd-Queue-Id: A179B4FB542
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 8/8] PCI: rzg3s-host: Add 100 ms delay after link
+ training
+To: Claudiu Beznea <claudiu.beznea@tuxon.dev>, bhelgaas@google.com,
+ lpieralisi@kernel.org, kwilczynski@kernel.org, mani@kernel.org,
+ vigneshr@ti.com, jingoohan1@gmail.com, thomas.petazzoni@bootlin.com,
+ pali@kernel.org, ryder.lee@mediatek.com, jianjun.wang@mediatek.com,
+ claudiu.beznea.uj@bp.renesas.com, mpillai@cadence.com
+Cc: robh@kernel.org, s-vadapalli@ti.com, linux-omap@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
+ linux-renesas-soc@vger.kernel.org, linux-pci@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20260506152346.166056-1-18255117159@163.com>
+ <20260506152346.166056-9-18255117159@163.com>
+ <bd0f4589-b586-4f01-b12c-6ae5c19ec21b@tuxon.dev>
+Content-Language: en-US
+From: Hans Zhang <18255117159@163.com>
+In-Reply-To: <bd0f4589-b586-4f01-b12c-6ae5c19ec21b@tuxon.dev>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:_____wBnQtTpX_9pIRSmAQ--.47405S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW7AFWxAF13Cr4xKF48ArW8Zwb_yoW8Wry3pF
+	ZYv3WjyF1UXr4Y9a17X3Z8uFyYq3Z8A34UJ3s3Wa47ZwnxuFZrWF98uF4fJ3Z2grZ7XrW3
+	t3W5t3WUGa15AFJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07UEPfQUUUUU=
+X-CM-SenderInfo: rpryjkyvrrlimvzbiqqrwthudrp/xtbC7ApsEGn-X+qp5wAA33
+X-Rspamd-Queue-Id: 10F9B500755
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-3.26 / 15.00];
-	SIGNED_PGP(-2.00)[];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	MIME_GOOD(-0.20)[multipart/signed,text/plain];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
-	R_DKIM_ALLOW(-0.20)[sang-engineering.com:s=k1];
+	DMARC_POLICY_ALLOW(-0.50)[163.com,none];
+	R_DKIM_ALLOW(-0.20)[163.com:s=s110527];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_COUNT_THREE(0.00)[4];
+	RCVD_TLS_LAST(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	DMARC_NA(0.00)[sang-engineering.com];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+,1:+,2:~];
-	TAGGED_FROM(0.00)[bounces-32309-lists,linux-renesas-soc=lfdr.de,renesas];
-	MISSING_XM_UA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_TO(0.00)[tuxon.dev,google.com,kernel.org,ti.com,gmail.com,bootlin.com,mediatek.com,bp.renesas.com,cadence.com];
+	FREEMAIL_FROM(0.00)[163.com];
+	RCPT_COUNT_TWELVE(0.00)[21];
+	TAGGED_FROM(0.00)[bounces-32310-lists,linux-renesas-soc=lfdr.de];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
+	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[wsa@sang-engineering.com,linux-renesas-soc@vger.kernel.org];
-	DKIM_TRACE(0.00)[sang-engineering.com:+];
+	FROM_NEQ_ENVFROM(0.00)[18255117159@163.com,linux-renesas-soc@vger.kernel.org];
+	DKIM_TRACE(0.00)[163.com:+];
+	NEURAL_HAM(-0.00)[-1.000];
 	TAGGED_RCPT(0.00)[linux-renesas-soc];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[bootlin.com:email,sang-engineering.com:email,sang-engineering.com:dkim,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
+	MID_RHS_MATCH_FROM(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
 X-Rspamd-Action: no action
 
 
---nfOk955Hsib93T1X
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+
+On 5/7/26 00:52, Claudiu Beznea wrote:
+> Hi, Hans,
+> 
+> On 5/6/26 18:23, Hans Zhang wrote:
+>> The Renesas RZ/G3S PCIe host driver currently does not enforce the
+>> mandatory 100 ms delay after link training completes for speeds > 5.0 
+>> GT/s,
+>> required by PCIe r6.0 sec 6.6.1.
+>>
+>> The driver already has a 'max_link_speed' field (derived from the device
+>> tree). Add a call to pcie_wait_after_link_train() in
+>> rzg3s_pcie_host_init() after reading the link status, ensuring that the
+>> delay is applied before any Configuration Request is sent downstream.
+>>
+>> Signed-off-by: Hans Zhang <18255117159@163.com>
+>> ---
+>>   drivers/pci/controller/pcie-rzg3s-host.c | 2 ++
+>>   1 file changed, 2 insertions(+)
+>>
+>> diff --git a/drivers/pci/controller/pcie-rzg3s-host.c b/drivers/pci/ 
+>> controller/pcie-rzg3s-host.c
+>> index d86e7516dcc2..6ab59c5464cf 100644
+>> --- a/drivers/pci/controller/pcie-rzg3s-host.c
+>> +++ b/drivers/pci/controller/pcie-rzg3s-host.c
+>> @@ -1390,6 +1390,8 @@ static int rzg3s_pcie_host_init(struct 
+>> rzg3s_pcie_host *host)
+>>       val = readl_relaxed(host->axi + RZG3S_PCI_PCSTAT2);
+>>       dev_info(host->dev, "PCIe link status [0x%x]\n", val);
+>> +    pcie_wait_after_link_train(host->max_link_speed);
+> 
+> There is an msleep(PCIE_RESET_CONFIG_WAIT_MS) after 
+> rzg3s_pcie_set_max_link_speed() call. Shouldn't that msleep() call be 
+> replaced with your pcie_wait_after_link_train() ?
+
+Hi Claudiu,
+
+Sorry for the late reply. Thank you for pointing it out. It will be 
+replaced.
+
+Best regards,
+Hans
 
 
-> > Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> > Reviewed-by: Herve Codina <herve.codina@bootlin.com>
->=20
-> I don't think Sashiko's concern is warranted. Applied.
+> 
+> Thank you,
+> Claudiu
 
-Sashiko missed that it is not the bootloader but Linux which sets the
-syscon bits correctly. As this code is already upstream, there is no
-more dependency.
-
-Thanks for applying!
-
-
---nfOk955Hsib93T1X
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmn+QgUACgkQFA3kzBSg
-KbbKiQ/9EgKsfzL7q27Qn7L48uGWvMAUq9MBmxts1jR+0TM3Irfiq1CY/KYwhQxy
-V39EM638dRJuUEMfnyhy+IanFWBVRZ+n2Edxx4h9bkuku5HaSZoizar0MKTKiz3U
-zc6pU2Hg2MgMMrrQ+vgD8ueOQODl23MTAp6jGFKc7DNcswYv7+ViwgCinfo7uwSW
-jpOE222Z3Rw8ku3ehrF3D4z+7V2XLyH43qlM3npVHqEF27U3U4yGgy1GfeP2MP0m
-YDn9Raz6njxANwSoSdYtYbjQ+mFQavNgyfM0vKTzJE194Q7LedUT7mOJLWeDlGtW
-oSRNQ1aLGcCmNbYzNhZwDglxeSY6GPFj55aYKO1lp6agBzfs11Z50gqQd9aKKct6
-JcNuY4HyIKhhmeP1B4qCCR8z7L/4CdBrH3V2lckLdAp2tSMk5cGzBN7uM8vfWg6p
-yN7K2WlCzE/doDY/nHQ0Fmk1gciTPt+CozRMGXZiCQyoSxuNQnqIFs6fvF+Hs4Ka
-IInYlVo8WlxBWSDHgjSzniNseVuOkW85z39CbPWgDprnP/iahA+VEd3T4yNKHkn2
-oA+t1JdyWmkGS5x2QlAhF0rIqKTQMBGVdJPpZ5HulNP6DL/276yxgD68we0LSYtQ
-bhz3KWtuB3Q93MywhK86G7Vwc8wnYPejoYexX8nb+6D+jlWd+60=
-=d0I8
------END PGP SIGNATURE-----
-
---nfOk955Hsib93T1X--
 
