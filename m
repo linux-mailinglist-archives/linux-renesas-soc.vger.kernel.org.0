@@ -1,126 +1,159 @@
-Return-Path: <linux-renesas-soc+bounces-32394-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-32395-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id mK5EOPT6AWomnAEAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-32394-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 11 May 2026 17:51:16 +0200
+	id aCI/J2UHAmp2nQEAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-32395-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 11 May 2026 18:44:21 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5850951191A
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 11 May 2026 17:51:15 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 175345128A9
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 11 May 2026 18:44:20 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 2416530CDE21
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 11 May 2026 15:44:11 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 108CD30068DF
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 11 May 2026 16:28:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 02611402426;
-	Mon, 11 May 2026 15:43:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6E7DE427A15;
+	Mon, 11 May 2026 16:28:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Mimgsen2"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="u420ESoE"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E4E22264D9;
-	Mon, 11 May 2026 15:43:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A514402BA0;
+	Mon, 11 May 2026 16:28:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778514217; cv=none; b=FEB4MRZGiLjfwIOAHAHbdmuCAmUPCKtiag71IOlScNnVzdfhdkQy/E0Ctw9V3wM02Zy4auDFPrTXhzFZ7AxbHtJWXjfC8+F0nq/IPijIuEXOPQ81G7wElUEJUdMqqchKy4OilrxEDIdJIKXvoRgHwjRpFSKp3rWV24gj1yjtW6w=
+	t=1778516912; cv=none; b=lKQkM3rpGbkeSzXMZU1D03w9vHbtFi8GNNR7W7mzxZrlTWpt1t1it1j8KDlo2+TJkOOl2uMoDvQkop1vKmrtsdmi7/kMGQknNHe0rAdvAZcUkxKUH5mMYwxYcFgHIaN+XSf6Gx/XL8oUnLUM0s4Nca1GD+bzS1Ef3lduQQZqvsQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778514217; c=relaxed/simple;
-	bh=nMYKw9ofUkFWHVFjnLDo6sFguwvLWaN21ikxxm1fVz8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Qi/GuGd5XGlF/JhQbxZFhi/aRG+OkA6lpD55gbAecY7idHdMvFa8JZtfay88rTpAk3maUND/yT+sEa5Bv6RvxIhIQu+UnN/y4Xv+w7x4rNHzPnTeyNS1s3MWvqhSVNryGi3i+w0WMi8/jaBSWoi4RFy4+We24Y01R5t3jWbsBR8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Mimgsen2; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from ideasonboard.com (mob-109-113-28-211.net.vodafone.it [109.113.28.211])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5EDE31544;
-	Mon, 11 May 2026 17:43:27 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1778514207;
-	bh=nMYKw9ofUkFWHVFjnLDo6sFguwvLWaN21ikxxm1fVz8=;
-	h=From:To:Cc:Subject:Date:From;
-	b=Mimgsen2rxGr6kPb9FL/tgCOF/Y5oGDUJfjSTatrv1lVTbOL8dKcRLElzFqYzfpYL
-	 60cxUn3kerzcj/Benh/R61u0JXV16OQN/nIn8EQmYkJx5wYXB9Iz/f9LiaqtnIMXM+
-	 wtzWy9hUb/poqPK7Bok+tLazmc0HgxBzwZw+K0jc=
-From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	linux-renesas-soc@vger.kernel.org,
-	linux-media@vger.kernel.org,
+	s=arc-20240116; t=1778516912; c=relaxed/simple;
+	bh=XyGGAqtZlzRJBtg/5PYfDkuJsejYjsveP0gpxlus6BM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=grUXFjZrLP1szPSJj6BrPm8RQTnMXFPnxaxYRAlIBg7NVojEO5CAqWouGFf4BcHoF/aMDbl3qV8P1hgd6H/zl9zEPNa6Ft4SnGDo64MAlZKQT+kI7SoDjUih77X1Wly577h12mVOHZhGtC3zDt+8GoZeJ3BBuBt6Aeeg7148Yz4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=u420ESoE; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C648BC2BCF5;
+	Mon, 11 May 2026 16:28:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778516912;
+	bh=XyGGAqtZlzRJBtg/5PYfDkuJsejYjsveP0gpxlus6BM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=u420ESoEVgcwE6erx0RH5zKF6L2dUcMJPl9ctyyKI0DA3zCiGls4Am+PLbpYGJOb3
+	 naP8HKYnKfK391suFpehhDJfRhC+DfeSdLiHWDgsDxJ53rDKGtzMTpzn44KFd8pTqD
+	 ziGLJxynkDfMqZFcOtN4857/q6jENcU1KEBZoIc75Xp+nUzXeNka62UK5STyDxF6yL
+	 iFtD71vlsXBGNzazC5TLsHV6grzLNH9gv+DmIwse96H5bdOiepstyI2Zwz40r/lVdY
+	 i2Yw6HeBe9NedhccX9eII1rjvimrM+F19mm+Jn1QKG4tjUNH6gcoBCv+otZVTsWRXt
+	 DNNGu05Xp5rzg==
+Date: Mon, 11 May 2026 17:28:27 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Josua Mayer <josua@solid-run.com>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jon Nettleton <jon@solid-run.com>,
+	Mikhail Anikin <mikhail.anikin@solid-run.com>,
+	Yazan Shhady <yazan.shhady@solid-run.com>,
+	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH] media: rzg2l-cru: Add MAINTAINERS entry
-Date: Mon, 11 May 2026 17:43:23 +0200
-Message-ID: <20260511154324.141703-1-jacopo.mondi@ideasonboard.com>
-X-Mailer: git-send-email 2.53.0
+Subject: Re: [PATCH v2 1/4] dt-bindings: soc: renesas: Add various SolidRun
+ RZ/G2 based boards
+Message-ID: <20260511-headless-guzzler-4793b285a55a@spud>
+References: <20260511-rzg2-sr-boards-v2-0-82aebbd27891@solid-run.com>
+ <20260511-rzg2-sr-boards-v2-1-82aebbd27891@solid-run.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 5850951191A
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="9V1dWzA5s948okPQ"
+Content-Disposition: inline
+In-Reply-To: <20260511-rzg2-sr-boards-v2-1-82aebbd27891@solid-run.com>
+X-Rspamd-Queue-Id: 175345128A9
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
+X-Spamd-Result: default: False [-3.76 / 15.00];
+	SIGNED_PGP(-2.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
-	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	MIME_GOOD(-0.20)[multipart/signed,text/plain];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
-	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-32394-lists,linux-renesas-soc=lfdr.de];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-32395-lists,linux-renesas-soc=lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[jacopo.mondi@ideasonboard.com,linux-renesas-soc@vger.kernel.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_CC(0.00)[glider.be,gmail.com,kernel.org,solid-run.com,vger.kernel.org];
+	RCPT_COUNT_TWELVE(0.00)[12];
+	MIME_TRACE(0.00)[0:+,1:+,2:~];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[ideasonboard.com:+];
+	MISSING_XM_UA(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[conor@kernel.org,linux-renesas-soc@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,dt];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-renesas-soc];
-	RCPT_COUNT_FIVE(0.00)[5];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,ideasonboard.com:email,ideasonboard.com:mid,ideasonboard.com:dkim,renesas.com:email]
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[microchip.com:email,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,solid-run.com:email,solid-run.com:url]
 X-Rspamd-Action: no action
 
-The CRU was missing a MAINTAINERS entry.
 
-Add it.
+--9V1dWzA5s948okPQ
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
----
- MAINTAINERS | 9 +++++++++
- 1 file changed, 9 insertions(+)
+On Mon, May 11, 2026 at 12:37:47PM +0200, Josua Mayer wrote:
+> Add bindings for various SolidRun boards and System on Module built
+> around Renesas RZ/G2 family of SoCs:
+>=20
+> - RZ/G2L SoM [1]
+> - RZ/V2L SoM [2]
+>   (shares PCB with G2L and has very similar programming model)
+> - RZ/G2LC SoM [3]
+> - RZ/G2UL SoM [4]
+>   (shares PCB with G2LC but programming model differs largely)
+> - HummingBoard IIoT [5] (RZ/G2L, RZ/V2L, RZ/G2LC)
+> - HummingBoard Pro [6] (RZ/G2L, RZ/V2L)
+> - HummingBoard Base (Ripple) [7] (RZ/G2L, RZ/V2L, RZ/G2LC, RZ/G2UL)
+>=20
+> [1] https://www.solid-run.com/embedded-industrial-iot/renesas-rz-family/r=
+z-g2l-som/
+> [2] https://www.solid-run.com/embedded-industrial-iot/renesas-rz-family/r=
+z-v2l-som/
+> [3] https://www.solid-run.com/embedded-industrial-iot/renesas-rz-family/r=
+z-g2lc-som/
+> [4] https://www.solid-run.com/embedded-industrial-iot/renesas-rz-family/r=
+z-g2ul-som/
+> [5] https://www.solid-run.com/embedded-industrial-iot/renesas-rz-family/h=
+ummingboard-rz-series-sbcs/hummingboard-rz-g2l-iot-sbc/
+> [6] https://www.solid-run.com/embedded-industrial-iot/renesas-rz-family/h=
+ummingboard-rz-series-sbcs/hummingboard-rz-g2l-sbc/
+> [7] https://www.solid-run.com/embedded-industrial-iot/renesas-rz-family/h=
+ummingboard-rz-series-sbcs/hummingboard-rz-g2lc-base/
+>=20
+> Signed-off-by: Josua Mayer <josua@solid-run.com>
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index f2be8f02dffb..d5448b82a644 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -22683,6 +22683,15 @@ S:	Supported
- F:	Documentation/devicetree/bindings/timer/renesas,rz-mtu3.yaml
- F:	drivers/counter/rz-mtu3-cnt.c
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
+pw-bot: not-applicable
 
-+RENESAS RZ/G2L / RZ/V2H(P) CRU
-+M:	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-+M:	Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-+S:	Maintained
-+L:	linux-renesas-soc@vger.kernel.org
-+L:	linux-media@vger.kernel.org
-+F:	Documentation/devicetree/bindings/media/renesas,rzg2l-cru.yaml
-+F:	drivers/media/platform/renesas/rzg2l-cru/
-+
- RENESAS RZ/T2H / RZ/N2H A/D DRIVER
- M:	Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>
- L:	linux-iio@vger.kernel.org
---
-2.53.0
+--9V1dWzA5s948okPQ
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCagIDqwAKCRB4tDGHoIJi
+0rJ/AP9BX/NSDxfXT/fKr/K7sOnRq6yJETkIf7cm+JtD0KVfHAD9Ho6t/dbPiybP
+3TnssqUmwF/j7lSAiBg8jl6nE+NchwQ=
+=9gC1
+-----END PGP SIGNATURE-----
+
+--9V1dWzA5s948okPQ--
 
