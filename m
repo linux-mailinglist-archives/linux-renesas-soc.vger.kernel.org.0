@@ -1,46 +1,46 @@
-Return-Path: <linux-renesas-soc+bounces-32355-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-32358-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id eGfmNGecAWqTgQEAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-32355-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 11 May 2026 11:07:51 +0200
+	id gBD1EJScAWoHggEAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-32358-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 11 May 2026 11:08:36 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33E5F50A9A5
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 11 May 2026 11:07:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B280750A9DA
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 11 May 2026 11:08:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 3A131303AAA8
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 11 May 2026 08:59:46 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 69CC5319D6E0
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 11 May 2026 09:00:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B05FA3C4554;
-	Mon, 11 May 2026 08:57:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 027953CD8B8;
+	Mon, 11 May 2026 08:57:46 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 148543C3C12;
-	Mon, 11 May 2026 08:57:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 235873CAE75;
+	Mon, 11 May 2026 08:57:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778489862; cv=none; b=mlbjZsN8GAyVQjAggTZIOQwM30Hj4dqbkaWMB1YrQzRAMX8NAbggpNRZvNlkT6QzNHa0TmY8oiXSzQnVL2cs6SKBbcHbhTFu2I/8QUPBSm5M6TEEbp1+ubo7gQiwaO7MiZ4XkbwPSV97WPzKTYHOkUR0pVXAXD44fRWKqiM8mSE=
+	t=1778489865; cv=none; b=n8YPYv4CtcF5feFKfrOISG38r/N2Hq4PiOeEXMGFFiE4LM+8Qh6ZxRWKHhYmr+DNMMu1J0yRoIbl7xCIUvl/Zik9+Eko/WNnhWgm6ZzHWfJLdLl4rtGvozPDT5IJP+UA5MzO268sr1pRIwyHP8ndLTp5d2AlqEcm+XYkN+AO+OM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778489862; c=relaxed/simple;
-	bh=KjtGe1BQGxipfuBuOYFRkxY7t6hscTJYReI9p1EyeTo=;
+	s=arc-20240116; t=1778489865; c=relaxed/simple;
+	bh=jxtflo7pqLz5vv2Og2F+NhedUGaL5nZobcZN5x5IYz4=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=I4UXNYRTp2jR14Ehe29WJ0aX5IrzC8GhlSSaqo+mmS/XgH6ZchgbU9qiY5igkHGU9o6WgCUZ5l7U2ctDVkxjsvF5ZVl4/jawww9o5inaqwNkNgKWeSMlso8disLatH+2u0LvdRoxrTfmfpxuvaco7tkYk5G6In3BGilCMQE2G/I=
+	 In-Reply-To:To:Cc; b=ULil7zae/adwFxbANfKHY5K1J1uIT18SB4JAwa/YlQr3cnRRpxgBW24Gbh22aL1ZxCnWx3hYbkFdYupDxP8rk4wPQAuBdSEGkrePZe+GATMkjNuuFIjOL8akUbw4GdkyR8jg2erUFkJeSoSshBzcfRN8FuJcLFmG6gyooevQ1so=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; arc=none smtp.client-ip=210.160.252.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
-X-CSE-ConnectionGUID: Gzr1SZuHQwCFh2L9ldp1Ug==
-X-CSE-MsgGUID: goS03OfaQiygx023Yb7gCA==
+X-CSE-ConnectionGUID: XdOujXfpRpGzBYn0DGcwjw==
+X-CSE-MsgGUID: smNM0BcQRkur7ixIzSNV8w==
 Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie6.idc.renesas.com with ESMTP; 11 May 2026 17:52:38 +0900
+  by relmlie6.idc.renesas.com with ESMTP; 11 May 2026 17:52:42 +0900
 Received: from [127.0.1.1] (unknown [10.226.78.135])
-	by relmlir5.idc.renesas.com (Postfix) with ESMTP id B56734010DEB;
-	Mon, 11 May 2026 17:52:35 +0900 (JST)
+	by relmlir5.idc.renesas.com (Postfix) with ESMTP id 487664010E3A;
+	Mon, 11 May 2026 17:52:39 +0900 (JST)
 From: Michael Dege <michael.dege@renesas.com>
-Date: Mon, 11 May 2026 10:52:06 +0200
-Subject: [PATCH net-next v4 03/13] net: renesas: rswitch: fix FWPC2
- register access macros
+Date: Mon, 11 May 2026 10:52:07 +0200
+Subject: [PATCH net-next v4 04/13] net: renesas: rswitch: add register
+ definitions for vlan support
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -49,7 +49,7 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260511-rswitch_add_vlans-v4-3-a5a225f8faae@renesas.com>
+Message-Id: <20260511-rswitch_add_vlans-v4-4-a5a225f8faae@renesas.com>
 References: <20260511-rswitch_add_vlans-v4-0-a5a225f8faae@renesas.com>
 In-Reply-To: <20260511-rswitch_add_vlans-v4-0-a5a225f8faae@renesas.com>
 To: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, 
@@ -61,14 +61,14 @@ To: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
 Cc: netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
  linux-kernel@vger.kernel.org, Michael Dege <michael.dege@renesas.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1778489544; l=2272;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1778489544; l=6223;
  i=michael.dege@renesas.com; s=20251023; h=from:subject:message-id;
- bh=KjtGe1BQGxipfuBuOYFRkxY7t6hscTJYReI9p1EyeTo=;
- b=oUxrm9hLrj2ijwUf308C2le5VQzOE/42ZTzau/IdEfTkoNz2BZGwofYTkg/z/GHm3YrGsoOIk
- Fbbip/jmT82A9nwi04BZDe8O89UJYXio0VClixA/U6vp95qQ5F7Ob0Y
+ bh=jxtflo7pqLz5vv2Og2F+NhedUGaL5nZobcZN5x5IYz4=;
+ b=uBmKWw8wsb7W89oUUlX/upYSiE5oO11K1AAqKfJSDIw4RzgKSrsixrMrljoE1AZzzT+xS2sXv
+ OHc1zHmGffhB5NPTVTPVzn4T5zWDWjKO+u9Ka8hpgJXVdmJlK1s83Ui
 X-Developer-Key: i=michael.dege@renesas.com; a=ed25519;
  pk=gu1rwIcCrAxNMv2I8fIfiQvt51xzZwnQy4Ua/DscQt8=
-X-Rspamd-Queue-Id: 33E5F50A9A5
+X-Rspamd-Queue-Id: B280750A9DA
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [0.14 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
@@ -80,7 +80,7 @@ X-Spamd-Result: default: False [0.14 / 15.00];
 	HAS_LIST_UNSUB(-0.01)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	RCPT_COUNT_TWELVE(0.00)[12];
-	TAGGED_FROM(0.00)[bounces-32355-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-32358-lists,linux-renesas-soc=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
@@ -97,55 +97,242 @@ X-Spamd-Result: default: False [0.14 / 15.00];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[renesas.com:email,renesas.com:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
 X-Rspamd-Action: no action
 
-Fix typo in macro name and remove duplicate macro definition.
+Add missing register and bit definitions for vlan support.
 
 Signed-off-by: Michael Dege <michael.dege@renesas.com>
 ---
- drivers/net/ethernet/renesas/rswitch.h      | 3 +--
- drivers/net/ethernet/renesas/rswitch_l2.c   | 2 +-
- drivers/net/ethernet/renesas/rswitch_main.c | 2 +-
- 3 files changed, 3 insertions(+), 4 deletions(-)
+ drivers/net/ethernet/renesas/rswitch.h | 156 ++++++++++++++++++++++++++++++++-
+ 1 file changed, 152 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/net/ethernet/renesas/rswitch.h b/drivers/net/ethernet/renesas/rswitch.h
-index aa605304fed0..340524d995ac 100644
+index 340524d995ac..e56c15dd4ecd 100644
 --- a/drivers/net/ethernet/renesas/rswitch.h
 +++ b/drivers/net/ethernet/renesas/rswitch.h
-@@ -826,8 +826,7 @@ enum rswitch_gwca_mode {
- #define FWPC1_DDE		BIT(0)
+@@ -7,8 +7,10 @@
+ #ifndef __RSWITCH_H__
+ #define __RSWITCH_H__
  
- #define FWPC2(i)		(FWPC20 + (i) * 0x10)
--#define FWCP2_LTWFW		GENMASK(16 + (RSWITCH_NUM_AGENTS - 1), 16)
--#define FWCP2_LTWFW_MASK	GENMASK(16 + (RSWITCH_NUM_AGENTS - 1), 16)
-+#define FWPC2_LTWFW		GENMASK(16 + (RSWITCH_NUM_AGENTS - 1), 16)
++#include <linux/if_vlan.h>
+ #include <linux/platform_device.h>
+ #include <linux/phy.h>
++#include <net/switchdev.h>
  
- #define FWPBFC(i)		(FWPBFC0 + (i) * 0x10)
- #define FWPBFC_PBDV		GENMASK(RSWITCH_NUM_AGENTS - 1, 0)
-diff --git a/drivers/net/ethernet/renesas/rswitch_l2.c b/drivers/net/ethernet/renesas/rswitch_l2.c
-index 9433cd8adced..709524c8a5c4 100644
---- a/drivers/net/ethernet/renesas/rswitch_l2.c
-+++ b/drivers/net/ethernet/renesas/rswitch_l2.c
-@@ -82,7 +82,7 @@ static void rswitch_update_l2_hw_forwarding(struct rswitch_private *priv)
- 			 *
- 			 * Do not allow L2 forwarding to self for hw port.
- 			 */
--			iowrite32(FIELD_PREP(FWCP2_LTWFW_MASK, fwd_mask | BIT(rdev->port)),
-+			iowrite32(FIELD_PREP(FWPC2_LTWFW, fwd_mask | BIT(rdev->port)),
- 				  priv->addr + FWPC2(rdev->port));
- 		}
+ #include "rcar_gen4_ptp.h"
  
-diff --git a/drivers/net/ethernet/renesas/rswitch_main.c b/drivers/net/ethernet/renesas/rswitch_main.c
-index 3a2bc14e5bd7..e05c42db5f4c 100644
---- a/drivers/net/ethernet/renesas/rswitch_main.c
-+++ b/drivers/net/ethernet/renesas/rswitch_main.c
-@@ -129,7 +129,7 @@ static int rswitch_fwd_init(struct rswitch_private *priv)
- 		iowrite32(FIELD_PREP(FWCP1_LTHFW, all_ports_mask),
- 			  priv->addr + FWPC1(i));
- 		/* Disallow L2 forwarding */
--		iowrite32(FIELD_PREP(FWCP2_LTWFW, all_ports_mask),
-+		iowrite32(FIELD_PREP(FWPC2_LTWFW, all_ports_mask),
- 			  priv->addr + FWPC2(i));
- 		/* Disallow port based forwarding */
- 		iowrite32(0, priv->addr + FWPBFC(i));
+@@ -221,7 +223,7 @@ enum rswitch_reg {
+ 	FWMACTL1	= FWRO + 0x4634,
+ 	FWMACTL2	= FWRO + 0x4638,
+ 	FWMACTL3	= FWRO + 0x463c,
+-	FWMACTL4	= FWRO + 0x4640,
++	FWMACTL40	= FWRO + 0x4640,
+ 	FWMACTL5	= FWRO + 0x4650,
+ 	FWMACTLR	= FWRO + 0x4654,
+ 	FWMACTIM	= FWRO + 0x4660,
+@@ -249,7 +251,7 @@ enum rswitch_reg {
+ 	FWVLANTL0	= FWRO + 0x4910,
+ 	FWVLANTL1	= FWRO + 0x4914,
+ 	FWVLANTL2	= FWRO + 0x4918,
+-	FWVLANTL3	= FWRO + 0x4920,
++	FWVLANTL30	= FWRO + 0x4920,
+ 	FWVLANTL4	= FWRO + 0x4930,
+ 	FWVLANTLR	= FWRO + 0x4934,
+ 	FWVLANTIM	= FWRO + 0x4940,
+@@ -508,7 +510,7 @@ enum rswitch_reg {
+ 	EACTDQMLM	= TARO + 0x010c,
+ 	EAVCC		= TARO + 0x0130,
+ 	EAVTC		= TARO + 0x0134,
+-	EATTFC		= TARO + 0x0138,
++	EARTFC		= TARO + 0x0138,
+ 	EACAEC		= TARO + 0x0200,
+ 	EACC		= TARO + 0x0204,
+ 	EACAIVC0	= TARO + 0x0220,
+@@ -729,6 +731,41 @@ enum rswitch_etha_mode {
+ 
+ #define EAMS_OPS_MASK		EAMC_OPC_OPERATION
+ 
++/* bit field definitions for EAVCC and GWVCC */
++#define VEM			GENMASK(18, 16)
++#define VIM			BIT(0)
++
++/* bit field definitions for EAVTC and GWVTC */
++#define STD			BIT(31)
++#define STP			GENMASK(30, 28)
++#define STV			GENMASK(27, 16)
++#define CTD			BIT(15)
++#define CTP			GENMASK(14, 12)
++#define CTV			GENMASK(11, 0)
++
++/* bit field definitions for EARTFC and GWTTCF */
++#define UT			BIT(8)
++#define SCRT			BIT(7)
++#define SCT			BIT(6)
++#define CRT			BIT(5)
++#define CT			BIT(4)
++#define CSRT			BIT(3)
++#define CST			BIT(2)
++#define RT			BIT(1)
++#define NT			BIT(0)
++
++/* bit field definitions for EARDQDC and GWRDQDC */
++#define DQD			GENMASK(10, 0)
++#define DES_RAM_DP		0x400
++
++enum vlan_egress_mode {
++	NO_VLAN,
++	C_TAG_VLAN,
++	HW_C_TAG_VLAN,
++	SC_TAG_VLAN,
++	HW_SC_TAG_VLAN,
++};
++
+ #define EAVCC_VEM_SC_TAG	(0x3 << 16)
+ 
+ #define MPIC_PIS		GENMASK(2, 0)
+@@ -806,6 +843,22 @@ enum rswitch_gwca_mode {
+ #define CABPPFLC_INIT_VALUE	0x00800080
+ 
+ /* MFWD */
++#define FWGC_SVM		GENMASK(1, 0)
++
++enum switch_vlan_mode {
++	NO_VLAN_MODE,
++	C_TAG,
++	SC_TAG,
++};
++
++/* FWCEPRC2 */
++#define FDMACSLFEF		BIT(19)
++#define FDMACUFEF		BIT(3)
++
++/* FWCEPTC */
++#define EPCS			GENMASK(17, 16)
++#define EPCSD			GENMASK(6, 0)
++
+ #define FWPC0(i)		(FWPC00 + (i) * 0x10)
+ #define FWPC0_LTHTA		BIT(0)
+ #define FWPC0_IP4UE		BIT(3)
+@@ -816,10 +869,13 @@ enum rswitch_gwca_mode {
+ #define FWPC0_IPDSA		BIT(12)
+ #define FWPC0_IPHLA		BIT(18)
+ #define FWPC0_MACDSA		BIT(20)
++#define FWPC0_MACRUDA           BIT(21)
+ #define FWPC0_MACSSA		BIT(23)
+ #define FWPC0_MACHLA		BIT(26)
+ #define FWPC0_MACHMA		BIT(27)
+ #define FWPC0_VLANSA		BIT(28)
++#define FWPC0_VLANRU            BIT(29)
++#define FWPC0_VLANRUS           BIT(30)
+ 
+ #define FWPC1(i)		(FWPC10 + (i) * 0x10)
+ #define FWCP1_LTHFW		GENMASK(16 + (RSWITCH_NUM_AGENTS - 1), 16)
+@@ -847,6 +903,98 @@ enum rswitch_gwca_mode {
+ #define FWMACAGC_MACAGOG	BIT(28)
+ #define FWMACAGC_MACDESOG	BIT(29)
+ 
++/* FWMACTL0 */
++#define FWMACTL0_ED		BIT(16)
++#define FWMACTL0_HLD		BIT(10)
++#define FWMACTL0_DE		BIT(9)
++#define FWMACTL0_SL		BIT(8)
++
++/* FWMACTL3 */
++#define FWMACTL3_DSLV		GENMASK(16 + RSWITCH_NUM_AGENTS - 1, 16)
++#define FWMACTL3_SSLV		GENMASK(RSWITCH_NUM_AGENTS - 1, 0)
++
++/* FWMACTL4 */
++#define FWMACTL4(i)		(FWMACTL40 + (i) * 4)
++#define FWMACTL4_CSDL		GENMASK(6, 0)
++
++/* FWMACTL5 */
++#define FWMACTL5_CME		BIT(21)
++#define FWMACTL5_EME		BIT(20)
++#define FWMACTL5_IPU		BIT(19)
++#define FWMACTL5_IPV		GENMASK(18, 16)
++#define FWMACTL5_DV		GENMASK(6, 0)
++
++/* FWMACTLR */
++#define FWMACTLR_L		BIT(31)
++#define FWMACTLR_LCN		GENMASK(25, 16)
++#define FWMACTLR_LO		BIT(3)
++#define FWMACTLR_LEF		BIT(2)
++#define FWMACTLR_LSF		BIT(1)
++#define FWMACTLR_LF		BIT(0)
++
++/* FWVLANTEC */
++#define VLANTMUE		GENMASK(28, 16)
++
++/* FWVLANTL0 */
++#define VLANED			BIT(16)
++#define VLANHLDL		BIT(10)
++#define VLANSLL			BIT(8)
++
++/* FWVLANTL1 */
++#define VLANVIDL		GENMASK(11, 0)
++
++/* FWVLANTL2 */
++#define VLANSLVL		GENMASK(6, 0)
++
++/* FWVLANTL3 */
++#define FWVLANTL3(i)		(FWVLANTL30 + (i) * 4)
++#define VLANCSDL		GENMASK(6, 0)
++
++/* FWVLANTL4 */
++#define VLANCMEL		BIT(21)
++#define VLANEMEL		BIT(20)
++#define VLANIPUL		BIT(19)
++#define VLANIPVL		GENMASK(18, 16)
++#define VLANDVL			GENMASK(6, 0)
++
++/* FWVLANTLR */
++#define VLANTL			BIT(31)
++#define VLANLO			BIT(3)
++#define VLANLEF			BIT(2)
++#define VLANLSF			BIT(1)
++#define VLANLF			BIT(0)
++
++/* FWVLANTIM */
++#define VLANTR			BIT(1)
++#define VLANTIOG		BIT(0)
++
++/* FWVLANTEM */
++#define VLANTUEN		GENMASK(28, 16)
++#define VLANTEN			GENMASK(12, 0)
++
++/* FWVLANTS */
++#define VLANVIDS		GENMASK(11, 0)
++
++/* FWVLANTSR0 */
++#define VLANTS			BIT(31)
++#define VLANHLDS		BIT(10)
++#define VLANSLS			BIT(8)
++#define VLANSNF			BIT(1)
++#define VLANSEF			BIT(0)
++
++/* FWVLANTSR1 */
++#define VLANSLVS		GENMASK(6, 0)
++
++/* FWVLANTSR2 */
++#define FWVLANTSR2(i)		(FWVLANTSR20 + (i) * 4)
++
++/* FWVLANTSR3 */
++#define VLANCMES		BIT(21)
++#define VLANEMES		BIT(20)
++#define VLANIPUS		BIT(19)
++#define VLANIPVS		GENMASK(18, 16)
++#define VLANDVS			GENMASK(6, 0)
++
+ #define RSW_AGEING_CLK_PER_US	0x140
+ #define RSW_AGEING_TIME		300
+ 
+@@ -904,7 +1052,7 @@ enum DIE_DT {
+ #define INFO1_DV(port_vector)	((u64)(port_vector) << 48ULL)
+ 
+ /* For reception */
+-#define INFO1_SPN(port)		((u64)(port) << 36ULL)
++#define SPN			GENMASK_U64(38, 36)
+ 
+ /* For timestamp descriptor in dptrl (Byte 4 to 7) */
+ #define TS_DESC_TSUN(dptrl)	((dptrl) & GENMASK(7, 0))
 
 -- 
 2.43.0
