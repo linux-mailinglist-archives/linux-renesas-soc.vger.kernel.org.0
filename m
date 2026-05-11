@@ -1,263 +1,207 @@
-Return-Path: <linux-renesas-soc+bounces-32387-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-32388-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 6JXmIkrqAWpHmQEAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-32387-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 11 May 2026 16:40:10 +0200
+	id yOniM9/sAWpHmQEAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-32388-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 11 May 2026 16:51:11 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id E20FA510576
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 11 May 2026 16:40:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3141D51093D
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 11 May 2026 16:51:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 89603308A69A
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 11 May 2026 14:34:35 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id B751A3045456
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 11 May 2026 14:43:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F1B1B3FF889;
-	Mon, 11 May 2026 14:34:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JXQw6eet"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BC6F73FE670;
+	Mon, 11 May 2026 14:43:45 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f172.google.com (mail-vk1-f172.google.com [209.85.221.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FB1B3FF881;
-	Mon, 11 May 2026 14:34:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 268273FE374
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 11 May 2026 14:43:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778510072; cv=none; b=lI6mXqqTsTsvEE+g/7xroc/JHOs0gMFjK255Zt98FpO+syaLSOG1o4wC/q4xh8ID/WIZXY0VGOC2nsUhI0ra4INo4b/13RhPLLLppUVuXgaZOFDxFCE00Tn8hYixYPYRJeS/T/lUyoSNvhlxQTHstvBbuQjJABQGdXhWfX2iHms=
+	t=1778510625; cv=none; b=fQAXyE4bZNaubcqf0rp7Pfo1yNXzIzzisJeDnrHbrDSanrMrMyT2UakXGqXhfyDK9O4znPkBvaSKeaMuMN/Bs7NGv5XKpozYbXv5R1j8o2tYARDWJLSCVBIi+2qkzVzDZgaMxJPfrYBK+Ytgz6OKLI1Efszn2vuf0i9TvBm8hxM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778510072; c=relaxed/simple;
-	bh=NxEdhgVml/9CHOk6VphJBRaD99OlXHF3ZLYM28HI5jA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WW7WnujztRFlHeaOFMMrLduJvj7R3VYDIm9Fs3TZPz2ZWzuaAz5e1OFmjs3MoNGKSeJlAAsTg6Y2M0kqiymfDSlKYRndUkeUeUaJ4vsnRlrzeoQwdQEVACg/6bY97ALYd37Qgg1exyUfSxG4kTDCtCTs77+0ZSVGTWTcYnByKHs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JXQw6eet; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3CB09C2BCFA;
-	Mon, 11 May 2026 14:34:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778510072;
-	bh=NxEdhgVml/9CHOk6VphJBRaD99OlXHF3ZLYM28HI5jA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=JXQw6eetjX/+acIOeyQNxIc7OmLOyw9UoOTz/ssbQc5zk/LhbjkPUteoN3pDQ/F07
-	 dqma62bDpgJGd4ZmPkyqo2eJBuI4xx2DtH8H9lU8dyQSBQeYCjH9Tn8E5nnNLsp6ER
-	 noIP0VIv7kaSd0QImIabgiwnNDlUia7nyXJbEFhnHoJLteMlf9kPv+JiVxNYpkGiTG
-	 2QL7TcXO4sVlk8X5WhVogi4+YaIZY0cLS65VAnQsS2a46Jq5OXl9p+pN3K8JwWSvuA
-	 sXpPQikAoXLk0IlANqg3fCt6TT0Dfeo6qPke41KuRD8LL+pAB9H3xVpf8/w3RIj9Uq
-	 REBrZMrptMWQw==
-Date: Mon, 11 May 2026 20:04:24 +0530
-From: Manivannan Sadhasivam <mani@kernel.org>
-To: Marek Vasut <marek.vasut+renesas@mailbox.org>
-Cc: linux-pci@vger.kernel.org, stable@vger.kernel.org, 
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Koichiro Den <den@valinux.co.jp>, 
-	Lorenzo Pieralisi <lpieralisi@kernel.org>, Magnus Damm <magnus.damm@gmail.com>, 
-	Rob Herring <robh@kernel.org>, Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, 
-	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] PCI: rcar-gen4: Limit Max_Read_Request_Size and
- Max_Payload_Size to 256 Bytes
-Message-ID: <dicudl6knlptqnscyqkedp5zrs4vyosjggysnqsaupxi3g3o4x@rngp35usnurb>
-References: <20260425233845.459175-1-marek.vasut+renesas@mailbox.org>
+	s=arc-20240116; t=1778510625; c=relaxed/simple;
+	bh=YnqJ33I84XVSN+amPM8E1K5ixHc1/5kZeXucJnHeqj8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Krtz1G2RvSKXAAZLZ1I17/SMso8mZ5s1gh2M+O47RYdMUxDc4oANyej6Uj2z6ZrljLvku9EnkQ8VFTiZaaoqorJQsiB6LWt/gbVmHrZlxdtSU5Ljmslohe24nQEZ5G4SokWv/4SfG1iRAyC8d5M4Qa3OQZ+/gCK9cfcPaJextk8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vk1-f172.google.com with SMTP id 71dfb90a1353d-57513ac61f0so1278145e0c.3
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 11 May 2026 07:43:44 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778510623; x=1779115423;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=st99TRUJvP9iusm7HufBndg1A/dlmXWO+RvQR75PMEA=;
+        b=kO9fZ+2Ro2d3oDL0ORq3tk9phJbD/mfetysEgr9kHTrkKW1t/2Wss+tIdk6G2JR8FE
+         C/RrQuIrM/ZMlgt7CwW7vDxCwFZbCFUlAHIDV6tI2x6tzn+pMExahG2pWlfwUtAY3kiu
+         3gpb56ZQRSDSgL+Ow1RiZYo8Cm8MSKf3VlhNFnT2e2qYPe+bE0tFQEx/g7fIz5AZHxpt
+         SpEhRnJSWJlupoXBN8ABoLpQ6i7gGE03zoAVOwfd4vv2x7FQ5V5zosGFn4EbjtjkHlcA
+         gv6wHvVmBWX9Yt0Bx7CmtErrGZ4VqigoIJqZDPB4IxEn3u2PBKUehyjipAlurADuhvqt
+         rX5g==
+X-Forwarded-Encrypted: i=1; AFNElJ+efG3ChmWqvos1gYoo4rXwtCPGEWuNfizlreSWyH3TbhwqmV9I0xaZtfTNVsszaZYUJvyllnjbfVPd7M+xB666RQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxEt4I8e8v5wF8VW0wWiJWkPAXhdo+3baCqpcpXp0a78uuG8NCe
+	O5iNmw1vPPxNjhV0NKVC4SauiINBMl8KbQ+r/zTy/ZbjcW9u+ax+9UAQSfjNcBX4
+X-Gm-Gg: Acq92OEW1oGXqzoFz+aufbY2HHAtFqTxJ0hB9MkbXsgHWa3e8ehMwhbJxM68dh4eeQF
+	soG4JJFD2Hl6m0NMwrbFtUuY3j143J2V4+sOF1MU5rgSDh+vj349rO0rI5arFwNY5U3xvbjtxm7
+	euJlMKbpej4lbDroxK06LFDKju6O06ecUAZ2N0m97I5f9qyzyBm9ytqYH9jZgyQXXzlsAAF2YNl
+	Whmqbifl4JBqbZRqdzgQiZakg5pwIyT2bi97wyU+qzeGXw/D92T8UdInx/DgYF8uW/J1oaT0WgF
+	XO5Sbp1r15hOKLWPA2Y8KBr7L/XzJO2iNMsreeXHxJMFja8v91zFBpLcNGzOF455d+45a9c9Zkp
+	D6iexgUCaoTancA+s0+8Duh51MuCVDfd8BPLKvAwlydQUj+77DbeBaf10uTnt785/22Mc1iDgW1
+	hFDlouwQ0JSxZkUg9MWtqO78IJGbO5F92hDPUP8bYAZbkXbmvHo2O1RjD/9O9A3KFE
+X-Received: by 2002:a05:6122:1684:b0:575:33d4:d100 with SMTP id 71dfb90a1353d-575991e6954mr3892151e0c.13.1778510622960;
+        Mon, 11 May 2026 07:43:42 -0700 (PDT)
+Received: from mail-vk1-f170.google.com (mail-vk1-f170.google.com. [209.85.221.170])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-57586996d3esm6955174e0c.6.2026.05.11.07.43.41
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 11 May 2026 07:43:41 -0700 (PDT)
+Received: by mail-vk1-f170.google.com with SMTP id 71dfb90a1353d-5753a289955so1366453e0c.2
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 11 May 2026 07:43:41 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ8n3zCv7vG90WA8LeES2cy8JNcQW6p2YAwSNWR+FMFmdrjvPP3Qe8/9xjDYLfS1Xnv1EldTl7rIpp0vl9E6sOxX+g==@vger.kernel.org
+X-Received: by 2002:a05:6102:8553:20b0:632:3bd:65ad with SMTP id
+ ada2fe7eead31-63203bd6cdamr2502747137.3.1778510621097; Mon, 11 May 2026
+ 07:43:41 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260425233845.459175-1-marek.vasut+renesas@mailbox.org>
-X-Rspamd-Queue-Id: E20FA510576
+References: <caf5e011a5b3fbdbab8c50d064bc8342212d5cc1.1778505897.git.geert+renesas@glider.be>
+ <f46eff18-4a5c-4c25-a0b7-71cdbd444014@imgtec.com>
+In-Reply-To: <f46eff18-4a5c-4c25-a0b7-71cdbd444014@imgtec.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 11 May 2026 16:43:29 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdW_YbjCfhe=Uf+fPjCiwf6272aNHaOjd8B1HUrkeLJrvA@mail.gmail.com>
+X-Gm-Features: AVHnY4K1p3Sxqu1LsvDjBrECNKZ4-7U0HiQ3AWU71iqzjSPovIWm8-sLEWk57G4
+Message-ID: <CAMuHMdW_YbjCfhe=Uf+fPjCiwf6272aNHaOjd8B1HUrkeLJrvA@mail.gmail.com>
+Subject: Re: [PATCH] Revert "drm/imagination: Warn or error on unsupported hardware"
+To: Matt Coster <Matt.Coster@imgtec.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Marek Vasut <marek.vasut+renesas@mailbox.org>, 
+	Adam Ford <aford173@gmail.com>, Frank Binns <Frank.Binns@imgtec.com>, 
+	Alessio Belle <Alessio.Belle@imgtec.com>, Brajesh Gupta <Brajesh.Gupta@imgtec.com>, 
+	Alexandru Dadu <Alexandru.Dadu@imgtec.com>, Luigi Santivetti <Luigi.Santivetti@imgtec.com>, 
+	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, 
+	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Rspamd-Queue-Id: 3141D51093D
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.16 / 15.00];
+X-Spamd-Result: default: False [0.04 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-32387-lists,linux-renesas-soc=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	RCPT_COUNT_TWELVE(0.00)[13];
+	FREEMAIL_CC(0.00)[linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,linuxfoundation.org,mailbox.org,imgtec.com,lists.freedesktop.org,vger.kernel.org];
+	DMARC_NA(0.00)[linux-m68k.org];
+	RCPT_COUNT_TWELVE(0.00)[17];
 	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[vger.kernel.org,kernel.org,google.com,glider.be,valinux.co.jp,gmail.com,renesas.com];
+	TAGGED_FROM(0.00)[bounces-32388-lists,linux-renesas-soc=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[mani@kernel.org,linux-renesas-soc@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[glider.be:email,mailbox.org:email,valinux.co.jp:email,renesas.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+	FORGED_SENDER_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[geert@linux-m68k.org,linux-renesas-soc@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	RCVD_COUNT_FIVE(0.00)[6];
+	R_DKIM_NA(0.00)[];
+	NEURAL_HAM(-0.00)[-0.916];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[linux-m68k.org:email,gitlab.freedesktop.org:url,mail.gmail.com:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,imgtec.com:email,glider.be:email]
 X-Rspamd-Action: no action
 
-On Sun, Apr 26, 2026 at 01:38:28AM +0200, Marek Vasut wrote:
-> R-Car Gen4 PCIe controller has a hardware limitation of 256 Bytes
-> maximum payload size. The PCIe DMA generates requests of size up
-> to minimum(Max_Read_Request_Size, Max_Payload_Size). Force limit
-> both Max_Read_Request_Size and Max_Payload_Size to 256 Bytes and
-> propagate this limit to all downstream devices.
-> 
-> This limitation can be triggered for example by using an NVMe SSD
-> which does not use host memory buffer, Samsung 980 PRO is such an
-> SSD. Affected SSD reports 'hmpre' field as 0:
-> "
-> $ nvme id-ctrl /dev/nvme0 | grep hmpre
-> hmpre     : 0
-> "
-> 
-> The symptom is a read from the SSD which wraps around at 256 Byte
-> boundary. The test for this symptom can be implemented by writing
-> 512 Byte of random data into the SSD and reading the data back. If
-> the read back data repeat after 256 Bytes, the device is affected.
-> "
-> $ dd if=/dev/urandom of=/tmp/data.bin bs=256 count=2 \
->   dd if=/tmp/data.bin of=/dev/nvme0n1 bs=256 count=2 \
->   dd if=/dev/nvme0n1 bs=256 count=2 of=/tmp/readback.bin
-> "
-> 
-> Expected data:
-> "
-> $ hexdump -vC /tmp/data.bin
-> 00000000  97 81 b7 3b 0e 38 2b 4d  a7 d3 e0 47 ff c2 4b ca
-> 00000010  c1 85 98 f0 4a ac 03 a0  3b ab f3 19 44 dd 06 8b
-> ...
-> 00000100  7a ce 3c b2 e1 d5 d9 11  88 63 10 59 76 3c dc 32 <-- random
-> 00000110  72 32 2a 7d a3 e1 aa 13  7c da 58 a1 7b 21 11 50 <-- data
-> "
-> 
-> Faulty readback, collected without this change in place:
-> "
-> $ hexdump -vC /tmp/readback.bin
-> 00000000  97 81 b7 3b 0e 38 2b 4d  a7 d3 e0 47 ff c2 4b ca <---.
-> 00000010  c1 85 98 f0 4a ac 03 a0  3b ab f3 19 44 dd 06 8b <-. |
-> ...                                                          | |
-> 00000100  97 81 b7 3b 0e 38 2b 4d  a7 d3 e0 47 ff c2 4b ca <-:-+- repeated
-> 00000110  c1 85 98 f0 4a ac 03 a0  3b ab f3 19 44 dd 06 8b <-+--- data
->      ^^^
->       |
->       '--- Repeat starts at offset 0x100 = 256 Bytes
-> "
-> 
-> Fixes: 0d0c551011df ("PCI: rcar-gen4: Add R-Car Gen4 PCIe controller support for host mode")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
-> ---
-> Cc: "Krzysztof Wilczyński" <kwilczynski@kernel.org>
-> Cc: Bjorn Helgaas <bhelgaas@google.com>
-> Cc: Geert Uytterhoeven <geert+renesas@glider.be>
-> Cc: Koichiro Den <den@valinux.co.jp>
-> Cc: Lorenzo Pieralisi <lpieralisi@kernel.org>
-> Cc: Magnus Damm <magnus.damm@gmail.com>
-> Cc: Manivannan Sadhasivam <mani@kernel.org>
-> Cc: Rob Herring <robh@kernel.org>
-> Cc: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-> Cc: linux-kernel@vger.kernel.org
-> Cc: linux-pci@vger.kernel.org
-> Cc: linux-renesas-soc@vger.kernel.org
-> ---
->  drivers/pci/controller/dwc/pcie-rcar-gen4.c | 56 +++++++++++++++++++++
->  1 file changed, 56 insertions(+)
-> 
-> diff --git a/drivers/pci/controller/dwc/pcie-rcar-gen4.c b/drivers/pci/controller/dwc/pcie-rcar-gen4.c
-> index 8b03c42f8c84c..82f0a074a71da 100644
-> --- a/drivers/pci/controller/dwc/pcie-rcar-gen4.c
-> +++ b/drivers/pci/controller/dwc/pcie-rcar-gen4.c
-> @@ -576,6 +576,7 @@ static int r8a779f0_pcie_ltssm_control(struct rcar_gen4_pcie *rcar, bool enable)
->  static void rcar_gen4_pcie_additional_common_init(struct rcar_gen4_pcie *rcar)
->  {
->  	struct dw_pcie *dw = &rcar->dw;
-> +	u16 offset = dw_pcie_find_capability(dw, PCI_CAP_ID_EXP);
->  	u32 val;
->  
->  	val = dw_pcie_readl_dbi(dw, PCIE_PORT_LANE_SKEW);
-> @@ -584,11 +585,66 @@ static void rcar_gen4_pcie_additional_common_init(struct rcar_gen4_pcie *rcar)
->  		val |= BIT(6);
->  	dw_pcie_writel_dbi(dw, PCIE_PORT_LANE_SKEW, val);
->  
-> +	val = dw_pcie_readl_dbi(dw, offset + PCI_EXP_DEVCTL);
-> +	val &= ~(PCI_EXP_DEVCTL_PAYLOAD | PCI_EXP_DEVCTL_READRQ);
-> +	val |= PCI_EXP_DEVCTL_PAYLOAD_256B | PCI_EXP_DEVCTL_READRQ_256B;
-> +	dw_pcie_writel_dbi(dw, offset + PCI_EXP_DEVCTL, val);
+Hi Matt,
 
-Instead of limiting the MRRS/MPS values for all devices through quirks, why
-can't you just limit the Root Port's MPSS value in PCI_EXP_DEVCAP?
+On Mon, 11 May 2026 at 16:06, Matt Coster <Matt.Coster@imgtec.com> wrote:
+> On 11/05/2026 14:28, Geert Uytterhoeven wrote:
+> > Revert commit 1c21f240fbc1e47b94e68abfa2da2c01ed29a74d, as it stopped
+> > the driver from working on various Renesas R-Car SoCs.
+> >
+> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> > ---
+> > DT binding documentation updates were reviewed by the drm/imagination
+> > maintainers[1][2][3], DTS additions were reviewed and/or acked by the
+> > drm/imagination maintainers[4][5][6], and firmware is available[7].
+> > Note that the GPU nodes were not enabled in board DTS files before, as
+> > not having suitable firmware installed under /lib/firmware could trigger
+> > a crash, not directly related to drm/imagination driver support.  This
+> > was fixed only recently in v7.1-rc3[8], so board enablement[9] is now
+> > unblocked.
+>
+> We will freely acknowledge that the sequencing was not ideal here. This
+> patch should probably have been sent before we started accepting DTS
+> changes for those Renesas platforms. However, the purpose of this patch
+> still stands.
+>
+> We're not saying we never want to list all these platforms as
+> "supported", but we don't want to mislead anyone into thinking the GPU
+> on these platforms will function in any meaningful way just because they
+> now have DTS nodes. We were originally convinved to allow these DTS
+> nodes to be added since it would facilitate active development on these
+> platforms, but this does not mean that we as a team have the bandwidth
+> to do that work ourselves at this time.
+>
+> Our main concern is around the UAPI: we don't know for sure that support
+> for these platforms (which are significantly older than anything we
+> currently support) can be correctly implemented without UAPI changes. To
+> that end, we don't want to back ourselves into a corner where the UAPI
+> cannot be updated at a later date.
 
-- Mani
+Automotive life cycles are long...
 
-> +
->  	val = readl(rcar->base + PCIEPWRMNGCTRL);
->  	val |= APP_CLK_REQ_N | APP_CLK_PM_EN;
->  	writel(val, rcar->base + PCIEPWRMNGCTRL);
->  }
->  
-> +static void rcar_gen4_rc_pcie_quirk(struct pci_dev *dev)
-> +{
-> +	static const struct pci_device_id rcar_gen4_pcie_rc_devid = {
-> +		PCI_DEVICE(PCI_VENDOR_ID_RENESAS, 0x0030),
-> +		.class = PCI_CLASS_BRIDGE_PCI_NORMAL, .class_mask = ~0
-> +	};
-> +	struct pci_bus *bus = dev->bus;
-> +	struct pci_dev *bridge;
-> +
-> +	if (pci_is_root_bus(bus))
-> +		bridge = dev;
-> +
-> +	/* Look for the host bridge */
-> +	while (!pci_is_root_bus(bus)) {
-> +		bridge = bus->self;
-> +		bus = bus->parent;
-> +	}
-> +
-> +	if (!bridge)
-> +		return;
-> +
-> +	if (!pci_match_one_device(&rcar_gen4_pcie_rc_devid, bridge))
-> +		return;
-> +
-> +	/*
-> +	 * R-Car Gen4 PCIe controller has a hardware limitation of 256 Bytes
-> +	 * maximum payload size. The PCIe DMA generates requests of size up
-> +	 * to minimum(Max_Read_Request_Size, Max_Payload_Size). Force limit
-> +	 * both Max_Read_Request_Size and Max_Payload_Size to 256 Bytes and
-> +	 * propagate this limit to all downstream devices.
-> +	 *
-> +	 * For details, refer to:
-> +	 * R-Car S4 R19UH0161EJ0130 Rev.1.30 Jun. 16, 2025 or
-> +	 * R-Car V4H R19UH0186EJ0130 Rev.1.30 Apr. 21, 2025 or
-> +	 * R-Car V4M R19UH0217EJ0100 Rev.1.00 Dec. 12, 2025,
-> +	 * chapters 104.1.1 Features and 104.3.9 DMA Transfer
-> +	 * section DMA Read Transfer.
-> +	 */
-> +	if (pcie_get_readrq(dev) > 256) {
-> +		dev_info(&dev->dev, "Limiting MRRS to 256 bytes\n");
-> +		pcie_set_readrq(dev, 256);
-> +	}
-> +
-> +	if (pcie_get_mps(dev) > 256) {
-> +		dev_info(&dev->dev, "Limiting MPS to 256 bytes\n");
-> +		pcie_set_mps(dev, 256);
-> +	}
-> +}
-> +DECLARE_PCI_FIXUP_ENABLE(PCI_ANY_ID, PCI_ANY_ID, rcar_gen4_rc_pcie_quirk);
-> +
->  static void rcar_gen4_pcie_phy_reg_update_bits(struct rcar_gen4_pcie *rcar,
->  					       u32 offset, u32 mask, u32 val)
->  {
-> -- 
-> 2.53.0
-> 
-> 
+> There's a similar mechanism in place in userspace: the user must set an
+> environment variable (PVR_I_WANT_A_BROKEN_VULKAN_DRIVER) to use
+> platforms for which we don't promise API conformance, but just like in
+> the kernel, this is not a compile time option and any user and/or
+> developer can enable it if they know what they're doing.
+>
+> As for "it stopped the driver from working", no it didn't. The driver
+> never really worked on those platforms, at least not in any useful way,
+> and certainly not sufficiently for any non-developer user to benefit in
+> any way from it. The only change is that the user must now acknowledge
+> that this is the case to clarify that they shouldn't expect much (if
+> anything) to work. Just to be explicit, "firmware boots" is a loooooong
+> way from "ooh pretty triangles".
+
+AFAIK, it's working better than just "pretty triangles", e.g. glxgears.
+And people are working on support for more SoCs (both newer and older),
+for which patches (both Linux kernel and MESA) have been posted...
+
+https://gitlab.freedesktop.org/imagination/linux-firmware/-/work_items/13
+
+> Would you prefer a different approach to providing this information to
+> users, perhaps a purely docs-based solution? I'm not convinced that
+> would be as effective at preserving our ability to mutate the UAPI for
+> these as-yet-unsupported platforms.
+
+One can wonder if it's the kernel's job to block the use of this
+hardware by default?
+
+Gr{oetje,eeting}s,
+
+                        Geert
 
 -- 
-மணிவண்ணன் சதாசிவம்
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
