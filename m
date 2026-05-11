@@ -1,301 +1,316 @@
-Return-Path: <linux-renesas-soc+bounces-32412-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-32413-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id +HKyCgA7AmrmpAEAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-32412-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 11 May 2026 22:24:32 +0200
+	id 2KoxAGhEAmorpwEAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-32413-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 11 May 2026 23:04:40 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEEB9515CDC
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 11 May 2026 22:24:26 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 06BB551618E
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 11 May 2026 23:04:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 9B2BD301F5E9
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 11 May 2026 20:21:11 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 8CA153006990
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 11 May 2026 21:04:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 51E1C346E51;
-	Mon, 11 May 2026 20:21:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E312E4B8DD0;
+	Mon, 11 May 2026 21:04:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="VRyBm6lN"
+	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="wSAXakZC"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from PA4PR04CU001.outbound.protection.outlook.com (mail-francecentralazon11013023.outbound.protection.outlook.com [40.107.162.23])
+Received: from TY3P286CU002.outbound.protection.outlook.com (mail-japaneastazon11010049.outbound.protection.outlook.com [52.101.229.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E76E36404B;
-	Mon, 11 May 2026 20:21:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.162.23
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B351634AB14;
+	Mon, 11 May 2026 21:04:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.229.49
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778530871; cv=fail; b=E/L4JSeWy0vcdh0Bj8k9218wgbxBrOVmkXEA00Y5fEJjmCBDYmJN6hcpJYLIVcLz9eJ7pulfvMrg+3vS0poUHLw3IgMr9LVuaA5WCxQvE0g7a0fAOymuasfNwXrdO7bsffQQmPKmeYdrsvltcMh0Y+B3/CLidLly/9W2ggCObC8=
+	t=1778533468; cv=fail; b=WT0kR/8n4JsUjXm5vTuSE8M+bbDSl8HD/MlOhSVgA3maBI9Djkt79Y5RtA2Srvr/ufDmtlHvK2q2gligdB8jH6KtL5DKZyzEr5V8jxwgV7B18s68opTR/lYtoRoC23Cx9kVm0ajegtJAaHyishK5ZJrENhlLxByeHms38djfo3o=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778530871; c=relaxed/simple;
-	bh=gr6IBIrD0Xio9pHudXVsFtz3TpsrnvRfMbk6km1Maew=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=l/AtbHyuyGS+ziAbSWzB/CvUb6jACXt4Pq+UAQwoElyfTi+dpyowVulcVFn8iVYnCC8sDU9OfMBZQltr3O/RMpXGa1O+fDnlHLP8LNdcys9+JKCmVbQH8kBxuGFGQ9dbnDuUsb/FO1Lchf5/rI/2UByAKJA5YClR2H4W7V2IWAA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=VRyBm6lN; arc=fail smtp.client-ip=40.107.162.23
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+	s=arc-20240116; t=1778533468; c=relaxed/simple;
+	bh=1aLb05XW/VzaAyOZ1iiSFxz+t2fegUvaXfPcYE4rp+4=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=jvGV7c8rv3gL4v8xAiec3CmuXgRea3TQJdic1D70mX80GzMqIr905anPRZronUW1vwOjOMDIp/fJtn2sLizWYX4szTJlnPmvU0UzD5hTOmf/uuXY+Q31SZz0bdrmZ1UEu4a3P1mngIJypCAfOklQaNx3Ss1TSIsrpRW+kGraJHg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=wSAXakZC; arc=fail smtp.client-ip=52.101.229.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=QkfglKIO/GgkUhJMsZeR4bF9CxL/oVPBZCw2XfgHJVAPQXAMef5pr0rugEAL0N8FItzp1Xhx/1sO6eiuSQN+Zlpdjb+EBZXDLJaowp+sZNaYtqZ9aCJNLa5EaZEBgWH8aS4kQmJJvBPUpiDMB0QqeTKCzgdo3mm0wN4rFoWbKUjL67vc4YvJmhy3wVq07drKxpPADH8MrQyjlRQvNHAtbTkIMUWn1rqT9uULqXPhjS4iGbNCbIEM8Txp7UBMj4k7TvyBT6O4aUb8l1a+Crnbt2PjRiqAOdjUTezqqGDgdKzCTmScwV31BOm2zzVANnBimmlNYAufH7VhNZGfw31K0A==
+ b=EuuAb3g5gQv/RdQ61jKOnpa3X6s0N+NKBh/JspwtPgvQ5FOH8Dax4xvbQFpbP8G0DVGgoFi44VXLZKTb6+lpKSuoB7zJdSoSKod0ySPZlxBxmwNKFI8oIVHVlttfP2tbVpiKybauvKLhlE2mMfN6yjMvI92tU+FOEnB4BPcV+hlFTd1eSN7XxNIzk4C4hDTXvkojF68dhOllMvYG6KZJA3gtrGn21gCFYLYTLrUKeRRYN/XxsaZI6StBnpbGr+T46eognPnn+9NY0wA8PxHjzDI0IRcTs6qROqGj//XqeccgJuWuGYR1vuoetLqUE5LXfCnW9z8JnagRq+PvoqvfLw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=AT9C+PjPv7nWfgrFUAoiD58Zx4lQsG98OOtkUwHBjt8=;
- b=Q4wSdO1clxoxUocBCBRVoNe4EkfJxgYDrKKZ1NfErfTSuyee1RgMVWcjik+fmquU8d8wlMvNa+/F61wMAkArpHSHN2qBpUloQbanPiXSBKmofqhNzEjUmfS7q1NB9qCcE0S4TvLczIUxRToZ37dnOkrDomQ65+WHPXzrWl7vHtey6+IcDM+e0yHUnAGbCfjgHnovS3pk55c4GAynxFGSfYqFoSqy1vxdSI10S/IfOekDlM9z90q532J8AcurwfGU9LfSfQVQWDmOZuaF0Sz7OjJV4FyNow42KHoYK9AR0YgwfzvvxwpBt0pZc7LLBFymZ9JcoDdakvE/1FLL7QsT0w==
+ bh=UUMDhzuYkBYPS/OY5OfWnr2IcdDlWWYcNVmTwRhF7rM=;
+ b=aqG09N1EFuIGKdEhielMEoOui6LB/WFR+eVjJYgMpsxr0X1qa+gp9tyGQplmNzktrXdvvCqjn/lh4uvJykgH/llhNho1OEN2upo0qhtK/j76Lt0gPiTgiODtfuttN9gw/BiRtgkV/gNQmbuDF/xqs4/bMf3gOcpfy//DO7uXVZrwDOHoQOl+6teBXIB1ztJvk25tJnJ0eRmBKKBJPoXho6BbWRIbt7BvJOIgn1RbM5mrtShCw4kvkAsYlWdVi13S2tdC6ZPdcS9FmWXsARHnejHZVUZDcteAt4k3HvRs1ouFzCyLQ4D9RqOOSfsbwx8w35+BR1N73d4O6N170rSxXA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=AT9C+PjPv7nWfgrFUAoiD58Zx4lQsG98OOtkUwHBjt8=;
- b=VRyBm6lNQhtcvf40/PLUwLu885xmHTkHR9lPc1Ev52OMWP7c7eGGumskN2oH8jTt3Ob2lBgbMMxuNf4QvLh3DZDGmXgKfNxzjQN7/8ecDUp3M3Hs3rOsiNE3H4k5zMBnCqw4PZeFjnKfr3VNgpg+NpF6aeStGUq7+ylOqdJF6f/NNW4earKZbem5HXJQ5rB6AVJ6/dilIi2RfFNaMb1cS0pKfU5FUFLrKv3iGaiH72/naKAp78rdSBKokLceIFKI/mXcr+W73TDouG3NNUGgvSPEbe9X9SrZnMv6vMHV8F7+nkY44Zg2McuVAojrABF94twcsulypZEcSmSqUyeSdg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from PA4PR04MB9366.eurprd04.prod.outlook.com (2603:10a6:102:2a9::8)
- by DU6PR04MB11133.eurprd04.prod.outlook.com (2603:10a6:10:5c4::21) with
+ bh=UUMDhzuYkBYPS/OY5OfWnr2IcdDlWWYcNVmTwRhF7rM=;
+ b=wSAXakZCQFV5R7t18cKBDYzFwbjPwUhF04HfSgi+90OXN5YtEMYMuxV/hVV/c7Na6MJYdoIOomRQoJP5gl1WN4evpLqQP3i6cmP1N6Zih1zuDAlsdmVBwUDeAxQMIdIbtSlHJlf7EIEsEBh9QBbegX9PAn78LhKf8hSUeA/HEVY=
+Received: from TY6PR01MB17377.jpnprd01.prod.outlook.com (2603:1096:405:35b::6)
+ by TY4PR01MB12838.jpnprd01.prod.outlook.com (2603:1096:405:1ea::5) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9891.23; Mon, 11 May
- 2026 20:21:03 +0000
-Received: from PA4PR04MB9366.eurprd04.prod.outlook.com
- ([fe80::75e4:8143:ddbc:6588]) by PA4PR04MB9366.eurprd04.prod.outlook.com
- ([fe80::75e4:8143:ddbc:6588%3]) with mapi id 15.20.9891.021; Mon, 11 May 2026
- 20:21:03 +0000
-Date: Mon, 11 May 2026 16:20:56 -0400
-From: Frank Li <Frank.li@nxp.com>
-To: John Madieu <john.madieu.xa@bp.renesas.com>
-Cc: Vinod Koul <vkoul@kernel.org>, Frank Li <Frank.Li@kernel.org>,
-	Thomas Gleixner <tglx@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	"Claudiu.Beznea" <claudiu.beznea@tuxon.dev>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Cosmin-Gabriel Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>,
-	"john.madieu@gmail.com" <john.madieu@gmail.com>,
-	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
-	"dmaengine@vger.kernel.org" <dmaengine@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCh v3 2/2] dma: sh: rz-dmac: Add DMA ACK signal routing
+ 2026 21:04:23 +0000
+Received: from TY6PR01MB17377.jpnprd01.prod.outlook.com
+ ([fe80::f373:26d6:86c4:6aa3]) by TY6PR01MB17377.jpnprd01.prod.outlook.com
+ ([fe80::f373:26d6:86c4:6aa3%6]) with mapi id 15.20.9891.021; Mon, 11 May 2026
+ 21:04:23 +0000
+From: John Madieu <john.madieu.xa@bp.renesas.com>
+To: Frank Li <Frank.li@nxp.com>
+CC: Vinod Koul <vkoul@kernel.org>, Frank Li <Frank.Li@kernel.org>, Thomas
+ Gleixner <tglx@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, Claudiu.Beznea
+	<claudiu.beznea@tuxon.dev>, Biju Das <biju.das.jz@bp.renesas.com>, Prabhakar
+ Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, Cosmin-Gabriel
+ Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>, "john.madieu@gmail.com"
+	<john.madieu@gmail.com>, "linux-renesas-soc@vger.kernel.org"
+	<linux-renesas-soc@vger.kernel.org>, "dmaengine@vger.kernel.org"
+	<dmaengine@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>
+Subject: RE: [PATCh v3 2/2] dma: sh: rz-dmac: Add DMA ACK signal routing
  support
-Message-ID: <agI6KFUOMxZ1Upfm@lizhi-Precision-Tower-5810>
+Thread-Topic: [PATCh v3 2/2] dma: sh: rz-dmac: Add DMA ACK signal routing
+ support
+Thread-Index: AQHcwrz7giR0TZZcU0CxiqXIcEVt7LYDHuiAgAYkrZCAAD5JAIAAA1yw
+Date: Mon, 11 May 2026 21:04:23 +0000
+Message-ID:
+ <TY6PR01MB1737759B647287B8602EF727AFF382@TY6PR01MB17377.jpnprd01.prod.outlook.com>
 References: <20260402162212.12016-1-john.madieu.xa@bp.renesas.com>
  <20260402162212.12016-3-john.madieu.xa@bp.renesas.com>
  <afzep7hF8uj-jRhc@lizhi-Precision-Tower-5810>
  <TY6PR01MB17377AEC612CA33F43C1F4A8EFF382@TY6PR01MB17377.jpnprd01.prod.outlook.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <TY6PR01MB17377AEC612CA33F43C1F4A8EFF382@TY6PR01MB17377.jpnprd01.prod.outlook.com>
-X-ClientProxiedBy: SA0PR11CA0185.namprd11.prod.outlook.com
- (2603:10b6:806:1bc::10) To PA4PR04MB9366.eurprd04.prod.outlook.com
- (2603:10a6:102:2a9::8)
+ <agI6KFUOMxZ1Upfm@lizhi-Precision-Tower-5810>
+In-Reply-To: <agI6KFUOMxZ1Upfm@lizhi-Precision-Tower-5810>
+Accept-Language: en-US, en-GB
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TY6PR01MB17377:EE_|TY4PR01MB12838:EE_
+x-ms-office365-filtering-correlation-id: f0537800-2300-426c-8439-08deafa0e0eb
+x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|366016|1800799024|7416014|376014|18002099003|11063799003|22082099003|56012099003|38070700021;
+x-microsoft-antispam-message-info:
+ TeofumIUh9X4iWJ0KT0C/i12imEQRAaRxZGvqzTmFkWEUxGtc/wl8r6N07hhNfUXypQJ1bhH3hPtCVYSqf7Mxzbm5ejbuW+1evZEZVxLnJ75PpCRwrCjJG8dlo0bAIinWHWJE8mHUEdX0vnYn5jpj3u5gMa0Uk2x85+62t5ka5B6Vl/PEUt+QSzxkCo7fYtxE98Z4TFkOMteHMYEIDonIuCdyqbv/ycQ7V94JlZJZvdhIkp7KztFaAkSQFhC/fIUxirhwV5GeyTyqq0vhm9ec3FThNm1br9gcG6OXpvapyGRUZw0YP8o4poaq4SZ1cdTz37AWNU3KkiWAxpuIlre5Gmv1cQmMdm9Y3vJbK2STdMPO3itqwLpFFJdY6x57Br3xmXJrm3Ai6V1eBTkiPZTsVjNKx8k4FVMvOkoaiMGvFG5DyxVLg0byq0N48QVvg/VxCOdgDVcNJ8Ju2h3CQzirWKz9KTdIzV8HQQxH+PJ9TwfAGLjxtQbobSCfubVG8cKTc7xGfD5Bio9kMfE2GSrzKjMc3n35keV4/A8u9c9EJg2lCxkTu3kEUghJKZWhHRnkF7lqzFy3SjaLr6mUp28QTCQguoai25rFh+ZLzcrfL92O3VdAPaQcVGlp157mHTFFbtcbdTmzvCcqRl/53KyRiN/f+ezCSDOaGifV6p5/dP3QaS76ToLf819TQjoMYKrVm4cBa8WZHxQEUNoYrkZ4FDSLs6aM6JKlvMQR+VdPWjt/z5S7EWC4mib4YKAh8Kf
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY6PR01MB17377.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(376014)(18002099003)(11063799003)(22082099003)(56012099003)(38070700021);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?us-ascii?Q?a/DUMLmTY12nwt+jNA2O8khJlye4jmWZKXB2o1kGsTwB479JybuhlcLvDbte?=
+ =?us-ascii?Q?zpxm2vR6pXwed//GnbxqcwwRG1MXa3Fw4yF6plbmWneYODhPXmDg77m64fe/?=
+ =?us-ascii?Q?T+6HQRUFZ23pvgdz3bfg6nXuFKgTo/QOj0RSt2W7iwowHVb4V4fxyZ3c3bep?=
+ =?us-ascii?Q?sxIEsj9qNuKZfyduBr9/1s7hnljzTLLSv4Cmyr+H/e84KMc3XYdXAiu85PkB?=
+ =?us-ascii?Q?NUdoEi9eSqj9KgkDHztmYpbQNsGq7BXSz68jGFYoX0Rg8i3DumiEkkB+KLli?=
+ =?us-ascii?Q?OuRLYfN+ootRGTC42xYqu5xIuPvAy98SFvD9sq+FJzCI8Ywee9Bf6/j7LC+L?=
+ =?us-ascii?Q?gmi4WrfC53I1xmbXgLonelU4L1ALlXEdCwh8j/p9EYeBRTo5XnGAMVNIRZAc?=
+ =?us-ascii?Q?PsOg9CJz0PjWkDG2d7iPBqJN9tDBU3Noa9qqXQVNQa1qH6zXFLAgxTwarijx?=
+ =?us-ascii?Q?xtb+QGHG1O1a98nTuklPfwf06GGydXScv46IgsmQMVlUcGynOODBHeIz81SY?=
+ =?us-ascii?Q?PuZh73NMfDa7rNfuPiS0J7zml514Wstt0aFWevVQ2x0yUDJcbUdDxwe1Jma1?=
+ =?us-ascii?Q?OcIq83uLdxDJbCgLTojTW/GKVROVToEJOsd7tNfwhPfcLKgI0zqNNiuw0Ziu?=
+ =?us-ascii?Q?K0ZAt7TLb9SqjhOGRGTSv8gkJfDjCwB5rrvw3zUxyRvCPwTMdmFhbUcsELNy?=
+ =?us-ascii?Q?he6zTz2ArkTB9NHY4tEob/9ZnAgdX6al0JEOKqHYzRFnp5e4YxbWdK/j4Raa?=
+ =?us-ascii?Q?4SQ2WScvhewj+Nh33ou/Ual4lVKJBe02YThr3vJZur3gwtxiei0IYIHYAmnn?=
+ =?us-ascii?Q?VpV6aZSEhWQA11tZjT4R9Oqmusy80aNpBuXlxlJ87LCKCJxn1CoPRQcVvLd4?=
+ =?us-ascii?Q?iSAt5Be7Xqu5Z6xRz0ca8+7KIzssMsTzMh0X7i6R/VKmTj9S7ZGpidWs9UBm?=
+ =?us-ascii?Q?VxeGDEP3c1Otd9I6z5O/d1akdJGhokmf9huZcjP2D/BePgMMLfFqX028EOc9?=
+ =?us-ascii?Q?Smu+8xfscqNk5eyFUdTBZqSZZKdpqxsYfERQ2UYjEqDo87hcwlLjM92/qmeY?=
+ =?us-ascii?Q?dNBM1gBQC52uoW+eEg8PSppnrjCLJr34/x0JLAwg9F6vAYE43Aw9ziKpbSkS?=
+ =?us-ascii?Q?taDMx6RR+xMREbd5aRb21A/E9GMA5TjQZRMgzm+WOgW4gXNmgbL6PZ2Uuzkm?=
+ =?us-ascii?Q?Q2D7HJ1NFoNm7Bm/RgbRa3lfdyre4QjVAptmmLQhSyNaImIIvNjx5IvsM7sO?=
+ =?us-ascii?Q?2Dq1yW/Bt2W2akNlsT8wPjMdn9Ef/I8kjk4gxJ/+buZrVYdBwAN2qSEysNMr?=
+ =?us-ascii?Q?AViE02P8JJApCL2pkJPDHk0ZwHyh7mrlddteVxvK4mcUg+5nHqARHdcL7Moq?=
+ =?us-ascii?Q?tuq+xQM17906WFtieu4rZ8D26fTYInSbEMm1N7jrnf0/46OD0patotFywqmk?=
+ =?us-ascii?Q?e0oghUzMdgxsdhGeytXJ3ZaEEYBeSc5BNndNlQ5X5ZSPGT1zEswzorFIeHNJ?=
+ =?us-ascii?Q?9fZGOhMFsG7a1GQPBgRlFtHiuVA7MF0G59eUY5W2tPH0SzTmCas5PhnyOxUU?=
+ =?us-ascii?Q?YvrwKIDPK/bJ8MxoVJrO5yOBwYVTh+jfAYjQ/d5hMNJXPDhRN9hiwa/JMVdf?=
+ =?us-ascii?Q?nXy0oURA3pZPYwxeEIJ/MPYTIcvliPIt9D6zmGPTJxkfmiikU26r2QeQ/7YQ?=
+ =?us-ascii?Q?6at1sLSzEeLqDQScmEjdetlOw2Jp4gq+oTO8cL9uYBU8UHZrFu4XtVl0eJQ5?=
+ =?us-ascii?Q?TbOnL6JlQ+XMgxgI6mEeWG9gNR0LRy4=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PA4PR04MB9366:EE_|DU6PR04MB11133:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7945b99b-dc29-4f3e-2b9b-08deaf9ad2ce
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|19092799006|366016|52116014|7416014|376014|38350700014|22082099003|56012099003|18002099003|11063799003;
-X-Microsoft-Antispam-Message-Info:
-	zbDhW4rNvD4dz3OqK8W/cl0EV0BzQsdp1oJBcuDx24659BCA03GflAaEA+NOR8xPvR2hcyuQ431jt1y8UNzfGyhccTkrI/y0qqunRveJT3tn+M1MjQieoEhIvpFWNu8B/FXp6qlNFf8lX/zlFsPl7hWrKwuVBhSiPth2SSPnRrIMLhpSgygNJDTtvbhgnZkXjukj/xOgcBQ0vz+CA2k30i4gxH4q9+XR4zBQMDUq5TzmpXgTlvLSS70C+2Xcjk2O7ixWR6tYnKQBX3cKciSB2W9oA+p6ptfJ9LXLEIBdCy3B7ftArn+Hjz7CiWZVMcbCFQprk1LOYbBCJoKJu9tMHwjM2G17ma6YKToX6fu/YiUVtdvF3JlzxXflx7gC8IN5mcfxbXOZf696XVsD38dk8EBTDvXZ8u+l578khMrPe5Skv2qGyhoYtJSXM5LkvFBUDBV7Za5WK6AdjUidQ1gwVBqJalQZKhEsPIEXTtqJUgM6i2foGAOyjs43I+qM9XVW+PHXyFJoKjaWlXCQUEWE5/fCczMNB2kMdXpjLj/kjYBcFBafJ9gLdtGLIFw2mIE0J+9I7fX2WwH6SmkyTrnB/eYmgaW0zTdpIivX6oqIWzR0Oq7CN8UlPACo1z7BzHkVIfZgWtfoT6vrkN0Xanh57cozi/2RMahwW5+t4T0TvzjFEA8YTe+YFyQGhKGcBVB98eOq6tYLTG+ET+4EDsKKvgjcMRScA7ClUxt36k2JQCrz6NkCuXDRhI/HjqhCx4Do
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR04MB9366.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(19092799006)(366016)(52116014)(7416014)(376014)(38350700014)(22082099003)(56012099003)(18002099003)(11063799003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?zfc5WKwYrV1L5OMBVQT0kQwzxaF98kTpYpwjYgyojbMVQLOhtnYe47jPMe3e?=
- =?us-ascii?Q?WFSzqC1YGxBUBjeu5WEeXsa1jqKhfC/9W4xGGvFbnGd35ucSVUNEwxCw7Bvl?=
- =?us-ascii?Q?4tKHfe2sXLRBcYeKI7omDC/Ml1Lx7os5s9tQWog9zE+BJXQusgOrEhFl5yQj?=
- =?us-ascii?Q?c0UrUTwqmdZLvs1Ht3mwx9nX7zodyy9M2g3Cs00Wca4cnQCWM44WfAxnQLA4?=
- =?us-ascii?Q?X6K6qSJgMiyVK7x9iDBDub2JiW3lCvjGMw76blDxL88ENk7gusi49eZsxxqt?=
- =?us-ascii?Q?L2/5ZNnBcK1Nj9HmlnKn2qYyr7oT//G4XS5N1hUpw933o/GZg7PqAOQMcApY?=
- =?us-ascii?Q?J9HFdY0+l1jr0UI/SF9ZNfMtLusfjxF839WbTfQvt3y/xB8UkvVCA2rnsHdU?=
- =?us-ascii?Q?148odVGNrVFNB316ZdJ68pzpmBsmJXeTf7g5Eov7d+sdVybiW2FZH2XT6WKn?=
- =?us-ascii?Q?VOMbKn1G5dHB05ev611pUd/gmscpVWpSCRy3+Pa+ZEZM44RbU8ZuVAoVF8m9?=
- =?us-ascii?Q?P9Kudb6UVq+u0yRx8wTpp4e6pWAYYDquMO3PTuh+urPH3vbG8b7uwbtmRX9r?=
- =?us-ascii?Q?yxymAhPhJMyAWFI1vCLT1pxqlqe7P9AH1UnwJKbJBNQe+3QqO7yQ718c/rSk?=
- =?us-ascii?Q?RkqR/rPDEP9Pcjkae+Fzmf4mQdCPURUEqJVVx5elp3RORnmzEEQG+XvcoBRo?=
- =?us-ascii?Q?kaoVuiffi1i6ERCJRM111J2scNtq6kNzjFUpBpwuSfCFQgoaFVvaU4OcKXpO?=
- =?us-ascii?Q?FigXxWuIiefaT3A5Ebd5H7W5iA6+JaAYlgSW+aHYo3sgMX1oX+e4mkgwR7Qf?=
- =?us-ascii?Q?94Ue9Im90NWvdbd/aZZCq8dpDuC20EUWlNgIGsyWZii/9QEtsu1wB54KyUQv?=
- =?us-ascii?Q?3iDeooCQvb4vTsDeTap4hi/TzpiS3ukFSDtbLPYFkXveqO2oW1wPyLRnu2gB?=
- =?us-ascii?Q?pkFhvPZYUFr9OKAK9aJ/W2PAQtI0TG4q70ONAgHgJmjw9HEZCkE+l+gLZsn3?=
- =?us-ascii?Q?zGBDXVu7I9YcuT2rDDRkJk2UwwB6QX4+Bi7Jl7c12uHZioESlSrV3E2B1rF9?=
- =?us-ascii?Q?FpYEWjqwl3PW0e0ibMXIZ1JSYfsbamEJyD/YxTI4XiK72es33f1sJs66TQQR?=
- =?us-ascii?Q?mfM9hZOkOcwDMdR2u85IxUnTvNaQK7/Hhua4CAKc+N30Ht0Ul8FT8NKrOsxo?=
- =?us-ascii?Q?uAIAPdX1JEvtNxxbFL4gLMHChJZJa2AgE5d+TkZ+DKTCjhEifQynJduyEfAb?=
- =?us-ascii?Q?UziYtVrgoAe4nvg5yrLAxziE50M+1kE6MtnOtOPoJ+cavOVTgFvSRj8VoUNM?=
- =?us-ascii?Q?b0v7w1RmJmOiY44z9Mcj0b0FYWuwAjYD2m+WNGXW1lZy24Ho9taMpCLZuNlM?=
- =?us-ascii?Q?8cq3aI8K75lLMeikYAW0j4lcmC1YayRwmJrdwIPLs51cT6ZG26wOXoatlN9c?=
- =?us-ascii?Q?OInLOArRdNvMp82VMQgNc4tPoucxUGbA2W+py24NYMDEFSbJwsj6nech7OYL?=
- =?us-ascii?Q?fefbwwR/FOlBFnXHjFL7f/4WUW0XvP3xREjwmGc4Z7u0obJZCfvCPGpHleeC?=
- =?us-ascii?Q?NpFN5FMkI2CdLvYXCJUQhFxq8F1rh5PFnsz+np74567wIE3863W+s8Krr1v3?=
- =?us-ascii?Q?i+nOisOc06U1SQaROyip8swvq33jQUDGmY/kTyMAiYfG98RJgN5BsAPQQcTW?=
- =?us-ascii?Q?Qwyy0i8r3s5ukFgFRvsDZnjIl309EsvJJUEfwZVuQqhhRCTS?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7945b99b-dc29-4f3e-2b9b-08deaf9ad2ce
-X-MS-Exchange-CrossTenant-AuthSource: PA4PR04MB9366.eurprd04.prod.outlook.com
+X-OriginatorOrg: bp.renesas.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 May 2026 20:21:03.3109
+X-MS-Exchange-CrossTenant-AuthSource: TY6PR01MB17377.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f0537800-2300-426c-8439-08deafa0e0eb
+X-MS-Exchange-CrossTenant-originalarrivaltime: 11 May 2026 21:04:23.6305
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: AOe9FJslLFjKBAYFd4HjDqn2lhhla0+RO12ZfW/f/Mo5ZBInE4F+00YQoO4fe1P5JwF5dpft4pMEuq8yWi0WCQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU6PR04MB11133
-X-Rspamd-Queue-Id: BEEB9515CDC
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: Eqwu+OHs6Hk6n2DO54pit7JWb9YQhZdiJLT0c4oMp65h70ejJqDLHgDV1+XlHbvhwXR+RYCFP5I6+QCtefWnBLGEbWn0tGepKbjcfbL9cMo=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY4PR01MB12838
+X-Rspamd-Queue-Id: 06BB551618E
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.34 / 15.00];
+X-Spamd-Result: default: False [1.34 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_REJECT(1.00)[cv is fail on i=2];
-	DMARC_POLICY_ALLOW(-0.50)[nxp.com,none];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[nxp.com:s=selector1];
+	DMARC_POLICY_ALLOW(-0.50)[renesas.com,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	R_DKIM_ALLOW(-0.20)[bp.renesas.com:s=selector1];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	FREEMAIL_CC(0.00)[kernel.org,glider.be,renesas.com,tuxon.dev,bp.renesas.com,gmail.com,vger.kernel.org];
-	TAGGED_FROM(0.00)[bounces-32412-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-32413-lists,linux-renesas-soc=lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	TO_DN_EQ_ADDR_SOME(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
 	RCPT_COUNT_TWELVE(0.00)[14];
 	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[nxp.com:+];
+	DKIM_TRACE(0.00)[bp.renesas.com:+];
 	MISSING_XM_UA(0.00)[];
 	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[Frank.li@nxp.com,linux-renesas-soc@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[john.madieu.xa@bp.renesas.com,linux-renesas-soc@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
-	BLOCKLISTDE_FAIL(0.00)[2603:10a6:102:2a9::8:query timed out,100.90.174.1:query timed out];
-	NEURAL_HAM(-0.00)[-1.000];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+	NEURAL_HAM(-0.00)[-1.000];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	REDIRECTOR_URL(0.00)[aka.ms];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[nxp.com:email,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,aka.ms:url,TY6PR01MB17377.jpnprd01.prod.outlook.com:mid,bp.renesas.com:dkim]
 X-Rspamd-Action: no action
 
-On Mon, May 11, 2026 at 05:04:46PM +0000, John Madieu wrote:
-> Hi Frank,
->
-> thanks for your review.
->
-> > -----Original Message-----
-> > From: Frank Li <Frank.li@nxp.com>
-> > Sent: Donnerstag, 7. Mai 2026 20:49
-> > To: John Madieu <john.madieu.xa@bp.renesas.com>
-> > Subject: Re: [PATCh v3 2/2] dma: sh: rz-dmac: Add DMA ACK signal routing
-> > support
-> >
-> >
-> > On Thu, Apr 02, 2026 at 06:22:12PM +0200, John Madieu wrote:
-> > > Some peripherals on RZ/G3E SoCs (SSIU, SPDIF, SCU/SRC, DVC, PFC)
-> > > require explicit ACK signal routing through the ICU for level-based
-> > > DMA handshaking.
-> > >
-> > > Rather than extending the DT binding with an optional second
-> > > #dma-cells (which would require all DMA consumers to supply two cells
-> > > even when ACK routing is not needed), derive the ACK signal number
-> > > directly from the MID/RID request number using the linear mapping
-> > > defined in RZ/G3E hardware manual Table 4.6-28:
-> > >
-> > >   PFC external DMA pins (DREQ0..DREQ4):
-> > >     req_no 0x000-0x004 -> ACK No. 84-88
-> > >
-> > >   SSIU BUSIFs (ssip00..ssip93):
-> > >     req_no 0x161-0x198 -> ACK No. 28-83
-> > >
-> > >   SPDIF (CH0..CH2) + SCU SRC (sr0..sr9) + DVC (cmd0..cmd1):
-> > >     req_no 0x199-0x1b4 -> ACK No. 0-27
-> > >
-> > > ACK routing is programmed when a channel is prepared for transfer and
-> > > cleared when the channel is released or the transfer times out,
-> > > following the same pattern as MID/RID request routing.
-> > >
-> > > Signed-off-by: John Madieu <john.madieu.xa@bp.renesas.com>
-> > > ---
-> > >
-> > > Changes:
-> > >
-> > > v3: No changes
-> > >
-> > > v2:
-> > >  - Drop DMA ACK second cell from DT specifier
-> > >  - Derive ACK signal number in-driver from MID/RID using arithmetic
-> > formulas
-> > >    per ICU Table 4.6-28 (3 linear peripheral groups)
-> > >
-> > >  drivers/dma/sh/rz-dmac.c | 72
-> > > ++++++++++++++++++++++++++++++++++++++++
-> > >  1 file changed, 72 insertions(+)
-> > >
-> > >  static void rz_dmac_prepare_desc_for_memcpy(struct rz_dmac_chan
-> > > *channel)  {
-> > >       struct dma_chan *chan = &channel->vc.chan; @@ -431,6 +489,7 @@
-> > > static void rz_dmac_prepare_descs_for_slave_sg(struct rz_dmac_chan
-> > *channel)
-> > >       channel->lmdesc.tail = lmdesc;
-> > >
-> > >       rz_dmac_set_dma_req_no(dmac, channel->index, channel->mid_rid);
-> > > +     rz_dmac_set_dma_ack_no(dmac, channel->index, channel->dmac_ack);
-> >
-> > I am not familar with your hardware, why ACK folllow req immediately?
-> > suppose ACK happen after transfer done.
->
-> rz_dmac_set_dma_ack_no() does not fire an ACK pulse, it programs a static
-> routing mux in the ICU (ICU_DMACKSELk) that selects which DMAC channel is
-> the source of the ACK line for a given peripheral. It is the symmetric
-> counterpart of ICU_DMAREQSELk programmed by rz_dmac_set_dma_req_no().
->
-> Both registers must be configured before any transfer can happen on
-> the channel: the REQ mux routes the peripheral's request line into
-> the DMAC, the ACK mux routes the DMAC's acknowledge line back to the
-> peripheral. Once the routing is in place, the level-based REQ/ACK
-> handshake itself runs entirely in hardware on every burst, with no
-> driver involvement per transfer.
+Hi Frank,
 
-Supposed these register should belong to dma-engine, but it was located
-into irq, you open a private API to irq chip drivers. Ideally these
-register ownership should move to here.
-
-these routing mux should be in allocate channel callback, not in
-rz_dmac_prepare_descs_for_slave_sg() or in xlate function.
-
-Frank
-
->
-> Maybe should I reword the commit message to make this distinction
-> explicit (routing config vs per-transfer signal).
->
+> -----Original Message-----
+> From: Frank Li <Frank.li@nxp.com>
+> Sent: Montag, 11. Mai 2026 22:21
+> To: John Madieu <john.madieu.xa@bp.renesas.com>
+> Subject: Re: [PATCh v3 2/2] dma: sh: rz-dmac: Add DMA ACK signal routing
+> support
+>=20
+> [You don't often get email from frank.li@nxp.com. Learn why this is
+> important at https://aka.ms/LearnAboutSenderIdentification ]
+>=20
+> On Mon, May 11, 2026 at 05:04:46PM +0000, John Madieu wrote:
+> > Hi Frank,
 > >
-> > If ACK need after req, why not add ack handle in rz_dmac_set_dma_req_no()
-> > directly.
->
-> I would prefer to keep rz_dmac_set_dma_ack_no() as its own helper, to
-> mirror the existing rz_dmac_set_dma_req_no() path. The surrounding
-> infrastructure is already structured around per-routing helpers, and
-> the ACK additions in this patch deliberately follow that pattern:
-> .icu_register_dma_ack/.default_dma_ack_no.
->
-> The two ICU registers also index their fields differently. ICU_DMAkSELy
-> fields are indexed by DMAC channel and carry the peripheral req_no as
-> the value, while ICU_DMACKSELk fields are indexed by the peripheral
-> ack_no and carry the DMAC source channel as the value. Folding ACK
-> into rz_dmac_set_dma_req_no() would mix those two layouts in one helper
-> for no behavioral gain.
->
-> Regards,
-> John
->
->
+> > thanks for your review.
 > >
-> > Frank
-> >
-> > > --
-> > > 2.25.1
+> > > -----Original Message-----
+> > > From: Frank Li <Frank.li@nxp.com>
+> > > Sent: Donnerstag, 7. Mai 2026 20:49
+> > > To: John Madieu <john.madieu.xa@bp.renesas.com>
+> > > Subject: Re: [PATCh v3 2/2] dma: sh: rz-dmac: Add DMA ACK signal
+> > > routing support
 > > >
+> > >
+> > > On Thu, Apr 02, 2026 at 06:22:12PM +0200, John Madieu wrote:
+> > > > Some peripherals on RZ/G3E SoCs (SSIU, SPDIF, SCU/SRC, DVC, PFC)
+> > > > require explicit ACK signal routing through the ICU for
+> > > > level-based DMA handshaking.
+> > > >
+> > > > Rather than extending the DT binding with an optional second
+> > > > #dma-cells (which would require all DMA consumers to supply two
+> > > > cells even when ACK routing is not needed), derive the ACK signal
+> > > > number directly from the MID/RID request number using the linear
+> > > > mapping defined in RZ/G3E hardware manual Table 4.6-28:
+> > > >
+> > > >   PFC external DMA pins (DREQ0..DREQ4):
+> > > >     req_no 0x000-0x004 -> ACK No. 84-88
+> > > >
+> > > >   SSIU BUSIFs (ssip00..ssip93):
+> > > >     req_no 0x161-0x198 -> ACK No. 28-83
+> > > >
+> > > >   SPDIF (CH0..CH2) + SCU SRC (sr0..sr9) + DVC (cmd0..cmd1):
+> > > >     req_no 0x199-0x1b4 -> ACK No. 0-27
+> > > >
+> > > > ACK routing is programmed when a channel is prepared for transfer
+> > > > and cleared when the channel is released or the transfer times
+> > > > out, following the same pattern as MID/RID request routing.
+> > > >
+> > > > Signed-off-by: John Madieu <john.madieu.xa@bp.renesas.com>
+> > > > ---
+> > > >
+> > > > Changes:
+> > > >
+> > > > v3: No changes
+> > > >
+> > > > v2:
+> > > >  - Drop DMA ACK second cell from DT specifier
+> > > >  - Derive ACK signal number in-driver from MID/RID using
+> > > > arithmetic
+> > > formulas
+> > > >    per ICU Table 4.6-28 (3 linear peripheral groups)
+> > > >
+> > > >  drivers/dma/sh/rz-dmac.c | 72
+> > > > ++++++++++++++++++++++++++++++++++++++++
+> > > >  1 file changed, 72 insertions(+)
+> > > >
+> > > >  static void rz_dmac_prepare_desc_for_memcpy(struct rz_dmac_chan
+> > > > *channel)  {
+> > > >       struct dma_chan *chan =3D &channel->vc.chan; @@ -431,6 +489,7
+> > > > @@ static void rz_dmac_prepare_descs_for_slave_sg(struct
+> > > > rz_dmac_chan
+> > > *channel)
+> > > >       channel->lmdesc.tail =3D lmdesc;
+> > > >
+> > > >       rz_dmac_set_dma_req_no(dmac, channel->index,
+> > > > channel->mid_rid);
+> > > > +     rz_dmac_set_dma_ack_no(dmac, channel->index,
+> > > > + channel->dmac_ack);
+> > >
+> > > I am not familar with your hardware, why ACK folllow req immediately?
+> > > suppose ACK happen after transfer done.
+> >
+> > rz_dmac_set_dma_ack_no() does not fire an ACK pulse, it programs a
+> > static routing mux in the ICU (ICU_DMACKSELk) that selects which DMAC
+> > channel is the source of the ACK line for a given peripheral. It is
+> > the symmetric counterpart of ICU_DMAREQSELk programmed by
+> rz_dmac_set_dma_req_no().
+> >
+> > Both registers must be configured before any transfer can happen on
+> > the channel: the REQ mux routes the peripheral's request line into the
+> > DMAC, the ACK mux routes the DMAC's acknowledge line back to the
+> > peripheral. Once the routing is in place, the level-based REQ/ACK
+> > handshake itself runs entirely in hardware on every burst, with no
+> > driver involvement per transfer.
+>=20
+> Supposed these register should belong to dma-engine, but it was located
+> into irq, you open a private API to irq chip drivers. Ideally these
+> register ownership should move to here.
+
+These registers belong to the ICU's MMIO region, along with the
+IRQ/TINT/NMI/ECC machinery owned by the irqchip driver. The established
+pattern is for the irqchip to keep ownership of the whole region and
+export a small entry point for the DMA engine to call into. That pattern
+was introduced by Fabrizio when the irqchip driver landed and adopted
+by Cosmin when chip-specific REQ routing was added to rz-dmac [1].
+
+>=20
+> these routing mux should be in allocate channel callback, not in
+> rz_dmac_prepare_descs_for_slave_sg() or in xlate function.
+
+The prepare-path placement is also pre-existing. The new
+rz_dmac_setset_dma_ack_no() call in this patch sit at the same
+sites, by design, so the REQ and ACK routes share one lifecycle.
+
+Moving the routing setup to device_alloc_chan_resources() is a
+reasonable direction, but it would only make sense if REQ and ACK
+move together, and it would be a refactor of existing and recently
+landed [1] REQ code in the same change. Should we go this way ?
+
+[1] https://lore.kernel.org/all/20260105114445.878262-1-cosmin-gabriel.tani=
+slav.xa@renesas.com/
+
+Regards,
+John
+
+
 
