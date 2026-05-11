@@ -1,467 +1,221 @@
-Return-Path: <linux-renesas-soc+bounces-32362-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-32363-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id UA6kArWlAWpKhAEAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-32362-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 11 May 2026 11:47:33 +0200
+	id KBoPHailAWpKhAEAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-32363-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 11 May 2026 11:47:20 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DD1C50B3FE
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 11 May 2026 11:47:31 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 82A3E50B3E0
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 11 May 2026 11:47:19 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 1271430772A2
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 11 May 2026 09:32:21 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 6592C30508B1
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 11 May 2026 09:32:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EF4CA3BD647;
-	Mon, 11 May 2026 09:32:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="VMkVUGV0"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 38A4A3BD653;
+	Mon, 11 May 2026 09:32:28 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from TYVP286CU001.outbound.protection.outlook.com (mail-japaneastazon11011048.outbound.protection.outlook.com [52.101.125.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vs1-f52.google.com (mail-vs1-f52.google.com [209.85.217.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EE7337C930;
-	Mon, 11 May 2026 09:32:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.125.48
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778491934; cv=fail; b=P9iHFJAeIebKeLsi7B5bjX546u8hu/Ay2LFWS/6JsmeaggqQZ7tpKr2AKCviwsPCD7XACuc5ZPy5tt7o1FUloauIBh/wllgFpeL+PcrAPaqOIQ+GKmwEyO+KiWM7yzklFEbE2drgTdt7o2Bl+2m2pPOc2mQbWOMqNd5l3oCVnE0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778491934; c=relaxed/simple;
-	bh=2eSBku/AL9TRvEChAzmZmGgcdmFtgPUfgpYI9iX6QWo=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=Unwncwx+MyaajBcjXwsvTJf9VTXXGBYZJC863g/qqLnEki9NpdgApVQOMAdFGDxGbRPqOD0GWIV6PerwMOVALsWsVlVpREh7epP3z+BuxmR4vPIhin4W1AS2qaKSisj0pIwYVI/4JgZUM3xmvYQPFV0YXAkIXS2iMw7RpJMYhwk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=VMkVUGV0; arc=fail smtp.client-ip=52.101.125.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=HmsnWyt2wPSkzX9RkPx3V6aIpqNTCAJhEsfa1xsKN7HGnalbWqi0TQOMyj283lOJl20rpi0ZznUHHBSMLoSKapegmE9X3u6c+Jc/pTzfVDyypmGyc49Pb0CWqLjmxe+yiakKLf9xPwl0IAr3wHF4kdLNlCJX20Vwpz4XYPnYeAU2Lh4n8dvGZftfQwj+nvRJIOtchusfUAUdG9VES3OhnZYxsJ5oWpyl00DzsVgp94iwhJ0WTmbXwJ4njzdIbX++s4N1UWKoxbcTna7KMv82eo32DEnYmzu39aewyInxWHyQwyIC7PsWsImDpmxOBTbEeJgciS9VTOI0Xiv9BDSxDw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=+G4nq/Z3ET2dDRWFJL27maDY+peQFavZ6GavVr2zSJE=;
- b=G2XCRsRbjjrYP/eTRm0z+jb4I4E0l9KkCtBQ8BaPkhfR4FBY7Sx6v3Pr74ykDporkCG3Wgz5qPiJlRPUgR3wNJ4LpBULVXNhdEAFaR/MiZFFCT3UVopFU/hjsUIsllEj9OCwjnuheE70iwV+MELjblhDaZjNyf3EXVBAgVYPJacId5E8kkZlCQ61qjApbyl8vD+X0hlWFlRAiNb8SZVqYFHNd4rfeD8aRgii+69BRmDhOwkIabCdxpxFFfHyMjgJxQDw1IlAVwANmauGBw7SyfrGgirlQZnh2Z5bGGh1GLCe41VeTlany59scZ3l8whwqdM9hI5ocYuQduSKhcKSlA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+G4nq/Z3ET2dDRWFJL27maDY+peQFavZ6GavVr2zSJE=;
- b=VMkVUGV0FzWV1o/Imx9ajWegeaGo35B/+UQ0J45fFPLOPvd3xSQ5OxBk2fGfVF5t5eSPSHaqcWERR8edpkP52NyP0vhd/smelpWeA+jysR/s+MQ8ez6JUTKMnk6VBPg+mOeQ0WWcp9fwIzzFxEaW/vmF5yCjdkDrW5KkK4nRaOE=
-Received: from TYRPR01MB14284.jpnprd01.prod.outlook.com (2603:1096:405:21b::6)
- by TY7PR01MB17990.jpnprd01.prod.outlook.com (2603:1096:405:39f::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9891.22; Mon, 11 May
- 2026 09:32:10 +0000
-Received: from TYRPR01MB14284.jpnprd01.prod.outlook.com
- ([fe80::4fad:2240:4042:6338]) by TYRPR01MB14284.jpnprd01.prod.outlook.com
- ([fe80::4fad:2240:4042:6338%5]) with mapi id 15.20.9891.021; Mon, 11 May 2026
- 09:32:10 +0000
-From: Michael Dege <michael.dege@renesas.com>
-To: Paolo Abeni <pabeni@redhat.com>
-CC: "paul@pbarker.dev" <paul@pbarker.dev>, niklas.soderlund
-	<niklas.soderlund@ragnatech.se>, "kuba@kernel.org" <kuba@kernel.org>,
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-	"netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"edumazet@google.com" <edumazet@google.com>,
-	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
-	"andrew+netdev@lunn.ch" <andrew+netdev@lunn.ch>, "davem@davemloft.net"
-	<davem@davemloft.net>
-Subject: RE: [net-next,v3,05/13] net: renesas: rswitch: add exception path for
- packets with unknown dst MAC
-Thread-Topic: [net-next,v3,05/13] net: renesas: rswitch: add exception path
- for packets with unknown dst MAC
-Thread-Index: AQHcwqCTLIBxE/Ei60+bJbh6IMzE0bYIy+zQ
-Date: Mon, 11 May 2026 09:32:10 +0000
-Message-ID:
- <TYRPR01MB14284F0A935F6762E3F9638E782382@TYRPR01MB14284.jpnprd01.prod.outlook.com>
-References: <20260331-rswitch_add_vlans-v3-5-c37f41b1c556@renesas.com>
- <20260402125926.234465-1-pabeni@redhat.com>
-In-Reply-To: <20260402125926.234465-1-pabeni@redhat.com>
-Accept-Language: en-US, en-GB
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TYRPR01MB14284:EE_|TY7PR01MB17990:EE_
-x-ms-office365-filtering-correlation-id: 276d3e30-18ca-4f43-8aa2-08deaf402d4e
-x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|366016|7416014|376014|1800799024|18002099003|22082099003|38070700021|4133799003|56012099003;
-x-microsoft-antispam-message-info:
- lwIn2VjIU+7w/UWF+3rZqjRNMQvn2Kz5dv0HahO2HZaqobsdTz/+55jzbUVFJca8BmMl1VGCuIaW/YM84UPxbIvXAwIGXMVfMQ0hgh4dpcH75XtjkZAA/aFOzFwdyxhbzSZ15pDzcwpw/5cVw3NVgizPLxMUODmwl8iNs+ktWIzn/vv4ZPfjpvJaPNd5BV+/L+VDAcqIpc2898/jZUsOPSKpCPgSHPX4hWjzpRsnj+X2PjbuwqlQ3Nr5acnbqJpvz86qu7/n3YqRrAELde49MhND3JeSZUTcnvu9hajBiSnQuacKz7IV+sZTdDYrUKvRj0oK0wUr3W2SRIkj15nV+ukDwJQnbCyhzTmUkGVsrqZ66OMEycwIel4Dh+ue3aEHDDAt6+bpM1BZLltkrx8vXtiXZfI0w2mFUKXkIu3olYALA4tuXgHjC51iOBNMlb/SXfNjojoG4XGz2Db2BTgLZwo9CYiXWYPrYWcus0hp++VjWSo5Ua3UFrKVose3Lr//DaUW9tHRLjtWL273PQuLNnpNdH3TTzmuWUEdQqlPrBj3iuZ1Gm1KOjLrCLjjx1MAAcem7l0KUrr3ZXAhSwamxJ73kySJDAizKxgyLoq72Drpio3hm9M8gzegm9ENck6o6ZE3TnekNVz7Vkvj6AVQxVsr+oseL1QuTwFAssRKi3rncrBAmag34/Az4e9hs+52nlGQLXZ90z2vDCq3hArdlA==
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYRPR01MB14284.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(376014)(1800799024)(18002099003)(22082099003)(38070700021)(4133799003)(56012099003);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?qCGLX16mwkjSIV2V4ymQMqSWLRqeqXM4EXcq/blYiom5ecr1sN/sehbnpM9j?=
- =?us-ascii?Q?sbKtshmGt1DhEgWAI3RsXoZSl/BqLsQpjVYvqcvAvKYLEQsE40VwDCrcCgrg?=
- =?us-ascii?Q?bexQTP0LeOFWGs1bZ/iwuU0kjMRLzp5peV4Sfc3rI4YlREV6+dNT4KIOXxUl?=
- =?us-ascii?Q?zmNtOjGN4Xo5xKHu/ZWQRpuFibZeKsDcelxdZE+zCL5Q6xK2RwVZ5fLNbtUg?=
- =?us-ascii?Q?XF3CWr0vfqPN+rfyIsj/5MN/H8UTNcqBY7/bIJC8tXh3FPobByP/Dt4tIcIT?=
- =?us-ascii?Q?OYx2vgPFfvfR87F2ElG5jwmnkis7cirYiMi3FQ464SzcH/vJ2/ctORnYlvB8?=
- =?us-ascii?Q?6APbfqbB/vQ2DhS7bbz7Uo9YuI0wWClPi/uuD3lRtpRXn3PedsJXoWH35smT?=
- =?us-ascii?Q?SrVjGS17Jsjjbvea7ciPBGqE5mhdVPpTRF7nMHGt7E2Szj0x7Orn0jcboje3?=
- =?us-ascii?Q?RLzXjMOBrbQjJ3/FXtgjshKX091w/IB9lXygEiFGqGLgXnCTdFbK5RR/eGNA?=
- =?us-ascii?Q?QSvyqutVVQMMu8TjwCyCmGIAVCNN6QC2WOIBxZ3JJFjwq/FOB9btxvusKuKS?=
- =?us-ascii?Q?EpIosyaPwtZI4Zsy0T5CGm+fUpWOTb+lmSMCal+vaBFNbOvwTOcR7Lw1bMFA?=
- =?us-ascii?Q?OVZgomv7OuiwGRWl1uPAe6tsqwO91AqIHMygZQ9LDL/y5pdbuRS68N3Y/2ts?=
- =?us-ascii?Q?pIklf2hYLQB4OWkLylqOmwngfVMQUpv3DmBMukp38ZhwlchPg+yREgl44T1r?=
- =?us-ascii?Q?84Z7torgrwjjI4WRpfff20p6WcZJOFjL8FUn1Tq325sBXnav0zmdYi1kxt1h?=
- =?us-ascii?Q?qeMnjxt7lam6i+FVmZsSv1bI1NVH7BwitOyaoWyQ2QuNbZTnwRClJ4+jc1QA?=
- =?us-ascii?Q?79+JytVemP1ZYcc5U2D0VgkbngWd3CsqlNpECS8zu4fMh7/6GVXYXnEJWx21?=
- =?us-ascii?Q?xXbce15p9iRP96med6V6aNDInn3HrX+SCK9WdnAgm7Z8Q1hiyQRosp+dASE/?=
- =?us-ascii?Q?txRduIE6/AVlehxCf8FygvyNtXcJhozO/oC/WQJWB/x/sAMRr5jsIbHCS9X5?=
- =?us-ascii?Q?DvMdrDFeI/gYiNgUYIDcYEgH0hMt7ToJmw/12909X33oadZcRlWMv597Y4ct?=
- =?us-ascii?Q?B+GhrKiGqrSHH21TrOnARz300VWVlPwK1Ebky7uIVF5gBVp2wHBNQYuCyPM1?=
- =?us-ascii?Q?eHEa4X6q32gdWyod3fX08JTgpTTUakXNnmL4p5q2ga2Iob1y3yNDpJyvFLyl?=
- =?us-ascii?Q?c05ZyiLMCsVoU+uSPbkDFkfF4eksdxsssJkjUo/vhhgu/O35ePQfUiIyyNjr?=
- =?us-ascii?Q?2Kn/n5ujA9Vd6Z/d2XwWfsvXg8Sh3N5CM1O4yAFb/3IES5bWkAYRnB6B4Ldy?=
- =?us-ascii?Q?ICMLTgfiFauN/lEqggpI+gyEaNv4yGHL7uGNDC73fdtQIB2UyirKGhMWbRFS?=
- =?us-ascii?Q?XhVbWIun6iDucvPw1pTQmR/myB+uOKafmFxJZUzNU9DQNP+JbSJcimhKgsMr?=
- =?us-ascii?Q?8l4jdyKM5pz567OgI0wpHISQdGKf+1iQCTLwKloc+LacES0ItH3kupqz2YeN?=
- =?us-ascii?Q?p3VPd6qs6KfhoNNxqiS2yHelwbGkLTGZoOBw+cjBIGPW6k9Q4XWdByZZGreD?=
- =?us-ascii?Q?4TkD5nZDpSvkNokvM+xrAqjKwmFldlEtQCOreUauOf+r7UMqz0ynkWrY41tX?=
- =?us-ascii?Q?lprYcywe1wjGi9Z84l7T3wopsKFqLCBhoKkutvqC4apiez3whINn8gfn3TAf?=
- =?us-ascii?Q?sB+YSmmcCA=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9682E3A257A
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 11 May 2026 09:32:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.52
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778491948; cv=none; b=Mpyk9kahhq+oQmJ6ebNv888yMKXIMPHwqzysSJ83PqmVro4Ffeg6L/OGpGtfoXFL7YmTFGImwzK5OH7CpBMp4vbYqkSRHpjv1fgOpwhI2kcnl8wTrjvzAv6iNwmjPqH1HOe7rp2E1erXBjeDnl8FynJBgA94ZGydkNVOlaOOaXw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778491948; c=relaxed/simple;
+	bh=d9PSxFFxGUfO9bcu4GbUqyZO6ELfnJGEDw8k62X8+NQ=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=t6LElYX8rubOAB/WfGJHhvwC24x4sEHMZ6cEjPfZwvd0DwJvVTGZQ7AEDXOm/rxfBlb13W7Q51zucXUSvYozuWOCQM3duzv6Wf3ojAPtfWZ929z6D8qcelN0VXVOyoZ6XSmhKwSIwdK25KKX6eSFZhUmXCHATkWjDjvFP4xmv4U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vs1-f52.google.com with SMTP id ada2fe7eead31-632a055fa9fso376267137.1
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 11 May 2026 02:32:26 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778491945; x=1779096745;
+        h=cc:to:subject:message-id:date:from:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=8Nrzls/aY5F/88Jsnwy7xDyfA7Q7OHE0DPx4RzZ5fDw=;
+        b=eleHs/jNQ0XNOu0uBdvaM3waqhpFWGQp5AKY8tNQ5+IQYdvwMe6CxIZNPPI4cC8OcP
+         td4AigTGGMQygYlc+zifgY7u4l/AZqXRyzfRf43pvYML/UF8BAPpya8YiIKlIl02YHES
+         XMPWZHSCr2kTOqbF3+LlgWIb4jLnQSEXmCquzEBZcy4Jgjce2I14xsM8Sa+ZskXuEnWx
+         QUkDbnPBRWJC0waulb34lJ46Oz0LWB7nkiECpCclceCAGbtgQd0qVIN/K7JY2LGPLsSP
+         HgJUnEZJ186t040LIWq4hyO2Cy7tHksFSNnlMvC3G30T2wK7lQzP+NYFo6Hy4qQOeCzF
+         0bbA==
+X-Forwarded-Encrypted: i=1; AFNElJ/5Bb3hKRYLKxKU4wP5eiyJZnSFOK7pT4lR/O67IewvWwIEUnBoQiTC930N4W9Gdy7mqPq+OfV9u0KFZ3wHjCnH6g==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwKFcFOS/mpaVkjNbyME55QNuFpgFXUQcEHGFO3g2getikVMnnK
+	0BkOJWVf3fQDUjEd2DdruxsmXQk0Z7zEXwSvUx6Jnpvq3pwgJPl/Ss5W0E2kX9Nz
+X-Gm-Gg: Acq92OG5vWDJ0QGjAQ63H9I77ISvArq3zwmvZAq7vpIfxhfzrFytN+k2srYpKXE9IIV
+	vrjXSDlFEZ6D22slcFegjYULQ8h/Q6jipNJLs7GlsNeFzxqEHAr96I1ba44zbSmCJegZQ7xXU3A
+	W+cbGyXNWCWTpM7rXVgYBzz1YI9Jkjc0fT3/P98FdhgJBswV+TUjNIxrdMXSIpOfbrxKgJyV7wl
+	Vgt2iEbMjxRxAFI8CtSUm6rk2BbskS0WNyTNtWAHAzXZVNWjHl804zlo+raukNg+jjg7EA3fv4o
+	uzYGqylGQMlsHC7Fie5ZehyO+/Sy04SuoI/Qrd7pbcss9YfMO8IljWPlxq2MFHpMBz9uoff6rk/
+	lcj/4p9veJe4ahs4AXcUyG7mm9YP9SG8v7QpV1SiPHv2NotkS493V8E9iVNWu+CXOzqvt8Y006g
+	vz6crNEHgoRWZL9qtsP2HMwIYpGsPugoaQ+Gn0b87Q4J9LHG4MQCUA3e6RJyvmYjop
+X-Received: by 2002:a05:6102:10dc:b0:631:ea6b:23e1 with SMTP id ada2fe7eead31-631ea6b2b6emr1846184137.23.1778491945398;
+        Mon, 11 May 2026 02:32:25 -0700 (PDT)
+Received: from mail-vk1-f174.google.com (mail-vk1-f174.google.com. [209.85.221.174])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-63140035928sm5656124137.4.2026.05.11.02.32.24
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 11 May 2026 02:32:25 -0700 (PDT)
+Received: by mail-vk1-f174.google.com with SMTP id 71dfb90a1353d-57533363201so1253504e0c.0
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 11 May 2026 02:32:24 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ/YIJJ9pZTn/bOfLcTzfTH5c2G3aA1NwZRsouQoApYr++zYI47vBHNMns3UZ9gwgYHielbLYoJQyGq8Z9dmBiK13Q==@vger.kernel.org
+X-Received: by 2002:a05:6122:3d08:b0:56f:2609:cd95 with SMTP id
+ 71dfb90a1353d-575864d866dmr5663907e0c.9.1778491944525; Mon, 11 May 2026
+ 02:32:24 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TYRPR01MB14284.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 276d3e30-18ca-4f43-8aa2-08deaf402d4e
-X-MS-Exchange-CrossTenant-originalarrivaltime: 11 May 2026 09:32:10.5798
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 0sY274TFv+20xbNdWjnZ86Ss5quSZdUSAyhYu6BUUECsAfN6WnCWjtc3I7Mt6jbaqny9ScK+z+1rDTx1U4dGHXkyH/tpB8YYiEnO7e4+vUo=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY7PR01MB17990
-X-Rspamd-Queue-Id: 8DD1C50B3FE
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 11 May 2026 11:32:12 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdX_Y6Sis7776SEjoPZP2NQ8sO7dUbWLF4oCZnWOWQy5vQ@mail.gmail.com>
+X-Gm-Features: AVHnY4J6wptwE4Y5YbQ0RNvAcYZuakxv9GbDOHanQCgeHqKHbSOCIBpnNysMsU8
+Message-ID: <CAMuHMdX_Y6Sis7776SEjoPZP2NQ8sO7dUbWLF4oCZnWOWQy5vQ@mail.gmail.com>
+Subject: Unable to handle kernel NULL pointer dereference in percpu_ref_get()
+To: cgroups@vger.kernel.org, netdev <netdev@vger.kernel.org>
+Cc: linux-riscv <linux-riscv@lists.infradead.org>, 
+	Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Rspamd-Queue-Id: 82A3E50B3E0
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [1.34 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_REJECT(1.00)[cv is fail on i=2];
-	DMARC_POLICY_ALLOW(-0.50)[renesas.com,none];
-	R_DKIM_ALLOW(-0.20)[renesas.com:s=selector1];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+X-Spamd-Result: default: False [-1.46 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-32362-lists,linux-renesas-soc=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[renesas.com:+];
-	MISSING_XM_UA(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[michael.dege@renesas.com,linux-renesas-soc@vger.kernel.org];
+	RCPT_COUNT_THREE(0.00)[4];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,netdev];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[pbarker.dev:email,linux.dev:url,renesas.com:email,renesas.com:dkim,ragnatech.se:email,davemloft.net:email,lunn.ch:email,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+	TAGGED_FROM(0.00)[bounces-32363-lists,linux-renesas-soc=lfdr.de];
+	FROM_HAS_DN(0.00)[];
+	DMARC_NA(0.00)[linux-m68k.org];
+	RCVD_TLS_LAST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_SOME(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[geert@linux-m68k.org,linux-renesas-soc@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	RCVD_COUNT_FIVE(0.00)[6];
+	R_DKIM_NA(0.00)[];
+	NEURAL_HAM(-0.00)[-0.994];
+	TAGGED_RCPT(0.00)[linux-renesas-soc];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[linux-m68k.org:email,mail.gmail.com:mid,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
 X-Rspamd-Action: no action
 
-Hello Paolo,
+Hi all,
 
-Thank you for your comments.
+After merging v7.1-rc3, booting the kernel on RZ/Five hung.
+When retrying with "earlycon keep_bootcon", I managed to catch the
+crash report below.  Unfortunately I could not reproduce it after that,
+hence no bisection result, but perhaps this rings a bell?
 
-> -----Original Message-----
-> From: Paolo Abeni <pabeni@redhat.com>
-> Sent: Thursday, April 2, 2026 2:59 PM
-> To: Michael Dege <michael.dege@renesas.com>
-> Cc: paul@pbarker.dev; niklas.soderlund <niklas.soderlund@ragnatech.se>; k=
-uba@kernel.org; Yoshihiro
-> Shimoda <yoshihiro.shimoda.uh@renesas.com>; netdev@vger.kernel.org; linux=
--kernel@vger.kernel.org;
-> edumazet@google.com; pabeni@redhat.com; linux-renesas-soc@vger.kernel.org=
-; andrew+netdev@lunn.ch;
-> davem@davemloft.net
-> Subject: Re: [net-next,v3,05/13] net: renesas: rswitch: add exception pat=
-h for packets with unknown
-> dst MAC
->
-> This is an AI-generated review of your patch. The human sending this emai=
-l has considered the AI
-> review valid, or at least plausible.
->
-> For local reproduction steps see
-> https://netdev-ai.bots.linux.dev/ai-
-> local.html&data=3D05%7C02%7Cmichael.dege%40renesas.com%7Cb2d0350e94034e87=
-022808de90b7b3a4%7C53d82571da19
-> 47e49cb4625a166a4a2a%7C0%7C0%7C639107315835518827%7CUnknown%7CTWFpbGZsb3d=
-8eyJFbXB0eU1hcGkiOnRydWUsIlYi
-> OiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7=
-C%7C&sdata=3DqrJsW%2FuZLYIEdu93
-> AEAhZYgWm%2BcbSdguzJUvsjy7NFE%3D&reserved=3D0
-> ---
-> net: renesas: rswitch: add exception path for packets with unknown dst MA=
-C
->
-> This commit creates a shared RX queue for the exception path to handle pa=
-ckets with unknown MAC
-> addresses that cannot be processed by HW forwarding. The queue receives p=
-ackets with unknown src/dst
-> addresses and forwards them to the CPU for MAC learning.
->
-> > diff --git a/drivers/net/ethernet/renesas/rswitch.h
-> > b/drivers/net/ethernet/renesas/rswitch.h
-> > index 15d3fa48b0e3..bf123b564ed1 100644
-> > --- a/drivers/net/ethernet/renesas/rswitch.h
-> > +++ b/drivers/net/ethernet/renesas/rswitch.h
-> > @@ -1148,6 +1148,7 @@ struct rswitch_gwca {
-> >     struct rswitch_gwca_queue *queues;
-> >     int num_queues;
-> >     struct rswitch_gwca_queue ts_queue;
-> > +   struct rswitch_gwca_queue *l2_shared_rx_queue;
-> >     DECLARE_BITMAP(used, RSWITCH_MAX_NUM_QUEUES);
-> >     u32 tx_irq_bits[RSWITCH_NUM_IRQ_REGS];
-> >     u32 rx_irq_bits[RSWITCH_NUM_IRQ_REGS];
-> > diff --git a/drivers/net/ethernet/renesas/rswitch_main.c
-> > b/drivers/net/ethernet/renesas/rswitch_main.c
-> > index d404bc41bd1e..3c142fa3c810 100644
-> > --- a/drivers/net/ethernet/renesas/rswitch_main.c
-> > +++ b/drivers/net/ethernet/renesas/rswitch_main.c
-> > @@ -680,6 +680,34 @@ static int rswitch_rxdmac_init(struct rswitch_priv=
-ate *priv, unsigned int
-> index)
-> >     return rswitch_gwca_queue_ext_ts_format(ndev->dev.parent, priv,
-> > rdev->rx_queue);  }
-> >
-> > +static int rswitch_shared_rx_queue_alloc(struct rswitch_private
-> > +*priv) {
-> > +   struct rswitch_gwca *gwca =3D &priv->gwca;
-> > +   struct device *dev =3D &priv->pdev->dev;
-> > +
-> > +   int err;
-> > +
-> > +   gwca->l2_shared_rx_queue =3D rswitch_gwca_get(priv);
-> > +   if (!gwca->l2_shared_rx_queue)
-> > +           return -EBUSY;
-> > +
-> > +   err =3D rswitch_gwca_queue_alloc(NULL, priv, gwca->l2_shared_rx_que=
-ue, false, RX_RING_SIZE);
-> > +   if (err < 0) {
-> > +           rswitch_gwca_put(priv, gwca->l2_shared_rx_queue);
-> > +           return err;
-> > +   }
-> > +
-> > +   return rswitch_gwca_queue_ext_ts_format(dev, priv,
-> > +gwca->l2_shared_rx_queue); }
-> > +
-> > +static void rswitch_shared_rx_queue_free(struct rswitch_private
-> > +*priv) {
-> > +   struct rswitch_gwca *gwca =3D &priv->gwca;
-> > +
-> > +   rswitch_gwca_queue_free(&priv->pdev->dev, gwca->l2_shared_rx_queue)=
-;
-> > +   rswitch_gwca_put(priv, gwca->l2_shared_rx_queue); }
-> > +
-> >  static int rswitch_gwca_hw_init(struct rswitch_private *priv)  {
-> >     unsigned int i;
-> > @@ -717,6 +745,12 @@ static int rswitch_gwca_hw_init(struct rswitch_pri=
-vate *priv)
-> >                     return err;
-> >     }
-> >
-> > +   err =3D rswitch_shared_rx_queue_alloc(priv);
-> > +   if (err < 0) {
-> > +           rswitch_shared_rx_queue_free(priv);
-> > +           return err;
-> > +   }
->
-> Does this cause a NULL pointer dereference if rswitch_shared_rx_queue_all=
-oc() fails? When
-> rswitch_gwca_queue_alloc() fails internally (e.g., under memory pressure =
-during netdev_alloc_frag()),
-> the 'out:' label inside
-> rswitch_gwca_queue_alloc() already calls rswitch_gwca_queue_free(), which=
- sets
-> gq->rx_bufs =3D NULL and gq->rx_ring =3D NULL.
->
-> Then rswitch_shared_rx_queue_alloc() calls rswitch_gwca_put() and returns=
- error. The caller
-> rswitch_gwca_hw_init() then calls rswitch_shared_rx_queue_free(), which c=
-alls
-> rswitch_gwca_queue_free() a second time.
->
-> In this second call, gq->rx_bufs is NULL but gq->ring_size is still RX_RI=
-NG_SIZE, so the loop in
-> rswitch_gwca_queue_free():
->
->     for (i =3D 0; i < gq->ring_size; i++)
->         skb_free_frag(gq->rx_bufs[i])
->
-> dereferences NULL (gq->rx_bufs[i] =3D NULL[i]). This causes a kernel NULL=
- pointer dereference crash
-> during device probe under memory pressure.
->
-> Should the cleanup not call rswitch_shared_rx_queue_free() when
-> rswitch_shared_rx_queue_alloc() fails, since the alloc function already p=
-erforms partial cleanup
-> internally?
+    Unable to handle kernel NULL pointer dereference at virtual
+address 0000000000000000
+    Current swapper/0 pgtable: 4K pagesize, 39-bit VAs, pgdp=0x00000000494f7000
+    [0000000000000000] pgd=0000000000000000, p4d=0000000000000000,
+pud=0000000000000000
+    Oops [#1]
+    CPU: 0 UID: 0 PID: 1 Comm: swapper/0 Not tainted
+7.1.0-rc3-rzfive-02022-ge48a16cf2dd1 #515 PREEMPT
+    Hardware name: Renesas SMARC EVK based on r9a07g043f01 (DT)
+    epc : percpu_ref_get+0x32/0x40
+     ra : percpu_ref_get+0x10/0x40
+    epc : ffffffff80089562 ra : ffffffff80089540 sp : ffffffc60000bb10
+     gp : ffffffff812ea908 tp : ffffffd6018c9a00 t0 : ffffffd601997800
+     t1 : ffffffff80df6a2f t2 : 69676552203a5445 s0 : ffffffc60000bb30
+     s1 : ffffffff81291f18 a0 : ffffffff81291f18 a1 : 0000000000000002
+     a2 : 0000000000000000 a3 : 0000000000000001 a4 : 0000000000000000
+     a5 : 0000000200000022 a6 : 0000000000000508 a7 : 0000000000000038
+     s2 : ffffffff8128f4f8 s3 : 0000000000001000 s4 : ffffffff812c9978
+     s5 : 0000000000000010 s6 : 0000000000000000 s7 : ffffffff812ee3f8
+     s8 : ffffffff80a21e58 s9 : 0000000000000008 s10: ffffffff808000aa
+     s11: 0000000000000000 t3 : ffffffff812fd06f t4 : ffffffff812fd06f
+     t5 : ffffffff812fd070 t6 : ffffffd6018aaa7c ssp : 0000000000000000
+    status: 0000000200000100 badaddr: 0000000000000000 cause: 000000000000000d
+    [<ffffffff80089562>] percpu_ref_get+0x32/0x40
+    [<ffffffff8008eac8>] cgroup_sk_alloc+0x40/0x6e
+    [<ffffffff8055ae8a>] sk_alloc+0xb4/0xdc
+    [<ffffffff805b7718>] __netlink_create+0x32/0x8a
+    [<ffffffff805b984a>] __netlink_kernel_create+0x60/0x182
+    [<ffffffff80584492>] rtnetlink_net_init+0x4e/0x7a
+    [<ffffffff8056aacc>] ops_init+0xc6/0xf8
+    [<ffffffff8056bc3c>] register_pernet_operations+0xd0/0x148
+    [<ffffffff8056bce2>] register_pernet_subsys+0x2e/0x48
+    [<ffffffff8082ccb4>] rtnetlink_init+0x18/0x54
+    [<ffffffff8082d27c>] netlink_proto_init+0x11c/0x140
+    [<ffffffff8080100a>] do_one_initcall+0x70/0x13c
+    [<ffffffff808013b2>] kernel_init_freeable+0x274/0x276
+    [<ffffffff806bda22>] kernel_init+0x1e/0x12a
+    [<ffffffff8000d368>] ret_from_fork_kernel+0x10/0xa2
+    [<ffffffff806c37f6>] ret_from_fork_kernel_asm+0x16/0x18
+    Code: 00e7 20ef d9fe 60e2 6442 64a2 6105 8082 77f3 1001 (6314) 8b89
+    ---[ end trace 0000000000000000 ]---
+    note: swapper/0[1] exited with irqs disabled
+    BUG: sleeping function called from invalid context at
+include/linux/percpu-rwsem.h:51
+    in_atomic(): 0, irqs_disabled(): 0, non_block: 0, pid: 1, name: swapper/0
+    preempt_count: 0, expected: 0
+    RCU nest depth: 2, expected: 0
+    CPU: 0 UID: 0 PID: 1 Comm: swapper/0 Tainted: G      D
+7.1.0-rc3-rzfive-02022-ge48a16cf2dd1 #515 PREEMPT
+    Tainted: [D]=DIE
+    Hardware name: Renesas SMARC EVK based on r9a07g043f01 (DT)
+    Call Trace:
+    [<ffffffff8000fab6>] dump_backtrace+0x1c/0x24
+    [<ffffffff80001226>] show_stack+0x2a/0x34
+    [<ffffffff8000b57a>] dump_stack_lvl+0x32/0x4a
+    [<ffffffff8000b5a6>] dump_stack+0x14/0x1c
+    [<ffffffff8003861a>] __might_resched+0x110/0x11a
+    [<ffffffff80038678>] __might_sleep+0x54/0x60
+    [<ffffffff8002382e>] exit_signals+0x1e/0x140
+    [<ffffffff80019858>] do_exit+0x14a/0x642
+    [<ffffffff80019e24>] __riscv_sys_exit+0x0/0x1c
+    [<ffffffff8000f50a>] die+0xdc/0xea
+    [<ffffffff800015d4>] die_kernel_fault+0x1da/0x1e6
+    [<ffffffff80012d20>] no_context+0x38/0x40
+    [<ffffffff80012db2>] handle_page_fault+0x5e/0x23c
+    [<ffffffff806bc9f8>] do_page_fault+0x1e/0x36
+    [<ffffffff806c36da>] handle_exception+0x15e/0x16a
+    [<ffffffff80089562>] percpu_ref_get+0x32/0x40
+    [<ffffffff8008eac8>] cgroup_sk_alloc+0x40/0x6e
+    [<ffffffff8055ae8a>] sk_alloc+0xb4/0xdc
+    [<ffffffff805b7718>] __netlink_create+0x32/0x8a
+    [<ffffffff805b984a>] __netlink_kernel_create+0x60/0x182
+    [<ffffffff80584492>] rtnetlink_net_init+0x4e/0x7a
+    [<ffffffff8056aacc>] ops_init+0xc6/0xf8
+    [<ffffffff8056bc3c>] register_pernet_operations+0xd0/0x148
+    [<ffffffff8056bce2>] register_pernet_subsys+0x2e/0x48
+    [<ffffffff8082ccb4>] rtnetlink_init+0x18/0x54
+    [<ffffffff8082d27c>] netlink_proto_init+0x11c/0x140
+    [<ffffffff8080100a>] do_one_initcall+0x70/0x13c
+    [<ffffffff808013b2>] kernel_init_freeable+0x274/0x276
+    [<ffffffff806bda22>] kernel_init+0x1e/0x12a
+    [<ffffffff8000d368>] ret_from_fork_kernel+0x10/0xa2
+    [<ffffffff806c37f6>] ret_from_fork_kernel_asm+0x16/0x18
+    Kernel panic - not syncing: Attempted to kill init! exitcode=0x0000000b
+    ---[ end Kernel panic - not syncing: Attempted to kill init!
+exitcode=0x0000000b ]---
 
-I reworked this.
->
-> > +
-> >     return rswitch_gwca_change_mode(priv, GWMC_OPC_OPERATION);  }
->
-> [ ... ]
->
-> > @@ -1513,6 +1564,14 @@ static int rswitch_serdes_set_params(struct rswi=
-tch_device *rdev)
-> >     return phy_set_speed(rdev->serdes, rdev->etha->speed);  }
-> >
-> > +static void rswitch_etha_set_exception_path(struct rswitch_private
-> > +*priv) {
-> > +   iowrite32(FDMACUFEF, priv->addr + FWCEPRC2);
-> > +   iowrite32(FIELD_PREP(EPCS, GWCA_INDEX) |
-> > +             FIELD_PREP(EPCSD, priv->gwca.l2_shared_rx_queue->index),
-> > +             priv->addr + FWCEPTC);
-> > +}
-> > +
->
-> [ ... ]
->
-> Looking at rswitch_init() in the existing code:
->
->     err =3D rswitch_gwca_hw_init(priv);
->     if (err)
->         goto err_gwca_hw_init;
->
->     err =3D rswitch_ether_port_init_all(priv);
->     if (err)
->         goto err_ether_port_init_all;
->
->     err_ether_port_init_all:
->         rswitch_gwca_hw_deinit(priv);
->
->     err_gwca_hw_init:
->
-> When rswitch_gwca_hw_init() succeeds (allocating the shared RX queue via
-> rswitch_shared_rx_queue_alloc()), but a subsequent initialization step fa=
-ils (e.g.,
-> rswitch_ether_port_init_all() or register_netdev()), does the error path =
-leak the shared RX queue?
->
-> The error path at 'err_ether_port_init_all:' only calls rswitch_gwca_hw_d=
-einit(), which merely changes
-> the GWCA hardware mode. It does NOT call rswitch_shared_rx_queue_free() t=
-o release the DMA memory
-> (dma_alloc_coherent), rx_bufs (kzalloc), and page fragments allocated by
-> rswitch_shared_rx_queue_alloc(). These are not device-managed allocations=
-.
->
-> Should the cleanup call rswitch_shared_rx_queue_free() before or after rs=
-witch_gwca_hw_deinit()?
+Thanks!
 
-Yes, I reworked this as well.
->
-> [ ... ]
->
-> > @@ -952,15 +987,31 @@ static int rswitch_poll(struct napi_struct *napi,=
- int budget)
-> >     return 0;
-> >  }
-> >
-> > -static void rswitch_queue_interrupt(struct net_device *ndev)
-> > +static void rswitch_queue_interrupt(struct rswitch_private *priv,
-> > +struct rswitch_gwca_queue *gq)
-> >  {
-> > -   struct rswitch_device *rdev =3D netdev_priv(ndev);
-> > +   struct rswitch_ext_ts_desc *desc;
-> > +   struct rswitch_device *rdev;
-> > +   struct net_device *ndev;
-> > +   u32 spn;
-> > +
-> > +   if (gq->index =3D=3D priv->gwca.l2_shared_rx_queue->index) {
-> > +           desc =3D &gq->rx_ring[gq->cur];
-> > +           spn =3D FIELD_GET(SPN, desc->info1);
-> > +           ndev =3D priv->rdev[spn]->ndev;
-> > +           rdev =3D netdev_priv(ndev);
-> > +           gq->ndev =3D ndev;
-> > +           rdev->rx_queue =3D gq;
->
-> Can this permanently break per-port RX processing? When a shared RX queue=
- interrupt fires for a port,
-> rswitch_queue_interrupt() overwrites
-> rdev->rx_queue to point to the shared queue (gq) instead of the port's
-> per-port RX queue. This assignment is never reversed. After this point:
->
-> (1) rswitch_poll() -> rswitch_rx() processes from rdev->rx_queue which no=
-w points to the shared queue,
-> so the per-port RX queue is never drained.
->
-> (2) When NAPI completes in rswitch_poll(), it re-enables rdev->rx_queue->=
-index (the shared queue
-> index) instead of the original per-port RX queue index.
->
-> (3) The per-port RX queue IRQ is never re-enabled by NAPI completion (rsw=
-itch_enadis_data_irq only re-
-> enables rdev->rx_queue->index and l2_shared_rx_queue->index, which are no=
-w the same):
->
-> rswitch_poll():
->     if (napi_complete_done(napi, budget - quota)) {
->         spin_lock_irqsave(&priv->lock, flags);
->         rswitch_enadis_data_irq(priv, rdev->tx_queue->index, true);
->         rswitch_enadis_data_irq(priv, rdev->rx_queue->index, true);
->         rswitch_enadis_data_irq(priv, priv->gwca.l2_shared_rx_queue->inde=
-x, true);
->         ...
->     }
->
-> This means the per-port RX queue becomes permanently orphaned after the f=
-irst shared-queue packet for
-> that port, causing packet loss for all regular
-> (non-exception-path) traffic on that port.
->
-> Should the code save and restore the original rdev->rx_queue, or use a se=
-parate mechanism to process
-> shared queue packets without overwriting the per-port queue pointer?
+Gr{oetje,eeting}s,
 
-I added caching of the original rdev->rx_queue.
+                        Geert
 
-Best regards,
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-Michael
->
-> > +   } else {
-> > +           rdev =3D netdev_priv(gq->ndev);
-> > +   }
-> > +
-> > +
-> > +   if (napi_schedule_prep(&rdev->napi)) {
-> > +           spin_lock(&priv->lock);
-> > +           rswitch_enadis_data_irq(priv, rdev->tx_queue->index, false)=
-;
-> > +           rswitch_enadis_data_irq(priv, rdev->rx_queue->index, false)=
-;
-> > +           rswitch_enadis_data_irq(priv, priv->gwca.l2_shared_rx_queue=
-->index, false);
-> > +           spin_unlock(&priv->lock);
-> >             __napi_schedule(&rdev->napi);
-> >     }
-> >  }
->
-> [ ... ]
-
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
