@@ -1,683 +1,301 @@
-Return-Path: <linux-renesas-soc+bounces-32411-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-32412-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id iGSuAGItAmq/ogEAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-32411-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 11 May 2026 21:26:26 +0200
+	id +HKyCgA7AmrmpAEAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-32412-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 11 May 2026 22:24:32 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61DAD51518F
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 11 May 2026 21:26:25 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id BEEB9515CDC
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 11 May 2026 22:24:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 7B7D130E0021
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 11 May 2026 19:19:53 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 9B2BD301F5E9
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 11 May 2026 20:21:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 126EE4D8D91;
-	Mon, 11 May 2026 19:19:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 51E1C346E51;
+	Mon, 11 May 2026 20:21:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KGasw8KM"
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="VRyBm6lN"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from PA4PR04CU001.outbound.protection.outlook.com (mail-francecentralazon11013023.outbound.protection.outlook.com [40.107.162.23])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18E104D2ECE
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 11 May 2026 19:19:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778527160; cv=none; b=sWjT09mcXyahFSKa1NyFcIj2WaWyRziZWVBN+FawTNHGDXO7Hau00vXfMm/i5itVRrMvlAB/a4qWXq+GnJkklBetdKA5t89f63dIKW1eP17Sv8ViPoTayYWZMkYRy2NPZHr+y09eqiSMzC4roft9mk/X1VAI2n9MhtEAOvNa4Hg=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778527160; c=relaxed/simple;
-	bh=ZigNsJmaRyQgS7Nx1ftxPvxo5zNU4Rbsp5V4RUUy8N8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=hxNgKRFe4opDNvvuu4nNjcTmuVZXE4RJoASDLm51jR8nv/0payk41lKOfVC5U+ndrTsqT3C9O3zcbPevoCBlN9FEdoSL1UXTPWjfqUc/AoseLBNUz+LPpNkcA9GgE10R9w7bjlbRyEmVlXv29/tySBjoR8Os4bFHaeGZX5s2hxU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KGasw8KM; arc=none smtp.client-ip=209.85.128.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-488b0e1b870so79994315e9.2
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 11 May 2026 12:19:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778527155; x=1779131955; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=KKBaB/p67PNxx3pcTtiBcPK7gt5VXbXPk8rGGrXAwZg=;
-        b=KGasw8KMJwOHG8+9gsHmJO/PEUoeSYmCXL650dNFdN90YkoOx/w2HhQJRA1bFZRtey
-         yIjKmN9NrEWNkjUTFlUSr3JLb24Oh7pa7QCta8QprFsr0qgnIeTI1SHmx7x6K0RP8b0j
-         AYWnJXSp5ZrUpG2MZEb3K0jMlaRgFzikzI/0ANU+70FwCf9a7DjQDBdj6+Kp5ZjJ30BM
-         XbaKwEN1o6XNtkh3wIkg0SiieodFYEoOXOFcMBGHLRS/D48kOISSrvB+N4fVa46G6c27
-         q1WdvA4bNWlFSQrvjhZy0FixZNtJDwHka4MXhWbTQueNpnBNqLulgh25yW4wArqjQpiU
-         a10A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778527155; x=1779131955;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=KKBaB/p67PNxx3pcTtiBcPK7gt5VXbXPk8rGGrXAwZg=;
-        b=X0NGSScuNtx9nnq7R1vV9JO0KbMok3W9LZNkqiV5RZCXWibeMRrhWkruK+qj2tC4GU
-         axFIctDstOHQ8ktrrS0E0vSYu7810jTSw8+VzatdPALQXDMG5hQmk6DYnzG6F0JdB3zq
-         tPth/VHnyEU3QF7ITa+SCXTbYCV406AjMOLNJPWDVxqnpOarEW71EfvOAueJq6RrNpnc
-         Q0oy69N8jeIT8hCeMn9yzQscqYXo4Sl4dfpZjjxBlJt1UEnNv2HPvWd5ycj00lD8jcto
-         ztNgAqHpCh6cDXZiTMGteq1FeZ5Bk7w9etTby/Q/nYZlMsjM+2oZOBishU4JgSdzgDJw
-         4iOg==
-X-Gm-Message-State: AOJu0Yy0YceDV8nEAUaV6wbCEVZL4YVlD4HKK2YFCSpePJqyfbuqvXyR
-	WszX9vXYY9bfiP3oe0fKcP+A7cqu0Jo8LYCnlwk1QKhy8VlQ4B8ofSIH
-X-Gm-Gg: Acq92OG29XhCxcmtehUhkLp8MtjCCcOy1sJasdjlqNWT+VEckVDk9k0VIYXTDzHffn0
-	o8gKKDzEXDoi4T5tJTGbzXS5FQAgUzGfJdPL8abE3aYFECPAphcs3ozol526yXkXcyuvTLSIpJv
-	uP0T2eeghLxAa/5btIP1ygdGpM4nzS+pLkS+SVyAjHZtTr022+jujBsjAG/Sk8giCBYnlxnY/bj
-	uyz+X/DJmdQBeQL9CenAzUZVZO4T6059V8Ox4sJZrNUdPvsYdfkFNnWA2EGvrE2KC8wCBmmaNOw
-	V9mmewQ1UkofrbcNMM05xQT7aQa45mfy3YNYEpoJ/QcZXrdxkSfDblTGXp0keaVioPutCiI5yZM
-	jllAx6VZwVqsM2UUeDiWnPj69+mCAEGuE3Dp9+I6sverF9XO8jwigsmm6zbZGrbsGUDAd6GYxpa
-	UIw9pqwxx46quDP1ONWzcS6WWzy+/hEQu4Yga/W2DvsXsJAQG4FQ+FviR8JDngbyE8iV0BbGmAN
-	bOq2o6moMcaZqCTC+AwcnUXqtNrNzOBvhIolw==
-X-Received: by 2002:a05:600c:8b08:b0:48a:5501:7995 with SMTP id 5b1f17b1804b1-48e51f32ca9mr436145235e9.18.1778527155270;
-        Mon, 11 May 2026 12:19:15 -0700 (PDT)
-Received: from iku.Home ([2a06:5906:61b:2d00:e687:6094:b849:9886])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48e7e45ff89sm150350725e9.8.2026.05.11.12.19.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 May 2026 12:19:14 -0700 (PDT)
-From: Prabhakar <prabhakar.csengg@gmail.com>
-X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Magnus Damm <magnus.damm@gmail.com>
-Cc: linux-renesas-soc@vger.kernel.org,
-	linux-clk@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	Prabhakar <prabhakar.csengg@gmail.com>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E76E36404B;
+	Mon, 11 May 2026 20:21:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.162.23
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778530871; cv=fail; b=E/L4JSeWy0vcdh0Bj8k9218wgbxBrOVmkXEA00Y5fEJjmCBDYmJN6hcpJYLIVcLz9eJ7pulfvMrg+3vS0poUHLw3IgMr9LVuaA5WCxQvE0g7a0fAOymuasfNwXrdO7bsffQQmPKmeYdrsvltcMh0Y+B3/CLidLly/9W2ggCObC8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778530871; c=relaxed/simple;
+	bh=gr6IBIrD0Xio9pHudXVsFtz3TpsrnvRfMbk6km1Maew=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=l/AtbHyuyGS+ziAbSWzB/CvUb6jACXt4Pq+UAQwoElyfTi+dpyowVulcVFn8iVYnCC8sDU9OfMBZQltr3O/RMpXGa1O+fDnlHLP8LNdcys9+JKCmVbQH8kBxuGFGQ9dbnDuUsb/FO1Lchf5/rI/2UByAKJA5YClR2H4W7V2IWAA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=VRyBm6lN; arc=fail smtp.client-ip=40.107.162.23
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=QkfglKIO/GgkUhJMsZeR4bF9CxL/oVPBZCw2XfgHJVAPQXAMef5pr0rugEAL0N8FItzp1Xhx/1sO6eiuSQN+Zlpdjb+EBZXDLJaowp+sZNaYtqZ9aCJNLa5EaZEBgWH8aS4kQmJJvBPUpiDMB0QqeTKCzgdo3mm0wN4rFoWbKUjL67vc4YvJmhy3wVq07drKxpPADH8MrQyjlRQvNHAtbTkIMUWn1rqT9uULqXPhjS4iGbNCbIEM8Txp7UBMj4k7TvyBT6O4aUb8l1a+Crnbt2PjRiqAOdjUTezqqGDgdKzCTmScwV31BOm2zzVANnBimmlNYAufH7VhNZGfw31K0A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=AT9C+PjPv7nWfgrFUAoiD58Zx4lQsG98OOtkUwHBjt8=;
+ b=Q4wSdO1clxoxUocBCBRVoNe4EkfJxgYDrKKZ1NfErfTSuyee1RgMVWcjik+fmquU8d8wlMvNa+/F61wMAkArpHSHN2qBpUloQbanPiXSBKmofqhNzEjUmfS7q1NB9qCcE0S4TvLczIUxRToZ37dnOkrDomQ65+WHPXzrWl7vHtey6+IcDM+e0yHUnAGbCfjgHnovS3pk55c4GAynxFGSfYqFoSqy1vxdSI10S/IfOekDlM9z90q532J8AcurwfGU9LfSfQVQWDmOZuaF0Sz7OjJV4FyNow42KHoYK9AR0YgwfzvvxwpBt0pZc7LLBFymZ9JcoDdakvE/1FLL7QsT0w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=AT9C+PjPv7nWfgrFUAoiD58Zx4lQsG98OOtkUwHBjt8=;
+ b=VRyBm6lNQhtcvf40/PLUwLu885xmHTkHR9lPc1Ev52OMWP7c7eGGumskN2oH8jTt3Ob2lBgbMMxuNf4QvLh3DZDGmXgKfNxzjQN7/8ecDUp3M3Hs3rOsiNE3H4k5zMBnCqw4PZeFjnKfr3VNgpg+NpF6aeStGUq7+ylOqdJF6f/NNW4earKZbem5HXJQ5rB6AVJ6/dilIi2RfFNaMb1cS0pKfU5FUFLrKv3iGaiH72/naKAp78rdSBKokLceIFKI/mXcr+W73TDouG3NNUGgvSPEbe9X9SrZnMv6vMHV8F7+nkY44Zg2McuVAojrABF94twcsulypZEcSmSqUyeSdg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from PA4PR04MB9366.eurprd04.prod.outlook.com (2603:10a6:102:2a9::8)
+ by DU6PR04MB11133.eurprd04.prod.outlook.com (2603:10a6:10:5c4::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9891.23; Mon, 11 May
+ 2026 20:21:03 +0000
+Received: from PA4PR04MB9366.eurprd04.prod.outlook.com
+ ([fe80::75e4:8143:ddbc:6588]) by PA4PR04MB9366.eurprd04.prod.outlook.com
+ ([fe80::75e4:8143:ddbc:6588%3]) with mapi id 15.20.9891.021; Mon, 11 May 2026
+ 20:21:03 +0000
+Date: Mon, 11 May 2026 16:20:56 -0400
+From: Frank Li <Frank.li@nxp.com>
+To: John Madieu <john.madieu.xa@bp.renesas.com>
+Cc: Vinod Koul <vkoul@kernel.org>, Frank Li <Frank.Li@kernel.org>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
 	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH 4/4] clk: renesas: r9a09g077: Add LCDC and PLL3 clock support for RZ/T2H display pipeline
-Date: Mon, 11 May 2026 20:19:10 +0100
-Message-ID: <20260511191910.1945705-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260511191910.1945705-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20260511191910.1945705-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+	"Claudiu.Beznea" <claudiu.beznea@tuxon.dev>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	Cosmin-Gabriel Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>,
+	"john.madieu@gmail.com" <john.madieu@gmail.com>,
+	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
+	"dmaengine@vger.kernel.org" <dmaengine@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCh v3 2/2] dma: sh: rz-dmac: Add DMA ACK signal routing
+ support
+Message-ID: <agI6KFUOMxZ1Upfm@lizhi-Precision-Tower-5810>
+References: <20260402162212.12016-1-john.madieu.xa@bp.renesas.com>
+ <20260402162212.12016-3-john.madieu.xa@bp.renesas.com>
+ <afzep7hF8uj-jRhc@lizhi-Precision-Tower-5810>
+ <TY6PR01MB17377AEC612CA33F43C1F4A8EFF382@TY6PR01MB17377.jpnprd01.prod.outlook.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <TY6PR01MB17377AEC612CA33F43C1F4A8EFF382@TY6PR01MB17377.jpnprd01.prod.outlook.com>
+X-ClientProxiedBy: SA0PR11CA0185.namprd11.prod.outlook.com
+ (2603:10b6:806:1bc::10) To PA4PR04MB9366.eurprd04.prod.outlook.com
+ (2603:10a6:102:2a9::8)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 61DAD51518F
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PA4PR04MB9366:EE_|DU6PR04MB11133:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7945b99b-dc29-4f3e-2b9b-08deaf9ad2ce
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|19092799006|366016|52116014|7416014|376014|38350700014|22082099003|56012099003|18002099003|11063799003;
+X-Microsoft-Antispam-Message-Info:
+	zbDhW4rNvD4dz3OqK8W/cl0EV0BzQsdp1oJBcuDx24659BCA03GflAaEA+NOR8xPvR2hcyuQ431jt1y8UNzfGyhccTkrI/y0qqunRveJT3tn+M1MjQieoEhIvpFWNu8B/FXp6qlNFf8lX/zlFsPl7hWrKwuVBhSiPth2SSPnRrIMLhpSgygNJDTtvbhgnZkXjukj/xOgcBQ0vz+CA2k30i4gxH4q9+XR4zBQMDUq5TzmpXgTlvLSS70C+2Xcjk2O7ixWR6tYnKQBX3cKciSB2W9oA+p6ptfJ9LXLEIBdCy3B7ftArn+Hjz7CiWZVMcbCFQprk1LOYbBCJoKJu9tMHwjM2G17ma6YKToX6fu/YiUVtdvF3JlzxXflx7gC8IN5mcfxbXOZf696XVsD38dk8EBTDvXZ8u+l578khMrPe5Skv2qGyhoYtJSXM5LkvFBUDBV7Za5WK6AdjUidQ1gwVBqJalQZKhEsPIEXTtqJUgM6i2foGAOyjs43I+qM9XVW+PHXyFJoKjaWlXCQUEWE5/fCczMNB2kMdXpjLj/kjYBcFBafJ9gLdtGLIFw2mIE0J+9I7fX2WwH6SmkyTrnB/eYmgaW0zTdpIivX6oqIWzR0Oq7CN8UlPACo1z7BzHkVIfZgWtfoT6vrkN0Xanh57cozi/2RMahwW5+t4T0TvzjFEA8YTe+YFyQGhKGcBVB98eOq6tYLTG+ET+4EDsKKvgjcMRScA7ClUxt36k2JQCrz6NkCuXDRhI/HjqhCx4Do
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR04MB9366.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(19092799006)(366016)(52116014)(7416014)(376014)(38350700014)(22082099003)(56012099003)(18002099003)(11063799003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?zfc5WKwYrV1L5OMBVQT0kQwzxaF98kTpYpwjYgyojbMVQLOhtnYe47jPMe3e?=
+ =?us-ascii?Q?WFSzqC1YGxBUBjeu5WEeXsa1jqKhfC/9W4xGGvFbnGd35ucSVUNEwxCw7Bvl?=
+ =?us-ascii?Q?4tKHfe2sXLRBcYeKI7omDC/Ml1Lx7os5s9tQWog9zE+BJXQusgOrEhFl5yQj?=
+ =?us-ascii?Q?c0UrUTwqmdZLvs1Ht3mwx9nX7zodyy9M2g3Cs00Wca4cnQCWM44WfAxnQLA4?=
+ =?us-ascii?Q?X6K6qSJgMiyVK7x9iDBDub2JiW3lCvjGMw76blDxL88ENk7gusi49eZsxxqt?=
+ =?us-ascii?Q?L2/5ZNnBcK1Nj9HmlnKn2qYyr7oT//G4XS5N1hUpw933o/GZg7PqAOQMcApY?=
+ =?us-ascii?Q?J9HFdY0+l1jr0UI/SF9ZNfMtLusfjxF839WbTfQvt3y/xB8UkvVCA2rnsHdU?=
+ =?us-ascii?Q?148odVGNrVFNB316ZdJ68pzpmBsmJXeTf7g5Eov7d+sdVybiW2FZH2XT6WKn?=
+ =?us-ascii?Q?VOMbKn1G5dHB05ev611pUd/gmscpVWpSCRy3+Pa+ZEZM44RbU8ZuVAoVF8m9?=
+ =?us-ascii?Q?P9Kudb6UVq+u0yRx8wTpp4e6pWAYYDquMO3PTuh+urPH3vbG8b7uwbtmRX9r?=
+ =?us-ascii?Q?yxymAhPhJMyAWFI1vCLT1pxqlqe7P9AH1UnwJKbJBNQe+3QqO7yQ718c/rSk?=
+ =?us-ascii?Q?RkqR/rPDEP9Pcjkae+Fzmf4mQdCPURUEqJVVx5elp3RORnmzEEQG+XvcoBRo?=
+ =?us-ascii?Q?kaoVuiffi1i6ERCJRM111J2scNtq6kNzjFUpBpwuSfCFQgoaFVvaU4OcKXpO?=
+ =?us-ascii?Q?FigXxWuIiefaT3A5Ebd5H7W5iA6+JaAYlgSW+aHYo3sgMX1oX+e4mkgwR7Qf?=
+ =?us-ascii?Q?94Ue9Im90NWvdbd/aZZCq8dpDuC20EUWlNgIGsyWZii/9QEtsu1wB54KyUQv?=
+ =?us-ascii?Q?3iDeooCQvb4vTsDeTap4hi/TzpiS3ukFSDtbLPYFkXveqO2oW1wPyLRnu2gB?=
+ =?us-ascii?Q?pkFhvPZYUFr9OKAK9aJ/W2PAQtI0TG4q70ONAgHgJmjw9HEZCkE+l+gLZsn3?=
+ =?us-ascii?Q?zGBDXVu7I9YcuT2rDDRkJk2UwwB6QX4+Bi7Jl7c12uHZioESlSrV3E2B1rF9?=
+ =?us-ascii?Q?FpYEWjqwl3PW0e0ibMXIZ1JSYfsbamEJyD/YxTI4XiK72es33f1sJs66TQQR?=
+ =?us-ascii?Q?mfM9hZOkOcwDMdR2u85IxUnTvNaQK7/Hhua4CAKc+N30Ht0Ul8FT8NKrOsxo?=
+ =?us-ascii?Q?uAIAPdX1JEvtNxxbFL4gLMHChJZJa2AgE5d+TkZ+DKTCjhEifQynJduyEfAb?=
+ =?us-ascii?Q?UziYtVrgoAe4nvg5yrLAxziE50M+1kE6MtnOtOPoJ+cavOVTgFvSRj8VoUNM?=
+ =?us-ascii?Q?b0v7w1RmJmOiY44z9Mcj0b0FYWuwAjYD2m+WNGXW1lZy24Ho9taMpCLZuNlM?=
+ =?us-ascii?Q?8cq3aI8K75lLMeikYAW0j4lcmC1YayRwmJrdwIPLs51cT6ZG26wOXoatlN9c?=
+ =?us-ascii?Q?OInLOArRdNvMp82VMQgNc4tPoucxUGbA2W+py24NYMDEFSbJwsj6nech7OYL?=
+ =?us-ascii?Q?fefbwwR/FOlBFnXHjFL7f/4WUW0XvP3xREjwmGc4Z7u0obJZCfvCPGpHleeC?=
+ =?us-ascii?Q?NpFN5FMkI2CdLvYXCJUQhFxq8F1rh5PFnsz+np74567wIE3863W+s8Krr1v3?=
+ =?us-ascii?Q?i+nOisOc06U1SQaROyip8swvq33jQUDGmY/kTyMAiYfG98RJgN5BsAPQQcTW?=
+ =?us-ascii?Q?Qwyy0i8r3s5ukFgFRvsDZnjIl309EsvJJUEfwZVuQqhhRCTS?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7945b99b-dc29-4f3e-2b9b-08deaf9ad2ce
+X-MS-Exchange-CrossTenant-AuthSource: PA4PR04MB9366.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 May 2026 20:21:03.3109
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: AOe9FJslLFjKBAYFd4HjDqn2lhhla0+RO12ZfW/f/Mo5ZBInE4F+00YQoO4fe1P5JwF5dpft4pMEuq8yWi0WCQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU6PR04MB11133
+X-Rspamd-Queue-Id: BEEB9515CDC
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.16 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+X-Spamd-Result: default: False [0.34 / 15.00];
+	ARC_REJECT(1.00)[cv is fail on i=2];
+	DMARC_POLICY_ALLOW(-0.50)[nxp.com,none];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[nxp.com:s=selector1];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-32411-lists,linux-renesas-soc=lfdr.de];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	RCPT_COUNT_TWELVE(0.00)[15];
+	FREEMAIL_CC(0.00)[kernel.org,glider.be,renesas.com,tuxon.dev,bp.renesas.com,gmail.com,vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-32412-lists,linux-renesas-soc=lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,gmail.com,bp.renesas.com,renesas.com];
-	FREEMAIL_TO(0.00)[glider.be,baylibre.com,kernel.org,gmail.com];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[nxp.com:+];
+	MISSING_XM_UA(0.00)[];
 	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[prabhakarcsengg@gmail.com,linux-renesas-soc@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[Frank.li@nxp.com,linux-renesas-soc@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,dt];
-	NEURAL_HAM(-0.00)[-0.947];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,init.name:url,renesas.com:email]
+	BLOCKLISTDE_FAIL(0.00)[2603:10a6:102:2a9::8:query timed out,100.90.174.1:query timed out];
+	NEURAL_HAM(-0.00)[-1.000];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
 X-Rspamd-Action: no action
 
-From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+On Mon, May 11, 2026 at 05:04:46PM +0000, John Madieu wrote:
+> Hi Frank,
+>
+> thanks for your review.
+>
+> > -----Original Message-----
+> > From: Frank Li <Frank.li@nxp.com>
+> > Sent: Donnerstag, 7. Mai 2026 20:49
+> > To: John Madieu <john.madieu.xa@bp.renesas.com>
+> > Subject: Re: [PATCh v3 2/2] dma: sh: rz-dmac: Add DMA ACK signal routing
+> > support
+> >
+> >
+> > On Thu, Apr 02, 2026 at 06:22:12PM +0200, John Madieu wrote:
+> > > Some peripherals on RZ/G3E SoCs (SSIU, SPDIF, SCU/SRC, DVC, PFC)
+> > > require explicit ACK signal routing through the ICU for level-based
+> > > DMA handshaking.
+> > >
+> > > Rather than extending the DT binding with an optional second
+> > > #dma-cells (which would require all DMA consumers to supply two cells
+> > > even when ACK routing is not needed), derive the ACK signal number
+> > > directly from the MID/RID request number using the linear mapping
+> > > defined in RZ/G3E hardware manual Table 4.6-28:
+> > >
+> > >   PFC external DMA pins (DREQ0..DREQ4):
+> > >     req_no 0x000-0x004 -> ACK No. 84-88
+> > >
+> > >   SSIU BUSIFs (ssip00..ssip93):
+> > >     req_no 0x161-0x198 -> ACK No. 28-83
+> > >
+> > >   SPDIF (CH0..CH2) + SCU SRC (sr0..sr9) + DVC (cmd0..cmd1):
+> > >     req_no 0x199-0x1b4 -> ACK No. 0-27
+> > >
+> > > ACK routing is programmed when a channel is prepared for transfer and
+> > > cleared when the channel is released or the transfer times out,
+> > > following the same pattern as MID/RID request routing.
+> > >
+> > > Signed-off-by: John Madieu <john.madieu.xa@bp.renesas.com>
+> > > ---
+> > >
+> > > Changes:
+> > >
+> > > v3: No changes
+> > >
+> > > v2:
+> > >  - Drop DMA ACK second cell from DT specifier
+> > >  - Derive ACK signal number in-driver from MID/RID using arithmetic
+> > formulas
+> > >    per ICU Table 4.6-28 (3 linear peripheral groups)
+> > >
+> > >  drivers/dma/sh/rz-dmac.c | 72
+> > > ++++++++++++++++++++++++++++++++++++++++
+> > >  1 file changed, 72 insertions(+)
+> > >
+> > >  static void rz_dmac_prepare_desc_for_memcpy(struct rz_dmac_chan
+> > > *channel)  {
+> > >       struct dma_chan *chan = &channel->vc.chan; @@ -431,6 +489,7 @@
+> > > static void rz_dmac_prepare_descs_for_slave_sg(struct rz_dmac_chan
+> > *channel)
+> > >       channel->lmdesc.tail = lmdesc;
+> > >
+> > >       rz_dmac_set_dma_req_no(dmac, channel->index, channel->mid_rid);
+> > > +     rz_dmac_set_dma_ack_no(dmac, channel->index, channel->dmac_ack);
+> >
+> > I am not familar with your hardware, why ACK folllow req immediately?
+> > suppose ACK happen after transfer done.
+>
+> rz_dmac_set_dma_ack_no() does not fire an ACK pulse, it programs a static
+> routing mux in the ICU (ICU_DMACKSELk) that selects which DMAC channel is
+> the source of the ACK line for a given peripheral. It is the symmetric
+> counterpart of ICU_DMAREQSELk programmed by rz_dmac_set_dma_req_no().
+>
+> Both registers must be configured before any transfer can happen on
+> the channel: the REQ mux routes the peripheral's request line into
+> the DMAC, the ACK mux routes the DMAC's acknowledge line back to the
+> peripheral. Once the routing is in place, the level-based REQ/ACK
+> handshake itself runs entirely in hardware on every burst, with no
+> driver involvement per transfer.
 
-Add the clock definitions and PLL logic required to supply the LCDC
-(VSPD/FCPVD/DU) blocks on the RZ/T2H (R9A09G077) SoC. The RZ/T2H display
-subsystem depends on a dedicated PLL (PLL3) and a set of new derived
-clocks.
+Supposed these register should belong to dma-engine, but it was located
+into irq, you open a private API to irq chip drivers. Ideally these
+register ownership should move to here.
 
-Introduce a new PLL clock type and implement rate recalculation,
-programming and locking sequences for PLL3 using the RZ/T2H specific
-divider and VCO limits. Add the corresponding muxes and divider entries,
-expose the LCDC core clock, and register the LCDC module clock using the
-correct PCLK parent.
+these routing mux should be in allocate channel callback, not in
+rz_dmac_prepare_descs_for_slave_sg() or in xlate function.
 
-This enables the RZ/T2H clock driver to generate the display pipeline
-clocking tree needed by the DU and VSP-based composition engines, allowing
-upcoming display support to be integrated without duplicating CPG logic.
+Frank
 
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
----
- drivers/clk/renesas/Kconfig         |   2 +
- drivers/clk/renesas/r9a09g077-cpg.c | 369 +++++++++++++++++++++++++++-
- 2 files changed, 370 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/clk/renesas/Kconfig b/drivers/clk/renesas/Kconfig
-index 0203ecbb3882..5be45d9f9672 100644
---- a/drivers/clk/renesas/Kconfig
-+++ b/drivers/clk/renesas/Kconfig
-@@ -218,10 +218,12 @@ config CLK_R9A09G057
- config CLK_R9A09G077
- 	bool "RZ/T2H clock support" if COMPILE_TEST
- 	select CLK_RENESAS_CPG_MSSR
-+	select CLK_RZV2H
- 
- config CLK_R9A09G087
- 	bool "RZ/N2H clock support" if COMPILE_TEST
- 	select CLK_RENESAS_CPG_MSSR
-+	select CLK_RZV2H
- 
- config CLK_SH73A0
- 	bool "SH-Mobile AG5 clock support" if COMPILE_TEST
-diff --git a/drivers/clk/renesas/r9a09g077-cpg.c b/drivers/clk/renesas/r9a09g077-cpg.c
-index f777601a23b9..48052e7b93fd 100644
---- a/drivers/clk/renesas/r9a09g077-cpg.c
-+++ b/drivers/clk/renesas/r9a09g077-cpg.c
-@@ -8,16 +8,23 @@
- 
- #include <linux/bitfield.h>
- #include <linux/clk-provider.h>
-+#include <linux/clk/renesas.h>
- #include <linux/device.h>
- #include <linux/init.h>
-+#include <linux/io.h>
-+#include <linux/iopoll.h>
- #include <linux/kernel.h>
- #include <linux/math.h>
-+#include <linux/module.h>
- #include <linux/types.h>
-+#include <linux/units.h>
- 
- #include <dt-bindings/clock/renesas,r9a09g077-cpg-mssr.h>
- #include <dt-bindings/clock/renesas,r9a09g087-cpg-mssr.h>
- #include "renesas-cpg-mssr.h"
- 
-+MODULE_IMPORT_NS("RZV2H_CPG");
-+
- #define RZT2H_REG_BLOCK_SHIFT	11
- #define RZT2H_REG_OFFSET_MASK	GENMASK(10, 0)
- #define RZT2H_REG_CONF(block, offset)	(((block) << RZT2H_REG_BLOCK_SHIFT) | \
-@@ -66,11 +73,26 @@
- #define DIVSCI2ASYNC	CONF_PACK(SCKCR3, 10, 2)
- #define DIVSCI3ASYNC	CONF_PACK(SCKCR3, 12, 2)
- #define DIVSCI4ASYNC	CONF_PACK(SCKCR3, 14, 2)
-+#define LCDCDIVSEL	CONF_PACK(SCKCR3, 20, 4)
-+
-+#define PLL3EN		FIELD_PREP_CONST(OFFSET_MASK, (0xc0))
-+
-+#define CPG_PLLEN		BIT(0)
-+#define CPG_PLL3_VCO_CTR0(x)	((x) + 0x4)
-+#define CPG_PLL3_VCO_CTR0_PDIV	GENMASK(21, 16)
-+#define CPG_PLL3_VCO_CTR0_MDIV	GENMASK(9, 0)
-+#define CPG_PLL3_VCO_CTR1(x)	((x) + 0x8)
-+#define CPG_PLL3_VCO_CTR1_KDIV	GENMASK(31, 16)
-+#define CPG_PLL3_VCO_CTR1_SDIV	GENMASK(2, 0)
-+#define CPG_PLL_MON(x)		((x) - 0x10)
-+#define CPG_PLL_MON_LOCK	BIT(0)
- 
- enum rzt2h_clk_types {
- 	CLK_TYPE_RZT2H_DIV = CLK_TYPE_CUSTOM,	/* Clock with divider */
- 	CLK_TYPE_RZT2H_MUX,			/* Clock with clock source selector */
- 	CLK_TYPE_RZT2H_FSELXSPI,		/* Clock with FSELXSPIn source selector */
-+	CLK_TYPE_RZT2H_PLL3,			/* PLL3 Clock */
-+	CLK_TYPE_RZT2H_LCDCDIV,			/* LCDC divider clock */
- };
- 
- #define DEF_DIV(_name, _id, _parent, _conf, _dtable) \
-@@ -83,10 +105,51 @@ enum rzt2h_clk_types {
- #define DEF_DIV_FSELXSPI(_name, _id, _parent, _conf, _dtable) \
- 	DEF_TYPE(_name, _id, CLK_TYPE_RZT2H_FSELXSPI, .conf = _conf, \
- 		 .parent = _parent, .dtable = _dtable, .flag = 0)
-+#define DEF_PLL3(_name, _id, _parent, _conf) \
-+	DEF_TYPE(_name, _id, CLK_TYPE_RZT2H_PLL3, .conf = _conf, \
-+		 .parent = _parent)
-+#define DEF_DIV_LCDC(_name, _id, _parent, _conf, _dtable) \
-+	DEF_TYPE(_name, _id, CLK_TYPE_RZT2H_LCDCDIV, .conf = _conf, \
-+		 .parent = _parent, .dtable = _dtable, .flag = CLK_SET_RATE_PARENT)
-+
-+struct pll_clk {
-+	void __iomem *reg;
-+	const struct rzv2h_pll_limits *limits;
-+	struct device *dev;
-+	struct rzv2h_pll_pars pll_parameters;
-+	struct clk_hw hw;
-+	unsigned long cur_rate;
-+};
-+
-+#define to_pll(_hw)	container_of(_hw, struct pll_clk, hw)
-+
-+struct r9a09g077_lcdc_div_clk {
-+	const struct clk_div_table *dtable;
-+	void __iomem *reg;
-+	struct device *dev;
-+	struct clk_hw hw;
-+	u32 conf;
-+	u8 divider;
-+};
-+
-+#define to_lcdc_div_clk(_hw) \
-+	container_of(_hw, struct r9a09g077_lcdc_div_clk, hw)
-+
-+#define RZT2H_MAX_LCDC_DIV_TABLES	16
-+
-+static const struct rzv2h_pll_limits r9a09g077_cpg_pll3_limits = {
-+	.input_fref = 48 * MEGA,
-+	.fout = { .min = 25 * MEGA, .max = 430 * MEGA },
-+	.fvco = { .min = 1600 * MEGA, .max = 3200 * MEGA },
-+	.m = { .min = 0x40, .max = 0x3ff },
-+	.p = { .min = 0x2, .max = 0x8 },
-+	.s = { .min = 0x0, .max = 0x6 },
-+	.k = { .min = -32768, .max = 32767 },
-+};
- 
- enum clk_ids {
- 	/* Core Clock Outputs exported to DT */
--	LAST_DT_CORE_CLK = R9A09G077_PCLKCAN,
-+	LAST_DT_CORE_CLK = R9A09G077_LCDC_CLKD,
- 
- 	/* External Input Clocks */
- 	CLK_EXTAL,
-@@ -96,10 +159,12 @@ enum clk_ids {
- 	CLK_PLL0,
- 	CLK_PLL1,
- 	CLK_PLL2,
-+	CLK_PLL3,
- 	CLK_PLL4,
- 	CLK_SEL_CLK_PLL0,
- 	CLK_SEL_CLK_PLL1,
- 	CLK_SEL_CLK_PLL2,
-+	CLK_SEL_CLK_PLL3,
- 	CLK_SEL_CLK_PLL4,
- 	CLK_PLL4D1,
- 	CLK_PLL4D1_DIV3,
-@@ -107,6 +172,7 @@ enum clk_ids {
- 	CLK_PLL4D3,
- 	CLK_PLL4D3_DIV10,
- 	CLK_PLL4D3_DIV20,
-+	CLK_PLL4D50,
- 	CLK_SCI0ASYNC,
- 	CLK_SCI1ASYNC,
- 	CLK_SCI2ASYNC,
-@@ -119,6 +185,7 @@ enum clk_ids {
- 	CLK_SPI3ASYNC,
- 	CLK_DIVSELXSPI0_SCKCR,
- 	CLK_DIVSELXSPI1_SCKCR,
-+	CLK_LCDDIVSEL,
- 
- 	/* Module Clocks */
- 	MOD_CLK_BASE,
-@@ -130,6 +197,26 @@ static const struct clk_div_table dtable_1_2[] = {
- 	{0, 0},
- };
- 
-+static const struct clk_div_table dtable_2_32[] = {
-+	{0, 2},
-+	{1, 4},
-+	{2, 6},
-+	{3, 8},
-+	{4, 10},
-+	{5, 12},
-+	{6, 14},
-+	{7, 16},
-+	{8, 18},
-+	{9, 20},
-+	{10, 22},
-+	{11, 24},
-+	{12, 26},
-+	{13, 28},
-+	{14, 30},
-+	{15, 32},
-+	{0, 0},
-+};
-+
- static const struct clk_div_table dtable_6_8_16_32_64[] = {
- 	{6, 64},
- 	{5, 32},
-@@ -152,6 +239,7 @@ static const struct clk_div_table dtable_24_25_30_32[] = {
- static const char * const sel_clk_pll0[] = { ".loco", ".pll0" };
- static const char * const sel_clk_pll1[] = { ".loco", ".pll1" };
- static const char * const sel_clk_pll2[] = { ".loco", ".pll2" };
-+static const char * const sel_clk_pll3[] = { ".loco", ".pll3" };
- static const char * const sel_clk_pll4[] = { ".loco", ".pll4" };
- static const char * const sel_clk_pll4d1_div3_div4[] = { ".pll4d1_div3", ".pll4d1_div4" };
- static const char * const sel_clk_pll4d3_div10_div20[] = { ".pll4d3_div10", ".pll4d3_div20" };
-@@ -173,10 +261,14 @@ static const struct cpg_core_clk r9a09g077_core_clks[] __initconst = {
- 		sel_clk_pll1, ARRAY_SIZE(sel_clk_pll1), CLK_MUX_READ_ONLY),
- 	DEF_MUX(".sel_clk_pll2", CLK_SEL_CLK_PLL2, SEL_PLL,
- 		sel_clk_pll2, ARRAY_SIZE(sel_clk_pll2), CLK_MUX_READ_ONLY),
-+	DEF_MUX(".sel_clk_pll3", CLK_SEL_CLK_PLL3, SEL_PLL,
-+		sel_clk_pll3, ARRAY_SIZE(sel_clk_pll3), CLK_MUX_READ_ONLY),
- 	DEF_MUX(".sel_clk_pll4", CLK_SEL_CLK_PLL4, SEL_PLL,
- 		sel_clk_pll4, ARRAY_SIZE(sel_clk_pll4), CLK_MUX_READ_ONLY),
- 
- 	DEF_FIXED(".pll4d1", CLK_PLL4D1, CLK_SEL_CLK_PLL4, 1, 1),
-+	DEF_FIXED(".pll4d50", CLK_PLL4D50, CLK_SEL_CLK_PLL4, 50, 1),
-+	DEF_PLL3(".pll3", CLK_PLL3, CLK_PLL4D50, PLL3EN),
- 	DEF_FIXED(".pll4d1_div3", CLK_PLL4D1_DIV3, CLK_PLL4D1, 3, 1),
- 	DEF_FIXED(".pll4d1_div4", CLK_PLL4D1_DIV4, CLK_PLL4D1, 4, 1),
- 	DEF_FIXED(".pll4d3", CLK_PLL4D3, CLK_SEL_CLK_PLL4, 3, 1),
-@@ -229,6 +321,7 @@ static const struct cpg_core_clk r9a09g077_core_clks[] __initconst = {
- 	DEF_FIXED("PCLKL", R9A09G077_CLK_PCLKL, CLK_SEL_CLK_PLL1, 16, 1),
- 	DEF_FIXED("PCLKAH", R9A09G077_CLK_PCLKAH, CLK_PLL4D1, 6, 1),
- 	DEF_FIXED("PCLKAM", R9A09G077_CLK_PCLKAM, CLK_PLL4D1, 12, 1),
-+	DEF_FIXED("PCLKAL", R9A09G077_CLK_PCLKAL, CLK_PLL4D1, 24, 1),
- 	DEF_FIXED("SDHI_CLKHS", R9A09G077_SDHI_CLKHS, CLK_SEL_CLK_PLL2, 1, 1),
- 	DEF_FIXED("USB_CLK", R9A09G077_USB_CLK, CLK_PLL4D1, 48, 1),
- 	DEF_FIXED("ETCLKA", R9A09G077_ETCLKA, CLK_SEL_CLK_PLL1, 5, 1),
-@@ -242,6 +335,8 @@ static const struct cpg_core_clk r9a09g077_core_clks[] __initconst = {
- 			 FSELXSPI1, dtable_6_8_16_32_64),
- 	DEF_MUX("PCLKCAN", R9A09G077_PCLKCAN, FSELCANFD,
- 		sel_clk_pll4d3_div10_div20, ARRAY_SIZE(sel_clk_pll4d3_div10_div20), 0),
-+	DEF_DIV_LCDC("LCDCDIV", R9A09G077_LCDC_CLKD, CLK_SEL_CLK_PLL3, LCDCDIVSEL,
-+		     dtable_2_32),
- };
- 
- static const struct mssr_mod_clk r9a09g077_mod_clks[] __initconst = {
-@@ -272,6 +367,7 @@ static const struct mssr_mod_clk r9a09g077_mod_clks[] __initconst = {
- 	DEF_MOD("sci5fck", 600, CLK_SCI5ASYNC),
- 	DEF_MOD("iic2", 601, R9A09G077_CLK_PCLKL),
- 	DEF_MOD("spi3", 602, CLK_SPI3ASYNC),
-+	DEF_MOD("lcdc", 1204, R9A09G077_CLK_PCLKAL),
- 	DEF_MOD("sdhi0", 1212, R9A09G077_CLK_PCLKAM),
- 	DEF_MOD("sdhi1", 1213, R9A09G077_CLK_PCLKAM),
- };
-@@ -481,6 +577,272 @@ r9a09g077_cpg_fselxspi_div_clk_register(struct device *dev,
- 	return hw->clk;
- }
- 
-+static unsigned long r9a09g077_cpg_pll3_clk_recalc_rate(struct clk_hw *hw,
-+							unsigned long parent_rate)
-+{
-+	struct pll_clk *pll_clk = to_pll(hw);
-+	unsigned int ctr0, ctr1;
-+	u8 pdiv, sdiv;
-+	u64 rate;
-+	u16 mdiv;
-+	s16 kdiv;
-+
-+	ctr0 = readl(CPG_PLL3_VCO_CTR0(pll_clk->reg));
-+	ctr1 = readl(CPG_PLL3_VCO_CTR1(pll_clk->reg));
-+
-+	pdiv = FIELD_GET(CPG_PLL3_VCO_CTR0_PDIV, ctr0);
-+	mdiv = FIELD_GET(CPG_PLL3_VCO_CTR0_MDIV, ctr0);
-+	kdiv = (s16)FIELD_GET(CPG_PLL3_VCO_CTR1_KDIV, ctr1);
-+	sdiv = FIELD_GET(CPG_PLL3_VCO_CTR1_SDIV, ctr1);
-+
-+	rate = mul_u64_u32_shr(parent_rate, (mdiv << 16) + kdiv, 16 + sdiv);
-+
-+	return DIV_ROUND_CLOSEST_ULL(rate, pdiv);
-+}
-+
-+static int r9a09g077_cpg_pll3_determine_rate(struct clk_hw *hw,
-+					     struct clk_rate_request *req)
-+{
-+	struct pll_clk *pll_clk = to_pll(hw);
-+	u64 rate_millihz;
-+
-+	if (req->rate == pll_clk->cur_rate)
-+		return 0;
-+
-+	rate_millihz = mul_u32_u32(req->rate, MILLI);
-+	if (!rzv2h_get_pll_pars(pll_clk->limits, &pll_clk->pll_parameters,
-+				rate_millihz)) {
-+		dev_dbg(pll_clk->dev,
-+			"failed to determine rate for req->rate: %lu\n",
-+			req->rate);
-+		return -EINVAL;
-+	}
-+	req->rate = DIV_ROUND_CLOSEST_ULL(pll_clk->pll_parameters.freq_millihz, MILLI);
-+	pll_clk->cur_rate = req->rate;
-+
-+	return 0;
-+}
-+
-+static int r9a09g077_cpg_pll3_set_rate(struct clk_hw *hw, unsigned long rate,
-+				       unsigned long parent_rate)
-+{
-+	struct pll_clk *pll_clk = to_pll(hw);
-+	struct rzv2h_pll_pars *params = &pll_clk->pll_parameters;
-+	void __iomem *offset = pll_clk->reg;
-+	u32 val;
-+	int ret;
-+
-+	/* Put PLL into standby mode */
-+	writel(0, offset);
-+	ret = readl_poll_timeout_atomic(CPG_PLL_MON(offset),
-+					val, !(val & CPG_PLL_MON_LOCK),
-+					100, 2000);
-+	if (ret) {
-+		dev_err(pll_clk->dev, "Failed to put PLL into standby mode");
-+		return ret;
-+	}
-+
-+	/* Output clock setting 1 */
-+	val = readl(CPG_PLL3_VCO_CTR0(offset));
-+	FIELD_MODIFY(CPG_PLL3_VCO_CTR0_MDIV, &val, params->m);
-+	FIELD_MODIFY(CPG_PLL3_VCO_CTR0_PDIV, &val, params->p);
-+	writel(val, CPG_PLL3_VCO_CTR0(offset));
-+
-+	/* Output clock setting 2 */
-+	val = readl(CPG_PLL3_VCO_CTR1(offset));
-+	FIELD_MODIFY(CPG_PLL3_VCO_CTR1_KDIV, &val, params->k);
-+	FIELD_MODIFY(CPG_PLL3_VCO_CTR1_SDIV, &val, params->s);
-+	writel(val, CPG_PLL3_VCO_CTR1(offset));
-+
-+	writel(CPG_PLLEN, offset);
-+
-+	/* PLL normal mode transition, output clock stability check */
-+	ret = readl_poll_timeout_atomic(CPG_PLL_MON(offset),
-+					val, (val & CPG_PLL_MON_LOCK),
-+					100, 2000);
-+	if (ret) {
-+		writel(0, offset);
-+		dev_err(pll_clk->dev, "Failed to put PLL into normal mode");
-+		return ret;
-+	}
-+
-+	return 0;
-+}
-+
-+static const struct clk_ops r9a09g077_cpg_pll3_ops = {
-+	.recalc_rate = r9a09g077_cpg_pll3_clk_recalc_rate,
-+	.determine_rate = r9a09g077_cpg_pll3_determine_rate,
-+	.set_rate = r9a09g077_cpg_pll3_set_rate,
-+};
-+
-+static struct clk * __init
-+r9a09g077_cpg_pll3_clk_register(struct device *dev,
-+				const struct cpg_core_clk *core,
-+				void __iomem *addr,
-+				struct cpg_mssr_pub *pub,
-+				const struct rzv2h_pll_limits *limits)
-+{
-+	struct clk_init_data init = {};
-+	const struct clk *parent;
-+	const char *parent_name;
-+	struct pll_clk *pll_clk;
-+	int ret;
-+
-+	parent = pub->clks[core->parent];
-+	if (IS_ERR(parent))
-+		return ERR_CAST(parent);
-+
-+	pll_clk = devm_kzalloc(dev, sizeof(*pll_clk), GFP_KERNEL);
-+	if (!pll_clk)
-+		return ERR_PTR(-ENOMEM);
-+
-+	parent_name = __clk_get_name(parent);
-+	init.name = core->name;
-+	init.ops = &r9a09g077_cpg_pll3_ops;
-+	init.parent_names = &parent_name;
-+	init.num_parents = 1;
-+
-+	pll_clk->dev = dev;
-+	pll_clk->hw.init = &init;
-+	pll_clk->reg = addr;
-+	pll_clk->limits = limits;
-+
-+	ret = devm_clk_hw_register(dev, &pll_clk->hw);
-+	if (ret)
-+		return ERR_PTR(ret);
-+
-+	return pll_clk->hw.clk;
-+}
-+
-+static int r9a09g077_cpg_lcdc_div_determine_rate(struct clk_hw *hw,
-+						 struct clk_rate_request *req)
-+{
-+	struct r9a09g077_lcdc_div_clk *dsi_div = to_lcdc_div_clk(hw);
-+	struct pll_clk *pll_clk = to_pll(clk_hw_get_parent(clk_hw_get_parent(hw)));
-+	u8 table[RZT2H_MAX_LCDC_DIV_TABLES] = { 0 };
-+	struct rzv2h_pll_div_pars dsi_params;
-+	const struct clk_div_table *div;
-+	unsigned int i = 0;
-+	u64 freq_millihz;
-+
-+	for (div = dsi_div->dtable; div->div; div++) {
-+		if (i >= RZT2H_MAX_LCDC_DIV_TABLES)
-+			return -EINVAL;
-+		table[i++] = div->div;
-+	}
-+
-+	freq_millihz = mul_u32_u32(req->rate, MILLI);
-+
-+	if (!rzv2h_get_pll_divs_pars(pll_clk->limits, &dsi_params, table,
-+				     i, freq_millihz)) {
-+		dev_err(dsi_div->dev,
-+			"LCDC divider failed to determine rate for req->rate: %lu\n",
-+			req->rate);
-+		return -EINVAL;
-+	}
-+
-+	req->rate = DIV_ROUND_CLOSEST_ULL(dsi_params.div.freq_millihz, MILLI);
-+	req->best_parent_rate = req->rate * dsi_params.div.divider_value;
-+	dsi_div->divider = dsi_params.div.divider_value;
-+	pll_clk->cur_rate = req->best_parent_rate;
-+	pll_clk->pll_parameters = dsi_params.pll;
-+
-+	return 0;
-+}
-+
-+static int r9a09g077_cpg_lcdc_div_set_rate(struct clk_hw *hw,
-+					   unsigned long rate,
-+					   unsigned long parent_rate)
-+{
-+	struct r9a09g077_lcdc_div_clk *dsi_div = to_lcdc_div_clk(hw);
-+	const struct clk_div_table *clkt;
-+	bool divider_found = false;
-+	u32 val, shift;
-+
-+	for (clkt = dsi_div->dtable; clkt->div; clkt++) {
-+		if (clkt->div == dsi_div->divider) {
-+			divider_found = true;
-+			break;
-+		}
-+	}
-+
-+	if (!divider_found)
-+		return -EINVAL;
-+
-+	shift = GET_SHIFT(dsi_div->conf);
-+	val = readl(dsi_div->reg);
-+	val &= ~(clk_div_mask(GET_WIDTH(dsi_div->conf)) << shift);
-+	val |= clkt->val << shift;
-+	writel(val, dsi_div->reg);
-+
-+	return 0;
-+}
-+
-+static unsigned long
-+r9a09g077_cpg_lcdc_div_recalc_rate(struct clk_hw *hw,
-+				   unsigned long parent_rate)
-+{
-+	struct r9a09g077_lcdc_div_clk *dsi_div = to_lcdc_div_clk(hw);
-+	u32 div;
-+
-+	div = readl(dsi_div->reg);
-+	div >>= GET_SHIFT(dsi_div->conf);
-+	div &= clk_div_mask(GET_WIDTH(dsi_div->conf));
-+	div = dsi_div->dtable[div].div;
-+
-+	return DIV_ROUND_CLOSEST_ULL(parent_rate, div);
-+}
-+
-+static const struct clk_ops r9a09g077_cpg_lcdc_div_ops = {
-+	.recalc_rate = r9a09g077_cpg_lcdc_div_recalc_rate,
-+	.determine_rate = r9a09g077_cpg_lcdc_div_determine_rate,
-+	.set_rate = r9a09g077_cpg_lcdc_div_set_rate,
-+};
-+
-+static struct clk * __init
-+r9a09g077_cpg_lcdc_div_clk_register(struct device *dev,
-+				    const struct cpg_core_clk *core,
-+				    void __iomem *addr,
-+				    struct cpg_mssr_pub *pub)
-+{
-+	struct r9a09g077_lcdc_div_clk *clk_hw_data;
-+	struct clk **clks = pub->clks;
-+	struct clk_init_data init;
-+	const struct clk *parent;
-+	const char *parent_name;
-+	struct clk_hw *hw;
-+	int ret;
-+
-+	parent = clks[core->parent];
-+	if (IS_ERR(parent))
-+		return ERR_CAST(parent);
-+
-+	clk_hw_data = devm_kzalloc(dev, sizeof(*clk_hw_data), GFP_KERNEL);
-+	if (!clk_hw_data)
-+		return ERR_PTR(-ENOMEM);
-+
-+	clk_hw_data->dtable = core->dtable;
-+	clk_hw_data->reg = addr;
-+	clk_hw_data->conf = core->conf;
-+	clk_hw_data->dev = dev;
-+	clk_hw_data->divider = 32; /* Initialize divider for LCDC */
-+
-+	parent_name = __clk_get_name(parent);
-+	init.name = core->name;
-+	init.ops = &r9a09g077_cpg_lcdc_div_ops;
-+	init.flags = core->flag;
-+	init.parent_names = &parent_name;
-+	init.num_parents = 1;
-+
-+	hw = &clk_hw_data->hw;
-+	hw->init = &init;
-+	ret = devm_clk_hw_register(dev, hw);
-+	if (ret)
-+		return ERR_PTR(ret);
-+
-+	return hw->clk;
-+}
-+
- static struct clk * __init
- r9a09g077_cpg_clk_register(struct device *dev, const struct cpg_core_clk *core,
- 			   const struct cpg_mssr_info *info,
-@@ -497,6 +859,11 @@ r9a09g077_cpg_clk_register(struct device *dev, const struct cpg_core_clk *core,
- 		return r9a09g077_cpg_mux_clk_register(dev, core, addr, pub);
- 	case CLK_TYPE_RZT2H_FSELXSPI:
- 		return r9a09g077_cpg_fselxspi_div_clk_register(dev, core, addr, pub);
-+	case CLK_TYPE_RZT2H_PLL3:
-+		return r9a09g077_cpg_pll3_clk_register(dev, core, pub->base1 + offset,
-+						       pub, &r9a09g077_cpg_pll3_limits);
-+	case CLK_TYPE_RZT2H_LCDCDIV:
-+		return r9a09g077_cpg_lcdc_div_clk_register(dev, core, addr, pub);
- 	default:
- 		return ERR_PTR(-EINVAL);
- 	}
--- 
-2.54.0
-
+>
+> Maybe should I reword the commit message to make this distinction
+> explicit (routing config vs per-transfer signal).
+>
+> >
+> > If ACK need after req, why not add ack handle in rz_dmac_set_dma_req_no()
+> > directly.
+>
+> I would prefer to keep rz_dmac_set_dma_ack_no() as its own helper, to
+> mirror the existing rz_dmac_set_dma_req_no() path. The surrounding
+> infrastructure is already structured around per-routing helpers, and
+> the ACK additions in this patch deliberately follow that pattern:
+> .icu_register_dma_ack/.default_dma_ack_no.
+>
+> The two ICU registers also index their fields differently. ICU_DMAkSELy
+> fields are indexed by DMAC channel and carry the peripheral req_no as
+> the value, while ICU_DMACKSELk fields are indexed by the peripheral
+> ack_no and carry the DMAC source channel as the value. Folding ACK
+> into rz_dmac_set_dma_req_no() would mix those two layouts in one helper
+> for no behavioral gain.
+>
+> Regards,
+> John
+>
+>
+> >
+> > Frank
+> >
+> > > --
+> > > 2.25.1
+> > >
 
