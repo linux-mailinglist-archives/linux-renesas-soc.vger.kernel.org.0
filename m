@@ -1,223 +1,193 @@
-Return-Path: <linux-renesas-soc+bounces-32465-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-32466-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id aKOSICcDA2pczgEAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-32465-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 May 2026 12:38:31 +0200
+	id mBqNGi0ZA2p10QEAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-32466-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 May 2026 14:12:29 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21A9051EB61
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 May 2026 12:38:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EEA5B51FD8A
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 May 2026 14:12:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 12B65300E28E
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 May 2026 10:38:30 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 4C23B3019571
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 May 2026 12:12:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 10D40383995;
-	Tue, 12 May 2026 10:38:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="jIrUGRBg"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F39954C8FE3;
+	Tue, 12 May 2026 12:12:26 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54FFC395AE4
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 12 May 2026 10:38:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA7C33C3BFD;
+	Tue, 12 May 2026 12:12:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778582308; cv=none; b=W2ShVAPSr9k8BhfO2POKMdWo3sssVs6K7w9LM13eZOnFSOnm1OTZy+x0VGYvXS+mL4eIQ7zBS5rcU8fLkWDP6IpngNM317SU9lErmaGHinvZPiKcIv/cM3Dcv+nhQCxyb/fdDSdRPA7BHQBkztaKsLQq3LSC5Ul1GqKlflcRRrU=
+	t=1778587946; cv=none; b=bAcnaSU1tgtNEb99gQpkWcjcfX1cjDvQbQiTJH5M/Lq5pZdzcP57JMQLb/rsCnn8IU0Rffr540cPsdsq4aoQNi5laDDOJA/VF8+jJs8/E+PnVbJwIJ+f8/fV0HTEFd4GxKK1zvNmRYSNsyVi4ZzvzINTjutQmo2hg5LF51Uwwsc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778582308; c=relaxed/simple;
-	bh=uSc4Uk5ndet+gTRsUAvT8KIaxikSv3hGFbqTwITcS5U=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=o6H/ORqW6IoY1Rb19cUXx5BOGLE1bc904LLvw/5DL0DQnoySC5ywIaVuW88fmh6829nrdAgHCn43ZTviJJdmAwSu6M1yRR6VJMkfCKT45pmyTcolHXgBvg7XYwc82XEK5j6HWjkcubFZXjuxBfDiHJJ/vWE9y2i89Q3eHDhWPMU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=jIrUGRBg; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:mime-version:content-type; s=k1; bh=NOyfNCm4880N2TyZrQF+LofeXFP
-	siXAUsATS4C1WbbU=; b=jIrUGRBgAdUUHM9MizscSFTP3Jy8YfPchEVmqiu7iT9
-	aepJbPWKsS+LeTtOrCpRJjNN9RFjbsKg4BJlZEhdKnnehpPYB+QkotBzskK4IoyT
-	xAwjArSduNN5EzjOmYfwg6TZQVL7BZbxcXK8phn4LJ+FkLleVdHlkqh94hl9i7jN
-	LyEWncL1sXhLwJuroJi89pB3YQsaddwSwmiVaGzZuuXP9OEFiE5EfsUIV23ppvuv
-	u4GqQCnln2mRIlghFzEIaZo+4LxMA9TY0RiWyySUAcNljKVx4PsqcIhROYusIN+b
-	mawlFdBdolkyclREq77/ZS5ceWobGmScBVLxxCRHA+Q==
-Received: (qmail 2954428 invoked from network); 12 May 2026 12:38:20 +0200
-Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 12 May 2026 12:38:20 +0200
-X-UD-Smtp-Session: l3s3148p1@rboydpxRepUujns3
-Date: Tue, 12 May 2026 12:38:19 +0200
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: linux-remoteproc@vger.kernel.org
-Cc: linux-renesas-soc@vger.kernel.org,
-	Bjorn Andersson <andersson@kernel.org>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	linux-kernel@vger.kernel.org
-Subject: [PROPOSAL] hwspinlock: remove 'unregistering hwspinlock devices'
- from the core
-Message-ID: <agMDGwHuh-mqhk7y@ninjato>
+	s=arc-20240116; t=1778587946; c=relaxed/simple;
+	bh=wc8CWE4UGwaAj8lLXY+hRMEWN/zGldkVVDczvwujhIM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=laREKx6HF7sV6sFXyZHKgPnwiWMlQ8aCWxicEMYji3SHkG2mTuu34pXJDviuGWOBXZNK96HZscmAqXVySoS7MvsXmDlqYBqDPzJECvUtdy+ZvLHQOryFG6StWZR774I1OHOEgENei3vaJk2EOieyP+Z3kr/JXQKmSGP/y+H6UBA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 45A6EC2BCB0;
+	Tue, 12 May 2026 12:12:22 +0000 (UTC)
+From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+To: vkoul@kernel.org,
+	Frank.Li@kernel.org,
+	lgirdwood@gmail.com,
+	broonie@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com,
+	biju.das.jz@bp.renesas.com,
+	prabhakar.mahadev-lad.rj@bp.renesas.com,
+	p.zabel@pengutronix.de,
+	geert+renesas@glider.be,
+	fabrizio.castro.jz@renesas.com,
+	kuninori.morimoto.gx@renesas.com,
+	long.luu.ur@renesas.com
+Cc: claudiu.beznea@kernel.org,
+	dmaengine@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Subject: [PATCH v5 00/17] Renesas: dmaengine and ASoC fixes
+Date: Tue, 12 May 2026 15:12:01 +0300
+Message-ID: <20260512121219.216159-1-claudiu.beznea.uj@bp.renesas.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="8KjfHD4l9zYmj8YX"
-Content-Disposition: inline
-X-Rspamd-Queue-Id: 21A9051EB61
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: EEA5B51FD8A
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-3.26 / 15.00];
-	SIGNED_PGP(-2.00)[];
+X-Spamd-Result: default: False [1.64 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	MIME_GOOD(-0.20)[multipart/signed,text/plain];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
 	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
-	R_DKIM_ALLOW(-0.20)[sang-engineering.com:s=k1];
 	MAILLIST(-0.15)[generic];
+	MIME_GOOD(-0.10)[text/plain];
+	DMARC_POLICY_SOFTFAIL(0.10)[renesas.com : SPF not aligned (relaxed), No valid DKIM,none];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FROM_HAS_DN(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-32466-lists,linux-renesas-soc=lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
 	RCVD_TLS_LAST(0.00)[];
-	DMARC_NA(0.00)[sang-engineering.com];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_TWELVE(0.00)[19];
+	FREEMAIL_TO(0.00)[kernel.org,gmail.com,perex.cz,suse.com,bp.renesas.com,pengutronix.de,glider.be,renesas.com];
+	NEURAL_SPAM(0.00)[0.727];
 	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+,1:+,2:~];
-	TAGGED_FROM(0.00)[bounces-32465-lists,linux-renesas-soc=lfdr.de,renesas];
-	MISSING_XM_UA(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[wsa@sang-engineering.com,linux-renesas-soc@vger.kernel.org];
-	DKIM_TRACE(0.00)[sang-engineering.com:+];
-	NEURAL_HAM(-0.00)[-1.000];
+	FROM_NEQ_ENVFROM(0.00)[claudiu.beznea.uj@bp.renesas.com,linux-renesas-soc@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	R_DKIM_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
 	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
-	TAGGED_RCPT(0.00)[linux-renesas-soc];
-	RCPT_COUNT_FIVE(0.00)[5];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sashiko.dev:url,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,sashiko.dev:url]
 X-Rspamd-Action: no action
 
+Hi,
 
---8KjfHD4l9zYmj8YX
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+This series addresses issues identified in the DMA engine and RZ SSI
+drivers.
 
-Hi all,
+As described in the patch "dmaengine: sh: rz-dmac: Set the Link End (LE)
+bit on the last descriptor", stress testing on the Renesas RZ/G2L SoC
+showed that starting all available DMA channels could cause the system
+to stall after several hours of operation. This issue was resolved by
+setting the Link End bit on the last descriptor of a DMA transfer.
 
-TLDR: I think that unregistering hwspinlock devices is broken currently. A
-correct solution is complex. My intermediate proposal is to simply remove
-"unregistering" support until someone actually needs it.
+However, after applying that fix, the SSI audio driver began to suffer
+from frequent overruns and underruns. This was caused by the way the SSI
+driver emulated cyclic DMA transfers: at the start of playback/capture
+it initially enqueued 4 DMA descriptors as single SG transfers, and upon
+completion of each descriptor, a new one was enqueued. Since there was
+no indication to the DMA hardware where the descriptor list ended
+(though the LE bit), the DMA engine continued transferring until the
+audio stream was stopped. From time to time, audio signal spikes were
+observed in the recorded file with this approach.
 
-Longer read (I still try to keep it short):
+To address these issue, cyclic DMA support was added to the DMA engine
+driver, and the SSI audio driver was reworked to use this support via
+the generic PCM dmaengine APIs.
 
-Problem
-=3D=3D=3D=3D=3D=3D=3D
+Due to the behavior described above, no Fixes tags were added to the
+patches in this series, and all patches should be merged through the
+same tree.
 
-I recently worked on hwspinlock device allocation being done in the core,
-rather than in drivers. This lead to a lengthy Sashiko review[1]. The comme=
-nts
-about leaking the new allocation are correct. But the underlying problems w=
-ere
-in the hwspinlock core even before my changes. See the current unregister
-function:
+In case this series will be merged this release cycle, as the audio
+patches are acked, best would be to go though the DMA tree.
 
-566 int hwspin_lock_unregister(struct hwspinlock_device *bank)
-567 {
-568         struct hwspinlock *hwlock, *tmp;
-569         int i;
-570=20
-571         for (i =3D 0; i < bank->num_locks; i++) {
-572                 hwlock =3D &bank->lock[i];
-573=20
-574                 tmp =3D hwspin_lock_unregister_single(bank->base_id + i=
-);
-575                 if (!tmp)
-576                         return -EBUSY;
-577=20
-578                 /* self-sanity check that should never fail */
-579                 WARN_ON(tmp !=3D hwlock);
-580         }
-581=20
-582         return 0;
-583 }
+Thank you,
+Claudiu
 
-Let's say lock 5 is in use. Then, locks 0-4 will get unregistered. With loc=
-k 5,
--EBUSY will be returned. Two problems now:
+Changes in v5:
+- dropped patch "dmaengine: sh: rz-dmac: Do not disable the channel on error"
+- added patch "dmaengine: sh: rz-dmac: Add runtime PM support"
 
-1) The only caller of this function (devm_hwspin_lock_unregister) ignores t=
-he
-   errno anyhow. All locks after 5 are leaked.
+Changes in v4:
+- collected tags
+- addressed review comments got from sashiko.dev. For this:
+- added patches:
+-- dmaengine: sh: rz-dmac: Move interrupt request after everything is set up
+-- dmaengine: sh: rz-dmac: Fix incorrect NULL check on list_first_entry()
 
-2) Even if the errno was considered, a later try to unregister again will f=
-ail
-   immediately because lock 0 is no longer present.
+Changes in v3:
+- addressed review comments got from sashiko.dev. For this:
+- added patches 1-9
+- added patch "ASoC: renesas: rz-ssi: Add pause support"
+- dropped patches:
+-- dmaengine: sh: rz-dmac: Add enable status bit
+-- dmaengine: sh: rz-dmac: Add pause status bit
 
-Correct solution
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+Changes in v2:
+- fixed typos in patch descriptions and patch titles
+- updated "ASoC: renesas: rz-ssi: Use generic PCM dmaengine APIs"
+  to fix the PIO mode
+- in patch "dmaengine: sh: rz-dmac: Add suspend to RAM support"
+  clear the RZ_DMAC_CHAN_STATUS_SYS_SUSPENDED status bit for
+  channel w/o RZ_DMAC_CHAN_STATUS_PAUSED_INTERNAL
+- per-patch updates can be found in individual patches changelog 
+- rebased on top of next-20260319
+- updated the cover letter
 
-As I see it, the correct solution is to decouple the lifetime of a single l=
-ock
-=66rom the lifetime of a hwspinlock device. It reminds me of a similar prob=
-lem
-the I2C subsystem has. There, we also still need to decouple the lifetime o=
-f an
-I2C adapter from the lifetime of its users. Given the experience from I2C, =
-this
-is a complex and time-consuming job. I, at least, don't have this bandwidth.
+Claudiu Beznea (17):
+  dmaengine: sh: rz-dmac: Move interrupt request after everything is set
+    up
+  dmaengine: sh: rz-dmac: Fix incorrect NULL check on list_first_entry()
+  dmaengine: sh: rz-dmac: Use list_first_entry_or_null()
+  dmaengine: sh: rz-dmac: Use rz_dmac_disable_hw()
+  dmaengine: sh: rz-dmac: Add helper to compute the lmdesc address
+  dmaengine: sh: rz-dmac: Save the start LM descriptor
+  dmaengine: sh: rz-dmac: Add helper to check if the channel is enabled
+  dmaengine: sh: rz-dmac: Add helper to check if the channel is paused
+  dmaengine: sh: rz-dmac: Use virt-dma APIs for channel descriptor
+    processing
+  dmaengine: sh: rz-dmac: Refactor pause/resume code
+  dmaengine: sh: rz-dmac: Drop the update of channel->chctrl with
+    CHCTRL_SETEN
+  dmaengine: sh: rz-dmac: Add cyclic DMA support
+  dmaengine: sh: rz-dmac: Add runtime PM support
+  dmaengine: sh: rz-dmac: Add suspend to RAM support
+  ASoC: renesas: rz-ssi: Add pause support
+  ASoC: renesas: rz-ssi: Use generic PCM dmaengine APIs
+  dmaengine: sh: rz-dmac: Set the Link End (LE) bit on the last
+    descriptor
 
-Simple intermediate solution?
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D
+ drivers/dma/sh/rz-dmac.c   | 827 ++++++++++++++++++++++++++-----------
+ sound/soc/renesas/Kconfig  |   1 +
+ sound/soc/renesas/rz-ssi.c | 393 ++++++------------
+ 3 files changed, 726 insertions(+), 495 deletions(-)
 
-Unlike I2C, I wonder if the hwspinlock subsystem really needs to unregister=
- its
-devices. All current users are IP cores within the SoC, not hot-pluggable. =
-This
-is unlikely to change in the near future. My proposal is now to see hwspinl=
-ock
-devices more like critical clocks which can be probed, but never removed. T=
-hat
-would mean for now, the unregister parts in the hwspinlock core can just be
-discarded.
+-- 
+2.43.0
 
-Benefits
-=3D=3D=3D=3D=3D=3D=3D=3D
-
-- no false promises made (unregistering doesn't really work)
-- simplifies the subsystem (less maintainer burden, especially given the
-  rising amount of AI generated bug reports)
-- simplifies further refactoring like device allocation in core
-- no oneway. Proper solution can be added any time if needed
-- I have bandwidth for this intermediate approach
-
-Looking forward to comments. I hope I am still seeing the forest for the tr=
-ees.
-
-   Wolfram
-
-[1] https://sashiko.dev/#/patchset/20260319105947.6237-1-wsa%2Brenesas%40sa=
-ng-engineering.com
-
---8KjfHD4l9zYmj8YX
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmoDAxgACgkQFA3kzBSg
-KbYsUg//VestcAAbP5TQOz8whmTfo4EKSbvnLBNepZYuLq0TGKCdqibPtq7NL91H
-hZj/yh8PaoyqC1vest6gO63+jYbhIE/EI2JuQrCLf1KZRLqmjs8SWXxJKBzBP3eH
-S1sDkIJX17t37psL40XACCMwldIGboZt0dWuQdl+lVG/REMz8xa2G7JFgQBK7PCv
-KtdUIO1XYptBiQvd5JgFGK8hOgZd2KvW9Y2ykHBi9PsGKUd9v+XhwU5pkRNEn9I4
-43ik5QpEcitELlBMrddu6mA8jFyVvTVOYhKS0WdfBUtA5YtoaAktQ1mZhpIMVZKY
-xWk19b8gf4eDg2cr5ZNywesfoTODYegWC8OFMMyfC1wTdyVnv23Kw0gzz5cAh9RG
-bTmosmiat5sTrNjTjtzwY8JMyUzFeTn8wRrELgT3Dn4zxGnXz9dZOBQODfopYSYZ
-SgcLjQV2RvBqC+FQ4UiCWLjH2cbdpv4zngLiu6iSfoz8zBVtNfuL9dn5b5IcVNUa
-cFk2xHNhBs3wkYE0mV8faUYl1CFBHQrPskZBhcrS5TVhPpK6yT9W2JlKcyacel6f
-eVa5rbOeE3/Ccp2mQwqvx+9DistRPY79R4JPbCfjAbuJ/we4psHDgnrpJ39G7gUN
-LMm08FBOFDj+jRZLmZdN0bciiKpAeJ/7uhUZ2Ey49U46Vm3PxMs=
-=NZqf
------END PGP SIGNATURE-----
-
---8KjfHD4l9zYmj8YX--
 
