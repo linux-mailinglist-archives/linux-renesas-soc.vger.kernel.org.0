@@ -1,122 +1,124 @@
-Return-Path: <linux-renesas-soc+bounces-32457-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-32458-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 2NpEOuToAmpLygEAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-32457-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 May 2026 10:46:28 +0200
+	id QK3cCCTqAmpKygEAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-32458-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 May 2026 10:51:48 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C9A151CF00
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 May 2026 10:46:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8950851D0B7
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 May 2026 10:51:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 7B846308656E
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 May 2026 08:43:30 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id BE6F2301725D
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 May 2026 08:49:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5A2184BC015;
-	Tue, 12 May 2026 08:43:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1FBA238B15B;
+	Tue, 12 May 2026 08:49:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jXzozDCJ"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="lhnMUiLw"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F1F14ADDB7;
-	Tue, 12 May 2026 08:43:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5394D389114
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 12 May 2026 08:49:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778575404; cv=none; b=tWAdgEMQcAE9+tToyBJVEpDBUN6rE0sFTxWDZnwrlzwm1q8k29aG4+QFbh1MGz2iqY5+Y0Y6n25rUI5gNHBByt8I0fDjlOOj42Y3eVzOdtFhkymU818xythI2+XyeQ6aYivlamuLpFU6Nqt4f5K9yVyC6UJB1S0zmNvgdXmkYwc=
+	t=1778575765; cv=none; b=s9pbqgBabKXWdOnHekZ5r6UWaXTOsTEh3rtSG7BaJTLY8GoCLOICXlzUzKw3MyHwTRhWH/zkMArUy9wYn8ODf0RNh+Kq7HnM509A9YnoCnF9RbwTiA0Ul83PXJnGXUlsBe7cY/Gnqzb84/3GnOj4QMfrH6s1SThtF+WDjSqhIQQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778575404; c=relaxed/simple;
-	bh=AzX8yXSa8mZeuYVkhSfLL/djnjt3bTbaiv5tUdNNaGQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eY/ErqJZDSYKZBURzAmB8u2tP+AYjTuKl1er5tw0wIoQOxakgxfxUx5XrKSLNMxdQkO8aIVCnCa1gSXl5buVYjDpJNlenL/OYwYOOJoXUGr05c6mYPY4GC9msHvS+O9tVAYIoTjwelaPsX/Ao7GCjPayk8CnH9NWFnSrHv9ym3E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jXzozDCJ; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 49133C2BCB8;
-	Tue, 12 May 2026 08:43:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778575401;
-	bh=AzX8yXSa8mZeuYVkhSfLL/djnjt3bTbaiv5tUdNNaGQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=jXzozDCJbIXl7wFaJs7MuQDiQyfJkOPbR+omuNgM5mXfNdpDGaRgbxGyirBInMJ54
-	 0ZSAdHYB3+4KtQLo7kQe1POLStXKQuI57EjOWQZ4HTIEjP1f+HC1j9GvFf1nn+ySh6
-	 FdKnjUVNq0EjU4JY7lvApI3ZCuLhYQh5hYQuJVOj4PJbA3LDeFXm7PllKawyX85+LP
-	 Zp+TY3O4WBoVCsgaVjiSoyjf/2/GUFYEk7HUpEm2Tgx4TZpLFRKshL8y1oNLmA/YSc
-	 UQwt7FPYdpiQ6pqzadHTtBZyshrKemYcKDaRTs7e7IuvC4M4mXyV9gGXmAU9tFitDi
-	 lGJrgmS30Lk7w==
-Date: Tue, 12 May 2026 09:43:16 +0100
-From: Sudeep Holla <sudeep.holla@kernel.org>
-To: Cristian Marussi <cristian.marussi@arm.com>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>
-Cc: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	arm-scmi@vger.kernel.org, linux-clk@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org, philip.radford@arm.com,
-	james.quinlan@broadcom.com, f.fainelli@gmail.com,
-	vincent.guittot@linaro.org, etienne.carriere@foss.st.com,
-	peng.fan@oss.nxp.com, michal.simek@amd.com, geert+renesas@glider.be,
-	kuninori.morimoto.gx@renesas.com, marek.vasut+renesas@gmail.com,
-	Brian Masney <bmasney@redhat.com>
-Subject: Re: [PATCH v4 03/15] clk: scmi: Use new determine_rate clock
- operation
-Message-ID: <20260512-logical-tidy-pronghorn-5da394@sudeepholla>
-References: <20260508153300.2224715-1-cristian.marussi@arm.com>
- <20260508153300.2224715-4-cristian.marussi@arm.com>
+	s=arc-20240116; t=1778575765; c=relaxed/simple;
+	bh=/VsQN4XVPGeArCNXsSMOUGuMEsA3np4OZ+t7QDMzjXQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=FYJkDU+2+pDTI2T/PPAbPWen0zk1Crl7uszHgce/wybEbR4MMMZaGTC9VoUHJVhxENbP2CLKVggJIq9mu87cIegb1BHLCxGlGHotLvpn23c+sYY1CcHGuqbY1pHws+TekpJL34xy8JfQrxgPvEElbxpqjopggFfnf4/BORjRpwU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=lhnMUiLw; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=from:to:cc:subject:date:message-id
+	:mime-version:content-transfer-encoding; s=k1; bh=gZFWGCc+QN5NQ5
+	spvS6bX+zjGm1rbhV4VCgMWO+xCXo=; b=lhnMUiLwVC5CISeFyseppRdX2iJrrd
+	3wozMPqq6smTutCY5J/OBM77fn56qEA8oNlhYxaOH/3ynxtVdted2Bfnygdzcl8g
+	5XaDehI8qTrd8i4zAqKawLS0hvjGr4K+aVE5Mjj9GCjAgacHRL7L6IqK7BkBm61E
+	VWxTSuhBvux/Q+5Se2s6JSxHmVhZgZX7Lpqf0pinfvg9Bb8N/GYXKX2qMqSl166y
+	qFhEj9MgdizRQxKjhJnrxu+yhSVIsFPg80Yhb0lqYY/IIh7yzItb1cSXF8MxHNKz
+	ax5XdFaBMrmvsO2SQ8Fqqe9Q/BKwz9oNREwFSLtyehZt51dfkfOEtZ+w==
+Received: (qmail 2912974 invoked from network); 12 May 2026 10:49:05 +0200
+Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 12 May 2026 10:49:05 +0200
+X-UD-Smtp-Session: l3s3148p1@M0F675pRjoEujns3
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: linux-renesas-soc@vger.kernel.org
+Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Ohad Ben-Cohen <ohad@wizery.com>,
+	linux-remoteproc@vger.kernel.org
+Subject: [PATCH] hwspinlock: propagate errno when registering single lock
+Date: Tue, 12 May 2026 10:48:23 +0200
+Message-ID: <20260512084856.30497-2-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260508153300.2224715-4-cristian.marussi@arm.com>
-X-Rspamd-Queue-Id: 5C9A151CF00
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: 8950851D0B7
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.16 / 15.00];
+X-Spamd-Result: default: False [0.34 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_MISSING_CHARSET(0.50)[];
 	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_DKIM_ALLOW(-0.20)[sang-engineering.com:s=k1];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-32457-lists,linux-renesas-soc=lfdr.de];
+	TO_DN_SOME(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
-	RCPT_COUNT_TWELVE(0.00)[19];
+	TAGGED_FROM(0.00)[bounces-32458-lists,linux-renesas-soc=lfdr.de,renesas];
 	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[vger.kernel.org,lists.infradead.org,arm.com,broadcom.com,gmail.com,linaro.org,foss.st.com,oss.nxp.com,amd.com,glider.be,renesas.com,redhat.com];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[sudeep.holla@kernel.org,linux-renesas-soc@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
+	DMARC_NA(0.00)[sang-engineering.com];
 	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[wsa@sang-engineering.com,linux-renesas-soc@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[sang-engineering.com:+];
+	NEURAL_HAM(-0.00)[-0.993];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sashiko.dev:url,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
 X-Rspamd-Action: no action
 
-On Fri, May 08, 2026 at 04:32:48PM +0100, Cristian Marussi wrote:
-> Use the Clock protocol layer determine_rate logic to calculate the closest
-> rate that can be supported by a specific clock.
-> 
-> No functional change.
-> 
+hwspin_lock_register_single() always returns 0 despite checking the
+result from radix_tree_insert(). Propagate the errno to make sanity
+checks in callers of this function actually meaningful.
 
-Hi Stephen/Mike,
+Fixes: 300bab9770e2 ("hwspinlock/core: register a bank of hwspinlocks in a single API call")
+Link: https://sashiko.dev/#/patchset/20260319105947.6237-1-wsa%2Brenesas%40sang-engineering.com # review of patch 14
+Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+---
+ drivers/hwspinlock/hwspinlock_core.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I have potentially queued this and 5/15 to take it via Arm SoC unless you
-have any objections. It is mainly simplifying the SCMI clock driver.
-
+diff --git a/drivers/hwspinlock/hwspinlock_core.c b/drivers/hwspinlock/hwspinlock_core.c
+index cc8e952a6772..a509b73da190 100644
+--- a/drivers/hwspinlock/hwspinlock_core.c
++++ b/drivers/hwspinlock/hwspinlock_core.c
+@@ -472,7 +472,7 @@ static int hwspin_lock_register_single(struct hwspinlock *hwlock, int id)
+ 
+ out:
+ 	mutex_unlock(&hwspinlock_tree_lock);
+-	return 0;
++	return ret;
+ }
+ 
+ static struct hwspinlock *hwspin_lock_unregister_single(unsigned int id)
 -- 
-Regards,
-Sudeep
+2.47.3
+
 
