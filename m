@@ -1,428 +1,358 @@
-Return-Path: <linux-renesas-soc+bounces-32520-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-32521-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id +A+sLT2KA2pN7AEAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-32520-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 May 2026 22:14:53 +0200
+	id 8GtnCpaPA2rI7QEAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-32521-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 May 2026 22:37:42 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E14A52900E
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 May 2026 22:14:53 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id BD21752960F
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 May 2026 22:37:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 92A2F3018C32
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 May 2026 20:14:43 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 903B7305E87B
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 May 2026 20:31:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E857A3ACEE9;
-	Tue, 12 May 2026 20:14:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AC3D53C0A0B;
+	Tue, 12 May 2026 20:29:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="YXPZz2Xo"
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="BITGTzDu"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from OSPPR02CU001.outbound.protection.outlook.com (mail-norwayeastazon11013035.outbound.protection.outlook.com [40.107.159.35])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A174317161;
-	Tue, 12 May 2026 20:14:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778616881; cv=none; b=UTLCFd97RckrteVT0Q6kNtcFbErwFyJanNg0x0uDU3aCFsY1mUO2R9pnjtDkZyrrSFRVZo/6KXPcpwS6H2+3pVbPwCK+nMYEpJec8w65GKNTCF0uF9UhABCdbkOV44VsJo/RAsCLe7Rv4pqCELnb2s7Iu917xKKq3IVo8JdahZU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778616881; c=relaxed/simple;
-	bh=79FgFKfLKzDnaWDN01MUkw1fhzWmGVqi5Qx3xYfhiug=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IGiOWyS8gv7/v8PsZSqkiW54BdqH2O8piHbtQzRIC4sl0Xhopd07bNrZaRx28f6vRzFSnwYzQ7NWx4VESMX6T7K2JLgk1C4pZUp83jvT918skvejDdA1pXWlXw+wef+1YqD3N5htFsWuVWNdc+6eHOBf7MoQhx9GF5dI6pr8cUo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=YXPZz2Xo; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from killaraus.ideasonboard.com (2001-14ba-70f3-e800--a06.rev.dnainternet.fi [IPv6:2001:14ba:70f3:e800::a06])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4FE23454;
-	Tue, 12 May 2026 22:14:29 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1778616869;
-	bh=79FgFKfLKzDnaWDN01MUkw1fhzWmGVqi5Qx3xYfhiug=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=YXPZz2XoFyIAEu7PuBEiM7IZZ485qNM1VThossof+Kezm2dKwnA49R8qNI2P07Pea
-	 TWeqiRiVAokjNCJK1TqfeJOQ6toLzVBCOXrSAydSNLCovRe0/YVC14oCelvhiW2Vnp
-	 W3JkBBT3hMvgfzEB15FZglf8EnKYo4uNieXat/W0=
-Date: Tue, 12 May 2026 23:14:35 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
-Cc: linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED51F357D01;
+	Tue, 12 May 2026 20:29:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.159.35
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778617754; cv=fail; b=iJ2xrdjN7VBz39C5D9HoJz0+inpqXilOiLyu8beT5h/w+vesLD/qoJr94MqplJgSAIp+OY3IrDyX5X0C85vaG5/12w6rfi1LB90CyiLE2745bhQQyk+TFnmgnSr2Ab75PjnZ7VkTXOMuBCi7CYxjISeH4NroDCFXObE5lMhlSgY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778617754; c=relaxed/simple;
+	bh=5PSgA/fIgVKcLoCQz9Wk5YFN1hSHDCS1W2uDajZ+UFU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=c6l+yxQD1OHbkge4oDBjpsb8ts9tJcsh2Io0fGxcvxEYjirPZduNjBCfFyW2NTdjYaOjA6FQQCEV5lne+v+/I8LqKLxzSEPOqsDjLpUHpXXuyP/D5BExpkAUG3mCKGcl39Svzd4PubzPMlJZNCOYqVuVXs3mMlqqIVrBCBRPBho=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=BITGTzDu; arc=fail smtp.client-ip=40.107.159.35
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Y9SiPhQpLoaYgkdVRTK22xGTjOQMjzo0iXt0A7g01B8qZbqOisztUnv1CPRhxbBWBurXPj9ydbR4zxcWzE7sCQ8tt1J4p+vrjwEGnJmn9XxBwa7Nx1Uq4ufHUL/DQIzFb+u+84QYW6YVbgfFlccg5FibOiyMCzF+g9EIs88V0ajzmL5wBVKX4l5HMu84Q/LQFmXG83OAF5CZspKU//Gm4FxNrsPGsbGz4U7qVEMLlVDiO9LERbe2GCUO5lTXKtRYEpl5P9uw1iIUSubGBhY0YSDwBqJ50J2/MoZOGDm8Qe1wUOoi6L5lK+IFhC/6MOq319TD2W16t2yhHZWCTq277g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=0zNPldR76TB3Ja5jkTt3PoItX61hiRrG7ayWmB6Y23A=;
+ b=vPpJkyHizhYu55UDlWYvhXLlYKsIcBGQvRDAioJHMbOmgle4MnB8QfO4xvZv79Rh8m1dYFYp4pQUuuXiiL8QEdglC+XOq1no4iji4Wmg0i9zrmHajhb4AK+jYHIncoDTT8ePhqVA5f3V9QiAx9wD8nQN0nh1Pr7kTWRc+nOPQ/tRYoDVaeM+QB6Um7eGIKItR+ph8oo73NWD1HQhIpmTvkTYgz+yHFnrA6ywQ4R5XzsUExzEz2yPo0nGBe1ULNEE5nlsVqFwjPyHM1g7Pu/GPjoTZvbHFc8FVM5qOCSP5tmpoZTgShtBmprQtONTn/OUN/85bGMYykTmmQWFd9obEw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=0zNPldR76TB3Ja5jkTt3PoItX61hiRrG7ayWmB6Y23A=;
+ b=BITGTzDugE0XRo8X1eucTrv0k8Tbd4HfBChwNXnx3vzhMPvHtXxixQZI1HiLfTIrdLdo97sy6r1wRQW3IwkQNoG9qE2CzAdTC8Nw+zjKf00fnxydz8fwDd8/MdlXyZaP/2+K27EaPoR5+6kdfWjL8GyrrpE429sftJWXuVGVLTkJhhhYjOXf4hpMfiMHqw+CswvAP8pLh8KnDIe00WJVcmYJTG42rvH4LdKjfoNe6yiunx1rnMl9UT7/FlCT448yv3+Rp+NWFxEqewmaZ9lxv9fJBpVFsYt0w6YznVjse/P3dYQOdnGt3VJdQ/cNEXzbuKBHNnJMTtp1E8HcLHDgcQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from PA4PR04MB9366.eurprd04.prod.outlook.com (2603:10a6:102:2a9::8)
+ by PA1PR04MB10914.eurprd04.prod.outlook.com (2603:10a6:102:480::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9891.23; Tue, 12 May
+ 2026 20:29:06 +0000
+Received: from PA4PR04MB9366.eurprd04.prod.outlook.com
+ ([fe80::75e4:8143:ddbc:6588]) by PA4PR04MB9366.eurprd04.prod.outlook.com
+ ([fe80::75e4:8143:ddbc:6588%3]) with mapi id 15.20.9891.021; Tue, 12 May 2026
+ 20:29:06 +0000
+Date: Tue, 12 May 2026 16:28:58 -0400
+From: Frank Li <Frank.li@nxp.com>
+To: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Cc: vkoul@kernel.org, Frank.Li@kernel.org, lgirdwood@gmail.com,
+	broonie@kernel.org, perex@perex.cz, tiwai@suse.com,
+	biju.das.jz@bp.renesas.com, prabhakar.mahadev-lad.rj@bp.renesas.com,
+	p.zabel@pengutronix.de, geert+renesas@glider.be,
+	fabrizio.castro.jz@renesas.com, kuninori.morimoto.gx@renesas.com,
+	long.luu.ur@renesas.com, claudiu.beznea@kernel.org,
+	dmaengine@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: Re: [PATCH] media: renesas: vsp1: Fix race condition when stopping
- display pipeline
-Message-ID: <20260512201435.GF4107@killaraus.ideasonboard.com>
-References: <20260511223832.3385049-1-laurent.pinchart+renesas@ideasonboard.com>
- <20260512153557.GA332351@ragnatech.se>
- <20260512164339.GB332351@ragnatech.se>
+Subject: Re: [PATCH v5 01/17] dmaengine: sh: rz-dmac: Move interrupt request
+ after everything is set up
+Message-ID: <agONitk0FUgq2Bwf@lizhi-Precision-Tower-5810>
+References: <20260512121219.216159-1-claudiu.beznea.uj@bp.renesas.com>
+ <20260512121219.216159-2-claudiu.beznea.uj@bp.renesas.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260512121219.216159-2-claudiu.beznea.uj@bp.renesas.com>
+X-ClientProxiedBy: SN7PR04CA0185.namprd04.prod.outlook.com
+ (2603:10b6:806:126::10) To PA4PR04MB9366.eurprd04.prod.outlook.com
+ (2603:10a6:102:2a9::8)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260512164339.GB332351@ragnatech.se>
-X-Rspamd-Queue-Id: 4E14A52900E
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PA4PR04MB9366:EE_|PA1PR04MB10914:EE_
+X-MS-Office365-Filtering-Correlation-Id: 72933b89-2047-4561-1c09-08deb0651d08
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|19092799006|52116014|7416014|376014|1800799024|18002099003|22082099003|11063799003|38350700014|56012099003;
+X-Microsoft-Antispam-Message-Info:
+	kZUv4/oSATRoyWOcpgAGMf8w4LAcTqjCoNa/8QKpiWTRIm6zQO6Q7qARbZhujaPY/dgzmeNtV1WTorp9bW6ZoMBEtfgyaOKXgAk7d9wBuQglgUTM6SXE86bOeDJLK7cynEXWjP1+wOdbeIOdt3r2tF2gXRS/ekyotGXl57VQ5/Hnn9WYbRU6Jvt+c/OAiSmDBlVAgqohhKxEEb5+bcMQsVZR46E/rIadltfSFHBGUy49XdNtiXIwd2fCX8awO+9WA+YB9xiVd0sq5U5I2H0Xh+mNXzTAYFkDj2t3HyGiQpGd3NG+stUHaKbHTGVLn9uSftX6ZMFUtGkvqnVXZfAb3sJTXSCi5d68mLmgFkJLNv5wibEYhfcOY9GHuNAUs9bSeKM9On9Z+LoDTySyWOwcd5yQmJ3nEpsaojAfW83SLSlsWBAdbTvi2MOFa5Dos/F5+Uw9q6bdrB48a3TlWXLyRIgQO9WipOPoO3REfbTBa0kcP++otQtSkSHYGV3e+dlJyPfFN81TnNQ55iY2pKRroLBLAQz5H56FkDcs9aYsoXn8gq7FQKxfTJVU80HTfcZM4KnBO3hQglqKTPbSSalOhwGbF10I1uKinB1ZLn7c6lHgt6/eKhFhpdldXtYYIQvKLMT/tN4MiCd3N2NVyLrMX5qJ3iBqDNz0/BG/Iyyq2R/y2GZ7aPTiue4SI7APx6Jim8or60Hh1UUVlLSsomFwWEjDJExQVRkERVvbOtsN++6tFi3WorKQn5zOhG/WNLsN
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR04MB9366.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(19092799006)(52116014)(7416014)(376014)(1800799024)(18002099003)(22082099003)(11063799003)(38350700014)(56012099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?lHiJ/MTyfK8LJLMdDdez0UtRzTDgaTK3cSF4vFZWjf/q+XBVoTAEwYAnwwoM?=
+ =?us-ascii?Q?hrc8J9C7hNOYIbXYew2SC/h+fa1raWNUeAhx90Tb2bD+0HBAIn53dbrYquUe?=
+ =?us-ascii?Q?ptEt5YI6CnOG9DMzt8XLBdIMO/q26DS5DPt3MXaYQfPEOXss48IXIAj4+qIY?=
+ =?us-ascii?Q?X9Ilm7/e9aOCCCQxlmFUcXyMnXmTbklGDhQmyDxr5jOlJSoJTSRCohTs0Cih?=
+ =?us-ascii?Q?b19gf+uvByfKteU6b8i5eEyY2tIWdxbfjRj5aRK5FCrKpyzjqoGAm1wyanfj?=
+ =?us-ascii?Q?rNoBO5jdPYqUO7ZQxVyY/NLSclz3PQDv/qOq6QaDKCgmWxWuxHz6KtyMydjr?=
+ =?us-ascii?Q?5NoDz/bD0qTk6ZaQ5BxCQG5rhGx4iu3TvT2hdCMlPHAMq+dXbPsntQGQDMjH?=
+ =?us-ascii?Q?jDZF2n0g0A5l94F1VsdCYQwcxQbcNfpHwAfz5/JPagtbtA8LeXKco8XoYStM?=
+ =?us-ascii?Q?4qwo8ZC/eMNOoZQdU0kpzpA3gEtT7ytJ5Tg1yY9PNv6DGdtXn911aRU2atHk?=
+ =?us-ascii?Q?RdN5fvo7OF1hxCv6GLRvUIHcspG04tdEWU/jYAVTIGvRRJjOqGdBa3n6LcN4?=
+ =?us-ascii?Q?f0hzd1a4rTP95YIQXdocZhQGLDcJv5eIG4vdq+qmgm5uFBbYxDhm64XNJsVJ?=
+ =?us-ascii?Q?IdZUgldWt8K0kAdegGG2BLBNAGGXgVRsYGwJUuJ4/JbFkh03jzxayUs3zbsc?=
+ =?us-ascii?Q?GcAD0IZVGvpH6nfQnB3/wLeLiKf9x90ukRL1iqgGkTlgkw95ug03cLn25Oel?=
+ =?us-ascii?Q?tD2w9eqY1wYiMp4GYL9SSHQSCafWXtIMMgeYOPj+G+b8rh0Si5b8r4kDtYd1?=
+ =?us-ascii?Q?B5q/Bgd9sAvjrWMGS3C4z7Nx6Glxy0/7iLQb78ZzZeylKrqRGowvKW/QI6lj?=
+ =?us-ascii?Q?tUgAh9TFRZQZ0ilY68JkcZtMI4Ns55bWPmD1uAKlc63mCn+RWW74BcxrER3A?=
+ =?us-ascii?Q?/4y5OnRGVgzROmtcs8UwCy+psIGg8n90lRvATwPIR+v1bm2ezJhKr5SQqD++?=
+ =?us-ascii?Q?WENpuS/Map6L9DN73nLlZMsxo+ivzjU7kywSBb02xFxuSuSo7ZbRIgXUsFNe?=
+ =?us-ascii?Q?4sQ3Loo+EkeDnA6vBefY+HhCEA2V9oja8/F8J0FiS9DZwvGvFt2e9Ixwiyo/?=
+ =?us-ascii?Q?3YSFtTgPcWF+RflLwCJ9dD0lUS45PKXyNXEr0iyJ/vD/cb9mKqeaP1pEBFFE?=
+ =?us-ascii?Q?WzyviEVFi8aoiTPIsGPPTf6/dQ0wXYLU9WPqJZtxHR1tK45P1xRX6IQTrNZ4?=
+ =?us-ascii?Q?JqCld9aUxrIQg2cX80fjgaDSyK0x924BTHocCd2HfscsSHv9k+87O6oIQPmZ?=
+ =?us-ascii?Q?5pgRVxpQ+2FsQxt3YJF0l+9rmWAgQUzVm0pHpztnzPhqMtpwROTkEFjN+2VX?=
+ =?us-ascii?Q?N1wLifzajBqh/bwvieFa/09R18sLrm4ICFw/jffbjqI8e1eVvKNBl4C40tsL?=
+ =?us-ascii?Q?SEYqwpnWbu20y8GG/V7DrR761QjcHgPyCAxKbcwen0j3dGiC2zzon3DYnQf/?=
+ =?us-ascii?Q?3xl+OJktRNpo9JFgGaK1/iHlQqwM+C96ixeVs5g2wW2uQHugNPeWnKCSy/U5?=
+ =?us-ascii?Q?kvyq/01MPkZB3PA2szzVp2/8AkqG/STay8KteYCKbSIs0PeaGPnIWkC0xDFy?=
+ =?us-ascii?Q?zLzicqZwy8rLAF6fjZQ7p4pzdR4ilMn0vyHF+RqnOb2rBBTvju8wB8CE0n/T?=
+ =?us-ascii?Q?90xDOn7cq7o5YMfqeNmI9fpy3RiDybaEFvt4nIz6o7FMFUQKNzqvHvU3/sIl?=
+ =?us-ascii?Q?1Y8pnCxWiA=3D=3D?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 72933b89-2047-4561-1c09-08deb0651d08
+X-MS-Exchange-CrossTenant-AuthSource: PA4PR04MB9366.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 May 2026 20:29:06.1381
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: DN7zrM7uOo0T2+mgEcJXEfX9R7lJXaz8Ve6KluxVViREl8S+yQBBK1JblyOOKIvZ2rK2VPxA9m4yy8YoMM2ErQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA1PR04MB10914
+X-Rspamd-Queue-Id: BD21752960F
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.16 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
-	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
+X-Spamd-Result: default: False [1.84 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_REJECT(1.00)[cv is fail on i=2];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[nxp.com,none];
+	R_DKIM_ALLOW(-0.20)[nxp.com:s=selector1];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-32521-lists,linux-renesas-soc=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-32520-lists,linux-renesas-soc=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	DKIM_TRACE(0.00)[ideasonboard.com:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	MISSING_XM_UA(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[laurent.pinchart@ideasonboard.com,linux-renesas-soc@vger.kernel.org];
+	RCPT_COUNT_TWELVE(0.00)[20];
+	FREEMAIL_CC(0.00)[kernel.org,gmail.com,perex.cz,suse.com,bp.renesas.com,pengutronix.de,glider.be,renesas.com,vger.kernel.org];
+	DKIM_TRACE(0.00)[nxp.com:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-renesas-soc];
-	RCPT_COUNT_FIVE(0.00)[6];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,killaraus.ideasonboard.com:mid]
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[Frank.li@nxp.com,linux-renesas-soc@vger.kernel.org];
+	TO_DN_SOME(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,nxp.com:email,nxp.com:dkim]
 X-Rspamd-Action: no action
 
-Hi Niklas,
+On Tue, May 12, 2026 at 03:12:02PM +0300, Claudiu Beznea wrote:
+> Once the interrupt is requested, the interrupt handler may run immediately.
+> Since the IRQ handler can access channel->ch_base, which is initialized
+> only after requesting the IRQ, this may lead to invalid memory access.
+> Likewise, the IRQ thread may access uninitialized data (the ld_free,
+> ld_queue, and ld_active lists), which may also lead to issues.
+>
+> Request the interrupts only after everything is set up. To keep the error
+> path simpler, use dmam_alloc_coherent() instead of dma_alloc_coherent().
+>
+> Fixes: 5000d37042a6 ("dmaengine: sh: Add DMAC driver for RZ/G2L SoC")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+> ---
 
-Thank you for the investigation.
+Reviewed-by: Frank Li <Frank.Li@nxp.com>
 
-On Tue, May 12, 2026 at 06:43:39PM +0200, Niklas Söderlund wrote:
-> On 2026-05-12 17:36:01 +0200, Niklas Söderlund wrote:
-> > On 2026-05-12 01:38:32 +0300, Laurent Pinchart wrote:
-> > > When stopping a display pipeline, the vsp1_du_setup_lif() function first
-> > > stops the hardware by calling vsp1_pipeline_stop(), and then resets
-> > > drm_pipe->du_complete to NULL. Stopping the hardware ensures no new
-> > > interrupt is generated, but does not wait for completion of any running
-> > > interrupt handler. This creates a race with vsp1_du_pipeline_frame_end()
-> > > which tests drm_pipe->du_complete before calling the function pointer.
-> > > If the drm_pipe->du_complete pointer is reset to NULL between those two
-> > > operations, a NULL pointer derefence will occur.
-> > > 
-> > > Fix this by setting pipe->state to STOPPING before stopping the
-> > > hardware, and avoid calling the frame end handler if the state is not
-> > > RUNNING. Condition the latter to the display pipeline, as the other
-> > > pipeline use a different stop procedure that waits for the frame end
-> > > handler to set the state to STOPPED.
-> > > 
-> > > The state check needs to be protected by the pipe->irqlock. The lock is
-> > > used by the video and vspx completion handlers already, so move it one
-> > > level up to vsp1_pipeline_frame_end().
-> > 
-> > Running with this and the still out-of-tree ISP driver I hit a splat. It 
-> > might be an issue in the ISP driver, I will dig some more. But for 
-> > reference I log the splat here. My stress test also seems to trigger the 
-> > deadlock.
-> 
-> I did some more digging, and indeed the deadlock is a combination of the 
-> R-Car ISP driver and this change. The usage pattern by the ISP is,
-> 
-> void prepare_next_job_for_vspx(...)
-> {
->     lockdep_assert_held(&core->lock);
-> 
->     /*
->      * Collect resources protected by core->lock into the next VSPX job.
->      */
->     myjob = ...;
-> 
->     if(vsp1_isp_job_run(myjob)) {
->        /* Error path, clean up. */
-> 
->        vsp1_isp_job_release(myjob);
-> 
->        /* Cleanup resources protected by core->lock */
->     }
-> }
-> 
-> void risp_vspx_frame_end_callback(...)
-> {
->     /* I am called by the VSPX from vsp1_pipeline_frame_end() */
-> 
->     guard(spinlock_irqsave)(&core->lock);
-> 
->     /* 
->      * Act on resources protected by core->lock that the VSPX is now 
->      * done processing.
->      */
-> 
->     prepare_next_job_for_vspx(...);
-> }
-> 
-> void start_work_by_queueing_first_job_to_vspx(...)
-> {
->     /*
->      * I'm called at stream on time in this example to get the ball 
->      * rolling.
->      */
-> 
->     guard(spinlock_irqsave)(&core->lock);
-> 
->     prepare_next_job_for_vspx(...)
-> }
-> 
-> The R-Car ISP driver could possibly be reworked to release the 
-> core->lock before calling vsp1_isp_job_run(). But it would then need to 
-> retake the lock in the error path, which seems messy.
-> 
-> If it all possible do think this patch can be reworked to call the user 
-> registered callback... (see below)
-> 
-> > [   32.111727] ======================================================
-> > [   32.112507] WARNING: possible circular locking dependency detected
-> > [   32.113287] 7.1.0-rc1-arm64-renesas-02551-g0fc35b78411a #17 Not tainted
-> > [   32.114122] ------------------------------------------------------
-> > [   32.114900] swapper/0/0 is trying to acquire lock:
-> > [   32.115506] ffff000442e1ef30 (&core->lock){-...}-{3:3}, at: risp_core_svspx_frame_end+0x24/0x60
-> > [   32.116624]
-> >                but task is already holding lock:
-> > [   32.117358] ffff000442e16cc8 (&pipe->irqlock){-...}-{3:3}, at: vsp1_pipeline_frame_end+0x4c/0xc0
-> > [   32.118478]
-> >                which lock already depends on the new lock.
-> > 
-> > [   32.119511]
-> >                the existing dependency chain (in reverse order) is:
-> > [   32.120457]
-> >                -> #1 (&pipe->irqlock){-...}-{3:3}:
-> > [   32.121223]        lock_acquire+0x27c/0x3fc
-> > [   32.121764]        _raw_spin_lock_irqsave+0x58/0x80
-> > [   32.122392]        vsp1_isp_job_run+0x84/0xf8
-> > [   32.122952]        risp_core_job_run+0x1e4/0x2a4
-> > [   32.123540]        risp_core_start_streaming+0x3d8/0x440
-> > [   32.124215]        risp_io_start_streaming+0x64/0xe0
-> > [   32.124846]        vb2_start_streaming+0x64/0x168
-> > [   32.125449]        vb2_core_streamon+0xd0/0x1b8
-> > [   32.126028]        vb2_ioctl_streamon+0x50/0x8c
-> > [   32.126606]        v4l_streamon+0x20/0x28
-> > [   32.127120]        __video_do_ioctl+0x344/0x3f0
-> > [   32.127698]        video_usercopy+0x2e8/0x9f0
-> > [   32.128254]        video_ioctl2+0x14/0x80
-> > [   32.128766]        v4l2_ioctl+0x3c/0x60
-> > [   32.129254]        __arm64_sys_ioctl+0x88/0xe0
-> > [   32.129825]        invoke_syscall.constprop.0+0x3c/0x100
-> > [   32.130504]        el0_svc_common.constprop.0+0x34/0xcc
-> > [   32.131170]        do_el0_svc+0x18/0x20
-> > [   32.131661]        el0_svc+0x3c/0x2b8
-> > [   32.132131]        el0t_64_sync_handler+0x98/0xe0
-> > [   32.132731]        el0t_64_sync+0x154/0x158
-> > [   32.133265]
-> >                -> #0 (&core->lock){-...}-{3:3}:
-> > [   32.133999]        check_prev_add+0x10c/0xda0
-> > [   32.134554]        __lock_acquire+0x129c/0x1584
-> > [   32.135131]        lock_acquire+0x27c/0x3fc
-> > [   32.135665]        _raw_spin_lock_irqsave+0x58/0x80
-> > [   32.136286]        risp_core_svspx_frame_end+0x24/0x60
-> > [   32.136939]        vsp1_vspx_pipeline_frame_end+0x1c/0x28
-> > [   32.137626]        vsp1_pipeline_frame_end+0xa8/0xc0
-> > [   32.138260]        vsp1_irq_handler+0xfc/0x12c
-> > [   32.138828]        __handle_irq_event_percpu+0xa8/0x4cc
-> > [   32.139497]        handle_irq_event+0x40/0x100
-> > [   32.140065]        handle_fasteoi_irq+0xe8/0x210
-> > [   32.140655]        handle_irq_desc+0x30/0x58
-> > [   32.141202]        generic_handle_domain_irq+0x14/0x1c
-> > [   32.141857]        gic_handle_irq+0x50/0xe0
-> > [   32.142389]        call_on_irq_stack+0x30/0x60
-> > [   32.142955]        do_interrupt_handler+0x78/0x7c
-> > [   32.143555]        el1_interrupt+0x34/0x50
-> > [   32.144079]        el1h_64_irq_handler+0x14/0x1c
-> > [   32.144668]        el1h_64_irq+0x6c/0x70
-> > [   32.145168]        cpuidle_enter_state+0xf4/0x440
-> > [   32.145769]        cpuidle_enter+0x30/0x40
-> > [   32.146295]        do_idle+0x16c/0x2d0
-> > [   32.146776]        cpu_startup_entry+0x30/0x40
-> > [   32.147342]        kernel_init+0x0/0x130
-> > [   32.147842]        do_one_initcall+0x0/0x248
-> > [   32.148392]        __primary_switched+0x88/0x90
-> > [   32.148970]
-> >                other info that might help us debug this:
-> > 
-> > [   32.149983]  Possible unsafe locking scenario:
-> > 
-> > [   32.150741]        CPU0                    CPU1
-> > [   32.151325]        ----                    ----
-> > [   32.151908]   lock(&pipe->irqlock);
-> > [   32.152366]                                lock(&core->lock);
-> > [   32.153110]                                lock(&pipe->irqlock);
-> > [   32.153886]   lock(&core->lock);
-> > [   32.154311]
-> >                 *** DEADLOCK ***
-> > 
-> > [   32.155073] 1 lock held by swapper/0/0:
-> > [   32.155572]  #0: ffff000442e16cc8 (&pipe->irqlock){-...}-{3:3}, at: vsp1_pipeline_frame_end+0x4c/0xc0
-> > [   32.156780]
-> >                stack backtrace:
-> > [   32.157347] CPU: 0 UID: 0 PID: 0 Comm: swapper/0 Not tainted 7.1.0-rc1-arm64-renesas-02551-g0fc35b78411a #17 PREEMPT
-> > [   32.157359] Hardware name: Retronix Sparrow Hawk board based on r8a779g3 (DT)
-> > [   32.157365] Call trace:
-> > [   32.157369]  show_stack+0x14/0x1c (C)
-> > [   32.157388]  dump_stack_lvl+0x6c/0x90
-> > [   32.157396]  dump_stack+0x14/0x1c
-> > [   32.157404]  print_circular_bug+0x254/0x2a0
-> > [   32.157413]  check_noncircular+0x170/0x190
-> > [   32.157422]  check_prev_add+0x10c/0xda0
-> > [   32.157431]  __lock_acquire+0x129c/0x1584
-> > [   32.157440]  lock_acquire+0x27c/0x3fc
-> > [   32.157449]  _raw_spin_lock_irqsave+0x58/0x80
-> > [   32.157460]  risp_core_svspx_frame_end+0x24/0x60
-> > [   32.157468]  vsp1_vspx_pipeline_frame_end+0x1c/0x28
-> > [   32.157480]  vsp1_pipeline_frame_end+0xa8/0xc0
-> > [   32.157494]  vsp1_irq_handler+0xfc/0x12c
-> > [   32.157507]  __handle_irq_event_percpu+0xa8/0x4cc
-> > [   32.157522]  handle_irq_event+0x40/0x100
-> > [   32.157537]  handle_fasteoi_irq+0xe8/0x210
-> > [   32.157547]  handle_irq_desc+0x30/0x58
-> > [   32.157560]  generic_handle_domain_irq+0x14/0x1c
-> > [   32.157574]  gic_handle_irq+0x50/0xe0
-> > [   32.157581]  call_on_irq_stack+0x30/0x60
-> > [   32.157590]  do_interrupt_handler+0x78/0x7c
-> > [   32.157600]  el1_interrupt+0x34/0x50
-> > [   32.157611]  el1h_64_irq_handler+0x14/0x1c
-> > [   32.157623]  el1h_64_irq+0x6c/0x70
-> > [   32.157630]  cpuidle_enter_state+0xf4/0x440 (P)
-> > [   32.157645]  cpuidle_enter+0x30/0x40
-> > [   32.157655]  do_idle+0x16c/0x2d0
-> > [   32.157665]  cpu_startup_entry+0x30/0x40
-> > [   32.157675]  kernel_init+0x0/0x130
-> > [   32.157682]  do_one_initcall+0x0/0x248
-> > [   32.157694]  __primary_switched+0x88/0x90
-> > 
-> > > Fixes: d7ade201ae7f ("v4l: vsp1: Extend VSP1 module API to allow DRM callbacks")
-> > > Cc: stable@vger.kernel.org
-> > > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> > > ---
-> > > 
-> > > I have noticed this race condition while debugging a separate issue and
-> > > adding printk() statements in the display pipeline frame end. I have
-> > > tested the fix with the DU test suite and VSP test suite, exercising
-> > > both the display and video pipelines. I'm fairly confident that the VSPX
-> > > pipeline won't be negatively affected, but it would be good to
-> > > double-check that. Jacopo, Niklas, would you be able to give test it ?
-> > > 
-> > > ---
-> > >  drivers/media/platform/renesas/vsp1/vsp1_pipe.c  | 12 ++++++++++--
-> > >  drivers/media/platform/renesas/vsp1/vsp1_video.c |  5 -----
-> > >  drivers/media/platform/renesas/vsp1/vsp1_vspx.c  | 13 +++++--------
-> > >  3 files changed, 15 insertions(+), 15 deletions(-)
-> > > 
-> > > diff --git a/drivers/media/platform/renesas/vsp1/vsp1_pipe.c b/drivers/media/platform/renesas/vsp1/vsp1_pipe.c
-> > > index 5d769cc42fe1..aaec1aa15091 100644
-> > > --- a/drivers/media/platform/renesas/vsp1/vsp1_pipe.c
-> > > +++ b/drivers/media/platform/renesas/vsp1/vsp1_pipe.c
-> > > @@ -509,6 +509,10 @@ int vsp1_pipeline_stop(struct vsp1_pipeline *pipe)
-> > >  		 * When using display lists in continuous frame mode the only
-> > >  		 * way to stop the pipeline is to reset the hardware.
-> > >  		 */
-> > > +		scoped_guard(spinlock_irqsave, &pipe->irqlock) {
-> > > +			pipe->state = VSP1_PIPELINE_STOPPING;
-> > > +		}
-> > > +
-> > >  		ret = vsp1_reset_wpf(vsp1, pipe->output->entity.index);
-> > >  		if (ret == 0) {
-> > >  			spin_lock_irqsave(&pipe->irqlock, flags);
-> > > @@ -583,8 +587,12 @@ void vsp1_pipeline_frame_end(struct vsp1_pipeline *pipe)
-> > >  	 * Regardless of frame completion we still need to notify the pipe
-> > >  	 * frame_end to account for vblank events.
-> > >  	 */
-> > > -	if (pipe->frame_end)
-> > > -		pipe->frame_end(pipe, flags);
-> > > +	scoped_guard(spinlock_irqsave, &pipe->irqlock) {
-> > > +		if (pipe->state == VSP1_PIPELINE_RUNNING || !pipe->lif) {
-> > > +			if (pipe->frame_end)
-> > > +				pipe->frame_end(pipe, flags);
-> 
-> .. here without holding the pipe->irqlock? AFIK this would be safe as 
-> the user is in control on when the next VSPX job is scheduled. And would 
-> IMHO make the API nicer as the user would be able to hold it's own locks 
-> in the interaction of queueing new jobs from the frame_end callback.
-
-We could release the lock here if !pipe->lif. I don't like that very
-much though, as it will create different locking patterns for different
-pipelines, which I was hoping to avoid :-/
-
-Maybe pushing the pipe->state check to the individual frame_end handlers
-would be better. I'll give it a try.
-
-> I'm willing to try and rework the R-Car ISP driver for this, but will 
-> await your feedback if you think it would be safe to avoid this issue in 
-> the API design between VSPX provider and user.
-> 
-> > > +		}
-> > > +	}
-> > >  
-> > >  	pipe->sequence++;
-> > >  }
-> > > diff --git a/drivers/media/platform/renesas/vsp1/vsp1_video.c b/drivers/media/platform/renesas/vsp1/vsp1_video.c
-> > > index fe1dac11d4ae..a8db94bdb670 100644
-> > > --- a/drivers/media/platform/renesas/vsp1/vsp1_video.c
-> > > +++ b/drivers/media/platform/renesas/vsp1/vsp1_video.c
-> > > @@ -325,14 +325,11 @@ static void vsp1_video_pipeline_frame_end(struct vsp1_pipeline *pipe,
-> > >  {
-> > >  	struct vsp1_device *vsp1 = pipe->output->entity.vsp1;
-> > >  	enum vsp1_pipeline_state state;
-> > > -	unsigned long flags;
-> > >  	unsigned int i;
-> > >  
-> > >  	/* M2M Pipelines should never call here with an incomplete frame. */
-> > >  	WARN_ON_ONCE(!(completion & VSP1_DL_FRAME_END_COMPLETED));
-> > >  
-> > > -	spin_lock_irqsave(&pipe->irqlock, flags);
-> > > -
-> > >  	/* Complete buffers on all video nodes. */
-> > >  	for (i = 0; i < vsp1->info->rpf_count; ++i) {
-> > >  		if (!pipe->inputs[i])
-> > > @@ -354,8 +351,6 @@ static void vsp1_video_pipeline_frame_end(struct vsp1_pipeline *pipe,
-> > >  		wake_up(&pipe->wq);
-> > >  	else if (vsp1_pipeline_ready(pipe))
-> > >  		vsp1_video_pipeline_run(pipe);
-> > > -
-> > > -	spin_unlock_irqrestore(&pipe->irqlock, flags);
-> > >  }
-> > >  
-> > >  static int vsp1_video_pipeline_build_branch(struct vsp1_pipeline *pipe,
-> > > diff --git a/drivers/media/platform/renesas/vsp1/vsp1_vspx.c b/drivers/media/platform/renesas/vsp1/vsp1_vspx.c
-> > > index 1673479be0ff..26c477708858 100644
-> > > --- a/drivers/media/platform/renesas/vsp1/vsp1_vspx.c
-> > > +++ b/drivers/media/platform/renesas/vsp1/vsp1_vspx.c
-> > > @@ -176,14 +176,11 @@ static void vsp1_vspx_pipeline_frame_end(struct vsp1_pipeline *pipe,
-> > >  {
-> > >  	struct vsp1_vspx_pipeline *vspx_pipe = to_vsp1_vspx_pipeline(pipe);
-> > >  
-> > > -	scoped_guard(spinlock_irqsave, &pipe->irqlock) {
-> > > -		/*
-> > > -		 * Operating the vsp1_pipe in singleshot mode requires to
-> > > -		 * manually set the pipeline state to stopped when a transfer
-> > > -		 * is completed.
-> > > -		 */
-> > > -		pipe->state = VSP1_PIPELINE_STOPPED;
-> > > -	}
-> > > +	/*
-> > > +	 * Operating the vsp1_pipe in singleshot mode requires to manually set
-> > > +	 * the pipeline state to stopped when a transfer is completed.
-> > > +	 */
-> > > +	pipe->state = VSP1_PIPELINE_STOPPED;
-> > >  
-> > >  	if (vspx_pipe->vspx_frame_end)
-> > >  		vspx_pipe->vspx_frame_end(vspx_pipe->frame_end_data);
-> > > 
-> > > base-commit: bc1ba628e37c93cf2abeb2c79716f49087f8a024
-
--- 
-Regards,
-
-Laurent Pinchart
+>
+> Changes in v5:
+> - none
+>
+> Changes in v4:
+> - none, this patch is new
+>
+>  drivers/dma/sh/rz-dmac.c | 88 +++++++++++++++-------------------------
+>  1 file changed, 33 insertions(+), 55 deletions(-)
+>
+> diff --git a/drivers/dma/sh/rz-dmac.c b/drivers/dma/sh/rz-dmac.c
+> index 625ff29024de..9f206a33dcc6 100644
+> --- a/drivers/dma/sh/rz-dmac.c
+> +++ b/drivers/dma/sh/rz-dmac.c
+> @@ -981,25 +981,6 @@ static int rz_dmac_chan_probe(struct rz_dmac *dmac,
+>  	channel->index = index;
+>  	channel->mid_rid = -EINVAL;
+>
+> -	/* Request the channel interrupt. */
+> -	scnprintf(pdev_irqname, sizeof(pdev_irqname), "ch%u", index);
+> -	irq = platform_get_irq_byname(pdev, pdev_irqname);
+> -	if (irq < 0)
+> -		return irq;
+> -
+> -	irqname = devm_kasprintf(dmac->dev, GFP_KERNEL, "%s:%u",
+> -				 dev_name(dmac->dev), index);
+> -	if (!irqname)
+> -		return -ENOMEM;
+> -
+> -	ret = devm_request_threaded_irq(dmac->dev, irq, rz_dmac_irq_handler,
+> -					rz_dmac_irq_handler_thread, 0,
+> -					irqname, channel);
+> -	if (ret) {
+> -		dev_err(dmac->dev, "failed to request IRQ %u (%d)\n", irq, ret);
+> -		return ret;
+> -	}
+> -
+>  	/* Set io base address for each channel */
+>  	if (index < 8) {
+>  		channel->ch_base = dmac->base + CHANNEL_0_7_OFFSET +
+> @@ -1012,9 +993,9 @@ static int rz_dmac_chan_probe(struct rz_dmac *dmac,
+>  	}
+>
+>  	/* Allocate descriptors */
+> -	lmdesc = dma_alloc_coherent(&pdev->dev,
+> -				    sizeof(struct rz_lmdesc) * DMAC_NR_LMDESC,
+> -				    &channel->lmdesc.base_dma, GFP_KERNEL);
+> +	lmdesc = dmam_alloc_coherent(&pdev->dev,
+> +				     sizeof(struct rz_lmdesc) * DMAC_NR_LMDESC,
+> +				     &channel->lmdesc.base_dma, GFP_KERNEL);
+>  	if (!lmdesc) {
+>  		dev_err(&pdev->dev, "Can't allocate memory (lmdesc)\n");
+>  		return -ENOMEM;
+> @@ -1030,7 +1011,24 @@ static int rz_dmac_chan_probe(struct rz_dmac *dmac,
+>  	INIT_LIST_HEAD(&channel->ld_free);
+>  	INIT_LIST_HEAD(&channel->ld_active);
+>
+> -	return 0;
+> +	/* Request the channel interrupt. */
+> +	scnprintf(pdev_irqname, sizeof(pdev_irqname), "ch%u", index);
+> +	irq = platform_get_irq_byname(pdev, pdev_irqname);
+> +	if (irq < 0)
+> +		return irq;
+> +
+> +	irqname = devm_kasprintf(dmac->dev, GFP_KERNEL, "%s:%u",
+> +				 dev_name(dmac->dev), index);
+> +	if (!irqname)
+> +		return -ENOMEM;
+> +
+> +	ret = devm_request_threaded_irq(dmac->dev, irq, rz_dmac_irq_handler,
+> +					rz_dmac_irq_handler_thread, 0,
+> +					irqname, channel);
+> +	if (ret)
+> +		dev_err(dmac->dev, "failed to request IRQ %u (%d)\n", irq, ret);
+> +
+> +	return ret;
+>  }
+>
+>  static void rz_dmac_put_device(void *_dev)
+> @@ -1099,7 +1097,6 @@ static int rz_dmac_probe(struct platform_device *pdev)
+>  	const char *irqname = "error";
+>  	struct dma_device *engine;
+>  	struct rz_dmac *dmac;
+> -	int channel_num;
+>  	int ret;
+>  	int irq;
+>  	u8 i;
+> @@ -1132,18 +1129,6 @@ static int rz_dmac_probe(struct platform_device *pdev)
+>  			return PTR_ERR(dmac->ext_base);
+>  	}
+>
+> -	/* Register interrupt handler for error */
+> -	irq = platform_get_irq_byname_optional(pdev, irqname);
+> -	if (irq > 0) {
+> -		ret = devm_request_irq(&pdev->dev, irq, rz_dmac_irq_handler, 0,
+> -				       irqname, NULL);
+> -		if (ret) {
+> -			dev_err(&pdev->dev, "failed to request IRQ %u (%d)\n",
+> -				irq, ret);
+> -			return ret;
+> -		}
+> -	}
+> -
+>  	/* Initialize the channels. */
+>  	INIT_LIST_HEAD(&dmac->engine.channels);
+>
+> @@ -1169,6 +1154,18 @@ static int rz_dmac_probe(struct platform_device *pdev)
+>  			goto err;
+>  	}
+>
+> +	/* Register interrupt handler for error */
+> +	irq = platform_get_irq_byname_optional(pdev, irqname);
+> +	if (irq > 0) {
+> +		ret = devm_request_irq(&pdev->dev, irq, rz_dmac_irq_handler, 0,
+> +				       irqname, NULL);
+> +		if (ret) {
+> +			dev_err(&pdev->dev, "failed to request IRQ %u (%d)\n",
+> +				irq, ret);
+> +			goto err;
+> +		}
+> +	}
+> +
+>  	/* Register the DMAC as a DMA provider for DT. */
+>  	ret = of_dma_controller_register(pdev->dev.of_node, rz_dmac_of_xlate,
+>  					 NULL);
+> @@ -1210,16 +1207,6 @@ static int rz_dmac_probe(struct platform_device *pdev)
+>  dma_register_err:
+>  	of_dma_controller_free(pdev->dev.of_node);
+>  err:
+> -	channel_num = i ? i - 1 : 0;
+> -	for (i = 0; i < channel_num; i++) {
+> -		struct rz_dmac_chan *channel = &dmac->channels[i];
+> -
+> -		dma_free_coherent(&pdev->dev,
+> -				  sizeof(struct rz_lmdesc) * DMAC_NR_LMDESC,
+> -				  channel->lmdesc.base,
+> -				  channel->lmdesc.base_dma);
+> -	}
+> -
+>  	reset_control_assert(dmac->rstc);
+>  err_pm_runtime_put:
+>  	pm_runtime_put(&pdev->dev);
+> @@ -1232,18 +1219,9 @@ static int rz_dmac_probe(struct platform_device *pdev)
+>  static void rz_dmac_remove(struct platform_device *pdev)
+>  {
+>  	struct rz_dmac *dmac = platform_get_drvdata(pdev);
+> -	unsigned int i;
+>
+>  	dma_async_device_unregister(&dmac->engine);
+>  	of_dma_controller_free(pdev->dev.of_node);
+> -	for (i = 0; i < dmac->n_channels; i++) {
+> -		struct rz_dmac_chan *channel = &dmac->channels[i];
+> -
+> -		dma_free_coherent(&pdev->dev,
+> -				  sizeof(struct rz_lmdesc) * DMAC_NR_LMDESC,
+> -				  channel->lmdesc.base,
+> -				  channel->lmdesc.base_dma);
+> -	}
+>  	reset_control_assert(dmac->rstc);
+>  	pm_runtime_put(&pdev->dev);
+>  	pm_runtime_disable(&pdev->dev);
+> --
+> 2.43.0
+>
 
