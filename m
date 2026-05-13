@@ -1,74 +1,74 @@
-Return-Path: <linux-renesas-soc+bounces-32592-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-32593-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id cADbLHfSBGr0PQIAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-32592-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 May 2026 21:35:19 +0200
+	id CCG8JFPTBGr0PQIAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-32593-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 May 2026 21:38:59 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7D5F53A094
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 May 2026 21:35:18 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id E4CA053A1BB
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 May 2026 21:38:58 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 351D63002936
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 May 2026 19:24:53 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 338B5300B45C
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 May 2026 19:29:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 870AA3AFAE2;
-	Wed, 13 May 2026 19:24:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B0D523B2FFC;
+	Wed, 13 May 2026 19:29:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="tSF/mCi0";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="Rj7pRxqP"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="K03akZj5";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="ayNgYVAt"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from fout-a1-smtp.messagingengine.com (fout-a1-smtp.messagingengine.com [103.168.172.144])
+Received: from fhigh-a5-smtp.messagingengine.com (fhigh-a5-smtp.messagingengine.com [103.168.172.156])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC6223B27C1;
-	Wed, 13 May 2026 19:24:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.144
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 990A53911A8;
+	Wed, 13 May 2026 19:29:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.156
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778700291; cv=none; b=kLAgqxc54VGx8tSX8Js7Z6f481icvsgainKmdgKQ3jpt6KaRMgs5Lt7zrc7ESB5RYpnzOuM3AhC9TwcbWQSXhQNUNENezBBPV21eDjz+n0QYZfCFN8XxL7h+d0nyVblu5jlTzIu8wKduaSeEmEWrkFvWNP2ZIG8Z5BnKjcqZ/2o=
+	t=1778700592; cv=none; b=UmQ1Rl2RBeZj8GCfeHXaXVbDD7ISxL1KTc/6EUo4Y4MALK1BBjaKqsfxjqglpT+zN9DkmLWia2PmXD39eGsYvyM6gq6oOTflwSV7yku9iM2dqqdl79jZwbcDj6YgwtTeb/NjvS+lyXyRkTjKrcmP5kBJ/FvjjlM4MyOVbx4SiI8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778700291; c=relaxed/simple;
-	bh=+2QxdCE3XYf+k+gI6IkuBtxYakMbYuRFMqZ+MfwjblA=;
+	s=arc-20240116; t=1778700592; c=relaxed/simple;
+	bh=wK1RYSXv+psaHWoBl6/DUI6tkif65yKqFm9rEulFbnk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mpzKIKSa1QwChk/hFyZPQdGEUKHG4jTIbRsB4S7BbzWYlgi6/M4Zi0TckwCQ1th5QB2+la93CqDm3zEHyKxEVOXqD0ZgNcaYmUguiTnXP+sf3cCHi9Uc61h8s5TDGsdljOdMXwGw8QmhdR4YEUnuyfZmNxJJwGmKCnPicLQqgYg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=tSF/mCi0; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=Rj7pRxqP; arc=none smtp.client-ip=103.168.172.144
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZUzQlL8JfAL151MsODW7dVA4+yhzI8/VlZBlwCm2XaeAnHAz1tLC4pPtyhk8QYaYNpo7Y5br7wzaghhu3PGmzxDyDolmSk4jNmfKUoTLurYQ9VOSptHwQB9gbN/N+kykNUwAvqHfc1n4Jlo2yoRl7JuscZdLF0U0neIKSF3JiwA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=K03akZj5; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=ayNgYVAt; arc=none smtp.client-ip=103.168.172.156
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from phl-compute-11.internal (phl-compute-11.internal [10.202.2.51])
-	by mailfout.phl.internal (Postfix) with ESMTP id 0AFBFEC012D;
-	Wed, 13 May 2026 15:24:48 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-11.internal (MEProxy); Wed, 13 May 2026 15:24:48 -0400
+Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id E02381400174;
+	Wed, 13 May 2026 15:29:49 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-06.internal (MEProxy); Wed, 13 May 2026 15:29:49 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
 	cc:cc:content-transfer-encoding:content-type:content-type:date
 	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1778700288;
-	 x=1778786688; bh=EyyxCJdYkagema2fQ27LfIFrsHe01PeuwInIxPvtBRQ=; b=
-	tSF/mCi0XMOOm0WRf2iPDb4GHqnNs54p+rTO4bmnVsB8FMh2HurseJM1KKO+AkQ0
-	2yovAUh2MNomF2tDUM3cdp5QJL2al7Ua6U+Uau1Hxbo8pUYd3hq3a+BM5am+eEt0
-	2hZpn9lbDriX3wNz2J2cLTp4mcD++UHTWyxjc9died9gReJ+Uqx+ox13RfPEde5a
-	7FmGu02l4RUIgs/nsFzGLzq6VloRouSEGV7BreZU6V+8zLqkkpYUbU3wNigFAXOy
-	o9+Q4nUWHoNokWpDkvF4p/TzPG2UVNLVYBzVvqO5lcC6sfc7Fr0ys8mz0NhtB+QT
-	m/7FK16gfYyZ9y2JtrVzzQ==
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1778700589;
+	 x=1778786989; bh=CdMuDRPLzXXsMqTH2LrTi+iM4eaNqLP7/cvENwR3dWU=; b=
+	K03akZj5ujSx0qZ8Mrw/yEzL0yAF0JJ4LbMrQzmZePrsxkjCoEXrjyOSc4BoBazU
+	9GjaJz2F3N+k9cKFixMPLvxYGDw0VhTeQ+UGlc8AR/lLiq3blQlrlJvcnEyZiRVP
+	MQ8BvRZJGrnJC64ri/jrvff0UhCDweDo8l7XVSvh35PN5nnKl0NZVJlVHbsG3rZE
+	o4alx++rwIFux29czvo9mEh6z9kyS3cb4Bq812Cc/XejxsOOQpb/qf+hg11if6xr
+	bIBDMD9k7YjnLYGZwKm451la1/L60djZvKDy/lhB5sxeeZzbvXFZHxrAYo66F9Np
+	SFWrkwba5eITKInP9Kf94w==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:content-type:date:date:feedback-id:feedback-id
 	:from:from:in-reply-to:in-reply-to:message-id:mime-version
 	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1778700288; x=
-	1778786688; bh=EyyxCJdYkagema2fQ27LfIFrsHe01PeuwInIxPvtBRQ=; b=R
-	j7pRxqPZtblpB+K15R3FWmxjAFSgRZ5kNb+XvDWi6k9DSu4SecTSmAzNgygYu8HI
-	yC56Ju1+lK9yE81JbUK21qOwg/VFQI0xTDAD4EUKDFLAaIafR7SaALdem8NamnOU
-	1XpxddQMfC+KkVQ2DAr40BJq3U8fZpZ680858Ubi5f+t3XwN/3O0MOUIlaGi5OjS
-	0eTVL0hhuKm/Np9RpJsWticcmNragzMfuUjCG3m0k1n3gETynrBXAlBQZmo90ypJ
-	/VQBz06RfgqWuZ9NbCe73iYtKteySBuFaXtJRFavWIA/C3cNng8Mfj031TWnYaSt
-	RwcgfRBB9GVcGwCT8ijVQ==
-X-ME-Sender: <xms:_88EanCgCLPmLqhhaMwdrQJ1C0WyCMiefyOrafKObZ8pkky9SpioNw>
-    <xme:_88EaqHW3HlKmYcfLVRnXFnc5bbvG9f0tx3AZhJcA2FXNK5q5QKkIExxga_e4OBMq
-    n_SQvI1BlbCez1uYfsfZYD-YpaGfTZKypn-b6gKhWmuPz4RjVdzAhc>
-X-ME-Received: <xmr:_88EanBB7jm8wdLOlSUg6KntOoq6RgJOtlVe9rPw2CstCsk01In1vS4PmN63ExI7qocbkDuW7xMPmVQlmiPujurQs-7icYO8Ga3d>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdduvdehgeekucetufdoteggodetrf
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1778700589; x=
+	1778786989; bh=CdMuDRPLzXXsMqTH2LrTi+iM4eaNqLP7/cvENwR3dWU=; b=a
+	yNgYVAtL+funpZEQ//UxLPA3VfVolGPF0lqlGtzHIidtEMrtPPIuunwSgnzR/1XB
+	6gKHFoOMgqk30KHOXi9mNymSP57q4mmLslydkHdRbtS2UvKl2FKsoojh4O899Xxm
+	pdxt1/8ZPbQyY7idjjDCy/SEovhI/7q8B+ZzO2pboePOKbEUMEuvhCjnmpXEPxAv
+	A2Cms19Mt/plCg796UyEu6MXMG8dyBkgThyeVuXNw7cWZuy0zKWc24dDfEH3hWY9
+	eq3ETBxw9XHTo0YgriSRSiE+USHSORwY9THGsatWDrpsoeL8M3HoWBdpSpmR+14n
+	WjxMQAahVhaXZKbcRlLFw==
+X-ME-Sender: <xms:LdEEapdu2k0S6nZmHdyL_ezK-MzoPi5zAj1D3OZito2EC2R3W62oPQ>
+    <xme:LdEEajynXMJRMEL0rNt2RwIsvXaFJmpsLgVl2nvgn3S_GaG73Snuhl03aWJN1Hagc
+    xylv2oarBC56JyU1qYzwo6zv_R30LUoHxYkm_ONxMUkhEI7_jVPfG0>
+X-ME-Received: <xmr:LdEEam9Vqaa98jedMMF0Jth83azjJyCIRgvM6yJMllISTXpJ4i4c1XzNVzm9Qn0wO50uS6X_0E5G_uSM7PCyaFfJGL693iR9LFr8>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdduvdehgeelucetufdoteggodetrf
     dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
     rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
     gurhepfffhvfevuffkfhggtggugfgjsehtkeertddttdejnecuhfhrohhmpefpihhklhgr
@@ -87,15 +87,15 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdduvdehgeekucetufdote
     thhopegsihhjuhdruggrshdrjhiisegsphdrrhgvnhgvshgrshdrtghomhdprhgtphhtth
     hopegrihhrlhhivggusehgmhgrihhlrdgtohhmpdhrtghpthhtohepshhimhhonhgrsehf
     fhiflhhlrdgthh
-X-ME-Proxy: <xmx:_88Eagl-8Vw6R0fBRGp9qMrVvl1ZqiTpEefxUXNSe8vLRbbDbq_mXg>
-    <xmx:_88EatOXeOQMUo6S-Ny4zhot-B_N4qwoXCzViARgLmZU_Lfrg4Fzag>
-    <xmx:_88Eal-uRmkyyoBRfcmQy00MJwPn7stetYRANDtggN11_0yF7z942A>
-    <xmx:_88EanEBFgk-rY8iWeynjarNRz6ntPcnoe9X34PrWc-kSLuSaoo_FA>
-    <xmx:ANAEagojRKO67q9O1gxHA0tusU_Zoo8bkHJRlMX_Np9sPaShtQiTNtN1>
+X-ME-Proxy: <xmx:LdEEapwbpE02ZqmDWmH1NeP6BOARPXuLsPmfn2ql7LZjomLCgyPE6Q>
+    <xmx:LdEEamrBm5fS65StbDQ546uYwOj0j1bucs_f7HenJ-aYGhWTV6-rTQ>
+    <xmx:LdEEaqoN0Y_MRXJMdp2XSd3r20W6jvM_Tnvz8EJ5NOecIl0A5it1zg>
+    <xmx:LdEEamD2wab-x3cL4pY3HgrDvS-p8wADw8FcCRjjSG67o6JnkrwrNg>
+    <xmx:LdEEagUyEpKPaxfHVDbYykTuEjp3g6ncNDFYT4E8XN6GSsok6b2uphhm>
 Feedback-ID: i80c9496c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 13 May 2026 15:24:47 -0400 (EDT)
-Date: Wed, 13 May 2026 21:24:46 +0200
+ 13 May 2026 15:29:49 -0400 (EDT)
+Date: Wed, 13 May 2026 21:29:48 +0200
 From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
 To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
@@ -104,10 +104,10 @@ Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
 	Kieran Bingham <kieran.bingham@ideasonboard.com>,
 	Biju Das <biju.das.jz@bp.renesas.com>,
 	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Subject: Re: [PATCH 06/11] media: renesas: vsp1: Use mutex scoped guards
-Message-ID: <20260513192446.GI332351@ragnatech.se>
+Subject: Re: [PATCH 07/11] media: renesas: vsp1: Use spinlock guards
+Message-ID: <20260513192948.GJ332351@ragnatech.se>
 References: <20260511235637.3468558-1-laurent.pinchart+renesas@ideasonboard.com>
- <20260511235637.3468558-7-laurent.pinchart+renesas@ideasonboard.com>
+ <20260511235637.3468558-8-laurent.pinchart+renesas@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -117,14 +117,14 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260511235637.3468558-7-laurent.pinchart+renesas@ideasonboard.com>
-X-Rspamd-Queue-Id: B7D5F53A094
+In-Reply-To: <20260511235637.3468558-8-laurent.pinchart+renesas@ideasonboard.com>
+X-Rspamd-Queue-Id: E4CA053A1BB
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[ragnatech.se,none];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	R_DKIM_ALLOW(-0.20)[ragnatech.se:s=fm2,messagingengine.com:s=fm3];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
@@ -133,7 +133,7 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	FREEMAIL_CC(0.00)[vger.kernel.org,lists.freedesktop.org,ideasonboard.com,bp.renesas.com,gmail.com,ffwll.ch];
 	RCVD_TLS_LAST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-32592-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-32593-lists,linux-renesas-soc=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	MISSING_XM_UA(0.00)[];
@@ -142,372 +142,397 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	RCVD_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[niklas.soderlund@ragnatech.se,linux-renesas-soc@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	NEURAL_HAM(-0.00)[-1.000];
 	RCPT_COUNT_SEVEN(0.00)[9];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,ideasonboard.com:email,messagingengine.com:dkim,ragnatech.se:email,ragnatech.se:mid,ragnatech.se:dkim]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,ragnatech.se:email,ragnatech.se:mid,ragnatech.se:dkim,ideasonboard.com:email]
 X-Rspamd-Action: no action
 
 Hi Laurent,
 
-Thanks for your work.
+Thanks for your patch.
 
-On 2026-05-12 02:56:30 +0300, Laurent Pinchart wrote:
-> Replace remaining manual mutex locking and unlocking with scoped
-> guards. This simplifies error paths and reduces the amount of code.
+On 2026-05-12 02:56:31 +0300, Laurent Pinchart wrote:
+> Replace manual spinlock locking and unlocking with guards. This
+> simplifies error paths and reduces the amount of code. Limit the changes
+> to locations where the guard covers until the end of the function to
+> ease review. Scoped guards will be introduced separately.
 > 
 > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 
 Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 
 > ---
->  .../media/platform/renesas/vsp1/vsp1_brx.c    |   7 +-
->  .../media/platform/renesas/vsp1/vsp1_drm.c    | 117 ++++++++----------
->  .../media/platform/renesas/vsp1/vsp1_entity.c |   8 +-
->  .../media/platform/renesas/vsp1/vsp1_hgo.c    |  10 +-
->  .../media/platform/renesas/vsp1/vsp1_hgt.c    |  16 +--
->  .../media/platform/renesas/vsp1/vsp1_video.c  |  60 ++++-----
->  6 files changed, 102 insertions(+), 116 deletions(-)
+>  drivers/media/platform/renesas/vsp1/vsp1_dl.c | 49 ++++++-------------
+>  .../media/platform/renesas/vsp1/vsp1_histo.c  | 20 +++-----
+>  .../media/platform/renesas/vsp1/vsp1_pipe.c   |  9 +---
+>  .../media/platform/renesas/vsp1/vsp1_video.c  | 14 ++----
+>  .../media/platform/renesas/vsp1/vsp1_wpf.c    |  4 +-
+>  5 files changed, 31 insertions(+), 65 deletions(-)
 > 
-> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_brx.c b/drivers/media/platform/renesas/vsp1/vsp1_brx.c
-> index bd2672341386..325be30836d7 100644
-> --- a/drivers/media/platform/renesas/vsp1/vsp1_brx.c
-> +++ b/drivers/media/platform/renesas/vsp1/vsp1_brx.c
-> @@ -190,9 +190,10 @@ static int brx_get_selection(struct v4l2_subdev *subdev,
->  		if (!state)
->  			return -EINVAL;
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_dl.c b/drivers/media/platform/renesas/vsp1/vsp1_dl.c
+> index 6c5578d9d2de..4a19ff1437b0 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1_dl.c
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_dl.c
+> @@ -336,9 +336,8 @@ void vsp1_dl_body_pool_destroy(struct vsp1_dl_body_pool *pool)
+>  struct vsp1_dl_body *vsp1_dl_body_get(struct vsp1_dl_body_pool *pool)
+>  {
+>  	struct vsp1_dl_body *dlb = NULL;
+> -	unsigned long flags;
 >  
-> -		mutex_lock(&brx->entity.lock);
-> -		sel->r = *v4l2_subdev_state_get_compose(state, sel->pad);
-> -		mutex_unlock(&brx->entity.lock);
-> +		scoped_guard(mutex, &brx->entity.lock) {
-> +			sel->r = *v4l2_subdev_state_get_compose(state, sel->pad);
-> +		}
-> +
->  		return 0;
+> -	spin_lock_irqsave(&pool->lock, flags);
+> +	guard(spinlock_irqsave)(&pool->lock);
 >  
->  	default:
-> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_drm.c b/drivers/media/platform/renesas/vsp1/vsp1_drm.c
-> index 1439cf7bfb59..2b64d9b5a81c 100644
-> --- a/drivers/media/platform/renesas/vsp1/vsp1_drm.c
-> +++ b/drivers/media/platform/renesas/vsp1/vsp1_drm.c
-> @@ -675,43 +675,37 @@ int vsp1_du_enable(struct device *dev, unsigned int pipe_index,
->  		__func__, pipe_index, cfg->width, cfg->height,
->  		pipe->interlaced ? "i" : "");
->  
-> -	mutex_lock(&vsp1->drm->lock);
-> +	scoped_guard(mutex, &vsp1->drm->lock) {
-> +		/* Setup formats through the pipeline. */
-> +		ret = vsp1_du_pipeline_setup_inputs(vsp1, pipe);
-> +		if (ret < 0)
-> +			return ret;
->  
-> -	/* Setup formats through the pipeline. */
-> -	ret = vsp1_du_pipeline_setup_inputs(vsp1, pipe);
-> -	if (ret < 0)
-> -		goto unlock;
-> +		ret = vsp1_du_pipeline_setup_output(vsp1, pipe);
-> +		if (ret < 0)
-> +			return ret;
->  
-> -	ret = vsp1_du_pipeline_setup_output(vsp1, pipe);
-> -	if (ret < 0)
-> -		goto unlock;
-> +		vsp1_pipeline_dump(pipe, "DU enable");
->  
-> -	vsp1_pipeline_dump(pipe, "DU enable");
-> +		/* Enable the VSP1. */
-> +		ret = vsp1_device_get(vsp1);
-> +		if (ret < 0)
-> +			return ret;
->  
-> -	/* Enable the VSP1. */
-> -	ret = vsp1_device_get(vsp1);
-> -	if (ret < 0)
-> -		goto unlock;
-> +		/*
-> +		 * Register a callback to allow us to notify the DRM driver of frame
-> +		 * completion events.
-> +		 */
-> +		drm_pipe->du_complete = cfg->callback;
-> +		drm_pipe->du_private = cfg->callback_data;
->  
-> -	/*
-> -	 * Register a callback to allow us to notify the DRM driver of frame
-> -	 * completion events.
-> -	 */
-> -	drm_pipe->du_complete = cfg->callback;
-> -	drm_pipe->du_private = cfg->callback_data;
-> +		/* Disable the display interrupts. */
-> +		vsp1_write(vsp1, VI6_DISP_IRQ_STA(pipe_index), 0);
-> +		vsp1_write(vsp1, VI6_DISP_IRQ_ENB(pipe_index), 0);
->  
-> -	/* Disable the display interrupts. */
-> -	vsp1_write(vsp1, VI6_DISP_IRQ_STA(pipe_index), 0);
-> -	vsp1_write(vsp1, VI6_DISP_IRQ_ENB(pipe_index), 0);
-> -
-> -	/* Configure all entities in the pipeline. */
-> -	vsp1_du_pipeline_configure(pipe);
-> -
-> -unlock:
-> -	mutex_unlock(&vsp1->drm->lock);
-> -
-> -	if (ret < 0)
-> -		return ret;
-> +		/* Configure all entities in the pipeline. */
-> +		vsp1_du_pipeline_configure(pipe);
-> +	}
->  
->  	/* Start the pipeline. */
->  	spin_lock_irqsave(&pipe->irqlock, flags);
-> @@ -739,7 +733,6 @@ int vsp1_du_disable(struct device *dev, unsigned int pipe_index)
->  	struct vsp1_device *vsp1 = dev_get_drvdata(dev);
->  	struct vsp1_drm_pipeline *drm_pipe;
->  	struct vsp1_pipeline *pipe;
-> -	struct vsp1_brx *brx;
->  	unsigned int i;
->  	int ret;
->  
-> @@ -749,45 +742,43 @@ int vsp1_du_disable(struct device *dev, unsigned int pipe_index)
->  	drm_pipe = &vsp1->drm->pipe[pipe_index];
->  	pipe = &drm_pipe->pipe;
->  
-> -	mutex_lock(&vsp1->drm->lock);
-> +	scoped_guard(mutex, &vsp1->drm->lock) {
-> +		struct vsp1_brx *brx = to_brx(&pipe->brx->subdev);
->  
-> -	brx = to_brx(&pipe->brx->subdev);
-> +		ret = vsp1_pipeline_stop(pipe);
-> +		if (ret == -ETIMEDOUT)
-> +			dev_err(vsp1->dev, "DRM pipeline stop timeout\n");
->  
-> -	ret = vsp1_pipeline_stop(pipe);
-> -	if (ret == -ETIMEDOUT)
-> -		dev_err(vsp1->dev, "DRM pipeline stop timeout\n");
-> +		for (i = 0; i < ARRAY_SIZE(pipe->inputs); ++i) {
-> +			struct vsp1_rwpf *rpf = pipe->inputs[i];
->  
-> -	for (i = 0; i < ARRAY_SIZE(pipe->inputs); ++i) {
-> -		struct vsp1_rwpf *rpf = pipe->inputs[i];
-> +			if (!rpf)
-> +				continue;
->  
-> -		if (!rpf)
-> -			continue;
-> +			/*
-> +			 * Remove the RPF from the pipe and the list of BRx
-> +			 * inputs.
-> +			 */
-> +			WARN_ON(!rpf->entity.pipe);
-> +			rpf->entity.pipe = NULL;
-> +			list_del(&rpf->entity.list_pipe);
-> +			pipe->inputs[i] = NULL;
->  
-> -		/*
-> -		 * Remove the RPF from the pipe and the list of BRx
-> -		 * inputs.
-> -		 */
-> -		WARN_ON(!rpf->entity.pipe);
-> -		rpf->entity.pipe = NULL;
-> -		list_del(&rpf->entity.list_pipe);
-> -		pipe->inputs[i] = NULL;
-> +			brx->inputs[rpf->brx_input].rpf = NULL;
-> +		}
->  
-> -		brx->inputs[rpf->brx_input].rpf = NULL;
-> +		drm_pipe->du_complete = NULL;
-> +		pipe->num_inputs = 0;
-> +
-> +		dev_dbg(vsp1->dev, "%s: pipe %u: releasing %s\n",
-> +			__func__, pipe->lif->index,
-> +			BRX_NAME(pipe->brx));
-> +
-> +		list_del(&pipe->brx->list_pipe);
-> +		pipe->brx->pipe = NULL;
-> +		pipe->brx = NULL;
+>  	if (!list_empty(&pool->free)) {
+>  		dlb = list_first_entry(&pool->free, struct vsp1_dl_body, free);
+> @@ -346,8 +345,6 @@ struct vsp1_dl_body *vsp1_dl_body_get(struct vsp1_dl_body_pool *pool)
+>  		refcount_set(&dlb->refcnt, 1);
 >  	}
 >  
-> -	drm_pipe->du_complete = NULL;
-> -	pipe->num_inputs = 0;
+> -	spin_unlock_irqrestore(&pool->lock, flags);
 > -
-> -	dev_dbg(vsp1->dev, "%s: pipe %u: releasing %s\n",
-> -		__func__, pipe->lif->index,
-> -		BRX_NAME(pipe->brx));
-> -
-> -	list_del(&pipe->brx->list_pipe);
-> -	pipe->brx->pipe = NULL;
-> -	pipe->brx = NULL;
-> -
-> -	mutex_unlock(&vsp1->drm->lock);
-> -
->  	vsp1_dlm_reset(pipe->output->dlm);
->  	vsp1_device_put(vsp1);
+>  	return dlb;
+>  }
 >  
-> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_entity.c b/drivers/media/platform/renesas/vsp1/vsp1_entity.c
-> index 3820ba53b45f..2ae2a573f0de 100644
-> --- a/drivers/media/platform/renesas/vsp1/vsp1_entity.c
-> +++ b/drivers/media/platform/renesas/vsp1/vsp1_entity.c
-> @@ -216,10 +216,10 @@ int vsp1_subdev_enum_mbus_code(struct v4l2_subdev *subdev,
->  		if (!state)
->  			return -EINVAL;
+> @@ -359,8 +356,6 @@ struct vsp1_dl_body *vsp1_dl_body_get(struct vsp1_dl_body_pool *pool)
+>   */
+>  void vsp1_dl_body_put(struct vsp1_dl_body *dlb)
+>  {
+> -	unsigned long flags;
+> -
+>  	if (!dlb)
+>  		return;
 >  
-> -		mutex_lock(&entity->lock);
-> -		format = v4l2_subdev_state_get_format(state, 0);
-> -		code->code = format->code;
-> -		mutex_unlock(&entity->lock);
-> +		scoped_guard(mutex, &entity->lock) {
-> +			format = v4l2_subdev_state_get_format(state, 0);
-> +			code->code = format->code;
-> +		}
+> @@ -369,9 +364,9 @@ void vsp1_dl_body_put(struct vsp1_dl_body *dlb)
+>  
+>  	dlb->num_entries = 0;
+>  
+> -	spin_lock_irqsave(&dlb->pool->lock, flags);
+> +	guard(spinlock_irqsave)(&dlb->pool->lock);
+> +
+>  	list_add_tail(&dlb->free, &dlb->pool->free);
+> -	spin_unlock_irqrestore(&dlb->pool->lock, flags);
+>  }
+>  
+>  /**
+> @@ -493,9 +488,8 @@ static
+>  struct vsp1_dl_ext_cmd *vsp1_dl_ext_cmd_get(struct vsp1_dl_cmd_pool *pool)
+>  {
+>  	struct vsp1_dl_ext_cmd *cmd = NULL;
+> -	unsigned long flags;
+>  
+> -	spin_lock_irqsave(&pool->lock, flags);
+> +	guard(spinlock_irqsave)(&pool->lock);
+>  
+>  	if (!list_empty(&pool->free)) {
+>  		cmd = list_first_entry(&pool->free, struct vsp1_dl_ext_cmd,
+> @@ -503,24 +497,20 @@ struct vsp1_dl_ext_cmd *vsp1_dl_ext_cmd_get(struct vsp1_dl_cmd_pool *pool)
+>  		list_del(&cmd->free);
 >  	}
 >  
->  	return 0;
-> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_hgo.c b/drivers/media/platform/renesas/vsp1/vsp1_hgo.c
-> index 2c8ce7175a4e..0ef512e3a94b 100644
-> --- a/drivers/media/platform/renesas/vsp1/vsp1_hgo.c
-> +++ b/drivers/media/platform/renesas/vsp1/vsp1_hgo.c
-> @@ -153,11 +153,11 @@ static void hgo_configure_stream(struct vsp1_entity *entity,
->  		       (crop->width << VI6_HGO_SIZE_HSIZE_SHIFT) |
->  		       (crop->height << VI6_HGO_SIZE_VSIZE_SHIFT));
+> -	spin_unlock_irqrestore(&pool->lock, flags);
+> -
+>  	return cmd;
+>  }
 >  
-> -	mutex_lock(hgo->ctrls.handler.lock);
-> -	hgo->max_rgb = hgo->ctrls.max_rgb->cur.val;
-> -	if (hgo->ctrls.num_bins)
-> -		hgo->num_bins = hgo_num_bins[hgo->ctrls.num_bins->cur.val];
-> -	mutex_unlock(hgo->ctrls.handler.lock);
-> +	scoped_guard(mutex, hgo->ctrls.handler.lock) {
-> +		hgo->max_rgb = hgo->ctrls.max_rgb->cur.val;
-> +		if (hgo->ctrls.num_bins)
-> +			hgo->num_bins = hgo_num_bins[hgo->ctrls.num_bins->cur.val];
-> +	}
+>  static void vsp1_dl_ext_cmd_put(struct vsp1_dl_ext_cmd *cmd)
+>  {
+> -	unsigned long flags;
+> -
+>  	if (!cmd)
+>  		return;
 >  
->  	hratio = crop->width * 2 / compose->width / 3;
->  	vratio = crop->height * 2 / compose->height / 3;
-> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_hgt.c b/drivers/media/platform/renesas/vsp1/vsp1_hgt.c
-> index 858f330d44fa..78b5a9201c70 100644
-> --- a/drivers/media/platform/renesas/vsp1/vsp1_hgt.c
-> +++ b/drivers/media/platform/renesas/vsp1/vsp1_hgt.c
-> @@ -152,15 +152,15 @@ static void hgt_configure_stream(struct vsp1_entity *entity,
->  		       (crop->width << VI6_HGT_SIZE_HSIZE_SHIFT) |
->  		       (crop->height << VI6_HGT_SIZE_VSIZE_SHIFT));
+>  	/* Reset flags, these mark data usage. */
+>  	cmd->flags = 0;
 >  
-> -	mutex_lock(hgt->ctrls.lock);
-> -	for (i = 0; i < HGT_NUM_HUE_AREAS; ++i) {
-> -		lower = hgt->hue_areas[i*2 + 0];
-> -		upper = hgt->hue_areas[i*2 + 1];
-> -		vsp1_hgt_write(hgt, dlb, VI6_HGT_HUE_AREA(i),
-> -			       (lower << VI6_HGT_HUE_AREA_LOWER_SHIFT) |
-> -			       (upper << VI6_HGT_HUE_AREA_UPPER_SHIFT));
-> +	scoped_guard(mutex, hgt->ctrls.lock) {
-> +		for (i = 0; i < HGT_NUM_HUE_AREAS; ++i) {
-> +			lower = hgt->hue_areas[i*2 + 0];
-> +			upper = hgt->hue_areas[i*2 + 1];
-> +			vsp1_hgt_write(hgt, dlb, VI6_HGT_HUE_AREA(i),
-> +				       (lower << VI6_HGT_HUE_AREA_LOWER_SHIFT) |
-> +				       (upper << VI6_HGT_HUE_AREA_UPPER_SHIFT));
-> +		}
+> -	spin_lock_irqsave(&cmd->pool->lock, flags);
+> +	guard(spinlock_irqsave)(&cmd->pool->lock);
+> +
+>  	list_add_tail(&cmd->free, &cmd->pool->free);
+> -	spin_unlock_irqrestore(&cmd->pool->lock, flags);
+>  }
+>  
+>  static void vsp1_dl_ext_cmd_pool_destroy(struct vsp1_dl_cmd_pool *pool)
+> @@ -611,11 +601,10 @@ static void vsp1_dl_list_free(struct vsp1_dl_list *dl)
+>  struct vsp1_dl_list *vsp1_dl_list_get(struct vsp1_dl_manager *dlm)
+>  {
+>  	struct vsp1_dl_list *dl = NULL;
+> -	unsigned long flags;
+>  
+>  	lockdep_assert_not_held(&dlm->lock);
+>  
+> -	spin_lock_irqsave(&dlm->lock, flags);
+> +	guard(spinlock_irqsave)(&dlm->lock);
+>  
+>  	if (!list_empty(&dlm->free)) {
+>  		dl = list_first_entry(&dlm->free, struct vsp1_dl_list, list);
+> @@ -629,8 +618,6 @@ struct vsp1_dl_list *vsp1_dl_list_get(struct vsp1_dl_manager *dlm)
+>  		dl->allocated = true;
 >  	}
-> -	mutex_unlock(hgt->ctrls.lock);
 >  
->  	hratio = crop->width * 2 / compose->width / 3;
->  	vratio = crop->height * 2 / compose->height / 3;
+> -	spin_unlock_irqrestore(&dlm->lock, flags);
+> -
+>  	return dl;
+>  }
+>  
+> @@ -690,14 +677,12 @@ static void __vsp1_dl_list_put(struct vsp1_dl_list *dl)
+>   */
+>  void vsp1_dl_list_put(struct vsp1_dl_list *dl)
+>  {
+> -	unsigned long flags;
+> -
+>  	if (!dl)
+>  		return;
+>  
+> -	spin_lock_irqsave(&dl->dlm->lock, flags);
+> +	guard(spinlock_irqsave)(&dl->dlm->lock);
+> +
+>  	__vsp1_dl_list_put(dl);
+> -	spin_unlock_irqrestore(&dl->dlm->lock, flags);
+>  }
+>  
+>  /**
+> @@ -937,7 +922,6 @@ void vsp1_dl_list_commit(struct vsp1_dl_list *dl, unsigned int dl_flags)
+>  {
+>  	struct vsp1_dl_manager *dlm = dl->dlm;
+>  	struct vsp1_dl_list *dl_next;
+> -	unsigned long flags;
+>  
+>  	/* Fill the header for the head and chained display lists. */
+>  	vsp1_dl_list_fill_header(dl, list_empty(&dl->chain));
+> @@ -950,14 +934,12 @@ void vsp1_dl_list_commit(struct vsp1_dl_list *dl, unsigned int dl_flags)
+>  
+>  	dl->flags = dl_flags & ~VSP1_DL_FRAME_END_COMPLETED;
+>  
+> -	spin_lock_irqsave(&dlm->lock, flags);
+> +	guard(spinlock_irqsave)(&dlm->lock);
+>  
+>  	if (dlm->singleshot)
+>  		vsp1_dl_list_commit_singleshot(dl);
+>  	else
+>  		vsp1_dl_list_commit_continuous(dl);
+> -
+> -	spin_unlock_irqrestore(&dlm->lock, flags);
+>  }
+>  
+>  /* -----------------------------------------------------------------------------
+> @@ -991,7 +973,7 @@ unsigned int vsp1_dlm_irq_frame_end(struct vsp1_dl_manager *dlm)
+>  	u32 status = vsp1_read(vsp1, VI6_STATUS);
+>  	unsigned int flags = 0;
+>  
+> -	spin_lock(&dlm->lock);
+> +	guard(spinlock)(&dlm->lock);
+>  
+>  	/*
+>  	 * The mem-to-mem pipelines work in single-shot mode. No new display
+> @@ -1001,7 +983,7 @@ unsigned int vsp1_dlm_irq_frame_end(struct vsp1_dl_manager *dlm)
+>  		__vsp1_dl_list_put(dlm->active);
+>  		dlm->active = NULL;
+>  		flags |= VSP1_DL_FRAME_END_COMPLETED;
+> -		goto done;
+> +		return flags;
+>  	}
+>  
+>  	/*
+> @@ -1011,7 +993,7 @@ unsigned int vsp1_dlm_irq_frame_end(struct vsp1_dl_manager *dlm)
+>  	 * and retry.
+>  	 */
+>  	if (vsp1_dl_list_hw_update_pending(dlm))
+> -		goto done;
+> +		return flags;
+>  
+>  	/*
+>  	 * Progressive streams report only TOP fields. If we have a BOTTOM
+> @@ -1019,7 +1001,7 @@ unsigned int vsp1_dlm_irq_frame_end(struct vsp1_dl_manager *dlm)
+>  	 * next frame end interrupt.
+>  	 */
+>  	if (status & VI6_STATUS_FLD_STD(dlm->index))
+> -		goto done;
+> +		return flags;
+>  
+>  	/*
+>  	 * If the active display list has the writeback flag set, the frame
+> @@ -1058,9 +1040,6 @@ unsigned int vsp1_dlm_irq_frame_end(struct vsp1_dl_manager *dlm)
+>  		dlm->pending = NULL;
+>  	}
+>  
+> -done:
+> -	spin_unlock(&dlm->lock);
+> -
+>  	return flags;
+>  }
+>  
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_histo.c b/drivers/media/platform/renesas/vsp1/vsp1_histo.c
+> index 72f6ef2fdc4f..97dbfb93abe9 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1_histo.c
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_histo.c
+> @@ -35,20 +35,18 @@ to_vsp1_histogram_buffer(struct vb2_v4l2_buffer *vbuf)
+>  struct vsp1_histogram_buffer *
+>  vsp1_histogram_buffer_get(struct vsp1_histogram *histo)
+>  {
+> -	struct vsp1_histogram_buffer *buf = NULL;
+> +	struct vsp1_histogram_buffer *buf;
+>  
+> -	spin_lock(&histo->irqlock);
+> +	guard(spinlock)(&histo->irqlock);
+>  
+>  	if (list_empty(&histo->irqqueue))
+> -		goto done;
+> +		return NULL;
+>  
+>  	buf = list_first_entry(&histo->irqqueue, struct vsp1_histogram_buffer,
+>  			       queue);
+>  	list_del(&buf->queue);
+>  	histo->readout = true;
+>  
+> -done:
+> -	spin_unlock(&histo->irqlock);
+>  	return buf;
+>  }
+>  
+> @@ -68,10 +66,10 @@ void vsp1_histogram_buffer_complete(struct vsp1_histogram *histo,
+>  	vb2_set_plane_payload(&buf->buf.vb2_buf, 0, size);
+>  	vb2_buffer_done(&buf->buf.vb2_buf, VB2_BUF_STATE_DONE);
+>  
+> -	spin_lock(&histo->irqlock);
+> +	guard(spinlock)(&histo->irqlock);
+> +
+>  	histo->readout = false;
+>  	wake_up(&histo->wait_queue);
+> -	spin_unlock(&histo->irqlock);
+>  }
+>  
+>  /* -----------------------------------------------------------------------------
+> @@ -123,9 +121,9 @@ static void histo_buffer_queue(struct vb2_buffer *vb)
+>  	struct vsp1_histogram *histo = vb2_get_drv_priv(vb->vb2_queue);
+>  	struct vsp1_histogram_buffer *buf = to_vsp1_histogram_buffer(vbuf);
+>  
+> -	spin_lock_irq(&histo->irqlock);
+> +	guard(spinlock_irq)(&histo->irqlock);
+> +
+>  	list_add_tail(&buf->queue, &histo->irqqueue);
+> -	spin_unlock_irq(&histo->irqlock);
+>  }
+>  
+>  static int histo_start_streaming(struct vb2_queue *vq, unsigned int count)
+> @@ -138,7 +136,7 @@ static void histo_stop_streaming(struct vb2_queue *vq)
+>  	struct vsp1_histogram *histo = vb2_get_drv_priv(vq);
+>  	struct vsp1_histogram_buffer *buffer;
+>  
+> -	spin_lock_irq(&histo->irqlock);
+> +	guard(spinlock_irq)(&histo->irqlock);
+>  
+>  	/* Remove all buffers from the IRQ queue. */
+>  	list_for_each_entry(buffer, &histo->irqqueue, queue)
+> @@ -147,8 +145,6 @@ static void histo_stop_streaming(struct vb2_queue *vq)
+>  
+>  	/* Wait for the buffer being read out (if any) to complete. */
+>  	wait_event_lock_irq(histo->wait_queue, !histo->readout, histo->irqlock);
+> -
+> -	spin_unlock_irq(&histo->irqlock);
+>  }
+>  
+>  static const struct vb2_ops histo_video_queue_qops = {
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_pipe.c b/drivers/media/platform/renesas/vsp1/vsp1_pipe.c
+> index aaec1aa15091..924e87f91903 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1_pipe.c
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_pipe.c
+> @@ -487,14 +487,9 @@ void vsp1_pipeline_run(struct vsp1_pipeline *pipe)
+>  
+>  bool vsp1_pipeline_stopped(struct vsp1_pipeline *pipe)
+>  {
+> -	unsigned long flags;
+> -	bool stopped;
+> +	guard(spinlock_irqsave)(&pipe->irqlock);
+>  
+> -	spin_lock_irqsave(&pipe->irqlock, flags);
+> -	stopped = pipe->state == VSP1_PIPELINE_STOPPED;
+> -	spin_unlock_irqrestore(&pipe->irqlock, flags);
+> -
+> -	return stopped;
+> +	return pipe->state == VSP1_PIPELINE_STOPPED;
+>  }
+>  
+>  int vsp1_pipeline_stop(struct vsp1_pipeline *pipe)
 > diff --git a/drivers/media/platform/renesas/vsp1/vsp1_video.c b/drivers/media/platform/renesas/vsp1/vsp1_video.c
-> index 4cf2cc370416..138d4e08eee9 100644
+> index 138d4e08eee9..1e5d9e42cea0 100644
 > --- a/drivers/media/platform/renesas/vsp1/vsp1_video.c
 > +++ b/drivers/media/platform/renesas/vsp1/vsp1_video.c
-> @@ -810,22 +810,21 @@ static int vsp1_video_start_streaming(struct vb2_queue *vq, unsigned int count)
->  	unsigned long flags;
+> @@ -667,7 +667,7 @@ static void vsp1_video_buffer_queue(struct vb2_buffer *vb)
+>  	if (!empty)
+>  		return;
+>  
+> -	spin_lock_irqsave(&pipe->irqlock, flags);
+> +	guard(spinlock_irqsave)(&pipe->irqlock);
+>  
+>  	video->rwpf->mem = buf->mem;
+>  	pipe->buffers_ready |= 1 << video->pipe_index;
+> @@ -675,8 +675,6 @@ static void vsp1_video_buffer_queue(struct vb2_buffer *vb)
+>  	if (vb2_start_streaming_called(&video->queue) &&
+>  	    vsp1_pipeline_ready(pipe))
+>  		vsp1_video_pipeline_run(pipe);
+> -
+> -	spin_unlock_irqrestore(&pipe->irqlock, flags);
+>  }
+>  
+>  static int vsp1_video_pipeline_setup_partitions(struct vsp1_pipeline *pipe)
+> @@ -778,14 +776,13 @@ static int vsp1_video_setup_pipeline(struct vsp1_pipeline *pipe)
+>  static void vsp1_video_release_buffers(struct vsp1_video *video)
+>  {
+>  	struct vsp1_vb2_buffer *buffer;
+> -	unsigned long flags;
+>  
+>  	/* Remove all buffers from the IRQ queue. */
+> -	spin_lock_irqsave(&video->irqlock, flags);
+> +	guard(spinlock_irqsave)(&video->irqlock);
+> +
+>  	list_for_each_entry(buffer, &video->irqqueue, queue)
+>  		vb2_buffer_done(&buffer->buf.vb2_buf, VB2_BUF_STATE_ERROR);
+>  	INIT_LIST_HEAD(&video->irqqueue);
+> -	spin_unlock_irqrestore(&video->irqlock, flags);
+>  }
+>  
+>  static void vsp1_video_cleanup_pipeline(struct vsp1_pipeline *pipe)
+> @@ -807,7 +804,6 @@ static int vsp1_video_start_streaming(struct vb2_queue *vq, unsigned int count)
+>  	struct vsp1_video *video = vb2_get_drv_priv(vq);
+>  	struct vsp1_pipeline *pipe = video->rwpf->entity.pipe;
+>  	bool start_pipeline = false;
+> -	unsigned long flags;
 >  	int ret;
 >  
-> -	mutex_lock(&pipe->lock);
-> -	if (pipe->stream_count == pipe->num_inputs) {
-> -		ret = vsp1_video_setup_pipeline(pipe);
-> -		if (ret < 0) {
-> -			vsp1_video_release_buffers(video);
-> -			vsp1_video_cleanup_pipeline(pipe);
-> -			mutex_unlock(&pipe->lock);
-> -			return ret;
-> +	scoped_guard(mutex, &pipe->lock) {
-> +		if (pipe->stream_count == pipe->num_inputs) {
-> +			ret = vsp1_video_setup_pipeline(pipe);
-> +			if (ret < 0) {
-> +				vsp1_video_release_buffers(video);
-> +				vsp1_video_cleanup_pipeline(pipe);
-> +				return ret;
-> +			}
+>  	scoped_guard(mutex, &pipe->lock) {
+> @@ -835,10 +831,10 @@ static int vsp1_video_start_streaming(struct vb2_queue *vq, unsigned int count)
+>  	if (!start_pipeline)
+>  		return 0;
+>  
+> -	spin_lock_irqsave(&pipe->irqlock, flags);
+> +	guard(spinlock_irqsave)(&pipe->irqlock);
 > +
-> +			start_pipeline = true;
->  		}
+>  	if (vsp1_pipeline_ready(pipe))
+>  		vsp1_video_pipeline_run(pipe);
+> -	spin_unlock_irqrestore(&pipe->irqlock, flags);
 >  
-> -		start_pipeline = true;
-> +		pipe->stream_count++;
->  	}
+>  	return 0;
+>  }
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_wpf.c b/drivers/media/platform/renesas/vsp1/vsp1_wpf.c
+> index e7ed3c8e9e90..327c7457126f 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1_wpf.c
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_wpf.c
+> @@ -111,9 +111,9 @@ static int vsp1_wpf_s_ctrl(struct v4l2_ctrl *ctrl)
+>  	if (rotation == 180 || rotation == 270)
+>  		flip ^= BIT(WPF_CTRL_VFLIP) | BIT(WPF_CTRL_HFLIP);
 >  
-> -	pipe->stream_count++;
-> -	mutex_unlock(&pipe->lock);
-> -
->  	/*
->  	 * vsp1_pipeline_ready() is not sufficient to establish that all streams
->  	 * are prepared and the pipeline is configured, as multiple streams
-> @@ -859,16 +858,17 @@ static void vsp1_video_stop_streaming(struct vb2_queue *vq)
->  	pipe->buffers_ready &= ~(1 << video->pipe_index);
->  	spin_unlock_irqrestore(&video->irqlock, flags);
+> -	spin_lock_irq(&wpf->flip.lock);
+> +	guard(spinlock_irq)(&wpf->flip.lock);
+> +
+>  	wpf->flip.pending = flip;
+> -	spin_unlock_irq(&wpf->flip.lock);
 >  
-> -	mutex_lock(&pipe->lock);
-> -	if (--pipe->stream_count == pipe->num_inputs) {
-> -		/* Stop the pipeline. */
-> -		ret = vsp1_pipeline_stop(pipe);
-> -		if (ret == -ETIMEDOUT)
-> -			dev_err(video->vsp1->dev, "pipeline stop timeout\n");
-> +	scoped_guard(mutex, &pipe->lock) {
-> +		if (--pipe->stream_count == pipe->num_inputs) {
-> +			/* Stop the pipeline. */
-> +			ret = vsp1_pipeline_stop(pipe);
-> +			if (ret == -ETIMEDOUT)
-> +				dev_err(video->vsp1->dev,
-> +					"pipeline stop timeout\n");
->  
-> -		vsp1_video_cleanup_pipeline(pipe);
-> +			vsp1_video_cleanup_pipeline(pipe);
-> +		}
->  	}
-> -	mutex_unlock(&pipe->lock);
->  
->  	video_device_pipeline_stop(&video->video);
->  	vsp1_video_release_buffers(video);
-> @@ -995,22 +995,16 @@ vsp1_video_streamon(struct file *file, void *fh, enum v4l2_buf_type type)
->  	 * touching an entity in the pipeline can be activated or deactivated
->  	 * once streaming is started.
->  	 */
-> -	mutex_lock(&mdev->graph_mutex);
-> +	scoped_guard(mutex, &mdev->graph_mutex) {
-> +		pipe = vsp1_video_pipeline_get(video);
-> +		if (IS_ERR(pipe))
-> +			return PTR_ERR(pipe);
->  
-> -	pipe = vsp1_video_pipeline_get(video);
-> -	if (IS_ERR(pipe)) {
-> -		mutex_unlock(&mdev->graph_mutex);
-> -		return PTR_ERR(pipe);
-> +		ret = __video_device_pipeline_start(&video->video, &pipe->pipe);
-> +		if (ret < 0)
-> +			goto err_pipe;
->  	}
->  
-> -	ret = __video_device_pipeline_start(&video->video, &pipe->pipe);
-> -	if (ret < 0) {
-> -		mutex_unlock(&mdev->graph_mutex);
-> -		goto err_pipe;
-> -	}
-> -
-> -	mutex_unlock(&mdev->graph_mutex);
-> -
->  	/*
->  	 * Verify that the configured format matches the output of the connected
->  	 * subdev.
+>  	return 0;
+>  }
 > -- 
 > Regards,
 > 
