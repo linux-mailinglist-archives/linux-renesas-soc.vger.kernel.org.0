@@ -1,49 +1,49 @@
-Return-Path: <linux-renesas-soc+bounces-32547-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-32548-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id aIpXLvfVA2ol/AEAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-32547-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 May 2026 03:37:59 +0200
+	id UDytG/jVA2ol/AEAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-32548-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 May 2026 03:38:00 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73BB552BFDB
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C7FE52BFDA
 	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 May 2026 03:37:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id B8A3930C0A02
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 May 2026 01:36:23 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 430B63045A03
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 May 2026 01:36:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F34E5385D9D;
-	Wed, 13 May 2026 01:35:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9831038758F;
+	Wed, 13 May 2026 01:36:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="luj0SoON"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Cd+D5pxv"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B896382F0C;
-	Wed, 13 May 2026 01:35:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 335B5386568;
+	Wed, 13 May 2026 01:35:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778636158; cv=none; b=EZNSdAjbuxkNUEPVSK9PjFlfIA9Jl6b2QzEkauYpx04W1TYdAY+Dv2SuySuSL7uC3TvS7hAUfLpqJLLOmXKIgTCEijhTuTzv6+bv5Qc+sraL/3GrWRQ+WBM0A4EpqRIZ1+MO9wsxhcOu/6pR9S6jF2HRWlzY3Hposnl9Zk+5ZO4=
+	t=1778636160; cv=none; b=C87iov0Bnj3aGhslsaPjoegDVxuR0mwKMgr6lozdHle5LsWKKZ/GjK0l5xLERUzKeEMPU4FGB9/qYaRXMhiLODvMaPexX54sOZaBh1p6YPng13fSNzTvKGWSjKQM4iEofIf/ogM79v0YAjbxkm30oLyJjV+2PmxC8aXoYSCXwHM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778636158; c=relaxed/simple;
-	bh=NKYkag2pwcy5E5yaWElHBHKRewYcer7qs3fVTdZ23aQ=;
+	s=arc-20240116; t=1778636160; c=relaxed/simple;
+	bh=L+4/4cgw69hKnq0XzLW40Qz55POgPrw9dVtvP1ThgBk=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=kTFb247Q8wArT9kmN/p8G2cEYQFix9mXXU3cSuMz37mPVDSfnhxrKQLymH0qD60tLS9hnZF8ssbox+z/Oc/89TopzP3kxJ0NKhNxnsjRA8L5aGBGuQcodsENog/qt0XzIXKqF9TBJwNwf6CwJpn6NePU/WItu2eJ0H4HZPBiEfU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=luj0SoON; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 339E0C2BCB8;
-	Wed, 13 May 2026 01:35:57 +0000 (UTC)
+	 MIME-Version; b=aWKZu2BcXVI4FuWQLhhxhJGffsmHtwb9EgeYQ9BeoDH5m8g5X6dy0nBAcuLsWJ97vZ3Wyvs/4wx9Hr3cCE7YJk02uQWXITRS1rCupGS9M614glSN6GWDmtDAlbuVvo++yJgMCjJ1pLILYngIMR2WCmjCUfvli0FrqiOYMufiKzA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Cd+D5pxv; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D4AABC2BCB0;
+	Wed, 13 May 2026 01:35:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778636157;
-	bh=NKYkag2pwcy5E5yaWElHBHKRewYcer7qs3fVTdZ23aQ=;
+	s=k20201202; t=1778636159;
+	bh=L+4/4cgw69hKnq0XzLW40Qz55POgPrw9dVtvP1ThgBk=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=luj0SoONahdwQB+vY401/EVeApk9SBLv7ZmBoPJCov+a2++E3EA8lrHZUvZ2Vh40B
-	 xCgqzIby7R86R2OOKzxBkmP14xsJem0hnB4fS120t63cFTvJhlrXGnE4TxzxOTplHQ
-	 OT1FM2EfGVTmzzHsQso5kBO/mQm9db0Yp9Yu11ST3SXPND+Xy9KI6REUC71uoeH/y0
-	 C6N9oX2Cy2RLBnhQAkT9YtoqogA0xIn9ftPTaJZT/4C4G23ON77HyocRUXpIuzmHOM
-	 qx2iCSjBCN4igCJso/IzEERMsSmIjSWHao5d72OZXy2/uWaxWt3UbKt9iNDykizoBN
-	 pcIwj12xLEZQA==
+	b=Cd+D5pxvevRxCMWvAUT1Du3SsjTqHa2vPl3JtAVbHJkbP8HJqnCqcUgRv4w3hUzLX
+	 osvmH2s7a7KtsBqPz0ZEkQf17wjGU8Zkag/4qnQqvc5Q6px3YvmdnsYtBHMEZ1pPX0
+	 8zCrtwRIRnQdnpiNFu80XcZhcYIm5mOFGLCLCBjIjG3qAzFK2jQoyP8IHt7O1le8bE
+	 nTVGO45+4NS5JyGPh66fGni8GRBPAerk3Fg6fC4MWYNWs6Z57IK1FtDr4UCkiNxy7f
+	 1Y6hA1ZQoYw/1wOopNDtFkQO2LiXrx0Ax1YbEhTjgf1x4MshrRe9TLYerSYW44iAiA
+	 KsxP16ATLYuxQ==
 From: Jakub Kicinski <kuba@kernel.org>
 To: michael.dege@renesas.com
 Cc: Jakub Kicinski <kuba@kernel.org>,
@@ -57,12 +57,12 @@ Cc: Jakub Kicinski <kuba@kernel.org>,
 	netdev@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH net-next v4 10/13] net: renesas: rswitch: clean up is_rdev rswitch_device checking
-Date: Tue, 12 May 2026 18:35:56 -0700
-Message-ID: <20260513013556.1408455-1-kuba@kernel.org>
+Subject: Re: [PATCH net-next v4 11/13] net: renesas: rswitch: add passing of rswitch_private into notifiers
+Date: Tue, 12 May 2026 18:35:57 -0700
+Message-ID: <20260513013558.1408479-1-kuba@kernel.org>
 X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260511-rswitch_add_vlans-v4-10-a5a225f8faae@renesas.com>
-References: <20260511-rswitch_add_vlans-v4-10-a5a225f8faae@renesas.com>
+In-Reply-To: <20260511-rswitch_add_vlans-v4-11-a5a225f8faae@renesas.com>
+References: <20260511-rswitch_add_vlans-v4-11-a5a225f8faae@renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -70,7 +70,7 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 73BB552BFDB
+X-Rspamd-Queue-Id: 6C7FE52BFDA
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [0.84 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
@@ -79,12 +79,12 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCPT_COUNT_TWELVE(0.00)[12];
-	TAGGED_FROM(0.00)[bounces-32547-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-32548-lists,linux-renesas-soc=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
@@ -98,64 +98,40 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	NEURAL_HAM(-0.00)[-0.999];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,netdev];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
 X-Rspamd-Action: no action
 
 This is an AI-generated review of your patch. The human sending this
 email has considered the AI review valid, or at least plausible.
 ---
-net: renesas: rswitch: clean up is_rdev rswitch_device checking
+net: renesas: rswitch: add passing of rswitch_private into notifiers
 
-Add null pointer checking for ndev and remove unnecessay
-rswitch_port_check() wrapper function.
+This commit updates the notifier registration functions to accept a pointer
+to the rswitch_private structure, allowing the handlers to access the
+hardware.
 
-> Add null pointer checking for ndev and remove unnecessay
-> rswitch_port_check() wrapper function.
-
-This isn't a bug, but there's a typo (unnecessay) in the commit message.
-
-> diff --git a/drivers/net/ethernet/renesas/rswitch_l2.c b/drivers/net/ethernet/renesas/rswitch_l2.c
-> index 3cc0ce8762f3c..dd8aecbcb2a8b 100644
-> --- a/drivers/net/ethernet/renesas/rswitch_l2.c
-> +++ b/drivers/net/ethernet/renesas/rswitch_l2.c
+> diff --git a/drivers/net/ethernet/renesas/rswitch_main.c b/drivers/net/ethernet/renesas/rswitch_main.c
+> --- a/drivers/net/ethernet/renesas/rswitch_main.c
+> +++ b/drivers/net/ethernet/renesas/rswitch_main.c
 [ ... ]
-> @@ -278,11 +273,11 @@ static int rswitch_switchdev_blocking_event(struct notifier_block *nb,
->  		return -EOPNOTSUPP;
+> @@ -2290,7 +2290,7 @@ static int renesas_eth_sw_probe(struct platform_device *pdev)
+>  	if (list_empty(&priv->port_list))
+>  		dev_warn(&pdev->dev, "could not initialize any ports\n");
+>  
+> -	ret = rswitch_register_notifiers();
+> +	ret = rswitch_register_notifiers(priv);
+>  	if (ret) {
+>  		dev_err(&pdev->dev, "could not register notifiers\n");
+>  		return ret;
 
-This wasn't introduced by this patch, but does returning -EOPNOTSUPP directly
-here abort the global switchdev blocking notifier chain?
+If rswitch_register_notifiers() fails here, does this error path skip
+cleaning up the initialization performed earlier by rswitch_init()?
 
-In a 32-bit signed integer representation, -EOPNOTSUPP (-95) has the 15th bit
-set (0xFFFFFFA1), which inadvertently matches NOTIFY_STOP_MASK (0x8000).
+It looks like rswitch_init() registers network devices, but this error path
+returns directly without calling rswitch_deinit() or the runtime PM puts.
 
-Because this happens without verifying if the target device belongs to the
-driver via is_rdev(ndev), it seems like this will silently break switchdev
-object offloading (like VLANs, MDBs, MRP) for all other NICs system-wide as
-long as this module is loaded.
-
-Additionally, notifier_to_errno() strips the stop mask, transforming -95
-to -32863. Since this is negative, it returns 0, which could trick the
-switchdev core into thinking the event was unhandled rather than explicitly
-unsupported.
-
-Even though subsequent patches in this series (like "net: renesas: rswitch: add
-vlan aware switching") refactor this block, they still return -EOPNOTSUPP for
-non-VLAN objects by wrapping it in notifier_from_errno(-EOPNOTSUPP).
-
-Because notifier_from_errno(-EOPNOTSUPP) produces NOTIFY_STOP_MASK | 96,
-doesn't the system-wide chain breakage persist?
-
->  	case SWITCHDEV_PORT_ATTR_SET:
->  		ret = switchdev_handle_port_attr_set(ndev, ptr,
-> -						     rswitch_port_check,
-> +						     is_rdev,
->  						     rswitch_port_attr_set);
->  		break;
->  	default:
-> -		if (!rswitch_port_check(ndev))
-> +		if (!is_rdev(ndev))
->  			return NOTIFY_DONE;
->  		ret = -EOPNOTSUPP;
->  	}
+Since priv is allocated using devm_kzalloc, the memory will be automatically
+freed when the probe fails. Could this result in a use-after-free if those
+dangling network interfaces are subsequently brought up or receive packets?
 
