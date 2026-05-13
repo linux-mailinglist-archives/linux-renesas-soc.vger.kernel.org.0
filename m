@@ -1,274 +1,242 @@
-Return-Path: <linux-renesas-soc+bounces-32596-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-32597-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id qPUnJjLWBGovPwIAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-32596-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 May 2026 21:51:14 +0200
+	id 4L04C0PYBGovPwIAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-32597-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 May 2026 22:00:03 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 031A353A323
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 May 2026 21:51:13 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 73F3B53A432
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 May 2026 22:00:02 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 9C9F930480A0
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 May 2026 19:44:10 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id DB5233067031
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 May 2026 19:56:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2483F3B27C9;
-	Wed, 13 May 2026 19:44:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4B5E63AE199;
+	Wed, 13 May 2026 19:56:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="Zb3/J8Gq";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="fehknpLB"
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="WNwWgXEn"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from fhigh-a5-smtp.messagingengine.com (fhigh-a5-smtp.messagingengine.com [103.168.172.156])
+Received: from AM0PR83CU005.outbound.protection.outlook.com (mail-westeuropeazon11010070.outbound.protection.outlook.com [52.101.69.70])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F9063ADB8F;
-	Wed, 13 May 2026 19:44:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.156
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778701450; cv=none; b=WPYH/miAODZVp8KuE5uhFLHghXE1Esqqz7KfrI3up1n8jfwNR00cMvo2SD7DzU81M4/5put2yw8jnjAFFVI0pjMEyS6zS+3c7+lia5ZC728OjZK9MeAgNm1MAIlstVYV7hpZuvbGZnGJKnlvHY5faTkCoGEzmdtIJkjKCuUyxWY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778701450; c=relaxed/simple;
-	bh=2K1xPPBCBMNHnjB6nt9nYHVdac87B9FzXiHRzV6+3ss=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BKj8fwc9ZsPn6ZUQu6ARqFwcioSwU+mrRS+P2bXz2lTo5n8D49f+B8bDKXzxW8qQGMiDC8AGprfwaCoX6JwxppboUqpsRYRK21iVqEjjRf+6HD8iXlz09ZptFOxKvgsEd4LmCdmr0SihA87m+1aHI8YWabMAaTV4pvHoH1TpoWE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=Zb3/J8Gq; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=fehknpLB; arc=none smtp.client-ip=103.168.172.156
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from phl-compute-03.internal (phl-compute-03.internal [10.202.2.43])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id D3D09140006E;
-	Wed, 13 May 2026 15:44:07 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-03.internal (MEProxy); Wed, 13 May 2026 15:44:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1778701447;
-	 x=1778787847; bh=vq8AplGuZyE7KuVYiOXha2pA1P/pIeAOsJq+kKq4w+4=; b=
-	Zb3/J8Gq/8zSYeRanwmBPSFsHZjwgyRNVu7twLGs3O5eNCO/7zPgsM6jgpOW/Lqx
-	iY1zs+uYoBIlBouYZcU1aEaddmVBArGdaM1JsCZglWTg93zh0l3OuCvT2WQxFNUy
-	npbJ93jgWhmSwssK1gcyXcJASU3KbcfajyqhrsI7s/UX6wrlZuNKLGSQKPKsrK1/
-	TVC+Cud5LdUfX+mJxiyfT4fgH3AUvNiwqdNBwF1DVh0XTQ5b3XJTxBvjxh+FHkyn
-	bn7mdiqDhAOXM5tc4d9MBbUNZa71uJ/hkC3pbilS5rmr6u1U6uV0W/cpzJucR7yy
-	+TZRufNi2fSHhviSiJ2CfQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1778701447; x=
-	1778787847; bh=vq8AplGuZyE7KuVYiOXha2pA1P/pIeAOsJq+kKq4w+4=; b=f
-	ehknpLBOJv+ow/RrtKmrZebrmw8JgzeYhn7K3QgbWmiIF8e2Jwj878AGpiSuaymi
-	wRFX+As/3sNHetQb+AhN+nPmVaRm2T1t01q/khthzDBjTDW3ErG0zmXbTfveo5zS
-	Cr+vVdONgRfcjRIDhWHLAvZ5HuXRS06PGWYA0V9Z3x2KN+565AzKVnehFKzSGMrE
-	xCBdVia8tUWbZcSIhAPM5/VZvr+ucMIol18yh81rr9Fe5V8pxGR3jxCORNu5BqnG
-	7heSKn5q3T1oh1RooK9DxXBIjnJfOSfgWccheHOyXEij0g+jf7Y21J8/yiHeTQZ2
-	o1IHIuPG1d9rhegfg/zmA==
-X-ME-Sender: <xms:h9QEalkBNqR-oZTH-NOFrTkA7QaNh3SqTrw1m3lXjZbfh6Eihx1b5g>
-    <xme:h9QEatZvDFRzEgHNQmwuHnpFP67U2gRwS8FrJrYcm0oaUmswqe2pPAxs69kM4NQjw
-    BD9GtTMaJwnIlO1G4AQf9mUzKOj_s2luDOAPQLYowewAi4HlSGonzo>
-X-ME-Received: <xmr:h9QEagEbtBZg9qZrnYocWVkXbAgg6_T1g5apN34jm209eA3Wa1m7CHiNkRa1We5-k4KEWvFvB1J5-Rl7-uifgF5LVCidUngxQdn0>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdduvdehheduucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepfffhvfevuffkfhggtggugfgjsehtkeertddttdejnecuhfhrohhmpefpihhklhgr
-    shcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhouggvrhhluhhnugesrhgrghhnrg
-    htvggthhdrshgvqeenucggtffrrghtthgvrhhnpeevteegtddvvdfhtdekgefhfeefheet
-    heekkeegfeejudeiudeuleegtdehkeekteenucevlhhushhtvghrufhiiigvpedtnecurf
-    grrhgrmhepmhgrihhlfhhrohhmpehnihhklhgrshdrshhouggvrhhluhhnugesrhgrghhn
-    rghtvggthhdrshgvpdhnsggprhgtphhtthhopeelpdhmohguvgepshhmthhpohhuthdprh
-    gtphhtthhopehlrghurhgvnhhtrdhpihhntghhrghrthdorhgvnhgvshgrshesihguvggr
-    shhonhgsohgrrhgurdgtohhmpdhrtghpthhtoheplhhinhhugidqmhgvughirgesvhhgvg
-    hrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopegurhhiqdguvghvvghlsehlihhsthhs
-    rdhfrhgvvgguvghskhhtohhprdhorhhgpdhrtghpthhtoheplhhinhhugidqrhgvnhgvsh
-    grshdqshhotgesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehtohhmihdr
-    vhgrlhhkvghinhgvnhesihguvggrshhonhgsohgrrhgurdgtohhmpdhrtghpthhtohepkh
-    hivghrrghnrdgsihhnghhhrghmsehiuggvrghsohhnsghorghrugdrtghomhdprhgtphht
-    thhopegsihhjuhdruggrshdrjhiisegsphdrrhgvnhgvshgrshdrtghomhdprhgtphhtth
-    hopegrihhrlhhivggusehgmhgrihhlrdgtohhmpdhrtghpthhtohepshhimhhonhgrsehf
-    fhiflhhlrdgthh
-X-ME-Proxy: <xmx:h9QEasZmU26Rp4jroqQGWSTJG3TYnyElUrCnAW9ed04fw14IJozkig>
-    <xmx:h9QEakx-frbMlqLb5-X2jW3faASm7_TD2RtebZz6Ji5NUVc4r8xWhQ>
-    <xmx:h9QEauSFZog46_N5G6LcWv7B3IFXDNKFWwWPH-YxwYxAz_ggRLKKZg>
-    <xmx:h9QEahJD4umhOBy5Pq_aQpUw_zUWmxlQh0MoydzcofYWMrLX5E5iaA>
-    <xmx:h9QEat-HKxK0cRwJy2_T4ON9G21hMmoieOGYnc53AyKS_Hjf7vvSOA2g>
-Feedback-ID: i80c9496c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 13 May 2026 15:44:07 -0400 (EDT)
-Date: Wed, 13 May 2026 21:44:05 +0200
-From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
-To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linux-renesas-soc@vger.kernel.org,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Subject: Re: [PATCH 09/11] media: renesas: vsp1: Simplify iteration over
- format arrays
-Message-ID: <20260513194405.GL332351@ragnatech.se>
-References: <20260511235637.3468558-1-laurent.pinchart+renesas@ideasonboard.com>
- <20260511235637.3468558-10-laurent.pinchart+renesas@ideasonboard.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CF403AE6F7;
+	Wed, 13 May 2026 19:56:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.69.70
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778702180; cv=fail; b=pgAI294gQPuh3+ZCnPTB8qr9yp8AAdi15hzNf5hLkK51WgyFCME38x7LMlXraDOTwBGjp5BocTeaJDY9cVsWW/o9VHA4166U4wr5VAth6E8F+7VQceXsCZuyzhXd6zF9nHsZDnNw0f2WlkKe6OQnB+diMC9og4DNL6nrG0/zc9k=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778702180; c=relaxed/simple;
+	bh=N8AGDXVjmgM/s5J9JEmXvT+ULAlBg2bj0yK+UbZ7HLA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=Gxi1z/J25nGYTAQEwa1VlTspS5KKcf0MKOjStGD2ir/zo+ckesGr2HzeKmGSm3FbAc3SHAdMreTqg/Bra+zwHF5ttqK1lUIRVdwL3s++PZMNJwhToR8F5+CZdzBVbpq1PW31HKj6y2SNMR/3agyD88PiJojSCzIc0mfuLE7i++U=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=WNwWgXEn; arc=fail smtp.client-ip=52.101.69.70
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=H820cMN3vNCpJNrZY/mkFJaXf7mkfntiuSus5SxC7D/gNptQxAgzRgXyb0SlKIlQiXQakjYmavwueLhwzpNkqtvcBC4Q9y+4OEGeR8vqBbauw2thf0rauN5cuIw1wg5keckh/fU37XM6vwV0yVe4rn2aJjAYQ0FytchWdLGws8dzO7XAfscWcc0ZI3yDkGLcs1InGm+sDIPrqMccTCXueuLXnkHvJYJdhfQckXxzaQtMgVl+076bpJXFTlrvWYhsA1/onFMOUnjOwzLLOlewwsNIUjxv++xub/O0Y/FADh7QzxeA56NNolsUhch9YBrnC35rMoWtbnk8CgnoFyDXzQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=eKP5W2vt4/hjZm64KLjG5x6P4x7TnXWM4V2IXirTd+A=;
+ b=EtkMx2q/+Vm0kV0UqQoq2RWhew9cuyQITyMZqaJUBnyLUbM02oAJ74XarvPdSkqiYhGe8WUnofrak3xtGL8c3CX+hq00y02Zk5LXThIGJxS1FyWAqWj4SuSQPAYHpc3pcNAJYnhgC4mvofPtDtO6iuZ/aCmUs7ARNtLMuU++1RjwjWwbV6xugujT8qhvhUP+fO3y8hFPiPO1PsaUrey1//YwWO5crLmbgPpsd6R+9vZy1onjAT189hN7Rc0sxU37DXpCNJrnWoWM6d8tT1H15Q5MzzAx/ipohzhYJMGFWbzwhvWvd8inwRaChqiuyDw2Fv7BYcUPaM0nJe1/KMmL5Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=eKP5W2vt4/hjZm64KLjG5x6P4x7TnXWM4V2IXirTd+A=;
+ b=WNwWgXEnT+GqIdGoatLQDar1NIZBElSFAtXs2qCb4XztlrrZvYwwNP9ADSaHq+jX3sQcrBBYgMhTSJV4hOF9u2F1fjM3Hnwqgo1rk45pYwpoR1DNp1ujn3U2EOEZKHBhTzS1HUAh9JCaK7sP56AaHCbxK2V84rL2NUIerdAKrbE5RAgf0B4N+xw9P9/y94hw2+y/I80KyN0rW3aQMMI0SIXJdhveZs/QetEy++OhvHmnLi2lSkGvv9NDrs0jypLtOxYVPrg9N4LCHMVHou/p9DWnuo7qydbnxZTGqRXor61k5fx4skRSXs9YYuCxO0msVtNC/IzpNiFW4xTuNiYrTg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from PA4PR04MB9366.eurprd04.prod.outlook.com (2603:10a6:102:2a9::8)
+ by DB9PR04MB9426.eurprd04.prod.outlook.com (2603:10a6:10:36a::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9891.23; Wed, 13 May
+ 2026 19:56:15 +0000
+Received: from PA4PR04MB9366.eurprd04.prod.outlook.com
+ ([fe80::75e4:8143:ddbc:6588]) by PA4PR04MB9366.eurprd04.prod.outlook.com
+ ([fe80::75e4:8143:ddbc:6588%3]) with mapi id 15.20.9913.009; Wed, 13 May 2026
+ 19:56:15 +0000
+Date: Wed, 13 May 2026 15:56:07 -0400
+From: Frank Li <Frank.li@nxp.com>
+To: Claudiu Beznea <claudiu.beznea@kernel.org>
+Cc: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>, vkoul@kernel.org,
+	Frank.Li@kernel.org, lgirdwood@gmail.com, broonie@kernel.org,
+	perex@perex.cz, tiwai@suse.com, biju.das.jz@bp.renesas.com,
+	prabhakar.mahadev-lad.rj@bp.renesas.com, p.zabel@pengutronix.de,
+	geert+renesas@glider.be, fabrizio.castro.jz@renesas.com,
+	kuninori.morimoto.gx@renesas.com, long.luu.ur@renesas.com,
+	dmaengine@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v5 13/17] dmaengine: sh: rz-dmac: Add runtime PM support
+Message-ID: <agTXV0NCP7PNk570@lizhi-Precision-Tower-5810>
+References: <20260512121219.216159-1-claudiu.beznea.uj@bp.renesas.com>
+ <20260512121219.216159-14-claudiu.beznea.uj@bp.renesas.com>
+ <agOjwF12NI_jkOzR@lizhi-Precision-Tower-5810>
+ <94430a9b-b5ae-475d-b001-e1a4ff35db8c@kernel.org>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <94430a9b-b5ae-475d-b001-e1a4ff35db8c@kernel.org>
+X-ClientProxiedBy: SA9PR13CA0093.namprd13.prod.outlook.com
+ (2603:10b6:806:24::8) To PA4PR04MB9366.eurprd04.prod.outlook.com
+ (2603:10a6:102:2a9::8)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260511235637.3468558-10-laurent.pinchart+renesas@ideasonboard.com>
-X-Rspamd-Queue-Id: 031A353A323
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PA4PR04MB9366:EE_|DB9PR04MB9426:EE_
+X-MS-Office365-Filtering-Correlation-Id: c43d6616-4312-4b53-65ac-08deb129b0bf
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|19092799006|376014|52116014|7416014|366016|1800799024|38350700014|11063799003|4143699003|18002099003|22082099003|56012099003;
+X-Microsoft-Antispam-Message-Info:
+	8q3YiIx9PYVeteWhna5v7aZ5FfY2mZyg2cgOgC77neEYdrL8R0Pd/vLrsqeQcbrFel7f2/8tVyWl9EpbmXsDtfA0S7BkjQ+RrsCFpoCD3yDS2JZR4mTzpMaOC0FTGcwTDnRt22GwuZDhY10KCaRsdvs8EJdU9SnapXcGlJnpN8pS+fTdcNnx/fZgCmOf3vMBX53miIyV2li3ot+htIVMKxYKB9pIESnT+cafnDwikm5ERU/QPu+wGkIroflT7XTmOzVYQd52dI8E+7vYC8hCyGtd1mpBkMEEhHMVsWvXkZUCQWnGyojU0yIk0/y5wWJawpj+SqJN85GxdfCft2IMubvRskaEz3Q2G7Glz9XniaaVKgi/DRL4TOr9+afThtWkxpB4D2U089OaHz8HMArlVDflL7ZvMhVkdxYTAlt+SQyWG7RoDUN9HEG2x2+YLh/RcfAoBR5SixMvq0b5k0dcf/QH3XnsBv1DoO2xK8k73pjpqO+EWJ3/mKyE/eyXpn6KCFxwNVtPdoJlFMxfOCDHLl2ITsuTHEYQDEmBVar/agguFuBugUlb2NfAmAqqOrPB2FQb/l1/OnYf1RzTVXLgiEP0HVy1+Is/6XvMB1Qv8Jw2BrR7a37X/vRYBXdEh/sBJrM0bQjnhz86ZbNTbtdIwUbaJA5pB57byJMq8rAt/1Q6d7Cvr+EgdJXgR6KIfJaC1jk9wbdL5nNKixz+h6UvvaJDW1f+l2vqEBqmcKTZkIPNqxj4fkG+PSGy1NQGyuDO
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR04MB9366.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(19092799006)(376014)(52116014)(7416014)(366016)(1800799024)(38350700014)(11063799003)(4143699003)(18002099003)(22082099003)(56012099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?3tF3QbIy6Jk+P1KVttZi5nS6TgeYb7Na4ulN82ikJeFtyEpEC/HhZW0rZMRx?=
+ =?us-ascii?Q?HVLmF5GosK6qNXY8tiqLJQxTaAcLWWmWlC0X3mzFH8FbC5Ifs6PgtHEajf/q?=
+ =?us-ascii?Q?hdRS7BS4b3B2uluZrPLv8QjHy9keoiux81ZROHPaRxSW5lmpUhvKxnmP4AFm?=
+ =?us-ascii?Q?7pSK2hpFZ1yFIHOhqpLtBehhrXSny5HdsbAIvDbjxJgD+62n7GztG/VZf03p?=
+ =?us-ascii?Q?q1S7x/2lLEhHzJdVQPuJK6gcF6j/W6SRsPbB9D1X3IPziG/rNFBnXbl2Kwao?=
+ =?us-ascii?Q?mHuV33uKXGV2oUTmzBfzygeU5Szssdq4HdbqvfJya8UZB26PM8tjFb4VT4By?=
+ =?us-ascii?Q?9O6HWnf1jGgBiwuXGSbeDoLGXoq64ybqzTT/6PA9r8kmBS0XGNeJX85e1WoB?=
+ =?us-ascii?Q?U8sXVdRr+eZ3w5X7LU66eMa4msMegqohWW2I0TGRZsgzUUSlqQyqwYVo1KMD?=
+ =?us-ascii?Q?N029LKLBrix69lhvr/VYn/ftFRAquGLt6vg9Gf8KebL62nm/WItnTyWmbd0a?=
+ =?us-ascii?Q?VtcYpuuNnBMUCIGWdKefJKge/Mg+OZBio85iWweYLifBxm+CSZSpZgkktqzc?=
+ =?us-ascii?Q?+5JkzdNko4wFX0eCrjrkQfT0nmtcTJs2opSzOCrHQaESvq8iwNbQLucGGxMI?=
+ =?us-ascii?Q?w41zaBo59j+QsvDtWZJyhroinX8whNRl13LMuwFqXjc7RTlgjJxtBlRU2HOM?=
+ =?us-ascii?Q?8bBMmGML4lMVM6RMWJyYIjgJedu6KxzAqyZ2cvn8Aca6zv5A8RXyhCE/SMC4?=
+ =?us-ascii?Q?VySXpXJWc9jd/IUQIV4COWtzDLktEMuPF/3lD48PppzhFc4sGJ4oE7OhAmBL?=
+ =?us-ascii?Q?GenJabsR+WHWHlnRV+15lcpVwufO/vUlXsVi4nP+eJ4d3myd9A0laXHcxUEK?=
+ =?us-ascii?Q?9FKoRmx2FGLm480+JUI6YLJUuRuAb1TpepRaOv4lmOtbAzK0Cq8XO06+JhhS?=
+ =?us-ascii?Q?tLFDtGOkwHxTAhE6XJHVHU0e+l6UUltQmSfmeq0zqoZS48P7sDWC7ZxJamd4?=
+ =?us-ascii?Q?DWsssDDNbISs//PHkDxlfJja8ccXQiAzcvIyBEUWdv+5jlXPrSHzTo72iAmH?=
+ =?us-ascii?Q?shjh0Ew238RdwVEATiEwVJBngoSTsTCYvg3zeDwtZkix+aximHgb7s3ONl1I?=
+ =?us-ascii?Q?VlL/2yl68kcq/39r/IIAw7ALvhN3CAjiVr6NJM6T8jNvNg1wA8DuwNbpDIcz?=
+ =?us-ascii?Q?9+UNcgiaUGZflCtHXrkPSVFXCTbYQ8QgwHGEIYJYP8IuE4tMbSo2Fwx6jn2Q?=
+ =?us-ascii?Q?DLuCxFvaQV1IecXYwvvfxcHjCcCMl9nEPaJsMq2msEtH2D2NawMoZCdyFwKe?=
+ =?us-ascii?Q?PDJ1JLIgQUccS3Qt+zHcP0OMH7sT21JmWYmWTi9dRqoDb35q8SfOxNl8oFIR?=
+ =?us-ascii?Q?KoFDnH8DZlTPB2yPIuTdE4oXmoNM/lChXd/ob1zr5rp9CJeb51qASF/xyAIe?=
+ =?us-ascii?Q?Tq7euk2AwLeMgkD6ejX03kdubiYWIACaLhrXQCdEfVJe4yrJDaAtscDIYZlG?=
+ =?us-ascii?Q?cxeSDxkf1jKQJSahm6oGNUR8oKpyKYB9vExW7gCxYRTZjnu2VrtbnIu9BVwz?=
+ =?us-ascii?Q?7Y6KZF3N69E1cbenEkRuW4b5KfKjJG6ZzhYOIXAhUWJcUVQ0QygUR+wPfMyS?=
+ =?us-ascii?Q?4GHhbw6uzvJySDoMupUBkXs1N0X5zShHz5/pz2Vlcy0p27LNIROQo3epirOa?=
+ =?us-ascii?Q?0fmOwJPL8C/eU8zvDrPlR7w8/LFg8oKjxL2yHL5pCmFgU3pJ?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c43d6616-4312-4b53-65ac-08deb129b0bf
+X-MS-Exchange-CrossTenant-AuthSource: PA4PR04MB9366.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 May 2026 19:56:15.1903
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Jo2gPREdA+EE7pR+oDv6u7Q+kglZ1+hgHRqXbh8nmZDMS+S59aLiJvbLP0QZBkNHubE31RVwemY/zUJCqNEMFg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR04MB9426
+X-Rspamd-Queue-Id: 73F3B53A432
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
+X-Spamd-Result: default: False [1.84 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[ragnatech.se,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[ragnatech.se:s=fm2,messagingengine.com:s=fm3];
+	ARC_REJECT(1.00)[cv is fail on i=2];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[nxp.com,none];
+	R_DKIM_ALLOW(-0.20)[nxp.com:s=selector1];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	DKIM_TRACE(0.00)[ragnatech.se:+,messagingengine.com:+];
-	FREEMAIL_CC(0.00)[vger.kernel.org,lists.freedesktop.org,ideasonboard.com,bp.renesas.com,gmail.com,ffwll.ch];
+	TAGGED_FROM(0.00)[bounces-32597-lists,linux-renesas-soc=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-32596-lists,linux-renesas-soc=lfdr.de];
+	FROM_HAS_DN(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
+	RCPT_COUNT_TWELVE(0.00)[19];
+	FREEMAIL_CC(0.00)[bp.renesas.com,kernel.org,gmail.com,perex.cz,suse.com,pengutronix.de,glider.be,renesas.com,vger.kernel.org];
+	DKIM_TRACE(0.00)[nxp.com:+];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[niklas.soderlund@ragnatech.se,linux-renesas-soc@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	FROM_NEQ_ENVFROM(0.00)[Frank.li@nxp.com,linux-renesas-soc@vger.kernel.org];
+	TO_DN_SOME(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,messagingengine.com:dkim,ideasonboard.com:email]
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
 X-Rspamd-Action: no action
 
-Hi Laurent,
+On Wed, May 13, 2026 at 04:39:12PM +0300, Claudiu Beznea wrote:
+> Hi, Frank,
+>
+> On 5/13/26 01:03, Frank Li wrote:
+> > On Tue, May 12, 2026 at 03:12:14PM +0300, Claudiu Beznea wrote:
+> > > Protect the driver exposed APIs with runtime PM suspend/resume calls
+> > > before accessing HW registers. As the current driver leaves runtime PM
+> > > enabled in probe, the purpose of the changes in this patch is to avoid
+> > > accessing HW registers after a failed system suspend leaves the runtime
+> > > PM state of the device improperly reinitialized.
+> > >
+> > > In that case, the driver remains bound to the device, the APIs are still
+> > > exposed, and any access to HW registers without runtime resuming the
+> > > device may lead to synchronous aborts.
+> > >
+> > > This patch prepares the driver for suspend-to-RAM support.
+> > >
+> > > Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+> > > ---
+> > >
+> > > Changes in v5:
+> > > - none, this patch is new
+> > >
+> > >   drivers/dma/sh/rz-dmac.c | 48 ++++++++++++++++++++++++++++++++++++++++
+> > >   1 file changed, 48 insertions(+)
+> > >
+> > > diff --git a/drivers/dma/sh/rz-dmac.c b/drivers/dma/sh/rz-dmac.c
+> > > index d6ad070be705..df91657fd5e3 100644
+> > > --- a/drivers/dma/sh/rz-dmac.c
+> > > +++ b/drivers/dma/sh/rz-dmac.c
+> > > @@ -488,7 +488,15 @@ static void rz_dmac_prepare_descs_for_cyclic(struct rz_dmac_chan *channel)
+> > >
+> > >   static void rz_dmac_xfer_desc(struct rz_dmac_chan *chan)
+> > >   {
+> > > +	struct dma_chan *ch = &chan->vc.chan;
+> > > +	struct rz_dmac *dmac = to_rz_dmac(ch->device);
+> > >   	struct virt_dma_desc *vd;
+> > > +	int ret;
+> > > +
+> > > +	PM_RUNTIME_ACQUIRE_IF_ENABLED(dmac->dev, pm);
+> > > +	ret = PM_RUNTIME_ACQUIRE_ERR(&pm);
+> > > +	if (ret)
+> > > +		return;
+> >
+> > According vnod comment *_prep() call may be called in atomic context
+> > (complete callback). but runtime_pm may sleep.
+>
+> That's why the pm_runtime_irq_safe() was called in probe, to allow it being
+> called in atomic context.
+>
+> The series was tested with CONFIG_LOCKDEP=y and CONFIG_DEBUG_ATOMIC_SLEEP=y
+> no issue was identified.
 
-Thanks for your work.
+I am not sure how magic it makes pm_runtime_get_sync() work under atomic
+context, suppose runtime callback involve clk_(un)prep() and power domain,
+if you call pm_runtime_irq_safe() in probe, it may makes all parent resource
+on when probe. At least it should defer to alloc chan.
 
-On 2026-05-12 02:56:33 +0300, Laurent Pinchart wrote:
-> Introduce a vsp1_for_each_format() macro to iterate over format arrays,
-> to improve readability. No functional change intended.
-> 
-> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+some platform's dependent is simple, which may just use MMIO to gate clock.
 
-Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-
-> ---
->  .../media/platform/renesas/vsp1/vsp1_pipe.c   | 36 ++++++-------------
->  1 file changed, 10 insertions(+), 26 deletions(-)
-> 
-> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_pipe.c b/drivers/media/platform/renesas/vsp1/vsp1_pipe.c
-> index f9c7c75a7ad0..7197f2917417 100644
-> --- a/drivers/media/platform/renesas/vsp1/vsp1_pipe.c
-> +++ b/drivers/media/platform/renesas/vsp1/vsp1_pipe.c
-> @@ -229,6 +229,10 @@ static const struct vsp1_format_info vsp1_video_hsit_formats[] = {
->  	  1, { 32, 0, 0 }, false, false, 1, 1, false },
->  };
->  
-> +#define vsp1_for_each_format(info, formats) \
-> +	for (const struct vsp1_format_info *info = &formats[0]; \
-> +	     info < formats + ARRAY_SIZE(formats); ++info)
-> +
->  /**
->   * vsp1_get_format_info - Retrieve format information for a 4CC
->   * @vsp1: the VSP1 device
-> @@ -240,30 +244,20 @@ static const struct vsp1_format_info vsp1_video_hsit_formats[] = {
->  const struct vsp1_format_info *vsp1_get_format_info(struct vsp1_device *vsp1,
->  						    u32 fourcc)
->  {
-> -	unsigned int i;
-> -
-> -	for (i = 0; i < ARRAY_SIZE(vsp1_video_formats); ++i) {
-> -		const struct vsp1_format_info *info = &vsp1_video_formats[i];
-> -
-> +	vsp1_for_each_format(info, vsp1_video_formats) {
->  		if (info->fourcc == fourcc)
->  			return info;
->  	}
->  
->  	if (vsp1->info->gen == 2) {
-> -		for (i = 0; i < ARRAY_SIZE(vsp1_video_gen2_formats); ++i) {
-> -			const struct vsp1_format_info *info =
-> -				&vsp1_video_gen2_formats[i];
-> -
-> +		vsp1_for_each_format(info, vsp1_video_gen2_formats) {
->  			if (info->fourcc == fourcc)
->  				return info;
->  		}
->  	}
->  
->  	if (vsp1_feature(vsp1, VSP1_HAS_HSIT)) {
-> -		for (i = 0; i < ARRAY_SIZE(vsp1_video_hsit_formats); ++i) {
-> -			const struct vsp1_format_info *info =
-> -				&vsp1_video_hsit_formats[i];
-> -
-> +		vsp1_for_each_format(info, vsp1_video_hsit_formats) {
->  			if (info->fourcc == fourcc)
->  				return info;
->  		}
-> @@ -287,8 +281,6 @@ const struct vsp1_format_info *
->  vsp1_get_format_info_by_index(struct vsp1_device *vsp1, unsigned int index,
->  			      u32 code)
->  {
-> -	unsigned int i;
-> -
->  	if (!code) {
->  		if (index < ARRAY_SIZE(vsp1_video_formats))
->  			return &vsp1_video_formats[index];
-> @@ -308,9 +300,7 @@ vsp1_get_format_info_by_index(struct vsp1_device *vsp1, unsigned int index,
->  		return NULL;
->  	}
->  
-> -	for (i = 0; i < ARRAY_SIZE(vsp1_video_formats); ++i) {
-> -		const struct vsp1_format_info *info = &vsp1_video_formats[i];
-> -
-> +	vsp1_for_each_format(info, vsp1_video_formats) {
->  		if (info->mbus == code) {
->  			if (!index)
->  				return info;
-> @@ -319,10 +309,7 @@ vsp1_get_format_info_by_index(struct vsp1_device *vsp1, unsigned int index,
->  	}
->  
->  	if (vsp1->info->gen == 2) {
-> -		for (i = 0; i < ARRAY_SIZE(vsp1_video_gen2_formats); ++i) {
-> -			const struct vsp1_format_info *info =
-> -				&vsp1_video_gen2_formats[i];
-> -
-> +		vsp1_for_each_format(info, vsp1_video_gen2_formats) {
->  			if (info->mbus == code) {
->  				if (!index)
->  					return info;
-> @@ -332,10 +319,7 @@ vsp1_get_format_info_by_index(struct vsp1_device *vsp1, unsigned int index,
->  	}
->  
->  	if (vsp1_feature(vsp1, VSP1_HAS_HSIT)) {
-> -		for (i = 0; i < ARRAY_SIZE(vsp1_video_hsit_formats); ++i) {
-> -			const struct vsp1_format_info *info =
-> -				&vsp1_video_hsit_formats[i];
-> -
-> +		vsp1_for_each_format(info, vsp1_video_hsit_formats) {
->  			if (info->mbus == code) {
->  				if (!index)
->  					return info;
-> -- 
-> Regards,
-> 
-> Laurent Pinchart
-> 
-> 
-
--- 
-Kind Regards,
-Niklas Söderlund
+Frank
+>
+> --
+> Thank you,
+> Claudiu
+>
 
