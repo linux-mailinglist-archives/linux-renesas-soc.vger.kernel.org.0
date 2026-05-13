@@ -1,201 +1,134 @@
-Return-Path: <linux-renesas-soc+bounces-32600-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-32601-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id WCXkNLTfBGpDQAIAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-32600-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 May 2026 22:31:48 +0200
+	id kLsrLvL5BGqNRAIAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-32601-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 May 2026 00:23:46 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E01053A79C
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 May 2026 22:31:48 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 118A153B673
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 May 2026 00:23:46 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 57EC83013862
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 May 2026 20:31:47 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id A6B1B30056E0
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 May 2026 22:23:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0CB39221DB6;
-	Wed, 13 May 2026 20:31:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0371238A718;
+	Wed, 13 May 2026 22:23:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="gRvW0KzB";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="QsxjluoI"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rBf2ecT/"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from fout-a1-smtp.messagingengine.com (fout-a1-smtp.messagingengine.com [103.168.172.144])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E373134CF;
-	Wed, 13 May 2026 20:31:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.144
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4C0A35E93B;
+	Wed, 13 May 2026 22:23:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778704304; cv=none; b=sAplYaPWvcUZWyDh6M29nWCT670QbzReWJK/payS+oeMUqprsiFeJVO6Res5QUIeym5iSJ2DaG8hLBHhSQDwzIQ9VlrzFThDftZ+XtMsiBvThARFcEH+qylHD1Gp7OFsR44ey1KeRJrZU0GeSX07sv35vHxGNQxGAgC4uWK9uwE=
+	t=1778711023; cv=none; b=Xoejxrl6HdTnyySxS12r00ymR+5jx2SOTEvBmXaqP4scTrJYcc1mFXWm2OYWntb/BB91gCaoujcZ5BJz434Me8PwexJoEfE1u6OsgUtd/DFkaG4J1ajCf80iQJOUozSdRtJOf2LvOz/PKy7cBmWmqF95tKEqFSD2iCc+tTO3LyA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778704304; c=relaxed/simple;
-	bh=i5DS3r9qRSwvlvyvJfwsMe/bZGzxB7AQ1gA9SdNrH04=;
+	s=arc-20240116; t=1778711023; c=relaxed/simple;
+	bh=t+tir+PRgneAWfWoTC5RK7pzxvSMpABDsyPgzRiVycs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=i+rzWfe4u3nVCy1Dl5NWdS3yFs1XlaCGXn0RpYgWuVGWPFXdhWor60Z50nMu0CgQqwC5o0eC3bxnPhBpOJrKPeKoOv7aQKIlIX0Pc1zqjsXF5xbs3jQe5LYBaxNK8DhW3AHjHx+RiOFKqHdWC6TklCSIscS69CWWw/oMiCzyLw8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=gRvW0KzB; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=QsxjluoI; arc=none smtp.client-ip=103.168.172.144
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from phl-compute-03.internal (phl-compute-03.internal [10.202.2.43])
-	by mailfout.phl.internal (Postfix) with ESMTP id C3F14EC0183;
-	Wed, 13 May 2026 16:31:42 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-03.internal (MEProxy); Wed, 13 May 2026 16:31:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1778704302;
-	 x=1778790702; bh=lli9ZPyy82yRz3bDLmc4Yvy+5kmt8dvbijiAE1NqGLQ=; b=
-	gRvW0KzBI01BHTwOXcYfWcK2tykh69e2Hs2gVrIbSSQkCjKb1ovLsIITYETuiGax
-	awOITSQEf93FWq7OZRTjBw6Y2diVuCpsoAJ5oowpCpgXhDeQPfrFz1DAgPMnsByb
-	uPgNwexgLP7OkjViz5yNO18mrCJvcKJvtJjZt68W2FiQ96EFP6ZDvcB2r4NzvbRq
-	0Ek1C/cnSoW4XaXE/aZZjDsEtMWVR3Qt74XKU1774XVTBHD4wE7QNoAbzOE55TZr
-	mnpwTDAvBaQ8hlw/o5wAwb43f688HZ+2JTXiASPhF0TOJP7tiXhP4P8l33g9/drD
-	iwutbUmAd3R6IHVSiuh5gQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1778704302; x=
-	1778790702; bh=lli9ZPyy82yRz3bDLmc4Yvy+5kmt8dvbijiAE1NqGLQ=; b=Q
-	sxjluoIxV9jD+FegyBvE/Kau0niAls2lpEBtotWxWR7Q7wdMVwU4I++oAHKXVrZW
-	1X/Wm66tONL35lkNsXwpsSgQA7Jh7+laZkwWULLCurGIPpU8+SnbKygukDFjso8s
-	jWV3tNH2j+ZwIpQbGbtNJi8LRaPI+mH22vaePwukXw4w8dJiU954cGL8FF0dA7NW
-	dbLKYn0ae9Fym/TidEWj7TSIuNnMu4xJHUcokEYtFJGkrMN6xVAXcbjVtJtCQvyD
-	vG7TVoubE4vEQHgwng9kWNUmvgKfTooDeEXd23vtI/8oGikWEtWZANINluD0n63d
-	OyMVa25g+EzECUZt4xVMg==
-X-ME-Sender: <xms:rt8EatIGaYOz7_vUAB34kQBciJIiCor8lo5RHoZYy5pvo6aGVg1jwA>
-    <xme:rt8Eak3MFilurBwTP7JSHE_DfvxfBKY7E4jf6BK39b09BCdAJO6yr4Lt50pPkibeG
-    VSnqj2Ttq_i-8IuP503mblL1t5EpbuBrSII7acTveV8mGYg5vkDClU>
-X-ME-Received: <xmr:rt8EaiIss0fNXIjsn7jPUOR02FIV2Ke-3sVJx9zzXYjFuqqUFn-Qsb4HtAevJa-YF5gIikThqlVl7CJ_E3ZusV6l8CldxJYwc6LI>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdduvdehiedvucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepfffhvfevuffkfhggtggugfgjsehtkeertddttdejnecuhfhrohhmpefpihhklhgr
-    shcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhouggvrhhluhhnugesrhgrghhnrg
-    htvggthhdrshgvqeenucggtffrrghtthgvrhhnpeevteegtddvvdfhtdekgefhfeefheet
-    heekkeegfeejudeiudeuleegtdehkeekteenucevlhhushhtvghrufhiiigvpedtnecurf
-    grrhgrmhepmhgrihhlfhhrohhmpehnihhklhgrshdrshhouggvrhhluhhnugesrhgrghhn
-    rghtvggthhdrshgvpdhnsggprhgtphhtthhopeelpdhmohguvgepshhmthhpohhuthdprh
-    gtphhtthhopehlrghurhgvnhhtrdhpihhntghhrghrthdorhgvnhgvshgrshesihguvggr
-    shhonhgsohgrrhgurdgtohhmpdhrtghpthhtoheplhhinhhugidqmhgvughirgesvhhgvg
-    hrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopegurhhiqdguvghvvghlsehlihhsthhs
-    rdhfrhgvvgguvghskhhtohhprdhorhhgpdhrtghpthhtoheplhhinhhugidqrhgvnhgvsh
-    grshdqshhotgesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehtohhmihdr
-    vhgrlhhkvghinhgvnhesihguvggrshhonhgsohgrrhgurdgtohhmpdhrtghpthhtohepkh
-    hivghrrghnrdgsihhnghhhrghmsehiuggvrghsohhnsghorghrugdrtghomhdprhgtphht
-    thhopegsihhjuhdruggrshdrjhiisegsphdrrhgvnhgvshgrshdrtghomhdprhgtphhtth
-    hopegrihhrlhhivggusehgmhgrihhlrdgtohhmpdhrtghpthhtohepshhimhhonhgrsehf
-    fhiflhhlrdgthh
-X-ME-Proxy: <xmx:rt8EanguZgj9mvv7gLlwujqxYS_VbsprgfCd0dwBD9k0Omqr1-IJKQ>
-    <xmx:rt8EaqAQ5CBdvzGtujH715HuxSfHRYpDaip9HYAcdQOUJqjehATORQ>
-    <xmx:rt8Eah49S4_L3Pg33m8riozymWa-zkLqXNUPjN_VzIeUhoYiO7lqxg>
-    <xmx:rt8EanEKDLoDY9TM2i0srQacvrQSpXlHo2Cs6tVh1WIxHzy80FY8Tg>
-    <xmx:rt8EaoCST7pLUSOpP8kE2Fg2idGgS_jIa26XF116cUD9SoRQa-0qshoF>
-Feedback-ID: i80c9496c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 13 May 2026 16:31:41 -0400 (EDT)
-Date: Wed, 13 May 2026 22:31:40 +0200
-From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
-To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	 Content-Type:Content-Disposition:In-Reply-To; b=Fz1KrpfqgcyXcYI+HDUWhezIndLrzCD9bnYVWZgJBX/0a0Jtc3NfE5reWl2McXbgJ8l+wWkK4jjk9HKLMBe86Pin5z/nrvxMNgGrOytauP3dCqr8tGo+mKpMXv63PXjThtK0KLr/MTnQgUq4qK6w6nAdTRgw2MYAu8lrzgzWkTo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rBf2ecT/; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1980FC19425;
+	Wed, 13 May 2026 22:23:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778711023;
+	bh=t+tir+PRgneAWfWoTC5RK7pzxvSMpABDsyPgzRiVycs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=rBf2ecT/Ub9ZjYRcDiQ7NU8Uw3D3NceGGbNVUrDIg8QncThENHBU3aC5KmpwmNIXD
+	 7wwvfFh1ITwyYhjYhOMV4N9atieblKVULCp6m/SEKFrWH5j9drTV4Ci98B5G/BtJdQ
+	 fnRn9N3M0BmScwk10XBaRG20G4UlUSa4br7JrVZpTPOjFxIlxLptDSiQizXXu+MhrV
+	 KIkMUFvoPcLi6W2NwKwDX//OCud0BQCl9eQ3pfi63bAd9+rydQfKQatzqDP7VE0Y+8
+	 fYxTnlpMWndrh0Upkl7cTe9WMfRKvHAst+DMFg1MzVFVLcOcYnBhKFwXzWhwut/oro
+	 e0wlTS3NDp4cw==
+Date: Wed, 13 May 2026 17:23:40 -0500
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+	devicetree@vger.kernel.org, Simona Vetter <simona@ffwll.ch>,
 	linux-renesas-soc@vger.kernel.org,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Subject: Re: [PATCH 11/11] media: renesas: vsp1: Drop deprecated
- vsp1_du_setup_lif() function
-Message-ID: <20260513203140.GN332351@ragnatech.se>
-References: <20260511235637.3468558-1-laurent.pinchart+renesas@ideasonboard.com>
- <20260511235637.3468558-12-laurent.pinchart+renesas@ideasonboard.com>
+	Magnus Damm <magnus.damm@gmail.com>,
+	David Airlie <airlied@gmail.com>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, geert@linux-m68k.org,
+	Conor Dooley <conor+dt@kernel.org>,
+	laurent.pinchart@ideasonboard.com,
+	Philipp Zabel <p.zabel@pengutronix.de>, tomm.merciai@gmail.com,
+	biju.das.jz@bp.renesas.com, dri-devel@lists.freedesktop.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	linux-kernel@vger.kernel.org,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>
+Subject: Re: [PATCH v7 01/13] dt-bindings: display: renesas,rzg2l-du: Refuse
+ port@1 for RZ/G2UL
+Message-ID: <177871101980.2066607.4695270235260805346.robh@kernel.org>
+References: <cover.1778141145.git.tommaso.merciai.xr@bp.renesas.com>
+ <d1e0d4e0fe74e60345a3d043fb4f9128c1057638.1778141145.git.tommaso.merciai.xr@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260511235637.3468558-12-laurent.pinchart+renesas@ideasonboard.com>
-X-Rspamd-Queue-Id: 5E01053A79C
+In-Reply-To: <d1e0d4e0fe74e60345a3d043fb4f9128c1057638.1778141145.git.tommaso.merciai.xr@bp.renesas.com>
+X-Rspamd-Queue-Id: 118A153B673
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
+X-Spamd-Result: default: False [0.34 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[ragnatech.se,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
-	R_DKIM_ALLOW(-0.20)[ragnatech.se:s=fm2,messagingengine.com:s=fm3];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	DKIM_TRACE(0.00)[ragnatech.se:+,messagingengine.com:+];
-	FREEMAIL_CC(0.00)[vger.kernel.org,lists.freedesktop.org,ideasonboard.com,bp.renesas.com,gmail.com,ffwll.ch];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-32600-lists,linux-renesas-soc=lfdr.de];
+	FREEMAIL_CC(0.00)[ideasonboard.com,vger.kernel.org,ffwll.ch,gmail.com,kernel.org,linux-m68k.org,pengutronix.de,bp.renesas.com,lists.freedesktop.org,glider.be,suse.de,linux.intel.com];
+	TAGGED_FROM(0.00)[bounces-32601-lists,linux-renesas-soc=lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[20];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	MISSING_XM_UA(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
 	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
+	DBL_PROHIBIT(0.00)[0.0.0.1:email];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[niklas.soderlund@ragnatech.se,linux-renesas-soc@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	FROM_NEQ_ENVFROM(0.00)[robh@kernel.org,linux-renesas-soc@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	NEURAL_HAM(-0.00)[-1.000];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[messagingengine.com:dkim,ragnatech.se:email,ragnatech.se:mid,ragnatech.se:dkim,ideasonboard.com:email,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,dt];
+	MISSING_XM_UA(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[0.0.0.0:email,ideasonboard.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,renesas.com:email]
 X-Rspamd-Action: no action
 
-Hi Laurent,
 
-Nice series!
-
-On 2026-05-12 02:56:35 +0300, Laurent Pinchart wrote:
-> The vsp1_du_setup_lif() is deprecated and its last users are gone. Drop
-> it.
+On Thu, 07 May 2026 11:21:29 +0200, Tommaso Merciai wrote:
+> The RZ/G2UL DU supports only a single port@0 DPI. Explicitly refuse
+> port@1 in the ports node.
 > 
-> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-
-Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-
+> Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
 > ---
->  include/media/vsp1.h | 9 ---------
->  1 file changed, 9 deletions(-)
+> v6->v7:
+>  - Collected LPinchart tag.
+>  - Removed wrong fixes tag.
 > 
-> diff --git a/include/media/vsp1.h b/include/media/vsp1.h
-> index d2085cdb7fcb..98089e0a4385 100644
-> --- a/include/media/vsp1.h
-> +++ b/include/media/vsp1.h
-> @@ -48,15 +48,6 @@ int vsp1_du_enable(struct device *dev, unsigned int pipe_index,
->  		   const struct vsp1_du_lif_config *cfg);
->  int vsp1_du_disable(struct device *dev, unsigned int pipe_index);
->  
-> -static inline int vsp1_du_setup_lif(struct device *dev, unsigned int pipe_index,
-> -				    const struct vsp1_du_lif_config *cfg)
-> -{
-> -	if (cfg)
-> -		return vsp1_du_enable(dev, pipe_index, cfg);
-> -	else
-> -		return vsp1_du_disable(dev, pipe_index);
-> -}
-> -
->  /**
->   * struct vsp1_du_atomic_config - VSP atomic configuration parameters
->   * @pixelformat: plane pixel format (V4L2 4CC)
-> -- 
-> Regards,
+> v5->v6:
+>  - New patch.
 > 
-> Laurent Pinchart
-> 
+>  Documentation/devicetree/bindings/display/renesas,rzg2l-du.yaml | 1 +
+>  1 file changed, 1 insertion(+)
 > 
 
--- 
-Kind Regards,
-Niklas Söderlund
+Acked-by: Rob Herring (Arm) <robh@kernel.org>
+
 
