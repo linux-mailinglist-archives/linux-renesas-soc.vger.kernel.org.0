@@ -1,50 +1,85 @@
-Return-Path: <linux-renesas-soc+bounces-32560-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-32561-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id CFFVHwwqBGrfEwIAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-32560-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 May 2026 09:36:44 +0200
+	id 8JX/Lr0qBGrfEwIAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-32561-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 May 2026 09:39:41 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2034D52EBDD
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 May 2026 09:36:43 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 13DEB52EC85
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 May 2026 09:39:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id CC1AF3017E6F
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 May 2026 07:36:36 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id B1AAA30789EE
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 May 2026 07:37:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DBD1F3A48CA;
-	Wed, 13 May 2026 07:36:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8901639768C;
+	Wed, 13 May 2026 07:37:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="e5KTyfYl"
+	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="ZO9CumzF"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.3])
+Received: from GVXPR05CU001.outbound.protection.outlook.com (mail-swedencentralazon11013046.outbound.protection.outlook.com [52.101.83.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC81D3D47A8;
-	Wed, 13 May 2026 07:36:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.3
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778657793; cv=none; b=JruC8o4M3/rRgfRVor4wGoy5tvxSEqilhx+7XYqK7QEcUVwiLsvC6azofEuPAGK4eQz+Phbd7HA1dXF49JavCOLWfb3oCS1hNTfZO/aUPi0w7xuE2mS2OftgG9o99b5rGteo1kn0PBzuPFWznQiTowN04pxikoMI+8heqPlfpuc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778657793; c=relaxed/simple;
-	bh=etik6jZ7THDO8/ZmoimjNBJTBGbryqHsMsuOR/9s4gw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=L5ts+b9FVUG354AoSLCl8gBUKV60wnfcR6/DJhcU6mKyn39WdGAiMtLXCpL/RCDwy3AxQJEGXFNSf7/ZCCaw/hSpPXhKZstWAv40Zt5OmgKvoxTQmE5muuka30cxwW1W7QYmGP3DCvEwLrUuVpKDxcQ6d1tMcX9RlB/ENW0IVy4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=e5KTyfYl; arc=none smtp.client-ip=220.197.31.3
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=Message-ID:Date:MIME-Version:Subject:To:From:
-	Content-Type; bh=VijwG2fIs9LhVa8a8fRpWCP40TzL9ibkl6s9H7Eu2SA=;
-	b=e5KTyfYlAFGe/42vF2z8P7EXkacJhGfEpbHUW3Awoev0s0P91k3Z+NfTtXQEgn
-	9uMXTA8eHBgDYCY6c6yWdK/j/IKqOnESn7atUr3cBQdyRnFdejtOkQttakzNE1DM
-	qQuDf+g119YFLEA/Z5kqLP5P2HQgn/L64VqoP6KWzoMik=
-Received: from [192.168.50.71] (unknown [])
-	by gzga-smtp-mtada-g1-2 (Coremail) with SMTP id _____wC3bRWWKQRqHpJqBA--.6846S2;
-	Wed, 13 May 2026 15:34:47 +0800 (CST)
-Message-ID: <15532890-ce22-4b20-96d9-e7f7c47050d2@163.com>
-Date: Wed, 13 May 2026 15:34:46 +0800
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67A2D374E5A;
+	Wed, 13 May 2026 07:37:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.83.46
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778657857; cv=fail; b=bpNC1E0VjKBWnQMRu2bqaEKZ+v0c4U+mXA3qhJ6TovPsurpWfBzyNnhBiF2QDBuVGMBzi5WKpngbPjOOsBEOlks64zRPqaC22ZJNk5yRdZfz097kvcgbC1g+benqab9ZKs8lc8W6y4nxRC5ddtrzXnkxWrbIP1v+GLwDnNfO3qA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778657857; c=relaxed/simple;
+	bh=0Hdl3WSXUK3i9tTI7uJr9rO7ChR8sPA9rglua5KS3So=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=EULNpJfxBElwHXlMlb5aF6eMqYZi/ctHKAEwm/lJk+r7NXW7jKeLbj3K/RhVMLZ0awa5hJDROzvEJFnTtTlbnLODcKU6jW6YEcK1bQH6CevcItrsM2oj8xLhQqGa2KnZoSZ39SHXfvFTyQuTB7EqL2M8egxmzpSqX0Qjaj2X3Ok=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=ZO9CumzF; arc=fail smtp.client-ip=52.101.83.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=y8lAyjg6kLUI9O3JCBoezfREaIlKIe1w1yt052qpHGOJ1QXvx85of4iYcd7l/AxQY5N61q6C9Omb22ZlyD6+Oi+tcVVXB6DbS4XlRCl5D3l26DIhBIRrQmFqsTFBvIa5twBQQ5dq/RivDAhdHeeOdMYIEsXJneF09OCYZT3wGu3RZZeNagt634nfi6lwgoNgwQWNWQpY7SbTj0bgktFo5zeVusWfAkpIN1zAouBOC/CbB6vZ+emVBWM/B2ROrTAFftKRBqfijQnpXxtx2AEfqWEx/GlrhrNmPVwZCFcOmbgpcmSpFs3YUu+HWz3CeJ5zKWDGR9UqVUDWlRyL8hRf7w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=m5ZIz6KLruL9znndppI3AG344Bk/x3jdkQlTq7DA078=;
+ b=OURiKjwQfrw5+1RmiRjHGa85pe4MakjXQTBP+JwmpPsKIPDBBcwM/FCVwD1PWKuZgUcCUdBzAEQiWWLBfpKiErf1Ohkg3epLNItbyen15bZee10+p4qKn2nt1Zny2wftM7Lygup1YXnnSflpmM+T7lJmvk5nNN9kEMMP2h11ly5b/4DY+pAIg2v7zypjdC1cGsU9zQ0x2o8PfdcluCrzSOMocSB4Hn+aWKgJ4F98uuc/D93fRME8b0lyHfj3m5gLEKEVrd6sBJ2qjsfK4r2QLFsz+26Bj0v/SjhntoxeBTvMnr83vDeL8oKZKUCE7gEBTnhTsOXeW/4ZiSIvAecEcA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
+ 164.130.1.60) smtp.rcpttodomain=oss.nxp.com smtp.mailfrom=foss.st.com;
+ dmarc=fail (p=none sp=none pct=100) action=none header.from=foss.st.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=m5ZIz6KLruL9znndppI3AG344Bk/x3jdkQlTq7DA078=;
+ b=ZO9CumzFmJacxxfYfTKBa3fLnv9o9Pd5/o3G5dVe+6ht/mHohn8dOfKgjtIauzOwYybjMIR3DtWI4enkAVAmrQhKLlK/YjIhu2+vilwoqzOJsegfGThVSp1wrbFDLfH2BMdUEllAp2IB5On7DrKRKAlpJPXDkNkQUCXLwndZClbJTgAq5izgf7QJaOh577w7x+CAQaWXWxG78MJfSCWrAiGWzdGasxpxfi8QUgbxp2XcSOlZvkPvzRW6XFQR7qkFyAdFQLrK8fYIH1aqn1t6yRoUqEgZS79bz/r0E9Pss13BLo5zi2tZXfgWQAnSLJL8Iln6uBOt7jAh/WWViq9d3A==
+Received: from AS4P190CA0010.EURP190.PROD.OUTLOOK.COM (2603:10a6:20b:5de::20)
+ by VI1PR10MB3981.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:800:13b::24) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.25.17; Wed, 13 May
+ 2026 07:37:29 +0000
+Received: from AMS0EPF000001A5.eurprd05.prod.outlook.com
+ (2603:10a6:20b:5de:cafe::fb) by AS4P190CA0010.outlook.office365.com
+ (2603:10a6:20b:5de::20) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9913.12 via Frontend Transport; Wed,
+ 13 May 2026 07:37:28 +0000
+X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 164.130.1.60)
+ smtp.mailfrom=foss.st.com; dkim=none (message not signed)
+ header.d=none;dmarc=fail action=none header.from=foss.st.com;
+Received-SPF: Fail (protection.outlook.com: domain of foss.st.com does not
+ designate 164.130.1.60 as permitted sender) receiver=protection.outlook.com;
+ client-ip=164.130.1.60; helo=smtpO365.st.com;
+Received: from smtpO365.st.com (164.130.1.60) by
+ AMS0EPF000001A5.mail.protection.outlook.com (10.167.16.232) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.25.13 via Frontend Transport; Wed, 13 May 2026 07:37:28 +0000
+Received: from STKDAG1NODE2.st.com (10.75.128.133) by smtpO365.st.com
+ (10.250.44.72) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.35; Wed, 13 May
+ 2026 09:40:54 +0200
+Received: from [10.48.87.127] (10.48.87.127) by STKDAG1NODE2.st.com
+ (10.75.128.133) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.35; Wed, 13 May
+ 2026 09:37:27 +0200
+Message-ID: <a933ca19-3ede-4708-aa00-d3df2000c3f0@foss.st.com>
+Date: Wed, 13 May 2026 09:37:24 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -52,228 +87,151 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 6/8] PCI: aardvark: Add 100 ms delay after link
- training
-To: =?UTF-8?Q?Pali_Roh=C3=A1r?= <pali@kernel.org>
-Cc: bhelgaas@google.com, lpieralisi@kernel.org, kwilczynski@kernel.org,
- mani@kernel.org, vigneshr@ti.com, jingoohan1@gmail.com,
- thomas.petazzoni@bootlin.com, ryder.lee@mediatek.com,
- jianjun.wang@mediatek.com, claudiu.beznea.uj@bp.renesas.com,
- mpillai@cadence.com, robh@kernel.org, s-vadapalli@ti.com,
- linux-omap@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-mediatek@lists.infradead.org, linux-renesas-soc@vger.kernel.org,
- linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260506152346.166056-1-18255117159@163.com>
- <20260506152346.166056-7-18255117159@163.com>
- <20260512212531.jupoocz7acv22qyg@pali>
- <581e91fb-2e57-43ed-b79d-19dbf384b955@163.com>
- <20260513072008.vol4htgbzquly2rb@pali>
+Subject: Re: [PATCH 3/4] remoteproc: add helper for optional ELF resource
+ tables
+To: Daniel Baluta <daniel.baluta@oss.nxp.com>, <tanmay.shah@amd.com>, "Ben
+ Levinsky" <ben.levinsky@amd.com>, Bjorn Andersson <andersson@kernel.org>,
+	Mathieu Poirier <mathieu.poirier@linaro.org>,
+	<linux-remoteproc@vger.kernel.org>
+CC: Frank Li <Frank.Li@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam
+	<festevam@gmail.com>, Geert Uytterhoeven <geert+renesas@glider.be>, "Magnus
+ Damm" <magnus.damm@gmail.com>, Patrice Chotard <patrice.chotard@foss.st.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue
+	<alexandre.torgue@foss.st.com>, <imx@lists.linux.dev>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+	<linux-renesas-soc@vger.kernel.org>,
+	<linux-stm32@st-md-mailman.stormreply.com>
+References: <20260511211841.284809-1-ben.levinsky@amd.com>
+ <20260511211841.284809-4-ben.levinsky@amd.com>
+ <3b7f009c-dc4b-4fc0-becc-4d07eb4ff016@oss.nxp.com>
+ <9e3a88d9-1679-43ae-a96b-62a29bd45d9d@amd.com>
+ <3b1c5579-a9de-4955-ad3c-df3f8c1860f4@oss.nxp.com>
 Content-Language: en-US
-From: Hans Zhang <18255117159@163.com>
-In-Reply-To: <20260513072008.vol4htgbzquly2rb@pali>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:_____wC3bRWWKQRqHpJqBA--.6846S2
-X-Coremail-Antispam: 1Uf129KBjvJXoW3Ar48GrWDZFWUCw48tr1DJrb_yoW7AF4fpa
-	y7GasFyFs5Jr15u3WIq3WDXFyYqan8uFyUXr18Wry7XF9IyryUWF12krZI9FyDGr4vvF1j
-	vw4jqFyxu3WYva7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07UEPfLUUUUU=
-X-CM-SenderInfo: rpryjkyvrrlimvzbiqqrwthudrp/xtbCwxcLrmoEKZfYBwAA3+
-X-Rspamd-Queue-Id: 2034D52EBDD
+From: Arnaud POULIQUEN <arnaud.pouliquen@foss.st.com>
+In-Reply-To: <3b1c5579-a9de-4955-ad3c-df3f8c1860f4@oss.nxp.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: ENXCAS1NODE2.st.com (10.75.128.138) To STKDAG1NODE2.st.com
+ (10.75.128.133)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AMS0EPF000001A5:EE_|VI1PR10MB3981:EE_
+X-MS-Office365-Filtering-Correlation-Id: 605137ee-1b03-479b-9294-08deb0c27c43
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|7416014|376014|36860700016|1800799024|82310400026|18002099003|56012099003|22082099003|11063799003;
+X-Microsoft-Antispam-Message-Info:
+	se8zNJvlpwDQM/1G+2ZErAnzUBNze5XGn3QL3h+FZttMd8E0ki1g9wclqBTg8p6J9yZLvLE0gMJmjwmkBC47JyVvj2AaO/o9PIIwUwGCXDfgmnqjpGxZ1cel24pBmccT5W2MUIJHFZLrYkf8RFhz1RPruLRs8YPvnYRDjuywEnv6aBKg210gQXRwZGTb3cHfAIOANpqEeFrdpWHGBoNMRtSljNRMtqB7czG7lqdqslFLpRTpQO5JD5oo7OVV7wnUJIW5vA425RiKJwZEYsVRtNlfbQWuJsk1+9qWYzlgkvRGibDgqW0s/wqFd3Fu7oUN7LUpdihi5HfYlNBL729H6LdmkFwjOTOx1oTYYHeHUq4rrtunnokE6VvhW0/gzCE/KY0UiXbHSlmGoGz9DeuPVVonqex0g2ZOTS8yYfXLtEAlQKauEnHla8E8T8KmNwLgMhnVT8/tNgtV0Vx13tbqN3B50oekJOLprSeLD833Zr6m75dn+vdgzUNwh5z80xi4gXZy5rbpEGt37IMa5vxohBDy5IdkMfZHmGLnKxshTUvmmY7P9UxN7hNK9zD938r6NaU8xT0bnFPdB6CVUxbTYtFrtxxMnw7GGCa/lOoI7U/b5yn6svzszlz4nKwaD9V0EAxeVD++iBNDWN0TKplJXJ+Vw/JQH6emJGrnoHL6bak30MNvRSCZo6PTUi6/by3GQ6JSP2uPpPH4n/5F84n/PaZnfGz+/lnBctIib1YNu5I=
+X-Forefront-Antispam-Report:
+	CIP:164.130.1.60;CTRY:IT;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:smtpO365.st.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(7416014)(376014)(36860700016)(1800799024)(82310400026)(18002099003)(56012099003)(22082099003)(11063799003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	ez/JtjGs3awTK6ENW5Jwv9Np3JxJI5VcrYPs0CU+3fUgEhGwBGhjVIqDyd7efEIDyL08RRZ5QPLcCDslR/uv5a2N4je75gE2bltBd7iQy9HzyprWDu/+BsNcdKIfFbajdAN8RuFstOlffHffYjUFojokcl5GG6lSiptTXjNYEsXY/XSRHQ6p6KJ16A3sfQYRZ7tlhTdgNjTlDArfPFB8ldNA1g85aSJFHQmKJ0vUNhvZdo3q7TbWgdZsjJwCqH0nVSH/eO3Ab6BWD5aVsuev5Lg3UpwaQPuhnyd6EvTds4RZ9UUPqJRTorRWz4lwZwSmV1nmMy4RO8kXLBjKo3qpMvvyA7K/NqkUYtCRfvH7xakXmBNIJGbq5Jv8CTX1vUwCyAlSkVfOOag8RfxBCsyKUVwl7CGMrzy9hNJFxTHLjLk/Nzc7OugMwti79Jde1RV7
+X-OriginatorOrg: foss.st.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 May 2026 07:37:28.7272
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 605137ee-1b03-479b-9294-08deb0c27c43
+X-MS-Exchange-CrossTenant-Id: 75e027c9-20d5-47d5-b82f-77d7cd041e8f
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=75e027c9-20d5-47d5-b82f-77d7cd041e8f;Ip=[164.130.1.60];Helo=[smtpO365.st.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	AMS0EPF000001A5.eurprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR10MB3981
+X-Rspamd-Queue-Id: 13DEB52EC85
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.16 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[163.com,none];
-	R_DKIM_ALLOW(-0.20)[163.com:s=s110527];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+X-Spamd-Result: default: False [1.34 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_REJECT(1.00)[cv is fail on i=2];
+	DMARC_POLICY_ALLOW(-0.50)[foss.st.com,none];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_DKIM_ALLOW(-0.20)[foss.st.com:s=selector2];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-32560-lists,linux-renesas-soc=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	RCVD_COUNT_THREE(0.00)[4];
-	FREEMAIL_FROM(0.00)[163.com];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	RCPT_COUNT_TWELVE(0.00)[20];
-	FREEMAIL_CC(0.00)[google.com,kernel.org,ti.com,gmail.com,bootlin.com,mediatek.com,bp.renesas.com,cadence.com,vger.kernel.org,lists.infradead.org];
+	TAGGED_FROM(0.00)[bounces-32561-lists,linux-renesas-soc=lfdr.de];
+	URIBL_MULTI_FAIL(0.00)[foss.st.com:server fail,amd.com:server fail,sea.lore.kernel.org:server fail,aka.ms:server fail];
+	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_CC(0.00)[nxp.com,pengutronix.de,gmail.com,glider.be,foss.st.com,lists.linux.dev,lists.infradead.org,vger.kernel.org,st-md-mailman.stormreply.com];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[aka.ms:url,amd.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[18255117159@163.com,linux-renesas-soc@vger.kernel.org];
-	DKIM_TRACE(0.00)[163.com:+];
+	FROM_NEQ_ENVFROM(0.00)[arnaud.pouliquen@foss.st.com,linux-renesas-soc@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[foss.st.com:+];
 	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-renesas-soc];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
 	MID_RHS_MATCH_FROM(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,linutronix.de:email]
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	REDIRECTOR_URL(0.00)[aka.ms];
+	RCVD_COUNT_SEVEN(0.00)[8]
 X-Rspamd-Action: no action
 
 
 
-On 5/13/26 15:20, Pali Rohár wrote:
-> On Wednesday 13 May 2026 15:00:04 Hans Zhang wrote:
+On 5/13/26 08:30, Daniel Baluta wrote:
+> On 5/12/26 17:53, Shah, Tanmay wrote:
 >>
 >>
->> On 5/13/26 05:25, Pali Rohár wrote:
->>> On Wednesday 06 May 2026 23:23:44 Hans Zhang wrote:
->>>> The Aardvark PCIe controller driver waits for the link to come up but
->>>> does not implement the mandatory 100 ms delay after link training
->>>> completes for speeds greater than 5.0 GT/s (PCIe r6.0 sec 6.6.1).
+>> On 5/12/2026 2:55 AM, Daniel Baluta wrote:
+>>> On 5/12/26 00:18, Ben Levinsky wrote:
+>>>> [You don't often get email from ben.levinsky@amd.com. Learn why this is important at https://aka.ms/LearnAboutSenderIdentification ]
 >>>>
->>>> The driver already maintains a 'link_gen' field that holds the negotiated
->>>> link speed. Use it together with pcie_wait_after_link_train() to insert
->>>> the required delay immediately after confirming that the link is up.
+>>>> Add a small helper around rproc_elf_load_rsc_table() for remoteproc
+>>>> drivers that treat a missing ELF resource table as optional. The helper
+>>>> returns success on -EINVAL and propagates other failures unchanged.
 >>>>
->>>> Signed-off-by: Hans Zhang <18255117159@163.com>
+>>>> Signed-off-by: Ben Levinsky <ben.levinsky@amd.com>
 >>>> ---
->>>>    drivers/pci/controller/pci-aardvark.c | 4 +++-
->>>>    1 file changed, 3 insertions(+), 1 deletion(-)
+>>>>   drivers/remoteproc/remoteproc_internal.h | 12 ++++++++++++
+>>>>   1 file changed, 12 insertions(+)
 >>>>
->>>> diff --git a/drivers/pci/controller/pci-aardvark.c b/drivers/pci/controller/pci-aardvark.c
->>>> index e34bea1ff0ac..526351c21c49 100644
->>>> --- a/drivers/pci/controller/pci-aardvark.c
->>>> +++ b/drivers/pci/controller/pci-aardvark.c
->>>> @@ -350,8 +350,10 @@ static int advk_pcie_wait_for_link(struct advk_pcie *pcie)
->>>>    	/* check if the link is up or not */
->>>>    	for (retries = 0; retries < LINK_WAIT_MAX_RETRIES; retries++) {
->>>> -		if (advk_pcie_link_up(pcie))
->>>> +		if (advk_pcie_link_up(pcie)) {
->>>> +			pcie_wait_after_link_train(pcie->link_gen);
->>>>    			return 0;
->>>> +		}
->>>>    		usleep_range(LINK_WAIT_USLEEP_MIN, LINK_WAIT_USLEEP_MAX);
->>>>    	}
->>>> -- 
->>>> 2.34.1
+>>>> diff --git a/drivers/remoteproc/remoteproc_internal.h b/drivers/remoteproc/remoteproc_internal.h
+>>>> index 3724a47a9748..dff87e468837 100644
+>>>> --- a/drivers/remoteproc/remoteproc_internal.h
+>>>> +++ b/drivers/remoteproc/remoteproc_internal.h
+>>>> @@ -146,6 +146,18 @@ static inline int rproc_mem_entry_iounmap(struct rproc *rproc,
+>>>>          return 0;
+>>>>   }
 >>>>
+>>>> +static inline int rproc_elf_load_rsc_table_optional(struct rproc *rproc,
+>>>> +                                                   const struct firmware *fw)
+>>>> +{
+>>>> +       int ret;
+>>>> +
+>>>> +       ret = rproc_elf_load_rsc_table(rproc, fw);
+>>>> +       if (ret == -EINVAL)
+>>>> +               dev_dbg(&rproc->dev, "no resource table found\n");
 >>>
->>> Are you sure that this is correct to do? Have you checked the A3720
->>> Functional Specification which describes how to bring PCIe link up?
+>>> You are changing loglevel here. Initial drivers use dev_info or dev_warn. At least I'm used
+>>> with seeing this messages in the logs.
 >>>
->>> A3720 PCIe controller is buggy and needs more timing hacks to make it
->>> behave. Playing with random sleeps can break its internal logic.
->>> I'm not sure if it could be safe without proper testing.
+>>> So, what do you think on adding at least dev_info to this instead of dev_dbg?
 >>>
->>> And IIRC A3720 PCIe controller is just PCIe2.0 with 5 GT/s.
 >>
->>
->> Hi Pali,
->>
->> 1. This driver does not support A3720.
->>
->> static const struct of_device_id advk_pcie_of_match_table[] = {
->> 	{ .compatible = "marvell,armada-3700-pcie", },
->> 	{},
->> };
->> MODULE_DEVICE_TABLE(of, advk_pcie_of_match_table);
->>
->> If you need support for A3720, please submit the corresponding patch so that
->> Bjorn and Mani can review it.
+>> Actually can we leave that choice to the platform driver ? There are
+>> many use cases where the remoteproc subsystem is used to load and start
+>> the remote core and the firmware doesn't have the resource table. We
+>> don't want to make info level log for such use cases, as the resource
+>> table is not expected in the first place there.
 > 
-> 3700 (or 37xx) is family and covers both a3710 and a3720. In most cases is the
-> a3720 dominant and hence identifiers 3700 and 3720 are begin mixed.
+> Agree, this is the best way to go.
 > 
->>
->> 2. If A3720 only supports GEN2, you can configure "max-link-speed" to be 2
->> in the DT. This will not affect the functionality of this patch.
-> 
-> Whole A37xx supports only GEN2. And in DT files for 37xx should be
-> already there max-link-speed.
-> 
-> Seems that in advk_pcie_of_match_table there is no GEN3 device
-> specified.
 > 
 
-Hi Pali,
+LGTM
 
-However, I saw many GEN3 assignments and conditions in the code.
+If you keep the rproc_elf_load_rsc_table_optional() helper, I would 
+suggest inverting the logic for dev_dbg(). Regarding the discussion, it 
+seems more logical to print a message when a resource table is found.
+An add-on could be to also print the address and size found.
 
-ret = of_pci_get_max_link_speed(dev->of_node);
-if (ret <= 0 || ret > 3)
-	pcie->link_gen = 3;
-else
-	pcie->link_gen = ret;
-
-
-static void advk_pcie_train_link(struct advk_pcie *pcie)
-{
-	struct device *dev = &pcie->pdev->dev;
-	u32 reg;
-	int ret;
-
-	/*
-	 * Setup PCIe rev / gen compliance based on device tree property
-	 * 'max-link-speed' which also forces maximal link speed.
-	 */
-	reg = advk_readl(pcie, PCIE_CORE_CTRL0_REG);
-	reg &= ~PCIE_GEN_SEL_MSK;
-	if (pcie->link_gen == 3)
-		reg |= SPEED_GEN_3;
-	else if (pcie->link_gen == 2)
-		reg |= SPEED_GEN_2;
-	else
-		reg |= SPEED_GEN_1;
-	advk_writel(pcie, reg, PCIE_CORE_CTRL0_REG);
-
-	/*
-	 * Set maximal link speed value also into PCIe Link Control 2 register.
-	 * Armada 3700 Functional Specification says that default value is based
-	 * on SPEED_GEN but tests showed that default value is always 8.0 GT/s.
-	 */
-	reg = advk_readl(pcie, PCIE_CORE_PCIEXP_CAP + PCI_EXP_LNKCTL2);
-	reg &= ~PCI_EXP_LNKCTL2_TLS;
-	if (pcie->link_gen == 3)
-		reg |= PCI_EXP_LNKCTL2_TLS_8_0GT;
-	else if (pcie->link_gen == 2)
-		reg |= PCI_EXP_LNKCTL2_TLS_5_0GT;
-	else
-		reg |= PCI_EXP_LNKCTL2_TLS_2_5GT;
-	advk_writel(pcie, reg, PCIE_CORE_PCIEXP_CAP + PCI_EXP_LNKCTL2);
-
-....
-
-
-If you are certain about the relevant information. Is it understandable 
-that we need to delete the code related to GEN3?
-
-
-Best regards,
-Hans
-
-
->> 3. This patch is a common delay requirement stipulated by the PCIe
->> specification. If it is greater than GEN2, then msleep(100) will be added;
->> otherwise, there will be no such delay.
->>
->> 4. For instance, we often come across the situation where some common APIs
->> are modified, and in many cases, their functionality does not require the
->> actual development board for verification. I believe that many other
->> developers and maintainers have modified different parts of the code. For
->> example, the recent submission:
-> 
-> Switching one API to another is one thing. But changing code which looks
-> to be critical, specially when it is known that hw has bugs, can cause
-> breaking of existing boards.
-> 
->> commit 750277048afe7ce8ebfc0b120de7dfbc745058a7
->> Author: Nam Cao <namcao@linutronix.de>
->> Date:   Thu Jun 26 16:47:53 2025 +0200
->>
->>      PCI: aardvark: Switch to msi_create_parent_irq_domain()
->>
->>      Switch to msi_create_parent_irq_domain() from
->> pci_msi_create_irq_domain()
->>      which was using legacy MSI domain setup.
->>
->>
->> And many controller drivers have been modified.
->>
->>
->> Best regards,
->> Hans
->>
->>
-
+Thanks,
+Arnaud
 
