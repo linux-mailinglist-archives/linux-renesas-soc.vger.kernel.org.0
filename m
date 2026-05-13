@@ -1,72 +1,117 @@
-Return-Path: <linux-renesas-soc+bounces-32585-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-32586-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id gG1ZHVbKBGp2OwIAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-32585-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 May 2026 21:00:38 +0200
+	id sKbxL8jQBGr0PQIAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-32586-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 May 2026 21:28:08 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08AAC539749
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 May 2026 21:00:37 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 23B8B539EFD
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 May 2026 21:28:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id B7F9A309A6C8
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 May 2026 18:54:57 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 110903059A58
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 May 2026 19:08:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6C6013AEF3D;
-	Wed, 13 May 2026 18:54:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1D21D3B19CA;
+	Wed, 13 May 2026 19:08:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ALrVBfJO"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="ol0wKIf/";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="EHKq4Vqp"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from fout-a8-smtp.messagingengine.com (fout-a8-smtp.messagingengine.com [103.168.172.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4492B3AEF34;
-	Wed, 13 May 2026 18:54:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B2C218E025;
+	Wed, 13 May 2026 19:07:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.151
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778698492; cv=none; b=Bn+r5GpSi2ti06AOtsDK582CHK/5M+L/YmFOEnbCD2jCPsqmejTWske9Sz5p/3rh5ZFm1am8eiCmBVDUgnHIxlxbchN0nKK1ezgmlCk3fysXSrPHsIr89EbPOF/ypyBfhpR/dPgaeHJ8aApUGPsYpL9OxLSw1KlE6Vf9I/+CUPQ=
+	t=1778699279; cv=none; b=kgdsL+0eRoF8x0uT9Qj9SY3lm29Q0tQCOGEi4DLoWd8Nv1IKmI6Umwy+E3FpXJJLt5rf5X+DnZHNwi44sPmYorj6SBvbjRoY36alkGtyv2cuhynW3gh1wmv6tJZuo1aN/2kpsp1RTFqAI0MMhVnqgGla7glVHmUpIO8jCm6BPi4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778698492; c=relaxed/simple;
-	bh=kaP87DtivSczZqw+sjMW+4NPzsWyqMYNWQHZ4e+4av0=;
+	s=arc-20240116; t=1778699279; c=relaxed/simple;
+	bh=9dyW0i1uEyQbY20h8QmZQNdlAA8PYklMtMjKAtEbdO8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=k1TDEwQomDjBN5Gc0ox8I9z09AzY7zmHxIKER7QiOwtDZ+ET7oNkU2of8Wn1oG7asXxWclBeyfkXsMqx0akawaY5z4F00Z+nz7L7qSmgfIbuYAr8EWIi11WGn30iYT9nPQ1n5Njx/3Wg4ho7K6Qoez2+5PzmVGWpVzh1NKLdsGI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ALrVBfJO; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 787BFC19425;
-	Wed, 13 May 2026 18:54:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778698491;
-	bh=kaP87DtivSczZqw+sjMW+4NPzsWyqMYNWQHZ4e+4av0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ALrVBfJOiwW7RyTOVwB8Rf1h2H0oUSpuHSDRe78/sJ+yTDDl/258qnCOPe4zQQigJ
-	 lDHOENs8VTopvtUbNfTsb90WFhWSnYZa3LmFkYx78UF7vvlveCMikMvMfQriVEirZl
-	 QYxo0bZIYHyMFp1DgzdLxBb1qXLSyUJVVthymizfxMe/s/j7C6+Src4BkUbwcmzwkm
-	 whLcjM2JGeJaND5V3MBSpU1iMk4h9xwQZRsD/aOmcPGFjN5Gc4lrg86W6QetVKDAMd
-	 hUAxdiVVhsPfaS4mrdgEPAgckVARyI5qj+pU4orYbSg97SnCrKi3+e6GNgLygBzlEx
-	 /vARqIqTyoDkw==
-Received: by pali.im (Postfix)
-	id 8BF08BA0; Wed, 13 May 2026 20:54:42 +0200 (CEST)
-Date: Wed, 13 May 2026 20:54:42 +0200
-From: Pali =?utf-8?B?Um9ow6Fy?= <pali@kernel.org>
-To: Hans Zhang <18255117159@163.com>
-Cc: bhelgaas@google.com, lpieralisi@kernel.org, kwilczynski@kernel.org,
-	mani@kernel.org, vigneshr@ti.com, jingoohan1@gmail.com,
-	thomas.petazzoni@bootlin.com, ryder.lee@mediatek.com,
-	jianjun.wang@mediatek.com, claudiu.beznea.uj@bp.renesas.com,
-	mpillai@cadence.com, robh@kernel.org, s-vadapalli@ti.com,
-	linux-omap@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org,
-	linux-renesas-soc@vger.kernel.org, linux-pci@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 6/8] PCI: aardvark: Add 100 ms delay after link
- training
-Message-ID: <20260513185442.mw3md5te7dhojyd7@pali>
-References: <20260506152346.166056-1-18255117159@163.com>
- <20260506152346.166056-7-18255117159@163.com>
- <20260512212531.jupoocz7acv22qyg@pali>
- <581e91fb-2e57-43ed-b79d-19dbf384b955@163.com>
- <20260513072008.vol4htgbzquly2rb@pali>
- <15532890-ce22-4b20-96d9-e7f7c47050d2@163.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=vAf61v5jCqz8rSMTY9RjjZ6QIJxyE667VTZ+f8ZzhOR+SsbKH1h9Ku18cVvf2eJr6PjPxu75wcl9yHS8jTNc+EPtQD9vI75p5yKvt5jIXHsHyGGMrtA/VKr3Wh17dkf+UGBC8La8mEv+avi3cmKMZciQGnkNtXl9MXThxdUCz8M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=ol0wKIf/; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=EHKq4Vqp; arc=none smtp.client-ip=103.168.172.151
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
+Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
+	by mailfout.phl.internal (Postfix) with ESMTP id B21E6EC0237;
+	Wed, 13 May 2026 15:07:56 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-06.internal (MEProxy); Wed, 13 May 2026 15:07:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1778699276;
+	 x=1778785676; bh=Pdi+Fsgqu8rY3Pf5OyrhZJWHhF8X8iBfSSYCAuxhxlg=; b=
+	ol0wKIf/gpMAtWYrv44KmJAKVKUzOIlDDb86vUCuYBUz9XctmJOaZz03kXdf2hhI
+	KwSreF7bKTWCEjnFLoCr9JErM3rsiY+R0MxfG1Z6oXWXkKoJXgsBKgoSmBr5YxqF
+	iaxZOdHc73YshYrQtL7MHdZJ2zFs6zXQVBczH+pOFDS6s76MzAngvibxlb0KQdST
+	5Bl/Sz3i7JeGKIyK++ahs0+N8wGi2Ssl3HILAwA9GCgKqvRicYTMIdLe4eKXyVab
+	wdfg/StyOqZW0uHMfb4Z82+Dli7ZYoNoPlkTKL1UAcT492fZ2ow5wzvKFwE6ee2a
+	YI9TKVxPafbdq3AouV9Iyg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1778699276; x=
+	1778785676; bh=Pdi+Fsgqu8rY3Pf5OyrhZJWHhF8X8iBfSSYCAuxhxlg=; b=E
+	HKq4VqpPyeIumW7itoOq9YLD5zxZ/r/c1P4V7+c3salqwsICZ4ph7aCUCggpk+wC
+	bm3GImR/HdWYqqxFP0Ov65JhAJb5qpNOH/SwYOwLP/wyNvQzcqm3EhgbfOk005Nj
+	nbAGDrtLfxQu/ZdoNnSvAWnhuibkTiue7ZVffnveBJpeOE+uXeqxKjnf2VFXOx+Q
+	+tvQXVjZcISHS9N/d2t8oCcdc5pDZlxdcYd+T6+kdb006hx0Udh6cIR23mKSIiyg
+	r97efbS6SOtVPYA7dLgTtGI6AgihK3JT4H0Ci8OfJyTPyrh+eQAusX2/S/iB+Fq9
+	ZnK/IblXI6Tp2FGvcNBBQ==
+X-ME-Sender: <xms:C8wEaujnYTHeuiHQEQFeS-vTr3QlFaSOlql8-X2mtvLYH6dGfxlKCA>
+    <xme:C8wEakmNnarw3p7kFILhaCQEakXPzZfdFF0WggZXtqHWlVRXnXOfspx78GenOJIBR
+    OESoBy2qOoFshd7__5TcOMM1Z8GgW_uaNTdvIpJ0Z3RgXHAT2FWboY>
+X-ME-Received: <xmr:C8wEavpFotMsX-M3tAdfCZjyh-ftFkAgflVetkaR55Di61zWZgoR_XESHIiRnT7QAoUO610LMSOb3AdtPzC_wmyNvCioxj5IFhUX>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdduvdehgeehucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhepfffhvfevuffkfhggtggugfgjsehtkeertddttdejnecuhfhrohhmpefpihhklhgr
+    shcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhouggvrhhluhhnugesrhgrghhnrg
+    htvggthhdrshgvqeenucggtffrrghtthgvrhhnpeevteegtddvvdfhtdekgefhfeefheet
+    heekkeegfeejudeiudeuleegtdehkeekteenucevlhhushhtvghrufhiiigvpedtnecurf
+    grrhgrmhepmhgrihhlfhhrohhmpehnihhklhgrshdrshhouggvrhhluhhnugesrhgrghhn
+    rghtvggthhdrshgvpdhnsggprhgtphhtthhopeduhedpmhhouggvpehsmhhtphhouhhtpd
+    hrtghpthhtohepphhrrggshhgrkhgrrhdrtghsvghnghhgsehgmhgrihhlrdgtohhmpdhr
+    tghpthhtoheplhgruhhrvghnthdrphhinhgthhgrrhhtodhrvghnvghsrghssehiuggvrg
+    hsohhnsghorghrugdrtghomhdprhgtphhtthhopehjrggtohhpohdrmhhonhguihesihgu
+    vggrshhonhgsohgrrhgurdgtohhmpdhrtghpthhtohepthhomhhirdhvrghlkhgvihhnvg
+    hnodhrvghnvghsrghssehiuggvrghsohhnsghorghrugdrtghomhdprhgtphhtthhopehm
+    tghhvghhrggssehkvghrnhgvlhdrohhrghdprhgtphhtthhopehgvggvrhhtodhrvghnvg
+    hsrghssehglhhiuggvrhdrsggvpdhrtghpthhtohepmhgrghhnuhhsrdgurghmmhesghhm
+    rghilhdrtghomhdprhgtphhtthhopehhvhgvrhhkuhhilheskhgvrhhnvghlrdhorhhgpd
+    hrtghpthhtoheplhhinhhugidqmhgvughirgesvhhgvghrrdhkvghrnhgvlhdrohhrgh
+X-ME-Proxy: <xmx:C8wEaoKl9BQLrMmL5ZghS-xDrgWeWDowyfHlIb_lAOrUFh_6_7AE7A>
+    <xmx:C8wEajBgsX4iiPR2LVd3zZrdoFldgF7CAAsODVjSwDJB1PEyU6vGPw>
+    <xmx:C8wEai5gl2sAZnhhJXQ45kKy8R7sCJXuki8g3rUwQIpbhFYYoGsTTQ>
+    <xmx:C8wEanGFRC6LLGjA23CAZKcTCEYPYMdrhIBYubNrE7moOuiURqjXdQ>
+    <xmx:DMwEamEYXBrxGJGl7pC6hWx1rJl4ywUbIDK9qIrZvtmwkzph3ObMZC-z>
+Feedback-ID: i80c9496c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 13 May 2026 15:07:55 -0400 (EDT)
+Date: Wed, 13 May 2026 21:07:52 +0200
+From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
+To: Prabhakar <prabhakar.csengg@gmail.com>
+Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Hans Verkuil <hverkuil@kernel.org>, linux-media@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	stable@vger.kernel.org
+Subject: Re: [PATCH] media: rcar-vin: Enable NV12 support for RZ/G2H
+Message-ID: <20260513190752.GC332351@ragnatech.se>
+References: <20260512202931.1051379-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -76,258 +121,80 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <15532890-ce22-4b20-96d9-e7f7c47050d2@163.com>
-User-Agent: NeoMutt/20180716
-X-Rspamd-Queue-Id: 08AAC539749
+In-Reply-To: <20260512202931.1051379-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Rspamd-Queue-Id: 23B8B539EFD
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [2.34 / 15.00];
-	MID_END_EQ_FROM_USER_PART(4.00)[];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	DMARC_POLICY_ALLOW(-0.50)[ragnatech.se,none];
+	R_DKIM_ALLOW(-0.20)[ragnatech.se:s=fm2,messagingengine.com:s=fm3];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-32585-lists,linux-renesas-soc=lfdr.de];
-	FREEMAIL_TO(0.00)[163.com];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[google.com,kernel.org,ti.com,gmail.com,bootlin.com,mediatek.com,bp.renesas.com,cadence.com,vger.kernel.org,lists.infradead.org];
-	RCPT_COUNT_TWELVE(0.00)[20];
-	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[ideasonboard.com,kernel.org,glider.be,gmail.com,vger.kernel.org,bp.renesas.com,renesas.com];
+	TAGGED_FROM(0.00)[bounces-32586-lists,linux-renesas-soc=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
+	FREEMAIL_TO(0.00)[gmail.com];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[15];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[ragnatech.se:+,messagingengine.com:+];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	MISSING_XM_UA(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[pali@kernel.org,linux-renesas-soc@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
+	FROM_NEQ_ENVFROM(0.00)[niklas.soderlund@ragnatech.se,linux-renesas-soc@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-renesas-soc];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
+	MID_RHS_MATCH_FROM(0.00)[];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,linutronix.de:email]
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,renesas.com:email,messagingengine.com:dkim,ragnatech.se:email,ragnatech.se:mid,ragnatech.se:dkim]
 X-Rspamd-Action: no action
 
-On Wednesday 13 May 2026 15:34:46 Hans Zhang wrote:
-> On 5/13/26 15:20, Pali Rohár wrote:
-> > On Wednesday 13 May 2026 15:00:04 Hans Zhang wrote:
-> > > 
-> > > 
-> > > On 5/13/26 05:25, Pali Rohár wrote:
-> > > > On Wednesday 06 May 2026 23:23:44 Hans Zhang wrote:
-> > > > > The Aardvark PCIe controller driver waits for the link to come up but
-> > > > > does not implement the mandatory 100 ms delay after link training
-> > > > > completes for speeds greater than 5.0 GT/s (PCIe r6.0 sec 6.6.1).
-> > > > > 
-> > > > > The driver already maintains a 'link_gen' field that holds the negotiated
-> > > > > link speed. Use it together with pcie_wait_after_link_train() to insert
-> > > > > the required delay immediately after confirming that the link is up.
-> > > > > 
-> > > > > Signed-off-by: Hans Zhang <18255117159@163.com>
-> > > > > ---
-> > > > >    drivers/pci/controller/pci-aardvark.c | 4 +++-
-> > > > >    1 file changed, 3 insertions(+), 1 deletion(-)
-> > > > > 
-> > > > > diff --git a/drivers/pci/controller/pci-aardvark.c b/drivers/pci/controller/pci-aardvark.c
-> > > > > index e34bea1ff0ac..526351c21c49 100644
-> > > > > --- a/drivers/pci/controller/pci-aardvark.c
-> > > > > +++ b/drivers/pci/controller/pci-aardvark.c
-> > > > > @@ -350,8 +350,10 @@ static int advk_pcie_wait_for_link(struct advk_pcie *pcie)
-> > > > >    	/* check if the link is up or not */
-> > > > >    	for (retries = 0; retries < LINK_WAIT_MAX_RETRIES; retries++) {
-> > > > > -		if (advk_pcie_link_up(pcie))
-> > > > > +		if (advk_pcie_link_up(pcie)) {
-> > > > > +			pcie_wait_after_link_train(pcie->link_gen);
-> > > > >    			return 0;
-> > > > > +		}
-> > > > >    		usleep_range(LINK_WAIT_USLEEP_MIN, LINK_WAIT_USLEEP_MAX);
-> > > > >    	}
-> > > > > -- 
-> > > > > 2.34.1
-> > > > > 
-> > > > 
-> > > > Are you sure that this is correct to do? Have you checked the A3720
-> > > > Functional Specification which describes how to bring PCIe link up?
-> > > > 
-> > > > A3720 PCIe controller is buggy and needs more timing hacks to make it
-> > > > behave. Playing with random sleeps can break its internal logic.
-> > > > I'm not sure if it could be safe without proper testing.
-> > > > 
-> > > > And IIRC A3720 PCIe controller is just PCIe2.0 with 5 GT/s.
-> > > 
-> > > 
-> > > Hi Pali,
-> > > 
-> > > 1. This driver does not support A3720.
-> > > 
-> > > static const struct of_device_id advk_pcie_of_match_table[] = {
-> > > 	{ .compatible = "marvell,armada-3700-pcie", },
-> > > 	{},
-> > > };
-> > > MODULE_DEVICE_TABLE(of, advk_pcie_of_match_table);
-> > > 
-> > > If you need support for A3720, please submit the corresponding patch so that
-> > > Bjorn and Mani can review it.
-> > 
-> > 3700 (or 37xx) is family and covers both a3710 and a3720. In most cases is the
-> > a3720 dominant and hence identifiers 3700 and 3720 are begin mixed.
-> > 
-> > > 
-> > > 2. If A3720 only supports GEN2, you can configure "max-link-speed" to be 2
-> > > in the DT. This will not affect the functionality of this patch.
-> > 
-> > Whole A37xx supports only GEN2. And in DT files for 37xx should be
-> > already there max-link-speed.
-> > 
-> > Seems that in advk_pcie_of_match_table there is no GEN3 device
-> > specified.
-> > 
-> 
-> Hi Pali,
-> 
-> However, I saw many GEN3 assignments and conditions in the code.
-> 
-> ret = of_pci_get_max_link_speed(dev->of_node);
-> if (ret <= 0 || ret > 3)
-> 	pcie->link_gen = 3;
-> else
-> 	pcie->link_gen = ret;
-> 
-> 
-> static void advk_pcie_train_link(struct advk_pcie *pcie)
-> {
-> 	struct device *dev = &pcie->pdev->dev;
-> 	u32 reg;
-> 	int ret;
-> 
-> 	/*
-> 	 * Setup PCIe rev / gen compliance based on device tree property
-> 	 * 'max-link-speed' which also forces maximal link speed.
-> 	 */
-> 	reg = advk_readl(pcie, PCIE_CORE_CTRL0_REG);
-> 	reg &= ~PCIE_GEN_SEL_MSK;
-> 	if (pcie->link_gen == 3)
-> 		reg |= SPEED_GEN_3;
-> 	else if (pcie->link_gen == 2)
-> 		reg |= SPEED_GEN_2;
-> 	else
-> 		reg |= SPEED_GEN_1;
-> 	advk_writel(pcie, reg, PCIE_CORE_CTRL0_REG);
-> 
-> 	/*
-> 	 * Set maximal link speed value also into PCIe Link Control 2 register.
-> 	 * Armada 3700 Functional Specification says that default value is based
-> 	 * on SPEED_GEN but tests showed that default value is always 8.0 GT/s.
-> 	 */
-> 	reg = advk_readl(pcie, PCIE_CORE_PCIEXP_CAP + PCI_EXP_LNKCTL2);
-> 	reg &= ~PCI_EXP_LNKCTL2_TLS;
-> 	if (pcie->link_gen == 3)
-> 		reg |= PCI_EXP_LNKCTL2_TLS_8_0GT;
-> 	else if (pcie->link_gen == 2)
-> 		reg |= PCI_EXP_LNKCTL2_TLS_5_0GT;
-> 	else
-> 		reg |= PCI_EXP_LNKCTL2_TLS_2_5GT;
-> 	advk_writel(pcie, reg, PCIE_CORE_PCIEXP_CAP + PCI_EXP_LNKCTL2);
-> 
-> ....
-> 
-> 
-> If you are certain about the relevant information. Is it understandable that
-> we need to delete the code related to GEN3?
+Hello Prabhakar,
 
-Ok. So some explanation. pci-aardvark.c is implementing driver for PCIe
-controller with codename aardvark. I have no idea from what this
-codename comes and what is represents. What we know that the driver was
-written for A37xx SoC platform according to A37xx functional specification.
-As it is common in SoC world, vendors just buy some IP and integrate it
-into SoC. In this case Marvell bought this PCIe controller IP and
-integrated it into the A37xx. In past I tried to investigate what it
-could be and IIRC my assumption was that it was PCIe IP from Denali.
-Denali was acquired by Cadence, and when I compared Cadence PCIe
-controller registers and PCIe controller registers in A37xx functional
-specification there were large overlap. For me it looked like new
-Cadence PCIe controller is an evolution (or new version) of what is in
-A37xx. So this was some confirmation of my theory. Linux kernel has
-separate driver for PCIe controller from Cadence and for refactoring
-there were ideas to merge these two drivers... But there were more
-important things, fix issues related to A37xx PCIe, lot of changes
-which address these issues were sent to the list but they were not
-taken. I do not think that it makes sense to do refactoring or doing any
-other changes before addressing any existing issues with these
-drivers (like PCIe card is not working correctly).
+Thanks for your work.
 
-There are reported more HW erratas for this PCIe controller which needs
-to be addressed in the software (meaning in Linux kernel) to make PCIe
-card working properly. And there are more design HW decision which needs
-does not conform to the PCIe specification and those deviations needs to
-be "fixed" or "adjusted" in software (meaning in pci-aardvark.c driver)
-to make PCI/PCIe compatible drivers to work correctly.
-
-Now about GEN3. From register allocation it looks like that PCIe IP
-supports GEN3. A37xx does not support it (or at least officially). This
-does not mean that there cannot be some SoC with this "aardvark" PCIe IP
-that is GEN3 capable. Just we see that such SoC is not supported by Linux.
-Also as the comment in above code says, by default the speed is reported
-as 8.0 GT/s, so changing it to 5.0 GT/s or 2.5 GT/s is needed as so code
-some parts of GEN3 code in the driver is needed.
-
-Does it makes sense to remove it? Does it makes sense to spend time on
-such thing which does not address any existing issue? For me not.
-Because it does not fix any _real_ issue with existing PCIe cards. And
-for refactoring it is better to merge drivers as explained above and
-IIRC cadence driver has HW on which is GEN3 used.
-
-Now about your change. If you are sure that pcie_wait_after_link_train()
-function is noop for pcie->link_gen == 2 || pcie->link_gen == 1 then go
-ahead, I have no objects. I have not looked deeply at the change. I just
-spotted some change which is touching timing critical code path which
-was problematic in the past and broke many wifi cards. So I'm really
-careful to prevent breaking Linux support again.
-
-As maintainers decided to not take any new changes from me for this
-driver, I have no motivation to prepare any new changes. I will rather
-spend my free time on something which will make sense and not be wasting
-of my free time.
-
+On 2026-05-12 21:29:31 +0100, Prabhakar wrote:
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > 
-> Best regards,
-> Hans
+> The Renesas RZ/G2H (R8A774E1) SoC supports outputting NV12 format, but
+> this capability is currently not advertised by the driver.
 > 
+> Set the .nv12 flag to true in the rcar_info_r8a774e1 structure to enable
+> support for this format.
 > 
-> > > 3. This patch is a common delay requirement stipulated by the PCIe
-> > > specification. If it is greater than GEN2, then msleep(100) will be added;
-> > > otherwise, there will be no such delay.
-> > > 
-> > > 4. For instance, we often come across the situation where some common APIs
-> > > are modified, and in many cases, their functionality does not require the
-> > > actual development board for verification. I believe that many other
-> > > developers and maintainers have modified different parts of the code. For
-> > > example, the recent submission:
-> > 
-> > Switching one API to another is one thing. But changing code which looks
-> > to be critical, specially when it is known that hw has bugs, can cause
-> > breaking of existing boards.
-> > 
-> > > commit 750277048afe7ce8ebfc0b120de7dfbc745058a7
-> > > Author: Nam Cao <namcao@linutronix.de>
-> > > Date:   Thu Jun 26 16:47:53 2025 +0200
-> > > 
-> > >      PCI: aardvark: Switch to msi_create_parent_irq_domain()
-> > > 
-> > >      Switch to msi_create_parent_irq_domain() from
-> > > pci_msi_create_irq_domain()
-> > >      which was using legacy MSI domain setup.
-> > > 
-> > > 
-> > > And many controller drivers have been modified.
-> > > 
-> > > 
-> > > Best regards,
-> > > Hans
-> > > 
-> > > 
+> Fixes: fe98df32bd9e4 ("media: rcar-vin: Enable support for R8A774E1")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+
+Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+
+> ---
+>  drivers/media/platform/renesas/rcar-vin/rcar-core.c | 1 +
+>  1 file changed, 1 insertion(+)
 > 
+> diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-core.c b/drivers/media/platform/renesas/rcar-vin/rcar-core.c
+> index c8d564aa1eba..e16b33096fd2 100644
+> --- a/drivers/media/platform/renesas/rcar-vin/rcar-core.c
+> +++ b/drivers/media/platform/renesas/rcar-vin/rcar-core.c
+> @@ -925,6 +925,7 @@ static const struct rvin_group_route rcar_info_r8a774e1_routes[] = {
+>  
+>  static const struct rvin_info rcar_info_r8a774e1 = {
+>  	.model = RCAR_GEN3,
+> +	.nv12 = true,
+>  	.max_width = 4096,
+>  	.max_height = 4096,
+>  	.routes = rcar_info_r8a774e1_routes,
+> -- 
+> 2.54.0
+> 
+
+-- 
+Kind Regards,
+Niklas Söderlund
 
