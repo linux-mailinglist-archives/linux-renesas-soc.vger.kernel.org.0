@@ -1,322 +1,186 @@
-Return-Path: <linux-renesas-soc+bounces-32638-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-32639-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id yKTUGHM4BmocggIAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-32638-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 May 2026 23:02:43 +0200
+	id +IxTJ0I8BmqmggIAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-32639-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 May 2026 23:18:58 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id F180F546E16
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 May 2026 23:02:42 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 07D92546FA8
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 May 2026 23:18:57 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 4BBB1300130F
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 May 2026 21:02:42 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id CA26C300D332
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 May 2026 21:18:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0DC403C819A;
-	Thu, 14 May 2026 21:02:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1E7C13A452A;
+	Thu, 14 May 2026 21:18:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=nabladev.com header.i=@nabladev.com header.b="JIxhNPeC"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3077C17A2EA;
-	Thu, 14 May 2026 21:02:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
+Received: from mx.nabladev.com (mx.nabladev.com [178.251.229.89])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3961E37DAB7;
+	Thu, 14 May 2026 21:18:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.251.229.89
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778792559; cv=none; b=rYjiu1vhjJIqhzJaDey1ZqFKDCCWsXYsCe/5lf0tw7TabYaiLQQBDgWmAwUmnXOMIeTnyihPobhQt4jG7yYUrqdAxRhxwAt+7WXjGWrPo8+Dv6L+E3qyAHcKgCXnpgFhgv2wSM9eIsL2v8kbmk7JBaSWK9RTaOlyO5PRx0NkJbw=
+	t=1778793533; cv=none; b=ZKSIKkguOFxnmIMfz/2t+MF6nwCmM/YlwrMAWSHs7KYYvrXl47SQVTudfYRg6aPGWH0taGBWfGnq/gm2zUXjlcGkng6/wsIOkU16EQ5YPyYaZNnzexclzRHMBtR/kSZzpc5p1One8Oe48apyABGJasUphQokFnjBSdZ7hqrVIL0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778792559; c=relaxed/simple;
-	bh=L6tgnJ6HVRpvyne7GS8JPqXSX4XQFaYBy7CWbE1jSv0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=I+1ooWSaJzshe2RmFElZ3YXQn4pX6htPLnc3vsxp4p/Aj4dPGvDZY9Sw2L2oBfcyH1+BAIMIjH8YJqDaB0DIpmP1xw+VSlNW0mFtWG1fNCfiIbEDZOVP4yUwpU/+JN97CM7EA7vQSormSRA/JRuSAyT/GDnizmVnxjj6oPvnjPM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; arc=none smtp.client-ip=210.160.252.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
-X-CSE-ConnectionGUID: fezz5zrPTDOd0v3OJeCDig==
-X-CSE-MsgGUID: WYp4g7/XRMW4GpD9CfKFOg==
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie5.idc.renesas.com with ESMTP; 15 May 2026 06:02:27 +0900
-Received: from mind-2s.lan (unknown [10.24.0.33])
-	by relmlir5.idc.renesas.com (Postfix) with ESMTP id 1E1AF40031EC;
-	Fri, 15 May 2026 06:02:23 +0900 (JST)
-From: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>
-Cc: Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	linux-renesas-soc@vger.kernel.org,
-	devicetree@vger.kernel.org,
+	s=arc-20240116; t=1778793533; c=relaxed/simple;
+	bh=nHFN+EeGy9H4fiYsR/Tzdsuw8cbjSxNx8CM71Qksky4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lDNV01WsDUBTOjMNTviO8p84I0fTkv12J4sR8CVebGPcngASoqZ0vKzw+yvfiZ21LDcnw4PAIQtpc2GZqDgbS5L43Zyc2AZl62qTbs7cS6GAoo1DmzMS6PfiDUwLSt8C0ZCK1Mdv4ZZTuKCuuEsduhxmLghfDCGIebbpVBtXRNw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nabladev.com; spf=pass smtp.mailfrom=nabladev.com; dkim=pass (2048-bit key) header.d=nabladev.com header.i=@nabladev.com header.b=JIxhNPeC; arc=none smtp.client-ip=178.251.229.89
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nabladev.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nabladev.com
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 5894610D2B0;
+	Thu, 14 May 2026 23:18:46 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nabladev.com;
+	s=dkim; t=1778793528;
+	h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 in-reply-to:references; bh=fWIwSSucsz37Y4TFwVU3mNclvHt2V4rfnNHQHEULdZA=;
+	b=JIxhNPeCmXyziGyByiRcG07xZvIvWVrbCZ9A0Q2CqNJ81QOMUF3A2Kwctfb/0BAfBak3Rm
+	1VKU2QkHsG4wqMb2ecFg3ZKEWS3Cm9BoQ2nNacQKqjfmW0/7pXFTsw6hTmC2wRyot5sOwC
+	eLrIeaQKRbrPu1BzUqqVnWZ4Ihgn4vcGdOGEa2/iuFvd+K6gCQrMAfixQW007uDM3sCSjm
+	C0KUsZDsgcLMjc7Dn2dcZ9oy1Uwm4Z3zYh960Mhx8WyMsUni/wy46N+Iav7bN2t73DSbcv
+	pHHMOl+P1FV+QW8mpdhlbWPqCPWUnimMtOcSSuopnhhGnWOaXtb8kOuR5Iff1A==
+Date: Thu, 14 May 2026 23:18:44 +0200
+From: Pavel Machek <pavel@nabladev.com>
+To: Claudiu Beznea <claudiu.beznea@kernel.org>
+Cc: yoshihiro.shimoda.uh@renesas.com, vkoul@kernel.org,
+	neil.armstrong@linaro.org, geert+renesas@glider.be,
+	magnus.damm@gmail.com, prabhakar.mahadev-lad.rj@bp.renesas.com,
+	linux-renesas-soc@vger.kernel.org, linux-phy@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v2] arm64: dts: renesas: rzt2h-n2h-evk: Configure eMMC/SDHI pins
-Date: Thu, 14 May 2026 22:02:17 +0100
-Message-ID: <20260514210220.7616-1-fabrizio.castro.jz@renesas.com>
-X-Mailer: git-send-email 2.43.0
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
+	stable@vger.kernel.org, Pavel Machek <pavel@nabladev.com>,
+	Nobuhiro Iwamatsu <iwamatsu@nigauri.org>
+Subject: Re: [PATCH] phy: renesas: rcar-gen3-usb2: Avoid long delay in atomic
+ context
+Message-ID: <agY8NAyCcHkhBvBv@duo.ucw.cz>
+References: <20260514111300.2152386-1-claudiu.beznea@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: F180F546E16
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="y638fiKJVX+YDLWt"
+Content-Disposition: inline
+In-Reply-To: <20260514111300.2152386-1-claudiu.beznea@kernel.org>
+X-Last-TLS-Session-Version: TLSv1.3
+X-Rspamd-Queue-Id: 07D92546FA8
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.14 / 15.00];
+X-Spamd-Result: default: False [-2.76 / 15.00];
+	SIGNED_PGP(-2.00)[];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[nabladev.com,reject];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	MIME_GOOD(-0.20)[multipart/signed,text/plain];
+	R_DKIM_ALLOW(-0.20)[nabladev.com:s=dkim];
 	MAILLIST(-0.15)[generic];
-	MIME_GOOD(-0.10)[text/plain];
-	DMARC_POLICY_SOFTFAIL(0.10)[renesas.com : SPF not aligned (relaxed), No valid DKIM,none];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-32638-lists,linux-renesas-soc=lfdr.de];
-	RCVD_COUNT_FIVE(0.00)[5];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-32639-lists,linux-renesas-soc=lfdr.de];
+	RECEIVED_HELO_LOCALHOST(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	FREEMAIL_TO(0.00)[glider.be,gmail.com,kernel.org];
-	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	MIME_TRACE(0.00)[0:+,1:+,2:~];
+	FREEMAIL_CC(0.00)[renesas.com,kernel.org,linaro.org,glider.be,gmail.com,bp.renesas.com,vger.kernel.org,lists.infradead.org,nabladev.com,nigauri.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
-	FROM_NEQ_ENVFROM(0.00)[fabrizio.castro.jz@renesas.com,linux-renesas-soc@vger.kernel.org];
-	R_DKIM_NA(0.00)[];
-	NEURAL_HAM(-0.00)[-0.999];
-	PRECEDENCE_BULK(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[11];
 	TO_DN_SOME(0.00)[];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,dt];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,renesas.com:email,renesas.com:mid]
+	NEURAL_HAM(-0.00)[-1.000];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[pavel@nabladev.com,linux-renesas-soc@vger.kernel.org];
+	DKIM_TRACE(0.00)[nabladev.com:+];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,renesas.com:email,duo.ucw.cz:mid]
 X-Rspamd-Action: no action
 
-The HW user manual for the Renesas RZ/T2H and the RZ/N2H states
-that for SDR104, SDR50, and HS200 to work properly the eMMC/SDHI
-interface pins have to be configured as specified below:
-* SDn_CLK pin - drive strength: Ultra High, slew rate: Fast
-* Other SDn_* pins: drive strength: High, slew rate: Fast,
-  Schmitt trigger: disabled (not applicable to SDn_RST pins).
 
-HS DDR and DDR50 are currently not supported, and for every
-other bus mode the eMMC/SDHI interface pins should be configured
-as specified below:
-* SDn_CLK pin - drive strength: High, slew rate: Fast
-* Other SDn_* pins: drive strength: Middle, slew rate: Fast,
-  Schmitt trigger: disabled (not applicable to SDn_RST pins).
+--y638fiKJVX+YDLWt
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Adjust the pin definitions accordingly.
+Hi!
 
-Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
----
-v1->v2:
-* Take into account the settings for lower speed modes
+> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+>=20
+> The OTG PHY initialization sequence needs to wait for 20 ms at a specific
+> step, as described in commit 72c0339c115b ("phy: renesas:
+> rcar-gen3-usb2: follow the hardware manual procedure").
+>=20
+> Commit 55a387ebb921 ("phy: renesas: rcar-gen3-usb2: Lock around hardware
+> registers and driver data") tried to address various problems in the
+> rcar-gen3-usb2 driver and converted the mutex protecting HW register
+> accesses to a spin lock, leaving, however, a long delay in the critical
+> section protected by the spin lock. This may become a problem,
+> especially on RT kernels.
+>=20
+> To address this, release the spin lock before sleeping for 20 ms as
+> required by the HW manual and reacquire it afterwards. To avoid other
+> threads entering the critical section and configuring the HW while the
+> software is waiting for the OTG initialization to complete, introduce the
+> otg_initializing variable alongside the otg_init_done completion. Any
+> other thread trying to configure the HW while the OTG PHY initialization
+> is in progress waits for the completion instead of immediately returning
+> errors to PHY users. The IRQs were also disabled while waiting for the OTG
+> PHY initialization to complete, as the interrupt handler may also apply HW
+> settings.
 
- .../dts/renesas/rzt2h-n2h-evk-common.dtsi     | 147 ++++++++++++++++--
- 1 file changed, 136 insertions(+), 11 deletions(-)
+Just... there has to be a better way.
 
-diff --git a/arch/arm64/boot/dts/renesas/rzt2h-n2h-evk-common.dtsi b/arch/arm64/boot/dts/renesas/rzt2h-n2h-evk-common.dtsi
-index f87c2492f414..46f4aaac0478 100644
---- a/arch/arm64/boot/dts/renesas/rzt2h-n2h-evk-common.dtsi
-+++ b/arch/arm64/boot/dts/renesas/rzt2h-n2h-evk-common.dtsi
-@@ -275,12 +275,63 @@ data-pins {
- 				 <RZT2H_PORT_PINMUX(12, 7, 0x29)>, /* SD0_DATA5 */
- 				 <RZT2H_PORT_PINMUX(13, 0, 0x29)>, /* SD0_DATA6 */
- 				 <RZT2H_PORT_PINMUX(13, 1, 0x29)>; /* SD0_DATA7 */
-+			drive-strength-microamp = <5000>;
-+			slew-rate = <1>;
-+			input-schmitt-disable;
- 		};
- 
--		ctrl-pins {
--			pinmux = <RZT2H_PORT_PINMUX(12, 0, 0x29)>, /* SD0_CLK */
--				 <RZT2H_PORT_PINMUX(12, 1, 0x29)>, /* SD0_CMD */
--				 <RZT2H_PORT_PINMUX(13, 2, 0x29)>; /* SD0_RST# */
-+		clk-pins {
-+			pinmux = <RZT2H_PORT_PINMUX(12, 0, 0x29)>; /* SD0_CLK */
-+			drive-strength-microamp = <9000>;
-+			slew-rate = <1>;
-+		};
-+
-+		cmd-pins {
-+			pinmux = <RZT2H_PORT_PINMUX(12, 1, 0x29)>; /* SD0_CMD */
-+			drive-strength-microamp = <5000>;
-+			slew-rate = <1>;
-+			input-schmitt-disable;
-+		};
-+
-+		rst-pins {
-+			pinmux = <RZT2H_PORT_PINMUX(13, 2, 0x29)>; /* SD0_RST# */
-+			drive-strength-microamp = <5000>;
-+			slew-rate = <1>;
-+		};
-+	};
-+
-+	sdhi0_emmc_pins_uhs: sd0-emmc-group-uhs {
-+		data-pins {
-+			pinmux = <RZT2H_PORT_PINMUX(12, 2, 0x29)>, /* SD0_DATA0 */
-+				 <RZT2H_PORT_PINMUX(12, 3, 0x29)>, /* SD0_DATA1 */
-+				 <RZT2H_PORT_PINMUX(12, 4, 0x29)>, /* SD0_DATA2 */
-+				 <RZT2H_PORT_PINMUX(12, 5, 0x29)>, /* SD0_DATA3 */
-+				 <RZT2H_PORT_PINMUX(12, 6, 0x29)>, /* SD0_DATA4 */
-+				 <RZT2H_PORT_PINMUX(12, 7, 0x29)>, /* SD0_DATA5 */
-+				 <RZT2H_PORT_PINMUX(13, 0, 0x29)>, /* SD0_DATA6 */
-+				 <RZT2H_PORT_PINMUX(13, 1, 0x29)>; /* SD0_DATA7 */
-+			drive-strength-microamp = <9000>;
-+			slew-rate = <1>;
-+			input-schmitt-disable;
-+		};
-+
-+		clk-pins {
-+			pinmux = <RZT2H_PORT_PINMUX(12, 0, 0x29)>; /* SD0_CLK */
-+			drive-strength-microamp = <11800>;
-+			slew-rate = <1>;
-+		};
-+
-+		cmd-pins {
-+			pinmux = <RZT2H_PORT_PINMUX(12, 1, 0x29)>; /* SD0_CMD */
-+			drive-strength-microamp = <9000>;
-+			slew-rate = <1>;
-+			input-schmitt-disable;
-+		};
-+
-+		rst-pins {
-+			pinmux = <RZT2H_PORT_PINMUX(13, 2, 0x29)>; /* SD0_RST# */
-+			drive-strength-microamp = <9000>;
-+			slew-rate = <1>;
- 		};
- 	};
- 
-@@ -299,12 +350,49 @@ data-pins {
- 				 <RZT2H_PORT_PINMUX(12, 3, 0x29)>, /* SD0_DATA1 */
- 				 <RZT2H_PORT_PINMUX(12, 4, 0x29)>, /* SD0_DATA2 */
- 				 <RZT2H_PORT_PINMUX(12, 5, 0x29)>; /* SD0_DATA3 */
-+			drive-strength-microamp = <5000>;
-+			slew-rate = <1>;
-+			input-schmitt-disable;
-+		};
-+
-+		clk-pins {
-+			pinmux = <RZT2H_PORT_PINMUX(12, 0, 0x29)>; /* SD0_CLK */
-+			drive-strength-microamp = <9000>;
-+			slew-rate = <1>;
- 		};
- 
- 		ctrl-pins {
--			pinmux = <RZT2H_PORT_PINMUX(12, 0, 0x29)>, /* SD0_CLK */
--				 <RZT2H_PORT_PINMUX(12, 1, 0x29)>, /* SD0_CMD */
-+			pinmux = <RZT2H_PORT_PINMUX(12, 1, 0x29)>, /* SD0_CMD */
- 				 <RZT2H_PORT_PINMUX(22, 5, 0x29)>; /* SD0_CD */
-+			drive-strength-microamp = <5000>;
-+			slew-rate = <1>;
-+			input-schmitt-disable;
-+		};
-+	};
-+
-+	sdhi0_sd_pins_uhs: sd0-sd-group-uhs {
-+		data-pins {
-+			pinmux = <RZT2H_PORT_PINMUX(12, 2, 0x29)>, /* SD0_DATA0 */
-+				 <RZT2H_PORT_PINMUX(12, 3, 0x29)>, /* SD0_DATA1 */
-+				 <RZT2H_PORT_PINMUX(12, 4, 0x29)>, /* SD0_DATA2 */
-+				 <RZT2H_PORT_PINMUX(12, 5, 0x29)>; /* SD0_DATA3 */
-+			drive-strength-microamp = <9000>;
-+			slew-rate = <1>;
-+			input-schmitt-disable;
-+		};
-+
-+		clk-pins {
-+			pinmux = <RZT2H_PORT_PINMUX(12, 0, 0x29)>; /* SD0_CLK */
-+			drive-strength-microamp = <11800>;
-+			slew-rate = <1>;
-+		};
-+
-+		ctrl-pins {
-+			pinmux = <RZT2H_PORT_PINMUX(12, 1, 0x29)>, /* SD0_CMD */
-+				 <RZT2H_PORT_PINMUX(22, 5, 0x29)>; /* SD0_CD */
-+			drive-strength-microamp = <9000>;
-+			slew-rate = <1>;
-+			input-schmitt-disable;
- 		};
- 	};
- 
-@@ -323,12 +411,49 @@ data-pins {
- 				 <RZT2H_PORT_PINMUX(17, 0, 0x29)>, /* SD1_DATA1 */
- 				 <RZT2H_PORT_PINMUX(17, 1, 0x29)>, /* SD1_DATA2 */
- 				 <RZT2H_PORT_PINMUX(17, 2, 0x29)>; /* SD1_DATA3 */
-+			drive-strength-microamp = <5000>;
-+			slew-rate = <1>;
-+			input-schmitt-disable;
-+		};
-+
-+		clk-pins {
-+			pinmux = <RZT2H_PORT_PINMUX(16, 5, 0x29)>; /* SD1_CLK */
-+			drive-strength-microamp = <9000>;
-+			slew-rate = <1>;
-+		};
-+
-+		ctrl-pins {
-+			pinmux = <RZT2H_PORT_PINMUX(16, 6, 0x29)>, /* SD1_CMD */
-+				 <RZT2H_PORT_PINMUX(17, 4, 0x29)>; /* SD1_CD */
-+			drive-strength-microamp = <5000>;
-+			slew-rate = <1>;
-+			input-schmitt-disable;
-+		};
-+	};
-+
-+	sdhi1_pins_uhs: sd1-group-uhs {
-+		data-pins {
-+			pinmux = <RZT2H_PORT_PINMUX(16, 7, 0x29)>, /* SD1_DATA0 */
-+				 <RZT2H_PORT_PINMUX(17, 0, 0x29)>, /* SD1_DATA1 */
-+				 <RZT2H_PORT_PINMUX(17, 1, 0x29)>, /* SD1_DATA2 */
-+				 <RZT2H_PORT_PINMUX(17, 2, 0x29)>; /* SD1_DATA3 */
-+			drive-strength-microamp = <9000>;
-+			slew-rate = <1>;
-+			input-schmitt-disable;
-+		};
-+
-+		clk-pins {
-+			pinmux = <RZT2H_PORT_PINMUX(16, 5, 0x29)>; /* SD1_CLK */
-+			drive-strength-microamp = <11800>;
-+			slew-rate = <1>;
- 		};
- 
- 		ctrl-pins {
--			pinmux = <RZT2H_PORT_PINMUX(16, 5, 0x29)>, /* SD1_CLK */
--				 <RZT2H_PORT_PINMUX(16, 6, 0x29)>, /* SD1_CMD */
-+			pinmux = <RZT2H_PORT_PINMUX(16, 6, 0x29)>, /* SD1_CMD */
- 				 <RZT2H_PORT_PINMUX(17, 4, 0x29)>; /* SD1_CD */
-+			drive-strength-microamp = <9000>;
-+			slew-rate = <1>;
-+			input-schmitt-disable;
- 		};
- 	};
- };
-@@ -342,7 +467,7 @@ &sci0 {
- #if SD0_EMMC
- &sdhi0 {
- 	pinctrl-0 = <&sdhi0_emmc_pins>;
--	pinctrl-1 = <&sdhi0_emmc_pins>;
-+	pinctrl-1 = <&sdhi0_emmc_pins_uhs>;
- 	pinctrl-names = "default", "state_uhs";
- 	vmmc-supply = <&reg_3p3v>;
- 	vqmmc-supply = <&reg_1p8v>;
-@@ -357,7 +482,7 @@ &sdhi0 {
- #if SD0_SD
- &sdhi0 {
- 	pinctrl-0 = <&sdhi0_sd_pins>;
--	pinctrl-1 = <&sdhi0_sd_pins>;
-+	pinctrl-1 = <&sdhi0_sd_pins_uhs>;
- 	pinctrl-names = "default", "state_uhs";
- 	vmmc-supply = <&reg_3p3v>;
- 	vqmmc-supply = <&vqmmc_sdhi0>;
-@@ -372,7 +497,7 @@ &sdhi0 {
- #if SD1_MICRO_SD
- &sdhi1 {
- 	pinctrl-0 = <&sdhi1_pins>;
--	pinctrl-1 = <&sdhi1_pins>;
-+	pinctrl-1 = <&sdhi1_pins_uhs>;
- 	pinctrl-names = "default", "state_uhs";
- 	vmmc-supply = <&reg_3p3v>;
- 	vqmmc-supply = <&vccq_sdhi1>;
--- 
-2.34.1
+> +++ b/drivers/phy/renesas/phy-rcar-gen3-usb2.c
+> +static int rcar_gen3_phy_wait_otg_init(struct rcar_gen3_chan *channel,
+> +				       unsigned long *flags)
+> +{
+> +	unsigned long timeout =3D msecs_to_jiffies(25);
+> +	unsigned long ret =3D 1;
+> +
+> +	lockdep_assert_held(&channel->lock);
+> +
+> +	/*
+> +	 * The OTG can be initialized only once and needs to release the lock
+> +	 * and wait for 20 ms due to hardware constraints. Wait for the OTG PHY
+> +	 * initialization to complete if another PHY executes configuration
+> +	 * code while the OTG PHY is waiting. This avoids returning failures to
+> +	 * PHY users.
+> +	 */
+> +	if (READ_ONCE(channel->otg_initializing)) {
+> +		spin_unlock_irqrestore(&channel->lock, *flags);
 
+This is not nice, passing flags between functions like this is a red flag.
+
+You are only accessing otg_initializing under the spinlock. That means
+that READ_ONCE is reduntant.
+
+But AFAICT spinlock is only held over this function to protect
+channel->otg_initializing access. I suspect correct answer here is
+getting rid of spinlock over this function, and using
+test_bit(BIT_INITIALIZING, ...) or something similar.
+
+Best regards,
+								Pavel
+
+
+--y638fiKJVX+YDLWt
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCagY8NAAKCRAw5/Bqldv6
+8kIyAKCub4uUA4428i2iky/At/AjsQbCUQCdGEn8frZbIA7Svvvs4RzSMZ4QgA0=
+=iyqe
+-----END PGP SIGNATURE-----
+
+--y638fiKJVX+YDLWt--
 
