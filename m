@@ -1,208 +1,177 @@
-Return-Path: <linux-renesas-soc+bounces-32615-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-32616-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 6KcTGwy+BWpZaAIAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-32615-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 May 2026 14:20:28 +0200
+	id yAfYNDu/BWpLawIAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-32616-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 May 2026 14:25:31 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id C56D554183F
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 May 2026 14:20:27 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 95FAE541916
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 May 2026 14:25:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 7912930302B3
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 May 2026 12:20:04 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 4DE6E3020FF0
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 May 2026 12:25:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 53CE43D7D89;
-	Thu, 14 May 2026 12:20:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ED36E3DD51B;
+	Thu, 14 May 2026 12:25:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Vsfs4Hfp"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="R4TbKiR+"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C801B3AEF43;
-	Thu, 14 May 2026 12:20:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34E6C3D9686;
+	Thu, 14 May 2026 12:25:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778761204; cv=none; b=TAFMhKO/zbOL4soCGpmBKgL5bWzMjuTiLTMz4tJVaP2BX6Q1e9bxwdtwKwteWS1tRA77CMrpliLyN12hScQx1GyWn8lm1xUT73Im1V0n5wcyeInvT3TseIGUzr2jCb7GTJ3wmEVYCOW8to2O+NHG55hCYNv4awProMGBKm0vl1Q=
+	t=1778761527; cv=none; b=tDkOKL3+Rw9OCL+wHx31gLkcP8NG6/n/h0z1qXY0+f+TBUM0AxgDEES9o29HNpEgnbEXefYrWCYQpocdOWjLjL57gbohOrYo2qt6l7E3a5emnx6bkiq39i+LL49H1XlGGxyaVfRpdQto23Lg87R/3GWS9VRC8oQpbvJhq2gjXew=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778761204; c=relaxed/simple;
-	bh=3d8DUSA04YEeeaSJDsq0tBuKoX/EgDy6elaulwtaoYI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cRglwRoLMOZm03VeZ4UO9cHRwBN1d9Vy14UUFIBu/QR18LxqvJmW5dJLAVoRHki2zcHJJDX9Q0bnRDZUDJjvG82y+e62c+s4PaWThOrQiY0iGvLUzZL/I916xLEZIsWFdwFtXjN0ljKSjVGzl3Bd6Pu/Hjcr6bokHhykDVgCNFs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Vsfs4Hfp; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778761203; x=1810297203;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=3d8DUSA04YEeeaSJDsq0tBuKoX/EgDy6elaulwtaoYI=;
-  b=Vsfs4HfpJFYfuSEAoZIVb7CVcE0vssKbRhW+4EFiGPf6XW4NSPuUU5lt
-   6gZ/SP2D0wZGmct9rXa1nxqgs+JCfbS3LB96VrpFk+m/plls7hRm6b5PL
-   XjFcxQNAc/yvvfvEwmvJugtTChJa163jd6xhNNpJ6MbiTSQXqft8SElGE
-   eREvcDu3SHizNN3MmsoBiFf6DhcuUbqyAkfHL+ITFEgkuEZP3yEwrJMq4
-   9X3A258um3rUekKPixgz9S7+BhB8MAAVwx/CmC4c9AKKNXHbOBEZz79Vd
-   Tva8ZC6bp/NhDwOOroRszl+m6W94z8dg34WMvDVoV+AQphtCc3rcnqkTv
-   w==;
-X-CSE-ConnectionGUID: 9960Ek4xQyCqZbBJV2QHXA==
-X-CSE-MsgGUID: k2qLps0EROW//u8r6sNivw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11785"; a="91087125"
-X-IronPort-AV: E=Sophos;i="6.23,234,1770624000"; 
-   d="scan'208";a="91087125"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 May 2026 05:20:02 -0700
-X-CSE-ConnectionGUID: SgABm03mTjmMHc+nrGJewg==
-X-CSE-MsgGUID: EJUbuaw/RnyDNWwkMBfBxQ==
-X-ExtLoop1: 1
-Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
-  by fmviesa003.fm.intel.com with ESMTP; 14 May 2026 05:19:58 -0700
-Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wNV2i-000000008oV-0F3n;
-	Thu, 14 May 2026 12:19:56 +0000
-Date: Thu, 14 May 2026 14:19:35 +0200
-From: kernel test robot <lkp@intel.com>
-To: Hans Zhang <18255117159@163.com>, bhelgaas@google.com,
-	lpieralisi@kernel.org, kwilczynski@kernel.org, mani@kernel.org,
-	vigneshr@ti.com, jingoohan1@gmail.com, thomas.petazzoni@bootlin.com,
-	pali@kernel.org, ryder.lee@mediatek.com, jianjun.wang@mediatek.com,
-	claudiu.beznea.uj@bp.renesas.com, mpillai@cadence.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, robh@kernel.org,
-	s-vadapalli@ti.com, linux-omap@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org,
-	linux-renesas-soc@vger.kernel.org, linux-pci@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Hans Zhang <18255117159@163.com>
-Subject: Re: [PATCH v2 8/8] PCI: rzg3s-host: Add 100 ms delay after link
- training
-Message-ID: <202605141426.2RPW8nvf-lkp@intel.com>
-References: <20260506152346.166056-9-18255117159@163.com>
+	s=arc-20240116; t=1778761527; c=relaxed/simple;
+	bh=KX7cPNWNQV3tTJGSzBFahn7mQVOVPuP673fOrBp4UxE=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=hxw/74CqWQ7eJGNoneqbOE/kXU3i6M/1N65mQUrbDWCHAI6WM7FC97hBk8Iyk1SttKgFC2e4SjWJ2G8+1pYlsqE82ieMeZ4XvB08uD/IenJDYkOT1ift9+r7G/NWuRitRbijPdVkOZb49XB/VT5NXKxrKYNfhfTiTs2UjYJmAF4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=R4TbKiR+; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from [127.0.1.1] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5733B56D;
+	Thu, 14 May 2026 14:25:12 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1778761513;
+	bh=KX7cPNWNQV3tTJGSzBFahn7mQVOVPuP673fOrBp4UxE=;
+	h=From:Subject:Date:To:Cc:From;
+	b=R4TbKiR+isuwOI8qDg0VeWHNUvma84CNwvHgaQRTKP6UwGvW4bwhotarVdExzrJiU
+	 8jarJyoR4F/DHJOrz5+/jottgfew6S8iOtJP/GlwhF/PPvl+t5tE403CNuur83CY8Y
+	 Offd89ylD8hHotWRtL7bfOBwPdaUpqVTnlxVWRsk=
+From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+Subject: [PATCH 0/5] drm/rcar-du: Add support for DSI pipelines with DSC
+Date: Thu, 14 May 2026 15:24:52 +0300
+Message-Id: <20260514-rcar-du-dsc-v1-0-d65f7a9e9841@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260506152346.166056-9-18255117159@163.com>
-X-Rspamd-Queue-Id: C56D554183F
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIABW/BWoC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIzMDU0MT3aLkxCLdlFLdlOJkXRPTpOQ0g2SjtFQLMyWgjoKi1LTMCrBp0bG
+ 1tQDj8v0gXQAAAA==
+X-Change-ID: 20260514-rcar-du-dsc-45bcf0c2fe86
+To: Geert Uytterhoeven <geert+renesas@glider.be>, 
+ Michael Turquette <mturquette@baylibre.com>, 
+ Stephen Boyd <sboyd@kernel.org>, Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Magnus Damm <magnus.damm@gmail.com>, 
+ Marek Vasut <marek.vasut+renesas@mailbox.org>, 
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
+ Philipp Zabel <p.zabel@pengutronix.de>
+Cc: linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ devicetree@vger.kernel.org, 
+ Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+X-Mailer: b4 0.15-dev-c25d1
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1914;
+ i=tomi.valkeinen+renesas@ideasonboard.com; h=from:subject:message-id;
+ bh=KX7cPNWNQV3tTJGSzBFahn7mQVOVPuP673fOrBp4UxE=;
+ b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBqBb8qu7RLSJGNdiijIDGQ9JxOiApet0G3sGId5
+ zUiW6KMH8eJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCagW/KgAKCRD6PaqMvJYe
+ 9WH9D/9CKruh2KnftyraPjOg9Z5+PkKDTx1ltVakbcxFbP3UGVyORJBeYpbecx842m9Vz6tsQ6Z
+ opO8luYLP+533lPTrh/EbChdfvnxPJrnhfMOgSRhEvXUI33vsiZazNtZSQ9fBWUA3stHgrpL0VD
+ jf30zKmO8p6b9Ld9oBCjed0hLfD1ixsEJx9UsMXrjjcFxK49zL10gCn+fd4/AqlkP+BP6QBlrNc
+ wKdvTeBROpl67zCEARgRO739l+2RPrZUYlI4jqsa3WfNtv1IGrZ5E+TwS2xat+UKpXbWPjfkBuL
+ HyhFwYj3KlkSBkVBbpjYZPg7uWmuNLDqi2R9ROFnTzF5yBdFyh/tNP32yMbp4ruJnh98Qly5PMa
+ ForrrdereDmeOBDYJfiTtBUHExIGcm9bbIj2JHaUIMG8zVxZHlOWQiuxLUkD4s/ozY1x6QDzj5u
+ qDGZ0mKVZwCAQs4achaSGb5DwBbcgCyqmffd9612sdaKdtTT5oSkpX7V3YO3RVwcgfs4rDA8QE+
+ OeQ6HG4pGSVxU7Vv+GA6UAgL0Xl0Dc94dCsGg0f5F2PSjjZwhfevHTQ+pxbhY4kvRJdwJy/PKDs
+ t1jQBhmFAtU1Bupx47XyBsvuGgYsHLz7HNHhwCkycuuJs4NROCFJYRc9SjWao5TmbnACWhLIN7B
+ qCo74GwwkCGA48Q==
+X-Developer-Key: i=tomi.valkeinen+renesas@ideasonboard.com; a=openpgp;
+ fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
+X-Rspamd-Queue-Id: 95FAE541916
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.16 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
+	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-32615-lists,linux-renesas-soc=lfdr.de];
-	FREEMAIL_CC(0.00)[lists.linux.dev,kernel.org,ti.com,vger.kernel.org,lists.infradead.org,163.com];
 	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_TO(0.00)[163.com,google.com,kernel.org,ti.com,gmail.com,bootlin.com,mediatek.com,bp.renesas.com,cadence.com];
-	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-32616-lists,linux-renesas-soc=lfdr.de,renesas];
+	FREEMAIL_TO(0.00)[glider.be,baylibre.com,kernel.org,intel.com,linaro.org,ideasonboard.com,kwiboo.se,gmail.com,linux.intel.com,suse.de,ffwll.ch,mailbox.org,pengutronix.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[24];
+	RCVD_COUNT_THREE(0.00)[4];
+	RCPT_COUNT_TWELVE(0.00)[28];
+	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[lkp@intel.com,linux-renesas-soc@vger.kernel.org];
-	DKIM_TRACE(0.00)[intel.com:+];
 	NEURAL_HAM(-0.00)[-1.000];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	TAGGED_RCPT(0.00)[linux-renesas-soc];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,intel.com:email,intel.com:mid,intel.com:dkim,01.org:url]
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[tomi.valkeinen@ideasonboard.com,linux-renesas-soc@vger.kernel.org];
+	DKIM_TRACE(0.00)[ideasonboard.com:+];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,dt];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[ideasonboard.com:email,ideasonboard.com:mid,ideasonboard.com:dkim,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
 X-Rspamd-Action: no action
 
-Hi Hans,
+Some DSI pipelines have DSC (Display Stream Compression) IP block
+between the DU and the DSI. Even if DSC is not needed, the IP must be
+enabled for the DSI output to work.
 
-kernel test robot noticed the following build errors:
+This series adds a basic DSC driver, so that the DSC IP gets enabled in
+bypass mode. This enables DisplayPort output on Sparrow Hawk board, as
+the DP output comes from DSI and sn65dsi86 bridge.
 
-[auto build test ERROR on a293ec25d59dd96309058c70df5a4dd0f889a1e4]
+Original series from Marek.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Hans-Zhang/PCI-Add-pcie_wait_after_link_train-helper/20260514-132815
-base:   a293ec25d59dd96309058c70df5a4dd0f889a1e4
-patch link:    https://lore.kernel.org/r/20260506152346.166056-9-18255117159%40163.com
-patch subject: [PATCH v2 8/8] PCI: rzg3s-host: Add 100 ms delay after link training
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260514/202605141426.2RPW8nvf-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260514/202605141426.2RPW8nvf-lkp@intel.com/reproduce)
+Note: I see that not every run of kms++'s kmstest gives me a picture on
+my monitor. Sometimes the monitor seems to be trying to repeatedly sync,
+but fails, and the screen stays black. However, I see this same issue on
+WhiteHawk, which uses DSI0 pipeline, without DSC, so I think that is a
+separate issue.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605141426.2RPW8nvf-lkp@intel.com/
+ Tomi
 
-All error/warnings (new ones prefixed by >>):
+Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+---
+Marek Vasut (4):
+      clk: renesas: r8a779g0: Add DSC clock
+      dt-bindings: display: bridge: Document Renesas R-Car V4H DSC bindings
+      drm/rcar-du: dsc: Add rudimentary Renesas R-Car V4H DSC driver
+      arm64: dts: renesas: Add Renesas R-Car V4H DSC
 
-   In file included from drivers/pci/access.c:8:
->> drivers/pci/pci.h:73:3: error: call to undeclared function 'msleep'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-      73 |                 msleep(PCIE_RESET_CONFIG_WAIT_MS);
-         |                 ^
-   1 error generated.
---
-   In file included from drivers/pci/rebar.c:17:
->> drivers/pci/pci.h:73:3: error: call to undeclared function 'msleep'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-      73 |                 msleep(PCIE_RESET_CONFIG_WAIT_MS);
-         |                 ^
->> drivers/pci/rebar.c:142:31: warning: implicit conversion from 'unsigned long long' to 'u32' (aka 'unsigned int') changes value from 140737488355328 to 0 [-Wconstant-conversion]
-     142 |         if (size < 0 || size > ilog2(SZ_128T) - ilog2(PCI_REBAR_MIN_SIZE))
-         |                                ~~~~~~^~~~~~~~
-   include/linux/sizes.h:70:20: note: expanded from macro 'SZ_128T'
-      70 | #define SZ_128T                         _AC(0x800000000000, ULL)
-         |                                         ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/uapi/linux/const.h:21:18: note: expanded from macro '_AC'
-      21 | #define _AC(X,Y)        __AC(X,Y)
-         |                         ^~~~~~~~~
-   include/uapi/linux/const.h:20:20: note: expanded from macro '__AC'
-      20 | #define __AC(X,Y)       (X##Y)
-         |                          ^~~~
-   <scratch space>:37:1: note: expanded from here
-      37 | 0x800000000000ULL
-         | ^~~~~~~~~~~~~~~~~
-   include/linux/log2.h:162:14: note: expanded from macro 'ilog2'
-     162 |         __ilog2_u32(n) :                \
-         |         ~~~~~~~~~~~ ^
-   1 warning and 1 error generated.
---
-   In file included from drivers/pci/msi/pcidev_msi.c:5:
->> drivers/pci/msi/../pci.h:73:3: error: call to undeclared function 'msleep'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-      73 |                 msleep(PCIE_RESET_CONFIG_WAIT_MS);
-         |                 ^
-   1 error generated.
---
-   In file included from drivers/pci/pcie/portdrv.c:22:
->> drivers/pci/pcie/../pci.h:73:3: error: call to undeclared function 'msleep'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-      73 |                 msleep(PCIE_RESET_CONFIG_WAIT_MS);
-         |                 ^
-   1 error generated.
+Tomi Valkeinen (1):
+      drm/rcar-du: dsi: Support DSC in the pipeline
 
+ .../bindings/display/bridge/renesas,dsc.yaml       |  96 ++++++++++++
+ arch/arm64/boot/dts/renesas/r8a779g0.dtsi          |  31 +++-
+ .../boot/dts/renesas/r8a779g3-sparrow-hawk.dts     |   5 +
+ drivers/clk/renesas/r8a779g0-cpg-mssr.c            |   1 +
+ drivers/gpu/drm/renesas/rcar-du/Kconfig            |  13 ++
+ drivers/gpu/drm/renesas/rcar-du/Makefile           |   1 +
+ drivers/gpu/drm/renesas/rcar-du/rcar_dsc.c         | 163 +++++++++++++++++++++
+ drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c    |  36 ++++-
+ 8 files changed, 343 insertions(+), 3 deletions(-)
+---
+base-commit: 028ef9c96e96197026887c0f092424679298aae8
+change-id: 20260514-rcar-du-dsc-45bcf0c2fe86
 
-vim +/msleep +73 drivers/pci/pci.h
+Best regards,
+-- 
+Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 
-    62	
-    63	/**
-    64	 * pcie_wait_after_link_train - Wait 100 ms if link speed > 5 GT/s
-    65	 * @max_link_speed: the maximum link speed (2 = 5.0 GT/s, 3 = 8.0 GT/s, ...)
-    66	 *
-    67	 * Must be called after Link training completes and before the first
-    68	 * Configuration Request is sent.
-    69	 */
-    70	static inline void pcie_wait_after_link_train(int max_link_speed)
-    71	{
-    72		if (max_link_speed > 2)
-  > 73			msleep(PCIE_RESET_CONFIG_WAIT_MS);
-    74	}
-    75	
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
 
