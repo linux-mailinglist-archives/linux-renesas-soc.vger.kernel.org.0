@@ -1,188 +1,221 @@
-Return-Path: <linux-renesas-soc+bounces-32612-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-32613-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id OCrhDDZ0BWpuXQIAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-32612-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 May 2026 09:05:26 +0200
+	id EGyoK+STBWoxYwIAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-32613-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 May 2026 11:20:36 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86D5353EB07
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 May 2026 09:05:25 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EC4753FB48
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 May 2026 11:20:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 90C6130277C6
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 May 2026 07:04:58 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id B844D300789D
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 May 2026 09:20:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CC4AB3D75A4;
-	Thu, 14 May 2026 07:04:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 49C6539A06B;
+	Thu, 14 May 2026 09:20:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GDik+5nt"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Jn061cs5"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A91C33D1CB2;
-	Thu, 14 May 2026 07:04:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23E1139A045;
+	Thu, 14 May 2026 09:20:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778742297; cv=none; b=OeDZM8Y+/jUAcwb0SbNqFMgEvL0tJvWRQFdW+IOOFCMuDHx21YYrpFKdT/tTd7sfvlEGMHcK38Q8uV/TuF1xGuMnS896yU9KfoLvS7DT5QSwX5DTyzeanZeyVbgxyNBK4f3gNRHWTEbGhgK8HC0tnd15MTS0fGKyxa33c38V0Y4=
+	t=1778750428; cv=none; b=BYQ287wl9x5GNUWipwJLGpilNDCZeptjgvEBC2Jyk3xYVqqfRjw4+T5XVanftVWXsJnHCdAjQUJLe5+WG4TBVspYcl5QasLh4H3BDWvzfWfzIDRhPtXsEwqYkTzfTgyyDnU3cSTRNBBIwZ4LvfCo/VPqgeY2QYQo3M0N+F9ewvg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778742297; c=relaxed/simple;
-	bh=aPybIQGyqUA9qjM5+u2e5c6BwGWMHofN4WnuZwmO60o=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=o3kqaeZ9GkyoQBs3mgG2/McgfsSMHyHcUNoO1dUeVtTgUfNTGqIVXjWYcVRQkAFAHKk+pEGqfIwkVbuAlZpbeLdJ/MTjQlh6zy8GxAcH4X5XEV8TVw05COaQD/nL+S/2veqwheHv25kFAngTsHG/NladaSkE9EGFXlNdzSYV6oI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GDik+5nt; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8A471C2BCB7;
-	Thu, 14 May 2026 07:04:57 +0000 (UTC)
+	s=arc-20240116; t=1778750428; c=relaxed/simple;
+	bh=CZ72JD/PnldUNEeBiLGzOfw+sXSrrbDJdQIbsn+9ICE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=rYEQelCSE7T0rfAzbdYXJ5miPVVAtXYXd9goqSxvd55dIRbB3rjbXefDLK4tQaIo9r87FFsUb6oAKHdfxu6qG2X2RzhxUmGQsvMBptIOGfGPuK3g2oBAoxIDzdx3JnRYi0P+4R79Kd3i+WDnvYT6XFwUjZwltz6FaX7f1Wv6j/Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Jn061cs5; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B0EEC2BCB3;
+	Thu, 14 May 2026 09:20:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778742297;
-	bh=aPybIQGyqUA9qjM5+u2e5c6BwGWMHofN4WnuZwmO60o=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=GDik+5nteWXGocRGB0Pm8uCGUJSnN6oNc2y+F1YhavFhRTDEHthCx5trA99Mv3Jh+
-	 vp1sRldEp+JZQJ6+7UKoz9qaT3zz32zDEeaS9Zk6GGWpuRdOiEIXW67Nqh1OezCDEW
-	 UDSIYfxPMiZeTX4uJin6ZrPGxikS4RqmOtEnBefA6oYRJnzpZBkuNbb6OkzglXyf2H
-	 U3DFkoKagI8hBJDAkOKQvNcr/3XbNhHgpQfYCnz1uFo3QmFdqabsODphhBSO6iQdlm
-	 9nHHFuf8Csw3NdkJYrETQQh7LqGQwS0D7dLIJ3RCAVMqm7eOM2TlgTzbx4tCzjXmz4
-	 0MwL1q+TRU7FA==
-Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
-	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.98.2)
-	(envelope-from <maz@kernel.org>)
-	id 1wNQ7r-00000002GZR-1EXq;
-	Thu, 14 May 2026 07:04:55 +0000
-Date: Thu, 14 May 2026 08:04:54 +0100
-Message-ID: <86bjeixyi1.wl-maz@kernel.org>
-From: Marc Zyngier <maz@kernel.org>
-To: Marek Vasut <marek.vasut+renesas@mailbox.org>
-Cc: linux-arm-kernel@lists.infradead.org,
-	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Rob Herring <robh@kernel.org>,
-	devicetree@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] arm64: dts: renesas: r8a78000: Fix GIC-720AE View 1 Redistributor description
-In-Reply-To: <20260513223125.43337-1-marek.vasut+renesas@mailbox.org>
-References: <20260513223125.43337-1-marek.vasut+renesas@mailbox.org>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
- FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/30.1
- (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+	s=k20201202; t=1778750427;
+	bh=CZ72JD/PnldUNEeBiLGzOfw+sXSrrbDJdQIbsn+9ICE=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=Jn061cs5zh+OX9wjaAg4gmOYTrxa80VX1fN4qMNOcwaONSf6dbdKIsA35Lkzelzbe
+	 teYN0yPBVsSZCnfq1FBN/W34uOT8xowJR+98eEJCqqstYZcAxMIM42AEUJ09rWjL4o
+	 SZnCHjk5QRT6CNE61gn9rmtXjR3pw+1u3ewxFZeSaf4zhPAzyoKju0lUzwYjAHbcP5
+	 myc4aTBU21Ol2I5f01b+VU5l3/0CkCWrJjMi7Gkk+XzURoCLbx+YMJgJDm+xDQ8sEc
+	 CjmUU7g79+ijAu6hy/YZCS0C97s6eCO7I4iPKsgLYTDqvxjv5RqCIDVFEa4xzYLFDF
+	 qMgxb6uhVDxJw==
+Message-ID: <2a253460-bd6f-44d9-86ab-9f52b8545413@kernel.org>
+Date: Thu, 14 May 2026 12:20:21 +0300
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-SA-Exim-Connect-IP: 185.219.108.64
-X-SA-Exim-Rcpt-To: marek.vasut+renesas@mailbox.org, linux-arm-kernel@lists.infradead.org, conor+dt@kernel.org, geert+renesas@glider.be, krzk+dt@kernel.org, kuninori.morimoto.gx@renesas.com, magnus.damm@gmail.com, robh@kernel.org, devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
-X-Rspamd-Queue-Id: 86D5353EB07
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 13/17] dmaengine: sh: rz-dmac: Add runtime PM support
+To: Frank Li <Frank.li@nxp.com>
+Cc: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>, vkoul@kernel.org,
+ Frank.Li@kernel.org, lgirdwood@gmail.com, broonie@kernel.org,
+ perex@perex.cz, tiwai@suse.com, biju.das.jz@bp.renesas.com,
+ prabhakar.mahadev-lad.rj@bp.renesas.com, p.zabel@pengutronix.de,
+ geert+renesas@glider.be, fabrizio.castro.jz@renesas.com,
+ kuninori.morimoto.gx@renesas.com, long.luu.ur@renesas.com,
+ dmaengine@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-sound@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+References: <20260512121219.216159-1-claudiu.beznea.uj@bp.renesas.com>
+ <20260512121219.216159-14-claudiu.beznea.uj@bp.renesas.com>
+ <agOjwF12NI_jkOzR@lizhi-Precision-Tower-5810>
+ <94430a9b-b5ae-475d-b001-e1a4ff35db8c@kernel.org>
+ <agTXV0NCP7PNk570@lizhi-Precision-Tower-5810>
+Content-Language: en-US
+From: Claudiu Beznea <claudiu.beznea@kernel.org>
+In-Reply-To: <agTXV0NCP7PNk570@lizhi-Precision-Tower-5810>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Rspamd-Queue-Id: 2EC4753FB48
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.34 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[lists.infradead.org,kernel.org,glider.be,renesas.com,gmail.com,vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-32612-lists,linux-renesas-soc=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[maz@kernel.org,linux-renesas-soc@vger.kernel.org];
+	FREEMAIL_CC(0.00)[bp.renesas.com,kernel.org,gmail.com,perex.cz,suse.com,pengutronix.de,glider.be,renesas.com,vger.kernel.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	TAGGED_FROM(0.00)[bounces-32613-lists,linux-renesas-soc=lfdr.de];
+	FROM_HAS_DN(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,dt];
-	RCPT_COUNT_SEVEN(0.00)[10];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[claudiu.beznea@kernel.org,linux-renesas-soc@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,arm.com:url,mailbox.org:email]
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
+	RCPT_COUNT_TWELVE(0.00)[19];
+	TO_DN_SOME(0.00)[]
 X-Rspamd-Action: no action
 
-On Wed, 13 May 2026 23:30:08 +0100,
-Marek Vasut <marek.vasut+renesas@mailbox.org> wrote:
+Hi, Frank,
+
+On 5/13/26 22:56, Frank Li wrote:
+> On Wed, May 13, 2026 at 04:39:12PM +0300, Claudiu Beznea wrote:
+>> Hi, Frank,
+>>
+>> On 5/13/26 01:03, Frank Li wrote:
+>>> On Tue, May 12, 2026 at 03:12:14PM +0300, Claudiu Beznea wrote:
+>>>> Protect the driver exposed APIs with runtime PM suspend/resume calls
+>>>> before accessing HW registers. As the current driver leaves runtime PM
+>>>> enabled in probe, the purpose of the changes in this patch is to avoid
+>>>> accessing HW registers after a failed system suspend leaves the runtime
+>>>> PM state of the device improperly reinitialized.
+>>>>
+>>>> In that case, the driver remains bound to the device, the APIs are still
+>>>> exposed, and any access to HW registers without runtime resuming the
+>>>> device may lead to synchronous aborts.
+>>>>
+>>>> This patch prepares the driver for suspend-to-RAM support.
+>>>>
+>>>> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+>>>> ---
+>>>>
+>>>> Changes in v5:
+>>>> - none, this patch is new
+>>>>
+>>>>    drivers/dma/sh/rz-dmac.c | 48 ++++++++++++++++++++++++++++++++++++++++
+>>>>    1 file changed, 48 insertions(+)
+>>>>
+>>>> diff --git a/drivers/dma/sh/rz-dmac.c b/drivers/dma/sh/rz-dmac.c
+>>>> index d6ad070be705..df91657fd5e3 100644
+>>>> --- a/drivers/dma/sh/rz-dmac.c
+>>>> +++ b/drivers/dma/sh/rz-dmac.c
+>>>> @@ -488,7 +488,15 @@ static void rz_dmac_prepare_descs_for_cyclic(struct rz_dmac_chan *channel)
+>>>>
+>>>>    static void rz_dmac_xfer_desc(struct rz_dmac_chan *chan)
+>>>>    {
+>>>> +	struct dma_chan *ch = &chan->vc.chan;
+>>>> +	struct rz_dmac *dmac = to_rz_dmac(ch->device);
+>>>>    	struct virt_dma_desc *vd;
+>>>> +	int ret;
+>>>> +
+>>>> +	PM_RUNTIME_ACQUIRE_IF_ENABLED(dmac->dev, pm);
+>>>> +	ret = PM_RUNTIME_ACQUIRE_ERR(&pm);
+>>>> +	if (ret)
+>>>> +		return;
+>>>
+>>> According vnod comment *_prep() call may be called in atomic context
+>>> (complete callback). but runtime_pm may sleep.
+>>
+>> That's why the pm_runtime_irq_safe() was called in probe, to allow it being
+>> called in atomic context.
+>>
+>> The series was tested with CONFIG_LOCKDEP=y and CONFIG_DEBUG_ATOMIC_SLEEP=y
+>> no issue was identified.
 > 
-> The Renesas R-Car X5H (R8A78000) SoC contains Arm CoreLink GIC-720AE
-> Generic Interrupt Controller with Multi View capability. Firmware has
-> access to configuration View 0, Linux kernel has access to View 1.
+> I am not sure how magic it makes pm_runtime_get_sync() work under atomic
+> context, suppose runtime callback involve clk_(un)prep() and power domain,
+> if you call pm_runtime_irq_safe() in probe, it may makes all parent resource
+> on when probe. At least it should defer to alloc chan.
 
-Huh. That's pretty unexpected. The usual wisdom is to give the APs
-view 0 so that it looks like a "normal" machine, rather than only a
-partition of the system (which is what view != 0 indicates).
+The rz-dmac driver is used on platforms using drivers/clk/renesas/rzg2l-cpg.c 
+and drivers/clk/renesas/rzv2h-cpg.c clock drivers.
 
-I guess there is some additional fun going on there, such as other
-CPUs getting a portion of the GIC for themselves, and firmware
-preventing whatever is running on the APs to interact with them...
+All the platforms that supports the rz-dmac driver register always-on clock 
+power domains through the above mentioned clock drivers, see [1], [2].
 
-> 
-> The Arm CoreLink GIC-720AE Generic Interrupt Controller Technical
-> Reference Manual, currently latest r2p1 [1], chapter "Programmers model
-> for GIC-720AE", subchapter "Redistributor registers for control and
-> physical LPIs summary", part "GICR_TYPER, Redistributor Type Register"
-> clarifies register "GICR_TYPER" bit 4 "Last" behavior in Multi View
-> setup as follows:
-> 
-> "
-> Last
-> Last Redistributor:
-> 
-> 0 ... This Redistributor is not the last Redistributor on the chip.
-> 1 ... This Redistributor is the last Redistributor on the chip.
->       When GICD_CFGID.VIEW == 1, for views 1, 2, or 3 this bit
->       always returns 1.
-> "
-> 
-> On this SoC, GICD_CFGID.VIEW is 1 and the Linux kernel has access to
-> View 1, therefore Linux kernel GICv3 driver will interpret register
-> "GICR_TYPER" bit 4 "Last" = 1 in the first Redistributor in continuous
-> Redistributor page as that first Redistributor being the one and only
-> Redistributor and will stop processing the continuous Redistributor
-> page further. This will prevent the other Redistributors from being
-> recognized by the system and used for other PEs.
-> 
-> Because the hardware indicates that the continuous Redistributor page
-> is not continuous for View 1, 2, or 3, describe every Redistributor
-> separately in the DT. This makes all Redistributors for all cores
-> accessible in Linux.
-> 
-> [1] https://developer.arm.com/documentation/102666/0201/Programmers-model-for-GIC-720AE/Redistributor-registers-for-control-and-physical-LPIs-summary/GICR-TYPER--Redistributor-Type-Register?lang=en
->
+The genpd registered by those drivers are passing GENPD_FLAG_PM_CLK flag to the 
+pm_genpd_init(). In that case the start/stop APIs of the genpd are 
+pm_clk_suspend/pm_clk_resume [3].
 
-I am amazed that you managed to find anything at all on this web site.
+The clocks to the rz-dmac driver are module clocks, so they are handled by [4] 
+or [5] which both have the enable and disable APIs implemented, thus the 
+prepare/unprepare is not going to be called through the 
+pm_clk_suspend()/pm_clk_resume() functions.
 
-I would refrain from adding links to any ARM web sites in a commit
-message though. They tend to have a 10 minutes half-life period, and
-whole specs to disappear from public view when they are not flavour of
-the week anymore.
+Also, there is no sleep in the enable/disable APIs of those clocks.
 
-A link to the equivalent PDF has better chances to survive further
-creative^WAI slop driven reorg of the documentation:
+Since the registered clock power domain is always on and the rz-dmac is marked 
+as IRQ safe the genpd_lock()/genpd_unlock() (and 
+genpd_power_off()/genpd_power_on()) will not be called for rz-dmac driver. 
+Anyhow, the rzg2l-cpg.c and rzv2h-cpg.c are not implementing any power on/off 
+APIs (they are always on power domains).
 
-https://documentation-service.arm.com/static/69ef3c1cd35efd294e335c43
+The irq_safe_dev_in_sleep_domain() calls in 
+genpd_runtime_suspend()/genpd_runtime_resume() is anyway blocking any access to 
+the genpd_lock()/genpd_unlock() (which may call mutex operations thought he 
+genpd_mtx_ops APIs) for the rz-dmac (due to the pm_domain_irq_safe() call in 
+probe) .
 
-but your best bet is to download it, archive it, and refer to it
-yourself.
+Also, on pm_runtime_* APIs, documentation it is mentioned (e.g. [6]):
 
-> Fixes: 63500d12cf76 ("arm64: dts: renesas: Add R8A78000 SoC support")
-> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+* This routine may be called in atomic context if the RPM_ASYNC flag is set, 
 
-Acked-by: Marc Zyngier <maz@kernel.org>
+* or if pm_runtime_irq_safe() has been called.
 
-	M.
+Due to all these, I consider we are safe with this approach.
 
--- 
-Without deviation from the norm, progress is not possible.
+Thank you,
+Claudiu
+
+[1] 
+https://elixir.bootlin.com/linux/v7.1-rc3/source/drivers/clk/renesas/rzg2l-cpg.c#L2013
+[2] 
+https://elixir.bootlin.com/linux/v7.1-rc3/source/drivers/clk/renesas/rzv2h-cpg.c#L1549
+[3] https://elixir.bootlin.com/linux/v7.1-rc3/source/drivers/pmdomain/core.c#L2439
+[4] 
+https://elixir.bootlin.com/linux/v7.1-rc3/source/drivers/clk/renesas/rzg2l-cpg.c#L1560
+[5] 
+https://elixir.bootlin.com/linux/v7.1-rc3/source/drivers/clk/renesas/rzv2h-cpg.c#L1243
+
+[6] 
+https://elixir.bootlin.com/linux/v7.1-rc3/source/drivers/base/power/runtime.c#L1147
+
 
