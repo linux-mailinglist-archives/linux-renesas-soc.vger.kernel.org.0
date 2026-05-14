@@ -1,141 +1,188 @@
-Return-Path: <linux-renesas-soc+bounces-32611-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-32612-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id cP1yM34bBWpuSgIAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-32611-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 May 2026 02:46:54 +0200
+	id OCrhDDZ0BWpuXQIAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-32612-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 May 2026 09:05:26 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17FA353C6FE
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 May 2026 02:46:54 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 86D5353EB07
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 May 2026 09:05:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 9CC193037423
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 May 2026 00:46:52 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 90C6130277C6
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 May 2026 07:04:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7366B29A309;
-	Thu, 14 May 2026 00:46:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CC4AB3D75A4;
+	Thu, 14 May 2026 07:04:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="COi+f4Q1"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GDik+5nt"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FCD222083;
-	Thu, 14 May 2026 00:46:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A91C33D1CB2;
+	Thu, 14 May 2026 07:04:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778719611; cv=none; b=SkYxiRLm81hwIKHQY507lYqNmXcYSlp1BEpztNHHja3RJz3ywg50CfT3vnRQRQ/3nlLSIN4ZPEHWIMcD+tDM3Pcp4+lCA42DG4RPyzLXWV7cUJPeB3pGs04AkwLXo5obx29TYOKJBnCRvHN5kP8XzL9iDmZJ2YE7AeLubWU2xDQ=
+	t=1778742297; cv=none; b=OeDZM8Y+/jUAcwb0SbNqFMgEvL0tJvWRQFdW+IOOFCMuDHx21YYrpFKdT/tTd7sfvlEGMHcK38Q8uV/TuF1xGuMnS896yU9KfoLvS7DT5QSwX5DTyzeanZeyVbgxyNBK4f3gNRHWTEbGhgK8HC0tnd15MTS0fGKyxa33c38V0Y4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778719611; c=relaxed/simple;
-	bh=oNInECs0EKBchm0jjTqBxa60qryHf6iLVq5jQKgOLcM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sSmpShYxwrhqiEeP0uGTGxFuv45TjnsYcWibHZhoK92q7qvdDgLCVj6znnvInsGubo57pFuGbqni1ieg/CPN7+441GuCyFEvDmPfn1jHmfSyJS4y7fPeLUrTQTCZkVvLVbL/VwKK/TCKYt45O3M0KaTHdb7ztNrtHFylW+vRVsA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=COi+f4Q1; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 06C84C19425;
-	Thu, 14 May 2026 00:46:51 +0000 (UTC)
+	s=arc-20240116; t=1778742297; c=relaxed/simple;
+	bh=aPybIQGyqUA9qjM5+u2e5c6BwGWMHofN4WnuZwmO60o=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=o3kqaeZ9GkyoQBs3mgG2/McgfsSMHyHcUNoO1dUeVtTgUfNTGqIVXjWYcVRQkAFAHKk+pEGqfIwkVbuAlZpbeLdJ/MTjQlh6zy8GxAcH4X5XEV8TVw05COaQD/nL+S/2veqwheHv25kFAngTsHG/NladaSkE9EGFXlNdzSYV6oI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GDik+5nt; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8A471C2BCB7;
+	Thu, 14 May 2026 07:04:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778719611;
-	bh=oNInECs0EKBchm0jjTqBxa60qryHf6iLVq5jQKgOLcM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=COi+f4Q1JSsvv5hYKYXs8A1qy0A15Y7Jpz4SIr0bQPqVas9jycWl+JuyUFhZZ4dbj
-	 guoG5ntBmpeilwJ9xgLQXn0hVgJ89yOv2YbAryO0rkJ6N1bUpwiVf9BI3gKQCajJFz
-	 KnpA+bAqaG6JSKLQlk0JjqMGdJOHH+GFXU8zFumQEfSabwYVbp4e5TaS1a0tqtP/C0
-	 x3weTCgkt5Akv3eSeZbqIk2RD9NCpehCz4ZSkcpCmEH3HRUAa5DExyfxvNMK8QJmPQ
-	 IUziNNPmgBVchItZ6FSNOTB3xivehgicFHBL8EzcP+S9L0Q4XjOlg1ih5evOM68aR9
-	 U2K40cOzumWKQ==
-Received: by finisterre.sirena.org.uk (Postfix, from userid 1000)
-	id 89C401AC58CB; Thu, 14 May 2026 01:46:47 +0100 (BST)
-Date: Thu, 14 May 2026 09:46:47 +0900
-From: Mark Brown <broonie@kernel.org>
-To: John Madieu <john.madieu.xa@bp.renesas.com>
-Cc: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	s=k20201202; t=1778742297;
+	bh=aPybIQGyqUA9qjM5+u2e5c6BwGWMHofN4WnuZwmO60o=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=GDik+5nteWXGocRGB0Pm8uCGUJSnN6oNc2y+F1YhavFhRTDEHthCx5trA99Mv3Jh+
+	 vp1sRldEp+JZQJ6+7UKoz9qaT3zz32zDEeaS9Zk6GGWpuRdOiEIXW67Nqh1OezCDEW
+	 UDSIYfxPMiZeTX4uJin6ZrPGxikS4RqmOtEnBefA6oYRJnzpZBkuNbb6OkzglXyf2H
+	 U3DFkoKagI8hBJDAkOKQvNcr/3XbNhHgpQfYCnz1uFo3QmFdqabsODphhBSO6iQdlm
+	 9nHHFuf8Csw3NdkJYrETQQh7LqGQwS0D7dLIJ3RCAVMqm7eOM2TlgTzbx4tCzjXmz4
+	 0MwL1q+TRU7FA==
+Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
+	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.98.2)
+	(envelope-from <maz@kernel.org>)
+	id 1wNQ7r-00000002GZR-1EXq;
+	Thu, 14 May 2026 07:04:55 +0000
+Date: Thu, 14 May 2026 08:04:54 +0100
+Message-ID: <86bjeixyi1.wl-maz@kernel.org>
+From: Marc Zyngier <maz@kernel.org>
+To: Marek Vasut <marek.vasut+renesas@mailbox.org>
+Cc: linux-arm-kernel@lists.infradead.org,
 	Conor Dooley <conor+dt@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
 	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
 	Magnus Damm <magnus.damm@gmail.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
-	Biju Das <biju.das.jz@bp.renesas.com>, john.madieu@gmail.com,
-	linux-sound@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v6 16/16] ASoC: rsnd: Add system suspend/resume support
-Message-ID: <agUbd0ImOGmGiyad@sirena.co.uk>
-References: <20260512182631.3842065-1-john.madieu.xa@bp.renesas.com>
- <20260512182631.3842065-17-john.madieu.xa@bp.renesas.com>
+	Rob Herring <robh@kernel.org>,
+	devicetree@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] arm64: dts: renesas: r8a78000: Fix GIC-720AE View 1 Redistributor description
+In-Reply-To: <20260513223125.43337-1-marek.vasut+renesas@mailbox.org>
+References: <20260513223125.43337-1-marek.vasut+renesas@mailbox.org>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/30.1
+ (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="tDUwGqDnoTOXEEzk"
-Content-Disposition: inline
-In-Reply-To: <20260512182631.3842065-17-john.madieu.xa@bp.renesas.com>
-X-Cookie: Truckers welcome.
-X-Rspamd-Queue-Id: 17FA353C6FE
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: marek.vasut+renesas@mailbox.org, linux-arm-kernel@lists.infradead.org, conor+dt@kernel.org, geert+renesas@glider.be, krzk+dt@kernel.org, kuninori.morimoto.gx@renesas.com, magnus.damm@gmail.com, robh@kernel.org, devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+X-Rspamd-Queue-Id: 86D5353EB07
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.76 / 15.00];
-	SIGNED_PGP(-2.00)[];
+X-Spamd-Result: default: False [0.34 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	MIME_GOOD(-0.20)[multipart/signed,text/plain];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-32611-lists,linux-renesas-soc=lfdr.de];
-	FREEMAIL_CC(0.00)[renesas.com,gmail.com,kernel.org,perex.cz,suse.com,glider.be,pengutronix.de,tuxon.dev,bp.renesas.com,vger.kernel.org];
+	FREEMAIL_CC(0.00)[lists.infradead.org,kernel.org,glider.be,renesas.com,gmail.com,vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[18];
-	MIME_TRACE(0.00)[0:+,1:+,2:~];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-32612-lists,linux-renesas-soc=lfdr.de];
+	MIME_TRACE(0.00)[0:+];
 	DKIM_TRACE(0.00)[kernel.org:+];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	MISSING_XM_UA(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	TO_DN_SOME(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[broonie@kernel.org,linux-renesas-soc@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[maz@kernel.org,linux-renesas-soc@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,dt];
+	RCPT_COUNT_SEVEN(0.00)[10];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
-	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,arm.com:url,mailbox.org:email]
 X-Rspamd-Action: no action
 
+On Wed, 13 May 2026 23:30:08 +0100,
+Marek Vasut <marek.vasut+renesas@mailbox.org> wrote:
+> 
+> The Renesas R-Car X5H (R8A78000) SoC contains Arm CoreLink GIC-720AE
+> Generic Interrupt Controller with Multi View capability. Firmware has
+> access to configuration View 0, Linux kernel has access to View 1.
 
---tDUwGqDnoTOXEEzk
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Huh. That's pretty unexpected. The usual wisdom is to give the APs
+view 0 so that it looks like a "normal" machine, rather than only a
+partition of the system (which is what view != 0 indicates).
 
-On Tue, May 12, 2026 at 06:26:31PM +0000, John Madieu wrote:
-> Add system suspend/resume support for the ASoC rsnd driver, required
-> for RZ/G3E platforms. Distribute the per-module suspend/resume work
-> across the relevant files (adg.c, ssi.c, ssiu.c, src.c, ctu.c, mix.c,
-> dvc.c, dma.c) rather than centralising it in core.c.
+I guess there is some additional fun going on there, such as other
+CPUs getting a portion of the GIC for themselves, and firmware
+preventing whatever is running on the APs to interact with them...
 
-Does this need handling of scu_supply?
+> 
+> The Arm CoreLink GIC-720AE Generic Interrupt Controller Technical
+> Reference Manual, currently latest r2p1 [1], chapter "Programmers model
+> for GIC-720AE", subchapter "Redistributor registers for control and
+> physical LPIs summary", part "GICR_TYPER, Redistributor Type Register"
+> clarifies register "GICR_TYPER" bit 4 "Last" behavior in Multi View
+> setup as follows:
+> 
+> "
+> Last
+> Last Redistributor:
+> 
+> 0 ... This Redistributor is not the last Redistributor on the chip.
+> 1 ... This Redistributor is the last Redistributor on the chip.
+>       When GICD_CFGID.VIEW == 1, for views 1, 2, or 3 this bit
+>       always returns 1.
+> "
+> 
+> On this SoC, GICD_CFGID.VIEW is 1 and the Linux kernel has access to
+> View 1, therefore Linux kernel GICv3 driver will interpret register
+> "GICR_TYPER" bit 4 "Last" = 1 in the first Redistributor in continuous
+> Redistributor page as that first Redistributor being the one and only
+> Redistributor and will stop processing the continuous Redistributor
+> page further. This will prevent the other Redistributors from being
+> recognized by the system and used for other PEs.
+> 
+> Because the hardware indicates that the continuous Redistributor page
+> is not continuous for View 1, 2, or 3, describe every Redistributor
+> separately in the DT. This makes all Redistributors for all cores
+> accessible in Linux.
+> 
+> [1] https://developer.arm.com/documentation/102666/0201/Programmers-model-for-GIC-720AE/Redistributor-registers-for-control-and-physical-LPIs-summary/GICR-TYPER--Redistributor-Type-Register?lang=en
+>
 
---tDUwGqDnoTOXEEzk
-Content-Type: application/pgp-signature; name="signature.asc"
+I am amazed that you managed to find anything at all on this web site.
 
------BEGIN PGP SIGNATURE-----
+I would refrain from adding links to any ARM web sites in a commit
+message though. They tend to have a 10 minutes half-life period, and
+whole specs to disappear from public view when they are not flavour of
+the week anymore.
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmoFG3YACgkQJNaLcl1U
-h9DKZAf/S1yDzzNzSiaI+ukwnfgpL1EEv6xmzoYWSDF9f4F0Ta/3qJxTbMy/ZlKF
-zvX8WZFrK8s4Fi3WNlmjuejvOVOem183gCDAUUhVhubVE6FKQmAAx4CWscCiMwrm
-GkGWMDn4Q163/00otnI1K/bLr6y0FQzQWIkFCyLfzL+dNRr2p8qzOa6Zpz3mVX7c
-mLacp0Z/GFqT9xR2NIlg08SHXfbv5UxFA/EAM8X0N8TvctzEIoK6WMK6nZp+8YwO
-sM2hJUNRwEUHkpcjKxQeT3Xe3OSQOKis30yxnYyMt0d9MEGrL2mB20JVKlHNy37i
-wUs5Viv7tYANUFLKzaEQjyYRgPsAPw==
-=m2mz
------END PGP SIGNATURE-----
+A link to the equivalent PDF has better chances to survive further
+creative^WAI slop driven reorg of the documentation:
 
---tDUwGqDnoTOXEEzk--
+https://documentation-service.arm.com/static/69ef3c1cd35efd294e335c43
+
+but your best bet is to download it, archive it, and refer to it
+yourself.
+
+> Fixes: 63500d12cf76 ("arm64: dts: renesas: Add R8A78000 SoC support")
+> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+
+Acked-by: Marc Zyngier <maz@kernel.org>
+
+	M.
+
+-- 
+Without deviation from the norm, progress is not possible.
 
