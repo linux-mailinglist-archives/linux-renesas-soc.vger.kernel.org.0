@@ -1,51 +1,50 @@
-Return-Path: <linux-renesas-soc+bounces-32688-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-32689-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id kJ2nL2s1B2rftQIAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-32688-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 May 2026 17:02:03 +0200
+	id 4N9uCJE3B2ottwIAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-32689-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 May 2026 17:11:13 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84AF3551D1E
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 May 2026 17:01:58 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id BCB99551ED3
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 May 2026 17:11:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 4477A301B927
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 May 2026 15:01:41 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 39E7E30329BE
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 May 2026 15:06:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7DD5C3C4B81;
-	Fri, 15 May 2026 15:01:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DF96A481FB3;
+	Fri, 15 May 2026 15:05:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oQKwRrRe"
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="ogJCGY5G"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.4])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5767B3932D1;
-	Fri, 15 May 2026 15:01:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E2BD48B38E;
+	Fri, 15 May 2026 15:05:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778857299; cv=none; b=ip4zper+tUYT84fBgriyQ39MueS5YIcTisdUwysranvMlyXCm1usq/Zv9+VrjtIwkhPfOqmeF8WB5BvqUnWCye/Mw0LpXL9APOyHGtYDxngUArDuUtanzHCQmB9B8UjWEgR162+7saEbxWa0lvOo/qnqULVNlOaIeF0bstEIK2o=
+	t=1778857559; cv=none; b=qnmUXfhLksNWJQSTHzDPyhQktUyCXB8vUtjiBBJgyk1Gx1qZ8gZv0a81db+e74poFchxmTSLpvjL3M31qKIEtGywRDFRY21S8CvOr352sIrrnZQN77/nN3BwUSzSEBW/RBBTNT+OoH/WcMVG/1M1Uxl6nWeQprbcScpESszaH6o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778857299; c=relaxed/simple;
-	bh=itExJiGkZ6HIPPRSW3hnX46O42Hw5jWW8bgNWcx6GsA=;
+	s=arc-20240116; t=1778857559; c=relaxed/simple;
+	bh=McpnXz/rGrMuSUIcvQ4AG8Kl82xuU/L/dKPrY5yg0M4=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=k28RfVNJzKFiko33+O+jbYxJG7s3vZaybFXHrtaOWbJZyTtkwloQTulUFtkzv3AzKEUI9x8TsKS2q7c2ksVxTHAxPowTU4CyNRI2WhDA/PI7DWuhjDlFruiIHLRqK/aucaH1yZYYQqI3p8s3Eo6eQsWR2yc/6ySi9A8EyGsGw2I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oQKwRrRe; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 031B7C2BCB8;
-	Fri, 15 May 2026 15:01:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778857299;
-	bh=itExJiGkZ6HIPPRSW3hnX46O42Hw5jWW8bgNWcx6GsA=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=oQKwRrRe+/gqfIF44ewwvEckptBQdewfykuUSWQAKwdmmGt9Wr2XALjGWxvoeDCiz
-	 ywwr5HOqaXNvrSFtQiXF9Dr252nRDzq5AFbaI2/RAhcn50gsc3vuwl/0tw0EA/RqNB
-	 HUG28TG3001zHJKvndJspacIZpvj65viG6R1eIq9cPN0Vx1Wbr4+vBuAXO+t8iTF2H
-	 PGi8yPgj1V4ID+0sip1lgadlIizGnOR1F1+I4eqSnfgf6luSt2nAWLrxlf4qtcSlCQ
-	 KYZvRmK9lIc+keSX4WRKxDI+AHHsWL1IT8pepkDZlhEyT7TNJ/J+W5ZY4ED9hE4C28
-	 lSTJ2PbHUecgw==
-Message-ID: <a88cbcff-2114-45fe-9ab6-d456c69dba99@kernel.org>
-Date: Fri, 15 May 2026 18:01:33 +0300
+	 In-Reply-To:Content-Type; b=mxUbV2YpyENZrwepfNQyJIfBFA+xJ9TaSQmtPS33rSFd8W9h0wrtC0fgJ/vnJe8zU4h06q766NnH12aSH3lOsdkAm+Cdkzd0ausqTzwBd4DgxOhrKaxc7aUMTrVKV/8XNWE8jeMq1oZMcVtO602tUOcowh+Y+0K2N7suS3HpwpI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=ogJCGY5G; arc=none smtp.client-ip=117.135.210.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=Message-ID:Date:MIME-Version:Subject:To:From:
+	Content-Type; bh=D0aVJ1oI07M7fsLfw7yCfiuyUD9A/pHOpyMY/I0o1C0=;
+	b=ogJCGY5GZCO33EocCv82XtHrz71uQciISGEtOBaI6KUPvqZBTXI1vlRhWzoRMJ
+	AoMm1RqkBfRCAHa6aRGQUK801b33FTNE3yrwHQyrsI0nzqh+wa0+n9vXpaGLcZwn
+	3BifagXBGJ7WKejgWWYPtGM6QO3a0kB+lq3idysEMul7k=
+Received: from [IPV6:240e:b8f:91b3:d000:79ec:4c96:c180:869b] (unknown [])
+	by gzga-smtp-mtada-g0-2 (Coremail) with SMTP id _____wDnr6MGNgdqmNEiBg--.36082S2;
+	Fri, 15 May 2026 23:04:39 +0800 (CST)
+Message-ID: <01f61c3f-d2a7-4ce3-a820-a5502312a07f@163.com>
+Date: Fri, 15 May 2026 23:04:39 +0800
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -53,218 +52,259 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: sashiko review: Re: [PATCH] phy: renesas: rcar-gen3-usb2: Avoid long
- delay in atomic context
-To: yoshihiro.shimoda.uh@renesas.com, vkoul@kernel.org,
- neil.armstrong@linaro.org, geert+renesas@glider.be, magnus.damm@gmail.com,
- prabhakar.mahadev-lad.rj@bp.renesas.com
-Cc: linux-renesas-soc@vger.kernel.org, linux-phy@lists.infradead.org,
- linux-kernel@vger.kernel.org,
- Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>, stable@vger.kernel.org,
- Pavel Machek <pavel@nabladev.com>, Nobuhiro Iwamatsu <iwamatsu@nigauri.org>
-References: <20260514111300.2152386-1-claudiu.beznea@kernel.org>
+Subject: Re: [PATCH v2 6/8] PCI: aardvark: Add 100 ms delay after link
+ training
+To: =?UTF-8?Q?Pali_Roh=C3=A1r?= <pali@kernel.org>
+Cc: bhelgaas@google.com, lpieralisi@kernel.org, kwilczynski@kernel.org,
+ mani@kernel.org, vigneshr@ti.com, jingoohan1@gmail.com,
+ thomas.petazzoni@bootlin.com, ryder.lee@mediatek.com,
+ jianjun.wang@mediatek.com, claudiu.beznea.uj@bp.renesas.com,
+ mpillai@cadence.com, robh@kernel.org, s-vadapalli@ti.com,
+ linux-omap@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-mediatek@lists.infradead.org, linux-renesas-soc@vger.kernel.org,
+ linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260506152346.166056-1-18255117159@163.com>
+ <20260506152346.166056-7-18255117159@163.com>
+ <20260512212531.jupoocz7acv22qyg@pali>
+ <581e91fb-2e57-43ed-b79d-19dbf384b955@163.com>
+ <20260513072008.vol4htgbzquly2rb@pali>
+ <15532890-ce22-4b20-96d9-e7f7c47050d2@163.com>
+ <20260513185442.mw3md5te7dhojyd7@pali>
 Content-Language: en-US
-From: Claudiu Beznea <claudiu.beznea@kernel.org>
-In-Reply-To: <20260514111300.2152386-1-claudiu.beznea@kernel.org>
+From: Hans Zhang <18255117159@163.com>
+In-Reply-To: <20260513185442.mw3md5te7dhojyd7@pali>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Rspamd-Queue-Id: 84AF3551D1E
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:_____wDnr6MGNgdqmNEiBg--.36082S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW3XF1xXrWrJF4xWry5Wry7Awb_yoW3Zr43pF
+	W5Ga9FyF47Jr13u3W0q3W8ZFyjqan8C343Xrn8X347Wr9I9FyDtF12krWfuasrGr4vyr12
+	vw45tFy3CwnIva7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07URVbkUUUUU=
+X-CM-SenderInfo: rpryjkyvrrlimvzbiqqrwthudrp/xtbC6wjrj2oHNgiRnAAA3Z
+X-Rspamd-Queue-Id: BCB99551ED3
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	DMARC_POLICY_ALLOW(-0.50)[163.com,none];
+	R_DKIM_ALLOW(-0.20)[163.com:s=s110527];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-32688-lists,linux-renesas-soc=lfdr.de];
-	FREEMAIL_TO(0.00)[renesas.com,kernel.org,linaro.org,glider.be,gmail.com,bp.renesas.com];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	RCPT_COUNT_TWELVE(0.00)[13];
-	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-32689-lists,linux-renesas-soc=lfdr.de];
 	FROM_HAS_DN(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_COUNT_THREE(0.00)[4];
+	FREEMAIL_FROM(0.00)[163.com];
+	RCPT_COUNT_TWELVE(0.00)[20];
+	FREEMAIL_CC(0.00)[google.com,kernel.org,ti.com,gmail.com,bootlin.com,mediatek.com,bp.renesas.com,cadence.com,vger.kernel.org,lists.infradead.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[claudiu.beznea@kernel.org,linux-renesas-soc@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
+	FROM_NEQ_ENVFROM(0.00)[18255117159@163.com,linux-renesas-soc@vger.kernel.org];
+	DKIM_TRACE(0.00)[163.com:+];
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[linux-renesas-soc];
 	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,renesas.com:email]
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
 X-Rspamd-Action: no action
 
- >commit 856d28e68a5bcfa08fa03aa685cb15772197dedc
- >Author: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
- >phy: renesas: rcar-gen3-usb2: Avoid long delay in atomic context
- >This commit releases the spin lock before sleeping for 20 ms during
- >OTG PHY initialization and introduces completion mechanisms to prevent
- >other threads from configuring the hardware concurrently. It also disables
- >IRQs while waiting to prevent interrupt handlers from applying settings.
- >Closes: https://lore.kernel.org/all/afhkX2Ys2BG1gnqy@duo.ucw.cz
- >Closes: https://lore.kernel.org/all/afhkX2Ys2BG1gnqy@duo.ucw.cz
- >> diff --git a/drivers/phy/renesas/phy-rcar-gen3-usb2.c 
-b/drivers/phy/renesas/phy-rcar-gen3-usb2.c
- >> index 79e820e2fe55d..5a18bbd87c3b9 100644
- >> --- a/drivers/phy/renesas/phy-rcar-gen3-usb2.c
- >> +++ b/drivers/phy/renesas/phy-rcar-gen3-usb2.c
- >[ ... ]
- >> @@ -388,32 +392,68 @@ static bool rcar_gen3_are_all_rphys_power_off(struct 
-rcar_gen3_chan *ch)
- >>      return true;
- >>  }
- >>
- >> +static int rcar_gen3_phy_wait_otg_init(struct rcar_gen3_chan *channel,
- >> +                                   unsigned long *flags)
- >> +{
- >> +    unsigned long timeout = msecs_to_jiffies(25);
- >Could this completion timeout be too tight?
 
-I tried to have a bit increased compared with the fsleep() value to avoid just 
-being to tight but not to big.
 
- >The initializing thread uses fsleep(20000) which guarantees a minimum sleep
- >of 20ms. Due to scheduler jitter or timer wheel granularity (especially if
- >HZ=100, where 25ms rounds to just 2 or 3 jiffies), the 20ms sleep can easily
- >exceed 25ms of wall-clock time, causing this to spuriously return -ETIMEDOUT.
- >> +    unsigned long ret = 1;
- >> +
- >> +    lockdep_assert_held(&channel->lock);
- >[ ... ]
- >> @@ -427,7 +467,10 @@ static ssize_t role_store(struct device *dev, struct 
-device_attribute *attr,
- >>                        const char *buf, size_t count)
- >>  {
- >>      struct rcar_gen3_chan *ch = dev_get_drvdata(dev);
- >>      bool is_b_device;
- >>      enum phy_mode cur_mode, new_mode;
- >> +    unsigned long flags;
- >> +    int ret = -EIO;
- >>
- >> -    guard(spinlock_irqsave)(&ch->lock);
- >> +    spin_lock_irqsave(&ch->lock, flags);
- >>
- >>      if (!ch->is_otg_channel || !rcar_gen3_is_any_otg_rphy_initialized(ch))
- >> -            return -EIO;
- >> +            goto unlock;
- >> +
- >> +    ret = rcar_gen3_phy_wait_otg_init(ch, &flags);
- >Does checking the initialized state before waiting for the lock to be
- >released introduce a race condition?
- >Because rcar_gen3_phy_usb2_init() only sets rphy->initialized = true after
- >it finishes its 20ms sleep and reacquires the lock, a concurrent sysfs write
- >to role_store() during this 20ms window will see initialized as false and
- >immediately return -EIO instead of waiting for initialization to complete.
+On 5/14/26 02:54, Pali Rohár wrote:
+> On Wednesday 13 May 2026 15:34:46 Hans Zhang wrote:
+>> On 5/13/26 15:20, Pali Rohár wrote:
+>>> On Wednesday 13 May 2026 15:00:04 Hans Zhang wrote:
+>>>>
+>>>>
+>>>> On 5/13/26 05:25, Pali Rohár wrote:
+>>>>> On Wednesday 06 May 2026 23:23:44 Hans Zhang wrote:
+>>>>>> The Aardvark PCIe controller driver waits for the link to come up but
+>>>>>> does not implement the mandatory 100 ms delay after link training
+>>>>>> completes for speeds greater than 5.0 GT/s (PCIe r6.0 sec 6.6.1).
+>>>>>>
+>>>>>> The driver already maintains a 'link_gen' field that holds the negotiated
+>>>>>> link speed. Use it together with pcie_wait_after_link_train() to insert
+>>>>>> the required delay immediately after confirming that the link is up.
+>>>>>>
+>>>>>> Signed-off-by: Hans Zhang <18255117159@163.com>
+>>>>>> ---
+>>>>>>     drivers/pci/controller/pci-aardvark.c | 4 +++-
+>>>>>>     1 file changed, 3 insertions(+), 1 deletion(-)
+>>>>>>
+>>>>>> diff --git a/drivers/pci/controller/pci-aardvark.c b/drivers/pci/controller/pci-aardvark.c
+>>>>>> index e34bea1ff0ac..526351c21c49 100644
+>>>>>> --- a/drivers/pci/controller/pci-aardvark.c
+>>>>>> +++ b/drivers/pci/controller/pci-aardvark.c
+>>>>>> @@ -350,8 +350,10 @@ static int advk_pcie_wait_for_link(struct advk_pcie *pcie)
+>>>>>>     	/* check if the link is up or not */
+>>>>>>     	for (retries = 0; retries < LINK_WAIT_MAX_RETRIES; retries++) {
+>>>>>> -		if (advk_pcie_link_up(pcie))
+>>>>>> +		if (advk_pcie_link_up(pcie)) {
+>>>>>> +			pcie_wait_after_link_train(pcie->link_gen);
+>>>>>>     			return 0;
+>>>>>> +		}
+>>>>>>     		usleep_range(LINK_WAIT_USLEEP_MIN, LINK_WAIT_USLEEP_MAX);
+>>>>>>     	}
+>>>>>> -- 
+>>>>>> 2.34.1
+>>>>>>
+>>>>>
+>>>>> Are you sure that this is correct to do? Have you checked the A3720
+>>>>> Functional Specification which describes how to bring PCIe link up?
+>>>>>
+>>>>> A3720 PCIe controller is buggy and needs more timing hacks to make it
+>>>>> behave. Playing with random sleeps can break its internal logic.
+>>>>> I'm not sure if it could be safe without proper testing.
+>>>>>
+>>>>> And IIRC A3720 PCIe controller is just PCIe2.0 with 5 GT/s.
+>>>>
+>>>>
+>>>> Hi Pali,
+>>>>
+>>>> 1. This driver does not support A3720.
+>>>>
+>>>> static const struct of_device_id advk_pcie_of_match_table[] = {
+>>>> 	{ .compatible = "marvell,armada-3700-pcie", },
+>>>> 	{},
+>>>> };
+>>>> MODULE_DEVICE_TABLE(of, advk_pcie_of_match_table);
+>>>>
+>>>> If you need support for A3720, please submit the corresponding patch so that
+>>>> Bjorn and Mani can review it.
+>>>
+>>> 3700 (or 37xx) is family and covers both a3710 and a3720. In most cases is the
+>>> a3720 dominant and hence identifiers 3700 and 3720 are begin mixed.
+>>>
+>>>>
+>>>> 2. If A3720 only supports GEN2, you can configure "max-link-speed" to be 2
+>>>> in the DT. This will not affect the functionality of this patch.
+>>>
+>>> Whole A37xx supports only GEN2. And in DT files for 37xx should be
+>>> already there max-link-speed.
+>>>
+>>> Seems that in advk_pcie_of_match_table there is no GEN3 device
+>>> specified.
+>>>
+>>
+>> Hi Pali,
+>>
+>> However, I saw many GEN3 assignments and conditions in the code.
+>>
+>> ret = of_pci_get_max_link_speed(dev->of_node);
+>> if (ret <= 0 || ret > 3)
+>> 	pcie->link_gen = 3;
+>> else
+>> 	pcie->link_gen = ret;
+>>
+>>
+>> static void advk_pcie_train_link(struct advk_pcie *pcie)
+>> {
+>> 	struct device *dev = &pcie->pdev->dev;
+>> 	u32 reg;
+>> 	int ret;
+>>
+>> 	/*
+>> 	 * Setup PCIe rev / gen compliance based on device tree property
+>> 	 * 'max-link-speed' which also forces maximal link speed.
+>> 	 */
+>> 	reg = advk_readl(pcie, PCIE_CORE_CTRL0_REG);
+>> 	reg &= ~PCIE_GEN_SEL_MSK;
+>> 	if (pcie->link_gen == 3)
+>> 		reg |= SPEED_GEN_3;
+>> 	else if (pcie->link_gen == 2)
+>> 		reg |= SPEED_GEN_2;
+>> 	else
+>> 		reg |= SPEED_GEN_1;
+>> 	advk_writel(pcie, reg, PCIE_CORE_CTRL0_REG);
+>>
+>> 	/*
+>> 	 * Set maximal link speed value also into PCIe Link Control 2 register.
+>> 	 * Armada 3700 Functional Specification says that default value is based
+>> 	 * on SPEED_GEN but tests showed that default value is always 8.0 GT/s.
+>> 	 */
+>> 	reg = advk_readl(pcie, PCIE_CORE_PCIEXP_CAP + PCI_EXP_LNKCTL2);
+>> 	reg &= ~PCI_EXP_LNKCTL2_TLS;
+>> 	if (pcie->link_gen == 3)
+>> 		reg |= PCI_EXP_LNKCTL2_TLS_8_0GT;
+>> 	else if (pcie->link_gen == 2)
+>> 		reg |= PCI_EXP_LNKCTL2_TLS_5_0GT;
+>> 	else
+>> 		reg |= PCI_EXP_LNKCTL2_TLS_2_5GT;
+>> 	advk_writel(pcie, reg, PCIE_CORE_PCIEXP_CAP + PCI_EXP_LNKCTL2);
+>>
+>> ....
+>>
+>>
+>> If you are certain about the relevant information. Is it understandable that
+>> we need to delete the code related to GEN3?
+> 
+> Ok. So some explanation. pci-aardvark.c is implementing driver for PCIe
+> controller with codename aardvark. I have no idea from what this
+> codename comes and what is represents. What we know that the driver was
+> written for A37xx SoC platform according to A37xx functional specification.
+> As it is common in SoC world, vendors just buy some IP and integrate it
+> into SoC. In this case Marvell bought this PCIe controller IP and
+> integrated it into the A37xx. In past I tried to investigate what it
+> could be and IIRC my assumption was that it was PCIe IP from Denali.
+> Denali was acquired by Cadence, and when I compared Cadence PCIe
+> controller registers and PCIe controller registers in A37xx functional
+> specification there were large overlap. For me it looked like new
+> Cadence PCIe controller is an evolution (or new version) of what is in
+> A37xx. So this was some confirmation of my theory. Linux kernel has
+> separate driver for PCIe controller from Cadence and for refactoring
+> there were ideas to merge these two drivers... But there were more
+> important things, fix issues related to A37xx PCIe, lot of changes
+> which address these issues were sent to the list but they were not
+> taken. I do not think that it makes sense to do refactoring or doing any
+> other changes before addressing any existing issues with these
+> drivers (like PCIe card is not working correctly).
+> 
+> There are reported more HW erratas for this PCIe controller which needs
+> to be addressed in the software (meaning in Linux kernel) to make PCIe
+> card working properly. And there are more design HW decision which needs
+> does not conform to the PCIe specification and those deviations needs to
+> be "fixed" or "adjusted" in software (meaning in pci-aardvark.c driver)
+> to make PCI/PCIe compatible drivers to work correctly.
+> 
+> Now about GEN3. From register allocation it looks like that PCIe IP
+> supports GEN3. A37xx does not support it (or at least officially). This
+> does not mean that there cannot be some SoC with this "aardvark" PCIe IP
+> that is GEN3 capable. Just we see that such SoC is not supported by Linux.
+> Also as the comment in above code says, by default the speed is reported
+> as 8.0 GT/s, so changing it to 5.0 GT/s or 2.5 GT/s is needed as so code
+> some parts of GEN3 code in the driver is needed.
+> 
+> Does it makes sense to remove it? Does it makes sense to spend time on
+> such thing which does not address any existing issue? For me not.
+> Because it does not fix any _real_ issue with existing PCIe cards. And
+> for refactoring it is better to merge drivers as explained above and
+> IIRC cadence driver has HW on which is GEN3 used.
+> 
+> Now about your change. If you are sure that pcie_wait_after_link_train()
+> function is noop for pcie->link_gen == 2 || pcie->link_gen == 1 then go
+> ahead, I have no objects. I have not looked deeply at the change. I just
+> spotted some change which is touching timing critical code path which
+> was problematic in the past and broke many wifi cards. So I'm really
+> careful to prevent breaking Linux support again.
+> 
 
-It is better to have it as suggested here, thus I'll adjust it as proposed.
+Hi Pali,
 
- >> +    if (ret)
- >> +            goto unlock;
- >[ ... ]
- >> @@ -512,6 +556,11 @@ static irqreturn_t rcar_gen3_phy_usb2_irq(int irq, void 
-*_ch)
- >>              goto rpm_put;
- >>
- >>      scoped_guard(spinlock, &ch->lock) {
- >> +            if (READ_ONCE(ch->otg_initializing)) {
- >> +                    dev_warn(dev, "%s: Got IRQ while waiting for OTG 
-init!\n", __func__);
- >> +                    return IRQ_NONE;
- >> +            }
- >Does returning early here leak the PM runtime reference?
+This condition, pcie->link_gen == 2 || pcie->link_gen == 1, will have no 
+effect.
 
-Indeed, I missed that, will adjust it in the next version.
 
- >The interrupt handler calls pm_runtime_get_noresume(dev) at the beginning of
- >the function, and releases it at the rpm_put label. By using return IRQ_NONE
- >inside the scoped_guard, the code bypasses pm_runtime_put_noidle() completely,
- >preventing the device from ever entering runtime suspend.
- >Additionally, since this interrupt is requested with IRQF_SHARED, could
- >another device sharing the line trigger a valid interrupt during the 20ms
- >OTG initialization window? If so, this would print a spurious warning to
- >the kernel log for a valid shared interrupt event.
+Best regards,
+Hans
 
-That's a valid point. Better would be to just mask the interrupt locally.
-
- >> +
- >>              status = readl(usb2_base + USB2_OBINTSTA);
- >>              if (status & ch->phy_data->obint_enable_bits) {
- >>                      dev_vdbg(dev, "%s: %08x\n", __func__, status);
- >[ ... ]
- >> @@ -550,8 +605,22 @@ static int rcar_gen3_phy_usb2_init(struct phy *p)
- >>      }
- >>
- >>      /* Initialize otg part (only if we initialize a PHY with IRQs). */
- >> -    if (rphy->int_enable_bits)
- >> -            rcar_gen3_init_otg(channel);
- >> +    if (rphy->int_enable_bits && channel->is_otg_channel &&
- >> +        !rcar_gen3_is_any_otg_rphy_initialized(channel)) {
- >> +            rcar_gen3_init_otg_phase0(channel);
- >> +            disable_irq_nosync(channel->irq);
- >Could channel->irq be 0 here?
-
-In theory, AFAIK, this code should not be executed when the interrupt is not 
-present as the OTG PHY needs the interrupt.
-
- >In rcar_gen3_phy_usb2_probe(), platform_get_irq_optional() is used. If it
- >returns -ENXIO, channel->irq remains 0. Since rphy->int_enable_bits is a
- >statically defined non-zero value for OTG PHYs, this would pass 0 to
- >disable_irq_nosync(), which manipulates critical system interrupts.
- >Also, does calling disable_irq_nosync() on a shared interrupt line starve
- >other devices?
- >Since the interrupt is requested with IRQF_SHARED, masking it at the
- >interrupt controller level means all other unrelated devices on the same
- >physical line will have their interrupts disabled for the full 20ms
- >duration. Should shared interrupts be masked locally at the device level
- >instead?
-
-That would be better, indeed.
-
- >> +            reinit_completion(&channel->otg_init_done);
- >> +            WRITE_ONCE(channel->otg_initializing, true);
- >> +            spin_unlock_irqrestore(&channel->lock, flags);
- >[ ... ]
- >> @@ -598,6 +678,7 @@ static int rcar_gen3_phy_usb2_power_on(struct phy *p)
- >>      struct rcar_gen3_phy *rphy = phy_get_drvdata(p);
- >>      struct rcar_gen3_chan *channel = rphy->ch;
- >>      void __iomem *usb2_base = channel->base;
- >> +    unsigned long flags;
- >>      u32 val;
- >>      int ret = 0;
- >>
- >> @@ -607,11 +688,15 @@ static int rcar_gen3_phy_usb2_power_on(struct phy *p)
- >>                      return ret;
- >>      }
- >>
- >> -    guard(spinlock_irqsave)(&channel->lock);
- >> +    spin_lock_irqsave(&channel->lock, flags);
- >>
- >>      if (!rcar_gen3_are_all_rphys_power_off(channel))
- >>              goto out;
- >>
- >> +    ret = rcar_gen3_phy_wait_otg_init(channel, &flags);
- >> +    if (ret)
- >> +            goto unlock;
- >> +
- >>      val = readl(usb2_base + USB2_USBCTR);
- >>      val |= USB2_USBCTR_PLL_RST;
- >Does dropping the lock in rcar_gen3_phy_wait_otg_init() introduce a race
- >condition with the !rcar_gen3_are_all_rphys_power_off() check?
- >If two threads concurrently power on different PHYs, both will evaluate the
- >condition as false because neither has reached rphy->powered = true at the
- >end of the function. Both threads might then sleep in
- >rcar_gen3_phy_wait_otg_init().
- >Upon waking and reacquiring the lock, both will unconditionally apply
- >USB2_USBCTR_PLL_RST, which could catastrophically disrupt the PHY that was
- >just initialized by the first thread.
- >Should the power off condition be re-evaluated after the lock is reacquired?
-
-Yes, rcar_gen3_phy_wait_otg_init() should be called first.
+> As maintainers decided to not take any new changes from me for this
+> driver, I have no motivation to prepare any new changes. I will rather
+> spend my free time on something which will make sense and not be wasting
+> of my free time.
+>
 
 
