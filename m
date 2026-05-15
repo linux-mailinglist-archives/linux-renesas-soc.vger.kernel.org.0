@@ -1,199 +1,124 @@
-Return-Path: <linux-renesas-soc+bounces-32682-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-32683-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id sP8yO0gRB2rgrQIAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-32682-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 May 2026 14:27:52 +0200
+	id cGy4GvgUB2pQrgIAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-32683-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 May 2026 14:43:36 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FED554F8A2
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 May 2026 14:27:52 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FD1054FCE2
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 May 2026 14:43:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 297C430BB3AD
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 May 2026 12:06:35 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 4189A3006170
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 May 2026 12:40:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2994F3FB046;
-	Fri, 15 May 2026 12:06:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A0ADD3C5552;
+	Fri, 15 May 2026 12:40:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fSiedV18"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iJ3vzX9v"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAD3947DF81
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 15 May 2026 12:06:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.54
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778846787; cv=pass; b=XYhgjNnijmHCZ4HipVZqu6MC4YClZ01nLscRHMBSsecARBlnGeEHCfI9N8A5iRjc3OruXyhbSWhgCW0EAcZJuTvecxXQCU3wQ8xAgr8AV1P1UsrHmj7LG876kl5XGiPp+JKaeReU5d9Abmmp56QNdbxA1yobqi9GafL/lIVP5aw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778846787; c=relaxed/simple;
-	bh=q5bl+69zkmypiwMoiO+7fjfWxyUFssPPi1EuZdo7nIc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=pEHRxJr56iMkxUYG2ZadLlCaR2QQ9ykXVhDAGMPFwLtmOgiMY3wsFUfGShozHuxEKghN8CfSCR4Q+XfR9B3I2dKrjAd/grbggCCo5i2j1c09UGLB9b8xW7AR8LqItY+ZRmgAiizPPE3/5KXW9+HbbZJFgvGFzlJgPTBcGdS5eEc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fSiedV18; arc=pass smtp.client-ip=209.85.221.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-441209fb77eso511931f8f.1
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 15 May 2026 05:06:25 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1778846784; cv=none;
-        d=google.com; s=arc-20240605;
-        b=GLVDkRub835OBkOryjYI8w71S8C2CtD4kbsZiHVzeQVSRCR9DNVH9N9a0+Thp4po1a
-         XU/7qbpCyRCctH3e6MFUMSzy7I4fNjb3x459V8HfGfsEpytJ5KqwoCvI3mIIatOzJCpI
-         CO43UhmOxlo0kl0mh8xJAY/yUloz1KK/gPDJVfeBUnwhP8KhtOfSiOtIutnnNUfJxXSg
-         xr6diViNMMKbVCYvMiqxVJ+e2Sr/AQE0wZEqcHIjFJRHkOeYmEp7BUe0PQF5F8JrJzDP
-         cLjyKXnmOYMYHLVRVSBcAAFovWGELRxMb1l4P6g26JqRC7SnQ/0DrpzZo3pxUnZoQzVP
-         rAag==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=QneO8pDIgfkwAbhOOAG6ki15SUDiUiZrWTWCyj+hT8k=;
-        fh=Z6m78q6NlOqr7zpO0obgPHhzZgEo8ITw/K+UwYmwmIU=;
-        b=PARpz5/3Smf++2FmLo6Xl+OVy9FP+UFH+Y4gfwtm457amIgBIkxEH8LLdotoZK1qfh
-         /5XtjJ52TNuIc2NJr6Ha8fGpowWOV4OidMNzEIRiV6rq2fxdx8FNRN2kxBoHrSJIMIJY
-         lgXzkMF0pkOK2K/sA9v30wWWgtMlMjrv1dKI1dWOcU9UCaIT5HvFbjkuz9EbjOX0YE7D
-         Yu3ldvDH/bEk1lEE+npNwFwBCsRrRXS6RCIGHlYhn8uTwTFh7SSdtqqGEaL6oUzUlaon
-         sFGinq5E0D8KjH6ODjaKTXmbfym6/kAXQo3cEf43MXEQNcYEYo5RR8NUppa2sHs78tOk
-         qwdg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778846784; x=1779451584; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=QneO8pDIgfkwAbhOOAG6ki15SUDiUiZrWTWCyj+hT8k=;
-        b=fSiedV18vZX5H2p4YPKZlEwU/SoXhfCPsCzsSNfNsmGjkOoXmR8dIfeM3WN5j9aL9t
-         4KpWFDrQFhnX41E0YpXqS/+NCfeUDUkF97tq+ECtIt6DHNblOv78j0NVmQld2j7iHUZZ
-         EQm8IO/SLpaxUGuBGtRkk0wsIzobUdj1s4rxVVkDcnvjD24AoKfkhPuBp+BOn0FIU6nq
-         888m2oyu1fdssJzPpwEihgZ5HQyAoc7bh2hf+h39n8WaIfxH9wnQmOiFtASerLx5nU13
-         jTtoXmFWz46bEHgsKv+E9htXUM/PBx79c3F2QeoMMso6dhYOru/UYibgmuqHCOGe5tEk
-         0U8Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778846784; x=1779451584;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=QneO8pDIgfkwAbhOOAG6ki15SUDiUiZrWTWCyj+hT8k=;
-        b=IJYI64BWMZE5Ej16zYfc5i56DQOd0NVHYNhoqDQION2aenmMq6sJ6fif9fw4Ntkmc/
-         270leelQC7Pf4h2BR4tF2XmQipqDf77JI/+hV2H+85ztUIuObg8xp64Y+p2R2pacOo3N
-         0ctL1+hcDFu74kY7mQcJE33wcWEIsr+xahhXdIlCOtC5LwsRB2Yvtu8F2ueOLYAmHRt7
-         HLlzbdkv+55/L15YgyON8lhR+dTJ0GWgGjAigmQDNbwmPwWa/FXx7rBJltDcQZkIcZBY
-         KEG2mFdajh7YuIj3bPXHITI7tQxo5HEFX1xT0uSwpOmS+bGu8IL4yvJ9kIXOSENjZdsS
-         y6gA==
-X-Forwarded-Encrypted: i=1; AFNElJ/zFGEli39o/fV6sDncLY1T1JnVLb/r+HQHdqpoqW9bAgBIzlj1andk/WQTyUMh/z5krThkOZT4QqgGf2PMXt+2Sg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxxtM8Dzffdvzw7QkyJupIoUkfdR2bG3hI9w+tzrnUOnFhJhpK+
-	dlRsvOpPLP05w2aTUspSSz748Ck9LdGF4xSWdFbtzs+XC+SVLQoJ5lFLr8yJylC0UMP4MVegNZ8
-	KzkwxP0JhhK4JeVlP6XH5I+GahbiBIn4=
-X-Gm-Gg: Acq92OFiNRyk/kKyUzNRJvpMcfziS4Kkxgmp9UuBeZF9VG5C3azTTm6vMKAzf765IZf
-	HA0Yop/TnDua3D8NDt229MD0LhxhAsf7fOAJL1eeWoRfD5eLdkza22Nnbm3Epbxk+fORtG3/rrK
-	M5B/CaSxI3tDluDLG1zOBii5vlRcg1zWUcnwlXhguHEzxlO4JY7Oz8pnhlC1qqJchQ4qw9SEuXU
-	8oBWfJ8JkH9xrdP6eS/K1U11Lt/4C/r5sLrt39SdOb8aMuJNIh4rPclEimp753ZxdWlX3iGCb78
-	bSL6fejpBpq7c+4JD7RR4b03sQzoCUyalS7VzVkZj7IHz4sIE40RSXK1xuidetXRfic=
-X-Received: by 2002:a5d:5f90:0:b0:441:2397:f40f with SMTP id
- ffacd0b85a97d-45d900ec71fmr12258747f8f.4.1778846784068; Fri, 15 May 2026
- 05:06:24 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D788335568;
+	Fri, 15 May 2026 12:40:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778848815; cv=none; b=QjqtcvXcC0PBNl1o1loj+SW7EkdyliLQ2gCpLDlzoz7lE2dZrOTT8X8Pi21l20/mB6pxsk/FFlOoPLSc3+zpgYlXxt5yIjbFh4BzjjlgZ/SfuJPLnjmxLX10H3pobwRpPv036UxYVz3WrS1JxGF9AEJc88hFXWzvcC2+S0GCQcA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778848815; c=relaxed/simple;
+	bh=PKbDGKp+tfmw+t+Q6auvN3/FN+stBHMoLlQeBdpxVdg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=NU+ULVo5Ip27345NK/EcXCDa9qUgAe3Cv0ceT3FWJetlT5Egcie7MfzMXOjxUqVNh6a6oLZ9JC+qKmPkGzEc2niNaIaaA63yrTPvRR/ioo4H/Oc9pNNwrUZWg1Ci4Ma3dCPxhtNWRF0xcza/vI8QF2HRuNw1roQYSoGY9r13GPc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iJ3vzX9v; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4F96FC2BCB0;
+	Fri, 15 May 2026 12:40:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778848815;
+	bh=PKbDGKp+tfmw+t+Q6auvN3/FN+stBHMoLlQeBdpxVdg=;
+	h=From:To:Cc:Subject:Date:From;
+	b=iJ3vzX9vu9D0r0Irgp9wSO2Waf17xwFs4JWx7IHQXo6z+ApQoHTUbuR8LgMrzuIqI
+	 ebjb0J3og6CcKHEQhYTVSNK6tcMmhrJmUdi24oYliMGrGFrqjX899Atm2gyM34UwvN
+	 +w2AC+RahzKGARv+zefFbNxr2RAnDamru9KmBYXKSQmM8e5OpSXacyA8pM4laIgp8p
+	 oMrUDGnlAKhKrope9pF1m0w9JWPRLN0dhyNYT/JR5TmOsoBWQw/lmY6QlSytyq+9Qb
+	 fs4Gi1KdCWP5TM9xKfORrj9PZ+89v13pyhiBougI727ookTwv18kSlziKvu85lakHf
+	 JE+ycE7ys7Tgw==
+From: Claudiu Beznea <claudiu.beznea@kernel.org>
+To: geert+renesas@glider.be,
+	linusw@kernel.org,
+	brgl@kernel.org,
+	prabhakar.mahadev-lad.rj@bp.renesas.com,
+	biju.das.jz@bp.renesas.com
+Cc: claudiu.beznea@kernel.org,
+	claudiu.beznea@tuxon.dev,
+	linux-renesas-soc@vger.kernel.org,
+	linux-gpio@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Subject: [PATCH v2 0/2] pinctrl: renesas: rzg2l: Populate GPIO set_config
+Date: Fri, 15 May 2026 15:40:06 +0300
+Message-ID: <20260515124008.2947838-1-claudiu.beznea@kernel.org>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260330144509.258986-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20260330144509.258986-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Fri, 15 May 2026 13:05:58 +0100
-X-Gm-Features: AVHnY4J7iyFvZ1_OTQGwe8obo1L48yvwada0RoL4MXD5-AftuDdqfdQVOgBB0n4
-Message-ID: <CA+V-a8vVhjFzuxKSLBG=WKUCnyih_8f6Ww2mJ=tUV8VE4mp8_Q@mail.gmail.com>
-Subject: Re: [PATCH v3] media: i2c: ov5645: Convert to CCI register access helpers
-To: Sakari Ailus <sakari.ailus@linux.intel.com>, Hans Verkuil <hverkuil@kernel.org>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Hans de Goede <johannes.goede@oss.qualcomm.com>, 
-	Hardevsinh Palaniya <hardevsinh.palaniya@siliconsignals.io>, 
-	Sylvain Petinot <sylvain.petinot@foss.st.com>, 
-	Benjamin Mugnier <benjamin.mugnier@foss.st.com>, Xiaolei Wang <xiaolei.wang@windriver.com>, 
-	Mehdi Djait <mehdi.djait@linux.intel.com>, 
-	Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>, 
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, linux-media@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	Biju Das <biju.das.jz@bp.renesas.com>, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Rspamd-Queue-Id: 6FED554F8A2
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: 0FD1054FCE2
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.16 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-32682-lists,linux-renesas-soc=lfdr.de];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	RCPT_COUNT_TWELVE(0.00)[18];
-	FROM_HAS_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-32683-lists,linux-renesas-soc=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	TO_DN_SOME(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[claudiu.beznea@kernel.org,linux-renesas-soc@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[prabhakarcsengg@gmail.com,linux-renesas-soc@vger.kernel.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	TAGGED_RCPT(0.00)[linux-renesas-soc];
-	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,mail.gmail.com:mid,renesas.com:email,windriver.com:email]
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FROM_HAS_DN(0.00)[]
 X-Rspamd-Action: no action
 
-Hi Sakari and Hans
+From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 
-On Mon, Mar 30, 2026 at 3:45=E2=80=AFPM Prabhakar <prabhakar.csengg@gmail.c=
-om> wrote:
->
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->
-> Convert the ov5645 driver to use the V4L2 CCI register access helpers
-> and regmap infrastructure instead of the custom I2C register access
-> implementation.
->
-> Keep ov5645_set_register_array() as ov5645_global_init_setting requires
-> a delay between specific register writes, which cannot be expressed
-> through the generic CCI multi-write helper.
->
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> Reviewed-by: Xiaolei Wang <Xiaolei.Wang@windriver.com>
-> ---
-> Note, this patch was originally part of series [0] since patch 1/2
-> is no longer needed after patch [1] just sending this single patch.
->
-> [0] https://lore.kernel.org/all/20260328132902.776757-1-prabhakar.mahadev=
--lad.rj@bp.renesas.com/
-> [1] https://lore.kernel.org/all/20260329195625.2840728-1-sakari.ailus@lin=
-ux.intel.com/
->
-> v2->v3:
-> - Made use of CCI_REG16 for the chip ID register
-> - Replaced CHIP_ID_HIGH and CHIP_ID_LOW with a single
->   CHIP_ID register definition
-> - Added RB tag from Xiaolei Wang
->
-> v1->v2
-> - Fixed selecting V4L2_CCI_I2C config option for the OV5645 driver.
-> - Fixed checkpatch warnings limiting to 80 characters per line.
-> ---
->  drivers/media/i2c/Kconfig  |   1 +
->  drivers/media/i2c/ov5645.c | 919 ++++++++++++++++++-------------------
->  2 files changed, 439 insertions(+), 481 deletions(-)
->
-Gentle ping.
+Hi,
 
-Cheers,
-Prabhakar
+Series populates the struct gpio_chip::set_config for the Renesas RZ/G2L
+pinctrl driver.
+
+Thank you,
+Claudiu
+
+Changes in v2:
+- used gpiochip_generic_config()
+- fixed the return code for unsupported operation which helped in using
+  the gpiochip_generic_config()
+
+Claudiu Beznea (2):
+  pinctrl: renesas: rzg2l: Use -ENOTSUPP instead of -EOPNOTSUPP
+  pinctrl: renesas: rzg2l: Populate struct gpio_chip::set_config
+
+ drivers/pinctrl/renesas/pinctrl-rzg2l.c | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
+
+-- 
+2.43.0
+
 
