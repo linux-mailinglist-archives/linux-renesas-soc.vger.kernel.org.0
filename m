@@ -1,48 +1,49 @@
-Return-Path: <linux-renesas-soc+bounces-32683-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-32684-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id cGy4GvgUB2pQrgIAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-32683-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 May 2026 14:43:36 +0200
+	id GLoVEwoXB2rgrQIAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-32684-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 May 2026 14:52:26 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FD1054FCE2
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 May 2026 14:43:35 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id BE38554FF0F
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 May 2026 14:52:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 4189A3006170
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 May 2026 12:40:17 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 55A7D3134B2C
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 May 2026 12:40:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A0ADD3C5552;
-	Fri, 15 May 2026 12:40:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 03CA447DFBE;
+	Fri, 15 May 2026 12:40:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iJ3vzX9v"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eaKalwPW"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D788335568;
-	Fri, 15 May 2026 12:40:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D499D20297C;
+	Fri, 15 May 2026 12:40:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778848815; cv=none; b=QjqtcvXcC0PBNl1o1loj+SW7EkdyliLQ2gCpLDlzoz7lE2dZrOTT8X8Pi21l20/mB6pxsk/FFlOoPLSc3+zpgYlXxt5yIjbFh4BzjjlgZ/SfuJPLnjmxLX10H3pobwRpPv036UxYVz3WrS1JxGF9AEJc88hFXWzvcC2+S0GCQcA=
+	t=1778848818; cv=none; b=k0roQZ3PehjD6ykNQYHV1EUhpFNuHNWrufCzXl2V1lkFpdc/UiIYL63Nb/RZnFxZ4ohp2FX+NyqXCbewMnh+So/uo/u6gsHJQTn8630cTFps78HszZxKf4LvutDze6RMjVk9hAk0kJB9QX7UMtpXt1tUTD0QVNtgje6ERNIdgzI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778848815; c=relaxed/simple;
-	bh=PKbDGKp+tfmw+t+Q6auvN3/FN+stBHMoLlQeBdpxVdg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=NU+ULVo5Ip27345NK/EcXCDa9qUgAe3Cv0ceT3FWJetlT5Egcie7MfzMXOjxUqVNh6a6oLZ9JC+qKmPkGzEc2niNaIaaA63yrTPvRR/ioo4H/Oc9pNNwrUZWg1Ci4Ma3dCPxhtNWRF0xcza/vI8QF2HRuNw1roQYSoGY9r13GPc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iJ3vzX9v; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4F96FC2BCB0;
-	Fri, 15 May 2026 12:40:12 +0000 (UTC)
+	s=arc-20240116; t=1778848818; c=relaxed/simple;
+	bh=TbnO/RNvXnvbRs7wSHwIve64pNueHjc4KTEnYexTAPk=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=XH6PgRCQ0rQfbqzcbujtiGyltmKaFpUE+E1wFNM7IAcUlN+HDFgMF3SzEgrFhTNWOMvDjgFNZzs0KrVty8svFd7NHDzXMALgleB9nxG+eW3Gdo0eztutbGOmBvmQpkPLlPWvXCUGWkpy00Qm2E+KJ04Q4svwxywEhm3y8FFIXjw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eaKalwPW; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9088CC2BCB8;
+	Fri, 15 May 2026 12:40:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778848815;
-	bh=PKbDGKp+tfmw+t+Q6auvN3/FN+stBHMoLlQeBdpxVdg=;
-	h=From:To:Cc:Subject:Date:From;
-	b=iJ3vzX9vu9D0r0Irgp9wSO2Waf17xwFs4JWx7IHQXo6z+ApQoHTUbuR8LgMrzuIqI
-	 ebjb0J3og6CcKHEQhYTVSNK6tcMmhrJmUdi24oYliMGrGFrqjX899Atm2gyM34UwvN
-	 +w2AC+RahzKGARv+zefFbNxr2RAnDamru9KmBYXKSQmM8e5OpSXacyA8pM4laIgp8p
-	 oMrUDGnlAKhKrope9pF1m0w9JWPRLN0dhyNYT/JR5TmOsoBWQw/lmY6QlSytyq+9Qb
-	 fs4Gi1KdCWP5TM9xKfORrj9PZ+89v13pyhiBougI727ookTwv18kSlziKvu85lakHf
-	 JE+ycE7ys7Tgw==
+	s=k20201202; t=1778848818;
+	bh=TbnO/RNvXnvbRs7wSHwIve64pNueHjc4KTEnYexTAPk=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=eaKalwPW/SzDxjidhoDuPapIR63Kf4vyxbRS6FSa25tWMKezHIdbBjU8GBifZbd66
+	 RzPJelzUFXcBZIrWzHud97G/AuflxF0jYkpCJ0662RcIT7RYSO6NVBeOkh+40WGlZu
+	 X1jo8FoQbXnk/B2wTFEjio55V5kwVakUV7hF/HARGiNGDQvOYSrBJYKcHnhj2fcPqG
+	 f/oMJBxV9aBn/LbCHDpT0p+A7D9BuxHgk0TMYHidWYRVHIhTlJBfgUL7ru4f7UgeS9
+	 9nMrH2jxiB10cCr8nBLDXZRfr1yK9aYBXjjyAwM+SLrKGhRpEgMP9WwSbw3NESpvP+
+	 YKcGZ0gsjDtFQ==
 From: Claudiu Beznea <claudiu.beznea@kernel.org>
 To: geert+renesas@glider.be,
 	linusw@kernel.org,
@@ -54,11 +55,14 @@ Cc: claudiu.beznea@kernel.org,
 	linux-renesas-soc@vger.kernel.org,
 	linux-gpio@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Subject: [PATCH v2 0/2] pinctrl: renesas: rzg2l: Populate GPIO set_config
-Date: Fri, 15 May 2026 15:40:06 +0300
-Message-ID: <20260515124008.2947838-1-claudiu.beznea@kernel.org>
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
+	stable@vger.kernel.org
+Subject: [PATCH v2 1/2] pinctrl: renesas: rzg2l: Use -ENOTSUPP instead of -EOPNOTSUPP
+Date: Fri, 15 May 2026 15:40:07 +0300
+Message-ID: <20260515124008.2947838-2-claudiu.beznea@kernel.org>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260515124008.2947838-1-claudiu.beznea@kernel.org>
+References: <20260515124008.2947838-1-claudiu.beznea@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -66,58 +70,103 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 0FD1054FCE2
+X-Rspamd-Queue-Id: BE38554FF0F
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.66 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	MID_CONTAINS_FROM(1.00)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-32684-lists,linux-renesas-soc=lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-32683-lists,linux-renesas-soc=lfdr.de];
+	MIME_TRACE(0.00)[0:+];
 	RCVD_TLS_LAST(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	RCPT_COUNT_TWELVE(0.00)[12];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[claudiu.beznea@kernel.org,linux-renesas-soc@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
-	RCPT_COUNT_SEVEN(0.00)[11];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
 	FROM_HAS_DN(0.00)[]
 X-Rspamd-Action: no action
 
 From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 
-Hi,
+The pinctrl and GPIO core code make exceptions for the -ENOTSUPP error
+code. One such example is gpio_set_config_with_argument_optional(), which
+returns success when gpio_set_config_with_argument() returns -ENOTSUPP, but
+reports failure for all other error codes.
 
-Series populates the struct gpio_chip::set_config for the Renesas RZ/G2L
-pinctrl driver.
+Returning -EOPNOTSUPP from the pinctrl driver on the unsupported pinctrl
+operation may lead to boot failures when pinctrl drivers implements
+struct gpio_chip::set_config, the system uses GPIO hogs, and the
+struct gpio_chip::set_config implementation returns -EOPNOTSUPP for the
+unsupported operations.
 
-Thank you,
-Claudiu
+Return -ENOTSUPP for the unsupported pinctrl operation.
+
+Fixes: 560c633d378a ("pinctrl: renesas: rzg2l: Drop oen_read and oen_write callbacks")
+Fixes: c4c4637eb57f ("pinctrl: renesas: Add RZ/G2L pin and gpio controller driver")
+Cc: stable@vger.kernel.org
+Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+---
 
 Changes in v2:
-- used gpiochip_generic_config()
-- fixed the return code for unsupported operation which helped in using
-  the gpiochip_generic_config()
+- none, this patch is new
 
-Claudiu Beznea (2):
-  pinctrl: renesas: rzg2l: Use -ENOTSUPP instead of -EOPNOTSUPP
-  pinctrl: renesas: rzg2l: Populate struct gpio_chip::set_config
+ drivers/pinctrl/renesas/pinctrl-rzg2l.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
- drivers/pinctrl/renesas/pinctrl-rzg2l.c | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
-
+diff --git a/drivers/pinctrl/renesas/pinctrl-rzg2l.c b/drivers/pinctrl/renesas/pinctrl-rzg2l.c
+index a106e087c224..05a33655e6cc 100644
+--- a/drivers/pinctrl/renesas/pinctrl-rzg2l.c
++++ b/drivers/pinctrl/renesas/pinctrl-rzg2l.c
+@@ -1281,7 +1281,7 @@ static int rzg2l_read_oen(struct rzg2l_pinctrl *pctrl, unsigned int _pin)
+ 	int bit;
+ 
+ 	if (!pctrl->data->pin_to_oen_bit)
+-		return -EOPNOTSUPP;
++		return -ENOTSUPP;
+ 
+ 	bit = pctrl->data->pin_to_oen_bit(pctrl, _pin);
+ 	if (bit < 0)
+@@ -1323,7 +1323,7 @@ static int rzg2l_write_oen(struct rzg2l_pinctrl *pctrl, unsigned int _pin, u8 oe
+ 	u8 val;
+ 
+ 	if (!pctrl->data->pin_to_oen_bit)
+-		return -EOPNOTSUPP;
++		return -ENOTSUPP;
+ 
+ 	bit = pctrl->data->pin_to_oen_bit(pctrl, _pin);
+ 	if (bit < 0)
+@@ -1754,7 +1754,7 @@ static int rzg2l_pinctrl_pinconf_set(struct pinctrl_dev *pctldev,
+ 			break;
+ 
+ 		default:
+-			return -EOPNOTSUPP;
++			return -ENOTSUPP;
+ 		}
+ 	}
+ 
+@@ -1837,7 +1837,7 @@ static int rzg2l_pinctrl_pinconf_group_get(struct pinctrl_dev *pctldev,
+ 
+ 		/* Check config matching between to pin  */
+ 		if (i && prev_config != *config)
+-			return -EOPNOTSUPP;
++			return -ENOTSUPP;
+ 
+ 		prev_config = *config;
+ 	}
 -- 
 2.43.0
 
