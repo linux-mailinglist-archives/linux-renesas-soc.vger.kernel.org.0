@@ -1,173 +1,175 @@
-Return-Path: <linux-renesas-soc+bounces-32646-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-32647-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id uOlABFPBBmpdngIAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-32646-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 May 2026 08:46:43 +0200
+	id wKEpGmXRBmqKoAIAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-32647-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 May 2026 09:55:17 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id A090354A1A3
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 May 2026 08:46:42 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 106A154ADA6
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 May 2026 09:55:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id CB041301D59C
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 May 2026 06:46:41 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 94C57300CCBA
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 May 2026 07:55:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A9828389101;
-	Fri, 15 May 2026 06:46:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TWv/pDGQ"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F2FFD3EFD27;
+	Fri, 15 May 2026 07:55:09 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8451535F185;
-	Fri, 15 May 2026 06:46:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C15FF3E92B7
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 15 May 2026 07:55:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778827600; cv=none; b=lQ2HwoIxjo2YanY10GZmh3WDIrIPVbi/JMyL514gKWUZEaLaJaOw6+rOAsf8579nQ/mmUwENqU76uecm+5UsGclSb6q0iHY+3BWfstRvKGrkR614naOHqvuGJgT/cwkgS8B3Sj3rqAZANlPwKldOjt3gIL7l/yAvCD0ScxPCN+Q=
+	t=1778831709; cv=none; b=aRT2uX5qBEwOYmPpRuC/eWmN/xBFUQejCyB4Sb+7nI4J0FIDbVFSYh5tnQlH2w/RF8Gvn2Hc1V16z8C7vGOiwZQzhMdsEvLg5CHpRPFUGWpY1HQe61JogG/pUQ/9t9QJeKU5seXEkbKcMyjPX90q1S7A9M0CMdiiDmmZfAeGLlo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778827600; c=relaxed/simple;
-	bh=F3jdHxGiGdei4iwTLiITYa/NO2f+4a70KPCGxhnfEas=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kAYodkT+/W2Te25U5u06MsHkvoIznirmoRfPFCuq/o/l9XfbG8412mz/KKnnAv7hn68QFCPG3Wj5195+h6neZHG6+RF3SELFtH0/sQ/ezcwStndavejpRrgtFtcEpxHWC9aDEVAVAHxLU5+Q9hATDQ1sb8sh7jffu79iWNbdM+c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TWv/pDGQ; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9757EC2BCB0;
-	Fri, 15 May 2026 06:46:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778827600;
-	bh=F3jdHxGiGdei4iwTLiITYa/NO2f+4a70KPCGxhnfEas=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=TWv/pDGQF3Bwy3w6hJWe/smogcaMqjfEdTnTbzhJ+Z6u4xSaUb89LPQZt/gJ9WN/J
-	 4jRdYAc8UXFRPzImfVYKdVTS2xCW4VItleScARA6FMYB/2h5AKzTzeb8QD1Vsb6jPM
-	 REOTAIW0oteBPUYY8Youa0Fdhh1XHwgZjKMOQGKUlpOLkR+ta3VyszAFMSvfI80sfR
-	 bP9acFwHvLfMxgnRkqKpJ+SCiDUVxviRAvWDN86pkcFOQDQrHmvnbZ8cqawk4RenKw
-	 zvQbAbxZM7gNSviUFvuQ2eRRfPowKFFKTBcqlrefp/rZ3YcB91Kmf12J/Y9rRFwPB5
-	 gnjYwAXFKU+EA==
-Date: Fri, 15 May 2026 08:46:37 +0200
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: phucduc.bui@gmail.com
-Cc: kuninori.morimoto.gx@renesas.com, broonie@kernel.org, 
-	conor+dt@kernel.org, devicetree@vger.kernel.org, geert+renesas@glider.be, 
-	krzk+dt@kernel.org, lgirdwood@gmail.com, linux-kernel@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, linux-sound@vger.kernel.org, magnus.damm@gmail.com, 
-	perex@perex.cz, robh@kernel.org, tiwai@suse.com, 
-	Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: Re: [PATCH v3 01/10] ASoC: dt-bindings: renesas,fsi: add support
- multiple clocks
-Message-ID: <20260515-transparent-calculating-ocelot-bdec04@quoll>
-References: <20260510084303.122426-1-phucduc.bui@gmail.com>
- <20260510084303.122426-2-phucduc.bui@gmail.com>
+	s=arc-20240116; t=1778831709; c=relaxed/simple;
+	bh=IF78aL4qhYcYFoQ/xoUYLUDn+1jiumlt7gMiBumVb88=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=hz5k5xsQKpmm8OVtYcXyy89v1dc8itQVAgwCl5CTVI5ti0Y8+1Fgv/YhAY6jQpkgbklpY9h3JKV2NqfpXLVCDaCzJ9tk6Wu1n5xVvRthOj1rgTTu5VMC/DSw6FHdbOvEdM8xuxqkVlq5jjJUc6iedJCmZ3Grr7aIh0KVOpL7g8E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.215.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pg1-f175.google.com with SMTP id 41be03b00d2f7-c801912c903so4255832a12.0
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 15 May 2026 00:55:08 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778831708; x=1779436508;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=eAZHu6XpvwN5l5f2FSQxtIsJfHFz80+bclBZd6bS4os=;
+        b=QN6c45q/HM299w2O7mzl8FRI2Y5Iafw9YvkpIhW1HK0w4P/G95pgoqFpEWh8fuZGQ+
+         OTM4F0+3HvIG7ZLfEXAiycNOo2FdK16YFWh7dzr398eC5vPYjWE+BjwJCqeD/c1SVcVc
+         5rZxlhvnR5zS60xQPZs6C868JvKGlzGxGz64WXihdt/isAYoXHrUfQO7HoG7YicW3lQc
+         CiyfM5x/uwB+dX3A3TooRYa3BTrPxxqTrY+1gbczgtUPuiepWzz+9RMZ6CbHsUxO3U+a
+         DRTMb/14fLoQNoEuMki5mENdU9xtr+uf2weespdZ9K6rO+aqH41aM7pobViFJPVPFyjm
+         XG8w==
+X-Forwarded-Encrypted: i=1; AFNElJ/jcsROv/s01zu5mVlFFpo7oCBX3hQI97ciaUPjmn79n0FkgcnA+I5z7eQLEkAK0lUdVq/sde9aoRy8Ossml50e2A==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxoBQ3zIv+87ENPSz/5FfMJ21liNXC098rpW42tmaItpj7+M1B7
+	kExj8gi3v7ZgWXUFdQ8UZw52yQgF4pbXlMEhbk2mbEZU7nIwzTR4Hu9Q36fsOaQn
+X-Gm-Gg: Acq92OF05xOjRUQpGkQTUDQ2rbCE+EWQwcLke9oIJ14UvljSa1mqneatfkeyDFNPoYZ
+	XJQMWgcCj3wFIcd/FbFuvMRF/aKM1xiMqKRN0zM66Hny26+pXWoml+Cycj32jyboG4F7oQGf1as
+	abvPHX/R4y42CZIQ0eQ4CJI/aElJvARR65d2/c6+d4QOP44XnvJNd0nQUlvTFXivklthwbKbLhG
+	F4V9UCDuhxaumY9ABpyy/pAhL5vO+iklzSYv1qRSKqIMqK80wR7GutelufiyyiFhmXWMdB0BwVm
+	6MYK7JokXbpDAZp0iNweyk88ab0cnvqzfPKQQjvsfgpiGkCQCRG+FJnlSY73WrB7MsXYgozD1Eu
+	07SjcBc/V7BWarbosaSx3/iWUiufBBELnImlCV1WgEVgHw8d24kZU++X2v6jD8bKRPr8ggztLoh
+	LpVoTE+FdiGVX2FmEwtXy5RH7CZcGSh2zg02VswMNj29g6nQhvHa4ljd+NApA=
+X-Received: by 2002:a05:6a20:3d8f:b0:3a1:90ef:7e2d with SMTP id adf61e73a8af0-3b22ecf9a9amr3001570637.26.1778831707854;
+        Fri, 15 May 2026 00:55:07 -0700 (PDT)
+Received: from mail-dl1-f48.google.com (mail-dl1-f48.google.com. [74.125.82.48])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c82bb062941sm6002438a12.2.2026.05.15.00.55.07
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 15 May 2026 00:55:07 -0700 (PDT)
+Received: by mail-dl1-f48.google.com with SMTP id a92af1059eb24-134ac81c445so829731c88.1
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 15 May 2026 00:55:07 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ9Sbqa+Fmian7Yrvh90Hsughrbm93igd6OznQKiWMe6rvAgq/Xbnn48+xfBiqLS6sdsLu3V0rrgk1uFO671VaWYhQ==@vger.kernel.org
+X-Received: by 2002:a05:6102:3f05:b0:62e:63e8:427b with SMTP id
+ ada2fe7eead31-63a39a5f9e4mr1494077137.0.1778831365156; Fri, 15 May 2026
+ 00:49:25 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260510084303.122426-2-phucduc.bui@gmail.com>
-X-Rspamd-Queue-Id: A090354A1A3
+References: <20260514-rcar-du-dsc-v1-0-d65f7a9e9841@ideasonboard.com> <20260514-rcar-du-dsc-v1-3-d65f7a9e9841@ideasonboard.com>
+In-Reply-To: <20260514-rcar-du-dsc-v1-3-d65f7a9e9841@ideasonboard.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 15 May 2026 09:49:14 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVTgQp9WRiFpLX+pP7kOGF2v6oButALPu1B8QkYhVyvJA@mail.gmail.com>
+X-Gm-Features: AVHnY4KQ6u1JetcDt3qGv1sa7SAF13W-c5qtL3drtJoKYhKLpQQVXnl4eLgch0w
+Message-ID: <CAMuHMdVTgQp9WRiFpLX+pP7kOGF2v6oButALPu1B8QkYhVyvJA@mail.gmail.com>
+Subject: Re: [PATCH 3/5] drm/rcar-du: dsc: Add rudimentary Renesas R-Car V4H
+ DSC driver
+To: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+	Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
+	Robert Foss <rfoss@kernel.org>, Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+	Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Magnus Damm <magnus.damm@gmail.com>, Marek Vasut <marek.vasut+renesas@mailbox.org>, 
+	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, linux-renesas-soc@vger.kernel.org, 
+	linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Rspamd-Queue-Id: 106A154ADA6
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.16 / 15.00];
+X-Spamd-Result: default: False [0.04 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-32646-lists,linux-renesas-soc=lfdr.de];
+	FREEMAIL_CC(0.00)[baylibre.com,kernel.org,intel.com,linaro.org,ideasonboard.com,kwiboo.se,gmail.com,linux.intel.com,suse.de,ffwll.ch,mailbox.org,pengutronix.de,vger.kernel.org,lists.freedesktop.org];
+	TAGGED_FROM(0.00)[bounces-32647-lists,linux-renesas-soc=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	RCVD_COUNT_THREE(0.00)[4];
-	MIME_TRACE(0.00)[0:+];
+	DMARC_NA(0.00)[linux-m68k.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[renesas.com,kernel.org,vger.kernel.org,glider.be,gmail.com,perex.cz,suse.com,linux-m68k.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[16];
-	NEURAL_HAM(-0.00)[-1.000];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[krzk@kernel.org,linux-renesas-soc@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[27];
+	MIME_TRACE(0.00)[0:+];
 	MISSING_XM_UA(0.00)[];
-	TO_DN_SOME(0.00)[]
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[geert@linux-m68k.org,linux-renesas-soc@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	NEURAL_HAM(-0.00)[-0.992];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,dt];
+	R_DKIM_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,linux-m68k.org:email,mailbox.org:email,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,ideasonboard.com:email]
 X-Rspamd-Action: no action
 
-On Sun, May 10, 2026 at 03:42:54PM +0700, phucduc.bui@gmail.com wrote:
-> From: bui duc phuc <phucduc.bui@gmail.com>
-> 
-> The FSI on r8a7740 requires the SPU bus/bridge clock to be enabled before
-> accessing its registers. Without this clock, any register access leads to
+Hi Tomi,
 
-But why are you adding all these clocks to sh73a0 as well?
+On Thu, 14 May 2026 at 14:25, Tomi Valkeinen
+<tomi.valkeinen+renesas@ideasonboard.com> wrote:
+> From: Marek Vasut <marek.vasut+renesas@mailbox.org>
+>
+> The Renesas DSC Display Stream Compression is a bridge embedded in the
+> Renesas R-Car V4H SoC. The bridge performs VESA DSC encoding of up to
+> 8k or 400 Mpixel/s . Add rudimentary driver, which currently acts as a
+> pass-through bridge and allows DSI1 to be operational on R-Car V4H.
+>
+> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+> [tomi.valkeinen: use bridge->next_bridge, minor changes]
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 
-> a system hang as the FSI block sits behind the SPU bus.
-> Update the binding to support multiple clocks to properly describe the
-> hardware clock tree, including:
->   - SPU bus/bridge clock (spu) for register access.
->   - CPG DIV6 clocks (icka/b) as functional clock parents.
+Thanks for your patch!
 
-You do not need to add parents of clocks.
+> --- /dev/null
+> +++ b/drivers/gpu/drm/renesas/rcar-du/rcar_dsc.c
 
->   - FSI internal dividers (diva/b) for audio clock generation.
-
-Internal dividers do not have representation. They are internal.
-
->   - External clock inputs (xcka/b) provided by the board.
-> 
-> Suggested-by: Geert Uytterhoeven <geert@linux-m68k.org>
-> Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
-> ---
->  .../bindings/sound/renesas,fsi.yaml           | 27 ++++++++++++++++++-
->  1 file changed, 26 insertions(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/sound/renesas,fsi.yaml b/Documentation/devicetree/bindings/sound/renesas,fsi.yaml
-> index df91991699a7..c50e7115b21a 100644
-> --- a/Documentation/devicetree/bindings/sound/renesas,fsi.yaml
-> +++ b/Documentation/devicetree/bindings/sound/renesas,fsi.yaml
-> @@ -38,7 +38,32 @@ properties:
->      maxItems: 1
->  
->    clocks:
-> -    maxItems: 1
-> +    minItems: 1
-> +    items:
-> +      - description: Main FSI module clock
-> +      - description: |
-> +          SPU bus/bridge clock. On R8A7740, this clock must be enabled to allow
-> +          register access as the FSI block is connected behind the SPU bus.
-> +      - description: CPG DIV6 functional clocks for FSI port A
-> +      - description: CPG DIV6 functional clocks for FSI port B
-> +      - description: Internal FSI dividers for port A used for audio clock generation
-> +      - description: Internal FSI dividers for port B used for audio clock generation
-> +      - description: External clock inputs for FSI port A provided by the board
-> +      - description: External clock inputs for FSI port B provided by the board
 > +
-> +  clock-names:
-> +    minItems: 1
-> +    maxItems: 8
-> +    items:
-> +      enum:
+> +static void rcar_dsc_atomic_enable(struct drm_bridge *bridge,
+> +                                  struct drm_atomic_state *state)
+> +{
+> +       struct rcar_dsc *dsc = bridge_to_rcar_dsc(bridge);
+> +
+> +       WARN_ON(clk_prepare_enable(dsc->clk));
 
-This cannot be flexible.
+Who don't you use pm_runtime_resume_and_get() instead, like
+rcar_cmm.c? Then you don't need to get the clock at all, and the driver
+will keep on working if the DSC ever ends up in a power domain.
 
-> +        - fck  # Main FSI module clock
-> +        - spu  # optional SPU bus/bridge clock
-> +        - icka # optional CPG DIV6 functional clocks for FSI port A
-> +        - ickb # optional CPG DIV6 functional clocks for FSI port B
-> +        - diva # optional Internal FSI dividers for port A used for audio clock generation
-> +        - divb # optional Internal FSI dividers for port B used for audio clock generation
-> +        - xcka # optional External clock inputs for FSI port A provided by the board
-> +        - xckb # optional External clock inputs for FSI port B provided by the board
+Gr{oetje,eeting}s,
 
-Best regards,
-Krzysztof
+                        Geert
 
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
