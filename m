@@ -1,364 +1,157 @@
-Return-Path: <linux-renesas-soc+bounces-32720-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-32722-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id INCEF2zfCGp09AMAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-32720-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 16 May 2026 23:19:40 +0200
+	id GN6GFJWnCWrdjgQAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-32722-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 17 May 2026 13:33:41 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04BEE55DE16
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 16 May 2026 23:19:39 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id A6897560BD8
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 17 May 2026 13:33:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 421A230528B7
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 16 May 2026 21:14:37 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 406A030067A5
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 17 May 2026 11:33:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B66FB3822AC;
-	Sat, 16 May 2026 21:14:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D28AF32C94A;
+	Sun, 17 May 2026 11:33:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="0C4UScd4";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="bFc5qquK"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="usGFqiwb"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from fout-a2-smtp.messagingengine.com (fout-a2-smtp.messagingengine.com [103.168.172.145])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B780537DEA5;
-	Sat, 16 May 2026 21:14:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.145
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC145405C5E;
+	Sun, 17 May 2026 11:33:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778966073; cv=none; b=VilMyiLNhCbOs0e+TN7atZegwTEDAw1M+GrGsKBNrIGz9m0X1nW0IVzQusS7vVwFyDAf1E9/r9cHhF5EIxsXTnEd718Fh884sBoihaUr+gxXnu3peUEJERMMQWhC4zqB1kZN98S7SwWKuAo9jA4aL+GgFgDQEr5u0IM7CxR1Iic=
+	t=1779017618; cv=none; b=A4uYnh5eWeckCpeMwD+IRX7/Ztyb5HKCkxvt7sj/H9MaIYHs3KJBz540l0r28Gh7BHDz+IEQTlBQx2NNdurKb+UKxQxwNsV60TO2a44Xa0gqn3Hrf6Ftw9nFrj6YOIweq3ptOf/7+k4hh1A0fjOEzLZTW4DCkE+upvZ/uA9C/14=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778966073; c=relaxed/simple;
-	bh=oijJBn/T7XMK5IB6Z+Esx54XI1eXTznJhep/cgR/Sr8=;
+	s=arc-20240116; t=1779017618; c=relaxed/simple;
+	bh=yTYlVW3XNQ6KFLt3e4dKFe0LbjnsvoHG3Q/y/y1Hnk4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=OTXAbY/y4arYsxHJO2uZF8k6tOLXJGvhJT6FIeU9WPK2VVZK8FrMX3vFhqAYqyho+WUhHOQGZI7hpKTSSevowtn/zkxzJmgNe9/mtreVp/owAMEPjrBUPeKbyIQr5W8A0pfXYrFPcR0XCI9iSbjgaKBdoWe/62K/CMWw0M2MaRc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=0C4UScd4; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=bFc5qquK; arc=none smtp.client-ip=103.168.172.145
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from phl-compute-03.internal (phl-compute-03.internal [10.202.2.43])
-	by mailfout.phl.internal (Postfix) with ESMTP id F330BEC00DA;
-	Sat, 16 May 2026 17:14:29 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-03.internal (MEProxy); Sat, 16 May 2026 17:14:29 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1778966069;
-	 x=1779052469; bh=hI34xtXbgwXdLDFfMugYnhfob+7cPzScjY7uHSf/GG0=; b=
-	0C4UScd4AXkNcNlGuhMUxReD+L+JVSr3EEJgQ4L2NsyWZF/lwDu1JApWbEbw7lSU
-	b1MnXqDf0QP3VAuzZmI36wxsLc2QFlXsbfUtzXjsFCxMtZhw0i+8jATMKWtjIgLY
-	w+c0y66nZq1jzBv3uAvEnYSle/xLQdAXVKMEuTrGPBF5JT7nJJYFxjRfTy2ZpRaS
-	nj8TkV1MBnJV2V4wbPU0Z/uKjNNgxu1JeKTh45q+8rDFrtprGnjLWpWN9sltNBL3
-	fh85A7Q62OJEIhfsDqS59gG/fY1FFlnRwwUj//WdAWTIDA45vJ/u/E/0gXy342zO
-	Ug99rbNBoHOclG2oqM4kFQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1778966069; x=
-	1779052469; bh=hI34xtXbgwXdLDFfMugYnhfob+7cPzScjY7uHSf/GG0=; b=b
-	Fc5qquKuE7gj50ySRjZ8+FF0nj5WYaF+Y2kzU11E/9zWF5GMQhbov9kevlX0H4AS
-	ZD8AldkzLar3/Og4ioTw+re5uTbhj3dovGdRqSxtPBqXWbwS6dZJBzX03Dq5mtS3
-	swUfs+JUE+kx766BFWVjwAHjieM4S+I6K6MYw1XjYYE9TK/PGpofMs1KNd3vJMGr
-	xS53YHsue0wM8og/zMJxP1SXUaISsTcml2+7dm32dyVlYmOT0K523buHre0tRG2x
-	557i5ElaaJE6SYhxd/i4M9puKmssJ7GBLCzyrNLbspQmAp1vNUIOPsvLRHYoAo37
-	Uox2x2I43tJAMkTffFzbg==
-X-ME-Sender: <xms:Nd4IahrFZ001mWHs0qadLOgVHuHt_XTlUVl9bYOWWCiNCUPqmv-DOA>
-    <xme:Nd4Iapq_Pkk353DXXZfJ8pA_BB_IJ_V59Tno8YcDQOvVo6d9U0-dHXkJuUSCiR6g3
-    b90cLQInW1tiPQvGRFQHOB_iT92SElsRX22mgPQELETF9kSBCYQVGk>
-X-ME-Received: <xmr:Nd4IapBZlFF1umQsqEVeSsSPAN2hLa0FWNL4dRKTSYSmZwzKtzHGN0nQgna79c9STfNc9HGrTxaDDrWkYOa2DGoOMFIxpyP4m7NX>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgddufeegfeefucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhephffvvefufffkofgjfhggtgfgsehtkeertdertdejnecuhfhrohhmpefpihhklhgr
-    shcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhouggvrhhluhhnugdorhgvnhgvsh
-    grshesrhgrghhnrghtvggthhdrshgvqeenucggtffrrghtthgvrhhnpeehiefgueevuedt
-    fefhheegkeevtdelueeukeevfeduhefhhfejfffggeffleefgeenucevlhhushhtvghruf
-    hiiigvpedunecurfgrrhgrmhepmhgrihhlfhhrohhmpehnihhklhgrshdrshhouggvrhhl
-    uhhnugesrhgrghhnrghtvggthhdrshgvpdhnsggprhgtphhtthhopedutddpmhhouggvpe
-    hsmhhtphhouhhtpdhrtghpthhtohepjhgrtghophhordhmohhnughisehiuggvrghsohhn
-    sghorghrugdrtghomhdprhgtphhtthhopehjrghirdhluhhthhhrrgdorhgvnhgvshgrsh
-    esihguvggrshhonhgsohgrrhgurdgtohhmpdhrtghpthhtohepmhgthhgvhhgrsgeskhgv
-    rhhnvghlrdhorhhgpdhrtghpthhtohepkhhunhhinhhorhhirdhmohhrihhmohhtohdrgh
-    igsehrvghnvghsrghsrdgtohhmpdhrtghpthhtoheplhgruhhrvghnthdrphhinhgthhgr
-    rhhtsehiuggvrghsohhnsghorghrugdrtghomhdprhgtphhtthhopehlihhnuhigqdhmvg
-    guihgrsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqrhgv
-    nhgvshgrshdqshhotgesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlih
-    hnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehj
-    rghirdhluhhthhhrrgesihguvggrshhonhgsohgrrhgurdgtohhm
-X-ME-Proxy: <xmx:Nd4IavuS0zd4mDbFRwJRiBO9FSFZ0hh0KG5kHwSaCqwwv7OpKGazBA>
-    <xmx:Nd4IagLZAY7MTBdp2hbRJrW36OVRR9bluU4mjarAq5OJCad7PXCsUA>
-    <xmx:Nd4Iaua3EUzgyiBpcaIl9Amve5nZGPOANsFGyHX6u1vr5hi0BRVFCQ>
-    <xmx:Nd4IaqA0GkJVA3BYLi0YMKeBN-ETD9sCCQ7XFPoIl3fbZIvuKg08Ig>
-    <xmx:Nd4IarO5KWF_-1jTBiE0enzt0E0VJaVohqrBd2cnIzmOReeNhRQu-zsW>
-Feedback-ID: i80c9496c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 16 May 2026 17:14:29 -0400 (EDT)
-From: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	Jai Luthra <jai.luthra+renesas@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	linux-media@vger.kernel.org,
+	 MIME-Version:Content-Type; b=UgIpQRO6QoeXWeqT4z1XZed3A4uYBCMiN6fU4dyiu+/xQ9xecFkgkf8mv4jkynC3cH2F1wW8bc0QjuIcSVCZkhOJ0nqp15OdB38a/8ca50hHNKWFqPveL/a4hYpwSOrIQ2MLEccCy+7Hb0mNhtOOIecytp06Zo/IO1KL5ATqKVw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=usGFqiwb; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 77964C2BCB0;
+	Sun, 17 May 2026 11:33:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1779017618;
+	bh=yTYlVW3XNQ6KFLt3e4dKFe0LbjnsvoHG3Q/y/y1Hnk4=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=usGFqiwbn920YSSpla8jifwVPkQ2LQT22xTcHkRQK6clGMkA5A3ZozsuqGboqlD+D
+	 rqEaFyACDlfeQwC58Y93/nOkVnwVs/a7bODfDRCVIiO4m/fBPt/S/kMlhY24gwrBGZ
+	 RzpoJ32NMPa5Z9n9kn8kkHEvi01KKaj40kAYAKMnAc6ku/oDxsKH6GC9S3suCuDqcw
+	 3iYFpSGVGrRX4r3O8g9ITlaEAtGfOMnu0ZC7jkMx6j5TP2VIp2/hZDd/nofwPFqSbE
+	 j+xU1wXeeAJ9xJO1ulP3R+ilLfwfnpcJVvq2q+d9X+oW7ljk/8+Lmkmm4CGF00wo51
+	 OBaBKtJPEQKMQ==
+From: Sudeep Holla <sudeep.holla@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	arm-scmi@vger.kernel.org,
+	linux-clk@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Jai Luthra <jai.luthra@ideasonboard.com>,
-	=?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Subject: [PATCH v9 13/13] media: rppx1: lin: Add support for gamma sensor linearization
-Date: Sat, 16 May 2026 23:13:20 +0200
-Message-ID: <20260516211320.3041412-14-niklas.soderlund+renesas@ragnatech.se>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260516211320.3041412-1-niklas.soderlund+renesas@ragnatech.se>
-References: <20260516211320.3041412-1-niklas.soderlund+renesas@ragnatech.se>
+	Cristian Marussi <cristian.marussi@arm.com>
+Cc: Sudeep Holla <sudeep.holla@kernel.org>,
+	philip.radford@arm.com,
+	james.quinlan@broadcom.com,
+	f.fainelli@gmail.com,
+	vincent.guittot@linaro.org,
+	etienne.carriere@foss.st.com,
+	peng.fan@oss.nxp.com,
+	michal.simek@amd.com,
+	geert+renesas@glider.be,
+	kuninori.morimoto.gx@renesas.com,
+	marek.vasut+renesas@gmail.com
+Subject: Re: [PATCH v4 00/15] SCMI Clock rates discovery rework
+Date: Sun, 17 May 2026 12:33:21 +0100
+Message-ID: <177901751519.3834262.16195066181334247381.b4-ty@b4>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260508153300.2224715-1-cristian.marussi@arm.com>
+References: <20260508153300.2224715-1-cristian.marussi@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 04BEE55DE16
+X-Rspamd-Queue-Id: A6897560BD8
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
+X-Spamd-Result: default: False [-0.16 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[ragnatech.se,none];
-	R_DKIM_ALLOW(-0.20)[ragnatech.se:s=fm2,messagingengine.com:s=fm3];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	DKIM_TRACE(0.00)[ragnatech.se:+,messagingengine.com:+];
-	FROM_HAS_DN(0.00)[];
+	TAGGED_FROM(0.00)[bounces-32722-lists,linux-renesas-soc=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-32720-lists,linux-renesas-soc=lfdr.de,renesas];
+	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[17];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[niklas.soderlund@ragnatech.se,linux-renesas-soc@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	NEURAL_HAM(-0.00)[-1.000];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	MID_RHS_MATCH_FROM(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[sudeep.holla@kernel.org,linux-renesas-soc@vger.kernel.org];
+	FREEMAIL_CC(0.00)[kernel.org,arm.com,broadcom.com,gmail.com,linaro.org,foss.st.com,oss.nxp.com,amd.com,glider.be,renesas.com];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,messagingengine.com:dkim,ideasonboard.com:email,ragnatech.se:email,ragnatech.se:mid,ragnatech.se:dkim]
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
 X-Rspamd-Action: no action
 
-From: Jai Luthra <jai.luthra@ideasonboard.com>
+On Fri, 08 May 2026 16:32:45 +0100, Cristian Marussi wrote:
+> it was a known limitation, in the SCMI Clock protocol support, the lack of
+> dynamic allocation around per-clock rates discovery: fixed size statically
+> per-clock rates arrays did not scale and was increasingly a waste of memory
+> (see [1]).
+> 
+> This series aim at solving this in successive steps:
+> 
+> [...]
 
-Extend the RPPX1 driver to allow setting the gamma sensor linearization
-configuration parameters. It uses the RPPX1 framework for parameters and
-its writer abstraction to allow the user to control how, and when,
-configuration is applied to the RPPX1.
+Applied to sudeep.holla/linux (for-next/scmi/updates), thanks!
 
-Signed-off-by: Jai Luthra <jai.luthra@ideasonboard.com>
-Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
----
-* Changes since v8
-- Move declaration of dx_lo and dx_hi to top of function.
----
- .../platform/dreamchip/rppx1/rpp_module.h     |  1 +
- .../platform/dreamchip/rppx1/rpp_params.c     |  5 ++
- .../platform/dreamchip/rppx1/rppx1_lin.c      | 54 +++++++++++++++++++
- .../uapi/linux/media/dreamchip/rppx1-config.h | 48 ++++++++++++++++-
- 4 files changed, 107 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/media/platform/dreamchip/rppx1/rpp_module.h b/drivers/media/platform/dreamchip/rppx1/rpp_module.h
-index 948e26d7361d..072309d8662d 100644
---- a/drivers/media/platform/dreamchip/rppx1/rpp_module.h
-+++ b/drivers/media/platform/dreamchip/rppx1/rpp_module.h
-@@ -48,6 +48,7 @@ void rpp_module_clrset(struct rpp_module *mod, u32 offset, u32 mask, u32 value);
- union rppx1_params_block {
- 	struct v4l2_isp_block_header header;
- 	struct rppx1_bls_params bls;
-+	struct rppx1_lin_params lin;
- 	struct rppx1_lsc_params lsc;
- 	struct rppx1_awbg_params awbg;
- 	struct rppx1_ccor_params ccor;
-diff --git a/drivers/media/platform/dreamchip/rppx1/rpp_params.c b/drivers/media/platform/dreamchip/rppx1/rpp_params.c
-index 86d445b52504..a75a27a8afd0 100644
---- a/drivers/media/platform/dreamchip/rppx1/rpp_params.c
-+++ b/drivers/media/platform/dreamchip/rppx1/rpp_params.c
-@@ -19,6 +19,8 @@ static const struct v4l2_isp_params_block_type_info
- rppx1_ext_params_blocks_info[] = {
- 	RPPX1_PARAMS_BLOCK_INFO(BLS_PRE1, bls),
- 	RPPX1_PARAMS_BLOCK_INFO(BLS_PRE2, bls),
-+	RPPX1_PARAMS_BLOCK_INFO(LIN_PRE1, lin),
-+	RPPX1_PARAMS_BLOCK_INFO(LIN_PRE2, lin),
- 	RPPX1_PARAMS_BLOCK_INFO(LSC_PRE1, lsc),
- 	RPPX1_PARAMS_BLOCK_INFO(LSC_PRE2, lsc),
- 	RPPX1_PARAMS_BLOCK_INFO(AWBG_PRE1, awbg),
-@@ -68,6 +70,9 @@ int rppx1_params(struct rppx1 *rpp, struct vb2_buffer *vb, size_t max_size,
- 		case RPPX1_PARAMS_BLOCK_TYPE_BLS_PRE1:
- 			module = &rpp->pre1.bls;
- 			break;
-+		case RPPX1_PARAMS_BLOCK_TYPE_LIN_PRE1:
-+			module = &rpp->pre1.lin;
-+			break;
- 		case RPPX1_PARAMS_BLOCK_TYPE_LSC_PRE1:
- 			module = &rpp->pre1.lsc;
- 			break;
-diff --git a/drivers/media/platform/dreamchip/rppx1/rppx1_lin.c b/drivers/media/platform/dreamchip/rppx1/rppx1_lin.c
-index 0a0e7ab2d1d6..04a92f24ab49 100644
---- a/drivers/media/platform/dreamchip/rppx1/rppx1_lin.c
-+++ b/drivers/media/platform/dreamchip/rppx1/rppx1_lin.c
-@@ -25,6 +25,11 @@
- #define LIN_B_Y_REG_NUM				17
- #define LIN_B_Y_REG(n)				(0x0098 + (4 * (n)))
- 
-+#define LIN_PRE1_DEGAMMA_CURVE_MASK		GENMASK(23, 0)
-+#define LIN_PRE1_SAMPLE_POINTS_MASK		GENMASK(3, 0)
-+#define LIN_PRE2_DEGAMMA_CURVE_MASK		GENMASK(11, 0)
-+#define LIN_PRE2_SAMPLE_POINTS_MASK		GENMASK(2, 0)
-+
- static int rppx1_lin_probe(struct rpp_module *mod)
- {
- 	/* Version check. */
-@@ -53,7 +58,56 @@ static int rppx1_lin_start(struct rpp_module *mod,
- 	return 0;
- }
- 
-+static int rppx1_lin_fill_params(struct rpp_module *mod,
-+				 const union rppx1_params_block *block,
-+				 rppx1_reg_write write, void *priv)
-+{
-+	const struct rppx1_lin_params *cfg = &block->lin;
-+	u8 sample_mask;
-+	u32 dx_lo = 0;
-+	u32 dx_hi = 0;
-+	u32 mask;
-+
-+	if (cfg->header.flags & V4L2_ISP_PARAMS_FL_BLOCK_DISABLE) {
-+		write(priv, mod->base + LIN_ENABLE_REG, 0);
-+		return 0;
-+	}
-+
-+	switch (cfg->header.type) {
-+	case RPPX1_PARAMS_BLOCK_TYPE_LIN_PRE1:
-+		mask = LIN_PRE1_DEGAMMA_CURVE_MASK;
-+		sample_mask = LIN_PRE1_SAMPLE_POINTS_MASK;
-+		break;
-+	case RPPX1_PARAMS_BLOCK_TYPE_LIN_PRE2:
-+		mask = LIN_PRE2_DEGAMMA_CURVE_MASK;
-+		sample_mask = LIN_PRE2_SAMPLE_POINTS_MASK;
-+		break;
-+	default:
-+		return -EINVAL;
-+	}
-+
-+	for (unsigned int i = 0; i < 8; ++i) {
-+		dx_lo |= (cfg->dx[i] & sample_mask) << 4 * i;
-+		dx_hi |= (cfg->dx[i + 8] & sample_mask) << 4 * i;
-+	}
-+
-+	write(priv, mod->base + LIN_DX_LO_REG, dx_lo);
-+	write(priv, mod->base + LIN_DX_HI_REG, dx_hi);
-+
-+	for (unsigned int i = 0; i < RPPX1_LIN_DEGAMMA_CURVE_NUM; i++) {
-+		write(priv, mod->base + LIN_R_Y_REG(i), cfg->curve_r[i] & mask);
-+		write(priv, mod->base + LIN_G_Y_REG(i), cfg->curve_g[i] & mask);
-+		write(priv, mod->base + LIN_B_Y_REG(i), cfg->curve_b[i] & mask);
-+	}
-+
-+	if ((cfg->header.flags & V4L2_ISP_PARAMS_FL_BLOCK_ENABLE))
-+		write(priv, mod->base + LIN_ENABLE_REG, LIN_ENABLE_GAMMA_IN_EN);
-+
-+	return 0;
-+}
-+
- const struct rpp_module_ops rppx1_lin_ops = {
- 	.probe = rppx1_lin_probe,
- 	.start = rppx1_lin_start,
-+	.fill_params = rppx1_lin_fill_params,
- };
-diff --git a/include/uapi/linux/media/dreamchip/rppx1-config.h b/include/uapi/linux/media/dreamchip/rppx1-config.h
-index 05faec2f68e3..72f3fd836f41 100644
---- a/include/uapi/linux/media/dreamchip/rppx1-config.h
-+++ b/include/uapi/linux/media/dreamchip/rppx1-config.h
-@@ -93,6 +93,8 @@ enum rppx1_meas_chan {
-  * @RPPX1_PARAMS_BLOCK_TYPE_LSC_PRE2: PRE2 Lens Shading Correction
-  * @RPPX1_PARAMS_BLOCK_TYPE_GA_HV: Human Vision Pipe Gamma Out Correction
-  * @RPPX1_PARAMS_BLOCK_TYPE_GA_MV: Machine Vision Gamma Out Correction
-+ * @RPPX1_PARAMS_BLOCK_TYPE_LIN_PRE1: PRE1 pipe Linearization (Sensor De-gamma)
-+ * @RPPX1_PARAMS_BLOCK_TYPE_LIN_PRE2: PRE2 pipe Linearization (Sensor De-gamma)
-  */
- enum rppx1_params_block_type {
- 	RPPX1_PARAMS_BLOCK_TYPE_WBMEAS_POST,
-@@ -111,6 +113,8 @@ enum rppx1_params_block_type {
- 	RPPX1_PARAMS_BLOCK_TYPE_LSC_PRE2,
- 	RPPX1_PARAMS_BLOCK_TYPE_GA_HV,
- 	RPPX1_PARAMS_BLOCK_TYPE_GA_MV,
-+	RPPX1_PARAMS_BLOCK_TYPE_LIN_PRE1,
-+	RPPX1_PARAMS_BLOCK_TYPE_LIN_PRE2,
- };
- 
- /**
-@@ -546,6 +550,46 @@ struct rppx1_ga_params {
- 	__u32 gamma_y[RPPX1_GA_MAX_SAMPLES];
- };
- 
-+/* Linearization (Sensor De-gamma) */
-+#define RPPX1_LIN_SAMPLE_POINTS_NUM 16
-+#define RPPX1_LIN_DEGAMMA_CURVE_NUM 17
-+
-+/**
-+ * struct rppx1_lin_params - Linearization (Sensor De-gamma) configuration
-+ *
-+ * The RPP-X1 linearization module is available on the PRE1 and PRE2 pre-fusion
-+ * pipes. Userspace selects which pipe to operate by setting the @header.type
-+ * field to RPPX1_PARAMS_BLOCK_TYPE_LIN_PRE1 or
-+ * RPPX1_PARAMS_BLOCK_TYPE_LIN_PRE2.
-+ *
-+ * The LIN module applies the per-color channel de-gamma linearization curves
-+ * @curve_r, @curve_g and @curve_b defined on the input sampling points @dx.
-+ *
-+ * For the PRE1 pipe the de-gamma curves values are 24-bits, for the PRE2 pipe
-+ * the de-gamma curve values are 12-bits.
-+ *
-+ * For the PRE1 pipe de-gamma module sampling points @dx values are in the range
-+ * [0, 15] (4 bits). For the PRE2 pipe de-gamma module sampling points values
-+ * are in the range [0, 7] (3 bits).
-+ *
-+ * Userspace is expected to provide the curve values and sampling points with a
-+ * bit-depth matching the one of pipe in use.
-+ *
-+ * @header: block header (type = RPPX1_PARAMS_BLOCK_TYPE_LIN_PRE1 or
-+ *	    RPPX1_PARAMS_BLOCK_TYPE_LIN_PRE2)
-+ * @curve_r: de-gamma linearization curve for red channel
-+ * @curve_g: de-gamma linearization curve for green channel
-+ * @curve_b: de-gamma linearization curve for blue channel
-+ * @dx: input sampling points
-+ */
-+struct rppx1_lin_params {
-+	struct v4l2_isp_params_block_header header;
-+	__u32 curve_r[RPPX1_LIN_DEGAMMA_CURVE_NUM];
-+	__u32 curve_g[RPPX1_LIN_DEGAMMA_CURVE_NUM];
-+	__u32 curve_b[RPPX1_LIN_DEGAMMA_CURVE_NUM];
-+	__u8 dx[RPPX1_LIN_SAMPLE_POINTS_NUM];
-+};
-+
- /**
-  * RPPX1_PARAMS_MAX_SIZE - Maximum size of all RPP-X1 parameter blocks
-  *
-@@ -568,7 +612,9 @@ struct rppx1_ga_params {
- 	sizeof(struct rppx1_lsc_params)				+	\
- 	sizeof(struct rppx1_lsc_params)				+	\
- 	sizeof(struct rppx1_ga_params)				+	\
--	sizeof(struct rppx1_ga_params))
-+	sizeof(struct rppx1_ga_params)				+	\
-+	sizeof(struct rppx1_lin_params)				+	\
-+	sizeof(struct rppx1_lin_params))
- 
- /* ---------------------------------------------------------------------------
-  * Statistics Structures
--- 
-2.54.0
+[01/15] clk: scmi: Fix clock rate rounding
+        https://git.kernel.org/sudeep.holla/c/d0c81a38d06d
+[02/15] firmware: arm_scmi: Add clock determine_rate operation
+        https://git.kernel.org/sudeep.holla/c/ecde921eb460
+[03/15] clk: scmi: Use new determine_rate clock operation
+        https://git.kernel.org/sudeep.holla/c/af86c99170b7
+[04/15] firmware: arm_scmi: Simplify clock rates exposed interface
+        https://git.kernel.org/sudeep.holla/c/0d76f62613ca
+[05/15] clk: scmi: Use new simplified per-clock rate properties
+        https://git.kernel.org/sudeep.holla/c/cdcd2fc94936
+[06/15] firmware: arm_scmi: Drop unused clock rate interfaces
+        https://git.kernel.org/sudeep.holla/c/2e757f71a5ab
+[07/15] firmware: arm_scmi: Make clock rates allocation dynamic
+        https://git.kernel.org/sudeep.holla/c/62ba967595e0
+[08/15] firmware: arm_scmi: Harden clock parents discovery
+        https://git.kernel.org/sudeep.holla/c/bda40491e0ce
+[09/15] firmware: arm_scmi: Refactor iterators internal allocation
+        https://git.kernel.org/sudeep.holla/c/e99ed7267263
+[10/15] firmware: arm_scmi: Add bound iterators support
+        https://git.kernel.org/sudeep.holla/c/4848d07ea9fc
+[11/15] firmware: arm_scmi: Fix bound iterators returning too many items
+        https://git.kernel.org/sudeep.holla/c/ae4a088f13de
+[12/15] firmware: arm_scmi: Use proper iter_response_bound_cleanup() name
+        https://git.kernel.org/sudeep.holla/c/3065e26dac52
+[13/15] firmware: arm_scmi: Use bound iterators to minimize discovered rates
+        https://git.kernel.org/sudeep.holla/c/26d04d592a47
+[14/15] firmware: arm_scmi: Fix OOB in scmi_clock_describe_rates_get_lazy()
+        https://git.kernel.org/sudeep.holla/c/4a07036d6159
+[15/15] firmware: arm_scmi: Introduce all_rates_get clock operation
+        https://git.kernel.org/sudeep.holla/c/d2488ff1a257
+--
+Regards,
+Sudeep
 
 
