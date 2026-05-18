@@ -1,198 +1,218 @@
-Return-Path: <linux-renesas-soc+bounces-32731-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-32736-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id W3fuGfcrCmpzxQQAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-32731-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 17 May 2026 22:58:31 +0200
+	id +FWoCd5gCmqC0gQAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-32736-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 18 May 2026 02:44:14 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68357563DE1
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 17 May 2026 22:58:24 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id C30B45648DF
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 18 May 2026 02:44:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 979C030182A3
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 17 May 2026 20:58:23 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 85BF93014C74
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 18 May 2026 00:44:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3BDC030C632;
-	Sun, 17 May 2026 20:58:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 97427207A20;
+	Mon, 18 May 2026 00:44:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="FeT4EohV"
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="FvbFaNgD"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C5385271A6D;
-	Sun, 17 May 2026 20:58:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.4])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2F45149C7B;
+	Mon, 18 May 2026 00:44:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779051503; cv=none; b=YCRG8yNXABoYYVHa7wNNUpcb6pgr8K1Qgq4PwHV5udiX3vUh+XYGLEEfVfCz1ekdd8dI1YL+ZqWGpH+4URphs9/fNsJXlNcYPRuznOjwi6bX/LdHcGf9udm355ku99lpUXbJCutlhQNA05iQvqDbl2NvOGIFOgZd+PcgbmlLDIo=
+	t=1779065043; cv=none; b=f4clHoCqd1Y3oF+bxogVVrfs66hvUa0ZPNDV5+NiTU0gcRyycooFEcVM54phyVOnUoDkd4r564xKlgAP0l7jgkCyo/GkjJ4Y9+7BudQChU+cC2ic9a32JF/oagbVPnqhr01JwaKpQ2jUzwXFVGpAjkPSWUbpvv5adOUOxGYRAm4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779051503; c=relaxed/simple;
-	bh=8YdDtosc2yuBrzAdShLNX5Aura5/QzNzsydkW/hbS2I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=To7zqGtw9qA2xaAEEt5zEVjFZGlH0qTV9SMs7gaDQfcwrPc69O5oTqs2TEeMifzq5U0yf8VUapTnWMAtNrLr87XzZn+dvPhPz7JPNCw0/xzItc0oSeqxkM/DpbLHF2ima065E4ENYfmsLEifL454omrQlDhaMFiO+aIzNraSG6M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=FeT4EohV; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 96A1F19F0;
-	Sun, 17 May 2026 13:58:14 -0700 (PDT)
-Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id BA24E3F632;
-	Sun, 17 May 2026 13:58:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1779051499; bh=8YdDtosc2yuBrzAdShLNX5Aura5/QzNzsydkW/hbS2I=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=FeT4EohVSdz0//AGj/+rybSIAktQFGsZBGx+b2XCfQ2fy4e0lQGswwBNToLuCEbRH
-	 fL+pIcQYwVjShNYdxaFGLRo9FGopvFEV0yggvFZyd2UCOGu+uHALw+dejaixXxB1Fh
-	 l59MX3c3/vu+4oE8sBj7+q0p9sMB92tUZlrBNv4k=
-Date: Sun, 17 May 2026 21:58:12 +0100
-From: Cristian Marussi <cristian.marussi@arm.com>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Cristian Marussi <cristian.marussi@arm.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Sudeep Holla <sudeep.holla@kernel.org>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Saravana Kannan <saravanak@kernel.org>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Ulf Hansson <ulfh@kernel.org>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Marek Vasut <marek.vasut+renesas@mailbox.org>,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-pm@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH/RFC 05/14] firmware: arm_scmi: Add scmi_get_base_info()
-Message-ID: <agor5HJ0JFBoX3sZ@pluto>
-References: <cover.1776793163.git.geert+renesas@glider.be>
- <72e2a0e7a5abda02fe36b3f5851842f7a77b2593.1776793163.git.geert+renesas@glider.be>
- <aekXUvIPb8nkhdKu@pluto>
- <CAMuHMdX8b9C3D8fV5th6GCgs6JAq7HZbF_SrOKz_gDy2H8ksow@mail.gmail.com>
+	s=arc-20240116; t=1779065043; c=relaxed/simple;
+	bh=GJNaBQaEMPvQGX0a97naAfEf2qj5t32K8fCapzvmzPw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=N8hnb9i4aqy9SwhzgxN2onUPXS+rYIISkBlB3S53wpOiJcVFzYyBE5RN2Be00gMztDcTB9LdoEXcMtYTDt+8eZk1+e4wAiFyY+J2LQGLX6FXVlpUhr5fw8vldhPz5ZSoVGZCIn6hxtyD+BEsjHPIeypEWxs2B91+HCygY4py89Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=FvbFaNgD; arc=none smtp.client-ip=220.197.31.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=71
+	TiXWZeiNEnZ9aHbMl8KHb/RAdwEUbQt5Z1vVI0djc=; b=FvbFaNgDlCc4BH7ZQ1
+	bkLp4gMSaI26ucPewKKL6mBMwC5aiuJWuc3zL+9jmS/rBKTF5U+8iFn73uCG2k5g
+	NZGjlktM7zIP8E4e47SFrWY9AJ0ANDzELqXQc0ByfzH4mkM3OPnq9UN2VDXf+rmf
+	aTVUPpmOEnUdcRQWNYOch+W0U=
+Received: from Precision-7960.. (unknown [])
+	by gzga-smtp-mtada-g1-4 (Coremail) with SMTP id _____wCnj6SIYApq2fikCA--.4779S2;
+	Mon, 18 May 2026 08:42:50 +0800 (CST)
+From: Hans Zhang <18255117159@163.com>
+To: bhelgaas@google.com,
+	lpieralisi@kernel.org,
+	kwilczynski@kernel.org,
+	mani@kernel.org,
+	vigneshr@ti.com,
+	jingoohan1@gmail.com,
+	thomas.petazzoni@bootlin.com,
+	ryder.lee@mediatek.com,
+	claudiu.beznea.uj@bp.renesas.com,
+	mpillai@cadence.com
+Cc: robh@kernel.org,
+	s-vadapalli@ti.com,
+	linux-omap@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	claudiu.beznea@tuxon.dev,
+	linux-mediatek@lists.infradead.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-pci@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Hans Zhang <18255117159@163.com>
+Subject: [PATCH v4 0/7] PCI: Add common helper for 100 ms delay after link training
+Date: Mon, 18 May 2026 08:42:39 +0800
+Message-ID: <20260518004246.1384532-1-18255117159@163.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdX8b9C3D8fV5th6GCgs6JAq7HZbF_SrOKz_gDy2H8ksow@mail.gmail.com>
-X-Rspamd-Queue-Id: 68357563DE1
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:_____wCnj6SIYApq2fikCA--.4779S2
+X-Coremail-Antispam: 1Uf129KBjvJXoWxWr15WF1xZFWfGw17WF4DArb_yoWrKr1xpF
+	WrGrWSk3Z7XFWYvws7A3W7u34Yg3Z3G34Ut3ykK34xZrnrAFyYvrWI9FWvvFy7GrWkXrnF
+	y3WUK3ZrCw12yFJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0zRUkucUUUUU=
+X-CM-SenderInfo: rpryjkyvrrlimvzbiqqrwthudrp/xtbCxAxY+2oKYIwFAAAA3i
+X-Rspamd-Queue-Id: C30B45648DF
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.16 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[arm.com,none];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[arm.com:s=foss];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[163.com,none];
+	R_DKIM_ALLOW(-0.20)[163.com:s=s110527];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-32731-lists,linux-renesas-soc=lfdr.de];
-	RCPT_COUNT_TWELVE(0.00)[25];
-	MIME_TRACE(0.00)[0:+];
 	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_CC(0.00)[arm.com,kernel.org,gmail.com,baylibre.com,pengutronix.de,broadcom.com,sang-engineering.com,mailbox.org,renesas.com,vger.kernel.org,lists.infradead.org];
+	RCVD_COUNT_THREE(0.00)[4];
+	FREEMAIL_TO(0.00)[google.com,kernel.org,ti.com,gmail.com,bootlin.com,mediatek.com,bp.renesas.com,cadence.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[cristian.marussi@arm.com,linux-renesas-soc@vger.kernel.org];
-	DKIM_TRACE(0.00)[arm.com:+];
-	NEURAL_HAM(-0.00)[-1.000];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
+	RCPT_COUNT_TWELVE(0.00)[20];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_FROM(0.00)[163.com];
+	TAGGED_FROM(0.00)[bounces-32736-lists,linux-renesas-soc=lfdr.de];
+	FREEMAIL_CC(0.00)[kernel.org,ti.com,vger.kernel.org,lists.infradead.org,tuxon.dev,163.com];
 	TO_DN_SOME(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,arm.com:email,arm.com:dkim]
+	TAGGED_RCPT(0.00)[linux-renesas-soc];
+	NEURAL_HAM(-0.00)[-1.000];
+	FROM_NEQ_ENVFROM(0.00)[18255117159@163.com,linux-renesas-soc@vger.kernel.org];
+	PRECEDENCE_BULK(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	DKIM_TRACE(0.00)[163.com:+];
+	FROM_HAS_DN(0.00)[]
 X-Rspamd-Action: no action
 
-On Fri, May 15, 2026 at 05:39:45PM +0200, Geert Uytterhoeven wrote:
-> Hi Christian,
-> 
-> On Wed, 22 Apr 2026 at 20:45, Cristian Marussi <cristian.marussi@arm.com> wrote:
-> > On Tue, Apr 21, 2026 at 08:11:38PM +0200, Geert Uytterhoeven wrote:
-> > > Currently non-SCMI drivers cannot find out what the specific versions of
-> > > each SCMI provider implementation on the running system are.
-> >
-> > Thanks for your patches....this is not a proper full review of the series,
-> > BUT this patch catched my eye..
-> >
-> > Indeed, yes, it is deliberate that the SCMI version information is NOT
-> > exposed out of the SCMI world, since being the SCMI an attempt to
-> > standardize a common FW interface (as in [1] of course), you should not
-> > know what runs inside the black-box, it should be irrelevant...
-> >
-> > ...indeed the versioning is used inside the SCMI stack to deal properly
-> > with different protocol versions implemented by the server OR to apply
-> > proper quirks when needed, but all the rest should be standard....
-> 
-> [...]
-> 
-> > I watched a bit of the LPC discussions around this (from Marek I think)
-> > but sincerely most of those problems had one (not necessarily simple)
-> > solution: fix your firmwares AND/OR apply quirks in the meantime...
-> 
-> So let's forward to the future, where the firmware is fixed, is fully
-> compliant with the SCMI spec, and all IDs are stable, so no quirks are
-> needed.
-> 
-> Where do we specify the SCMI IDs to use?  Unless when using the
-> remapping driver proposed in this patch series, they must end up in the
-> DTB.  Existing upstream users put them either in the SoC-specific .dtsi,
-> or in board-specific .dts.
-> 
-> The SCMI server is supposed to expose to an agent (e.g. Linux) a
-> sequential and contiguous list of IDs that represent only resources that
-> the agent is allowed to use.
->   - We cannot put the SCMI IDs in the SoC-specific .dtsi, as that
->     describes all hardware in the SoC, which is typically much more than
->     Linux can or even wants to use when running on a specific board.
->   - You would think we could put the SCMI IDs in the board-specific
->     .dts.  However, that would limit actual use cases later, which do
->     not necessarily depend on the board solely.
->       - E.g. when moving control of the CAN-FD controller from Linux to
->         the Realtime OS, the CAN-FD node must be disabled in the DTB (by
->         overriding status to "reserved", or by just deleting the CAN-FD
->         node, both of which can be done by the boot loader). However,
->         with SCMI, the IDs corresponding to CAN-FD resources must be
->         removed from the ID space, causing a full renumbering. Who is
->         supposed to update the IDs in the DTB?
+PCIe r6.0, sec 6.6.1 (Conventional Reset) requires that for a Downstream
+Port supporting Link speeds greater than 5.0 GT/s, software must wait a
+minimum of 100 ms after Link training completes before sending any
+Configuration Request.
 
-As per my previous email, after such a breaking change I would expect a
-new DTB describing the new HW to be needed anyway.
+Several PCIe host controller drivers currently omit this 100 ms delay
+when the negotiated link speed is Gen3 (8 GT/s) or higher. Only the DWC
+driver already implements it. The missing delay can lead to violations
+of the PCIe specification and cause enumeration failures with high-speed
+devices (e.g., NVIDIA RTX5070 GPU, PCIe 5.0 NVMe SSDs).
 
->       - E.g. when partitioning a single Linux system in multiple VMs,
->         and distributing hardware across these VMs, all VMs need
->         different DTBs, each describing a subset of the hardware.  With
->         SCMI, each VM needs different SCMI ID spaces, causing not a
->         simple partitioning of the devices in the DTB, but also a
->         renumbering of all IDs.
+To fix this consistently and avoid code duplication, this series:
 
-Ok now I am lost..why do you need a distinct IDs space for each VM ?
+  1. Adds a static inline helper `pci_host_common_link_train_delay()`
+     in `drivers/pci/controller/pci-host-common.h`. The helper checks
+     the given max_link_speed and calls msleep(100) if speed > 5 GT/s.
 
-In a virtualized env, I would expect to leverage the SCMI stack to
-realize the exact opposite: same set of IDs advertised to each VM (and
-so same DTB potentially) by the server which in turn can decide to
-assign the same device (and handle the sharing) to some ID or assign
-different devices to the same or different IDs on each VM: i.e. you
-have a set of virtual_IDs that is what the server exposes to each VM
-SCMI agent, and then a bunch of real physical IDs, without any contraint
-on their numbering, that the server uses in the backstage to refer to
-the real resources and that it properly remaps to each per-VM set of
-exposed virtual_IDs during the build and/or boot board configuration
-phase....i.e. when the FW adapts and reconfigures to the specific
-board that is finally running on.
+  2. Converts the DWC driver to use this helper.
 
-Thanks,
-Cristian
+  3. Adds the missing 100 ms delay to the Cadence PCIe controller
+     (both LGA and HPA IPs). A `max_link_speed` field is introduced
+     in `struct cdns_pcie`. The j721e glue driver sets this field;
+     other LGA glue drivers fall back to reading DT property
+     "max-link-speed". HPA also reads the DT property.
+
+  4. Adds the delay to the Aardvark and MediaTek Gen3 host drivers,
+     and replaces the existing unconditional delay in the Renesas
+     RZ/G3S driver with the conditional helper (per spec).
+
+All changes are placed immediately after link training completes and
+before any Configuration Request would be issued.
+
+---
+Our company's product is based on the HPA IP from Cadence. When connecting
+to different devices, we encountered issues with the enumeration failure
+when connecting to the NVIDIA RTX5070 GPU and the NVMe SSD with PCIe 5.0
+interface. Our code is based on: 80dc18a0cba8d ("PCI: dwc: Ensure that
+dw_pcie_wait_for_link() waits 100 ms after link up").
+---
+Changes since v4:
+- Resolve the pointer reference error in patch 0002. (sashiko)
+
+Changes since v3:
+- Renamed helper from pcie_wait_after_link_train() to
+  pci_host_common_link_train_delay() and moved to pci-host-common.h. (Mani)
+- Reorganized Cadence patches: LGA + j721e glue in one patch, HPA separate.
+- Added missing DT property reading for HPA and LGA fallback.
+- Replace the existing msleep(100) call with the common helper
+  pci_host_common_link_train_delay(). (Claudiu)
+
+Changes since v2:
+- Renamed helper from pcie_wait_after_link_train() to
+  pci_host_common_link_train_delay() and moved to pci-host-common.h. (Mani)
+- Reorganized Cadence patches: LGA + j721e glue in one patch, HPA separate.
+- Added missing DT property reading for HPA and LGA fallback.
+- Replace the existing msleep(100) call with the common helper
+  pci_host_common_link_train_delay(). (Claudiu)
+
+Changes since v1:
+- Add pcie_wait_after_link_train() helper
+- Reduce repetitive code comments and have each Root Port driver use the
+  helper function instead.
+- Increase the delay to 100ms after enabling the link-up that distinguishes
+  between Cadence LGA and HPA IPs.
+- Add the Aardvark, MediaTek Gen3, and Renesas RZ/G3S Root Port driver. When
+  the speed is greater than GEN2, a delay of 100ms should be applied.
+
+v3:
+https://patchwork.kernel.org/project/linux-pci/patch/20260511055923.37117-1-18255117159@163.com/
+
+v2:
+https://patchwork.kernel.org/project/linux-pci/cover/20260506152346.166056-1-18255117159@163.com/
+
+v1:
+https://patchwork.kernel.org/project/linux-pci/patch/20260501153553.66382-1-18255117159@163.com/
+---
+
+Hans Zhang (7):
+  PCI: Add pci_host_common_link_train_delay() helper
+  PCI: cadence: Add post-link delay for LGA and j721e glue driver
+  PCI: cadence: HPA: Add post-link delay
+  PCI: dwc: Use common pci_host_common_link_train_delay() helper
+  PCI: aardvark: Add 100 ms delay after link training
+  PCI: mediatek-gen3: Add 100 ms delay after link up
+  PCI: rzg3s-host: Use common pci_host_common_link_train_delay() helper
+
+ drivers/pci/controller/cadence/pci-j721e.c      |  1 +
+ .../cadence/pcie-cadence-host-common.c          |  4 ++++
+ .../controller/cadence/pcie-cadence-host-hpa.c  |  8 ++++++++
+ .../pci/controller/cadence/pcie-cadence-host.c  |  4 ++++
+ drivers/pci/controller/cadence/pcie-cadence.h   |  2 ++
+ drivers/pci/controller/dwc/pcie-designware.c    |  9 ++-------
+ drivers/pci/controller/pci-aardvark.c           |  5 ++++-
+ drivers/pci/controller/pci-host-common.h        | 17 +++++++++++++++++
+ drivers/pci/controller/pcie-mediatek-gen3.c     |  3 +++
+ drivers/pci/controller/pcie-rzg3s-host.c        |  3 ++-
+ 10 files changed, 47 insertions(+), 9 deletions(-)
+
+
+base-commit: 50897c955902c93ae71c38698abb910525ebdc89
+-- 
+2.43.0
+
 
