@@ -1,50 +1,50 @@
-Return-Path: <linux-renesas-soc+bounces-32742-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-32743-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id MGYEHyJ5Cmqe1wQAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-32742-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 18 May 2026 04:27:46 +0200
+	id OMwfEz55Cmqe1wQAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-32743-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 18 May 2026 04:28:14 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3689565107
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 18 May 2026 04:27:45 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id BEB3C56511D
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 18 May 2026 04:28:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 367AD3010530
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 18 May 2026 02:27:34 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 1BD0530082BC
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 18 May 2026 02:28:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7F248376473;
-	Mon, 18 May 2026 02:27:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 02884376465;
+	Mon, 18 May 2026 02:28:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="kBTQhQCI"
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="RmLFt8cf"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.5])
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7B56363C73;
-	Mon, 18 May 2026 02:27:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87148376473;
+	Mon, 18 May 2026 02:28:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779071251; cv=none; b=FmiR4CZrboJHdohk+u0CHZXcv4SUWrjprzyZ1+cZc9eqsyNTXON/eE2B8rjtBeVy2CrRx3JdleaK+vf9AIHlyNAWX9nYhDcp6exwdk9az5T4yOCbI0MQOmrYkx8sufOsay7UJ45tJ72J829NM2ePSB5L9mKqT8AOkJT98Dvyw6A=
+	t=1779071289; cv=none; b=Zf42e7sKsAYiOg3OFrQ15qDf2UAQGz5tvitZpp7MgBrMOXlSJEynYOYIZ0jR46OnYOc7ETI3baJMs8toQGmIkns+9zHuzr2klcShE45HjeoeivWFsqJF8owdMQ2CgBLBvePbqiWHmFT08VA6+Yh3jzkRtARe1caUliTAWDmuioo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779071251; c=relaxed/simple;
-	bh=IVbMXQqM2Bn7sOEUeEQORms1jBrbEI3760tzh9Ck+BQ=;
+	s=arc-20240116; t=1779071289; c=relaxed/simple;
+	bh=fxhyvREpEendYiAmr/+gqwEF8rYjHgmyjVUx6ftyuVk=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=p2KJue7k8x8zHljMerhbIRBz4oD8jK6M5tJjNsUx+HK8DTErf9wGkKqakNHylfylYNydadgxxIDNjlPSm1sCimOs/Hxbtc+QsABX7u6Wv3jle1LJbnbBaqsVYwhqEBngmfGnvF5etwu5qN0W79x/6H+Z+XqcdeTcbRiPEnzqz7E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=kBTQhQCI; arc=none smtp.client-ip=220.197.31.5
+	 In-Reply-To:Content-Type; b=b803GaY9QzN5HIpy2zumvVVuZcEWkJ8Edkqa1X0H6GxR20+GB4UQLSNr1FgVHIvxWWTymHHP7+UnZS0h5yyr5jHSrMjw35XtuZqgXf6pNAs03F90X9FI9YvPRrC9ePy3Sp+iLbEC9nENoPkcPehCCDvgeD5K2OWJIFx45QR/z1c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=RmLFt8cf; arc=none smtp.client-ip=117.135.210.5
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
 	s=s110527; h=Message-ID:Date:MIME-Version:Subject:To:From:
-	Content-Type; bh=EYVk2L7I2QIK8AhvMjLLHdrrsojKjMfLBqXUy02+ir4=;
-	b=kBTQhQCIoq8v86RJMFxAhrpvkm4JDnb3AdG8EsT7oF0PyLaGrwAF2BLwa7YO99
-	HsOqXJKyKQblBNa0w3yzb+/OgSnhOs5ioTb0ADm4ljh/6Q21SptZJTZF+/Ky15EU
-	MRdgwcr7v/UIBdynGlWp7NsfZ1Kibo1fN4UQ0BEq20aBo=
+	Content-Type; bh=bzMPsyU3cTQF48tb6lC6yXy72kh3ESylZnKuLeinuiQ=;
+	b=RmLFt8cfKGwpfgTZYDiTvbYUOu6ZQaY0k0+ZZJ0RwUI/+VM8Nndkswo/vJNqq0
+	4mmIe2dslN1Xiyg/u8q2n/rnwoz86j3ypEyKmz9YXPBw+DHIHr76SerhZPBT33aS
+	+uZhuPfSt3rYtf/rb4IIivahFUAOiDo9ed4rxDhTMqz4A=
 Received: from [192.168.50.71] (unknown [])
-	by gzga-smtp-mtada-g1-2 (Coremail) with SMTP id _____wCnwlLPeApq_iX2Bw--.49104S2;
-	Mon, 18 May 2026 10:26:24 +0800 (CST)
-Message-ID: <c909a890-65cb-444f-9b4f-9482d2f71c6d@163.com>
-Date: Mon, 18 May 2026 10:26:23 +0800
+	by gzga-smtp-mtada-g1-1 (Coremail) with SMTP id _____wD35jX_eApqje7VBw--.34067S2;
+	Mon, 18 May 2026 10:27:12 +0800 (CST)
+Message-ID: <f7ca2fde-9f20-4a12-ae75-58ec3fda124a@163.com>
+Date: Mon, 18 May 2026 10:27:11 +0800
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -52,8 +52,7 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 2/7] PCI: cadence: Add post-link delay for LGA and
- j721e glue driver
+Subject: Re: [PATCH v4 3/7] PCI: cadence: HPA: Add post-link delay
 To: Manikandan Karunakaran Pillai <mpillai@cadence.com>,
  "bhelgaas@google.com" <bhelgaas@google.com>,
  "lpieralisi@kernel.org" <lpieralisi@kernel.org>,
@@ -74,25 +73,25 @@ Cc: "robh@kernel.org" <robh@kernel.org>,
  "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
  "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
 References: <20260518004246.1384532-1-18255117159@163.com>
- <20260518004246.1384532-3-18255117159@163.com>
- <DM6PR07MB67169B65E6B826E24A8E64AEA2032@DM6PR07MB6716.namprd07.prod.outlook.com>
+ <20260518004246.1384532-4-18255117159@163.com>
+ <DM6PR07MB671635EE7FF28BD2FA5DDE36A2032@DM6PR07MB6716.namprd07.prod.outlook.com>
 Content-Language: en-US
 From: Hans Zhang <18255117159@163.com>
-In-Reply-To: <DM6PR07MB67169B65E6B826E24A8E64AEA2032@DM6PR07MB6716.namprd07.prod.outlook.com>
+In-Reply-To: <DM6PR07MB671635EE7FF28BD2FA5DDE36A2032@DM6PR07MB6716.namprd07.prod.outlook.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-CM-TRANSID:_____wCnwlLPeApq_iX2Bw--.49104S2
-X-Coremail-Antispam: 1Uf129KBjvJXoWxKr1DuryxGFW5Jw1fGFyUWrg_yoW7XFyxpa
-	yUGFWfG3WxXFWY9an7Z3W5XFyaqFn0k3srGws293Wxur17Cr9xJF42gF1fXFZxKrWqyr12
-	vF1DtF9Fgr1ayFUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07U4UDXUUUUU=
-X-CM-SenderInfo: rpryjkyvrrlimvzbiqqrwthudrp/xtbCwxBvE2oKeNARAAAA32
-X-Rspamd-Queue-Id: F3689565107
+X-CM-TRANSID:_____wD35jX_eApqje7VBw--.34067S2
+X-Coremail-Antispam: 1Uf129KBjvJXoWxCFyxXr4fCry7GFWDCF1fXrb_yoW5XFyxpa
+	4DWFWfGF18Xr45uan7Z3W5XFyavFn8A347t39a93W8XrnrCrsrtF9FgF1fuasxKFWqyr1x
+	JF17tFsrWF1avF7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07U2ZXOUUUUU=
+X-CM-SenderInfo: rpryjkyvrrlimvzbiqqrwthudrp/xtbC7AB7H2oKeQDB1gAA3G
+X-Rspamd-Queue-Id: BEB3C56511D
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[163.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	R_DKIM_ALLOW(-0.20)[163.com:s=s110527];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
@@ -100,7 +99,7 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	RCVD_TLS_LAST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
 	TO_DN_EQ_ADDR_SOME(0.00)[];
-	TAGGED_FROM(0.00)[bounces-32742-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-32743-lists,linux-renesas-soc=lfdr.de];
 	FREEMAIL_FROM(0.00)[163.com];
 	FREEMAIL_TO(0.00)[cadence.com,google.com,kernel.org,ti.com,gmail.com,bootlin.com,mediatek.com,bp.renesas.com];
 	RCPT_COUNT_TWELVE(0.00)[19];
@@ -112,144 +111,93 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	FROM_NEQ_ENVFROM(0.00)[18255117159@163.com,linux-renesas-soc@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
 	DKIM_TRACE(0.00)[163.com:+];
-	NEURAL_HAM(-0.00)[-0.999];
+	NEURAL_HAM(-0.00)[-1.000];
 	TAGGED_RCPT(0.00)[linux-renesas-soc];
 	MID_RHS_MATCH_FROM(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
 X-Rspamd-Action: no action
 
 
 
-On 5/18/26 10:12, Manikandan Karunakaran Pillai wrote:
+On 5/18/26 10:16, Manikandan Karunakaran Pillai wrote:
 > 
 > 
 >> EXTERNAL MAIL
 >>
 >>
->> The Cadence LGA (Legacy Architecture IP) PCIe host controller currently
->> lacks the mandatory 100 ms delay after link training completes for speeds
->>> 5.0 GT/s, as required by PCIe r6.0 sec 6.6.1.
+>> The Cadence HPA (High Performance Architecture IP) specific link setup
+>> function cdns_pcie_hpa_host_link_setup() waits for the link to come up
+>> but does not implement the required 100 ms delay after link training
+>> completes for speeds > 5.0 GT/s (PCIe r6.0 sec 6.6.1).
 >>
->> Add a 'max_link_speed' field to struct cdns_pcie. In the common host
->> layer function cdns_pcie_host_start_link(), after the link has been
->> successfully established, call pci_host_common_link_train_delay() to
->> insert the required delay.
+>> Add a call to pci_host_common_link_train_delay() immediately after the
+>> link is confirmed to be up, using the max_link_speed field. Also, in the
+>> HPA host setup function, read the device tree property "max-link-speed"
+>> to initialize max_link_speed if not already set by a glue driver.
 >>
->> For the j721e glue driver, set cdns_pcie.max_link_speed from the existing
->> link speed logic. For other LGA-based glue drivers (sky1, sg2042), the
->> common LGA host setup (pcie-cadence-host.c) provides a fallback reading
->> of the device tree property "max-link-speed" when available. This ensures
->> that the delay is not missed on those platforms once they enable the
->> property.
+>> This ensures compliance for HPA-based platforms.
 >>
 >> Signed-off-by: Hans Zhang <18255117159@163.com>
 >> ---
->> drivers/pci/controller/cadence/pci-j721e.c                | 1 +
->> drivers/pci/controller/cadence/pcie-cadence-host-common.c | 4 ++++
->> drivers/pci/controller/cadence/pcie-cadence-host.c        | 4 ++++
->> drivers/pci/controller/cadence/pcie-cadence.h             | 2 ++
->> 4 files changed, 11 insertions(+)
+>> drivers/pci/controller/cadence/pcie-cadence-host-hpa.c | 8 ++++++++
+>> 1 file changed, 8 insertions(+)
 >>
->> diff --git a/drivers/pci/controller/cadence/pci-j721e.c
->> b/drivers/pci/controller/cadence/pci-j721e.c
->> index bfdfe98d5aba..ae916e7b1927 100644
->> --- a/drivers/pci/controller/cadence/pci-j721e.c
->> +++ b/drivers/pci/controller/cadence/pci-j721e.c
->> @@ -206,6 +206,7 @@ static int j721e_pcie_set_link_speed(struct j721e_pcie
->> *pcie,
->> 	    (pcie_get_link_speed(link_speed) == PCI_SPEED_UNKNOWN))
->> 		link_speed = 2;
->>
->> +	pcie->cdns_pcie->max_link_speed = link_speed;
->> 	val = link_speed - 1;
->> 	ret = regmap_update_bits(syscon, offset, GENERATION_SEL_MASK,
->> val);
->> 	if (ret)
->> diff --git a/drivers/pci/controller/cadence/pcie-cadence-host-common.c
->> b/drivers/pci/controller/cadence/pcie-cadence-host-common.c
->> index 2b0211870f02..18e4b6c760b5 100644
->> --- a/drivers/pci/controller/cadence/pcie-cadence-host-common.c
->> +++ b/drivers/pci/controller/cadence/pcie-cadence-host-common.c
->> @@ -14,6 +14,7 @@
+>> diff --git a/drivers/pci/controller/cadence/pcie-cadence-host-hpa.c
+>> b/drivers/pci/controller/cadence/pcie-cadence-host-hpa.c
+>> index 0f540bed58e8..8ef58ed01daa 100644
+>> --- a/drivers/pci/controller/cadence/pcie-cadence-host-hpa.c
+>> +++ b/drivers/pci/controller/cadence/pcie-cadence-host-hpa.c
+>> @@ -15,6 +15,8 @@
 >>
 >> #include "pcie-cadence.h"
 >> #include "pcie-cadence-host-common.h"
 >> +#include "../pci-host-common.h"
->>
->> #define LINK_RETRAIN_TIMEOUT HZ
->>
->> @@ -115,6 +116,9 @@ int cdns_pcie_host_start_link(struct cdns_pcie_rc *rc,
->> 	if (!ret && rc->quirk_retrain_flag)
->> 		ret = cdns_pcie_retrain(pcie, pcie_link_up);
->>
->> +	if (!ret)
->> +		pci_host_common_link_train_delay(pcie->max_link_speed);
->> +
->> 	return ret;
->> }
->> EXPORT_SYMBOL_GPL(cdns_pcie_host_start_link);
->> diff --git a/drivers/pci/controller/cadence/pcie-cadence-host.c
->> b/drivers/pci/controller/cadence/pcie-cadence-host.c
->> index 0bc9e6e90e0e..058e4e619654 100644
->> --- a/drivers/pci/controller/cadence/pcie-cadence-host.c
->> +++ b/drivers/pci/controller/cadence/pcie-cadence-host.c
->> @@ -13,6 +13,7 @@
->>
->> #include "pcie-cadence.h"
->> #include "pcie-cadence-host-common.h"
 >> +#include "../../pci.h"
 >>
 >> static u8 bar_aperture_mask[] = {
->> 	[RP_BAR0] = 0x1F,
->> @@ -397,6 +398,9 @@ int cdns_pcie_host_setup(struct cdns_pcie_rc *rc)
->> 	rc->device_id = 0xffff;
->> 	of_property_read_u32(np, "device-id", &rc->device_id);
+>> 	[RP_BAR0] = 0x3F,
+>> @@ -304,6 +306,8 @@ int cdns_pcie_hpa_host_link_setup(struct cdns_pcie_rc
+>> *rc)
+>> 	ret = cdns_pcie_host_wait_for_link(pcie, cdns_pcie_hpa_link_up);
+>> 	if (ret)
+>> 		dev_dbg(dev, "PCIe link never came up\n");
+>> +	else
+>> +		pci_host_common_link_train_delay(pcie->max_link_speed);
+>>
+>> 	return ret;
+>> }
+>> @@ -313,6 +317,7 @@ int cdns_pcie_hpa_host_setup(struct cdns_pcie_rc *rc)
+>> {
+>> 	struct device *dev = rc->pcie.dev;
+>> 	struct platform_device *pdev = to_platform_device(dev);
+>> +	struct device_node *np = dev->of_node;
+>> 	struct pci_host_bridge *bridge;
+>> 	enum   cdns_pcie_rp_bar bar;
+>> 	struct cdns_pcie *pcie;
+>> @@ -343,6 +348,9 @@ int cdns_pcie_hpa_host_setup(struct cdns_pcie_rc *rc)
+>> 		rc->cfg_res = res;
+>> 	}
 >>
 >> +	if (pcie->max_link_speed < 1)
 >> +		pcie->max_link_speed = of_pci_get_max_link_speed(np);
 >> +
-> Why is the conditional if required here as during cdns_pcie_host_setup(), the value of
-> max_link_speed is expected to be '0', unless specifically initialized by the platform code separately.
 > 
-> What happens if the max_link_speed is not defined in the corresponding dts ? Would not the -EINVAL returned from the function create issues ?
+> Similar queries as for Cadence LGA controllers. Why do you need the max_link_speed check for "<1" and
+> What would be the consequences of not defining the max-link-speed in dts ?
 
 Hi Manikandan,
 
-Please see:
-
-https://github.com/torvalds/linux/blob/v7.1-rc4/drivers/pci/controller/dwc/pcie-designware.c#L191
-
+It has been replied in patch 0002.
 
 Best regards,
 Hans
 
 > 
->> 	pcie->reg_base = devm_platform_ioremap_resource_byname(pdev,
->> "reg");
->> 	if (IS_ERR(pcie->reg_base)) {
->> 		dev_err(dev, "missing \"reg\"\n");
->> diff --git a/drivers/pci/controller/cadence/pcie-cadence.h
->> b/drivers/pci/controller/cadence/pcie-cadence.h
->> index 574e9cf4d003..042a4c49bb9a 100644
->> --- a/drivers/pci/controller/cadence/pcie-cadence.h
->> +++ b/drivers/pci/controller/cadence/pcie-cadence.h
->> @@ -86,6 +86,7 @@ struct cdns_plat_pcie_of_data {
->>   * @ops: Platform-specific ops to control various inputs from Cadence PCIe
->>   *       wrapper
->>   * @cdns_pcie_reg_offsets: Register bank offsets for different SoC
->> + * @max_link_speed: Maximum supported link speed
->>   */
->> struct cdns_pcie {
->> 	void __iomem		             *reg_base;
->> @@ -98,6 +99,7 @@ struct cdns_pcie {
->> 	struct device_link	             **link;
->> 	const  struct cdns_pcie_ops          *ops;
->> 	const  struct cdns_plat_pcie_of_data *cdns_pcie_reg_offsets;
->> +	int				     max_link_speed;
->> };
+>> 	/* Put EROM Bar aperture to 0 */
+>> 	cdns_pcie_hpa_writel(pcie, REG_BANK_IP_CFG_CTRL_REG,
+>> CDNS_PCIE_EROM, 0x0);
 >>
->> /**
 >> --
 >> 2.43.0
 
