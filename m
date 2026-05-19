@@ -1,210 +1,184 @@
-Return-Path: <linux-renesas-soc+bounces-32820-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-32816-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id GMGTJIh2DGqihwUAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-32820-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 May 2026 16:41:12 +0200
+	id KBWXA1FyDGpKhgUAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-32816-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 May 2026 16:23:13 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id DED61580B33
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 May 2026 16:41:11 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E3C358074A
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 May 2026 16:23:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 1F7023037E4A
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 May 2026 14:36:06 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 11C52304A8D5
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 May 2026 14:15:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D812F348C7D;
-	Tue, 19 May 2026 14:36:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8E39C4028EA;
+	Tue, 19 May 2026 14:15:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b="Mscudf2z"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QrfR1H4+"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from www537.your-server.de (www537.your-server.de [188.40.3.216])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1E4B19B5B1;
-	Tue, 19 May 2026 14:36:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=188.40.3.216
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EC123BB48
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 19 May 2026 14:15:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779201364; cv=none; b=QkEBdkiBX93N39jtKH1gG5i9AKAcx+HT04uK9km+XYQr30sew8I23VFOeJFfw5onFGgypluO78UQnFI1+25OvobQ1oWABQKQVh0FQQZ9mzgUslztdA9LMsErK08woZ/Sf1Ai2ZvjvPGS47j+FLCSH7RXWOUCuqHMc/+b3qb1s4c=
+	t=1779200125; cv=none; b=rKnx76asZvU2fgQC01eykrxtUX5hDUWlSuMEx55eOfMC4wr6HbYA7NezSyKccuxPXk2xYAUKIeHxPmekoFL+BLv0rzZCOqb9Lsxy6zGSAzhC6iy6CKcvJNi0Ocwuo9PigKdlB3oBjiWqGKfUGdI2CPHLt3kCC0RU1altye6Ar1k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779201364; c=relaxed/simple;
-	bh=q1TNuvcCaUQ6Gc9kwjiRMGXAIYJFY3rB9DDo+YuZLjY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=WgyyqPmPSS8eqds3rzpBxrvOrrh5hltfiUzt6U9Kx6MGSVZrZUcImS7F82FwCTU7U4ZKiRvgPegU4kxfmPWzL3zvMrBv+ABGHWtyOtuO11tXxIyykQCUrEyaVrD6sa6hP/EvYXedJeZA4sEq2HtkFRfgHoW24Pu8OG9nPHCq/gA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ew.tq-group.com; spf=pass smtp.mailfrom=ew.tq-group.com; dkim=pass (2048-bit key) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b=Mscudf2z; arc=none smtp.client-ip=188.40.3.216
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ew.tq-group.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ew.tq-group.com
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=ew.tq-group.com; s=default2602; h=Content-Type:MIME-Version:References:
-	In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID;
-	bh=vo1Wkn9Q9Yi+rEuSZAgffOMU0CLdX5BnjN/6P4181c0=; b=Mscudf2zUIY6UO0zgo3eOvO19h
-	Wdd4SvcqM02kuxZoTzYuBPIhGGwDfomKgXtrRWboagLKtkdUQiALDKky1bwRkJ0dna2q36IdaZ5z1
-	LZtH4KicmiUrwllBHM2A4IpTJu6VYYWXYHH3IYzJIT8YtF248ekMzW9FZazpngRTH1+lklM2Mh+7n
-	ZH6u7BLCbMP4fnOiRa4GMBLqdSBj+qf9EbFJ6ObMSpzotKA5RPthCfrA+zUMd5NChniqzeS0FzVGo
-	lEOjCC99Jbua7qsMWinmvsBYBV9Jv1kGl0sjaV7+ImENJAeqO8kxYzh6dh+kHEthL86ti58EH+VFh
-	8961wucA==;
-Received: from sslproxy08.your-server.de ([78.47.166.52])
-	by www537.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.96.2)
-	(envelope-from <alexander.stein@ew.tq-group.com>)
-	id 1wPLA3-0000Px-10;
-	Tue, 19 May 2026 16:11:07 +0200
-Received: from localhost ([127.0.0.1])
-	by sslproxy08.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <alexander.stein@ew.tq-group.com>)
-	id 1wPLA2-000A6s-09;
-	Tue, 19 May 2026 16:11:06 +0200
-From: Alexander Stein <alexander.stein@ew.tq-group.com>
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Frank Li <Frank.Li@nxp.com>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Magnus Damm <magnus.damm@gmail.com>, Shawn Guo <shawnguo@kernel.org>,
- Paul Gerber <paul.gerber@tq-group.com>, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, imx@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux@ew.tq-group.com,
- linux-renesas-soc@vger.kernel.org
-Subject:
- Re: [PATCH 2/2] arm64: dts: freescale: add initial device tree for TQMa8MPQS
- with i.MX8MP
-Date: Tue, 19 May 2026 16:11:05 +0200
-Message-ID: <5102480.31r3eYUQgx@steina-w>
-Organization: TQ-Systems GmbH
-In-Reply-To: <710ae855-0f44-4b2d-8afe-415b30afd37e@lunn.ch>
-References:
- <20260505063346.1799500-1-alexander.stein@ew.tq-group.com>
- <20260505063346.1799500-2-alexander.stein@ew.tq-group.com>
- <710ae855-0f44-4b2d-8afe-415b30afd37e@lunn.ch>
+	s=arc-20240116; t=1779200125; c=relaxed/simple;
+	bh=PGSkh6LvZVlA0BnCf3uh1OaxJ8WJjnqLWqIGmm6MjzE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=UTWmVQyAhx5ckm9YwdjPrccAZtOTReOykH3+ra3HUkXWRr5xTMqh1irGVp0zQXFTwo6xrGTw6g70n0wDWRzLy15HPnV5XTywRH4sNMr9LebhkLMtDHf4rwAaCF6FWmCs/EqlHok+5ys8nuQQ4Gom6MNXIeJF5oZgHt+Z5CvCtnY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QrfR1H4+; arc=none smtp.client-ip=209.85.128.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-48896199cbaso29306335e9.1
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 19 May 2026 07:15:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1779200122; x=1779804922; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=4RxATEsy8GcAphXScChSyablU/KR+6BWc5WdwPA2R0s=;
+        b=QrfR1H4+9a3Tn9cvEnq34YdhPrtkCLm5OaKXFab7+ADitJ3DgcEzSMB1TkMEC4kfta
+         NbzPrvLKfGwUeAU0uHi9QeKPuGmFuzLOYINE0LRLoRhA+2THDf/s1VN3QzoMtYW+/Bg+
+         /K72sZPjYOR7WfW5D3l64aTdiUIHSQyIpOBp7NXaw2WWc1Xk7sufuN+xkAPE4HtuqdNf
+         wWk0TecS/BmDTQM59zHPYezOxlWZ9exraAybNQCp38tH8GTvWlbE2/Kujz45HPVNK9yz
+         U2+A6wwWhCWY+tkmGJ+sTvA2AIrSMPgeg2IN+z5HzFPFP8RxNvLa+7wsIHxRGokeQ2eV
+         NO4w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779200122; x=1779804922;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=4RxATEsy8GcAphXScChSyablU/KR+6BWc5WdwPA2R0s=;
+        b=FcOYqR9zjwUlcpGU0Q1hSFw/ofmYH671sH+VQWqsofHCmLhfwsHzDB9XMdhYYFn8OQ
+         IOc7NiU5xYIs4Da6tFIJeFCu40Hl3GRdfKmov7gUM4EKctp282n6wdtxCtsZRivyTT/Q
+         OLxo+lw8OqauYMoOEheZVSHLIxK3MGFDiCrmhIZhjplx0QPE7SmwGiXY2H4TWgYdCeop
+         SRz+E8T6nJYUe/hsDiU4BgelQRUF8b13OeS51Qt5CxlLKxYB+UB9M4qsVQuteosGZF+F
+         Z3BWFNmswRgbanwl7t6bKpdt2zf3FhSwEiE8CqfQbRTWy/WIhds6c3RoEu2UeKF8/ll9
+         +jKQ==
+X-Forwarded-Encrypted: i=1; AFNElJ+HRu7uOnt9XRjMj59srbcVhBraxd+GyKxtR4INUh1rXhma5M7fEm92rhkEU1Qhf4k7hg8Nj+fVrQSJjDOJP2zJoA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwNxYW2SEBGBqDl9GcxI12D46n7Ga+m4i5VFyrTdd3lgZQCeF4m
+	FOMjoT/Yrmj0iazALKkvF+vN6V0ropwFvEYhQegU3MSpY0sVaahH1zVsQcdx8Q==
+X-Gm-Gg: Acq92OGNsFkejGJlmMU4HDd2ZO0NTGTZn0DHSMIO156c5UevrVIVZ6NJYxqguUGPpgr
+	s9/pkVw+m2pwuTYyVSiCX+zNFDXTQmQZX6EJ1zWFZZRFtS2dszZddeaOtMgMthePrJlXuXeC4bG
+	ADQcAmfHziSrN/op5f7Xpls7TpiWLYKvAaTKcX3xGNYfmxBzgNJWMGyC9+/GLLXs3DPA3hA2chQ
+	gfw6lZ9IDocwhq6NkyB/Wd1Sv6LxOk6nc1XSJCUqk6JZZRyUtlro93mXEzvHW1IQujPlzdKmy7V
+	l4DdDjbtghsVo5pfqeqTQx6zNLGdunsw1tzqbitAbF1Kv0Ys7XEp3B1vG31yeH/voZWeC6bYhhO
+	/4y3leM6QR27aZWXNTSJxtiyKgDp1Czn9GFC/8Mud1d0mk2EBBJtUU2M+hE/aG8FW8yqUJmA5n5
+	JcZRmg6MwcqQGZ1LpFCRgdp32ZuvkneMws1iX+c2BmPmZt12sD
+X-Received: by 2002:a05:600d:b:b0:48e:8741:fd42 with SMTP id 5b1f17b1804b1-48fe60ee64amr233439125e9.12.1779200121457;
+        Tue, 19 May 2026 07:15:21 -0700 (PDT)
+Received: from localhost.localdomain ([2a00:23c4:a700:7301:4abf:a82a:41d5:6663])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48fe4c8344asm557912205e9.1.2026.05.19.07.15.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 19 May 2026 07:15:21 -0700 (PDT)
+From: Biju <biju.das.au@gmail.com>
+X-Google-Original-From: Biju <biju.das.jz@bp.renesas.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>
+Cc: Biju Das <biju.das.jz@bp.renesas.com>,
+	Brian Masney <bmasney@redhat.com>,
+	linux-renesas-soc@vger.kernel.org,
+	linux-clk@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	Biju Das <biju.das.au@gmail.com>
+Subject: [PATCH v3 0/3] clk: renesas: rzg2l: Unify SAM PLL configuration macros
+Date: Tue, 19 May 2026 15:15:12 +0100
+Message-ID: <20260519141518.389670-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="nextPart4736401.LvFx2qVVIh";
- micalg="pgp-sha512"; protocol="application/pgp-signature"
-X-Virus-Scanned: Clear (ClamAV 1.4.3/28005/Tue May 19 08:25:42 2026)
-X-Spamd-Result: default: False [-2.26 / 15.00];
-	SIGNED_PGP(-2.00)[];
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-0.16 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[ew.tq-group.com,quarantine];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[ew.tq-group.com:s=default2602];
-	MIME_GOOD(-0.20)[multipart/signed,text/plain];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-32820-lists,linux-renesas-soc=lfdr.de];
-	RCPT_COUNT_TWELVE(0.00)[18];
-	FREEMAIL_CC(0.00)[kernel.org,nxp.com,pengutronix.de,gmail.com,glider.be,tq-group.com,vger.kernel.org,lists.linux.dev,lists.infradead.org,ew.tq-group.com];
-	RCVD_TLS_LAST(0.00)[];
-	HAS_ORG_HEADER(0.00)[];
-	MIME_TRACE(0.00)[0:+,1:+,2:~];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[alexander.stein@ew.tq-group.com,linux-renesas-soc@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[ew.tq-group.com:+];
-	RCVD_COUNT_FIVE(0.00)[5];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
 	TO_DN_SOME(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,tq-group.com:url]
-X-Rspamd-Queue-Id: DED61580B33
+	FREEMAIL_CC(0.00)[bp.renesas.com,redhat.com,vger.kernel.org,gmail.com];
+	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-32816-lists,linux-renesas-soc=lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[bijudasau@gmail.com,linux-renesas-soc@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
+	RCPT_COUNT_SEVEN(0.00)[10];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,renesas.com:email,bp.renesas.com:mid]
+X-Rspamd-Queue-Id: 5E3C358074A
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
---nextPart4736401.LvFx2qVVIh
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"; protected-headers="v1"
-From: Alexander Stein <alexander.stein@ew.tq-group.com>
-To: Andrew Lunn <andrew@lunn.ch>
-Date: Tue, 19 May 2026 16:11:05 +0200
-Message-ID: <5102480.31r3eYUQgx@steina-w>
-Organization: TQ-Systems GmbH
-In-Reply-To: <710ae855-0f44-4b2d-8afe-415b30afd37e@lunn.ch>
-MIME-Version: 1.0
+From: Biju Das <biju.das.jz@bp.renesas.com>
 
-Am Dienstag, 5. Mai 2026, 17:02:12 CEST schrieb Andrew Lunn:
-> > +/* GBE1 */
-> > +&fec {
-> > +	pinctrl-names =3D "default";
-> > +	pinctrl-0 =3D <&pinctrl_fec>;
-> > +	phy-mode =3D "rgmii-id";
-> > +	phy-handle =3D <&ethphy3>;
-> > +	fsl,magic-packet;
->=20
-> One of my FAQs: Has WoL been tested?
+This series cleans up and unifies the SAM PLL configuration macros across
+the RZ/G2L, RZ/G3S, RZ/G3L, and RZ/V2M CPG drivers.
 
-Well, I can "wake" the system per WoL. But resume stucks after CPUs are up
-=2D-8<--
-PM: suspend entry (deep)
-=46ilesystems sync: 0.000 seconds
-=46reezing user space processes
-=46reezing user space processes completed (elapsed 0.007 seconds)
-OOM killer disabled.
-=46reezing remaining freezable tasks
-=46reezing remaining freezable tasks completed (elapsed 0.001 seconds)
-fec 30be0000.ethernet end1: Link is Down
-PM: suspend devices took 0.040 seconds
-Disabling non-boot CPUs ...
-psci: CPU3 killed (polled 0 ms)
-psci: CPU2 killed (polled 0 ms)
-psci: CPU1 killed (polled 0 ms)
-Enabling non-boot CPUs ...
-Detected VIPT I-cache on CPU1
-GICv3: CPU1: found redistributor 1 region 0:0x00000000388a0000
-CPU1: Booted secondary processor 0x0000000001 [0x410fd034]
-CPU1 is up
-Detected VIPT I-cache on CPU2
-GICv3: CPU2: found redistributor 2 region 0:0x00000000388c0000
-CPU2: Booted secondary processor 0x0000000002 [0x410fd034]
-CPU2 is up
-Detected VIPT I-cache on CPU3
-GICv3: CPU3: found redistributor 3 region 0:0x00000000388e0000
-CPU3: Booted secondary processor 0x0000000003 [0x410fd034]
-CPU3 is up
-=2D-8<--
+Currently, each SoC family defines its own local macro for encoding PLL
+register offsets into a conf field (PLL146_CONF, G3S_PLL146_CONF,
+G3L_PLL1467_CONF, PLL4_CONF), and the driver uses separate decode macros
+(GET_REG_SAMPLL_CLK1, GET_REG_SAMPLL_CLK2, GET_REG_SAMPLL_SETTING) to
+retrieve register offsets at runtime. This leads to duplicated logic and
+implicit coupling between PLL index and register layout.
 
-=46or that reason, I would keep that property nevertheless.
+The series introduces a pair of shared macros, CPG_SAM_PLL_CONF(stby) and
+CPG_PLL_CONF(stby, setting), that encode only the standby offset and
+optional setting field. CLK1/CLK2 register offsets are then derived from
+the standby offset using fixed +0x4/+0x8 deltas via new CPG_PLL_*_OFFSET()
+helpers, removing the need for separate CLK1/CLK2 fields in the conf value.
 
-Best regards,
-Alexander
-=2D-=20
-TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
-Amtsgericht M=FCnchen, HRB 105018
-Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
-http://www.tq-group.com/
---nextPart4736401.LvFx2qVVIh
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part.
-Content-Transfer-Encoding: 7Bit
+Finally, the RZG3L-prefixed STBY/MON macros are renamed to CPG-prefixed
+equivalents to reflect their shared nature across SoC families.
 
------BEGIN PGP SIGNATURE-----
+v2->v3:
+ * Rebased to renesas-clk and fixed patch#2 conflict.
+v1->v2:
+ * Dropped the dependency from the cover letter as the patch hits next.
+ * Collected the tag
+ * Updated commit description for patch#2.
+ * Fixed the macro RZG3L_PLL_STBY_OFFSET by using CPG_PLL_STBY_OFFSET.
+ * Moved CPG_PLL_STBY_{RESETB_WEN,RESETB} near to CPG_PLL_STBY_OFFSET.
+ * Reorderd the above macros
+ * Moved CPG_PLL_MON_{LOCK,RESETB} near to CPG_PLL_MON_OFFSET.
+ * Reorderd the above macros
+ * Dropped a blank line.
 
-iQEzBAABCgAdFiEEByESxqszIvkmWRwbaS+g2M0Z/iUFAmoMb3kACgkQaS+g2M0Z
-/iXlegf+Jah/HxtzA8FMQx4UsXpxX78jUNG5hFcKoA1eMRtaVk+YHJ/ULn/kGr/l
-2RsVe5e9IuzB3VyOqnX1P2U8oEBbMj4plC1VZI8MrU+gDEW989eX0RAJ98y4TW9X
-wbQqMG93B+fUZc15khg9MekjJeu2s4wgm0qsGDjZd799NtEof6vDH5nB5dqekI9I
-yt9RO81MMxpxfpmyC4sPPUiLCoE3LQlmLQ4sG+oP97mjPfKidplrWNUZbuFkQMh4
-3tTsBJETKIuuy+u/rNnDh0n/EiSAd41wpNvQrwCKNGBL1Y5QFJKIkPyRKe1M1OoX
-nzHArj1V/uKHScvzjX7xdQSgFFzsFw==
-=ozu8
------END PGP SIGNATURE-----
+Biju Das (3):
+  clk: renesas: rzg2l: Simplify SAM PLL configuration macro
+  clk: renesas: rzg3s/rzg3l: Simplify PLL configuration macro
+  clk: renesas: rzg2l: Rename RZG3L-prefixed PLL macros to CPG-prefixed
+    ones
 
---nextPart4736401.LvFx2qVVIh--
+ drivers/clk/renesas/r9a07g043-cpg.c |  2 +-
+ drivers/clk/renesas/r9a07g044-cpg.c |  2 +-
+ drivers/clk/renesas/r9a08g045-cpg.c |  5 +---
+ drivers/clk/renesas/r9a08g046-cpg.c |  7 ++---
+ drivers/clk/renesas/r9a09g011-cpg.c |  7 +----
+ drivers/clk/renesas/rzg2l-cpg.c     | 40 ++++++++++++++---------------
+ drivers/clk/renesas/rzg2l-cpg.h     |  7 ++---
+ 7 files changed, 28 insertions(+), 42 deletions(-)
 
-
+-- 
+2.43.0
 
 
