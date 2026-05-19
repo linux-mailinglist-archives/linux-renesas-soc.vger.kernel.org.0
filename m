@@ -1,155 +1,122 @@
-Return-Path: <linux-renesas-soc+bounces-32833-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-32834-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id AO0yOsGXDGphjgUAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-32833-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 May 2026 19:02:57 +0200
+	id eJVzOCafDGq8jwUAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-32834-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 May 2026 19:34:30 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5885A582CA6
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 May 2026 19:02:57 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7633758323A
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 May 2026 19:34:29 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 9B6E5302515A
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 May 2026 17:00:03 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id A2F1D3071871
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 May 2026 17:31:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EE834367B86;
-	Tue, 19 May 2026 17:00:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E46E6409124;
+	Tue, 19 May 2026 17:31:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="XaO/NlCv"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NnJxjRCV"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06336409106;
-	Tue, 19 May 2026 16:59:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.97.179.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1C8440910B;
+	Tue, 19 May 2026 17:31:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779210000; cv=none; b=DsJdru3W8nZZZn/vF/1QO0Y7shFyYqLsS+Z0MjIYI57c/h0VCquvrSYpIq3KP3GIFRDY4znJBQFZDHtNhqp0UCGnSd93BEnn1eq/FEOT5QuxIh2fFdhzYt53HbV2Eh1Q8aQxojEaeHjyh73Xy5LM0L+nBR4yhWdyM93cLILynlY=
+	t=1779211888; cv=none; b=HpGYHOjK/LtVYcpo9vPGfezvl+eyH1U1z3RldLNKQagn09rgJpp/4F0q9FrdAouDQ1vB/7McG22Uc3Q05q3NE5yX++DqRHUU2cfKW7P3+A2WgBNROo8upbKPiN+inTwuMKGgBFvOtUR3WZqtl/uklNAorJOF8tojkjzGc2ge6+Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779210000; c=relaxed/simple;
-	bh=6nqlPL/Z+9cM2PfQjhS+wS9TuQuu4MgYO54FjQBAN+s=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ctVyLa51KBgEayQE1lFVcADdpfdkyMJmwVIvdSPGN8+OPeE5Aj22yGjndyMnp7/6TVN1gfBIu3+ja81YYOTez+RB1taG2y8mGi+kIiRluRh+MS2rijqGSOrIyxMU0nLFAfxxJXpy0jjKsas4ZIUJAJYF87nFeZ29mmgbdyoDxMA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=Igalia.com; spf=pass smtp.mailfrom=Igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=XaO/NlCv; arc=none smtp.client-ip=213.97.179.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=Igalia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=Igalia.com
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-	s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
-	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=Hp7+EIkRbnyy03IIX7pmZkir0cv4vk2JcR+C9KZzo2Q=; b=XaO/NlCv59zOW942ddRcqWltw6
-	Kp9raJ4qx1l76AkXpNrPB3FMtwqtye/6Vg39R2y/ZewG/S06ujHhWp9mTTwedRA3AGVn5ib4x9HNc
-	YMdpYh4HTMRe5cNDIoBMFWA1z+E1ZYtTLG/h6pviiB7HSFcedSA1JyPu8o45lfCiWIy8jkTSp8d3+
-	HrRJL9/iNzOXGyaDJjiIRpmdoKjq9SzvkgyBioHy7VFxnQ3WdVSBAFai7mR5zemH59dlXNUamRb2o
-	Su0PClXWN4TdJum1K1aayDz9ifRzqb1Wx3zEK7NB5ODJNmCQZsAEctzvZihvpEO7fsFaE5dRZnLcW
-	xB8FGZGg==;
-Received: from c-73-157-168-91.hsd1.or.comcast.net ([73.157.168.91] helo=[192.168.1.133])
-	by fanzine2.igalia.com with esmtpsa 
-	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
-	id 1wPNmi-003Hri-6j; Tue, 19 May 2026 18:59:12 +0200
-Message-ID: <8fc45730-b2e3-4ba8-b80a-9b30557e810b@Igalia.com>
-Date: Tue, 19 May 2026 09:59:00 -0700
+	s=arc-20240116; t=1779211888; c=relaxed/simple;
+	bh=wdSAoO+zV4jfBKXi2yopcIIkgL/D8b+nfqxpH/6X7Tg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WNcGmRDgKBosmIeW0ovx+G5Qea5JjAO9ud+dfsQFP3wpBDn7+xEegyisZjAHnbycoazpFcuJnj9PobmZUyPXuNLYwBZ8qvZTXVJ9l3wQOlOJ80wXTPqT4fJxPo1VWJ6Dcg7xiD89RZHKgKD4NKvIPK0eGgL8Rw9Ia1y2cP5Jbfw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NnJxjRCV; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BB7CFC2BCB3;
+	Tue, 19 May 2026 17:31:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1779211888;
+	bh=wdSAoO+zV4jfBKXi2yopcIIkgL/D8b+nfqxpH/6X7Tg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=NnJxjRCVKzlsywR8BuCkhaQI4bGWQI57gFhrln7i+pUj54So+nEkNuSjpYcram3aB
+	 zIq/3il45lff6qZmMiq7RAwj5pgQw71hJP9mFKpBFa2ubMCknGq1z4mieH9EPpFmEI
+	 LbPeB5+g1SuXDxpnTA9PK1GUjLMUQeFEwbpK/9oU0e8i87MTACvyu9Vt5hIhPgICSp
+	 WQJ6C/Y6YVyH9CmMmFqfDMvKSf+ebo14ka4AerSi2pH8RcexfyW5idKV7qU1uMYE3V
+	 WhniqKgVaQLyw60fhxuPqx3zpppbuuHvtMzwstjM7yd+3pcdusOyDLgplxW/yfr3kN
+	 9+Toe2vln/6Zg==
+Date: Tue, 19 May 2026 18:31:24 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc: linux-renesas-soc@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org
+Subject: Re: [PATCH v2 1/2] dt-bindings: soc: renesas: mfis: add R-Car
+ V4H/V4M support
+Message-ID: <20260519-crewless-avenue-a402b90773c8@spud>
+References: <20260519075620.4128-1-wsa+renesas@sang-engineering.com>
+ <20260519075620.4128-2-wsa+renesas@sang-engineering.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 0/8] drm: writeback: clean up writeback connector
- initialization
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- "Kandpal, Suraj" <suraj.kandpal@intel.com>,
- Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
- Rodrigo Siqueira <siqueira@igalia.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Liviu Dudau <liviu.dudau@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rob Clark <robin.clark@oss.qualcomm.com>, Dmitry Baryshkov
- <lumag@kernel.org>, Abhinav Kumar <abhinav.kumar@linux.dev>,
- Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Magnus Damm <magnus.damm@gmail.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
- Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
- Jessica Zhang <jesszhan0024@gmail.com>,
- Louis Chauvet <louis.chauvet@bootlin.com>
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org
-References: <20260505-wb-drop-encoder-v5-0-42567b7c7af2@oss.qualcomm.com>
- <177894506978.2448625.17152574519326512949.b4-ty@b4>
-Content-Language: en-GB
-From: John Harrison <John.Harrison@Igalia.com>
-In-Reply-To: <177894506978.2448625.17152574519326512949.b4-ty@b4>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spamd-Result: default: False [1.14 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	R_DKIM_REJECT(1.00)[igalia.com:s=20170329];
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="eIsJkIsbP/VR6HTZ"
+Content-Disposition: inline
+In-Reply-To: <20260519075620.4128-2-wsa+renesas@sang-engineering.com>
+X-Spamd-Result: default: False [-3.76 / 15.00];
+	SIGNED_PGP(-2.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	MID_RHS_NOT_FQDN(0.50)[];
+	MIME_GOOD(-0.20)[multipart/signed,text/plain];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
-	MIME_GOOD(-0.10)[text/plain];
-	DMARC_POLICY_SOFTFAIL(0.10)[igalia.com : SPF not aligned (relaxed),none];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-32834-lists,linux-renesas-soc=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-32833-lists,linux-renesas-soc=lfdr.de];
-	FREEMAIL_TO(0.00)[oss.qualcomm.com,linux.intel.com,intel.com,amd.com,igalia.com,gmail.com,ffwll.ch,arm.com,kernel.org,suse.de,linux.dev,poorly.run,somainline.org,ideasonboard.com,glider.be,raspberrypi.com,wanadoo.fr,bootlin.com];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
-	RCPT_COUNT_TWELVE(0.00)[36];
-	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_CC(0.00)[vger.kernel.org,glider.be,gmail.com,kernel.org];
+	MIME_TRACE(0.00)[0:+,1:+,2:~];
 	FROM_HAS_DN(0.00)[];
+	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[John.Harrison@Igalia.com,linux-renesas-soc@vger.kernel.org];
+	RCPT_COUNT_SEVEN(0.00)[8];
 	PRECEDENCE_BULK(0.00)[];
-	DKIM_TRACE(0.00)[igalia.com:-];
-	MID_RHS_MATCH_FROM(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[conor@kernel.org,linux-renesas-soc@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,dt];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,gitlab.freedesktop.org:url,Igalia.com:mid]
-X-Rspamd-Queue-Id: 5885A582CA6
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo]
+X-Rspamd-Queue-Id: 7633758323A
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On 5/16/26 08:25, Dmitry Baryshkov wrote:
-> On Tue, 05 May 2026 03:24:57 +0300, Dmitry Baryshkov wrote:
->> Drivers using drm_writeback_connector_init() / _with_encoder() don't
->> perform cleanup in a manner similar to drmm_writeback_connector_init()
->> (see drm_writeback_connector_cleanup()). Migrate all existing drivers
->> to use drmm_writeback_connector_init(), drop
->> drm_writeback_connector_init() and drm_writeback_connector::encoder
->> (it's unused afterwards).
->>
->> [...]
-> Applied to msm-fixes, thanks!
->
-> [1/8] drm/msm/dpu: don't mix devm and drmm functions
->        https://gitlab.freedesktop.org/lumag/msm/-/commit/c0c70a11365c
->
-> Best regards,
-That is only the first patch of the series, yes?
 
-What is happening with the rest? Can they all be merged to drm-next now? 
-As I understand it, only the first patch was still being discussed, the 
-others have all been reviewed some time ago.
+--eIsJkIsbP/VR6HTZ
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Thanks,
-John.
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
+pw-bot: not-applicable
 
+--eIsJkIsbP/VR6HTZ
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCagyebAAKCRB4tDGHoIJi
+0rorAPsG5MOqSXqSR1A9tHzKzbEX0OxGdOKVtstJhA2XuZX1ZAEAyEOM/aUZRzMO
+myCnWtIus6uWHOkcQqjsWvSUM8qh9gE=
+=6xzR
+-----END PGP SIGNATURE-----
+
+--eIsJkIsbP/VR6HTZ--
 
