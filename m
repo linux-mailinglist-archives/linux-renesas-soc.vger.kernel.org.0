@@ -1,235 +1,151 @@
-Return-Path: <linux-renesas-soc+bounces-32791-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-32792-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 2JIPMG4nDGq/XgUAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-32791-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 May 2026 11:03:42 +0200
+	id AB2wD1s1DGoKaAUAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-32792-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 May 2026 12:03:07 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 384A957AD41
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 May 2026 11:03:41 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id B3EAB57BD0E
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 May 2026 12:03:06 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 0A0DE309018C
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 May 2026 08:56:11 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id B06183047406
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 May 2026 10:00:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 164613EFD15;
-	Tue, 19 May 2026 08:55:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5433439DBFB;
+	Tue, 19 May 2026 10:00:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Brbgeawi"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZPHgXDBY"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F5763E120D;
-	Tue, 19 May 2026 08:55:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D50B7396D19
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 19 May 2026 10:00:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779180953; cv=none; b=YJk9rq6KFNGtpNG4ejw5SMrPqbQ7w7HE2zMgqE2lbY7YcIX+bj3eElFyKpKrjpaTnBuIo1au+Vb82uDc4cL73jZBMeHomWK7JNEVjVVmr4pp9nek4zvs5ReysTQKxx+1wMvoIhtY26ul2CRoTB/k7/x5ClZhPJhoFVqNBRNG/GM=
+	t=1779184829; cv=none; b=QLE5wzDhDlxwgUVuhdnfw+6riqLm27se7B80hgCA6cOfpn24g350iCIj5t7kNE1EQmMxt2OmZYxtHkXYzp/DK6eVstogHJ6kD4/JcxK1dsiRBfag7AWcACEOGPuD2lDb18kVLFrv1htDdRD91XprYhcBzJbot5nM0pqz+6qcY6w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779180953; c=relaxed/simple;
-	bh=bnfsYmG3kzgJs/ytTQSzYEKeHfB3W4gK9H4MF7vhF4Y=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=iK3GNrwLFPOLvjY6VVFoAFFZpDNOrkiE6r056cjueXSJnaQz/UYfewRplEwiZh0dK3CD8CK5UXxxzAeVTlB8MrWjLisf6qi60jB05cmlP7SYepcYupcb56a7nPn7JkDG/AiipSLq8qyPEXZnfrd8YlJV5iS8mQDplixRICCkLOM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Brbgeawi; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from [IPV6:2a01:cb1d:8f2:800:77df:2bd9:9512:fa38] (unknown [IPv6:2a01:cb1d:8f2:800:77df:2bd9:9512:fa38])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 57FF5ABF;
-	Tue, 19 May 2026 10:55:37 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1779180937;
-	bh=bnfsYmG3kzgJs/ytTQSzYEKeHfB3W4gK9H4MF7vhF4Y=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=BrbgeawiKVJAtSi6hG+M5xZTvch90EVw1/E0FVikYrJ2tAyrG64SnmnknMLtdoRha
-	 8ex1dAkA3qLgkEGG0ZZEVeV3si/2B0IGh5MGE1Vdjtms11eSCknY88uyO13tIzKUdn
-	 W8URueTh79j229XpV0e1+9TH2NV+d+LWEPhi+Jfs=
-Message-ID: <6b15d447-a01e-40f7-9874-88d6df05cd4b@ideasonboard.com>
-Date: Tue, 19 May 2026 10:55:47 +0200
+	s=arc-20240116; t=1779184829; c=relaxed/simple;
+	bh=Z2cv8nB9Bo7eZRD2JKwwYfhOOJYfZGL2ji6ed9VXFpY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=I/1ZTsTSQedMDuWIgu6LnyPx2imiFko/gX10Mi0M1qqM5x/6RZ2+rvWHw/LXUXCk+v7/7YWf5PJIrU5ypsgd5Bvh02mV32JOri2GgH9H/SM/n6gwU6W6XsoGGRt5uILU9+/DOqhtv8Mqx0b9kKyC/EGRJnGxugNLF9rpGibLpyY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZPHgXDBY; arc=none smtp.client-ip=209.85.128.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-488ad135063so25863595e9.0
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 19 May 2026 03:00:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1779184826; x=1779789626; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=gPMXDUV8ksnki0TYxYEX3U0Fj0wzSQ7y1+fTHl/YrAI=;
+        b=ZPHgXDBY7XjeK57L8im+ZR98TvpUzebjFaPDMrH6vkI+6UeGOFDai8BlQVa6y8Fkg3
+         eH6oPY5p0cmNwZa7Yq3uKM4DB/f6qt+xcvzGsJWyWX4SzrkQ7lFW2aKZVG6aOv508EaM
+         eouf+4KsagbRrz6OcZOHvgevCI7OECQykOr3nkjY6u6fMfyRytHFWOc3ZxzvyrpQ0aKQ
+         VUSIQ8N5VkISTNqaMsW29FMQgC/54RH+BqDlWTlKNRzlJXt9rd7tKzxiWuKX8ZDcC6/W
+         UUt3qU999jNegD9XLIM9H9iHovCcLakDo1xZDhO+NoovEHoX+trTt1l4m0lgpRsFQfDw
+         MAhQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779184826; x=1779789626;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=gPMXDUV8ksnki0TYxYEX3U0Fj0wzSQ7y1+fTHl/YrAI=;
+        b=aTNMVrunJ0KA23rweXzvMJhGYK81bpesy5JdpucEZ41t7aRykYFY7DutuYHi/5vQ38
+         vjRDSdJOSixglCAAf3eK1bMBWOiNm10/kV44YAO7qM0+zhX3JcqU7Xxo26DbbNnCVcR9
+         M7fJJjpsklLwnDNjQnvL/lIhQBkgO935xTkw8VLfQd55jFim+hh/zYWT2lzZS+yI9xVC
+         NFqirY+LxTQLFa4Kqc5BsCHBcvuHOfzF0Vo+UuMEWlOq6IH888srUIDH1Frr7sm3itRk
+         s1Chhh8o23Gbe0VLGNZXTkUGKN6odhbhbkb24W1Y/8FS9KnTTSbTuaKwvrRTvu/kmvHe
+         G+nA==
+X-Forwarded-Encrypted: i=1; AFNElJ8ZBnHgUK1yw0erpIgMplJRlNR5SCa6u0tJHbqRCtwePOP29Dh4y8DnhoQv8ZrhcBbY6jVCvOLo6jb+kSyiddKRHg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxeJ4MLN5hurT2K1vniTMzqLmELu5UPPELCFy8eBCSUSQvRFDZg
+	3bX9iuLEK+0YuiMLfdBXlOMLYUziPjKz48aueFfqnptIsrU2sQNFFFas
+X-Gm-Gg: Acq92OH36IXuyWdm2X4/u+KaPIthbbj7hevwGpi60ryk1kn3rRS4WZLPni8zJKXrhq4
+	KxltNvoSEVeRGpBSHG5xNZNYKwnnopBLlc3V3+e5vKVf22bcfNfbuXk6sFm42aE76eqShV5oxUP
+	sBuJ6n6s9/Tjg76ULYfL/1QkLHtf89GA2VfDndRoKftmlMxXZXG2XM2QeR/D8pFruvB/h7BtzZE
+	2tuHnMCUz5ehfye7XLri7axc/XF/4r4uSK8JDRMg6drsxz9Qa/k1JimW2c2rmCEUjtq8FbyW2/E
+	47Zbov3adxWc+/q5x3CvqphrlEns9kv7zU+MBF2pqkoRWPF69lITETomwZxQA70UZLBQRM4934+
+	iGKrrs6v/gHAoE7jfQ8oCCbE6wLjURWM5S0VQl36yDBHumIsb4AmW9/MfAj9BsA4bNQ0ZOJp8P+
+	K7fbUBQym2yvcawpOnFygsi5FbEFaUIA7kvqi8mGsiPYWEB10Y
+X-Received: by 2002:a05:600c:34d4:b0:48f:e230:c3fa with SMTP id 5b1f17b1804b1-48fe6626a58mr296997035e9.32.1779184826098;
+        Tue, 19 May 2026 03:00:26 -0700 (PDT)
+Received: from localhost.localdomain ([2a00:23c4:a700:7301:4abf:a82a:41d5:6663])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48febc56f89sm131791455e9.3.2026.05.19.03.00.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 19 May 2026 03:00:25 -0700 (PDT)
+From: Biju <biju.das.au@gmail.com>
+X-Google-Original-From: Biju <biju.das.jz@bp.renesas.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: Biju Das <biju.das.jz@bp.renesas.com>,
+	linux-renesas-soc@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	Biju Das <biju.das.au@gmail.com>
+Subject: [PATCH 0/2] Enable RSCI interfaces on RZ/G3L SMARC EVK
+Date: Tue, 19 May 2026 11:00:16 +0100
+Message-ID: <20260519100022.116318-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/3] arm64: dts: renesas: r9a09g057: Add IVC and ISP nodes
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, linux-renesas-soc@vger.kernel.org,
- devicetree@vger.kernel.org
-References: <20251010-kakip_dts-v1-0-64f798ad43c9@ideasonboard.com>
- <20251010-kakip_dts-v1-1-64f798ad43c9@ideasonboard.com>
- <CAMuHMdVCeMaQ8yFnMgr1Nko+0yQxn69BR9fGJ2WPvADMc2gvRQ@mail.gmail.com>
-Content-Language: en-US
-From: Dan Scally <dan.scally@ideasonboard.com>
-In-Reply-To: <CAMuHMdVCeMaQ8yFnMgr1Nko+0yQxn69BR9fGJ2WPvADMc2gvRQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spamd-Result: default: False [-2.16 / 15.00];
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-1.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
-	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FREEMAIL_CC(0.00)[gmail.com,kernel.org,vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-32792-lists,linux-renesas-soc=lfdr.de];
+	FREEMAIL_CC(0.00)[bp.renesas.com,vger.kernel.org,gmail.com];
+	TO_DN_SOME(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-32791-lists,linux-renesas-soc=lfdr.de];
-	DKIM_TRACE(0.00)[ideasonboard.com:+];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	DBL_PROHIBIT(0.00)[0.244.192.64:email,0.245.92.128:email];
+	FREEMAIL_TO(0.00)[glider.be,gmail.com,kernel.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	FREEMAIL_FROM(0.00)[gmail.com];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[dan.scally@ideasonboard.com,linux-renesas-soc@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,dt];
-	RCPT_COUNT_SEVEN(0.00)[7];
+	FROM_NEQ_ENVFROM(0.00)[bijudasau@gmail.com,linux-renesas-soc@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,dt];
+	RCPT_COUNT_SEVEN(0.00)[11];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,ideasonboard.com:email,ideasonboard.com:mid,ideasonboard.com:dkim]
-X-Rspamd-Queue-Id: 384A957AD41
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,renesas.com:email,bp.renesas.com:mid]
+X-Rspamd-Queue-Id: B3EAB57BD0E
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi Geert - sorry for leaving this so long to revise, I'm afraid it slipped my mind.
+From: Biju Das <biju.das.jz@bp.renesas.com>
 
-On 21/11/2025 11:08, Geert Uytterhoeven wrote:
-> Hi Daniel,
-> 
-> On Fri, 10 Oct 2025 at 12:51, Daniel Scally <dan.scally@ideasonboard.com> wrote:
->> Add the Input Video Control Block and Arm Mali-C55 ISP to the device
->> tree file for the RZ/V2H(P) SoC.
->>
->> Signed-off-by: Daniel Scally <dan.scally@ideasonboard.com>
-> 
-> Thanks for your patch!
-> 
->> --- a/arch/arm64/boot/dts/renesas/r9a09g057.dtsi
->> +++ b/arch/arm64/boot/dts/renesas/r9a09g057.dtsi
->> @@ -1298,6 +1298,58 @@ queue3 {
->>                                  };
->>                          };
->>                  };
->> +
->> +               ivc: isp-input@16040000 {
->> +                       compatible = "renesas,r9a09g057-ivc";
->> +                       reg = <0 0x16040000 0 0x230>;
-> 
-> Size should be 0x10000, according to Table 1.8-1 ("Detailed Address Space").
+Enable device rsci{1,2,3} nodes for the RZ/G3L SMARC EVK.
 
-Ah, thanks - the register table for the module only defines addresses up to 22C so I used that size, 
-but I'll switch to the value from this table
+This patch series depend upon [1]
+[1] https://lore.kernel.org/all/20260505123708.134069-1-biju.das.jz@bp.renesas.com/
 
-> 
->> +
-> 
-> Please no empty lines between properties (everywhere)
+Biju Das (2):
+  arm64: dts: renesas: r9a08g046: Add rsci{0..3} device nodes
+  arm64: dts: renesas: r9a08g046l48-smarc: Enable rsci{1,2,3} nodes
 
-Ack
-> 
->> +                       clocks = <&cpg CPG_MOD 0xe3>,
->> +                                <&cpg CPG_MOD 0xe4>,
->> +                                <&cpg CPG_MOD 0xe5>;
-> 
-> Fits on two lines.
+ arch/arm64/boot/dts/renesas/r9a08g046.dtsi    | 84 +++++++++++++++++++
+ .../boot/dts/renesas/r9a08g046l48-smarc.dts   | 59 +++++++++++++
+ 2 files changed, 143 insertions(+)
 
-Ack
-> 
->> +                       clock-names = "reg", "axi", "isp";
->> +
->> +                       power-domains = <&cpg>;
->> +
->> +                       resets = <&cpg 0xd4>,
->> +                                <&cpg 0xd1>,
->> +                                <&cpg 0xd3>;
-> 
-> Fits on a single line.
-
-Ack
-> 
->> +                       reset-names = "reg", "axi", "isp";
->> +
->> +                       interrupts = <GIC_SPI 861 IRQ_TYPE_EDGE_RISING>;
->> +
->> +                       status = "disabled";
->> +
->> +                       port {
->> +                               ivc_out: endpoint {
->> +                                       remote-endpoint = <&isp_in>;
->> +                               };
->> +                       };
->> +               };
->> +
->> +               isp: isp@16080000 {
->> +                       compatible = "arm,mali-c55";
->> +                       reg = <0 0x16080000 0 0x200000>;
-> 
-> Size should be 0x80000, according to Table 1.8-1 ("Detailed Address Space").
-> Or is GPV_VIDEO0 part of the ISP?
-
-No I just messed it up - thanks for catching.
-> 
->> +
->> +                       clocks = <&cpg CPG_MOD 0xe2>,
->> +                                <&cpg CPG_MOD 0xe4>,
->> +                                <&cpg CPG_MOD 0xe5>;
-> 
-> Fits on two lines.
-
-Ack
-
-> 
->> +                       clock-names = "vclk", "aclk", "hclk";
->> +
->> +                       resets = <&cpg 0xd2>,
->> +                                <&cpg 0xd1>,
->> +                                <&cpg 0xd3>;
-> 
-> Fits on a single line.
-
-Ack
-
-> 
->> +                       reset-names = "vresetn", "aresetn", "hresetn";
->> +
->> +                       interrupts = <GIC_SPI 859 IRQ_TYPE_LEVEL_HIGH>;
-> 
-> According to Table 4.6-23 ("List of Input Events"), the ISP has 6 interrupts.
-> One of them is used by the ivc above.  Do you know what is the purpose
-> of the four other interrupts, and if they should be listed here or elsewhere?
-
-I believe that three of them are really intended for the IVC and three for the ISP. We didn't use 
-them in the drivers, but they probably should be listed here and in the ivc node nonetheless. I'll 
-add them.
-
-Thanks very much for the review.
-
-Dan
-
-> 
->> +
->> +                       status = "disabled";
->> +
->> +                       port {
->> +                               isp_in: endpoint {
->> +                                       remote-endpoint = <&ivc_out>;
->> +                               };
->> +                       };
->> +               };
->>          };
->>
->>          stmmac_axi_setup: stmmac-axi-config {
-> 
-> Gr{oetje,eeting}s,
-> 
->                          Geert
-> 
+-- 
+2.43.0
 
 
