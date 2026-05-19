@@ -1,186 +1,288 @@
-Return-Path: <linux-renesas-soc+bounces-32837-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-32838-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id mFH5A1u0DGrClAUAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-32837-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 May 2026 21:04:59 +0200
+	id mNm4EZC/DGqJlgUAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-32838-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 May 2026 21:52:48 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DB32583FCC
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 May 2026 21:04:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44CE3584595
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 May 2026 21:52:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id EE98E300A646
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 May 2026 19:04:53 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 3F0FC3022FF1
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 May 2026 19:52:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 03CCB3DB328;
-	Tue, 19 May 2026 19:04:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 374463AE18C;
+	Tue, 19 May 2026 19:52:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bet8Qz6m"
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="fvLphWla";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="eVPIpxu3"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F67B3EA94D
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 19 May 2026 19:04:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 612813ACA42;
+	Tue, 19 May 2026 19:52:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.151
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779217491; cv=none; b=PWrLKFFpgLMsPm9taCvW0ZOsJbaNX1gdGXMzYNkg6bYepLP3kG57O9FEY0EemfCbtkCQzPr03Yr76SX8G7LD/flGbxo6srBmA3aFsoS04ZZP5Wflbai+K/XyUKNeBHM7OFv81iP3kJEUJA8y7SQkxiF9EwiiAbSIbhSLDhWAu20=
+	t=1779220363; cv=none; b=DDsUMcECS42F0ZOdV/FqMUu+viWbZ/VX9Xhknxt5lwGA3xWiJToObgqRqCHbhSHBDB/T9f7P7z6NXCcqopkk+u7exOk8C4Y+sIKXvhUPItm/Gk2yJxCGMCFWBEYd+yp7LPdkNLumJ20kj8mMOZHzmkPazh45/IcbhgWY2da0vio=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779217491; c=relaxed/simple;
-	bh=ClGiD7Br2FRvKa7NIj3NIRbaGiCBSYKP0ikEdtKtThA=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=dE+VmV/duM9AjQM0ETBb6QQHfiIeDG805nV/JcRe3i2utXMo7iM+qoUJd4O1q55bOMfzzPQgugjZHZPEdomBlVb7skgT6m9iG621SmDfQ/BBlvD66WE/Guebp52uECK6AS3Fw4/5CxPh5cxxJ7kyNuZlvcWJMPRjgaLSaaOeEcA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bet8Qz6m; arc=none smtp.client-ip=209.85.215.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pg1-f175.google.com with SMTP id 41be03b00d2f7-c8021c8c42fso1626600a12.3
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 19 May 2026 12:04:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779217486; x=1779822286; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=lt4E8/DsuDzGzbJ8IpIkgEnn/bBtXFj50NFYiiBCCoc=;
-        b=bet8Qz6mLJZkQhRiQ6ClI5X5+FaACWevEv8HK96i3nHF1yAGmEcw7OlJaSwhIj+DCA
-         N64NaZIxluUa2q3k9Q5AnHI6CFbzSmQHstj1JLaViJF5Yc1tR+obQYealfOVxxTLWM4u
-         /wfF1MP83Qr7vOo+P1OvYyiv5tj1ozdN+dVdcaHB64cPxwiPqKS/j3Z7hDZnoMXz1RYW
-         UzIcBaZ5+jLVjHpKsQWHtqOeXyuk4SvQQP+MxrocRg3tyY3ryVFtwZjh3lf8BiOnoKim
-         iGj6vR4UijHyyyNk5lTZjOo3dxFC+P8ftmTRHIOAdofVFISb3Kg44SrM8RG4yUgMzbbr
-         54Eg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779217486; x=1779822286;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=lt4E8/DsuDzGzbJ8IpIkgEnn/bBtXFj50NFYiiBCCoc=;
-        b=ZUxyE8ONKQU0VDapZJeqrDE1WxSSNRHrpPqctqqp5ZySQ4CWODwtt4U3FI143c+IUr
-         f2vzJDJ/4SF50amKK678WU+MgLbz1x8uvNnOoCrea+z8WhjVYcrFHx4bL0ym3nzGbUZp
-         nn0m0EXmKw945ZN3UBnFVE8GsA4pJH7bF9/nMQR6iudYw6OR0vIeJjXzgiHwbgqwbHXT
-         Pi7L2N4kWhttsjEQKkmJ5Khha0MRBfOKPyulMFum72XXkriyYflR2M5uKvfyKpUUUxX5
-         FS+gWYaa1H/RRKWEHpy/BgSq2mwefzVB+MrsojKQGw5F8fPKy8M4f93oAM2fcZV+r0th
-         gJ1A==
-X-Forwarded-Encrypted: i=1; AFNElJ+ChMStAHJMgqFyAd14UJ9SAh9AEm/f5CXDXpdBiMdRa+FDSpNc0I25u4Du3UmvKzlFj4y+7DhS9KL85RDNS+3/xA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzj4yioPZB5Ef5aGEwvq2D2huqBp4Zu/xfr2fitUO6ebHJDMZay
-	9uy294KGUBh3IuTbcARlQ7BKaDQCE48ngZjxTLoV8icqgqi2Ua1ogRKs
-X-Gm-Gg: Acq92OH9/IVHc8MrgSDVcKxOS2XtgtiTaaackFCQR09/psM070jA2QpEWry/gJ16p/4
-	TkkqnJyVyJWh7fbuaFXw7mjhB5lGS/pcpwYSwXD4BLFtnI5d9F30MMKuZ47GWuuwVuaKf+roleO
-	SDoqHwTf7VW7SxyTLA7ghcrN7ureFk9a9p41a9N3fi34NMO03sBc83vLNHWaGuIUznbplJJocpg
-	y9hFJX00ctTBd1wAF0AyHZugd1j7V5wGRwfHFeT9rVfzV4JNnRdgHkWNPyZ3SQlT8+zzm41WbbK
-	W127zAHOJw14SM27vcP5qqFt2/b33GOfvtXNScGIqsR28L2OKDzF/MYPwfRhuRusvVQSoL3aXUE
-	9QBeTGjAQwgWYJ9O4GuyccRZzfMdKqI8i1a1D1+7hknW142727qKRYzKxH7eIlhRtDJqNAe81KV
-	NZ6/MCrH5e1obQwnIeLbdt794Afk+eUZSJvmLi31K9GwXIc1Z1Pps7xEkMiX8=
-X-Received: by 2002:a05:6a20:9153:b0:3a3:171f:6b23 with SMTP id adf61e73a8af0-3b22e14de52mr23831258637.0.1779217486164;
-        Tue, 19 May 2026 12:04:46 -0700 (PDT)
-Received: from csl-conti-dell7858.ntu.edu.sg ([155.69.195.57])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c82bb07b007sm17317550a12.11.2026.05.19.12.04.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 May 2026 12:04:45 -0700 (PDT)
-From: Maoyi Xie <maoyixie.tju@gmail.com>
-To: Vinod Koul <vkoul@kernel.org>
-Cc: dmaengine@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: dmaengine: dead empty checks in mpc512x and rz-dmac descriptor pickup?
-Date: Wed, 20 May 2026 03:04:42 +0800
-Message-Id: <20260519190442.2382986-1-maoyixie.tju@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	s=arc-20240116; t=1779220363; c=relaxed/simple;
+	bh=SdXZVxKDS/E22tM60k2sCFv0iWcUBjCeDq8WfJ9NFwU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=a1PI63ocFT1+kdTI6XKFgCgw0TXVPIighqAFYGS1QI86TX23HjdE9cDiIrYM2xmPfuq5acWdjXh2UtRAJVO1A5xLjAsTxgjxHa3I7CltDv+kQEBdjQy4h8L2uwKO/AJ4xPBxGzkt1kG/JeKGDCc5jZ6XomG+TBU8PwXHDHQhWEA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=fvLphWla; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=eVPIpxu3; arc=none smtp.client-ip=80.241.56.151
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [IPv6:2001:67c:2050:b231:465::2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4gKlgz6NX9z9vZM;
+	Tue, 19 May 2026 21:52:31 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1779220351;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=6+gHbvvlhDemo3w9adfFUwk9pQ6tK8KAjIOj3e4wzKM=;
+	b=fvLphWlagDBdTtnoDJj5sKKo2BifUn7BFweLnIiyBTxOTaGwI5+qWtbdwfxE/104skmNVm
+	2DN60Y7/JmFf6WscglwJIE/ZgdgPvK7gfbwsHYOdRBr0tJwHz/PjBcKtZNAwdKuyHs2It6
+	ZbMsdEh/R+Sb+ru/u6TjORd70vO/eWRl48zEhGCZhuJiviA/qPfXKQCAs+BlmGEQUcZ7sH
+	5VOSeTzYk9hacOY0ZSW83F50q9iM/gmmwj7idoXwa45oMY8y2wJARfIytwbEy5hrhFh7ok
+	9zEXe4dl67NNS8IU+oF1mEGFcJ5KDfLiZYN/hCO7tx3t2wbQkFL5VGZsZSc90g==
+Authentication-Results: outgoing_mbo_mout;
+	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=eVPIpxu3;
+	spf=pass (outgoing_mbo_mout: domain of marek.vasut+renesas@mailbox.org designates 2001:67c:2050:b231:465::2 as permitted sender) smtp.mailfrom=marek.vasut+renesas@mailbox.org
+From: Marek Vasut <marek.vasut+renesas@mailbox.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1779220349;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=6+gHbvvlhDemo3w9adfFUwk9pQ6tK8KAjIOj3e4wzKM=;
+	b=eVPIpxu3La2lPp//8dopxrDiUtv4WgrACZaJuLWaNLSMUPhfdsQhSuYUY4GJFp/aFENPM6
+	VsGmDO5d9ifKWWF4zo2NhKdPtjaz3x7Ey4mK920TaQ1kpyZtSEleBhmbureYBqgzau8ikm
+	ua8Zj2OlwV4ivoH+oaj3uC5SO6SV9j+tfyb3OMj0OeEHFKOa4MeiuD/smt6Wpy6K8YL9Oa
+	GdN5BFkn4w690+49UtxUyuu2CCEpmy2j1XTNEvlfQbF+SWNdhJav/YYQ1gSaXPNzzwDvay
+	84vYCMiZyH4Eed/bOV8M9aIbXbutelb95ZmCRvi9kWFpULVLX9HQP197i2MRoQ==
+To: linux-pci@vger.kernel.org
+Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
+	stable@vger.kernel.org,
+	=?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Koichiro Den <den@valinux.co.jp>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+	linux-kernel@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org
+Subject: [PATCH v2] PCI: rcar-gen4: Limit Max_Read_Request_Size and Max_Payload_Size to 256 Bytes
+Date: Tue, 19 May 2026 21:51:13 +0200
+Message-ID: <20260519195219.189323-1-marek.vasut+renesas@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-MBO-RS-ID: f04e75fb567f9f9b0a0
+X-MBO-RS-META: wus7jgw9quh84oma7m16itugiwa3uu39
 X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUBJECT_ENDS_QUESTION(1.00)[];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_MISSING_CHARSET(0.50)[];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	DMARC_POLICY_ALLOW(-0.50)[mailbox.org,reject];
+	R_DKIM_ALLOW(-0.20)[mailbox.org:s=mail20150812];
 	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	TO_DN_SOME(0.00)[];
-	TAGGED_FROM(0.00)[bounces-32837-lists,linux-renesas-soc=lfdr.de];
-	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-32838-lists,linux-renesas-soc=lfdr.de,renesas];
+	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_THREE(0.00)[4];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[maoyixietju@gmail.com,linux-renesas-soc@vger.kernel.org];
+	FREEMAIL_CC(0.00)[mailbox.org,vger.kernel.org,kernel.org,google.com,glider.be,valinux.co.jp,gmail.com,renesas.com];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
-	RCVD_COUNT_FIVE(0.00)[5];
-	MID_RHS_MATCH_FROM(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-renesas-soc];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo,maoyixie.com:url]
-X-Rspamd-Queue-Id: 0DB32583FCC
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[marek.vasut@mailbox.org,linux-renesas-soc@vger.kernel.org];
+	DKIM_TRACE(0.00)[mailbox.org:+];
+	MID_RHS_MATCH_FROM(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo,mailbox.org:email,mailbox.org:mid,mailbox.org:dkim,valinux.co.jp:email]
+X-Rspamd-Queue-Id: 44CE3584595
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi all,
+R-Car Gen4 PCIe controller has a hardware limitation of 256 Bytes
+Max_Payload_Size (MPS). PCIe specification indicates that the MPS
+must not exceed minimum MPS of any element along the packet path.
+Force limit Max_Payload_Size to at most 256 Bytes for each device
+connected to this PCIe controller.
 
-While auditing list_first_entry callsites, I noticed two places in
-drivers/dma where the developer wrote a NULL check for an empty
-list case but used the unsafe API. The check is dead code. I
-would appreciate it if you could take a look and let me know
-whether these are worth fixing.
+R-Car Gen4 Reference Manual, chapter 104.4.8 Usage notes for
+MRRS (Max Read Request Size) states:
+  Please set "Max Read Request Size" to 128 bytes or 256 bytes.
+  If "Max Read Request Size" is set to anything other than the
+  above, the transferred data will not match the expected value.
+This limitation also seems the apply to devices issuing MRd TLP.
+This limitation can be triggered by using non-HMB NVMe SSD with
+Max_Read_Request_Size 512 Bytes, for example Crucial P5 Plus.
+Any write into the SSD (MRd TLP issued by the SSD) longer than
+256 Bytes wraps around at 256 Byte boundary, and the same data
+are written into the SSD starting at offset 0 and at 256 Bytes.
+Force limit Max_Read_Request_Size to at most 256 Bytes for each
+device connected to this PCIe controller to avoid this behavior.
 
-Site 1, drivers/dma/mpc512x_dma.c mpc_dma_prep_slave_sg()
-(linux-7.1-rc1, around line 709):
+An non-HMB (Host Memory Buffer) NVMe SSD can be identified using
+the following command. Affected SSD reports 'hmpre' field as 0:
+"
+$ nvme id-ctrl /dev/nvme0 | grep hmpre
+hmpre     : 0
+"
 
-    mdesc = list_first_entry(&mchan->free,
-                                    struct mpc_dma_desc, node);
-    if (!mdesc) {
-            spin_unlock_irqrestore(&mchan->lock, iflags);
-            mpc_dma_process_completed(mdma);
-            return NULL;
-    }
+The symptom is a read from the SSD which wraps around at 256 Byte
+boundary. The test for this symptom can be implemented by writing
+512 Byte of random data into the SSD and reading the data back. If
+the read back data repeat after 256 Bytes, the device is affected.
+"
+$ dd if=/dev/urandom of=/tmp/data.bin bs=256 count=2 \
+  dd if=/tmp/data.bin of=/dev/nvme0n1 bs=256 count=2 \
+  dd if=/dev/nvme0n1 bs=256 count=2 of=/tmp/readback.bin
+"
 
-    list_del(&mdesc->node);
+Expected data:
+"
+$ hexdump -vC /tmp/data.bin
+00000000  97 81 b7 3b 0e 38 2b 4d  a7 d3 e0 47 ff c2 4b ca
+00000010  c1 85 98 f0 4a ac 03 a0  3b ab f3 19 44 dd 06 8b
+...
+00000100  7a ce 3c b2 e1 d5 d9 11  88 63 10 59 76 3c dc 32 <-- random
+00000110  72 32 2a 7d a3 e1 aa 13  7c da 58 a1 7b 21 11 50 <-- data
+"
 
-list_first_entry() returns container_of(&mchan->free, struct
-mpc_dma_desc, node) when the free list is empty, never NULL. The
-recovery path (drop lock, scan completed list, return NULL) is
-dead code. With an empty free list, the fall through pointer
-aliases &mchan->free. The subsequent list_del() then corrupts
-the head's next and prev links.
+Faulty readback, collected without this change in place:
+"
+$ hexdump -vC /tmp/readback.bin
+00000000  97 81 b7 3b 0e 38 2b 4d  a7 d3 e0 47 ff c2 4b ca <---.
+00000010  c1 85 98 f0 4a ac 03 a0  3b ab f3 19 44 dd 06 8b <-. |
+...                                                          | |
+00000100  97 81 b7 3b 0e 38 2b 4d  a7 d3 e0 47 ff c2 4b ca <-:-+- repeated
+00000110  c1 85 98 f0 4a ac 03 a0  3b ab f3 19 44 dd 06 8b <-+--- data
+     ^^^
+      |
+      '--- Repeat starts at offset 0x100 = 256 Bytes
+"
 
-Site 2, drivers/dma/sh/rz-dmac.c rz_dmac_chan_get_residue()
-(linux-7.1-rc1, around line 726):
+Fixes: 0d0c551011df ("PCI: rcar-gen4: Add R-Car Gen4 PCIe controller support for host mode")
+Cc: stable@vger.kernel.org
+Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+---
+Cc: "Krzysztof Wilczyński" <kwilczynski@kernel.org>
+Cc: Bjorn Helgaas <bhelgaas@google.com>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Koichiro Den <den@valinux.co.jp>
+Cc: Lorenzo Pieralisi <lpieralisi@kernel.org>
+Cc: Magnus Damm <magnus.damm@gmail.com>
+Cc: Manivannan Sadhasivam <mani@kernel.org>
+Cc: Rob Herring <robh@kernel.org>
+Cc: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc: linux-kernel@vger.kernel.org
+Cc: linux-pci@vger.kernel.org
+Cc: linux-renesas-soc@vger.kernel.org
+---
+NOTE: - Possible EP mode limit of 128 Bytes is currently pending
+        documentation team input
+V2: - Dispose of the reprogramming of MPS/MRRS altogether
+    - Dispose of the entire fixup quirk
+    - Replace both with bridge enable_device hook
+    - Limit MPS/MRRS along the entire packet path to follow
+      MRRS limitation requirement
+---
+ drivers/pci/controller/dwc/pcie-rcar-gen4.c | 51 +++++++++++++++++++++
+ 1 file changed, 51 insertions(+)
 
-    current_desc = list_first_entry(&channel->ld_active,
-                                    struct rz_dmac_desc, node);
-    if (!current_desc)
-            return 0;
+diff --git a/drivers/pci/controller/dwc/pcie-rcar-gen4.c b/drivers/pci/controller/dwc/pcie-rcar-gen4.c
+index 8b03c42f8c84c..9fe34ca7ce532 100644
+--- a/drivers/pci/controller/dwc/pcie-rcar-gen4.c
++++ b/drivers/pci/controller/dwc/pcie-rcar-gen4.c
+@@ -305,6 +305,54 @@ static struct rcar_gen4_pcie *rcar_gen4_pcie_alloc(struct platform_device *pdev)
+ 	return rcar;
+ }
+ 
++static int rcar_gen4_pcie_enable_device(struct pci_host_bridge *bridge,
++					struct pci_dev *dev)
++{
++	/*
++	 * R-Car Gen4 PCIe controller has a hardware limitation of 256 Bytes
++	 * Max_Payload_Size (MPS). PCIe specification indicates that the MPS
++	 * must not exceed minimum MPS of any element along the packet path.
++	 * Force limit Max_Payload_Size to at most 256 Bytes for each device
++	 * connected to this PCIe controller.
++	 *
++	 * For details, refer to chapter "104.1.1 Features" in either of:
++	 * R-Car S4 R19UH0161EJ0130 Rev.1.30 Jun. 16, 2025 or
++	 * R-Car V4H R19UH0186EJ0130 Rev.1.30 Apr. 21, 2025 or
++	 * R-Car V4M R19UH0217EJ0100 Rev.1.00 Dec. 12, 2025.
++	 */
++	if (pcie_get_mps(dev) > 256) {
++		pci_info(dev, "Limiting MPS to 256 bytes\n");
++		pcie_set_mps(dev, 256);
++	}
++
++	/*
++	 * R-Car Gen4 Reference Manual, chapter 104.4.8 Usage notes for
++	 * MRRS (Max Read Request Size) states:
++	 *   Please set "Max Read Request Size" to 128 bytes or 256 bytes.
++	 *   If "Max Read Request Size" is set to anything other than the
++	 *   above, the transferred data will not match the expected value.
++	 * This limitation also seems the apply to devices issuing MRd TLP.
++	 * This limitation can be triggered by using non-HMB NVMe SSD with
++	 * Max_Read_Request_Size 512 Bytes, for example Crucial P5 Plus.
++	 * Any write into the SSD (MRd TLP issued by the SSD) longer than
++	 * 256 Bytes wraps around at 256 Byte boundary, and the same data
++	 * are written into the SSD starting at offset 0 and at 256 Bytes.
++	 * Force limit Max_Read_Request_Size to at most 256 Bytes for each
++	 * device connected to this PCIe controller to avoid this behavior.
++	 *
++	 * For details, refer to aforementioned chapter in either of:
++	 * R-Car S4 R19UH0161EJ0130 Rev.1.30 Jun. 16, 2025 or
++	 * R-Car V4H R19UH0186EJ0130 Rev.1.30 Apr. 21, 2025 or
++	 * R-Car V4M R19UH0217EJ0100 Rev.1.00 Dec. 12, 2025,
++	 */
++	if (pcie_get_readrq(dev) > 256) {
++		pci_info(dev, "Limiting MRRS to 256 bytes\n");
++		pcie_set_readrq(dev, 256);
++	}
++
++	return 0;
++}
++
+ /* Host mode */
+ static int rcar_gen4_pcie_host_init(struct dw_pcie_rp *pp)
+ {
+@@ -313,6 +361,9 @@ static int rcar_gen4_pcie_host_init(struct dw_pcie_rp *pp)
+ 	int ret;
+ 	u32 val;
+ 
++	if (pp->bridge)
++		pp->bridge->enable_device = rcar_gen4_pcie_enable_device;
++
+ 	gpiod_set_value_cansleep(dw->pe_rst, 1);
+ 
+ 	ret = rcar_gen4_pcie_common_init(rcar);
+-- 
+2.53.0
 
-Same shape. ld_active can be empty while a residue query races
-with descriptor completion. The `return 0` shortcut never runs,
-and current_desc is then dereferenced for status processing.
-
-A candidate fix in both cases is a one liner. Switch the API to
-list_first_entry_or_null so the existing NULL guard runs as the
-author intended.
-
-Similar dead empty checks after list_first_entry have been
-cleaned up in the same shape, for example commit fbb8bc408027
-(net: qed: Remove redundant NULL checks after list_first_entry),
-commit c708d3fad421 (crypto: atmel: use list_first_entry_or_null
-to simplify find_dev) and commit 10379171f346 (ksmbd: use
-list_first_entry_or_null for opinfo_get_list). The qed commit
-message describes the exact shape we observe here. These two
-sites appear to be missed by those cleanups.
-
-If this is intentional or already known for either site, please
-disregard. Otherwise I am happy to send a [PATCH] series or to
-leave the fix to you.
-
-Thanks,
-Maoyi Xie
-https://maoyixie.com/
 
