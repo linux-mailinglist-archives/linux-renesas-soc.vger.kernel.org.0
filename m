@@ -1,256 +1,210 @@
-Return-Path: <linux-renesas-soc+bounces-32815-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-32820-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 4GWBJCxsDGo8hQUAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-32815-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 May 2026 15:57:00 +0200
+	id GMGTJIh2DGqihwUAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-32820-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 May 2026 16:41:12 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 541CD580194
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 May 2026 15:57:00 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id DED61580B33
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 May 2026 16:41:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 5964E303D5EC
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 May 2026 13:55:26 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 1F7023037E4A
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 May 2026 14:36:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 46F373403F4;
-	Tue, 19 May 2026 13:55:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D812F348C7D;
+	Tue, 19 May 2026 14:36:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b="Mscudf2z"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vs1-f52.google.com (mail-vs1-f52.google.com [209.85.217.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from www537.your-server.de (www537.your-server.de [188.40.3.216])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B58313ED3A0
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 19 May 2026 13:55:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1E4B19B5B1;
+	Tue, 19 May 2026 14:36:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=188.40.3.216
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779198925; cv=none; b=AGodiAnp8ftfStiIfE8aD4CQjLR1IpUPj/r1qKy7zbESoAcLrMqfJEJ0L8cK0YRpK0zfk4s70OspW9Xu4u1eS1CnO1c3Ywa7u6pNbZtIdcMKicESz08mO9/HO8HD5LOjyrQNOwoaQAHoY4N4Faq/9CDg2b2oDJvVU6WP1VwyfcQ=
+	t=1779201364; cv=none; b=QkEBdkiBX93N39jtKH1gG5i9AKAcx+HT04uK9km+XYQr30sew8I23VFOeJFfw5onFGgypluO78UQnFI1+25OvobQ1oWABQKQVh0FQQZ9mzgUslztdA9LMsErK08woZ/Sf1Ai2ZvjvPGS47j+FLCSH7RXWOUCuqHMc/+b3qb1s4c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779198925; c=relaxed/simple;
-	bh=ropJiXj/HBYvwp5Msa8W8dOE9wVAViMdDjVNcwFpVB0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=n3SdlmAGGvRwMIO0vwSUkhVm34dpk0kO9y6VQvKdM39gHlbWrZv604ZlJy7diGhm9T1dI/M+p0XKSGVyVvMGuv+fmdl6ZxKVqLkXGnAXhokvYV30hJi2rMutLh+lcf1gTEX/Dfidgx8Ow5TO94wrCwSXyZlvI9rLnVr8w1WY1XI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vs1-f52.google.com with SMTP id ada2fe7eead31-63127c440ccso2586593137.3
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 19 May 2026 06:55:23 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779198922; x=1779803722;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=2hf4+Ek9YRT6fN0h/tFO9bOB6UgGg8JC36KgrKL0v3M=;
-        b=BVeRPv2zQT6Cb+pXeu9gx5YSjGmNZIl+pV69c3rKZlQTRo6XjSvHxXGAkSBWwRDEEC
-         rr3e1oxlMahTUsNFF7mOJSSvWk1P2CTd90GTIOkvcswItbU7nv8OZRsob5MBPheWPLmv
-         Yh5UovBTfT+JyZaKDrMfNyYb90ZuEeMxuqfci9IkoZw/+B7eSQHG5DoqPe1D5A6p4LDE
-         nbwIANCBYN+MvUybzpqASW45JCuzWp/cylUkN/PiT5dJu519fqChRq8K3HOJ6edck8de
-         jG+C+aCZbZ3VXTMhDmdaDLdqy5OIKe9in0AhbOOvbdtP63+y88N+RR28URo42nT4cOaY
-         vG5w==
-X-Forwarded-Encrypted: i=1; AFNElJ/hagZX8dRdFijG7FeRH7RQSuQsVy4IqPemLM1ho0UF8Q5BbBS+Gztu7k0UH9EY133Hk7QpvU1QYbpy8cLkZ9BBiQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw9i12ge/V/MDUMFmPgWaRF0RIr0RmpF7p4StJLxkiRZIUcVHHW
-	mk6YumZ2a1hB69weOQr8nIHRa+DMdm1v+0q987VkVD5lMVEAR5fj+Pr3RmzTjMiO
-X-Gm-Gg: Acq92OHxutrh8tpLqEFIUNMzd1bm5K8MuTSF/u61Bl/wHTQn2DnoSaCh2uMJAcoV/I+
-	GvPCmLEIG/FzDuYU99sUgz0I/XFuFKkzsoLbJGBmyJPKcUqhoCyTej0f0LME9mx4MwTZA0sWrrR
-	o593BIzPfwurRfIKws1iTXXiHUDj2ffc7KEC/sp81oh6szFuEdjsrKgnr4u4Xspl4UtOlHp12H0
-	u0qLC688LBL5IYxWH2/TnLISmzVWP6Z5LLj6OO0YbHaA7ZqHNz+gr4HtsHjkn7k8DPJIZOCnq5Z
-	T6wU/ZgYUNFzM4aOQuXX1/U5pPjTgZkCro/gpU1HRg9bBz9f97Oi4Yrl8SlNcte9EY6AGI4iyRi
-	Nh7Ur9nHfJo3931J4Q9LOWhVKiu2BxgxoFK1hvmS76Ln/L+IzxJo/p9+aYNoMhIWloNUml0TYXJ
-	f6VaIKsGncp30v0wCoTstPSJYdUnngKzYZV7sGGv/T1fKb28ocYtB8eBL6TYUonILBSRiz52hNy
-	B8=
-X-Received: by 2002:a05:6102:2924:b0:610:1c78:9531 with SMTP id ada2fe7eead31-63a3f6948dfmr9898953137.24.1779198922424;
-        Tue, 19 May 2026 06:55:22 -0700 (PDT)
-Received: from mail-vk1-f173.google.com (mail-vk1-f173.google.com. [209.85.221.173])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-63ce6ce2edbsm6477526137.8.2026.05.19.06.55.19
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 19 May 2026 06:55:20 -0700 (PDT)
-Received: by mail-vk1-f173.google.com with SMTP id 71dfb90a1353d-5780c38ecb8so2058818e0c.2
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 19 May 2026 06:55:19 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ+/WS0mUwwAlVT1VGC1ZNRiLjYG0VdwXnDgWwDTm+yzHkYD4CpYFHqKrrSXC8qzNCseJJSana6HkJJ8gLv5x7UY5w==@vger.kernel.org
-X-Received: by 2002:a05:6122:4b8c:b0:56c:ca03:b668 with SMTP id
- 71dfb90a1353d-5760bfb8ca9mr10883102e0c.3.1779198919511; Tue, 19 May 2026
- 06:55:19 -0700 (PDT)
+	s=arc-20240116; t=1779201364; c=relaxed/simple;
+	bh=q1TNuvcCaUQ6Gc9kwjiRMGXAIYJFY3rB9DDo+YuZLjY=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=WgyyqPmPSS8eqds3rzpBxrvOrrh5hltfiUzt6U9Kx6MGSVZrZUcImS7F82FwCTU7U4ZKiRvgPegU4kxfmPWzL3zvMrBv+ABGHWtyOtuO11tXxIyykQCUrEyaVrD6sa6hP/EvYXedJeZA4sEq2HtkFRfgHoW24Pu8OG9nPHCq/gA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ew.tq-group.com; spf=pass smtp.mailfrom=ew.tq-group.com; dkim=pass (2048-bit key) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b=Mscudf2z; arc=none smtp.client-ip=188.40.3.216
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ew.tq-group.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ew.tq-group.com
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=ew.tq-group.com; s=default2602; h=Content-Type:MIME-Version:References:
+	In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID;
+	bh=vo1Wkn9Q9Yi+rEuSZAgffOMU0CLdX5BnjN/6P4181c0=; b=Mscudf2zUIY6UO0zgo3eOvO19h
+	Wdd4SvcqM02kuxZoTzYuBPIhGGwDfomKgXtrRWboagLKtkdUQiALDKky1bwRkJ0dna2q36IdaZ5z1
+	LZtH4KicmiUrwllBHM2A4IpTJu6VYYWXYHH3IYzJIT8YtF248ekMzW9FZazpngRTH1+lklM2Mh+7n
+	ZH6u7BLCbMP4fnOiRa4GMBLqdSBj+qf9EbFJ6ObMSpzotKA5RPthCfrA+zUMd5NChniqzeS0FzVGo
+	lEOjCC99Jbua7qsMWinmvsBYBV9Jv1kGl0sjaV7+ImENJAeqO8kxYzh6dh+kHEthL86ti58EH+VFh
+	8961wucA==;
+Received: from sslproxy08.your-server.de ([78.47.166.52])
+	by www537.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.96.2)
+	(envelope-from <alexander.stein@ew.tq-group.com>)
+	id 1wPLA3-0000Px-10;
+	Tue, 19 May 2026 16:11:07 +0200
+Received: from localhost ([127.0.0.1])
+	by sslproxy08.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <alexander.stein@ew.tq-group.com>)
+	id 1wPLA2-000A6s-09;
+	Tue, 19 May 2026 16:11:06 +0200
+From: Alexander Stein <alexander.stein@ew.tq-group.com>
+To: Andrew Lunn <andrew@lunn.ch>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Frank Li <Frank.Li@nxp.com>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Magnus Damm <magnus.damm@gmail.com>, Shawn Guo <shawnguo@kernel.org>,
+ Paul Gerber <paul.gerber@tq-group.com>, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, imx@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux@ew.tq-group.com,
+ linux-renesas-soc@vger.kernel.org
+Subject:
+ Re: [PATCH 2/2] arm64: dts: freescale: add initial device tree for TQMa8MPQS
+ with i.MX8MP
+Date: Tue, 19 May 2026 16:11:05 +0200
+Message-ID: <5102480.31r3eYUQgx@steina-w>
+Organization: TQ-Systems GmbH
+In-Reply-To: <710ae855-0f44-4b2d-8afe-415b30afd37e@lunn.ch>
+References:
+ <20260505063346.1799500-1-alexander.stein@ew.tq-group.com>
+ <20260505063346.1799500-2-alexander.stein@ew.tq-group.com>
+ <710ae855-0f44-4b2d-8afe-415b30afd37e@lunn.ch>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260519133025.618255-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <CAMuHMdVKOdzThVMOcQ1K9crUkyDutvuZsP2-5v5++SVFHkgtOA@mail.gmail.com> <CA+V-a8sFNjp9euEEfBf3BoscjU8W3isRT_pnzd7J4QsuiN6qfg@mail.gmail.com>
-In-Reply-To: <CA+V-a8sFNjp9euEEfBf3BoscjU8W3isRT_pnzd7J4QsuiN6qfg@mail.gmail.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 19 May 2026 15:55:08 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWZGv6BwjGwRhU+x8iE2pXtOSz21RG64bsNoPQQCjTVjg@mail.gmail.com>
-X-Gm-Features: AVHnY4If75BE1VFsoTcZFsczakSSYimGh11UdyDyK4f5gTnPlxJ8oEAkRkMK1OM
-Message-ID: <CAMuHMdWZGv6BwjGwRhU+x8iE2pXtOSz21RG64bsNoPQQCjTVjg@mail.gmail.com>
-Subject: Re: [PATCH v2] mmc: mmc_test: Fix counter tracking in mmc_test_alloc_mem()
-To: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Cc: Ulf Hansson <ulfh@kernel.org>, Kees Cook <kees@kernel.org>, 
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>, Wolfram Sang <wsa+renesas@sang-engineering.com>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, linux-mmc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spamd-Result: default: False [-1.46 / 15.00];
+Content-Type: multipart/signed; boundary="nextPart4736401.LvFx2qVVIh";
+ micalg="pgp-sha512"; protocol="application/pgp-signature"
+X-Virus-Scanned: Clear (ClamAV 1.4.3/28005/Tue May 19 08:25:42 2026)
+X-Spamd-Result: default: False [-2.26 / 15.00];
+	SIGNED_PGP(-2.00)[];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[ew.tq-group.com,quarantine];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[ew.tq-group.com:s=default2602];
+	MIME_GOOD(-0.20)[multipart/signed,text/plain];
 	MAILLIST(-0.15)[generic];
-	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-32815-lists,linux-renesas-soc=lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	RECEIVED_HELO_LOCALHOST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-32820-lists,linux-renesas-soc=lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[18];
+	FREEMAIL_CC(0.00)[kernel.org,nxp.com,pengutronix.de,gmail.com,glider.be,tq-group.com,vger.kernel.org,lists.linux.dev,lists.infradead.org,ew.tq-group.com];
 	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[13];
-	DMARC_NA(0.00)[linux-m68k.org];
-	FREEMAIL_TO(0.00)[gmail.com];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	HAS_ORG_HEADER(0.00)[];
+	MIME_TRACE(0.00)[0:+,1:+,2:~];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[geert@linux-m68k.org,linux-renesas-soc@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
-	RCVD_COUNT_FIVE(0.00)[6];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
-	R_DKIM_NA(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[alexander.stein@ew.tq-group.com,linux-renesas-soc@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[ew.tq-group.com:+];
+	RCVD_COUNT_FIVE(0.00)[5];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[renesas.com:email,sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo,mail.gmail.com:mid,bootlin.com:url,linux-m68k.org:email]
-X-Rspamd-Queue-Id: 541CD580194
+	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
+	TO_DN_SOME(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,tq-group.com:url]
+X-Rspamd-Queue-Id: DED61580B33
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi Prabhakar,
+--nextPart4736401.LvFx2qVVIh
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"; protected-headers="v1"
+From: Alexander Stein <alexander.stein@ew.tq-group.com>
+To: Andrew Lunn <andrew@lunn.ch>
+Date: Tue, 19 May 2026 16:11:05 +0200
+Message-ID: <5102480.31r3eYUQgx@steina-w>
+Organization: TQ-Systems GmbH
+In-Reply-To: <710ae855-0f44-4b2d-8afe-415b30afd37e@lunn.ch>
+MIME-Version: 1.0
 
-On Tue, 19 May 2026 at 15:44, Lad, Prabhakar <prabhakar.csengg@gmail.com> w=
-rote:
-> On Tue, May 19, 2026 at 2:34=E2=80=AFPM Geert Uytterhoeven <geert@linux-m=
-68k.org> wrote:
-> > On Tue, 19 May 2026 at 15:30, Prabhakar <prabhakar.csengg@gmail.com> wr=
-ote:
-> > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > >
-> > > Fix an counter tracking in mmc_test_alloc_mem() that causes a kernel =
-panic
-> > > during error unwinding.
-> > >
-> > > The `struct mmc_test_mem` uses the `__counted_by(cnt)` annotation on =
-its
-> > > flexible array member `arr`. While kzalloc_flex() initially sets the
-> > > counter field (`cnt`) to `max_segs`, the allocation loop needs to tra=
-ck
-> > > how many elements have actually been populated.
-> > >
-> > > Previously, leaving `mem->cnt` at `max_segs` meant that if the loop f=
-ailed
-> > > midway (e.g., "Failed to map sg list"), the error unwinding path in
-> > > mmc_test_free_mem() would attempt to clean up uninitialized trailing
-> > > array slots. This resulted in passing NULL pointers to __free_pages()=
-,
-> > > triggering a kernel panic:
-> > >
-> > >   [   66.172845] mmc0: Failed to map sg list
-> > >   [   66.176722] Unable to handle kernel NULL pointer dereference at =
-virtual address 0000000000000000
-> > >   ...
-> > >   [   66.432747] Call trace:
-> > >   [   66.435191]  ___free_pages+0x1c/0xc4 (P)
-> > >   [   66.439119]  __free_pages+0x14/0x20
-> > >   [   66.442608]  mmc_test_area_cleanup+0x58/0x84 [mmc_test]
-> > >
-> > > Fix this by explicitly resetting `mem->cnt` to 0 immediately after
-> > > allocation. Then, move the existing `mem->cnt` increment so that it o=
-ccurs
-> > > prior to populating each array slot, using `mem->cnt - 1` for the act=
-ual
-> > > assignment index. This guarantees that the counter accurately tracks
-> > > initialized entries for safe error cleanup, while dynamically expandi=
-ng
-> > > the `__counted_by` validation boundary ahead of each flexible array w=
-rite.
-> > >
-> > > Additionally, rewrite the cleanup loop in mmc_test_free_mem() to use =
-a
-> > > standard forward for-loop. This addresses the unsafe post-decrement l=
-ogic
-> > > in the original `while (mem->cnt--)` loop which evaluated and decreme=
-nted
-> > > the counter field before indexing the array, and avoids a potential i=
-nteger
-> > > underflow/wrap-around of the counter field if the cleanup path is inv=
-oked
-> > > when `mem->cnt` is 0.
-> > >
-> > > Fixes: c3126dccfd7b ("mmc: mmc_test: use kzalloc_flex")
-> > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com=
->
-> > > ---
-> > > v1->v2:
-> > > - Started with cnt =3D 0 and incremented before assignment to ensure
-> > >   accurate tracking of initialized entries in mmc_test_alloc_mem().
-> > > - In mmc_test_free_mem(), replaced the while loop with a forward for-=
-loop to
-> > >   safely iterate over initialized entries without risking underflow.
-> > > - Updated commit message to clarify the issue and the fix.
-> >
-> > Thanks for your patch!
-> >
-> > > --- a/drivers/mmc/core/mmc_test.c
-> > > +++ b/drivers/mmc/core/mmc_test.c
-> > > @@ -318,9 +318,8 @@ static void mmc_test_free_mem(struct mmc_test_mem=
- *mem)
-> > >  {
-> > >         if (!mem)
-> > >                 return;
-> > > -       while (mem->cnt--)
-> > > -               __free_pages(mem->arr[mem->cnt].page,
-> > > -                            mem->arr[mem->cnt].order);
-> > > +       for (unsigned int i =3D 0; i < mem->cnt; i++)
-> > > +               __free_pages(mem->arr[i].page, mem->arr[i].order);
-> > >         kfree(mem);
-> > >  }
-> > >
-> > > @@ -356,6 +355,7 @@ static struct mmc_test_mem *mmc_test_alloc_mem(un=
-signed long min_sz,
-> > >         mem =3D kzalloc_flex(*mem, arr, max_segs);
-> > >         if (!mem)
-> > >                 return NULL;
-> > > +       mem->cnt =3D 0;
-> >
-> > This is not needed, as it is set to zero by kzalloc_flex().
-> >
-> Actually, kzalloc_flex() automatically sets mem->cnt to max_segs
-> because cnt is annotated with __counted_by. Because of that implicit
-> initialization, we need this explicit reset to get it back to zero.
+Am Dienstag, 5. Mai 2026, 17:02:12 CEST schrieb Andrew Lunn:
+> > +/* GBE1 */
+> > +&fec {
+> > +	pinctrl-names =3D "default";
+> > +	pinctrl-0 =3D <&pinctrl_fec>;
+> > +	phy-mode =3D "rgmii-id";
+> > +	phy-handle =3D <&ethphy3>;
+> > +	fsl,magic-packet;
+>=20
+> One of my FAQs: Has WoL been tested?
 
-Only when your compiler supports it[1].
+Well, I can "wake" the system per WoL. But resume stucks after CPUs are up
+=2D-8<--
+PM: suspend entry (deep)
+=46ilesystems sync: 0.000 seconds
+=46reezing user space processes
+=46reezing user space processes completed (elapsed 0.007 seconds)
+OOM killer disabled.
+=46reezing remaining freezable tasks
+=46reezing remaining freezable tasks completed (elapsed 0.001 seconds)
+fec 30be0000.ethernet end1: Link is Down
+PM: suspend devices took 0.040 seconds
+Disabling non-boot CPUs ...
+psci: CPU3 killed (polled 0 ms)
+psci: CPU2 killed (polled 0 ms)
+psci: CPU1 killed (polled 0 ms)
+Enabling non-boot CPUs ...
+Detected VIPT I-cache on CPU1
+GICv3: CPU1: found redistributor 1 region 0:0x00000000388a0000
+CPU1: Booted secondary processor 0x0000000001 [0x410fd034]
+CPU1 is up
+Detected VIPT I-cache on CPU2
+GICv3: CPU2: found redistributor 2 region 0:0x00000000388c0000
+CPU2: Booted secondary processor 0x0000000002 [0x410fd034]
+CPU2 is up
+Detected VIPT I-cache on CPU3
+GICv3: CPU3: found redistributor 3 region 0:0x00000000388e0000
+CPU3: Booted secondary processor 0x0000000003 [0x410fd034]
+CPU3 is up
+=2D-8<--
 
-OMG...
+=46or that reason, I would keep that property nevertheless.
 
-When I commented on the LWN.net article[2], I considered only the case
-where the compiler is too old, and the counter stays at zero when the
-user forgets to initialize it explicitly.  Now we have the opposite
-case, where we need the counter to stay at zero :-(
+Best regards,
+Alexander
+=2D-=20
+TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
+Amtsgericht M=FCnchen, HRB 105018
+Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
+http://www.tq-group.com/
+--nextPart4736401.LvFx2qVVIh
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part.
+Content-Transfer-Encoding: 7Bit
 
-[1] https://elixir.bootlin.com/linux/v7.0.9/source/include/linux/compiler_t=
-ypes.h#L549
-[2] https://lwn.net/Articles/1063295/
+-----BEGIN PGP SIGNATURE-----
 
-Gr{oetje,eeting}s,
+iQEzBAABCgAdFiEEByESxqszIvkmWRwbaS+g2M0Z/iUFAmoMb3kACgkQaS+g2M0Z
+/iXlegf+Jah/HxtzA8FMQx4UsXpxX78jUNG5hFcKoA1eMRtaVk+YHJ/ULn/kGr/l
+2RsVe5e9IuzB3VyOqnX1P2U8oEBbMj4plC1VZI8MrU+gDEW989eX0RAJ98y4TW9X
+wbQqMG93B+fUZc15khg9MekjJeu2s4wgm0qsGDjZd799NtEof6vDH5nB5dqekI9I
+yt9RO81MMxpxfpmyC4sPPUiLCoE3LQlmLQ4sG+oP97mjPfKidplrWNUZbuFkQMh4
+3tTsBJETKIuuy+u/rNnDh0n/EiSAd41wpNvQrwCKNGBL1Y5QFJKIkPyRKe1M1OoX
+nzHArj1V/uKHScvzjX7xdQSgFFzsFw==
+=ozu8
+-----END PGP SIGNATURE-----
 
-                        Geert
+--nextPart4736401.LvFx2qVVIh--
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+
 
