@@ -1,200 +1,186 @@
-Return-Path: <linux-renesas-soc+bounces-32836-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-32837-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id AP5SDrSvDGrdkwUAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-32836-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 May 2026 20:45:08 +0200
+	id mFH5A1u0DGrClAUAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-32837-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 May 2026 21:04:59 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FF73583D62
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 May 2026 20:45:07 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DB32583FCC
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 May 2026 21:04:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id A1ED8301178B
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 May 2026 18:45:06 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id EE98E300A646
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 May 2026 19:04:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2EEE036CDEB;
-	Tue, 19 May 2026 18:45:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 03CCB3DB328;
+	Tue, 19 May 2026 19:04:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="HH8i2N98"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bet8Qz6m"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from OSPPR02CU001.outbound.protection.outlook.com (mail-norwayeastazon11013000.outbound.protection.outlook.com [40.107.159.0])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D80C36C59A;
-	Tue, 19 May 2026 18:45:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.159.0
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779216306; cv=fail; b=mI6TEgVeQqJDYo9Ph59dwfvhrZ4u6NOq9MSrhKBi6uLsIVrJ9BP/bBx+p17csmmwQU/hZlorNs0JJnmuYvSkzq2ef0IuJ4lLPRr/J12e108dsoYWSX+VAfv/dDInDAJ9E138SacZRDlOJaHUyrwgv1/99Es5SUyba5KSH2C96tk=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779216306; c=relaxed/simple;
-	bh=fVUR0ckheuD9ZXq5cucoTq1puSD/GePh9yfJ9f5Gulw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=Th2XkAgog/InsUHWU00PiDaE6PK9QPLQoIe9EJgyDZNe5CvTb9XViVowXupUvHR81lzaxdXZPZvuPqA6YPtUoQU5KUB4fFwmljp0J/gGkVq5piFymIBPMbUiF7VCuwG+ZqLA+ciU9Eb4K+KWHxjIvGJ8NG9Rzzpxnt6MDFbywlU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=HH8i2N98; arc=fail smtp.client-ip=40.107.159.0
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=SyR50rJ5d5KFtjVD+EjK/1qPAnjZwG4MEa8hHlpHjb7O+n4VZGlum3/eUluiwI8tuSmEcvCliGc1HdQ2k9BtSULjTG4FhVrtHz0n6x4EMR/iYHbvmUeyptoxYT0jsvMZC0my/f5dc5meOuCl8yT6VfFuO0NO5eSFQuYMhIy8rCKgP+55Rn0HbOaTwE3Sj0CbLINF5lnlglQBa0eZSsdDMTxUIEdiFlkQWk69yrniLPZ65haiHJN1Y+RqXjqCazEdzrf39/zZbSLvs3CnA92TW83f988EFIDrn1j4yEHqkn/C3PF/juhTWsHpWzw7L7z7BoB/xlMxjOCdNwZJUfkbLg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=3v5i/VQzeZda8e72rOElvfNQ/7bY81p38PRQFqgFKzo=;
- b=mnWNng6UtHWN4hzwvpmKmWV2uUeSthPXp7b0uUSYRqqOX6AXU3dnNHOr9NhYPMB2IUZrKZVZ22pcd80MuI39+vo9mhmYClEJUvB597jRMXF2wkzOgTgvrT8FV6grakIJihqgJt7l2x7kIDhPBhWdbkTzxZTOzGYNDc0a7Ir2NTBO9L63EwKCxuAYQkE4pBTzDRGZOXh1VPzr3q5uIDGFSC1osJoN55CoV3vqE8NYsPmbYEVRhk8C6O1qYR9R52oTJY0MC3UtZ333fyvNLmSBjPbCKvjGujG4iSz4oe8L6vvU/o5eaCG0yLRTxkF8YdjTDdHJOUBRz1DGEIhgdcmcRQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3v5i/VQzeZda8e72rOElvfNQ/7bY81p38PRQFqgFKzo=;
- b=HH8i2N986LObiybkB7P4VDRj1jERzSJuYeg6ORqGSJK27VC2i6p0UD2KBP9LSnSgS7kKhdqBypsoKby0aysFIQVZmzDybV+Fi2WgWEQX5oBwyWW3jwcVuTrDYOLu2z0PCCE4dPBsJQHy8m7HzudZdalg9Acy3MKexsp0c5i7xR+2VzFNUWEtLD7kV/bTUFXevJayfeHPr3JWCFTALppk+5UkTOrfEPnrLdeA2/WUm0pvf7FgiP06xY7CIM8fkMz0wbkNVaBmZdTJ3niMCfxe0CLu0CVr7nWhB1pV1cPJs4z3WY6qHh5nmmznxomj7qDuLyXLKLMciAQqPsgdUpvh4A==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from PA4PR04MB9366.eurprd04.prod.outlook.com (2603:10a6:102:2a9::8)
- by PA1PR04MB10227.eurprd04.prod.outlook.com (2603:10a6:102:456::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.25.24; Tue, 19 May
- 2026 18:45:00 +0000
-Received: from PA4PR04MB9366.eurprd04.prod.outlook.com
- ([fe80::75e4:8143:ddbc:6588]) by PA4PR04MB9366.eurprd04.prod.outlook.com
- ([fe80::75e4:8143:ddbc:6588%3]) with mapi id 15.21.0048.013; Tue, 19 May 2026
- 18:45:00 +0000
-Date: Tue, 19 May 2026 14:44:49 -0400
-From: Frank Li <Frank.li@nxp.com>
-To: Alexander Stein <alexander.stein@ew.tq-group.com>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Paul Gerber <paul.gerber@tq-group.com>, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, linux@ew.tq-group.com,
-	linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 2/2] arm64: dts: freescale: add initial device tree for
- TQMa8MPQS with i.MX8MP
-Message-ID: <agyvoSFG9IQxOpo3@lizhi-Precision-Tower-5810>
-References: <20260505063346.1799500-1-alexander.stein@ew.tq-group.com>
- <20260505063346.1799500-2-alexander.stein@ew.tq-group.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260505063346.1799500-2-alexander.stein@ew.tq-group.com>
-X-ClientProxiedBy: SJ0PR13CA0015.namprd13.prod.outlook.com
- (2603:10b6:a03:2c0::20) To DU0PR04MB9372.eurprd04.prod.outlook.com
- (2603:10a6:10:35b::7)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F67B3EA94D
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 19 May 2026 19:04:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.175
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779217491; cv=none; b=PWrLKFFpgLMsPm9taCvW0ZOsJbaNX1gdGXMzYNkg6bYepLP3kG57O9FEY0EemfCbtkCQzPr03Yr76SX8G7LD/flGbxo6srBmA3aFsoS04ZZP5Wflbai+K/XyUKNeBHM7OFv81iP3kJEUJA8y7SQkxiF9EwiiAbSIbhSLDhWAu20=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779217491; c=relaxed/simple;
+	bh=ClGiD7Br2FRvKa7NIj3NIRbaGiCBSYKP0ikEdtKtThA=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=dE+VmV/duM9AjQM0ETBb6QQHfiIeDG805nV/JcRe3i2utXMo7iM+qoUJd4O1q55bOMfzzPQgugjZHZPEdomBlVb7skgT6m9iG621SmDfQ/BBlvD66WE/Guebp52uECK6AS3Fw4/5CxPh5cxxJ7kyNuZlvcWJMPRjgaLSaaOeEcA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bet8Qz6m; arc=none smtp.client-ip=209.85.215.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pg1-f175.google.com with SMTP id 41be03b00d2f7-c8021c8c42fso1626600a12.3
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 19 May 2026 12:04:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1779217486; x=1779822286; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=lt4E8/DsuDzGzbJ8IpIkgEnn/bBtXFj50NFYiiBCCoc=;
+        b=bet8Qz6mLJZkQhRiQ6ClI5X5+FaACWevEv8HK96i3nHF1yAGmEcw7OlJaSwhIj+DCA
+         N64NaZIxluUa2q3k9Q5AnHI6CFbzSmQHstj1JLaViJF5Yc1tR+obQYealfOVxxTLWM4u
+         /wfF1MP83Qr7vOo+P1OvYyiv5tj1ozdN+dVdcaHB64cPxwiPqKS/j3Z7hDZnoMXz1RYW
+         UzIcBaZ5+jLVjHpKsQWHtqOeXyuk4SvQQP+MxrocRg3tyY3ryVFtwZjh3lf8BiOnoKim
+         iGj6vR4UijHyyyNk5lTZjOo3dxFC+P8ftmTRHIOAdofVFISb3Kg44SrM8RG4yUgMzbbr
+         54Eg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779217486; x=1779822286;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=lt4E8/DsuDzGzbJ8IpIkgEnn/bBtXFj50NFYiiBCCoc=;
+        b=ZUxyE8ONKQU0VDapZJeqrDE1WxSSNRHrpPqctqqp5ZySQ4CWODwtt4U3FI143c+IUr
+         f2vzJDJ/4SF50amKK678WU+MgLbz1x8uvNnOoCrea+z8WhjVYcrFHx4bL0ym3nzGbUZp
+         nn0m0EXmKw945ZN3UBnFVE8GsA4pJH7bF9/nMQR6iudYw6OR0vIeJjXzgiHwbgqwbHXT
+         Pi7L2N4kWhttsjEQKkmJ5Khha0MRBfOKPyulMFum72XXkriyYflR2M5uKvfyKpUUUxX5
+         FS+gWYaa1H/RRKWEHpy/BgSq2mwefzVB+MrsojKQGw5F8fPKy8M4f93oAM2fcZV+r0th
+         gJ1A==
+X-Forwarded-Encrypted: i=1; AFNElJ+ChMStAHJMgqFyAd14UJ9SAh9AEm/f5CXDXpdBiMdRa+FDSpNc0I25u4Du3UmvKzlFj4y+7DhS9KL85RDNS+3/xA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzj4yioPZB5Ef5aGEwvq2D2huqBp4Zu/xfr2fitUO6ebHJDMZay
+	9uy294KGUBh3IuTbcARlQ7BKaDQCE48ngZjxTLoV8icqgqi2Ua1ogRKs
+X-Gm-Gg: Acq92OH9/IVHc8MrgSDVcKxOS2XtgtiTaaackFCQR09/psM070jA2QpEWry/gJ16p/4
+	TkkqnJyVyJWh7fbuaFXw7mjhB5lGS/pcpwYSwXD4BLFtnI5d9F30MMKuZ47GWuuwVuaKf+roleO
+	SDoqHwTf7VW7SxyTLA7ghcrN7ureFk9a9p41a9N3fi34NMO03sBc83vLNHWaGuIUznbplJJocpg
+	y9hFJX00ctTBd1wAF0AyHZugd1j7V5wGRwfHFeT9rVfzV4JNnRdgHkWNPyZ3SQlT8+zzm41WbbK
+	W127zAHOJw14SM27vcP5qqFt2/b33GOfvtXNScGIqsR28L2OKDzF/MYPwfRhuRusvVQSoL3aXUE
+	9QBeTGjAQwgWYJ9O4GuyccRZzfMdKqI8i1a1D1+7hknW142727qKRYzKxH7eIlhRtDJqNAe81KV
+	NZ6/MCrH5e1obQwnIeLbdt794Afk+eUZSJvmLi31K9GwXIc1Z1Pps7xEkMiX8=
+X-Received: by 2002:a05:6a20:9153:b0:3a3:171f:6b23 with SMTP id adf61e73a8af0-3b22e14de52mr23831258637.0.1779217486164;
+        Tue, 19 May 2026 12:04:46 -0700 (PDT)
+Received: from csl-conti-dell7858.ntu.edu.sg ([155.69.195.57])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c82bb07b007sm17317550a12.11.2026.05.19.12.04.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 19 May 2026 12:04:45 -0700 (PDT)
+From: Maoyi Xie <maoyixie.tju@gmail.com>
+To: Vinod Koul <vkoul@kernel.org>
+Cc: dmaengine@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: dmaengine: dead empty checks in mpc512x and rz-dmac descriptor pickup?
+Date: Wed, 20 May 2026 03:04:42 +0800
+Message-Id: <20260519190442.2382986-1-maoyixie.tju@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PA4PR04MB9366:EE_|PA1PR04MB10227:EE_
-X-MS-Office365-Filtering-Correlation-Id: beedb05b-e953-4731-5558-08deb5d6bb2a
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|19092799006|366016|376014|7416014|52116014|3023799007|38350700014|11063799006|56012099003|22082099003|4143699003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	bBwV6S8vFvg8+FJxI9jlcrpaVEauXwwHgVYCnu4RXtv9ChCG8NuA66nOfTug/iWW/nPjt3YHTvCGucTXchEOvIlX+tOutTqwTCnbBuIPmSvD5swgn5WVwb9lfox6mm4JZaPDHf+M+2z8MfFmtZo1UARQ/ixRxmxandGrgkgs41CWzI3NpMRAn8vdoSIYy3N/Odm+H0D1B3rqfWjnjFdtX3DnfEMVyYaMluxbk9fWBBJuH0k6Nv+5WJx4g0f/u492CTSwjTdzg8b2UCK/Yc8AoODFQdn48VRJRljHlG0r1dsFc+mP4a2sewYflbI9hbjQG3RNxIYeUlccdMEAcba7SCk7/IfzVN24HmL1s+QY8L9d3Ai8B2B9OfsFaI2/8Ct+KLh2altB80OfDRF9toCWHoZVXurXUuzjgka9KQbFAygBrxbxNIzWvNnv2pQ2Kq0VObdUC9RW7vbziLewJWG/IRqZXvUyR8z6CHMvx4Hnndvm6EQCU9XylvAxVfyrK9v8xTrBuIeWKadbNu/b4zSo5s3sMk8CvRL5IgBYX6MT7LUmatOdzzpdMumpm1XKesG202ZKKCRM5B5YEuWmhJjY+OzDPuqZ1C2XYhnL2I03/VqMwJiRfFpjTLKmNliJSpiTKsgmpYKnGKedbh8VKeofIg8Ww79B5VHMLxM9aSeCH60JJqaUT5yKhaaMXN7qo7wPDIQJ8LRgUxY+S6JEQr0+/wMqXt9YOG7+SKBrRnlKMxUPitME26H36znE+yD5ocXx
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR04MB9366.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(19092799006)(366016)(376014)(7416014)(52116014)(3023799007)(38350700014)(11063799006)(56012099003)(22082099003)(4143699003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?JkRAJHulefbWZDFBf0kXw/vcaVVhbG0R4VPoe91f+rmSuUP9CpLKvIo0llvQ?=
- =?us-ascii?Q?IqiY6YlAmDxwPHfspoUTQH5Iq1TSVvWXOPAcNj0YXO/jOjPSmX/EzH1h6ANw?=
- =?us-ascii?Q?Ju/5CiFci7aiuthLM3W0IYSZKznNAimld1bjJAi/XjyvmII0jWZ1MPlm/W3y?=
- =?us-ascii?Q?F7d9vyiQNeQRpvZQufv9sYLGbT05vqGa7FXjJ/2xau6ZTszlIikgDR1OvhOp?=
- =?us-ascii?Q?sI1exVg+zinKnP1TZtUXIWELo5HYRy0uWgZCpVXgPWP/dysPIVCvkmlAfLVR?=
- =?us-ascii?Q?F3mXUofuaakrepw0CWF1bPFivy9ARvjga1y23OFpEfPZX+qbp+kGXQGPPejG?=
- =?us-ascii?Q?ZNXajjmdF1CQPRmzxAdERV4esKDiihPj2M2mbLvde6c/pXQ8DWBjMFXas71R?=
- =?us-ascii?Q?gxfnthV/+VnkRSBAX3VuCyGUA/eaNqJyzji0mMamlYS8HrkMttjQQlnamarf?=
- =?us-ascii?Q?dVAQ1IHpj4SNS3eIdXeqOmmh9tue0pnzvjnJBxA7THYFlXxtvMY++WNrS5Jj?=
- =?us-ascii?Q?DcjCHir3HWrYqdAxHE5cPYqX2mktHzg2pZQ/sm7se6L45DekjLX/52Qzl6L0?=
- =?us-ascii?Q?y7STvgqusJeZIGJsdSHDXfdj+HlD8We/p7cRm0X137JLp2wGXnadL1iVfEG1?=
- =?us-ascii?Q?7ME9kRTJTLghm3W6JidIe4C53DAAZ+cUQg9oylownZ8yVT1pPEXhI5Y6B9m3?=
- =?us-ascii?Q?hVxU1LgEIEENvYGDaH6FWhHijJONHhJuNyjwx2zcwCFWmBgWXVGfsf8Gm7LN?=
- =?us-ascii?Q?VlmyRXhU9COQmO0lUzzLso9/PiBwhhCiMO/srtx+Yo9k3pb/FQZ8MFMzGWDB?=
- =?us-ascii?Q?etdGyFvfDyL/QOWDRP1sxzDwbqB6UkL9IUrfIZCbEfwPmyGOOGeNbWChMm0y?=
- =?us-ascii?Q?L4Rbrvg3g0bO8U/FdYgxKwlkoMsMEX/JUbPplh4HgsnvxS4fcreoOAgE4nIh?=
- =?us-ascii?Q?xSVsjRtmgbB1sAGOKwFc4I70gvUVF/8rdoMtMhyQ8CQAL2lJqIQ9iN0PlXsi?=
- =?us-ascii?Q?GdTobL69kBsiRrzK6jQfJB21m5f9fHjCBSjCP4OTfSNGQtPxDy11otOOFdBJ?=
- =?us-ascii?Q?aMwK04b0P8fbMSNVwxzLx0x2GMrI4FSwDcCYgfQNWnZ6FxPKXDkN9eTrUhhR?=
- =?us-ascii?Q?SpvbJV2s8tPseWXx1MowZQAXwqhOxJ1VeyOaL/cwf4obikNeBlMwuvMcZJRv?=
- =?us-ascii?Q?+qi583v4rrZP3sGWuXjcs03hMB5d0bLxt8zJnkwcKI/INcSx+JjwfJtAOIX6?=
- =?us-ascii?Q?7xVZcc5AUUJBIuDxVSNvV601r3JQgbl5c5AbGbAYDuqbik2PLjuMmdPCO1vZ?=
- =?us-ascii?Q?KIOuM7vJw1c0UAuIm0a4iiZh0jUZ3lTpWWJojfL++dNIAqI12KxlhdYIH3jp?=
- =?us-ascii?Q?X9lZ0hXjnR3J3Znmu1MR2QL2eE60koUb/SWanq6WBkgIWF+O+kEGtXxsQ4ox?=
- =?us-ascii?Q?72Cm850u/YHTrxb3Q27dwqvTzpwfchyjc0LLAGTkZs4+sJH04CVqTk8fbyHD?=
- =?us-ascii?Q?RSFrQ+B4lb3tNFW2hyenK9pSD+XVIs5LGn+ZcyXKzk21VZBkNJub5RZaP6hn?=
- =?us-ascii?Q?S8ud8upLGZq7lGmzwV2Q/I+cC+EsIchn84TeSJ/LqRcHxXTLlbjs8Uz3Ich4?=
- =?us-ascii?Q?xTsqKWYz6K7Ogc6tvFRKmkg++an59Q77AKGxY59JomNND3iFJACF7mNLIYQR?=
- =?us-ascii?Q?2RJGYqStR2ohvmoRWqrmyP9OahMBmfxIZLZNqYF211bO2Sfh?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: beedb05b-e953-4731-5558-08deb5d6bb2a
-X-MS-Exchange-CrossTenant-AuthSource: DU0PR04MB9372.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 May 2026 18:45:00.7810
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: kUBZ8HV40zcPsT3AaP4Kv0HGYmtbs9q5QNibZUMWgNmydnKRP7aaO9SPBrKqQcN9PyilMP5kurlL8Z5EOrvUpg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA1PR04MB10227
-X-Spamd-Result: default: False [1.84 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_REJECT(1.00)[cv is fail on i=2];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[nxp.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
-	R_DKIM_ALLOW(-0.20)[nxp.com:s=selector1];
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUBJECT_ENDS_QUESTION(1.00)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_MISSING_CHARSET(0.50)[];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-32836-lists,linux-renesas-soc=lfdr.de];
-	RCPT_COUNT_TWELVE(0.00)[17];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[nxp.com:+];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[Frank.li@nxp.com,linux-renesas-soc@vger.kernel.org];
-	FREEMAIL_CC(0.00)[kernel.org,pengutronix.de,gmail.com,glider.be,tq-group.com,vger.kernel.org,lists.linux.dev,lists.infradead.org,ew.tq-group.com];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
-	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[nxp.com:dkim,devicetree.org:url,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo]
-X-Rspamd-Queue-Id: 9FF73583D62
+	RCVD_TLS_LAST(0.00)[];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	TO_DN_SOME(0.00)[];
+	TAGGED_FROM(0.00)[bounces-32837-lists,linux-renesas-soc=lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_THREE(0.00)[4];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[maoyixietju@gmail.com,linux-renesas-soc@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	RCVD_COUNT_FIVE(0.00)[5];
+	MID_RHS_MATCH_FROM(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[linux-renesas-soc];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo,maoyixie.com:url]
+X-Rspamd-Queue-Id: 0DB32583FCC
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Tue, May 05, 2026 at 08:33:44AM +0200, Alexander Stein wrote:
-> From: Paul Gerber <paul.gerber@tq-group.com>
->
-> This adds support for TQMa8MPQS module on MB-SMARC-2 board.
->
-> Signed-off-by: Paul Gerber <paul.gerber@tq-group.com>
-> Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
-> ---
-...
-> +
-> +&usb3_0 {
-> +	pinctrl-names = "default";
-> +	pinctrl-0 = <&pinctrl_usb0>;
-> +	fsl,over-current-active-low;
-> +	maximum-speed = "high-speed";
+Hi all,
 
-arch/arm64/boot/dts/freescale/imx8mp-tqma8mpqs-mb-smarc-2.dtb: usb@32f10100 (fsl,imx8mp-dwc3): 'maximum-speed' does not match any of the regexes: '^pinctrl-[0-9]+$', '^usb@[0-9a-f]+$'
-	from schema $id: http://devicetree.org/schemas/usb/fsl,imx8mp-dwc3.yaml
+While auditing list_first_entry callsites, I noticed two places in
+drivers/dma where the developer wrote a NULL check for an empty
+list case but used the unsafe API. The check is dead code. I
+would appreciate it if you could take a look and let me know
+whether these are worth fixing.
 
-It will reduce review time if run CHECK_DTBS locally before post
+Site 1, drivers/dma/mpc512x_dma.c mpc_dma_prep_slave_sg()
+(linux-7.1-rc1, around line 709):
 
-Frank
+    mdesc = list_first_entry(&mchan->free,
+                                    struct mpc_dma_desc, node);
+    if (!mdesc) {
+            spin_unlock_irqrestore(&mchan->lock, iflags);
+            mpc_dma_process_completed(mdma);
+            return NULL;
+    }
+
+    list_del(&mdesc->node);
+
+list_first_entry() returns container_of(&mchan->free, struct
+mpc_dma_desc, node) when the free list is empty, never NULL. The
+recovery path (drop lock, scan completed list, return NULL) is
+dead code. With an empty free list, the fall through pointer
+aliases &mchan->free. The subsequent list_del() then corrupts
+the head's next and prev links.
+
+Site 2, drivers/dma/sh/rz-dmac.c rz_dmac_chan_get_residue()
+(linux-7.1-rc1, around line 726):
+
+    current_desc = list_first_entry(&channel->ld_active,
+                                    struct rz_dmac_desc, node);
+    if (!current_desc)
+            return 0;
+
+Same shape. ld_active can be empty while a residue query races
+with descriptor completion. The `return 0` shortcut never runs,
+and current_desc is then dereferenced for status processing.
+
+A candidate fix in both cases is a one liner. Switch the API to
+list_first_entry_or_null so the existing NULL guard runs as the
+author intended.
+
+Similar dead empty checks after list_first_entry have been
+cleaned up in the same shape, for example commit fbb8bc408027
+(net: qed: Remove redundant NULL checks after list_first_entry),
+commit c708d3fad421 (crypto: atmel: use list_first_entry_or_null
+to simplify find_dev) and commit 10379171f346 (ksmbd: use
+list_first_entry_or_null for opinfo_get_list). The qed commit
+message describes the exact shape we observe here. These two
+sites appear to be missed by those cleanups.
+
+If this is intentional or already known for either site, please
+disregard. Otherwise I am happy to send a [PATCH] series or to
+leave the fix to you.
+
+Thanks,
+Maoyi Xie
+https://maoyixie.com/
 
