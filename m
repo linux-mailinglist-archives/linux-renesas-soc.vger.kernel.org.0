@@ -1,226 +1,297 @@
-Return-Path: <linux-renesas-soc+bounces-32819-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-32821-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id IBnaLZFwDGpKhgUAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-32819-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 May 2026 16:15:45 +0200
+	id cJKmFe91DGqihwUAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-32821-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 May 2026 16:38:39 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 586FB5805B1
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 May 2026 16:15:44 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id E5DDA580ACC
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 May 2026 16:38:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 96486301586A
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 May 2026 14:15:32 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id D0954301384C
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 May 2026 14:38:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AE17644E049;
-	Tue, 19 May 2026 14:15:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E5D4F46AF1E;
+	Tue, 19 May 2026 14:38:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="o60kHnXg"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NCaHPohZ"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E71414028EE
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 19 May 2026 14:15:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779200127; cv=none; b=AOD+a6jmNFfebZBjbiCn+o0tNqnY6TSTfUkWDp0+f+hYSTmnNQCjmiBCgUhjk2rEAC+Y29urni1r62qwg81Od0gbPmpPU2P4/v2IaABL4bfwZRUZ1/Qjnh9DpUJu4fQFHBcDgV9qprQlnq9Lf3R7rqpXqqckIW65l8l3fc8XxEM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779200127; c=relaxed/simple;
-	bh=tDYG3+8XiKZlF3E3b3WpE4A3INkHP9bqPVrhIBkxUdU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=DQE/lnKEqJej3aDgF4B5zvjH5fvK27/vhJ2ym+qCjsAWdPmmp1znJPFj/fWntIsbw4fhLd1sTNiZAdP0JvIh0cePcDbAW6DbrZG0OQchYJ+eNVY9iwM/yCzzG0ZYmQYiZKLt97txwoMRPdA+huC7g/QTZ8wM5f6oniMXuLCnS8c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=o60kHnXg; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22C0C3BCD31
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 19 May 2026 14:38:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.54
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779201516; cv=pass; b=q2DRv2CDoGKH+EGAgrmw9iKgzgjwDMT4Ts2OhOzvJhVf7X2El4NsV2kHozwFNPmjSjo2YHIiYtp/UYzLS9iYMI/kvBSmN5efL9hw9bYW7sIXHqj/Z33QFUMb3oIL6TAInIK5Pn6UTtdf5+y8JuDajlU+BCgxKprLe3+TAU+JTBo=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779201516; c=relaxed/simple;
+	bh=cj8fMYGGV50JmuPH7dRsygkr0LOScVOWkGLEok5hm1I=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=pyObCdjTM6R9qlvBDZYbolnblNRlM1JwYXpLadhqA8F48mFShjRoaqthn9EloNPCrSKPgjKrYiBzkTF+CD5FVUtlX9uo2qvr6G2wVQHdj0+O3t7Fcv5YV7s7T66AKsYhonuC50IsCk5grAZJzO8mjtRuqkgMR1Q+l5Tc6p7KsoY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NCaHPohZ; arc=pass smtp.client-ip=209.85.221.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-488b8bc6bc9so21345805e9.3
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 19 May 2026 07:15:25 -0700 (PDT)
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-43d734223e4so2344267f8f.0
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 19 May 2026 07:38:34 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1779201513; cv=none;
+        d=google.com; s=arc-20240605;
+        b=XQtwcXq6zW41SfwBqZwAL2FaZuFMB7DGbdAfZ+0ITCpFbZWGVr5r2i9JaTlTdHIWBC
+         eaivt1Y1RLoxC9oh18ASuEkC3ga8Y4JqacCcEShzJQmIaAISzyF7mAsaHDtrhW+zrTme
+         whJPc9Pv1CgEFFmoVd/UVdQ9JW90p8Hpya1cBqlDXT8mz2KDYA6KEBlLFChj1ySPmByp
+         6RYFtPkqOW2QR1NS29JHYf1SooI3DZvd+UhaVfsHe9ByHo8Yc3D9BfrsP3YPPgqapW3U
+         Ci9QjDzWMf/cBAuzZ6ham/sBw+Oc94LgurDMSjc8dlDLLhI1TGB6Et1wpHy1G5Ocj16U
+         VJww==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=8B0kUihN/kZA4O0Fnbmlk4Xoxc4WIG8UJmCytLrBe7g=;
+        fh=fA6IhXkTDEVkPmnDZUZ11uSgUabakk+bZsnWL5Ts/wc=;
+        b=HtWIdZH26S0sg5BP4muU+zAhzBBv92htuLxCyAl+AAFDguWrJ4LMzsKYrNAYypsqLH
+         5tZwWqTX1xc9kf28oOzj4LleNrww6Af+zBS2XV+f+tXCw/pIJLHO1Ov8RQQR2+4TO/R8
+         R37xYt/cPL6ps5i+gApJkhajC29ZcWwBJgeJtwzlDCV5sLTNz0v8jPxzXg+rqef8v1we
+         1GbHXL52GMPTfCLhN+iTZxa7vw0wyK7c95Cvk+6dBiqnce9ElBv4j+GXGablWDyz8s+J
+         5eCLEordxeTl/16puH+/0Po79aE2J3aYbhV/fjBM42AZ9uxRqMSN9bC0/0eFj+AeZeKu
+         enSA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779200124; x=1779804924; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1779201513; x=1779806313; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=jYVmVWSUhwTTTImhIixvGMooyyhf3UJ+qaABfiENa7U=;
-        b=o60kHnXgWb9eLA6ZdExRjr7HcrasXwQk9YGiQ8SsEevEvsRZL1k3PmrrhAzxWpkJBt
-         OM+l+ydWAa5TWquoI0drf3KaWQ8zaYdA2sLjj7846/FDTMASO1UyRlMA7nz/rTgs80aw
-         w/vMfYo5xY3ylco88TWQnMW69Bh9oyCYhvpJP+kh1keCaDaeIYKPFxWTATjkV0TQfIa7
-         +sp0MWaYzlSWnqrymnnF9tEiY1MyIC1m5BKkXVHiO8Pr4D3g2cCTbNZh0UIEKOHFEC2w
-         XtNr/8DVLPMoZCmtGZFvZVc3050gIcTCCyTbBv0TyAASkIKMojKONrt5UyTVNhoK0BNY
-         2AEg==
+        bh=8B0kUihN/kZA4O0Fnbmlk4Xoxc4WIG8UJmCytLrBe7g=;
+        b=NCaHPohZtYO/I58mVjHwW7twI6RUFQE4eNDYKyYezif9e7RdL8dQZq7BaQmz7XS/pC
+         fNbXv8qhD1fFrFbMQwKnEn5HSjcR2liwTnnDxbEJrA7ypSldP+qVQGekw3Zky38fb3K4
+         tQtiRolB+milGEmLfhOKvDL37UPxm9vboI5OqLIbsuVY9+bZ8/h5iTHRRqxlPF1FuMvV
+         cxksloucOHcb2NKODfRraRJRh/PT5iqLq+sTHe19j5mq7GMath1hFT2R10lx0CaZXuVM
+         9aZ7An2HgnpKjaIIVo47bnIpSjWlH7T5KfDCGGsmiOu081YD7TNMaeedE+fmNlp2DBf+
+         engg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779200124; x=1779804924;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+        d=1e100.net; s=20251104; t=1779201513; x=1779806313;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=jYVmVWSUhwTTTImhIixvGMooyyhf3UJ+qaABfiENa7U=;
-        b=syvHmkD1rpYxS8jhc4zt8tBGs0yCalda+CRFS/Os+QYpg2ZgxJGzsnqWpw9UBnRJ0V
-         gJU5s5ru2VcHzWC7Zcx71COsyWo8pX3FvWULiKv3gHvWc2TCgxbpl2ASzIPXYHy581nk
-         2m+Qvs9wa+qgvKdyqSxFGZECAovPR4dCpiDS/xZ7qF71yFtdBSrq08aVkzxZ+v7R+Azg
-         RY5XHG/DOdCgMLc2y5GLZoZ7FH+SC8NLQH50lB2RrTylKO/WOQdYeXxPjC3dwq6LZKB5
-         W9pAoIXAwaUnO3qHrbxiVeqapy87lVR21Ms0ew69IHkL1WQIpyLmk3MUhHWlGZcUqcYp
-         tXzg==
-X-Forwarded-Encrypted: i=1; AFNElJ/dn9gBvHZkejW33QrKs/KI/2gDiElmVuKcm3obvfldBeoXx1NQCO29U+STdp0onGlNBKbXXExKn8GsXQQ7F8AWZg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywfn1X7m39tPdkwL5kWK8BPzDTp/Sw/tBItv2D/v8GZGUKP1eHL
-	BQ2eFDMGJL2mhlSulym54MC4VgxrUDnk0mqGdPY8ZDomgm8Fmch4B57pKFTO9g==
-X-Gm-Gg: Acq92OFUcT5x4rJH18RM3bfGMoTknmsn842iluy0Q+mJM1cs9PkXZbJkQ1CQBigRa4Z
-	d7neUvys2B5pYFX5yO48LUFT18QSemdtj3CoYMIRE+U3HIcMZYrefdiDRf38puM04uaKf8/JHmc
-	Q/GUszGUDEtJka2/a8WPLQc94HMy1LEDll8YRhxI9M/QjpWOrDChecnf9ywY0o5IY8MJDD9GtHY
-	wsnEpjlWUiCIX/lwEltP5SbGlg2DELA0BIVGSjUUnNVaqIkYZoeHsuzYfEitkWJhJkZlpq1/qSp
-	ySmWZlvTOpzuTr3VfrFRNWNcqUYsLi13O8+kMtsZvtGbSPto4plOSCP0+S+N7+CFezWB6XNBP2G
-	Pzo2DQmiZmqABiWsoEDQC+FFfJmFNu5NW4Ro+qh1Y7yxJ63tk6F9futEJpeBeHIIH/yzfXJumn7
-	TAr9+O3FH/IJO7aO97xj2P3fVotSLbl+3Ykldgok4i+Wbuqmom
-X-Received: by 2002:a05:600c:8592:b0:48a:7aad:4425 with SMTP id 5b1f17b1804b1-48fe60e5235mr228206945e9.3.1779200124022;
-        Tue, 19 May 2026 07:15:24 -0700 (PDT)
-Received: from localhost.localdomain ([2a00:23c4:a700:7301:4abf:a82a:41d5:6663])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48fe4c8344asm557912205e9.1.2026.05.19.07.15.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 May 2026 07:15:23 -0700 (PDT)
-From: Biju <biju.das.au@gmail.com>
-X-Google-Original-From: Biju <biju.das.jz@bp.renesas.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>
-Cc: Biju Das <biju.das.jz@bp.renesas.com>,
-	Brian Masney <bmasney@redhat.com>,
-	linux-renesas-soc@vger.kernel.org,
-	linux-clk@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Biju Das <biju.das.au@gmail.com>
-Subject: [PATCH v3 3/3] clk: renesas: rzg2l: Rename RZG3L-prefixed PLL macros to CPG-prefixed ones
-Date: Tue, 19 May 2026 15:15:15 +0100
-Message-ID: <20260519141518.389670-4-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260519141518.389670-1-biju.das.jz@bp.renesas.com>
-References: <20260519141518.389670-1-biju.das.jz@bp.renesas.com>
+        bh=8B0kUihN/kZA4O0Fnbmlk4Xoxc4WIG8UJmCytLrBe7g=;
+        b=CJUIAo8KQDV935sK29rwulH5dqHnCgokKENVrpsfasf5dfF2wVeAe433PCoXodC/Cy
+         qFTCQQDarnb+cMqk05nPIoTpoe1UBKKsZ3d6Bj2Bl2AcoZF+11KNHbScIWqszlk8H1Fe
+         epZAe1oUhXX4eQ+LEjN1yfpGmU6Lt+jw2N38Okj0bcem1v55YSLSVj5qTHdsNP/8Im/L
+         QltTCTKYsF1cPFPyIcQjcu28BTiN8embh8xJM3wz6C7wkUFbhUN7HBDMXGQ+e67NUTNc
+         /IE30d2hwQUGxtOgraBWCTwIOMOxaYFkXUW6LrC10mEz/nHnoMZw/dECwaj25VeHvMO+
+         6QSw==
+X-Forwarded-Encrypted: i=1; AFNElJ8JEKa9c6WmncZ+xbyXRqQiIFdTdJJVvgiH/dHpPczFjxZKgmF9QOB/+GM5MFdXGQALKnPWpSLcLUKLFYHBbYQmow==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz2yGyrIJOPk8ZE1kVBXQ9YS+JxNruaBFsA5424g++XPOTYxbiu
+	6GM/LKNDR1ApL8J5MyURI/WjICJH6CW7rGGrSj8gi7kSK232oNrz0XwrbMoXHhfRZ5XFeo2wLyA
+	YhEzWHlbymIPNcHREKHmmC7hTsu6B0x0=
+X-Gm-Gg: Acq92OFXsabQmTYZYHYi/vxaxbJosFdRU3KFNmx4JnfeNuhUOhZKbj+kekQp2rHZPF/
+	FxEsaI3zCJI1gxcNF5Qtj+v71alB9eLYioEcGve1hoTn3LOktoQVvRrOjoZnrHr14WSERS2BFEl
+	iPNXlTGy8c242vPA5DDceXlNbVx/t56OaP2arXSe0ehCmsslUWthXfZYtzNLCPF18JQu/Y3H4ku
+	k+I5LXXVeL8CKWQQmAHAWZA9/k5juV3enlN4rryf/uY44s1y4vx/hMPzLcvws5WmVgZpTFlOd+r
+	kU9gfefagZJYslYsQAcPcUHeXA5lqM/NHxc7+Wv0FPUlxcbjiABjOzJBUUXU9dPlb5AD
+X-Received: by 2002:a5d:64c6:0:b0:43d:210:2b2d with SMTP id
+ ffacd0b85a97d-45d958e057cmr39062509f8f.31.1779201513379; Tue, 19 May 2026
+ 07:38:33 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-0.16 / 15.00];
+References: <20260519133025.618255-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <CAMuHMdVKOdzThVMOcQ1K9crUkyDutvuZsP2-5v5++SVFHkgtOA@mail.gmail.com>
+ <CA+V-a8sFNjp9euEEfBf3BoscjU8W3isRT_pnzd7J4QsuiN6qfg@mail.gmail.com> <CAMuHMdWZGv6BwjGwRhU+x8iE2pXtOSz21RG64bsNoPQQCjTVjg@mail.gmail.com>
+In-Reply-To: <CAMuHMdWZGv6BwjGwRhU+x8iE2pXtOSz21RG64bsNoPQQCjTVjg@mail.gmail.com>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Tue, 19 May 2026 15:38:06 +0100
+X-Gm-Features: AVHnY4KUmVmbQaA9sHRIcWj7rBu76G43r-b8iP8pGkSNUit944VTI5cgfQcFjvU
+Message-ID: <CA+V-a8ujJ5AL8S6DABmZjmJbXMQ=umPDCZZfXsgyuj-9mTt3GA@mail.gmail.com>
+Subject: Re: [PATCH v2] mmc: mmc_test: Fix counter tracking in mmc_test_alloc_mem()
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Ulf Hansson <ulfh@kernel.org>, Kees Cook <kees@kernel.org>, 
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>, Wolfram Sang <wsa+renesas@sang-engineering.com>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, linux-mmc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_MISSING_CHARSET(0.50)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TO_DN_SOME(0.00)[];
-	FREEMAIL_CC(0.00)[bp.renesas.com,redhat.com,vger.kernel.org,gmail.com];
-	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-32819-lists,linux-renesas-soc=lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-32821-lists,linux-renesas-soc=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[13];
+	MIME_TRACE(0.00)[0:+];
 	FREEMAIL_FROM(0.00)[gmail.com];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[bijudasau@gmail.com,linux-renesas-soc@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
+	TO_DN_SOME(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[prabhakarcsengg@gmail.com,linux-renesas-soc@vger.kernel.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo,glider.be:email,renesas.com:email]
-X-Rspamd-Queue-Id: 586FB5805B1
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[renesas.com:email,sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo,bootlin.com:url,mail.gmail.com:mid,linux-m68k.org:email]
+X-Rspamd-Queue-Id: E5DDA580ACC
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-From: Biju Das <biju.das.jz@bp.renesas.com>
+Hi Geert,
 
-Rename RZG3L_PLL_STBY_OFFSET(), RZG3L_PLL_STBY_RESETB,
-RZG3L_PLL_STBY_RESETB_WEN, RZG3L_PLL_MON_OFFSET(), RZG3L_PLL_MON_RESETB,
-and RZG3L_PLL_MON_LOCK to their CPG_PLL_* equivalents to reflect that
-these macros are not RZG3L-specific and are shared across SoCs.
+On Tue, May 19, 2026 at 2:55=E2=80=AFPM Geert Uytterhoeven <geert@linux-m68=
+k.org> wrote:
+>
+> Hi Prabhakar,
+>
+> On Tue, 19 May 2026 at 15:44, Lad, Prabhakar <prabhakar.csengg@gmail.com>=
+ wrote:
+> > On Tue, May 19, 2026 at 2:34=E2=80=AFPM Geert Uytterhoeven <geert@linux=
+-m68k.org> wrote:
+> > > On Tue, 19 May 2026 at 15:30, Prabhakar <prabhakar.csengg@gmail.com> =
+wrote:
+> > > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > > >
+> > > > Fix an counter tracking in mmc_test_alloc_mem() that causes a kerne=
+l panic
+> > > > during error unwinding.
+> > > >
+> > > > The `struct mmc_test_mem` uses the `__counted_by(cnt)` annotation o=
+n its
+> > > > flexible array member `arr`. While kzalloc_flex() initially sets th=
+e
+> > > > counter field (`cnt`) to `max_segs`, the allocation loop needs to t=
+rack
+> > > > how many elements have actually been populated.
+> > > >
+> > > > Previously, leaving `mem->cnt` at `max_segs` meant that if the loop=
+ failed
+> > > > midway (e.g., "Failed to map sg list"), the error unwinding path in
+> > > > mmc_test_free_mem() would attempt to clean up uninitialized trailin=
+g
+> > > > array slots. This resulted in passing NULL pointers to __free_pages=
+(),
+> > > > triggering a kernel panic:
+> > > >
+> > > >   [   66.172845] mmc0: Failed to map sg list
+> > > >   [   66.176722] Unable to handle kernel NULL pointer dereference a=
+t virtual address 0000000000000000
+> > > >   ...
+> > > >   [   66.432747] Call trace:
+> > > >   [   66.435191]  ___free_pages+0x1c/0xc4 (P)
+> > > >   [   66.439119]  __free_pages+0x14/0x20
+> > > >   [   66.442608]  mmc_test_area_cleanup+0x58/0x84 [mmc_test]
+> > > >
+> > > > Fix this by explicitly resetting `mem->cnt` to 0 immediately after
+> > > > allocation. Then, move the existing `mem->cnt` increment so that it=
+ occurs
+> > > > prior to populating each array slot, using `mem->cnt - 1` for the a=
+ctual
+> > > > assignment index. This guarantees that the counter accurately track=
+s
+> > > > initialized entries for safe error cleanup, while dynamically expan=
+ding
+> > > > the `__counted_by` validation boundary ahead of each flexible array=
+ write.
+> > > >
+> > > > Additionally, rewrite the cleanup loop in mmc_test_free_mem() to us=
+e a
+> > > > standard forward for-loop. This addresses the unsafe post-decrement=
+ logic
+> > > > in the original `while (mem->cnt--)` loop which evaluated and decre=
+mented
+> > > > the counter field before indexing the array, and avoids a potential=
+ integer
+> > > > underflow/wrap-around of the counter field if the cleanup path is i=
+nvoked
+> > > > when `mem->cnt` is 0.
+> > > >
+> > > > Fixes: c3126dccfd7b ("mmc: mmc_test: use kzalloc_flex")
+> > > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.c=
+om>
+> > > > ---
+> > > > v1->v2:
+> > > > - Started with cnt =3D 0 and incremented before assignment to ensur=
+e
+> > > >   accurate tracking of initialized entries in mmc_test_alloc_mem().
+> > > > - In mmc_test_free_mem(), replaced the while loop with a forward fo=
+r-loop to
+> > > >   safely iterate over initialized entries without risking underflow=
+.
+> > > > - Updated commit message to clarify the issue and the fix.
+> > >
+> > > Thanks for your patch!
+> > >
+> > > > --- a/drivers/mmc/core/mmc_test.c
+> > > > +++ b/drivers/mmc/core/mmc_test.c
+> > > > @@ -318,9 +318,8 @@ static void mmc_test_free_mem(struct mmc_test_m=
+em *mem)
+> > > >  {
+> > > >         if (!mem)
+> > > >                 return;
+> > > > -       while (mem->cnt--)
+> > > > -               __free_pages(mem->arr[mem->cnt].page,
+> > > > -                            mem->arr[mem->cnt].order);
+> > > > +       for (unsigned int i =3D 0; i < mem->cnt; i++)
+> > > > +               __free_pages(mem->arr[i].page, mem->arr[i].order);
+> > > >         kfree(mem);
+> > > >  }
+> > > >
+> > > > @@ -356,6 +355,7 @@ static struct mmc_test_mem *mmc_test_alloc_mem(=
+unsigned long min_sz,
+> > > >         mem =3D kzalloc_flex(*mem, arr, max_segs);
+> > > >         if (!mem)
+> > > >                 return NULL;
+> > > > +       mem->cnt =3D 0;
+> > >
+> > > This is not needed, as it is set to zero by kzalloc_flex().
+> > >
+> > Actually, kzalloc_flex() automatically sets mem->cnt to max_segs
+> > because cnt is annotated with __counted_by. Because of that implicit
+> > initialization, we need this explicit reset to get it back to zero.
+>
+> Only when your compiler supports it[1].
+>
+> OMG...
+>
+> When I commented on the LWN.net article[2], I considered only the case
+> where the compiler is too old, and the counter stays at zero when the
+> user forgets to initialize it explicitly.  Now we have the opposite
+> case, where we need the counter to stay at zero :-(
+>
+Yeah, it definitely introduces some tricky, asymmetrical behavior
+depending on the toolchain.
 
-Also fold CPG_PLL_MON_OFFSET() into rzg2l-cpg.c alongside the other
-CPG_PLL_*_OFFSET() helpers introduced in previous patches.
+Cheers,
+Prabhakar
 
-No functional changes.
-
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
-v2->v3:
- * Rebased to renesas-clk.
-v1->v2:
- * Moved CPG_PLL_STBY_{RESETB_WEN,RESETB} near to CPG_PLL_STBY_OFFSET.
- * Reorderd the above macros
- * Moved CPG_PLL_MON_{LOCK,RESETB} near to CPG_PLL_MON_OFFSET.
- * Reorderd the above macros
- * Dropped a blank line.
- * Retained the tag as it is trivial changes.
----
- drivers/clk/renesas/rzg2l-cpg.c | 26 ++++++++++++--------------
- 1 file changed, 12 insertions(+), 14 deletions(-)
-
-diff --git a/drivers/clk/renesas/rzg2l-cpg.c b/drivers/clk/renesas/rzg2l-cpg.c
-index 096901e25317..0abe00e2960b 100644
---- a/drivers/clk/renesas/rzg2l-cpg.c
-+++ b/drivers/clk/renesas/rzg2l-cpg.c
-@@ -60,15 +60,13 @@
- 
- #define CPG_PLL1_SETTING_OFFSET(conf)	FIELD_GET(GENMASK(11, 0), (conf))
- #define CPG_PLL_STBY_OFFSET(conf)	FIELD_GET(GENMASK(23, 12), (conf))
-+#define CPG_PLL_STBY_RESETB_WEN		BIT(16)
-+#define CPG_PLL_STBY_RESETB		BIT(0)
- #define CPG_PLL_CLK1_OFFSET(x)		(CPG_PLL_STBY_OFFSET(x) + 0x4)
- #define CPG_PLL_CLK2_OFFSET(x)		(CPG_PLL_STBY_OFFSET(x) + 0x8)
--
--#define RZG3L_PLL_STBY_OFFSET(x)	(CPG_PLL_STBY_OFFSET(x))
--#define RZG3L_PLL_STBY_RESETB		BIT(0)
--#define RZG3L_PLL_STBY_RESETB_WEN	BIT(16)
--#define RZG3L_PLL_MON_OFFSET(x)		(CPG_PLL_STBY_OFFSET(x) + 0xc)
--#define RZG3L_PLL_MON_RESETB		BIT(0)
--#define RZG3L_PLL_MON_LOCK		BIT(4)
-+#define CPG_PLL_MON_OFFSET(x)		(CPG_PLL_STBY_OFFSET(x) + 0xc)
-+#define CPG_PLL_MON_LOCK		BIT(4)
-+#define CPG_PLL_MON_RESETB		BIT(0)
- 
- #define CLK_ON_R(reg)		(reg)
- #define CLK_MON_R(reg)		(0x180 + (reg))
-@@ -1188,8 +1186,8 @@ static int rzg3l_cpg_pll_clk_is_enabled(struct clk_hw *hw)
- {
- 	struct pll_clk *pll_clk = to_pll(hw);
- 	struct rzg2l_cpg_priv *priv = pll_clk->priv;
--	u32 val = readl(priv->base + RZG3L_PLL_MON_OFFSET(pll_clk->conf));
--	u32 mon_val = RZG3L_PLL_MON_RESETB | RZG3L_PLL_MON_LOCK;
-+	u32 val = readl(priv->base + CPG_PLL_MON_OFFSET(pll_clk->conf));
-+	u32 mon_val = CPG_PLL_MON_RESETB | CPG_PLL_MON_LOCK;
- 
- 	/* Ensure both RESETB and LOCK bits are set */
- 	return (mon_val == (val & mon_val));
-@@ -1199,17 +1197,17 @@ static int rzg3l_cpg_pll_clk_endisable(struct clk_hw *hw, bool enable)
- {
- 	struct pll_clk *pll_clk = to_pll(hw);
- 	struct rzg2l_cpg_priv *priv = pll_clk->priv;
--	u32 mon_mask = RZG3L_PLL_MON_RESETB | RZG3L_PLL_MON_LOCK;
--	u32 val = RZG3L_PLL_STBY_RESETB_WEN;
-+	u32 mon_mask = CPG_PLL_MON_RESETB | CPG_PLL_MON_LOCK;
-+	u32 val = CPG_PLL_STBY_RESETB_WEN;
- 	u32 stby_offset, mon_offset;
- 	u32 mon_val = 0;
- 	int ret;
- 
--	stby_offset = RZG3L_PLL_STBY_OFFSET(pll_clk->conf);
--	mon_offset = RZG3L_PLL_MON_OFFSET(pll_clk->conf);
-+	stby_offset = CPG_PLL_STBY_OFFSET(pll_clk->conf);
-+	mon_offset = CPG_PLL_MON_OFFSET(pll_clk->conf);
- 
- 	if (enable) {
--		val |= RZG3L_PLL_STBY_RESETB;
-+		val |= CPG_PLL_STBY_RESETB;
- 		mon_val = mon_mask;
- 	}
- 
--- 
-2.43.0
-
+> [1] https://elixir.bootlin.com/linux/v7.0.9/source/include/linux/compiler=
+_types.h#L549
+> [2] https://lwn.net/Articles/1063295/
+>
+> Gr{oetje,eeting}s,
+>
+>                         Geert
+>
+> --
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m6=
+8k.org
+>
+> In personal conversations with technical people, I call myself a hacker. =
+But
+> when I'm talking to journalists I just say "programmer" or something like=
+ that.
+>                                 -- Linus Torvalds
 
