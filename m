@@ -1,36 +1,37 @@
-Return-Path: <linux-renesas-soc+bounces-32797-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-32798-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id oDkUOuo/DGqqawUAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-32797-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 May 2026 12:48:10 +0200
+	id kO4IKF9BDGqqawUAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-32798-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 May 2026 12:54:23 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DEB857CC7C
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 May 2026 12:48:09 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id AC71C57CEFE
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 May 2026 12:54:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 9CDC4305FC1C
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 May 2026 10:36:10 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 18974300E16B
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 May 2026 10:36:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 09F2E35203A;
-	Tue, 19 May 2026 10:36:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CD587352039;
+	Tue, 19 May 2026 10:36:11 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E56DA352003;
-	Tue, 19 May 2026 10:36:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3D4E352033;
+	Tue, 19 May 2026 10:36:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779186969; cv=none; b=U7IcKJYjczoDXu6j9QqUfKwshM4Pps+5e7UfErlvvuIBx428LxIraNWeYDtJxAG7MytYcFJspsbURmlLOHZWuTTDWL/ZfHHWwlf5tdOOQuwl3HmBLV6ZZ8HOOO29hOnWhye5so7ibFCaWKCcuwxvobPS7gZpMisx8krcwjy7eb4=
+	t=1779186971; cv=none; b=Ktmm59vcrrsNsGce84EydDOGxmAKdx8Kmcy4DGFXJzP0WImZ+fMD8B5NISIs37teih7r3fgA10Fij/dX4lmqlj135JhEo7qcpsdP/Ry3a4/kDYOOuSDY7wU0wYUFeZZcpBL1d06WkSJOVnQNJJTKuPSDm+jtnKQeFuUoOYU9nLg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779186969; c=relaxed/simple;
-	bh=GHLGeOXfajLSwh91ObeupCCnaHKN48SnXB4fGejZD0M=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=SRtVEP0c+DE2eAgDJhA/N5dcGtR1Vv5BvXmhKKP6+shFB8q9Kw5KKVpCdyte4IKy4T3LvSystGH2PHMQhcEqWl3Sxfl3LV/KyQksjhHqNZd98ef8EkhUE/HRh898DxgYrrYj0enIW48vD6BPspLMa+us3XruDH5e0PDrlHHHijI=
+	s=arc-20240116; t=1779186971; c=relaxed/simple;
+	bh=NRgoE6xqvdygOt60rwxfQUmDUTz8lChhxwKacCE7oO4=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=TXuFjgnXheUKcZE4Y4KWVueBbYN3afj9TPBgzdWQlDYeb46a/vRXYjWHW/Sku3LO3ZpJmdWkkZJY4YbY+ysGbMs5Vka4zvy1Xu7zy7Uoxpegfie/yqZZtvJKy/qYoMrCr1jcGIwDZO4ChyL+QOdQX+/goX4rc9peKwysnx7dcBE=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3ACE4C2BCB3;
-	Tue, 19 May 2026 10:36:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 14D40C2BCB3;
+	Tue, 19 May 2026 10:36:09 +0000 (UTC)
 From: Geert Uytterhoeven <geert+renesas@glider.be>
 To: soc@lists.linux.dev,
 	soc <soc@kernel.org>
@@ -38,10 +39,12 @@ Cc: Magnus Damm <magnus.damm@gmail.com>,
 	linux-arm-kernel@lists.infradead.org,
 	linux-renesas-soc@vger.kernel.org,
 	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [GIT PULL 0/2] Renesas SoC updates for v7.2
-Date: Tue, 19 May 2026 12:35:57 +0200
-Message-ID: <cover.1779185457.git.geert+renesas@glider.be>
+Subject: [GIT PULL 1/2] Renesas driver updates for v7.2
+Date: Tue, 19 May 2026 12:35:58 +0200
+Message-ID: <cover.1779185459.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <cover.1779185457.git.geert+renesas@glider.be>
+References: <cover.1779185457.git.geert+renesas@glider.be>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -53,7 +56,7 @@ X-Spamd-Result: default: False [0.54 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
@@ -63,7 +66,7 @@ X-Spamd-Result: default: False [0.54 / 15.00];
 	PRECEDENCE_BULK(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-32797-lists,linux-renesas-soc=lfdr.de,renesas];
+	TAGGED_FROM(0.00)[bounces-32798-lists,linux-renesas-soc=lfdr.de,renesas];
 	TO_DN_SOME(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
@@ -74,58 +77,66 @@ X-Spamd-Result: default: False [0.54 / 15.00];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
 	RCPT_COUNT_FIVE(0.00)[6];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[linux-m68k.org:email,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,glider.be:mid]
-X-Rspamd-Queue-Id: 6DEB857CC7C
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo,glider.be:mid]
+X-Rspamd-Queue-Id: AC71C57CEFE
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-	Hi SoC folks,
+The following changes since commit 254f49634ee16a731174d2ae34bc50bd5f45e731:
 
-This is my first pull request for the inclusion of Renesas SoC updates
-for v7.2.
+  Linux 7.1-rc1 (2026-04-26 14:19:00 -0700)
 
-It consists of 2 parts:
+are available in the Git repository at:
 
-  [GIT PULL 1/2] Renesas driver updates for v7.2
+  git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git tags/renesas-drivers-for-v7.2-tag1
 
-    - Add Multifunctional Interface (MFIS) mailbox and product register
-      support for R-Car X5H,
-    - Miscellaneous fixes and improvements.
+for you to fetch changes up to 17e48e7e5f18b45fd4a9411090148aae3b74f7f3:
 
-  [GIT PULL 2/2] Renesas DTS updates for v7.2
+  soc: renesas: Convert to of_machine_get_match() (2026-05-11 09:56:17 +0200)
 
-    - Add GPU support for R-Car M3-W(+)-based ULCB and Salvator-X(S)
-      development boards,
-    - Add Ethernet, OPP table, interrupt, pin control, and watchdog
-      support for the RZ/G3L SoC and the RZ/G3L SMARC SoM board,
-    - Add Coresight support for the R-Mobile A1 and APE6 SoCs, and the
-      Armadillo-800 EVA and APE6EVM development boards,
-    - Miscellaneous fixes and improvements.
+----------------------------------------------------------------
+Renesas driver updates for v7.2
 
-Note that the first PR includes DT binding definitions for R-Car X5H,
-which are shared by driver and DT source files.
+  - Add Multifunctional Interface (MFIS) mailbox and product register
+    support for R-Car X5H,
+  - Miscellaneous fixes and improvements.
 
-Note that the second PR (1) is based on v7.1-rc3, as PowerVR GPU
-enablement has a dependency on commit 26735dfdd8930d9e ("pmdomain: core:
-Fix detach procedure for virtual devices in genpd"), and (2) includes:
-  - Renesas SoC fixes for v7.1, which are already present in
-    soc/for-next, but not yet in v7.1-rc4,
-  - DT binding definition updates for the R-Mobile A1 and APE6 SoCs,
-    which are shared by the clock subsystem and DT source files,
-  - DT binding definitions for the RZ/G3L SoC, which are shared by the
-    pin control subsystem and DT source files.
+Note that this includes DT binding definitions for R-Car X5H, which are
+shared by driver and DT source files.
 
 Thanks for pulling!
 
-Gr{oetje,eeting}s,
+----------------------------------------------------------------
+Claudiu Beznea (5):
+      soc: renesas: r9a08g045-sysc: Move common code to a helper
+      soc: renesas: r9a08g046-sysc: Move common code to a helper
+      soc: renesas: r9a09g047-sys: Move common code to a helper
+      soc: renesas: r9a09g056-sys: Move common code to a helper
+      soc: renesas: r9a09g057-sys: Move common code to a helper
 
-						Geert
+Geert Uytterhoeven (2):
+      Merge tag 'renesas-r8a78000-dt-binding-defs-tag1' into renesas-drivers-for-v7.2
+      soc: renesas: Convert to of_machine_get_match()
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+Wolfram Sang (3):
+      dt-bindings: soc: renesas: Document MFIS IP core
+      soc: renesas: Add Renesas R-Car MFIS driver
+      soc: renesas: Add R-Car X5H PRR support
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-							    -- Linus Torvalds
+ .../soc/renesas/renesas,r8a78000-mfis.yaml         | 187 +++++++++++
+ drivers/soc/renesas/Kconfig                        |   9 +
+ drivers/soc/renesas/Makefile                       |   1 +
+ drivers/soc/renesas/r9a08g045-sysc.c               |  33 +-
+ drivers/soc/renesas/r9a08g046-sysc.c               |  31 +-
+ drivers/soc/renesas/r9a09g047-sys.c                |  34 +-
+ drivers/soc/renesas/r9a09g056-sys.c                |  33 +-
+ drivers/soc/renesas/r9a09g057-sys.c                |  44 +--
+ drivers/soc/renesas/rcar-mfis.c                    | 344 +++++++++++++++++++++
+ drivers/soc/renesas/renesas-soc.c                  |  10 +-
+ include/dt-bindings/soc/renesas,r8a78000-mfis.h    |  28 ++
+ 11 files changed, 644 insertions(+), 110 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/soc/renesas/renesas,r8a78000-mfis.yaml
+ create mode 100644 drivers/soc/renesas/rcar-mfis.c
+ create mode 100644 include/dt-bindings/soc/renesas,r8a78000-mfis.h
 
