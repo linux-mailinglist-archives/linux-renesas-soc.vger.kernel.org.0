@@ -1,215 +1,201 @@
-Return-Path: <linux-renesas-soc+bounces-32808-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-32809-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id mBxGCqNoDGpXggUAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-32808-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 May 2026 15:41:55 +0200
+	id 8BbiJRhpDGo8hQUAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-32809-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 May 2026 15:43:52 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 845A357FDE7
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 May 2026 15:41:54 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3237857FE8A
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 May 2026 15:43:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 0E4D730A239B
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 May 2026 13:34:49 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id BE7FE3055D61
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 May 2026 13:37:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E50EE369D74;
-	Tue, 19 May 2026 13:34:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 96919348C7F;
+	Tue, 19 May 2026 13:37:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eBUMJ0D5"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vs1-f44.google.com (mail-vs1-f44.google.com [209.85.217.44])
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A701040960D
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 19 May 2026 13:34:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.44
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779197681; cv=none; b=gQtuOSpcW7dWaawv2dT8WqZFWeofntjw8OH87n8xUJ+0y0VG0Ap7bkwEbI8G7Y0fTd5aOkyBtM2VXgju4VGWbCVb91dbEI3Ysu8Flwz7F7CjAvc+FiP7yrbLERqFWSN9XFM4aeUokKj0lt5aKjTtpKxQp5O0ypeNlMIeFTHMi+M=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779197681; c=relaxed/simple;
-	bh=9xmreuXX4OZRwbshJEWIm0npDYKfIXX0w6soI7Hy82M=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CBA6352009
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 19 May 2026 13:37:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.46
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779197867; cv=pass; b=QKihjBd8hv6lOgMzm5OH7J8DUySsvr4YLCmiCMupHsRW+euVBqZ3e6nOHCwnk40D32vO3nGGugKazGW7rei9su01gy8ev61JywjGzkr3XtcRt9Mc633yZLt86g/JSJ2urmRnoyT6qzRjMbBVfhcv1RzwMFrYX1l+/O4xJkok99Q=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779197867; c=relaxed/simple;
+	bh=a+6vVJmOZ3ZG/v6p+ChaawK/jURoxlUIsJFp9JcF6Eo=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=OnMwXL2/YxGirci6zuhu7X6UBz1/AEhYlePMF2ubIeyedmRvxhQ29khul1jOWH2K2ryYe5Fi68GNcLsU9Fe9yJShnwXNAG7QtAu1h/pbZ6aIKoHPjejNdHeRmBrxkayNhNxT30uNPe39JmvR7TPW/dq+7PlBFVOFeoKvdlO5YaI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+	 To:Cc:Content-Type; b=UnqNzdc+RKjbPoqrUuWgFXKpbj7komN3PEVYwH/c8qaB6HLNtDXH/kYQ0HLLAJqKas32nE8CNeMUWiSughCuleJf3rA6W98GN1njxMiBy265tm5rzYXq0WCdkL0g9sstgyqS87tXvUENo5orLtF98NuHZ2V4EdAi/INAEbP9vbs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eBUMJ0D5; arc=pass smtp.client-ip=209.85.221.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vs1-f44.google.com with SMTP id ada2fe7eead31-632a055fa9fso1218572137.1
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 19 May 2026 06:34:39 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779197678; x=1779802478;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-43d76dd4ee8so826173f8f.2
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 19 May 2026 06:37:44 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1779197862; cv=none;
+        d=google.com; s=arc-20240605;
+        b=acqh/50Q05bFD5filQUTD0vzICMCNQ62FELHtOtssp5yckuadmAZ4ZmgQZUi5MFTo0
+         6NaC2Ww/oUkbfSrpJc3dVg3H/IdMRrqJBnRZbMh0gANSg3iiDuCjqeQ9gl3GkMH4ANJI
+         4xopZGSe9c4kHhIukVeX9IExdav+HZ80mWkCEo0aTdTpemNRs51hEwsaZFNcb2oIF5AY
+         ZRDPlqWWizGboy9jaFRZmXWLz2uH97filfQUx5vQSx2/7zZ6lPS0vMm/x6fACEhuOYOb
+         7pG3NqUpAQu9fLUWxxFcUdbhj9MxeMjm4JD2R0HJiOVTIL9OBDoMcGnuF6m+o7WS4EzZ
+         muug==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=+/ja8jc+FHQMYyLaMU5qKpBDmFJx8YQVV0WGsvU+fWE=;
+        fh=Es7w35LpS3hVGCNVobzqJAIeSU8RMBTsQsPHngeAwvQ=;
+        b=Q2IjplHnpN+Fg/US7qrpptY0NQmejgJ9VAgyq6HW+Qt33H99pZC146dsqc4gFdsoBD
+         hziPV5xsEnkaYnSgJYM0eQevc5hQmValED6mUTu8pxPh4r9y9+fm7+oIyEpkbgsMlQCm
+         YOA97lbcrxgQs5wVXHRdTSWOyl0o8rtVBQkJt1nHnD9Vlc7VaW1Sd0g45hYhRNuJpbZ1
+         iRmjNobsrcVSLP5TK7yeG9V5KCtTACiSLe5VZCX5Y3cy2j/9m4pNCAoQJ+Q5q1i08i0g
+         muqoDUxNTriJdGpWkbsQWc+2xNrUxpfwWOIfznk3XwPaKfl2t6M8XjyJh8FOiolRF5xD
+         PueQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1779197862; x=1779802662; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=pFTXmUfGllClZ3AjkTxvr6AJKDsibhiDcNnm6JqqsT0=;
-        b=Mp7LPJQjdQ2K3WM0u9B1t6CloBuawd/Q4wfn/xkFKxCGwKJmjM6lOsoCES2T2qzR2m
-         G/VL3IfZpGHALLGgdljZHa4R3bKimRLOgdJ+piLfMJircEMNNURXIy8ncwynJKvKCtVa
-         vHGaBS9+rls+AT1nGqElKNLRNuE0AYjHpswWL4WkgnG7L09gM8mSRGkNDAODVNnTAWLB
-         zErv0kkAWsnh2TdtHFOwxqCZLHRgiSo5jlcVZJ3VyeBRELFAGqUP9U706ffjAE+iP9dY
-         L/vCj8DA3vToFHdKKcWCP/y14CLgALrIao3Z+KGmcS/OEabOrEH/Gwck4TZo4SiNDpOB
-         1k2w==
-X-Forwarded-Encrypted: i=1; AFNElJ/efqrfANyBwmBUkIZ/t4KvGrcTe2F/hUwz/Eq2e7uLBXg+/iUs+BPS34kGrpiUhT/p91cZuk/cbdIDjGEhGo/m3Q==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyhKV7+VRADaWwvs9mmQtfUE9b2D13qg62rvingNpzyHon+DRVL
-	NbcC7EXR5f5DM6z2wkt5QrL4dA88nzmV2MykhkZvMVjWz3WP4ab4yKpb60P/eGAO
-X-Gm-Gg: Acq92OH0LVs7gC+UBF70HffxYwhLnajd2PPPkpMjgkLy6/04ZUYwYAJo01y2GN14vBm
-	ejx/NVwq39WwX2w8fjsCMyvm6jlXzKVGxDjY2vMJmraLzMMzHPCIvSCBMSqUr5REDoZHl6EJdsU
-	bOp6fge830IfE1ifblxG6GvlMSf7+HYS1C7O6RRfUSU3Duhy73SLfhYBDpoW756mOUgd3zLnY20
-	SzsaktDQRXijaOpncIfeDVNoz3n98uIJ13OFT30uYqCsljfs0UONTHgPYMUGR5Uh9xMAvbUFoVY
-	ViZ12FAezUfddNxB26ECWzmKeskApejd2+TJTa/d20EO8lT5VBeRP1H38FhdtyDsdwFB6pXfR9p
-	V9hcSeGkh0fNFXFsHjlb2A69HAwN7p0ApVk1IkHFTH1eDj1Js7l3W+ErgEe+5CJmZdw3GNG3XCD
-	IupoJ+NWL+3hMJwxr4xet+/SQpbKb5zpYpd3pq8ROa9JrT1JiOhnSXGRBhaSsMFR0F
-X-Received: by 2002:a05:6102:32c1:b0:607:798d:8083 with SMTP id ada2fe7eead31-63a3ee80766mr8438425137.15.1779197678476;
-        Tue, 19 May 2026 06:34:38 -0700 (PDT)
-Received: from mail-vk1-f174.google.com (mail-vk1-f174.google.com. [209.85.221.174])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-63cd19e0bf4sm6159532137.6.2026.05.19.06.34.37
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 19 May 2026 06:34:37 -0700 (PDT)
-Received: by mail-vk1-f174.google.com with SMTP id 71dfb90a1353d-575171b1ce7so982052e0c.1
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 19 May 2026 06:34:37 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ/Jyf9uOFxdoeN6Y9vEWkakxk3lyEs0kWXcE1weVa8xvlzNLfVzZq6g7pkutMlvdeNmHmd+y/ltTsgck9bEnlpTcg==@vger.kernel.org
-X-Received: by 2002:a05:6122:338f:b0:56e:e68e:9fc2 with SMTP id
- 71dfb90a1353d-5760c013b50mr11245780e0c.10.1779197677423; Tue, 19 May 2026
- 06:34:37 -0700 (PDT)
+        bh=+/ja8jc+FHQMYyLaMU5qKpBDmFJx8YQVV0WGsvU+fWE=;
+        b=eBUMJ0D5qz5yuUY2vA1ejwq6sp99nSXgj5qOPe57Pxoy/dgBM41o2zA3YFlbLk5lS0
+         3KO0USOyZnalnhnkLaAJtpU6W0BAR3DF1vnl59RNsypd82qmIQ5VV/wPUKP8ZP/PF3Nk
+         QTV7fbSicD61E+ehBaU5uoVgLLWYz10/NPkFtJ7KRIcymmZLGuf30WqmKR0nGf5Er3z6
+         Px2QCL6bl+DfbsJQrUJ8vYj8vHt1t8lABrQyJ75Tl3h3I1I2g59IQN3JokcOsVSwpC/S
+         Gi0hEV/UqtbVUr8IeB0kS4Q4YTr3LBU03fI/YbY8I6naR8OdX7jOvf4fZbppA+AYP2kQ
+         /pgQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779197862; x=1779802662;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=+/ja8jc+FHQMYyLaMU5qKpBDmFJx8YQVV0WGsvU+fWE=;
+        b=TTqX7wIw/IaysuGHdpLvcOwo36jjmddHBBTgDLN35t1lkrEyaEGkUWgQt9DNnKOhvl
+         oEIilDXVKWWQ1ULhjDAVncFDlO+XEMf8J3R0FYvhOh8uspFG9d1PZgbe/aSRm5tom9nG
+         Wyc5vHP4yGt3NGW+L2efLq0BsjDN/rX13hQezF7beqE55YWBuu+psfsJNb+0KyzppVb0
+         Mpx/JtQdNbOSzVt/WBBYzAANX4sT5HKlhJBiItpX8TFgYsfI0SWPMCYdRx97BBzuJ/uf
+         Uvjb5LzCn9OVQ5h9Trf8ZaBCj5z2yMoDEZFzFT1G55dxi0Hcy/YgdNBsoRWd0TyBnHYQ
+         3CWQ==
+X-Forwarded-Encrypted: i=1; AFNElJ8Ge2Xf/ofySJn5FJLthGKejgdKBwr1EyY6yOfqGaoa/lOBiINU2aNaCT5H3+KlInHzoP/xPw6Z/JUEEVk5AuGOAQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxINu3o3Yo0cLTFVvH0LspF6I1ON+RvQ8Xl6AQGkyA93u4TUCnb
+	/xGjyeID4e9kTqCYw+i+sBFM5h4+5pJ/h46wSDrDDWfI2C3etMfKmd1wvXfF1q4q+acc1uc4Owl
+	idXbHyx6nrRHGR1OV2RGR0TNljG/pqOw=
+X-Gm-Gg: Acq92OEAMGn7zMCSYbeZRrIfk8OaSKy+nG3jLxNr6L/6YxsEmNupGPjlmduS1fcH793
+	ZjAv4BjDTZjb2I/mVaU/m1rUxqQ5VlEzB+Nr5sK3xtDfEOICg7Tukm0kK1MfUe/GMQrBhSI1INW
+	o6u/TZsejFr/03umjprfi+z4lO/N9LpPFxLWxC5EU1OvJVkp1lMjKvUFvKE4hss3LxNuQVYMPka
+	S+h9MCbMrQHT+WM3sKrWY+qG5m/cqGZgjpC8/t+h3tITkVdhfsxi8jphwYJuX0egNh650z0bL0E
+	WzA9CcWs/NgW4zgO33TeR54KD1AXzrRoOMqBVBGn8IEgiRzpU24ndY8w0xyhg1koL9E0
+X-Received: by 2002:a05:6000:1ace:b0:43b:3b80:6776 with SMTP id
+ ffacd0b85a97d-45e5c594c2cmr30428288f8f.30.1779197862459; Tue, 19 May 2026
+ 06:37:42 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260519133025.618255-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20260519133025.618255-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 19 May 2026 15:34:26 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVKOdzThVMOcQ1K9crUkyDutvuZsP2-5v5++SVFHkgtOA@mail.gmail.com>
-X-Gm-Features: AVHnY4LojIxsw5qMq3Y5Vfna_ILMHrHCSLgg2NltrAvQXVuBSgCgEDdy5WadACI
-Message-ID: <CAMuHMdVKOdzThVMOcQ1K9crUkyDutvuZsP2-5v5++SVFHkgtOA@mail.gmail.com>
-Subject: Re: [PATCH v2] mmc: mmc_test: Fix counter tracking in mmc_test_alloc_mem()
-To: Prabhakar <prabhakar.csengg@gmail.com>
-Cc: Ulf Hansson <ulfh@kernel.org>, Kees Cook <kees@kernel.org>, 
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>, Wolfram Sang <wsa+renesas@sang-engineering.com>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, linux-mmc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
+References: <20260514212024.1624517-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20260514212024.1624517-2-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdXDAJjWGRLQb6jfvzUPAWymmTC3yE89UPyiydykHN4u6w@mail.gmail.com>
+In-Reply-To: <CAMuHMdXDAJjWGRLQb6jfvzUPAWymmTC3yE89UPyiydykHN4u6w@mail.gmail.com>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Tue, 19 May 2026 14:37:16 +0100
+X-Gm-Features: AVHnY4I3urEZt5J-xjsCBTxOrtCMrr3KZW2teP8VKCgNB9fs0VDzkYcmhM5yTss
+Message-ID: <CA+V-a8uTXh2ieeBRCQC8Gzg_hCSFVFCOv0S_V+6MoGdX0F4VNA@mail.gmail.com>
+Subject: Re: [PATCH 1/3] mmc: renesas_sdhi: Apply bad taps quirk to RZ/G2H
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>, Ulf Hansson <ulfh@kernel.org>, 
+	linux-mmc@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
 	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, stable@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-X-Spamd-Result: default: False [-1.46 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+Content-Transfer-Encoding: quoted-printable
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-32808-lists,linux-renesas-soc=lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[13];
-	DMARC_NA(0.00)[linux-m68k.org];
-	FREEMAIL_TO(0.00)[gmail.com];
+	TAGGED_FROM(0.00)[bounces-32809-lists,linux-renesas-soc=lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	FROM_HAS_DN(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[geert@linux-m68k.org,linux-renesas-soc@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	RCVD_COUNT_FIVE(0.00)[6];
+	FROM_NEQ_ENVFROM(0.00)[prabhakarcsengg@gmail.com,linux-renesas-soc@vger.kernel.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	RCPT_COUNT_SEVEN(0.00)[10];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
-	R_DKIM_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,renesas.com:email,linux-m68k.org:email,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
-X-Rspamd-Queue-Id: 845A357FDE7
+	FREEMAIL_FROM(0.00)[gmail.com];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[linux-m68k.org:email,renesas.com:email,mail.gmail.com:mid,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
+X-Rspamd-Queue-Id: 3237857FE8A
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi Prabhakar,
+Hi Geert,
 
-On Tue, 19 May 2026 at 15:30, Prabhakar <prabhakar.csengg@gmail.com> wrote:
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Thank you for the review.
+
+On Mon, May 18, 2026 at 2:07=E2=80=AFPM Geert Uytterhoeven <geert@linux-m68=
+k.org> wrote:
 >
-> Fix an counter tracking in mmc_test_alloc_mem() that causes a kernel panic
-> during error unwinding.
+> Hi Prabhakar,
 >
-> The `struct mmc_test_mem` uses the `__counted_by(cnt)` annotation on its
-> flexible array member `arr`. While kzalloc_flex() initially sets the
-> counter field (`cnt`) to `max_segs`, the allocation loop needs to track
-> how many elements have actually been populated.
+> On Thu, 14 May 2026 at 23:20, Prabhakar <prabhakar.csengg@gmail.com> wrot=
+e:
+> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> >
+> > Apply the sdhi_quirks_bad_taps2367 quirk to the RZ/G2H (R8A774E1)
+> > SoC.
+> >
+> > RZ/G2H is identical to the R-Car H3-N (R8A77951), which already uses
+> > this quirk to avoid unreliable tuning tap positions. Use the same
+> > quirk entry for RZ/G2H to ensure consistent SDHI tuning behaviour.
+> >
+> > Fixes: 31941342888d ("arm64: dts: renesas: r8a774e1: Add SDHI nodes")
+> > Cc: stable@vger.kernel.org
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 >
-> Previously, leaving `mem->cnt` at `max_segs` meant that if the loop failed
-> midway (e.g., "Failed to map sg list"), the error unwinding path in
-> mmc_test_free_mem() would attempt to clean up uninitialized trailing
-> array slots. This resulted in passing NULL pointers to __free_pages(),
-> triggering a kernel panic:
+> Thanks for your patch!
 >
->   [   66.172845] mmc0: Failed to map sg list
->   [   66.176722] Unable to handle kernel NULL pointer dereference at virtual address 0000000000000000
->   ...
->   [   66.432747] Call trace:
->   [   66.435191]  ___free_pages+0x1c/0xc4 (P)
->   [   66.439119]  __free_pages+0x14/0x20
->   [   66.442608]  mmc_test_area_cleanup+0x58/0x84 [mmc_test]
+> > --- a/drivers/mmc/host/renesas_sdhi_internal_dmac.c
+> > +++ b/drivers/mmc/host/renesas_sdhi_internal_dmac.c
+> > @@ -224,6 +224,7 @@ static const struct renesas_sdhi_quirks sdhi_quirks=
+_rzg2l =3D {
+> >   */
+> >  static const struct soc_device_attribute sdhi_quirks_match[]  =3D {
 >
-> Fix this by explicitly resetting `mem->cnt` to 0 immediately after
-> allocation. Then, move the existing `mem->cnt` increment so that it occurs
-> prior to populating each array slot, using `mem->cnt - 1` for the actual
-> assignment index. This guarantees that the counter accurately tracks
-> initialized entries for safe error cleanup, while dynamically expanding
-> the `__counted_by` validation boundary ahead of each flexible array write.
+> This array is meant for quirks, i.e. to address issues on specific
+> SoC variants that cannot just be identified by the compatible value.
 >
-> Additionally, rewrite the cleanup loop in mmc_test_free_mem() to use a
-> standard forward for-loop. This addresses the unsafe post-decrement logic
-> in the original `while (mem->cnt--)` loop which evaluated and decremented
-> the counter field before indexing the array, and avoids a potential integer
-> underflow/wrap-around of the counter field if the cleanup path is invoked
-> when `mem->cnt` is 0.
+Ok, I will drop it from the quirks list.
+
+> >         { .soc_id =3D "r8a774a1", .revision =3D "ES1.[012]", .data =3D =
+&sdhi_quirks_4tap_nohs400 },
+> > +       { .soc_id =3D "r8a774e1", .data =3D &sdhi_quirks_bad_taps2367 }=
+,
 >
-> Fixes: c3126dccfd7b ("mmc: mmc_test: use kzalloc_flex")
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> ---
-> v1->v2:
-> - Started with cnt = 0 and incremented before assignment to ensure
->   accurate tracking of initialized entries in mmc_test_alloc_mem().
-> - In mmc_test_free_mem(), replaced the while loop with a forward for-loop to
->   safely iterate over initialized entries without risking underflow.
-> - Updated commit message to clarify the issue and the fix.
-
-Thanks for your patch!
-
-> --- a/drivers/mmc/core/mmc_test.c
-> +++ b/drivers/mmc/core/mmc_test.c
-> @@ -318,9 +318,8 @@ static void mmc_test_free_mem(struct mmc_test_mem *mem)
->  {
->         if (!mem)
->                 return;
-> -       while (mem->cnt--)
-> -               __free_pages(mem->arr[mem->cnt].page,
-> -                            mem->arr[mem->cnt].order);
-> +       for (unsigned int i = 0; i < mem->cnt; i++)
-> +               __free_pages(mem->arr[i].page, mem->arr[i].order);
->         kfree(mem);
->  }
+> Hence I think this should be RZ/G2H should be added to
+> renesas_sdhi_internal_dmac_of_match[] instead, referring to
+> of_r8a7795_compatible.
 >
-> @@ -356,6 +355,7 @@ static struct mmc_test_mem *mmc_test_alloc_mem(unsigned long min_sz,
->         mem = kzalloc_flex(*mem, arr, max_segs);
->         if (!mem)
->                 return NULL;
-> +       mem->cnt = 0;
+Ok I will add an entry in  renesas_sdhi_internal_dmac_of_match[] (same
+for patches 2 and 3).
 
-This is not needed, as it is set to zero by kzalloc_flex().
-
->
->         while (max_page_cnt) {
->                 struct page *page;
-
-The rest LGTM.
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Cheers,
+Prabhakar
 
