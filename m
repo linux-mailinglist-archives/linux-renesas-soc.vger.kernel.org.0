@@ -1,194 +1,160 @@
-Return-Path: <linux-renesas-soc+bounces-32843-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-32844-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id eIC2I3poDWo0xAUAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-32843-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 20 May 2026 09:53:30 +0200
+	id CM+BKThpDWquwgUAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-32844-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 20 May 2026 09:56:40 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9660F589340
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 20 May 2026 09:53:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F7885893C9
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 20 May 2026 09:56:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id E3AF3302482A
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 20 May 2026 07:52:51 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id A514F30080A8
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 20 May 2026 07:56:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 38175378D63;
-	Wed, 20 May 2026 07:52:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YQBv+m2x"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8C7F4376A13;
+	Wed, 20 May 2026 07:56:34 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f173.google.com (mail-vk1-f173.google.com [209.85.221.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 486A3375ADE;
-	Wed, 20 May 2026 07:52:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D869355F49
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 20 May 2026 07:56:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779263568; cv=none; b=JfS6GoWEtSTyBqcCGfaFvCO8lj8baStGtKCa65Y817atCB1KOzP/Te2lmmlFPgrNxWGR9g41z8IWGmIzdpcm1opKZItdj44lLm0Sn70s0Rt0HbVp6h2ZZTndSk0PJDuptR9Ycpiu+GwwtXjn2Bz4K4TGK9zjRAeaeeTwarkTm48=
+	t=1779263794; cv=none; b=CXf+6EC19C8vK5gmCWSTUCvdHGmfkSGn+hLtzZqtJqP8v+Xn3queEBpujirONKigPBQMs6d9Zk78rZeCZ6BSlTXoDLKLv+iAjgff/uAwCkiJuz1SN/N2N0kFNToFxePoorcKvm9f/d72MlV6/saJkoLo7eKd8M/MByNbVDfahtw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779263568; c=relaxed/simple;
-	bh=l2iq04dfid1P/RI7IJB6RTFHGWrxxxOjteF9sXcweUg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=N3nEnsKXopWzTkFoer3vjLhTy7N3ngjb/gvEtwHpSu2I8uhInH7wwc4B9cm7wl8nyfVv4ur7iPgVhnS+6W4urM3T+zDhyYs8fhrPwPm8RmnfXlZwY9dgb8MIaB73GeUOYo5YXi5Md6IBUh8w35f0xVFSA6T/bNKJRsTMNlFghj8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YQBv+m2x; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 12ED41F000E9;
-	Wed, 20 May 2026 07:52:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779263566;
-	bh=K7AXusVw5tvRk0MCx58b3uVuuJbfqHqRR7DEObAZuqw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=YQBv+m2xMy4acoftW+DIFqymklNIOAyXZXlVYOo2ON1JvQARL78iTvyrRWzv3kXrw
-	 iN5udWjmMvNWKgQRF8/mCm+JiZi1pTiSmtXs3WgIuC5Vb6jtv2+q3C3waRqtrCexXe
-	 kM69ptL06OpIAvotnuTai5zRhuvsd6VnOrAazR5ZXPJcfXgsGgCFi1gOb3uTSPlDLk
-	 lpMD6q5Hup5DNGehX92Z74Bv7dff7d9+JksIcnk7irk/3l3Y/H9qnzIiiJXobEnU+j
-	 IO6wg9UlrhNlW5aHsjgcfUj8DmMeLqXnhDUX9LP0Om9zjLID1Wk6Ku+FArQVu01FgX
-	 FP336eN77QIzg==
-Date: Wed, 20 May 2026 13:22:37 +0530
-From: Manivannan Sadhasivam <mani@kernel.org>
-To: Marek Vasut <marek.vasut@mailbox.org>
-Cc: linux-pci@vger.kernel.org, stable@vger.kernel.org, 
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Koichiro Den <den@valinux.co.jp>, 
-	Lorenzo Pieralisi <lpieralisi@kernel.org>, Magnus Damm <magnus.damm@gmail.com>, 
-	Rob Herring <robh@kernel.org>, Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, 
-	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] PCI: rcar-gen4: Limit Max_Read_Request_Size and
- Max_Payload_Size to 256 Bytes
-Message-ID: <n54cy5tedwjw7tr6a7h7fh3ja6rnmwur4yuc7235pt6nv4dwfs@phoahokzmts5>
-References: <20260425233845.459175-1-marek.vasut+renesas@mailbox.org>
- <dicudl6knlptqnscyqkedp5zrs4vyosjggysnqsaupxi3g3o4x@rngp35usnurb>
- <e7078be5-4d95-4b85-9590-d1f0c76b653a@mailbox.org>
+	s=arc-20240116; t=1779263794; c=relaxed/simple;
+	bh=QqPxeM13+Xx0aqfPwJhCfwrd69Mly4RhTLXMjEcRwuM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=V/ujwZi35X5gJC+jJcXZSII3dTOR3H5gr2TW7j1EomuqaMLeDJ3HW3QbAlhwcLUstoj0wIPFJop3/9Zm9aRmVKXcIz0SKm0Txl2ItCJmr8wkv5T9q5dJhRLzMlTU9Td8s07PAMKcromHZzbzmMsgyD4sxO+mMy2ft93OvX9wuyY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vk1-f173.google.com with SMTP id 71dfb90a1353d-5751136c561so4269577e0c.1
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 20 May 2026 00:56:33 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779263792; x=1779868592;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=f7bxrGxQ1iTs6SaX4Z9onRYwjShKtP0zGwIDYAHZcO8=;
+        b=jYcbZMxMeVS8mD9PKltCZZ1PGWmMnnekMfoH1Qdc1iFP7pPgCuJzOTMkgOxqnZSTAg
+         WaTEcwU+1IffkX6HH9nIf96N+8zbvr930EDa9OmYBx6n02nDOHWUH5d40HZx7Wqk6Z/o
+         FsBneTJZBgIV2K50KX18QHbDxrlzf/Ozp6PLD2C8rp78+JzyI93EbN9aVDMTxNQsHUMg
+         EiewOkWopulXaiS5oCYSLIbIpQwC4lhR8jtOp9qmAhI4BKAj1nScUS2oVQmzUQeID7n+
+         A2cpwCX2qORcJcNwUeAQW/WAnnjtq8JlYPBuHzRn/PZm6RXrNS5eL55TNF+u9B7ANqSr
+         4qiw==
+X-Forwarded-Encrypted: i=1; AFNElJ8+aZCVMPI4WDGdOa76MsE0yM8Hu6iyN6Uv961uVWorYbgklTwYLGS1If1sVqSoneWVBlddPASqEA/+75/yMjdSRA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx2k6NsdJkwyqNJAsE6+QN8h/qQE04ApvdHS7YsKF/ifv/I7WjB
+	3GkZIKWk+6teBMo33nLUIXRQvAiIZ3gow4sCU+yljEQM7c5sN3PGceG/lffbfkD0aDY=
+X-Gm-Gg: Acq92OGQUIFwR7g6sbBh1eHzFF5MiIl/xs3HHYp/G5ZKmNrH9jwtwdInr7MU9pv32rz
+	/JyEcYh1lockw/dSXdVA1zlzB3z2+wxD+LwZuV5KvFXDsTWAhpEMJ+ogplrhs/CZUok8cF3tJoy
+	hZJTOjcBwSAGDra5M8c/XzdAyovByiXTseSEydiZTWPs+RPaCYekNuaYmlafse5AGNej0/okLC/
+	s0WOJNPmZBCjxwby2+oGusUpCQtuQi8/R0bxul8Kj/GH9NT2tGxgCmuDDZMIl2cb3zs+iDGuzFv
+	u7J1JWQyANjweVA8hZm/piSMnn/844D+YkP/cMC7fqbT4mU9G/aU21EytztkXfcnI9VYtBx/zdf
+	08K/4dnApzTIkPJV8QLvT5gdlP57jXfNwfDDx7InZAsIszkne9oalgC7PT0xroNqYvgX9hX0hb9
+	86Ufa0DVDwcyuH+T1/PLfsoIh6JFxhN3FdZzg++5D19tv1zKyxgo19g63qPJg+K7zQugbN4sg=
+X-Received: by 2002:a05:6122:29c5:b0:56b:8ba0:fd58 with SMTP id 71dfb90a1353d-5760b872dffmr9244631e0c.6.1779263792134;
+        Wed, 20 May 2026 00:56:32 -0700 (PDT)
+Received: from mail-vs1-f52.google.com (mail-vs1-f52.google.com. [209.85.217.52])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5760fa59b2esm9968011e0c.9.2026.05.20.00.56.30
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 20 May 2026 00:56:30 -0700 (PDT)
+Received: by mail-vs1-f52.google.com with SMTP id ada2fe7eead31-6312bdd281eso4166384137.0
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 20 May 2026 00:56:30 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ/Q1dsPiyMFYMU09Ukzy2iqM9GY0BjwPTF5kpeKlqEsCR7hzlk3oKw7F4tMKJiX54upna4i5QCwL/WsWoDio3pFkQ==@vger.kernel.org
+X-Received: by 2002:a05:6102:c4b:b0:634:10bd:95c6 with SMTP id
+ ada2fe7eead31-638b8411d03mr10827623137.22.1779263790023; Wed, 20 May 2026
+ 00:56:30 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <e7078be5-4d95-4b85-9590-d1f0c76b653a@mailbox.org>
-X-Spamd-Result: default: False [-0.16 / 15.00];
+References: <20260519135342.623943-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20260519135342.623943-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20260519135342.623943-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 20 May 2026 09:56:18 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVsSdar1OdGtU4wK+d0+UDxGJwtXBRa+LgRVwK5BE425g@mail.gmail.com>
+X-Gm-Features: AVHnY4KNCbwcbPYoOaAbA20ajOpz0ciN8hyEvIG4fBBRoaXuGIeSrdlARt57b4Y
+Message-ID: <CAMuHMdVsSdar1OdGtU4wK+d0+UDxGJwtXBRa+LgRVwK5BE425g@mail.gmail.com>
+Subject: Re: [PATCH v2 1/3] mmc: renesas_sdhi: Add OF entry for RZ/G2H SoC
+To: Prabhakar <prabhakar.csengg@gmail.com>
+Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>, Ulf Hansson <ulfh@kernel.org>, 
+	Magnus Damm <magnus.damm@gmail.com>, linux-mmc@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Biju Das <biju.das.jz@bp.renesas.com>, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spamd-Result: default: False [0.04 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-32843-lists,linux-renesas-soc=lfdr.de];
+	FREEMAIL_CC(0.00)[sang-engineering.com,kernel.org,gmail.com,vger.kernel.org,bp.renesas.com,renesas.com];
+	TAGGED_FROM(0.00)[bounces-32844-lists,linux-renesas-soc=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	RCPT_COUNT_TWELVE(0.00)[13];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[vger.kernel.org,kernel.org,google.com,glider.be,valinux.co.jp,gmail.com,renesas.com];
+	DMARC_NA(0.00)[linux-m68k.org];
+	FREEMAIL_TO(0.00)[gmail.com];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[mani@kernel.org,linux-renesas-soc@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo]
-X-Rspamd-Queue-Id: 9660F589340
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[geert@linux-m68k.org,linux-renesas-soc@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	NEURAL_HAM(-0.00)[-1.000];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	R_DKIM_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[linux-m68k.org:email,renesas.com:email,mail.gmail.com:mid,sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo]
+X-Rspamd-Queue-Id: 9F7885893C9
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Wed, May 13, 2026 at 12:57:18AM +0200, Marek Vasut wrote:
-> On 5/11/26 4:34 PM, Manivannan Sadhasivam wrote:
-> 
-> Hello Manivannan,
-> 
-> > >   drivers/pci/controller/dwc/pcie-rcar-gen4.c | 56 +++++++++++++++++++++
-> > >   1 file changed, 56 insertions(+)
-> > > 
-> > > diff --git a/drivers/pci/controller/dwc/pcie-rcar-gen4.c b/drivers/pci/controller/dwc/pcie-rcar-gen4.c
-> > > index 8b03c42f8c84c..82f0a074a71da 100644
-> > > --- a/drivers/pci/controller/dwc/pcie-rcar-gen4.c
-> > > +++ b/drivers/pci/controller/dwc/pcie-rcar-gen4.c
-> > > @@ -576,6 +576,7 @@ static int r8a779f0_pcie_ltssm_control(struct rcar_gen4_pcie *rcar, bool enable)
-> > >   static void rcar_gen4_pcie_additional_common_init(struct rcar_gen4_pcie *rcar)
-> > >   {
-> > >   	struct dw_pcie *dw = &rcar->dw;
-> > > +	u16 offset = dw_pcie_find_capability(dw, PCI_CAP_ID_EXP);
-> > >   	u32 val;
-> > >   	val = dw_pcie_readl_dbi(dw, PCIE_PORT_LANE_SKEW);
-> > > @@ -584,11 +585,66 @@ static void rcar_gen4_pcie_additional_common_init(struct rcar_gen4_pcie *rcar)
-> > >   		val |= BIT(6);
-> > >   	dw_pcie_writel_dbi(dw, PCIE_PORT_LANE_SKEW, val);
-> > > +	val = dw_pcie_readl_dbi(dw, offset + PCI_EXP_DEVCTL);
-> > > +	val &= ~(PCI_EXP_DEVCTL_PAYLOAD | PCI_EXP_DEVCTL_READRQ);
-> > > +	val |= PCI_EXP_DEVCTL_PAYLOAD_256B | PCI_EXP_DEVCTL_READRQ_256B;
-> > > +	dw_pcie_writel_dbi(dw, offset + PCI_EXP_DEVCTL, val);
-> > 
-> > Instead of limiting the MRRS/MPS values for all devices through quirks, why
-> > can't you just limit the Root Port's MPSS value in PCI_EXP_DEVCAP?
-> The root port MPSS is already 3'b001 = 256 Bytes and is read-only for
-> EXPCAP1F0 (PCI_EXP_DEVCAP) .
-> 
-> The controller is limited to MPS 256 Bytes according to V4H rev.1.30
-> documentation. There is no explicitly spelled out MRRS limitation in the
-> documentation to my knowledge, except for the DMA hint, but please read on.
-> 
-> The root port EXPCAP2F0 MPS is 128 Bytes and MRRS is 512 Bytes .
-> 
-> I now noticed that in V4H rev.1.30 documentation, the EXPCAP2F0 MRRS field
-> is default set to 3'b010 = 512 Bytes, but that value is "Reserved" and only
-> two non-reserved values are 3'b000 and 3'b001 which are MRRS 128 Bytes and
-> 256 Bytes respectively. That means MRRS has to be trimmed to maximum 256
-> Bytes in software to avoid "Reserved" settings. I will also ask the hardware
-> and documentation team about this.
-> 
-> As a result, I adjust EXPCAP2F0:
-> 
-> - I raise MPS from 128 Bytes to 256 Bytes
-> - I reduce MRRS from 512 Bytes to 256 Bytes (this is important to prevent
-> data corruption)
-> 
-> However, the downstream devices (in my case, PCIe SSD) can still be
-> configured with MRRS > 256 (in my case, Crucial P5 Plus 1 TiB has MRRS=512
-> and MPS=128), which is where the quirk kicks in and reconfigures MRRS for
-> those downstream devices.
-> 
-> The pci_configure_mps() does propagate MPS from root port EXPCAP2F0 to
-> downstream devices, but there is no equivalent for MRRS as far as I can find
-> ?
+On Tue, 19 May 2026 at 15:53, Prabhakar <prabhakar.csengg@gmail.com> wrote:
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>
+> The RZ/G2H (R8A774E1) SoC was previously handled via the generic
+> "renesas,rcar-gen3-sdhi" fallback compatible string. However, because
+> the SDHI IP on RZ/G2H is identical with the R-Car H3-N (R8A77951), it
+> requires the specific quirks and configuration defined in
+> `of_r8a7795_compatible` rather than the generic Gen3 data.
+>
+> Add the explicit "renesas,sdhi-r8a774e1" match entry to map it correctly.
+> Note that the DT binding file renesas,sdhi.yaml does not need an update
+> as the entry for this SoC is already present.
+>
+> Fixes: 31941342888d ("arm64: dts: renesas: r8a774e1: Add SDHI nodes")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> ---
+> v1->v2:
+> - Dropped adding entry in the quirk list instead added entry
+>   in the OF match table to map the SoCs to the existing quirks.
+> - Updated commit messages to reflect the above change.
 
-Sorry for the late reply!
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-I'm now confused about the issue itself. In your v1 patch you said:
+Gr{oetje,eeting}s,
 
-"R-Car Gen4 PCIe controller has a hardware limitation of 256 Bytes
-maximum payload size. The PCIe DMA generates requests of size up
-to minimum(Max_Read_Request_Size, Max_Payload_Size). Force limit
-both Max_Read_Request_Size and Max_Payload_Size to 256 Bytes and
-propagate this limit to all downstream devices."
-
-The 256B limitation of Root Port MPS is clear. And you said, Root Port's MPSS is
-already 256B. So this will prevent the endpoints from sending > 256B payload.
-
-Also, the DMA calculation of min(MRRS,MPS) will also satisfy with 256B MPS even
-if MRRS is higher i.e, 512B.
-
-If MRRS is 512B, the endpoint should send two 256B TLPs based on MPS and that
-shouldn't be a problem on the host. So I'm not sure how the higher MRRS value
-induces data corruption here. And why you want to limit MRRS on all downstream
-devices and not just the Root Port? Since you are using NVMe, the host will be
-the one sending MRd TLP to the device. So I'm not sure how the endpoint MRRS
-comes into play.
-
-Am I missing something?
-
-- Mani
+                        Geert
 
 -- 
-மணிவண்ணன் சதாசிவம்
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
