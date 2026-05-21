@@ -1,222 +1,165 @@
-Return-Path: <linux-renesas-soc+bounces-32907-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-32908-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id aEakKl3WDmr2CQYAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-32907-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 21 May 2026 11:54:37 +0200
+	id +ML2NN4KD2omEgYAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-32908-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 21 May 2026 15:38:38 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3D905A2BF9
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 21 May 2026 11:54:36 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 773895A60A7
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 21 May 2026 15:38:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 1D5103033D87
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 21 May 2026 09:38:52 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id C9B7830FEB0C
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 21 May 2026 13:21:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5115E379EC4;
-	Thu, 21 May 2026 09:38:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DD5243DA5A8;
+	Thu, 21 May 2026 13:19:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b="0I4tMOaq"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="V5eJpyte"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AC35376A10;
-	Thu, 21 May 2026 09:38:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.11.138.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 434283D6CC7
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 21 May 2026 13:19:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779356329; cv=none; b=MfZj7393sxePZLF46o74pxuI+etB9G+ZLIlImEnprP51KLfYraJPD6WO5Oo1b7sC7FhHoZUqPfx/gJY/kHJm1J4Epe8ci6dkmtr9Q/tDB7Dr2QBmVJc0fmzLfPJcyAvO+8oADzKJQ3VSkVsEhBxj6PEvgljPH2dmUWCX5kGTlaE=
+	t=1779369559; cv=none; b=hTRlMDUmBhyfkpuXF3g4F9B1VPdK4ZQFOlO8sSbzUe+gle4avPzC34rI2Gz7yzVqwonqJ9oVWW5PHickiPZan02SDhnkfrAmtZtcy9wFVeV3R6G2BnBHZwIeNJglx2HgXjqYyJ0bwrRExQypzzUATeeC75alZ2b9o13P1nFCDJQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779356329; c=relaxed/simple;
-	bh=KfGfTyFVL31vdUdOn+76p0c9asI51Kz6rpZ61Tm62g8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=cEw3imQRhQn+KYwmqNMyGexNEwoS8UClVayeQ8FU6aYTc7vLw9cT0dHrvKadL0dWY25OaH6PiqmNjUujhbbyKHKqXHs1P/3GlDl/SRcOlfRY07DLXei3h5gEVSetrHh29J6PMt5hF86TC/vlW30M+D2Y0rnR84Z8UH+hZf9cdL8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=sntech.de; spf=pass smtp.mailfrom=sntech.de; dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b=0I4tMOaq; arc=none smtp.client-ip=185.11.138.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=sntech.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sntech.de
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de;
-	s=gloria202408; h=Content-Transfer-Encoding:Content-Type:MIME-Version:
-	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Reply-To;
-	bh=82qSLImWzSWwJwDL4P56RDhSxB/3/+bLg3x1B6/8Vyo=; b=0I4tMOaqwxFvPcLAyXC1tGPrfE
-	HXHaVV7+wYwVP4UGjSNoFDd1VfRVRwKpSUpdi+/cM0lBIFBOtW57RPkKHZJ6gSZa57lZaOJNQszdB
-	j5MhP9nNF2ZBC5XTLEZLefqvWnNibulepEtkV4okP/kU2AAENM/x1cT5yntunk8HjnN93yJVk0KhD
-	4BGKyKzwZYIhS+icC3RQoCP/xlaXk2zQuPvKHmUwXbld7xPg620UPcbli2n9Nu98+Jo3ggiseSwXX
-	f5u71NtNcCGIkISy1Bu3AzX1ANpj9jp2f9+W1J8qexkOfVBSIDSPhC21GfXXPezuckw1Oq9h13vk1
-	Ke/2S4sA==;
-From: Heiko Stuebner <heiko@sntech.de>
-To: linux-phy@lists.infradead.org,
-	Vladimir Oltean <vladimir.oltean@nxp.com>
-Cc: Heiko Stuebner <heiko@sntech.de>,
-	Vinod Koul <vkoul@kernel.org>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	dri-devel@lists.freedesktop.org,
-	freedreno@lists.freedesktop.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-arm-msm@vger.kernel.org,
-	linux-can@vger.kernel.org,
-	linux-gpio@vger.kernel.org,
-	linux-ide@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
+	s=arc-20240116; t=1779369559; c=relaxed/simple;
+	bh=16QY/QJzWEjPqahS/pj9spMomkd8qYLLznAV2zSSiSw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=T4hiffg+x/6OG2PyH3ZUDzNxCQCccKjGXkbQ41Pv9k5cT150I9FLg4g6MWCq52g52v3g7gXM14k1jmb10Slc56mxpTZ367wxMXQYEQntZckFhl0x7tcfe9wAS+4yvCdvk5ITUF4rf/Ei/6+Vbqgr0Bn1Eeed5B2Im8Ow/gefkX8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=V5eJpyte; arc=none smtp.client-ip=209.85.221.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-441209fb77eso3932221f8f.1
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 21 May 2026 06:19:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1779369556; x=1779974356; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=b7bRKatPZuRsf9MzYE7O4zt6PuUBozxZsH88W9EeXPk=;
+        b=V5eJpyte1mwszBLZZ74Ux18+mqm1XAXJ61llhNvN5HV67dz4N1J8Rq8S8LsnSwLQQr
+         UwsoxkHpbMmgYUPP2ZCMqRcQ5vBQEv3qj6JKr0B5DlS4lXkoChayw6zxzQtjJzT5yGTM
+         ZF1REhVP5lypUHpjz7j1RIqnIPyUSIhJ5uSxocOL3PGgcv5K4grx3ZEflts6smOLNvcV
+         jFuictEfOWlD9CSMF6/vWp2DB33u4KMgVxQ44qNOs8oZR23Q1rHasqXQqRmyL/rf3itz
+         uYWdGExSN+lCSZbh3q7ZVcwcxxuBL40aw15V1dxx9/Fv3DxHMBJ26ATaohfDMyjbUPiR
+         EzwA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779369556; x=1779974356;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=b7bRKatPZuRsf9MzYE7O4zt6PuUBozxZsH88W9EeXPk=;
+        b=TnShPwvK9LIJE/DfKlJq3jJ1nwhlmjyDSugBKhi0JfzYKeJXX0CGW8+u1aCsGPw2mr
+         QmnFG+A5LuoYC1Shjq3bAZMhEki8r0Vp9f72JizBkSnDIUCECejmilYCC7wQ93HhMxMe
+         /1B6tAIaVA6lFQf6PI0nPC1tsFbJ2InVZbUcEtOUSwS0R4lIyWC4mBEBd39IcfQKyv5M
+         74t8uONadjVdytMMJj/U0tRu82RFWA5NaRxlP5C/VwgEDcrww5ezQ+aQ01/eo4ixbbeL
+         TMZpd3pKonNK7DqC9R3P5xqzJsEk0HL8ycPqHUoV6lYBqmuTLVVJs6+3/bjHKYRcmdvE
+         nyXw==
+X-Gm-Message-State: AOJu0YxoBRPGhWZLgvto23i+HmuEruChJpob67aPMfH1Uwe09I9wD4B5
+	6fhAqEKALsMzb5U+k3wfSWPvvrwoyUjfp9FxXxCIuEyB4kSFFjHo7o8Ke6xXWKzr
+X-Gm-Gg: Acq92OE2D6LVgxavFDkAp0m/9xbVviJw7o7EnQE0WxwIn/2yevKNHZmxIUZ5SoOczB0
+	MQW8/6vKX1lZ9I/QsQqNAlHka07A1H1vuD5Kll/3aC1KiwuiY2/ThJwMs+3oWVaCmWRwlMBl3+6
+	s5za5Q7m8lYq1JfWj1Gp0daNsxVlG+9yEUR6gq59xVekKfa7rQPRUydyEnRYvTbc2H6bDHy6hS1
+	PT4RuTuPbIflAiXNNhrIxewlLNtGnNP66tlOcnCuN9NWYZ+2Bp5xe8EKg6/p0V/dR6ZqOEQ3mO2
+	dMD+au5lsp9nz76QEfiPOcKwtL9qOwsO2M9YcPStUlwXb6wekISXO9CtsFlCSAV/9xNquMPmrNZ
+	lpzfOuQ5Uhlv+Bvd1AjDmODDbNVZJVqnEWFOFKZ30la+xexDUZH6HMp1/tdrkhKebUX8YqdRpuy
+	HnSktfH9aHFXfi2Uul1/djJXDnmw3+Fq6fSn2TldAcN2MbGAJFuf+r6Dzj/bx2aOdxqnvJ/A+fA
+	V2zn1f48dm7b/g37WR7nVBoXBAgaFGXMUk4KA==
+X-Received: by 2002:a05:6000:26c5:b0:45e:739b:2750 with SMTP id ffacd0b85a97d-45ea34955famr4690762f8f.9.1779369556319;
+        Thu, 21 May 2026 06:19:16 -0700 (PDT)
+Received: from iku.Home ([2a06:5906:61b:2d00:e184:549b:e5bf:ab7f])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45eaa7cd815sm4163164f8f.6.2026.05.21.06.19.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 21 May 2026 06:19:15 -0700 (PDT)
+From: Prabhakar <prabhakar.csengg@gmail.com>
+X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-renesas-soc@vger.kernel.org,
 	linux-media@vger.kernel.org,
-	linux-pci@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	linux-riscv@lists.infradead.org,
-	linux-rockchip@lists.infradead.org,
-	linux-samsung-soc@vger.kernel.org,
-	linux-scsi@vger.kernel.org,
-	linux-sunxi@lists.linux.dev,
-	linux-tegra@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	netdev@vger.kernel.org,
-	spacemit@lists.linux.dev,
-	UNGLinuxDriver@microchip.com,
-	Abhinav Kumar <abhinav.kumar@linux.dev>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Alim Akhtar <alim.akhtar@samsung.com>,
-	=?UTF-8?q?Andr=C3=A9=20Draszik?= <andre.draszik@linaro.org>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	Andrzej Hajda <andrzej.hajda@intel.com>,
-	Andy Yan <andy.yan@rock-chips.com>,
-	Bart Van Assche <bvanassche@acm.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Can Guo <quic_cang@quicinc.com>,
-	Chanho Park <chanho61.park@samsung.com>,
-	Chen-Yu Tsai <wens@kernel.org>,
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
-	Damien Le Moal <dlemoal@kernel.org>,
-	Daniel Machon <daniel.machon@microchip.com>,
-	David Airlie <airlied@gmail.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Dmitry Baryshkov <lumag@kernel.org>,
-	Eric Dumazet <edumazet@google.com>,
-	Fabio Estevam <festevam@gmail.com>,
-	Frank Li <Frank.Li@nxp.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Inki Dae <inki.dae@samsung.com>,
-	Jagan Teki <jagan@amarulasolutions.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	"James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
-	JC Kuo <jckuo@nvidia.com>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Jessica Zhang <jesszhan0024@gmail.com>,
-	Joe Perches <joe@perches.com>,
-	Johan Hovold <johan+linaro@kernel.org>,
-	Jonas Karlman <jonas@kwiboo.se>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Kevin Xie <kevin.xie@starfivetech.com>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>,
-	=?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-	Linus Walleij <linusw@kernel.org>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Marc Kleine-Budde <mkl@pengutronix.de>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	Marijn Suijten <marijn.suijten@somainline.org>,
-	Markus Schneider-Pargmann <msp@baylibre.com>,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	Mathias Nyman <mathias.nyman@intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Maxime Ripard <mripard@kernel.org>,
-	Michael Dege <michael.dege@renesas.com>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Niklas Cassel <cassel@kernel.org>,
-	Nitin Rawat <quic_nitirawa@quicinc.com>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Peter Chen <peter.chen@kernel.org>,
-	Peter Griffin <peter.griffin@linaro.org>,
-	Rob Clark <robin.clark@oss.qualcomm.com>,
-	Robert Foss <rfoss@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	"Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
-	Samuel Holland <samuel@sholland.org>,
-	Sandy Huang <hjc@rock-chips.com>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Sean Paul <sean@poorly.run>,
-	Sebastian Reichel <sre@kernel.org>,
-	Shawn Guo <shawn.guo@linaro.org>,
-	Shawn Lin <shawn.lin@rock-chips.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Steen Hegelund <Steen.Hegelund@microchip.com>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Tudor Ambarus <tudor.ambarus@linaro.org>,
-	Vincent Mailhol <mailhol@kernel.org>,
-	Xu Yang <xu.yang_2@nxp.com>,
-	Yixun Lan <dlan@kernel.org>,
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Subject: Re: (subset) [PATCH v8 phy-next 00/31] Split Generic PHY consumer and provider API
-Date: Thu, 21 May 2026 11:38:18 +0200
-Message-ID: <177935628872.1653123.15514691751947313571.b4-ty@sntech.de>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260505100523.1922388-1-vladimir.oltean@nxp.com>
-References: <20260505100523.1922388-1-vladimir.oltean@nxp.com>
+	linux-kernel@vger.kernel.org,
+	Prabhakar <prabhakar.csengg@gmail.com>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+Subject: [PATCH] media: rzg2l-cru: Remove height alignment restriction
+Date: Thu, 21 May 2026 14:19:11 +0100
+Message-ID: <20260521131911.92845-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-0.66 / 15.00];
+X-Spamd-Result: default: False [0.84 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[sntech.de,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
-	R_DKIM_ALLOW(-0.20)[sntech.de:s=gloria202408];
+	MID_CONTAINS_TO(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_MISSING_CHARSET(0.50)[];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-32907-lists,linux-renesas-soc=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	FREEMAIL_CC(0.00)[sntech.de,kernel.org,linaro.org,lists.freedesktop.org,lists.infradead.org,vger.kernel.org,lists.linux.dev,microchip.com,linux.dev,bootlin.com,samsung.com,lunn.ch,intel.com,rock-chips.com,acm.org,google.com,quicinc.com,tuxon.dev,gmail.com,davemloft.net,nxp.com,glider.be,linuxfoundation.org,amarulasolutions.com,HansenPartnership.com,nvidia.com,perches.com,kwiboo.se,starfivetech.com,oss.qualcomm.com,ideasonboard.com,linux.intel.com,pengutronix.de,somainline.org,baylibre.com,oracle.com,renesas.com,redhat.com,armlinux.org.uk,sholland.org,poorly.run,ffwll.ch,synopsys.com,suse.de];
-	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_GT_50(0.00)[106];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[heiko@sntech.de,linux-renesas-soc@vger.kernel.org];
-	DKIM_TRACE(0.00)[sntech.de:+];
-	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,netdev,renesas,linaro,kernel];
-	MID_RHS_MATCH_FROM(0.00)[];
+	FREEMAIL_CC(0.00)[vger.kernel.org,gmail.com,bp.renesas.com,renesas.com];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo,sntech.de:email,sntech.de:mid,sntech.de:dkim]
-X-Rspamd-Queue-Id: F3D905A2BF9
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	TAGGED_FROM(0.00)[bounces-32908-lists,linux-renesas-soc=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[prabhakarcsengg@gmail.com,linux-renesas-soc@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	RCPT_COUNT_SEVEN(0.00)[10];
+	NEURAL_HAM(-0.00)[-1.000];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-renesas-soc];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo,renesas.com:email,bp.renesas.com:mid]
+X-Rspamd-Queue-Id: 773895A60A7
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
+From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-On Tue, 05 May 2026 13:04:52 +0300, Vladimir Oltean wrote:
-> The biggest problem requiring this split is the fact that consumer
-> drivers poke around in struct phy, accessing fields which shouldn't be
-> visible to them. Follow the example of mux, gpio, iio, spi offload,
-> pwrsec, pinctrl and regulator, which each expose separate headers for
-> consumers and providers.
-> 
-> Some off-list discussions were had with Vinod Koul regarding the 3 PHY
-> providers outside the drivers/phy/ subsystem. It was agreed that it is
-> desirable to relocate them to drivers/phy/, rather than to publish
-> phy-provider.h to include/linux/phy/ for liberal use. Only phy.h and
-> (new) phy-props.h - consumer-facing headers - stay there.
-> 
-> [...]
+The CRU hardware found on RZ/G2L and RZ/G3E SoCs does not impose any
+height alignment requirement, so enforcing power-of-two alignment on
+the frame height is unnecessary.
 
-Applied, thanks!
+Remove the power-of-two height alignment restriction in the call to
+v4l_bound_align_image() by changing the height alignment argument
+from 2 to 0.
 
-[15/31] drm/rockchip: dw_hdmi: avoid direct dereference of phy->dev.of_node
-        commit: 9392e7340bffb406a705de755adfb44eab547d40
+Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+---
+ drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Best regards,
+diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
+index 1ab4b4c1745e..8d8103c51f29 100644
+--- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
++++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
+@@ -843,7 +843,7 @@ static void rzg2l_cru_format_align(struct rzg2l_cru_dev *cru,
+ 
+ 	/* Limit to CRU capabilities */
+ 	v4l_bound_align_image(&pix->width, 320, info->max_width, 1,
+-			      &pix->height, 240, info->max_height, 2, 0);
++			      &pix->height, 240, info->max_height, 0, 0);
+ 
+ 	v4l2_fill_pixfmt(pix, pix->pixelformat, pix->width, pix->height);
+ 
 -- 
-Heiko Stuebner <heiko@sntech.de>
+2.54.0
+
 
