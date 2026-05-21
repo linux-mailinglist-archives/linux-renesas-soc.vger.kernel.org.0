@@ -1,77 +1,77 @@
-Return-Path: <linux-renesas-soc+bounces-32901-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-32902-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id YH38G7TMDmpoCQYAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-32901-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 21 May 2026 11:13:24 +0200
+	id oNdgIn/TDmr2CQYAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-32902-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 21 May 2026 11:42:23 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 172715A2094
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 21 May 2026 11:13:24 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D2AB5A285E
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 21 May 2026 11:42:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 0D04D3076ED3
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 21 May 2026 09:09:29 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id AE8FA304020A
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 21 May 2026 09:12:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 13CC330DEBE;
-	Thu, 21 May 2026 09:09:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8C2F03612E2;
+	Thu, 21 May 2026 09:12:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mcFpV4QA"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="f1aLfzxK"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DED0C3644C1
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 21 May 2026 09:09:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 659B829C327
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 21 May 2026 09:12:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779354562; cv=none; b=r3uN8Fa9/VLPZCClvjBT/Ro/A4srxN2L4LVoplMvh3CLWIyWYzYQHGkKMpqa6rzWiPyjmsSmJc6H2ytoaKkZFZ+mIMfRMZM9dadiz/ztLybTqe0aJu3R74Ba+GD5f5mi6I+2+zCuXNXbiL7PeFNOn3Qmxyi9yVrOvPBiMsyFbZ0=
+	t=1779354736; cv=none; b=A6lUgPyZMGfrO6HpgbD5JyGlfKOIMOWhRPOUUZfQJPY1b1Hn19FLVofIQW3c85lM2W9ePblSutjwO7NwFqlmZYTZhVaVVFpUehZ81g5wOwR9r8fgG6LqOb8i49kjKjveDQAn5em5Z1/DHDisnsuj02kp+FJBn5J3obuomcBbafg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779354562; c=relaxed/simple;
-	bh=HpvRBY8lbmiyzUWTmQ6mLlMu3Ab39ZXALE9sv15k+3w=;
+	s=arc-20240116; t=1779354736; c=relaxed/simple;
+	bh=pxAY+BPA6oodUM4WsMZlnzbfV5bQFDEnexT0dsbG5pU=;
 	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=C2xOc/mVKudViVrI8qfvwv/ub5KDF5wyoSWPlYqj8AkOzLdmBLTZzXbpmOfDdTFvm2qY9IEJyzfXPDh8vsHY1oVU/97mnxWIRFoLzn9GEaNjgS/fiN02I4JcYGA4vFWr4/wW1j7kNmth73MgiWRNXrT4cf1MgcZfK3SMQR684ZY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mcFpV4QA; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 85AA31F0155C
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 21 May 2026 09:09:20 +0000 (UTC)
+	 To:Cc:Content-Type; b=DERKgpsn2388vjBENzZ2gboDe4ETtsgY+xXMSi3JN3csltbHy7L7HXEDhmmZ5ApEnf/j9OnvllTDhwE4fhC0vSDM2g97jFfgBpWaqbDkeQGRK/BYBERGqnZbGAcxphPEV4/KWwXwHV1DAvnBkX8Yl6ZsfuIBet1Ys7+7uVWDm4Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=f1aLfzxK; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 211361F00A3F
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 21 May 2026 09:12:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779354560;
-	bh=tZQ+ChGAmDE+uIHx0cmmqJIG4xuBBt/oi0plyigfTmc=;
+	s=k20260515; t=1779354735;
+	bh=pxAY+BPA6oodUM4WsMZlnzbfV5bQFDEnexT0dsbG5pU=;
 	h=From:In-Reply-To:References:Date:Subject:To:Cc;
-	b=mcFpV4QASf5he7XkX9GMiYvVKUp7RMFoHYMX1oX2w7udhqLGXIjgE2qxJxVNG7pv5
-	 xJdiPnCpGwdY+yvMGJo4gySH2yPII7slIDmMg9TmTkhPQs5YqoejSJeh/Jn4/XUMna
-	 aaIpzq0QNfdEXLLKb2if34+5+NodrnF48pUBoUfiNOqkb60hY3hNs/mOq0Q7+8Gevm
-	 2rLvdQG1kGdXntl9Iv+21S1jWEmz+msIW6rpYfFkUJhTxwXNFynxRJMieD/cj19Ih+
-	 uzD1zWxQGpx3S26EGx3d+8044Nt2hOEsQ1fngvfhRIP6rLMDfr31xodUK/DsjvJcjh
-	 xuH+iaoUY13fQ==
-Received: by mail-dl1-f53.google.com with SMTP id a92af1059eb24-1329fc4bf77so2877017c88.1
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 21 May 2026 02:09:20 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ804TKFrLilw5SiX+2lHNcFXQW70gpSPb+ZgK9OHdcRCYLyU6LxSbfiKGsI8I4bw0GF5l1qEh4cJMyEa5VLUZxfag==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwNe8oPbPICFQ1xV1Ir0wiSpsNsbkYQu6NQPIFv2gNZj8+Nbm1B
-	3vAqW6a8wAPvKKsMJ5V7/UZLjtHli+R0G6k2F72wQzDlM1vMIQkebK0M9stUSa9fqSdkJlahlFs
-	BIgjw+WkK0tGp9edvIb0hwsWy5W5+2eiJuXKJbxRc0g==
-X-Received: by 2002:a05:7022:2392:b0:130:ca3d:fa74 with SMTP id
- a92af1059eb24-13632f5e0f3mr1015599c88.42.1779354559846; Thu, 21 May 2026
- 02:09:19 -0700 (PDT)
+	b=f1aLfzxKefymoYxBdmSLCuHx4bXJxu0m4gl+bbvA2I0Zsh7rmZjbhb+1QbJVIS7gp
+	 DFkb/fYpdEFlDVKuz2sh4OUcYy1EkBpK6aUI5I/JDCbfI2ohR0lU30VbHgO6DVr040
+	 bKfO5EhBgjDT6yHydQOUcVlMI+Lgg+Zf9NdoKQ0ubL4mDjN2W2CB50fW/yOBeNVvST
+	 FEcrc77eQY3MNy9biywzXjXdthjOG+pKWhUaQ/IG003hBDlQntXntYilHDMiLQT+K9
+	 aEvZXS5ywG1JGNTsla/ZTf3dpDH5UpzzC4PsgQtDjcqpa+lnwAu3A1HdF2sQk6br8K
+	 VnZdrBpqbqk3w==
+Received: by mail-dy1-f181.google.com with SMTP id 5a478bee46e88-30246cfd41aso765210eec.1
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 21 May 2026 02:12:15 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ+e+TLxuUO9emiG8zh6rSGBwqjlWeiZQ/SJN3TKRaPxrqRBsmrNr0UEV65XVI9BGPD3YXXQyv9d6+rMt94pqk1ehg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxAJn+THFzBnJQHUdU3LBqwM9Eg63QecvFhatX6K+fSR3HFY2uL
+	UyFVGrnnPMZMBCVTz6AHBCsJf84dtc6R+vYUxyPXU7UTaKnuCzujPm3mKAvcy/EW14nnbITP2Ev
+	JWi6EQRr+op4/zzlGoR5agnpELb+tW+h8EOtdcLlFXA==
+X-Received: by 2002:a05:7022:61a1:b0:11d:c86c:652e with SMTP id
+ a92af1059eb24-136328fdf1dmr1131375c88.5.1779354734589; Thu, 21 May 2026
+ 02:12:14 -0700 (PDT)
 Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Thu, 21 May 2026 02:09:17 -0700
+ HTTPREST; Thu, 21 May 2026 02:12:10 -0700
 Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Thu, 21 May 2026 02:09:17 -0700
+ HTTPREST; Thu, 21 May 2026 02:12:10 -0700
 From: Bartosz Golaszewski <brgl@kernel.org>
-In-Reply-To: <20260520-rsk7203-properties-v2-1-465f3308021b@gmail.com>
+In-Reply-To: <20260520-rsk7203-properties-v2-3-465f3308021b@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260520-rsk7203-properties-v2-0-465f3308021b@gmail.com> <20260520-rsk7203-properties-v2-1-465f3308021b@gmail.com>
-Date: Thu, 21 May 2026 02:09:17 -0700
-X-Gmail-Original-Message-ID: <CAMRc=Mcu+UTGz5keKgHqo4BdWMtK87CLiVU1jWBoLHNABJc2sA@mail.gmail.com>
-X-Gm-Features: AVHnY4Jr7rGL-1AgbjdFR6Z5eqHof0x8iAqjMz8AFfw842n9_b1NuawDkEv0zms
-Message-ID: <CAMRc=Mcu+UTGz5keKgHqo4BdWMtK87CLiVU1jWBoLHNABJc2sA@mail.gmail.com>
-Subject: Re: [PATCH v2 1/5] pinctrl: renesas: gpio: isolate function gpiochip
- from parent fwnode
+References: <20260520-rsk7203-properties-v2-0-465f3308021b@gmail.com> <20260520-rsk7203-properties-v2-3-465f3308021b@gmail.com>
+Date: Thu, 21 May 2026 02:12:10 -0700
+X-Gmail-Original-Message-ID: <CAMRc=MeCs57s5BSy7ypW0EKrii5sTC-Z1gZ_3J8arM4BnHMSwQ@mail.gmail.com>
+X-Gm-Features: AVHnY4LI8SlT0gdHSpWadK_3qjqUEr2_Atb-tVShMUDmRPs-prXE65sV3aiL6I0
+Message-ID: <CAMRc=MeCs57s5BSy7ypW0EKrii5sTC-Z1gZ_3J8arM4BnHMSwQ@mail.gmail.com>
+Subject: Re: [PATCH v2 3/5] sh: mach-rsk: rsk7203: use static device
+ properties for LEDs and GPIO buttons
 To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 Cc: Yoshinori Sato <ysato@users.sourceforge.jp>, 
 	Geert Uytterhoeven <geert+renesas@glider.be>, Linus Walleij <linusw@kernel.org>, 
@@ -84,82 +84,43 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:email,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,mail.gmail.com:mid];
+	TAGGED_FROM(0.00)[bounces-32902-lists,linux-renesas-soc=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-32901-lists,linux-renesas-soc=lfdr.de];
 	FREEMAIL_TO(0.00)[gmail.com];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCPT_COUNT_TWELVE(0.00)[13];
-	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	MISSING_XM_UA(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
+	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[brgl@kernel.org,linux-renesas-soc@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	RCVD_COUNT_SEVEN(0.00)[7]
-X-Rspamd-Queue-Id: 172715A2094
+X-Rspamd-Queue-Id: 0D2AB5A285E
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Thu, 21 May 2026 07:13:17 +0200, Dmitry Torokhov
+On Thu, 21 May 2026 07:13:19 +0200, Dmitry Torokhov
 <dmitry.torokhov@gmail.com> said:
-> The sh-pfc driver registers two separate gpiochip instances: one for
-> real GPIOs and another for function GPIOs. Since both share the same
-> parent platform device, gpiolib's fallback logic causes both chips to
-> share the same firmware node (fwnode).
+> Convert the board to use static device properties instead of platform
+> data to describe LEDs and GPIO-connected buttons on the board, so
+> that support for platform data can be removed from gpio-keys and other
+> drivers, unifying their behavior.
 >
-> This causes ambiguity when using software nodes to describe GPIOs, as
-> gpiolib may apply hogs meant for one chip to the other if they share the
-> same node.
->
-> Explicitly set gc->fwnode to ERR_PTR(-ENODEV) for the function GPIO
-> chip. This satisfies gpiolib's check for an existing fwnode and prevents
-> it from falling back to the parent device's node, while ensuring that no
-> actual properties or hogs are found on the function chip unless
-> explicitly assigned later.
->
-> Assisted-by: Gemini:gemini-3.1-pro
 > Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 > ---
->  drivers/pinctrl/renesas/gpio.c | 6 ++++++
->  1 file changed, 6 insertions(+)
->
-> diff --git a/drivers/pinctrl/renesas/gpio.c b/drivers/pinctrl/renesas/gpio.c
-> index 2293af642849..4e59dadb7364 100644
-> --- a/drivers/pinctrl/renesas/gpio.c
-> +++ b/drivers/pinctrl/renesas/gpio.c
-> @@ -278,6 +278,12 @@ static int gpio_function_setup(struct sh_pfc_chip *chip)
->
->  	gc->request = gpio_function_request;
->
-> +	/*
-> +	 * Explicitly mask the parent's fwnode to prevent gpiolib from
-> +	 * reusing it for function GPIOs.
-> +	 */
-> +	gc->fwnode = ERR_PTR(-ENODEV);
-> +
->  	gc->label = pfc->info->name;
->  	gc->owner = THIS_MODULE;
->  	gc->base = pfc->nr_gpio_pins;
->
-> --
-> 2.54.0.669.g59709faab0-goog
->
->
 
-Acked-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-
-Should we document this behavior in struct gpio_chip's kerneldoc?
-
-Bartosz
+Reviewed-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
 
