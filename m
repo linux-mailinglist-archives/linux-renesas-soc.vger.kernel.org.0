@@ -1,49 +1,49 @@
-Return-Path: <linux-renesas-soc+bounces-32934-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-32935-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id SCGsK3c0EGqqUwYAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-32934-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 22 May 2026 12:48:23 +0200
+	id AAgQC2ExEGoaUwYAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-32935-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 22 May 2026 12:35:13 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id C95FE5B270F
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 22 May 2026 12:48:22 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B3285B2384
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 22 May 2026 12:35:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 15ABB307219F
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 22 May 2026 10:20:01 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 88F7F307362E
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 22 May 2026 10:20:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6D55D3D34A4;
-	Fri, 22 May 2026 10:18:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 82EFA3CB919;
+	Fri, 22 May 2026 10:18:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZSnOUwuW"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UEhvacPt"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EA363D45C5;
-	Fri, 22 May 2026 10:18:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59D8C3D45F3;
+	Fri, 22 May 2026 10:18:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779445113; cv=none; b=mhR3eQZkeYbbz3K9FTJXSXzfA9i/3uV247D4b3Lnht0Han6BZ9hZoBov0Rhb2nWgFDBnonVywg+LjbrwU8Fwb1rQXE5pWuEK0HINk8/7VRJrsFoP6/ymEKNbGxGkKFalGUo5UhuZodH5FGEVTQu3VSi7t6UEw5o0C7kbOe5dVgc=
+	t=1779445116; cv=none; b=HegtzvDH7SWwScRwhBHkjhSJA5Iv3SOw0Aidq3SplpdGLsbTsmUjDOylVxSdzOnkEZ4Zvnvcman6WtjtY3n0gX/9KxTzxl9O98kHEotVbSw161rPBt8BXBkwv4wXceyb9ZlLme+E47zQMct9web0znugXbxwMnrOU6+mmlHzYz0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779445113; c=relaxed/simple;
-	bh=CSU7J8SwuiLtOiP4Am1H8eZ4uiZ6BrvsQHIE+i4cp0Y=;
+	s=arc-20240116; t=1779445116; c=relaxed/simple;
+	bh=uJvK9B00WcC8CRjLk5myaQMfYB/7tBx2ataIoocFi6w=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=GyURJjCW9xyoloof93Pchs99v5/X6BIQkJFB6+PVJBE5coJvMqJ3SM5sG6XaV1ccMZttclMX2e8SH/zAc2sBeYY3ZkhNQPk9VrNySk50UDQ54W6SSy+AherkVzIyZqZkA2K3qgTQ0rGAdWjYcTYtR5zXKoALLMQVkibVaXn/ktY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZSnOUwuW; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 202461F00A3D;
-	Fri, 22 May 2026 10:18:28 +0000 (UTC)
+	 MIME-Version; b=XsrezkMLD4tOhETvafxETrRhuxel8jlkpUj4u6yUgXfDubHvWsCYdGl8Mkg6GG2rbu8lMJK7I0lM6zUTIfXYGXVqLF9Fjslv5TgJ/6AAYlG/NgnhIJfhIfMM6hKQNMghmG4NLuj6YdMDRhSPQbhwmais2iZwAFzvGbZ1NmVCfDY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UEhvacPt; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 538E31F000E9;
+	Fri, 22 May 2026 10:18:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779445111;
-	bh=3tvkeAA8mee6Hl0XfVK6GmwDt+kgUaPqK4c7VFuVgTk=;
+	s=k20260515; t=1779445115;
+	bh=nlATKTBuVymR4RbCGx8EgOlGBJ0lcWHyDwOxkS9JM/c=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=ZSnOUwuW67UQ68iFvnK3WZeivbB9JWRzW5+LVMFaKrHy3bgjO+ZcND5iSGaoGZVFq
-	 J6RegIHBxLapEKkpfLHXGZpQ5Yax2RxRoOaz464jx/1EeAU2AaeLjjE+jftMrYW+4z
-	 WvcCBar2+bBbi3wKcm6XWzOjUVTg6j7on/V0A0KANhaKY2VdVeCwEp1BbmwZWOt1ek
-	 ZJEpPjyuv2utJ+bunSttFuXTproF/Ubhnx1sTt4Np6dZrEoG2POEcIaSOHlFtdix4A
-	 6cYMTSnp0YqsXSxBPVrVXuOEnI/zg3ZPOI4UdHrsvoBM7hZyB8/eCPkTiRgLfV5KjQ
-	 vqU27GIP+Vq0Q==
+	b=UEhvacPtlFASvTveZ5wQiyCUCLIb5rPzdraj4eS39CKLa7qs+UcoayW4qr5b0NUvx
+	 GY3z53b/At+rc7tFIWcneAsh+YBMfOOB5ajSrTTuIkJp8ibEN/W6zR1CD+Ncl8Yrbc
+	 cYrFh9IIUNw5uEHqWqiyfgp5HSDeRCUrb6x4D8fVOunDXTvgYuKkshcEKC+Cf2a2RW
+	 GCcuKatRi4YswgLLCQ6O2UyH9rnTOxeMnHx9f+upb4tP1uzPdSbulFTjTvJSatqFjW
+	 rfddmAXSlKUs78l8VBIReNYQga1Nf5rf28zWKevNN9MjhQ/gKphrMFJvi/pi6hmB6a
+	 pcuPBnIwclfNw==
 From: Claudiu Beznea <claudiu.beznea@kernel.org>
 To: wsa+renesas@sang-engineering.com,
 	tommaso.merciai.xr@bp.renesas.com,
@@ -57,9 +57,9 @@ Cc: claudiu.beznea@kernel.org,
 	linux-renesas-soc@vger.kernel.org,
 	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
 	stable@vger.kernel.org
-Subject: [PATCH 03/17] i3c: renesas: Restore STDBR and EXTBR registers on resume
-Date: Fri, 22 May 2026 13:18:01 +0300
-Message-ID: <20260522101815.1722909-4-claudiu.beznea@kernel.org>
+Subject: [PATCH 04/17] i3c: renesas: Follow the reset deassert order used in probe
+Date: Fri, 22 May 2026 13:18:02 +0300
+Message-ID: <20260522101815.1722909-5-claudiu.beznea@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260522101815.1722909-1-claudiu.beznea@kernel.org>
 References: <20260522101815.1722909-1-claudiu.beznea@kernel.org>
@@ -74,86 +74,84 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_MISSING_CHARSET(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCPT_COUNT_TWELVE(0.00)[12];
-	TAGGED_FROM(0.00)[bounces-32934-lists,linux-renesas-soc=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-32935-lists,linux-renesas-soc=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[claudiu.beznea@kernel.org,linux-renesas-soc@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
 	DKIM_TRACE(0.00)[kernel.org:+];
 	NEURAL_HAM(-0.00)[-0.995];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[renesas.com:email,sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo]
-X-Rspamd-Queue-Id: C95FE5B270F
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	FROM_HAS_DN(0.00)[]
+X-Rspamd-Queue-Id: 9B3285B2384
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
 From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 
-The Renesas RZ/G3S supports a power saving state where power to the most
-SoC componentes (including I3C) is lost.
-
-The STDBR and EXTBR are configured in initialization phase though the
-struct i3c_master_controller_ops::bus_init. Set them on resume function
-as well to keep the same state of the controller after a suspend with
-power loss and a similar initialization sequence as in bus_init.
+Use the same reset deassert order in the resume and probe paths to avoid
+potential failures due to ordering differences.
 
 Fixes: e7218986319b ("i3c: renesas: Add suspend/resume support")
 Cc: stable@vger.kernel.org
 Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 ---
- drivers/i3c/master/renesas-i3c.c | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
+ drivers/i3c/master/renesas-i3c.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/i3c/master/renesas-i3c.c b/drivers/i3c/master/renesas-i3c.c
-index 1917549cf6d5..6c23f956ad2a 100644
+index 6c23f956ad2a..d2f29ed0b6ed 100644
 --- a/drivers/i3c/master/renesas-i3c.c
 +++ b/drivers/i3c/master/renesas-i3c.c
-@@ -260,6 +260,7 @@ struct renesas_i3c {
- 	u32 dyn_addr;
- 	u32 i2c_STDBR;
- 	u32 i3c_STDBR;
-+	u32 extbr;
- 	unsigned long rate;
- 	u8 addrs[RENESAS_I3C_MAX_DEVS];
- 	struct renesas_i3c_xferqueue xferqueue;
-@@ -607,10 +608,9 @@ static int renesas_i3c_bus_init(struct i3c_master_controller *m)
- 	renesas_writel(i3c->regs, STDBR, i3c->i3c_STDBR);
+@@ -1434,17 +1434,17 @@ static int renesas_i3c_resume_noirq(struct device *dev)
+ 	struct renesas_i3c *i3c = dev_get_drvdata(dev);
+ 	int i, ret;
  
- 	/* Extended Bit Rate setting */
--	renesas_writel(i3c->regs, EXTBR, EXTBR_EBRLO(od_low_ticks) |
--					   EXTBR_EBRHO(od_high_ticks) |
--					   EXTBR_EBRLP(pp_low_ticks) |
--					   EXTBR_EBRHP(pp_high_ticks));
-+	i3c->extbr = EXTBR_EBRLO(od_low_ticks) | EXTBR_EBRHO(od_high_ticks) |
-+		     EXTBR_EBRLP(pp_low_ticks) | EXTBR_EBRHP(pp_high_ticks);
-+	renesas_writel(i3c->regs, EXTBR, i3c->extbr);
+-	ret = reset_control_deassert(i3c->presetn);
++	ret = reset_control_deassert(i3c->tresetn);
+ 	if (ret)
+ 		return ret;
  
- 	renesas_writel(i3c->regs, REFCKCTL, REFCKCTL_IREFCKS(cks));
- 	i3c->refclk_div = cks;
-@@ -1447,6 +1447,8 @@ static int renesas_i3c_resume_noirq(struct device *dev)
- 		goto err_tresetn;
+-	ret = reset_control_deassert(i3c->tresetn);
++	ret = reset_control_deassert(i3c->presetn);
+ 	if (ret)
+-		goto err_presetn;
++		goto err_tresetn;
+ 
+ 	ret = clk_bulk_enable(i3c->num_clks, i3c->clks);
+ 	if (ret)
+-		goto err_tresetn;
++		goto err_presetn;
  
  	/* Re-store I3C registers value. */
-+	renesas_writel(i3c->regs, STDBR, i3c->i3c_STDBR);
-+	renesas_writel(i3c->regs, EXTBR, i3c->extbr);
- 	renesas_writel(i3c->regs, REFCKCTL,
- 		       REFCKCTL_IREFCKS(i3c->refclk_div));
- 	renesas_writel(i3c->regs, MSDVAD, MSDVAD_MDYADV |
+ 	renesas_writel(i3c->regs, STDBR, i3c->i3c_STDBR);
+@@ -1465,10 +1465,10 @@ static int renesas_i3c_resume_noirq(struct device *dev)
+ 
+ 	return 0;
+ 
+-err_tresetn:
+-	reset_control_assert(i3c->tresetn);
+ err_presetn:
+ 	reset_control_assert(i3c->presetn);
++err_tresetn:
++	reset_control_assert(i3c->tresetn);
+ 	return ret;
+ }
+ 
 -- 
 2.43.0
 
