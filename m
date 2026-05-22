@@ -1,88 +1,89 @@
-Return-Path: <linux-renesas-soc+bounces-32929-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-32930-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id sL5UCkMlEGoYUQYAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-32929-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 22 May 2026 11:43:31 +0200
+	id sAEcIzksEGphUgYAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-32930-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 22 May 2026 12:13:13 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF7EC5B1646
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 22 May 2026 11:43:30 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id E4AC05B1CA9
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 22 May 2026 12:13:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 6708B30067B2
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 22 May 2026 09:43:29 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 0BA8D30BEBAF
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 22 May 2026 10:04:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 339CE3BFAD1;
-	Fri, 22 May 2026 09:43:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C93DC3C769E;
+	Fri, 22 May 2026 10:04:49 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ua1-f50.google.com (mail-ua1-f50.google.com [209.85.222.50])
+Received: from mail-vs1-f44.google.com (mail-vs1-f44.google.com [209.85.217.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1F713C4167
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 22 May 2026 09:43:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE6153C73D7
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 22 May 2026 10:04:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779443007; cv=none; b=aSgH7+8srj+UrDTRWgOCuzyn9pC6e4e0oDytlV0ZbyhP/zc0CkGjRg9r98iJQeEiXJ9845x+Hd8CH75P2SZiIsiwstvbvPBi+ZSlB6yEdyLSt8a5Q1Z381t9deLpRs5ziO3t7mvGcFDmM3Ezzx3Qq733PmV2RONbJvfbQG+jDsU=
+	t=1779444289; cv=none; b=dZJeWyhR8t2YsGnBGfcTBNVcpdUIkCeg3Ft5lXU24vcnw/m4pamYKomLYEnlVojmLL/Rcftkw5H31bUhTh86wWSRy+356LI9Btl9W4hTSYiPaPRzlRV56ycBK6tn6TjY6J02gBoVzLhn4rnO8KzKXuihL36epwb2P5JVhC+4pR4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779443007; c=relaxed/simple;
-	bh=WWEtEaWnPSoUz38J5bhitj1ZvX46/1ATRRXqbHDoPI4=;
+	s=arc-20240116; t=1779444289; c=relaxed/simple;
+	bh=cPyf6p/XKrJubb9Nym45gBjTYmcHCP1JNKlIqT8IZ/w=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=D+YQU8MAP3gLY2tpiWY+srIvMygwLtco744ZDXZSaY4piYIXxIdwjmqkWjh0mR0AED3whOrdUZ7lwIch2krnqAmRKbJsuvp3NONEvKuSFtJP7pthakhfOsW93/v2iK5iGE57NbhPdG1ld0coPuoJt+fRFun8UL1Db4TfKIJ281c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.50
+	 To:Cc:Content-Type; b=QFsGiLRrogYvygMqUdIS92NXiyvgJtDdYzoiLgp9KaygHgOFc1Dk6SJioK0Gxx1alno715Lc0m/sHNNYHkBLN7csW6h152Hsznqfhsh2miwp5uD6Z9jSDtvIfpoHlE238IF+Us+IZOmtdEGd51cDoqZvjJbFODsNh+1BwRsIIek=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ua1-f50.google.com with SMTP id a1e0cc1a2514c-95cd9bc6398so4785671241.3
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 22 May 2026 02:43:24 -0700 (PDT)
+Received: by mail-vs1-f44.google.com with SMTP id ada2fe7eead31-6313c800372so5459667137.0
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 22 May 2026 03:04:46 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779443003; x=1780047803;
+        d=1e100.net; s=20251104; t=1779444285; x=1780049085;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=I3i0x6Dw91KEnwFgFVvCD8gYOb3EtZMh6gn0DwSlmRI=;
-        b=NJMVt8Qvr4Q+Rvju+bFzEbRv6csxrL8VGrN1mz8T8LmTgfkZx6iTcp8SkBAxNaQI1P
-         e1030XWeyYDSXmChgIFCyS8LJCW1BFik5rJNJzjP+PP82hp3ksAyBuIDwmWXxNcoUzHO
-         7Lo6YysCjlKvW6asHx1jh05SLI9AFpb5sq3pVPZ1dWm5KOwuNwjZGouHMJC/d3tHtveV
-         mCkqVBJRN0z4aPFzZGIXVFhppJNMw5iwbJQiE9agdtr2JmVM0Q3QU0bWPF4/0wasG1l+
-         dlC44MAdTtpso3wgBE+WXxPq9L4ywd/kwZB230Exob7MMjDNVHJJbUB7+A1+tIlAAl/g
-         REOg==
-X-Forwarded-Encrypted: i=1; AFNElJ8f2oXWinqeojoTnCtVJh3Rq0NyKjZDYSZj4PKcVp6gPeT/kcBdqvFgac4r21hQZSrKvoJRqOEMd3+MqAscFNDOpA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxF4jhkaqg12S+/WYW0BbxLTfZ2amF00qxqKi2mtCRcOD7QHRNm
-	Vr3HVzb1FzCNqWesDJJVR/Wg01vQU0uMQ03edjZi7VWN+IkxQpadpmfkF5KLZeVk
-X-Gm-Gg: Acq92OHFALsAimPqkR376Fsch6QHu7Z4lFZvRRRWXbheQ4wTS8aoATtrkXTfcaQG76h
-	dMI73dkc21x90jUE5GV6z2y+Gpcj70382Vsa6gQOezMdR/qIkc+rXmmWble0x5gIB6UHq1Xkmvl
-	7uzRgw8aCVyaNDw8BCb2std/HCyGPOns4jd1H9K5haPVJ8TMjVaI3asMgXPITD8P4RAQGQZh/iR
-	jPICgp1+nq2DNpW/0q3dynKOiPizMVoj5xvvYpXyF3zixbm992ov639vTy2WsGv2CvMupUbq3F+
-	j7g9n+6OdTCgjF62xljg18qLDaE7sEF5RtUUTgRFB4uRUDlKLZYPQTk71uVwZ5ZcF1XXu/L7hlA
-	phKOuLTNpy335DwxVD8ZH10RS3rgrZHcVyrQEtTN3/1EvLUSv5OHLZqlBAb4Y9KMO7zEUk2uyvt
-	TdxVMFIU1tJq+01Qmy1RPJa13B92f50MdcU2Jj8vpzTae0cLN2DRPA0JQtsVqF
-X-Received: by 2002:a05:6102:580d:b0:604:f029:224c with SMTP id ada2fe7eead31-67c7300bc07mr1211293137.8.1779443002872;
-        Fri, 22 May 2026 02:43:22 -0700 (PDT)
-Received: from mail-ua1-f49.google.com (mail-ua1-f49.google.com. [209.85.222.49])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-67ff3e4b6easm700411137.9.2026.05.22.02.43.22
+        bh=FJUL14tFNOQCmDEBkpQTY/EgtnSRNRNf2m4/Z8oQVFQ=;
+        b=p9dO9lUjhQmC0ldKWUwDEj3PHwkNZbPh5f7UhFpVfqD+0KB6SPeFTw9FlX5znTTJOq
+         Rk/xfgDlLQJWnD+M8+1p04EYgSCQNPV0EdbXiWggoCv9JUiLofiPjGHdlBXgrt2OGWVp
+         0a0XS+/aMgKXTEZMu0qbNKQEyMfcvEywMmgXKvJ8yF8P/yMnFczR/UKuQ7XhUBK6vUrr
+         czoGRuOXgirYLomqB9pUEW4yNgHdDv7FWAHFUNtMdEfik7e0h0QicJVjImzpYmi0jYU7
+         fJL5zKzJYSeSTV2lRoEgOCRgmz4v3X/f6E05JiUawZ4fKm+l8jjkfp6/oqdk+5ItzZDp
+         qHfg==
+X-Forwarded-Encrypted: i=1; AFNElJ/5+oHnQwPgvnB7akneaZWfxO1j9yY7ugqjx1m/pjSMbMH7yfWTGsmEuRNqyRkzkOuFun52TgJmZDRz/bgTEFE+AQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxdteMtEnY9d2RZoVOtK3XinPPVnwD4FHCm9Tez9lEY2a0RO4J4
+	co+2PtdIu3y7NYDVaA4tbwo1AXl+iFFKyiwkxMwPHLcp/A8tuRY1/cGGs9x1//a1
+X-Gm-Gg: Acq92OEwjQqu/mOsFMgYiqwE7l/NPqVSbd4+Vo0nptxiEIQeLZexAxOsFLbgljGFkLY
+	Ay4pzC4ZPUvAIDMvD9To+KEFVrwIfanMU6puyQnn6CxCk+PUattP+eBjzQ13JUl8D8BzdRLCGox
+	Tog0QcUKknQxjGg8Vz+ALc9sUJb01QnpmBb9ijEb2liRi0qv07Uce4Qp8csAUomXKgcJ8MHhRTW
+	0wNPhpGa85OzUhUxNyoOUkIXFssecG6hfi1r7x5SotBd/eZc2msrYXkMRo9ykiWrmy9/WwUN5kn
+	BPDSBXS4lIAkWHuRtKPwsX4NbZIvmyFvrvZuUyD5A67p0HjyaJipv0evww+THvBDD+fQT48NT7I
+	bH4oOPJ/nxN21oFUK9grOAxKAFvOfW/palAKT4qTtyDUF4/ahWUy1G/7pH24B2eRLIP2Sxp9bDl
+	QxFq2qG1w1jDmMllZ54LcWa55up1DvJR04nhdkXVPR7BXU9wl4Y8wNdV3OaISOkY3D
+X-Received: by 2002:a05:6102:3f0f:b0:62f:5908:648a with SMTP id ada2fe7eead31-67c818f134emr1340118137.28.1779444285256;
+        Fri, 22 May 2026 03:04:45 -0700 (PDT)
+Received: from mail-vk1-f171.google.com (mail-vk1-f171.google.com. [209.85.221.171])
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-961738b2babsm998933241.7.2026.05.22.03.04.44
         for <linux-renesas-soc@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 22 May 2026 02:43:22 -0700 (PDT)
-Received: by mail-ua1-f49.google.com with SMTP id a1e0cc1a2514c-95f61c1ace0so4395283241.2
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 22 May 2026 02:43:22 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ/NBQUa18MwWqZSZK/jZaHAQ0IH9QAiE1l2LLFsMashUmKrMDw8FIdBGKpv8BaC+FiZdHeSQjtnIIJrg152KHknMg==@vger.kernel.org
-X-Received: by 2002:a05:6102:94d:b0:639:4bb7:c916 with SMTP id
- ada2fe7eead31-67c6f73ecb0mr1205825137.3.1779443001825; Fri, 22 May 2026
- 02:43:21 -0700 (PDT)
+        Fri, 22 May 2026 03:04:44 -0700 (PDT)
+Received: by mail-vk1-f171.google.com with SMTP id 71dfb90a1353d-57512b86273so5212355e0c.3
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 22 May 2026 03:04:44 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ+5jnTxNwicqO4el4HmpNPTGC3ALoqZlV1pS72FAcExlFNLXwdf10p6loh8waFl7yvzgpQU9T4dDm7PltQC5mrQ1Q==@vger.kernel.org
+X-Received: by 2002:a05:6122:e22c:b0:56f:bb91:4861 with SMTP id
+ 71dfb90a1353d-586595dd60bmr1509233e0c.0.1779444283961; Fri, 22 May 2026
+ 03:04:43 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260513115312.1574367-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20260513115312.1574367-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20260513115312.1574367-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20260513115312.1574367-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20260513115312.1574367-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20260513115312.1574367-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 22 May 2026 11:43:09 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdV9GKwH_n6eDm=K3o8Vv5qHbTsuufja1=QXGR0YTdK4cw@mail.gmail.com>
-X-Gm-Features: AVHnY4JgAQJL9FtsqDDEsaZL1JjEWgiq5ZNLCDF1Wk-GYPHDFDyPNeoCEdmNPzI
-Message-ID: <CAMuHMdV9GKwH_n6eDm=K3o8Vv5qHbTsuufja1=QXGR0YTdK4cw@mail.gmail.com>
-Subject: Re: [PATCH 1/2] pinctrl: renesas: rzt2h: Remove unused variable 'j'
+Date: Fri, 22 May 2026 12:04:32 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVcgJ=aG2p-9gx+gtUwM0xcFo+D0NEqBJnqOqSmBEM7ZA@mail.gmail.com>
+X-Gm-Features: AVHnY4J9gG82jZ29COhQDeru9nClVZkKnYVdR2yBsg7-d7Z_mL0WABVx35RpFZY
+Message-ID: <CAMuHMdVcgJ=aG2p-9gx+gtUwM0xcFo+D0NEqBJnqOqSmBEM7ZA@mail.gmail.com>
+Subject: Re: [PATCH 2/2] pinctrl: renesas: rzt2h: Skip PFC mode configuration
+ if already set
 To: Prabhakar <prabhakar.csengg@gmail.com>
 Cc: Linus Walleij <linusw@kernel.org>, linux-renesas-soc@vger.kernel.org, 
 	linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org, 
@@ -93,43 +94,79 @@ Content-Type: text/plain; charset="UTF-8"
 X-Spamd-Result: default: False [0.04 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-32929-lists,linux-renesas-soc=lfdr.de];
-	DMARC_NA(0.00)[linux-m68k.org];
-	FREEMAIL_TO(0.00)[gmail.com];
-	RCVD_TLS_LAST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	MISSING_XM_UA(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	DMARC_NA(0.00)[linux-m68k.org];
+	TAGGED_FROM(0.00)[bounces-32930-lists,linux-renesas-soc=lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
+	TAGGED_RCPT(0.00)[linux-renesas-soc];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[geert@linux-m68k.org,linux-renesas-soc@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
-	NEURAL_HAM(-0.00)[-0.557];
-	RCPT_COUNT_SEVEN(0.00)[8];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_COUNT_FIVE(0.00)[6];
 	R_DKIM_NA(0.00)[];
-	TAGGED_RCPT(0.00)[linux-renesas-soc];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[renesas.com:email,linux-m68k.org:email,sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo,glider.be:email,mail.gmail.com:mid]
-X-Rspamd-Queue-Id: BF7EC5B1646
+	NEURAL_HAM(-0.00)[-0.616];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	TO_DN_SOME(0.00)[]
+X-Rspamd-Queue-Id: E4AC05B1CA9
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
+
+Hi Prabhakar,
 
 On Wed, 13 May 2026 at 13:53, Prabhakar <prabhakar.csengg@gmail.com> wrote:
 > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 >
-> Variable 'j' in rzt2h_pinctrl_register() is incremented during pin
-> descriptor initialization but never used afterwards.
->
-> Remove the unused variable and the associated dead code.
+> In rzt2h_pinctrl_set_pfc_mode(), read the PMC and PFC registers upfront
+> and skip the pin function configuration if the pin is already in
+> peripheral mode with the desired function.
 >
 > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+
+Thanks for your patch!
+
+> --- a/drivers/pinctrl/renesas/pinctrl-rzt2h.c
+> +++ b/drivers/pinctrl/renesas/pinctrl-rzt2h.c
+> @@ -188,8 +188,18 @@ static void rzt2h_pinctrl_set_pfc_mode(struct rzt2h_pinctrl *pctrl,
+>  {
+>         u64 reg64;
+>         u16 reg16;
+> +       u8 pmc;
+>
+>         guard(raw_spinlock_irqsave)(&pctrl->lock);
+
+Missing blank line.
+
+> +       reg64 = rzt2h_pinctrl_readq(pctrl, port, PFC(port));
+> +       pmc = (pctrl, port, PMC(port));
+> +       /* Check if pin is already configured to the desired function */
+> +       if (pmc & BIT(pin)) {
+> +               u8 current_func = field_get(PFC_PIN_MASK(pin), reg64);
+> +
+> +               if (current_func == func)
+> +                       return;
+> +       }
+
+I will shrink that to
+
+    if ((rzt2h_pinctrl_readb(pctrl, port, PMC(port)) & BIT(pin)) &&
+        field_get(PFC_PIN_MASK(pin), reg64) == func)
+            return;
+
+while applying.
+
+>
+>         /* Set pin to 'Non-use (Hi-Z input protection)'  */
+>         reg16 = rzt2h_pinctrl_readw(pctrl, port, PM(port));
 
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 i.e. will queue in renesas-pinctrl for v7.2.
