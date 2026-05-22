@@ -1,89 +1,88 @@
-Return-Path: <linux-renesas-soc+bounces-33007-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-33008-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id eL4QNm5dEGqDWgYAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-33007-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 22 May 2026 15:43:10 +0200
+	id mECkI3ZbEGqDWgYAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-33008-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 22 May 2026 15:34:46 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 810E45B5604
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 22 May 2026 15:43:10 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id ED1155B53B6
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 22 May 2026 15:34:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 4953F3018D52
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 22 May 2026 13:33:06 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id C1B3E3031AD6
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 22 May 2026 13:33:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 934433C585C;
-	Fri, 22 May 2026 13:33:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8FC403C4B93;
+	Fri, 22 May 2026 13:33:26 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f179.google.com (mail-vk1-f179.google.com [209.85.221.179])
+Received: from mail-vs1-f43.google.com (mail-vs1-f43.google.com [209.85.217.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C2483C4B93
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 22 May 2026 13:33:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA1903C278A
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 22 May 2026 13:33:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779456784; cv=none; b=ZYL+OQKSdd3XF/vQm6WtWSZn3izQiQl5dBCZT0RKevrOEArnRrZ1rFCg/xLsfgNtobWEQa4eMG8gFbjye0VQ4zwgER13jg2VFvn83Pr7z1uWgq2TU8zf3m0A0O5XL76V8Cpu5+TDwtwIM3tw9e/umECBCvLgJQmWC+OIuMvYHbQ=
+	t=1779456806; cv=none; b=diICSv42cubC9DODlvPgBrgw+PsJsPOMEv+neJeydXomwtGG/25046hB0JErTpWcd+fAeIec7dma8FEg4giNBTEgaBfIAQf4+NmaaY3z2xH8dQCPMsgxo0hjK1DYdi1iFaOiWXTmaQAzgYIusWRjcrhoj7Six1jC6xEIRbQNIs0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779456784; c=relaxed/simple;
+	s=arc-20240116; t=1779456806; c=relaxed/simple;
 	bh=oCVQeqNkgLC+A8DsyABQmEoKPm1VZ97E3MIdW+uHGTE=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=FMmXxGq6JpYIrzFvicAQk4fH8pbmeCH09MH4gT6Erx59WySyZtuxHjBrcCUSOiH2M1OVsvTYwK60q1xMkijqZqcdKziO8tgP/lw/yQb95o11oJxgDXYf7pOtM3MWCWoBO4C6tWMkMCoWrDtYOLR9jZY4ZU+AraIhqfrOgStO9Ao=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.179
+	 To:Cc:Content-Type; b=PvOr62sGdgIy6jLCAvAhuTxbz4WYjqhXPlv7fB9K+3fwWb+bNssHQKtFWD2WOqXzbfzsz9nAkTk9tSb+vyZUv1kdyrf0a2aDuiv8877GD7pooL/kcIJSjWjxvKqjiufB5clxNXskEZQdBgkKhGxK8iSxDY/UM5mNYijoJYKXEds=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f179.google.com with SMTP id 71dfb90a1353d-5780c38ecb8so4952744e0c.2
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 22 May 2026 06:33:02 -0700 (PDT)
+Received: by mail-vs1-f43.google.com with SMTP id ada2fe7eead31-6314cc192a4so2228013137.0
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 22 May 2026 06:33:24 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779456782; x=1780061582;
+        d=1e100.net; s=20251104; t=1779456803; x=1780061603;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
         bh=zq0bJbefph0AAGvXGgXMgxADCBjnqDWg/GTQ4ba21xY=;
-        b=JTb7zo7xbaTRtKPNdsSbJpBC8Udln3F5rUuwkXXlrU4ceuDKXzmOcuw8tdqCTlXGW+
-         rRN+sJYv0AD8ZK7MamlnrIr2xAC76LlLAPvONNQnmrp2NDIf9tomNTn0FB+Atf6TcSni
-         94VC8MVsITf80DSqc+PAK5/GYpUJRlxMsMF/sHQ3CIqiB55epwdMHOsDmPje9ZOCrxp1
-         jl3Puw9YY+VR0nAf8TZZvO0xVcrOIOO77BRTBHL5LOgxYXBCgSddl5ka9DPizIth+RJG
-         6ytpYF6Ps5ZpadSk9s1niLcYcrJxlo9S5EsF+xN7nEHOuA8v91xW0Bp1xAgAzPDp1GXK
-         nISg==
-X-Forwarded-Encrypted: i=1; AFNElJ+LTv8S0jZAk9/joGiMcMVp/2b1cMis1W838T//3sPb+2eevQqmDQCOLGLrC1mHaTUMe+PIQ43izu7WWjlHjfHkkA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzokibf1xzbtKIXVKNxCo6ObN7QWfMOtkbBY9ClY/GWUI5MKeKJ
-	DxyJmCGFYgGomsyzOs+MbcB1jQt4yoNxsqvo5Wp4jubQWmLcCfsk7wK1HTWR72baUCc=
-X-Gm-Gg: Acq92OGWLZmTYjiqW062qryLKCzTsc1iLoN1A0qGa3eQFVDczOfm1fQX/CoK+STEd/Q
-	VSUqwY8KRR5z7cUV4mrkLz5zkX1G8TKgh1/b+4xhEkwzj145ZBsR1cU1u7wqF2y/CXx6SM7gQt4
-	fI773adRzxA3VlsQxxWPta0hKKmrSATBkRJNWSqor0TcVPlzJVVxBucDV7M3sFbJgj21NAIqybZ
-	1Q4sSxgHchR5+noe7qy7KjgOM6mJ8WaiNDGcCJUNHZWrZMPHZAgHlSTiVuDW83nyJ2+X5nnEGZD
-	njRCjw9b4oDXaewRsaPdS9jtVhZgEA8bbWCcsIlbuVgQTjLC1++cWw33Laf6ca5bN+G5fZyL+oj
-	S5sI9YLnoDPQ40nN+kcpDjsxG8BRjGtkK4hvfBmHsU2cLMBDvmd0I3j/tnEkKUxmBCL3O8s19NG
-	MIUTBmP9SQPXo1u22x2Rmi2h00BH7pNM/Fi1/OBVfKBE4+CPKqGjt4tTs3/VvAt5eYB+aInIbYI
-	VQ=
-X-Received: by 2002:a05:6122:881:b0:574:6c7d:ff08 with SMTP id 71dfb90a1353d-5865ea8bf8emr2025953e0c.1.1779456782064;
-        Fri, 22 May 2026 06:33:02 -0700 (PDT)
-Received: from mail-vk1-f169.google.com (mail-vk1-f169.google.com. [209.85.221.169])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-96173842ed1sm1501144241.6.2026.05.22.06.32.59
+        b=auO9tk7hEQ+OcgzPSGH3GafOWjLxYLARS9t1CR3vc/opG6VNO9WLLPAMzJXUzWtYee
+         q28hYpFcE45/wH46ECEKZmU8YcD7wzBpOMRUdkEU975Jb+mpaQzDgXXCh/wnYKknTYSi
+         wfA9Xm3XluUH5mMNKC9u68RAf8HLQcKTIVDF45LjGLaCBhzKHqZu6Y5PpiBWYaFD2n3V
+         jaZPwO28N5lYxXP6oq9Sv3qDtyMTUGnU27py5i+N93tcrij+ze9NfmTkCH4Rj+FZG2+U
+         n5t4AnyIxaALjAKVhsprVBAZJcdND/vA+l5qPG2PJdZDaBVmU9LaqrUZmoHxQcg2VYAc
+         Ulzw==
+X-Forwarded-Encrypted: i=1; AFNElJ8/PNh++nuOG8/GKj1QFVNQR82NDQDydxtb6ZpHawu0SkY+hng2BPxo7c2Xd7EFvjWjREUSmXMGfWwvrr8cSh0vfQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx692k4JbuXMW4NncFWt88COzTLA9I0IPHNfsVWfScHnVoP6gmm
+	rvRqR6WnpUPODdwd48h7lXWQmrg/oQx9oVTy1nbh04/gb61RDnO1Jm2rPKOJ6eQElaw=
+X-Gm-Gg: Acq92OGj1rMa5C55TOv7oAUWB0i2hsJrc5hhe5u/Yhi0s4YyNprMgzuwzIoqstfwvZm
+	nIyGLhU95Az6NU50Q/T8k8eIH14QbJJ0JuZBifdYQGTDBSjx8CeSufgWAtjeeAWodwiqoUHM7mc
+	72JBS/exJWUy7Tbs8I/EnUIAK/orNpWmBpQ+eXDN6Q4Zd0Qoc3qLnl554oQhAgWBwvH6H1/5zfk
+	MhUzBwk9SidM9PH3AhaVCMmK+qCzTD79/dC8qEdUjvv9dIeZ01f6fcESDqCekm8x//oQ8d+URi0
+	FCwulgaMdsbu+seYJQHCXixl+8vwd8aQLCvnbk+s310t264w4/CJoUWDnZdaGg+EcC4lLGjazwB
+	wPhUvhYm9fvjNw6S7Sk7TAdqUik94HmtyUOzq3rVwWkolSc2JoOwcrslctaSYF6Ywp0oaXBXSpB
+	uvnDk14tmaUrtF0r1TqpXKRj4CAhSoguwWI30XbEkvTTDvUI3LvSGX5wYgSgvO
+X-Received: by 2002:a05:6102:1494:b0:636:c0c:4d91 with SMTP id ada2fe7eead31-67c829422b1mr1717322137.28.1779456803380;
+        Fri, 22 May 2026 06:33:23 -0700 (PDT)
+Received: from mail-ua1-f46.google.com (mail-ua1-f46.google.com. [209.85.222.46])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-67fda9015b0sm1313488137.4.2026.05.22.06.33.18
         for <linux-renesas-soc@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 22 May 2026 06:33:01 -0700 (PDT)
-Received: by mail-vk1-f169.google.com with SMTP id 71dfb90a1353d-5771954bcd0so5200334e0c.0
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 22 May 2026 06:32:59 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ+CWe3hN4Oa9wnMZN4265bwBvRK8SNk14pdef31d3pfbO3inrNK5xTzoxPeqPHeT78q3uf3hHabfJHBMyPMvzfohg==@vger.kernel.org
-X-Received: by 2002:a05:6122:d07:b0:56d:8ded:796c with SMTP id
- 71dfb90a1353d-5865f81d405mr1996416e0c.4.1779456779687; Fri, 22 May 2026
- 06:32:59 -0700 (PDT)
+        Fri, 22 May 2026 06:33:19 -0700 (PDT)
+Received: by mail-ua1-f46.google.com with SMTP id a1e0cc1a2514c-960ae134040so1294721241.3
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 22 May 2026 06:33:18 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ8qgDDPddkyEj573dWzaCQrWqGS0vk9DptBm93bcwvO6bDabV62+KA5hfdrY3aozwca8SpMhVTtPiyO3VXV8bCXbg==@vger.kernel.org
+X-Received: by 2002:a05:6122:a5d1:10b0:586:f3ee:2150 with SMTP id
+ 71dfb90a1353d-586f3ee2352mr748808e0c.13.1779456797851; Fri, 22 May 2026
+ 06:33:17 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260504225704.115125-1-marek.vasut+renesas@mailbox.org>
-In-Reply-To: <20260504225704.115125-1-marek.vasut+renesas@mailbox.org>
+References: <20260504225704.115125-1-marek.vasut+renesas@mailbox.org> <20260504225704.115125-2-marek.vasut+renesas@mailbox.org>
+In-Reply-To: <20260504225704.115125-2-marek.vasut+renesas@mailbox.org>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 22 May 2026 15:32:48 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdW29ihBqL4S6bzDVw5dAwYWXKSki9Nz=BY51i8NP5D=VQ@mail.gmail.com>
-X-Gm-Features: AVHnY4LeG55-0Nh30AeZGnk8727WjXH176FAkQkG1GYU6MDB6SKJVQ3CS8IechE
-Message-ID: <CAMuHMdW29ihBqL4S6bzDVw5dAwYWXKSki9Nz=BY51i8NP5D=VQ@mail.gmail.com>
-Subject: Re: [PATCH 1/5] arm64: dts: renesas: draak: Rename clk-multiplier to clock-controller
+Date: Fri, 22 May 2026 15:33:06 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXU_Ro1GX3XTnh+RR4AngbU6K2GfUP8KbvKXPUUME70YA@mail.gmail.com>
+X-Gm-Features: AVHnY4LG46fEPe2Suv0Wt0njTP4x5GX3t7XRY9QQB9dVjdHehcMT_3MRaFGgxVs
+Message-ID: <CAMuHMdXU_Ro1GX3XTnh+RR4AngbU6K2GfUP8KbvKXPUUME70YA@mail.gmail.com>
+Subject: Re: [PATCH 2/5] arm64: dts: renesas: ebisu: Rename clk-multiplier to clock-controller
 To: Marek Vasut <marek.vasut+renesas@mailbox.org>
 Cc: linux-arm-kernel@lists.infradead.org, Conor Dooley <conor+dt@kernel.org>, 
 	Krzysztof Kozlowski <krzk+dt@kernel.org>, Magnus Damm <magnus.damm@gmail.com>, 
@@ -92,15 +91,15 @@ Cc: linux-arm-kernel@lists.infradead.org, Conor Dooley <conor+dt@kernel.org>,
 Content-Type: text/plain; charset="UTF-8"
 X-Spamd-Result: default: False [-1.46 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FREEMAIL_CC(0.00)[lists.infradead.org,kernel.org,gmail.com,vger.kernel.org];
-	TAGGED_FROM(0.00)[bounces-33007-lists,linux-renesas-soc=lfdr.de];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	TAGGED_FROM(0.00)[bounces-33008-lists,linux-renesas-soc=lfdr.de];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
 	DMARC_NA(0.00)[linux-m68k.org];
@@ -110,12 +109,12 @@ X-Spamd-Result: default: False [-1.46 / 15.00];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[geert@linux-m68k.org,linux-renesas-soc@vger.kernel.org];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	NEURAL_HAM(-0.00)[-0.997];
+	NEURAL_HAM(-0.00)[-0.996];
 	RCPT_COUNT_SEVEN(0.00)[9];
 	R_DKIM_NA(0.00)[];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,dt];
 	TO_DN_SOME(0.00)[]
-X-Rspamd-Queue-Id: 810E45B5604
+X-Rspamd-Queue-Id: ED1155B53B6
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
