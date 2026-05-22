@@ -1,222 +1,124 @@
-Return-Path: <linux-renesas-soc+bounces-33025-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-33026-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id sOYQMCF9EGrdXwYAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-33025-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 22 May 2026 17:58:25 +0200
+	id 2DueJVeAEGrdYQYAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-33026-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 22 May 2026 18:12:07 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29B0D5B7414
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 22 May 2026 17:58:24 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4068A5B76AD
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 22 May 2026 18:12:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id BF4F3300D6AA
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 22 May 2026 15:55:39 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 7BD81300132B
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 22 May 2026 16:11:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 417E733E37C;
-	Fri, 22 May 2026 15:55:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7877537C920;
+	Fri, 22 May 2026 16:11:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="G1v/paEF"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com [209.85.219.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CD0E32E72F
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 22 May 2026 15:55:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8091525B0B8;
+	Fri, 22 May 2026 16:11:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779465338; cv=none; b=lqzrzYJYGfGAsCB2ZYypH90LTZvXalw07KlGUB37wPuNgirxkyM/udqKSn/yaUGfBwBLiyaDBzTTQkDnZs9fpiap29CfLxNQgXClH5GeO5B5RDfFeWEw9yN02jGyy/cZTBPsAaMkeN+LY9YSndHUCXjgahWDRpA54KU7BLWD32Y=
+	t=1779466285; cv=none; b=fWJtxiT+w8SobH3DFW52vv2HiyVL8brUgkKyLodW7Oex0UWT5ysWcwS507bBxiOEugra8Oc0WjIkGeyllbpajL8LmA7DmWSRjN6UfT3dqFjzTeeHy7CfTIUuLYypE2lTbqxD4zsnR3k6GU/AqOIoKz1nGnOtTnUcA+99odj5DcA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779465338; c=relaxed/simple;
-	bh=J9pqhe3rEd28EB+7QM4Mt7JtYR/l/3S7v8/M/aaqFQc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=WVSVlfumqWCMWJydIAsNtGAqiflu0DErz7B8FcSQdUwpW4ELZWGCOa3XNaiHcyZk8Tdqi4ZFm/YkmgQNm1tz3ENGPX6Ksl/ZPc60BI2vdGCXXAhRTIdHx+f2Oto6dJMCwDKNGSzrtikPFzKB/chPqYDkoPILEO+AJX8VJ1fsiac=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qv1-f41.google.com with SMTP id 6a1803df08f44-8b5de17382cso62186636d6.1
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 22 May 2026 08:55:37 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779465336; x=1780070136;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=mat1V267K7OB4qn2fEb5sEkdQiWDnrER2vm5Q5jlK3U=;
-        b=EPUGtwoiBokQljrJviUNqFk7YSUlX0EbkRlzxOPfz6OKoqr0FZ8OpwJRL3F56z5QYk
-         hHo/+qYavQtYbpRNWC96Ne205r+7RDrVKLoPWSb0XCeNN1zsPq/fPpNcqBHkHRTY/E/J
-         yOJwOWa9okD7gXqvKWajFKVuojYIWBBjZi5rEsZPLx8jvN0BVdA0ibKB8uPegOuAayPx
-         eMTEmcxE1UbCXnVYPox3iUPbDSY3mMXo4CfOia16jwbkBf/h6ObfcAAKaVtjPUoiD99v
-         SotvPCAvAwD9H6IDABql263zicR5I+hnpuelWaUnQqV0Xxg/SeoFcVD/txO5EJqaKQAz
-         Vf+g==
-X-Forwarded-Encrypted: i=1; AFNElJ8oxiQ1+HGT5k6DCAhcHHFdQifHGn4UIOfvEqPwtvh9Ri76oSL+0bpuw5YqP50VgfGFoBVcrqNLfpNwPkAz2tgkXQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzqU5Fsv5QwHgmaEF0gJppSoBFUZ00L07gKt+Eb9EZVZx4HWjZS
-	krygihKk3x9/+/GE2/wLuWLq/NOwidR3duLcG6D/2CoaYoLvQqUPhg5AB50jgg6PjQE=
-X-Gm-Gg: Acq92OHj0cKCJpnwIPwwtabZGme5nBCM/+uIMCgVWClrx4IikgXo7yHrFclR+KNaJY0
-	tfb8JMMkwA1xyAjnc6K6HEAC3wgBikNHk2vhZzxAoqyZfqBXC2n0WEwNaBIlrdwCpcV8UMVEjV0
-	aITmrYBMhqjzHoreS6VmZi4Rox/8szHjmNEzBTInFHr/s5AGt6nqJ3VfC1RqGJ5LBq7Y+kKmaku
-	AynGQAJkK0VvqbJZwf5lrM45wqN9aq7E21ciqt+O8qM3WFFhPJSubdLnHl9zoP8aNJolngMhfxS
-	y1yvHfhUuQci/2GDHze8GYIcke8/YntjeEMaMNogeihEyuWkBkHRHNQ3UEby4jshnuJp81Jwi7D
-	A2Tly+Ed7pgIl+rxnH9OW2Cj9IP0dPSijk5ZJWxmtUIlIeho8wWFvUaa0vlNVMJYeZ5yeBzSzQr
-	BIewFgnJkWDpB8axlTnSmHCium26pKJtBwCreZyq5T2r7KKYWXQzvjiyfMA/QT
-X-Received: by 2002:a05:6214:4019:b0:8c3:f47f:50f8 with SMTP id 6a1803df08f44-8cc7b3b878cmr72363266d6.0.1779465336345;
-        Fri, 22 May 2026 08:55:36 -0700 (PDT)
-Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com. [209.85.219.41])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8cc80dcf895sm22926406d6.1.2026.05.22.08.55.35
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 22 May 2026 08:55:35 -0700 (PDT)
-Received: by mail-qv1-f41.google.com with SMTP id 6a1803df08f44-8b7105dfb35so96468566d6.3
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 22 May 2026 08:55:35 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ+DFgOj8g1x0WlNwasD9ipzXK7CvBQbktIEv5rKIDqEJirjUvKAvPJFa+ayyX5Got6Xwo6QqLA66QgzWUNqSkfhtg==@vger.kernel.org
-X-Received: by 2002:a05:6122:3402:b0:56a:fff5:b4d6 with SMTP id
- 71dfb90a1353d-5865e2b5250mr2614239e0c.4.1779464839874; Fri, 22 May 2026
- 08:47:19 -0700 (PDT)
+	s=arc-20240116; t=1779466285; c=relaxed/simple;
+	bh=l/0ph60wK1b/8hBnU0zo7I9suFDL3YU4gSyQBbL6jOE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=PQ+eiExhiqvM5x6fRMQzoMzi26+a+b5bnxOzHb+8py0QqICgKS+RBBgr3ooGKHPSwU5/n8oY60uiDDjJud/0dp0gVs/mdG01rM5sRauvAGcsUAS7gULS7waO1n7I81ndYSdzSTTyou6AR8RVG0j26lysGG3JKA4KZwHbfDN2HVM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=G1v/paEF; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CC9861F000E9;
+	Fri, 22 May 2026 16:11:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1779466282;
+	bh=l/0ph60wK1b/8hBnU0zo7I9suFDL3YU4gSyQBbL6jOE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=G1v/paEFnQDWmWr7592Vaqg7lJJ2ZKHzb94Emkxs16TR7eJAIrtlgTeZ1GPF2+no7
+	 2BlFG1DeAbVEHxVluwNjjpM+4vOrCoetL5T8Ths7J5fsztE/332B3PyfZ+YLH8qJKH
+	 wMayQ8XO2RabaghegUEjjaeSKSbAOK6KUA2CqXbNu+tDrT+XXFTKFpGLqn5yfFmcmi
+	 7ANpOIkRvQfFG4aY4844RzSQOssphqn6b/54k60NyxiyLx15zZDEl0iGqYgG2buy11
+	 MK/HYQKIvoKMFIXYV1d9G0S/d/NvpwBFVaeJZSE6wDZ5RHx+2IT3w1n/CPM/N6psK6
+	 cAOkLrK7nKMtw==
+Date: Fri, 22 May 2026 17:11:17 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Claudiu Beznea <claudiu.beznea@kernel.org>
+Cc: geert+renesas@glider.be, linusw@kernel.org, robh@kernel.org,
+	krzk+dt@kernel.org, conor+dt@kernel.org, magnus.damm@gmail.com,
+	wsa+renesas@sang-engineering.com, claudiu.beznea@tuxon.dev,
+	linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Subject: Re: [PATCH 5/9] dt-bindings: pinctrl: renesas,rzg2l-pinctrl:
+ Document the missing I3C power source option
+Message-ID: <20260522-scorecard-acclaim-64c71da9c134@spud>
+References: <20260522102251.1723392-1-claudiu.beznea@kernel.org>
+ <20260522102251.1723392-6-claudiu.beznea@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260504144534.43745-1-marek.vasut+renesas@mailbox.org> <20260504144534.43745-8-marek.vasut+renesas@mailbox.org>
-In-Reply-To: <20260504144534.43745-8-marek.vasut+renesas@mailbox.org>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 22 May 2026 17:47:07 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWwantdbvPSFoYm=+_OoQQkKwz+K=qwWgy-7tSp1BNJBw@mail.gmail.com>
-X-Gm-Features: AVHnY4IbX-4yvb6-_QqYAmKEvB5Pw7JiMigOp3rN1DUejXGr6NhPRl6ad5aF2d4
-Message-ID: <CAMuHMdWwantdbvPSFoYm=+_OoQQkKwz+K=qwWgy-7tSp1BNJBw@mail.gmail.com>
-Subject: Re: [PATCH v2 7/7] arm64: dts: renesas: r8a779md: Add support for
- R-Car M3Le R8A779MD Geist
-To: Marek Vasut <marek.vasut+renesas@mailbox.org>
-Cc: linux-arm-kernel@lists.infradead.org, 
-	Nguyen Tran <nguyen.tran.pz@bp.renesas.com>, Brian Masney <bmasney@redhat.com>, 
-	Conor Dooley <conor+dt@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
-	Magnus Damm <magnus.damm@gmail.com>, Michael Turquette <mturquette@baylibre.com>, 
-	Rob Herring <robh@kernel.org>, Stephen Boyd <sboyd@kernel.org>, Ulf Hansson <ulfh@kernel.org>, 
-	Wolfram Sang <wsa+renesas@sang-engineering.com>, devicetree@vger.kernel.org, 
-	linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-mmc@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spamd-Result: default: False [0.04 / 15.00];
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="/H13k7LZd+GcPpfi"
+Content-Disposition: inline
+In-Reply-To: <20260522102251.1723392-6-claudiu.beznea@kernel.org>
+X-Spamd-Result: default: False [-2.26 / 15.00];
+	SIGNED_PGP(-2.00)[];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
+	MIME_GOOD(-0.20)[multipart/signed,text/plain];
 	MAILLIST(-0.15)[generic];
-	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[lists.infradead.org,bp.renesas.com,redhat.com,kernel.org,glider.be,renesas.com,gmail.com,baylibre.com,sang-engineering.com,vger.kernel.org];
-	TAGGED_FROM(0.00)[bounces-33025-lists,linux-renesas-soc=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	DMARC_NA(0.00)[linux-m68k.org];
+	RCVD_COUNT_THREE(0.00)[4];
+	MIME_TRACE(0.00)[0:+,1:+,2:~];
+	TAGGED_FROM(0.00)[bounces-33026-lists,linux-renesas-soc=lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[19];
-	MIME_TRACE(0.00)[0:+];
-	MISSING_XM_UA(0.00)[];
+	FREEMAIL_CC(0.00)[glider.be,kernel.org,gmail.com,sang-engineering.com,tuxon.dev,vger.kernel.org,bp.renesas.com];
+	RCVD_TLS_LAST(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
+	MISSING_XM_UA(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-0.999];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[geert@linux-m68k.org,linux-renesas-soc@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	NEURAL_HAM(-0.00)[-0.959];
+	FROM_NEQ_ENVFROM(0.00)[conor@kernel.org,linux-renesas-soc@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,dt];
-	R_DKIM_NA(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,mailbox.org:email,glider.be:email,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,0.0.0.0:email,linux-m68k.org:email,renesas.com:email]
-X-Rspamd-Queue-Id: 29B0D5B7414
+	RCPT_COUNT_TWELVE(0.00)[14];
+	TO_DN_SOME(0.00)[]
+X-Rspamd-Queue-Id: 4068A5B76AD
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi Marek,
 
-On Mon, 4 May 2026 at 16:46, Marek Vasut
-<marek.vasut+renesas@mailbox.org> wrote:
-> From: Nguyen Tran <nguyen.tran.pz@bp.renesas.com>
->
-> Add support for the Geist board based on the Renesas R-Car R8A779MD (M3Le)
-> SoC, a register-compatible variant of the R8A77965 (M3-N) with reduced set
-> of peripherals.
->
-> Signed-off-by: Nguyen Tran <nguyen.tran.pz@bp.renesas.com>
-> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+--/H13k7LZd+GcPpfi
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-> V2: - Drop CS2500 variant suffix
->     - Drop cells from rcar_sound ports {}
->     - Drop ehci1, ohci1, usb2_phy1
->     - Drop Salvator-X reference from commit message
->     - Split panel DTO into separate patch
->     - Drop FCNL node
->     - Add another memory node for the second 2 GiB of DRAM,
->       although the DRAM layout is patched in by U-Boot
->     - Drop FIXME from audio-clkout {}
->     - Sort nodes without unit address
->     - Rename regulators, use npmv suffix for n.m V regulators
->     - Rename x12 node to x12-clock node
->     - Add PHY compatible string
->     - Use interrupts-extended in PHY node
->     - Rename clk_multiplier/clock-generator to clock-controller
->     - Use interrupts-extended
->     - Reinstate port@0 to rsound
->     - Drop iommus from SDHI2
->     - Drop DU until it can be tested
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
+pw-bot: not-applicable
 
-Thanks for the update!
+--/H13k7LZd+GcPpfi
+Content-Type: application/pgp-signature; name="signature.asc"
 
---- /dev/null
-> +++ b/arch/arm64/boot/dts/renesas/r8a779md-geist.dts
+-----BEGIN PGP SIGNATURE-----
 
-> +&avb {
-> +       pinctrl-0 = <&avb_pins>;
-> +       pinctrl-names = "default";
-> +       phy-handle = <&phy0>;
-> +       tx-internal-delay-ps = <2000>;
-> +       status = "okay";
-> +
-> +       phy0: ethernet-phy@0 {
-> +               compatible = "ethernet-phy-id0022.1622";
-> +               rxc-skew-ps = <1500>;
-> +               reg = <0>;
-> +               interrupts-extended = <&gpio2 11 IRQ_TYPE_LEVEL_LOW>;
-> +               reset-gpios = <&gpio2 10 GPIO_ACTIVE_LOW>;
-> +               reset-assert-us = <100>;
+iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCahCAJQAKCRB4tDGHoIJi
+0u7NAP97YZhrh+Jj6OlKfx33P+yxv5JrCQPh4BfqSrQ/kEBscgD/UoqRkzW89bSW
+5V8oNpyEx9KJ07iaWsRCvbOj8oEpIQ8=
+=C7TB
+-----END PGP SIGNATURE-----
 
-10000?
-
-> +               reset-deassert-us = <100>;
-
-300?
-
-> +       };
-> +};
-
-> +&pfc {
-
-> +       pwm2_pins: pwm2 {
-> +               groups = "pwm2_a";
-> +               function = "pwm2";
-> +       };
-
-Shall I drop this while applying?
-
-> +&pwm2 {
-> +       pinctrl-0 = <&pwm2_pins>;
-> +       pinctrl-names = "default";
-> +
-> +       status = "okay";
-> +};
-
-Shall I drop this while applying?
-
-With the above fixed:
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+--/H13k7LZd+GcPpfi--
 
