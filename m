@@ -1,63 +1,63 @@
-Return-Path: <linux-renesas-soc+bounces-32962-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-32963-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 0LhuCIw8EGroVAYAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-32962-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 22 May 2026 13:22:52 +0200
+	id UPxkDYk6EGqoVAYAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-32963-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 22 May 2026 13:14:17 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B5045B2ED2
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 22 May 2026 13:22:51 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id A23DC5B2CEE
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 22 May 2026 13:14:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 62E2E303908A
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 22 May 2026 11:02:49 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 1C084300071C
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 22 May 2026 11:14:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2D9263905E6;
-	Fri, 22 May 2026 11:02:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1BADF3D567B;
+	Fri, 22 May 2026 11:14:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="KjeOlmwN"
+	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="pKk2s6Rx"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from OS0P286CU011.outbound.protection.outlook.com (mail-japanwestazon11010015.outbound.protection.outlook.com [52.101.228.15])
+Received: from TY3P286CU002.outbound.protection.outlook.com (mail-japaneastazon11010040.outbound.protection.outlook.com [52.101.229.40])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 451043CDBA5;
-	Fri, 22 May 2026 11:02:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.228.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21E7F3A6B6E;
+	Fri, 22 May 2026 11:14:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.229.40
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779447768; cv=fail; b=IdXm3NO4Ki267Y2oJQhA4wzuodlAwe+t0CsdGiwFCbtGJfc+hXINipnCBxRJSn2wjymRcyN+j+0fPLL5n6BcJjS4SJ7e7uQF205hl/LIs96jNe1qSV6Fa566DxRwlrbRh12f7FCedLVFj/bBTdGvSpGDKRsohiFDYQXwhvjqvxA=
+	t=1779448453; cv=fail; b=K/oHsSyyf5yhd46PXpChjEfnVIo+le28J+OXTiVMkJo2a4R8VLoEYqzDlWy4ShAxqAhma2aAe2ZX//1QjyPfLTfMIuPsA8u01swnPTZcWCAsvr1IYU3dOygFxWGzX4hAf03FzwlEOSjTLnriRwXsKP6Taz4Ngw2A9c2N3wDNryE=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779447768; c=relaxed/simple;
-	bh=Et60aC/7qWmOEcSkMAUZddY9fqzv/ss6G51IKY4A+QM=;
+	s=arc-20240116; t=1779448453; c=relaxed/simple;
+	bh=ncEJlS3LgFAu2TgbigpRn4BQIbFHJ0beJ//KhTRuQvA=;
 	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=r4FSxQoqCSASkXD3CKbk4bzDbDSeRjJauRidF+/ZedLIYVeaZO/Z14h17lDjBYKvib9qOu+yNAxy8F8U3sNNj73Sikw1t1bNqgPgevnsLK/PKjJINU9p5koRUnj+TfKouMKgEynBnamSI1/jrdzR+1+7IHa9JHmPGylRPGT4b8I=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=KjeOlmwN; arc=fail smtp.client-ip=52.101.228.15
+	 Content-Type:MIME-Version; b=rCMdYUirbe8g5/KAU/zmfdKYjKcG8Z9CjHxivOf3gUkaaENVlIro7/BMFSaTpSDG1aXF0fwjnG33Zj1t+1/WTY4P7P+BUkKYcGjcB/F0dSMi11jKhkJdoGq0oHXZE7hSksrYCDEfVG09lfFGF85A2p6bExme8PgoQ0j12QkB6QQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=pKk2s6Rx; arc=fail smtp.client-ip=52.101.229.40
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=bVjp0v82UFxTf2O5dwON4GSzVMB6lR2xrZqDxwJnfEkJ/8uUbymafiwYyOrQLYAnPdbNJa8jVo7Sr4qJE+ob2hE3Y41YvthAgJ4Wq8dAQ/ThazXOLVyw620R3hq1IrsUvs/ihDeGQ7/wvKLRydado7fhnUhTaNdhuclJDSW8BNd3Tz8eqyhAyNxN8bL3Ti8jXqGivxsYTi/kH8rKdHSO/7RMYCnbNgrVBmE22R9SNm3qTnF84aTXDoDY0HcoCY2M6Ch2WtGS5Qm/8v5GX7y4K6Vsy4NsvUSrKZ8sh8Vedf8iZgnQ4ewqXbxayxaDvsZcdg6bfcFZdyVugCel25mRiQ==
+ b=p1/UjBu2iWB4Yy46bimD+nx80sMWH3u8AF2yaC2f+2BfGwSDBSmNcmWTdLZeIFriiidVEuDXKMHssqiRDVM0uEgm0UplXB5MILdb6oy5eTnv7sUIzDJrAiaAweGdkP0glga3g7JVwTSgmPBBCla3X4SKtJAB9AeCdhakEynyBrPcsbB15j9AYbtsqQHiuCP1eUsJbL2F8Kqk3oHqgmtiXd1XDb65T+6ox6U0X9A+66Scdan7TvDqxenohJZvsQIGH13WEPkEiXNY1/QQxMoCBnH7r7MlsHPCP7C7lFjw60WRx4TYv5JIeAeClDthDF+U4grBno/7Z6OxM4bHcIucQA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=80HgSrDg74f2/7+COQfFKK6NALlXEsS4kVxwjErhB+0=;
- b=SzIMXFqzOX6jZmqZNaHnfdCugJSLlnxvYkamkBbzp47HjK8FJXieEgDA0Ft3hinzfeUEVciLXs0ooZjM0OZ291vfaMrLYt2rOFbtUrCaLF3X82+d0dtErFxm9dhobFs2A3JZc4Rm3EmmALYBspiLvKhCmVcKMInC7DgdKu/hzgIrrjiab521L/NwhLAhQQQTO8CZEisFf3t1QpKV+I5HzEWPoHFr0wtABMzUBNluJKuh+jsJb7dQ8wrBXikmpMGpCRx85OMwOAcwdoDvZAEVvvor7IS0mk2NHYmrx37Np/HQvdJ02Nw7Hwss7EuNkSzAzBNLchYB999dEyh9exz++Q==
+ bh=NPyoR1/XUd26VazEPxRH7yB+mB6YQA3qhJvccKakT2M=;
+ b=vAq31Cq+5HOG/UNBqiWgkQs1D5q0znnwF2zmAkRUpy/vmqUXXegYzZJu9s1SVekb7dLao+pi75CfAw6IbOztMkNAgvzHZUIDJ2qzR8qA5Zjzs4w7ks8BaKYKohJwtkuqP/R2rLpRTZA4QayUvKTbitN4RQ7mUF4NIf97C932BW4aZOQwOpcid2/cm02apdkaBCiEgquJBkG7lb9HQ74P2O0mpghLtwJVqgRNQYZ98v4N4AbWOBOcapgukGrwaNzbeXmvx/ZtVEJRENq5kRTYIlUzCZxwosw7fFhpuV9ZUoyqoJFXdlbOYCCe+I5z1a7V+4lRLwzFoTbeg/AGGoJcoA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
  dkim=pass header.d=renesas.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=80HgSrDg74f2/7+COQfFKK6NALlXEsS4kVxwjErhB+0=;
- b=KjeOlmwNP/qzzndvQ1Jeo3Y2ItnHbaLd8iR4iIQjvj9bf5BANyhy+8gjU4HBQPw2IH0pBA67aOBftdlh16c9izj3fjXmljvZluquhPAq7zP3eta6LZ37MGOUJg/8mIkPFTd1DC8+edpLZq3OpR2XrCRPPlxGcqTd/hcs2CNR6ns=
+ bh=NPyoR1/XUd26VazEPxRH7yB+mB6YQA3qhJvccKakT2M=;
+ b=pKk2s6RxS7RPCsq97buzu0SIFZglJTGSlDb/D/hLjD41y9gnqiB41LtfD72FcgD+dNuk2j5tbF4IV1zBjtwgX+Sv3D66f4pc36V4S5M108CwG97Vu1fFQGNorqseFDaraO2Uiacv5Pr7PZCtEmoZvh21jr9dGJIG2ytglIgpoh4=
 Received: from TY4PR01MB14282.jpnprd01.prod.outlook.com (2603:1096:405:20d::9)
- by TYYPR01MB8264.jpnprd01.prod.outlook.com (2603:1096:400:fa::9) with
+ by TYCPR01MB7992.jpnprd01.prod.outlook.com (2603:1096:400:11d::5) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.48.17; Fri, 22 May
- 2026 11:02:43 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9846.26; Fri, 22 May
+ 2026 11:14:06 +0000
 Received: from TY4PR01MB14282.jpnprd01.prod.outlook.com
  ([fe80::655d:9c47:4499:eb3a]) by TY4PR01MB14282.jpnprd01.prod.outlook.com
  ([fe80::655d:9c47:4499:eb3a%5]) with mapi id 15.21.0048.016; Fri, 22 May 2026
- 11:02:43 +0000
+ 11:14:06 +0000
 From: Michael Dege <michael.dege@renesas.com>
 To: Jakub Kicinski <kuba@kernel.org>
 CC: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
@@ -68,17 +68,17 @@ CC: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
 	"netdev@vger.kernel.org" <netdev@vger.kernel.org>,
 	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
 	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH net-next v4 12/13] net: renesas: rswitch: add handler for
- FDB notification
-Thread-Topic: [PATCH net-next v4 12/13] net: renesas: rswitch: add handler for
- FDB notification
-Thread-Index: AQHc4SOaC4EteeXln0a+Ua6qEvW1bbYLL2yAgA6/Q1A=
-Date: Fri, 22 May 2026 11:02:43 +0000
+Subject: RE: [PATCH net-next v4 10/13] net: renesas: rswitch: clean up is_rdev
+ rswitch_device checking
+Thread-Topic: [PATCH net-next v4 10/13] net: renesas: rswitch: clean up
+ is_rdev rswitch_device checking
+Thread-Index: AQHc4SOW3S19c3B2xkiQv0ZAQJ71orYLL2gAgA7F4bA=
+Date: Fri, 22 May 2026 11:14:06 +0000
 Message-ID:
- <TY4PR01MB142822AF74C6D980D60FC708C820F2@TY4PR01MB14282.jpnprd01.prod.outlook.com>
-References: <20260511-rswitch_add_vlans-v4-12-a5a225f8faae@renesas.com>
- <20260513013559.1408506-1-kuba@kernel.org>
-In-Reply-To: <20260513013559.1408506-1-kuba@kernel.org>
+ <TY4PR01MB1428254969CF2955F441A833B820F2@TY4PR01MB14282.jpnprd01.prod.outlook.com>
+References: <20260511-rswitch_add_vlans-v4-10-a5a225f8faae@renesas.com>
+ <20260513013556.1408455-1-kuba@kernel.org>
+In-Reply-To: <20260513013556.1408455-1-kuba@kernel.org>
 Accept-Language: en-US, en-GB
 Content-Language: en-US
 X-MS-Has-Attach:
@@ -86,49 +86,49 @@ X-MS-TNEF-Correlator:
 authentication-results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=renesas.com;
 x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TY4PR01MB14282:EE_|TYYPR01MB8264:EE_
-x-ms-office365-filtering-correlation-id: 690e7a43-c113-46cc-ea11-08deb7f1a5f9
+x-ms-traffictypediagnostic: TY4PR01MB14282:EE_|TYCPR01MB7992:EE_
+x-ms-office365-filtering-correlation-id: 6781a1ca-8142-4aca-ad40-08deb7f33d28
 x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam:
- BCL:0;ARA:13230040|366016|7416014|376014|1800799024|11063799006|6133799003|5023799004|4143699003|56012099003|22082099003|18002099003|38070700021;
+ BCL:0;ARA:13230040|1800799024|7416014|366016|376014|11063799006|18002099003|5023799004|38070700021|22082099003|56012099003|4143699003;
 x-microsoft-antispam-message-info:
- 3W9eIVaqQ9TkQH61To9hm5gT51MImkd1UbEHQlAaLOc8wMxwMAoXrOB01opf0diBsPnufvNp3vAbJNYXclxTgtUQqdgHC7cxg8KpijodnkLTCzxe8H0oKbVxArtdgSxR8j4LV7McKyQ3V8lGL4piRzeTTe8nNLAWTjt0qOqEze1Qpnv1Ge8tTRSLao9m3lB1FVg9yQbdDFQx0ClFs81chIxirUTkiHbm0HSkwVI+5S6oWwVIhlCWTqNzBogEezdmlfdkaPTmA+Zst+XMR70vvBxxQXzLPbSPdMY3ZKtMnoZC0R72CxK/kB7nGGs5zhvLCfgaVlbv+mL5BwP0SpATFLZ4qBTP5qajZOQ03XGPoza2A7IA7xsfEE2O+UtzoSOgpFt5lMP3U0BB29sPUIKZ2wzusY4vzy3Gg0wviZd6ctBxjisAZPjf/MkFasOBMuuoyMu3OhOVAboT2ySZMTAgdxF0UrOAPuHg8BmUcRBSFMjd4+upRqbS0g7wolGDHjL+I+RtmYKpLTaQKn+iIWk5Mmc+4mOApLzwLFo1KuggA9ExdhiJqP85IGXC+7nHLVKWpz1DpBRhioDdmuYbbF9jNRvBPxbl5JJsMW637Slb+4rLQACce8QdwOvhgfW1711lzqGuKCbJmABCH4XRA5jrG3AyjDmk8j55ksZyfyQToxCkeMrW1hAUbqMATHbQiuPkFPnFCTydrl3lqzk/4r3cfTOsYEONKKcskBFkyA634AIxSq/z42OSLNXdHUFFeEFq
+ Agz6CkUBvI8SdKYGsXxkhrF2vy52pUWEeG2VhsLoK6gVQ7ETWI8VRxI3xmDkp2sDAbR6oh/Naz86t3j8Cn9Su9/rdbC8vAHVWO/n8y6TnjJXzga4h/4M3IJQ8ZfFRiDoW7Q4HPz4z3L4UlGa8sa5l7v4Cs8bvJkPfIswaMgavtfLfEspTiVdpxOYDEgSaHUIDlWDTmVWwsUyaR5Fh5leVYdoq18Zgchg3UmuhrUTuPjxH3QIS5Ad5wOhowDQpcEqoQ7VyZb5y4BMq3qRV8bnny0Dis2JVQKwvO8M7ovBeDIuO7Dyuyg44K7jHM+W76KtaUTsNreEyrav6JYZBQziQKG8Bds2jR/PsKo324MiOo9DfTJv3gr1+3Vmmm+pvC5vwxNdQhv6MRIqr38pL76y23yfdjuQ5W4/i+67grETUoTTXi8SNWK9bQNFM47vPXHJrcsNOFh01rWIPBSIgCQGKbxLc2I4Z+EkJOZL2Lxu39mv5L3dxceviG/FrUcpu0BKR9pSogjqv+art4/0yVUIA/7pJl8ioykkAIESiWRXnmvdE3YkTtQJxZpun7R3HpAepHjf4qiBFKny+uQSJjv4pXUYkuRXhVY+NjJ4Qjxq4TsSTZ3KHokOmKALXq1wlADcZ4gjW7LTbIvhEV3K3OmAjL5CZ1Ir3hLzbDR7J6SB4YZZ5ZIzI30ioLDzFQyt2aKodL4yQVH1QoTTluel3FlPeB83WOKg1imW+gQ3eS4shPA+LxBG4Lnzs7jaNO1JQVZ8
 x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY4PR01MB14282.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(376014)(1800799024)(11063799006)(6133799003)(5023799004)(4143699003)(56012099003)(22082099003)(18002099003)(38070700021);DIR:OUT;SFP:1101;
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY4PR01MB14282.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(366016)(376014)(11063799006)(18002099003)(5023799004)(38070700021)(22082099003)(56012099003)(4143699003);DIR:OUT;SFP:1101;
 x-ms-exchange-antispam-messagedata-chunkcount: 1
 x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?IrRb2I2KIVsSvk+evZAfvbt/Nyyydm0xRpU6nAc1bRV8YhbHeqnWcXKgX1iw?=
- =?us-ascii?Q?jXJneQ9T/MXkn/waiWItGBxyM2BgWxjrCCWnb6vcufpRpc/Ku/YWHT5o+uft?=
- =?us-ascii?Q?sPRW9co0RK9//Yc02g1HCfav6T6NS0kU+p0sf5w/dOsg01ZEJIkcyvEqaXNp?=
- =?us-ascii?Q?mbIpZdX+kII8vQecYK3jnJdAZmveVQ+sSDNXwImVWMf4+VoxSxvdnEvmJEZO?=
- =?us-ascii?Q?3L0VhDZHq3sc8b/mkLNviOI1yleK9pPAAt2hLMmJIzfLFeESaXeC+vOJAozo?=
- =?us-ascii?Q?+JebQRzkHn8JwtypKaDn42T0Y8wHgf0f+JXPS+pAG9p7lHuMAB03B9PlBSgz?=
- =?us-ascii?Q?MiiiDFk51Z8jktnekrhlNVBlatlkW6pz8FTNuWKeaVFXn/tfUAHgtlBywd0v?=
- =?us-ascii?Q?JTyTVlNlY5XguzCdI/p57wtmBn8Y74Sgi1hYutiOpKpaRmhFazuhkheMf5Si?=
- =?us-ascii?Q?42ebazUpTg1ejpRd/nloJgFpAeUtyE+qSkveXltrfBCN6G/fTYPkl94McPsY?=
- =?us-ascii?Q?JFGTKT36r/wQsvgv1jQn4WSZ+hNFQ9509kJm8qrWTMN/SfMPWcYEZoYX9SyK?=
- =?us-ascii?Q?EGb+eHL/etHjK0CXeDPTPI/bzrEl2Ph5CRouCCEeBG1ZvY/iHFNcSCJnOV1B?=
- =?us-ascii?Q?nLLdDJFQJAFGpWY4iuKhNDBp6LanGEYwecrEqC47fLeNvcR9/7rI3DZjERHF?=
- =?us-ascii?Q?KfIxVeQbUMh4JWY6/pTzQXYDE3mUTiAbQNQ7QTnUAVlP97+d0HjogZh8TR+8?=
- =?us-ascii?Q?Oqsz/bZ3rk/CYbYqceuNY5aGOOOtrYgPxck/F4dOo3T+7Ss9pgIWr/Ap1JfZ?=
- =?us-ascii?Q?9JwS/dRMj+kE+2WLmWr8ocbTxQDiRwf1QCLEwbI/t98z3e3A9SwrWBlzZ3eu?=
- =?us-ascii?Q?dR1KSgMSZBwe714zAjjhf107hUsd9FfgOyqH8pKw4AF5ELE6xldCnxGtFtvu?=
- =?us-ascii?Q?GPjMa8eh5xZHcLiAQaPD469QTC7Bki7T2DAq9v18K4d3OnsogSowxoYcPCi3?=
- =?us-ascii?Q?AxRuAqFKmFkmDm4pZWba67oCd3hxciCk6likewYkGQgQciJ0aEFhVCkma8YG?=
- =?us-ascii?Q?8kg4MibDNqvpHddk0xWLZYakpFqJNUl5X9RlaL1KXnhOjJFu+IysZPDSJ6Yg?=
- =?us-ascii?Q?Lz7ejPFuEH1LX0GV+fMME/cxLWyfV+bhld7jfyeZa1j1dajhlWXS6ls3pfsL?=
- =?us-ascii?Q?/XTOocbvy49wzyMPFDJi1aIQnbH6lw6v67PT4eta2SCOcuX3C3UyKgu9vo9y?=
- =?us-ascii?Q?GKgTGFxVrbdJNTZbRO9o2vmsFmbhIHuXInreCTKX+BqUt5eZkF0/gZ50d+ZG?=
- =?us-ascii?Q?i3VwR0tV4YDPmxpVJi+Phg3YRN0pv53RYOgRSQec+vixIQ+ybCiL+kD/MEsR?=
- =?us-ascii?Q?eIsXqGwXv4cOku0ChiXHGmuFGXgWsUQioSCDSUhc5ZO1JHkBsGu+JdFsohvv?=
- =?us-ascii?Q?mxxjRH4W1Idh5yTwT8aQfqz8ewvVjkkRJjY9Sag7TDpDKoRPKnrhcw2i71p6?=
- =?us-ascii?Q?0uze3d9DoCL0De9bISUZc+gDPciPSjkn1cVLUb2AcHDNNtABDLtFYufj565z?=
- =?us-ascii?Q?afWSwnY6LrZ23gyQruF34gimrPjTDCooVQWS8Rt1wyfXrwzZtJ95QxFZz99I?=
- =?us-ascii?Q?NGPYWzLnoyD2BusH42ZVmLAtoYwNV7QYW/1OagD64go5UPTgfCzJBAEJbkdO?=
- =?us-ascii?Q?rB+JYeutsTbftGKThGdj+H9kuebTT3nksQiTQ4K07tVb7ZlJb0eG3ErYHnfP?=
- =?us-ascii?Q?rGzhoMZp2g=3D=3D?=
+ =?us-ascii?Q?8wbzp9j6LliwjWgC7hREpygB0+Esbi5zuglE1/m0WrWEIK8+sPSKMC0oFiPQ?=
+ =?us-ascii?Q?OqeXqwOHhUMBAx0Ld+iIeZrPu1e32MK8qFAVhHULMkRzp8JItAql7eNe9WnU?=
+ =?us-ascii?Q?ijILvb/NFNV9QSDRO2i3fYLVeAAycaIlNGsVd7He+dM8GG+QM4VN5P/QZaAF?=
+ =?us-ascii?Q?+Yb5jF2/UhtdC9b7vH9CAeXzxHociBhFhIqV8VamQrufE+cuuXp3H6Ngy1O+?=
+ =?us-ascii?Q?SATFqVAY0wMsa+Tx/qVWhN0lMbq2aIsGd2BnX8SpVTMlltdchdG7p45Qfrz6?=
+ =?us-ascii?Q?C2wG/vIzabHoBY5alZ1WTssyHTuMXLMurUipWypvGbmsGIxpEM+iEZRPKXX3?=
+ =?us-ascii?Q?vGI3gK9JLXSx3nt+qItXsfY0gKjPUT8+vZRj0quV5n2gsdPA96aIUHlXygnK?=
+ =?us-ascii?Q?0iE5NufTGCeu0Yq10AtOZ2rp1v1WeCKF5R/bmAid6Qn5OQR1oKiyUPxzbWOH?=
+ =?us-ascii?Q?QNg2+PY9dbtKS7Typbr5Muf+8CuqSiqeKKvPyLPhGJQzrr2C0NLi75wIZXim?=
+ =?us-ascii?Q?bKKOdxmaho1gswprnEkUByaKVpmZJ6Q2XDaKrtc6GwuBuicf6UioWvcGRZB7?=
+ =?us-ascii?Q?bnTjrecKuALhzYMJ4RaV5ep2Wd1ijDnY27KWM+XDGSHFD9S38nqYG1/QKTja?=
+ =?us-ascii?Q?os+d4mLGF08xoVv/hM/sXXMO5cGxlFSNzSdw2NdGaa3tR9kn3kM4MPkq/igR?=
+ =?us-ascii?Q?XC0dTJRd2aFPtEB10wsH51kSyPRolBsoGkXc7ITmYJsnR6MrFzfamnDk5Ana?=
+ =?us-ascii?Q?z5iNst3QxadCeGSjDkNq7f/eoNs0NQWHfgqfQmvmJ21KexrTG5JsTZjEg6Yv?=
+ =?us-ascii?Q?BS9RNugO/PHB5EqWR3qk7Zm3AcZ7mTPIzYv2xcuOEw3YAmWZ5ybnGrPfopgY?=
+ =?us-ascii?Q?T0dL7qC4uF90od4ls8aYS800Snz8GdI7aPPXoAdI9O4uX1Ep/vtZGUBcZPHc?=
+ =?us-ascii?Q?AkFd5jndHvyicercB+Sp4T5d5ivKT4VoLAaThM2JLMqzCYvqYuWIeI81TZSb?=
+ =?us-ascii?Q?qgvQUGd2IYZIsZAszL9LOETSk/BNcflBSf0RM0Qed18rWvGQiBUVhDWylpPB?=
+ =?us-ascii?Q?jFMa+yrtIXZ1AfHK5thfahHRmDK+7XqWxi/oSJFjBbkIWYt25vd4fbrMosTo?=
+ =?us-ascii?Q?ojDIkp57i4egX48l1vHb8aPGpzqzJ+we2WkYt5kqv9AuvxYbRg2PAdG9bV7u?=
+ =?us-ascii?Q?wyqGxa6twKufcfSX2gF2D67v0kcs+XP/SOfiBxWvHjKfLyXsxkjrRLJ4519p?=
+ =?us-ascii?Q?5nXSlumYRQrYnIZV6v90umoIi46i/f2zVcOOfH4G10cT50M9zzoEiSu4VSrx?=
+ =?us-ascii?Q?AOGtf1jkWmKtHFbqRQIZrSZUr5t98z/29OOLhxffLfC5PZI+NHo73o3rDClq?=
+ =?us-ascii?Q?vWMKcrfxYljA35xyMRoSSk8b59yKy2kh28W8241hBQEJRZOUS09SgRXCzUDD?=
+ =?us-ascii?Q?xYHkiPAHIvWbdmo+HA43+wlbZweSv93eRe12rp560DgYcFM3I3zaw5mLnTsl?=
+ =?us-ascii?Q?Yqlx3jNGTJcMzyBrSIefOFog2yWw8CfRufS/KBSBeGtyHegwj9kNVvfUjr5y?=
+ =?us-ascii?Q?7wMdYzNd9bGHvc3u5kz4v5B6sSzCx8VP81M9qlaeppQDW12Xj9cbQi62ftck?=
+ =?us-ascii?Q?bdxVHDu9bVZkCJjO7QEFr+KJqwqy6EgUvT1ptxRiC4tTcI0Wfm7kjqattuKL?=
+ =?us-ascii?Q?QvBtX0MUcmrQw2NvTOrlMaq8J1RRNQegNWL/E2bSK+x8YrJEVm+Zzu6BgiP7?=
+ =?us-ascii?Q?ZZ4av2G7lQ=3D=3D?=
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
@@ -140,24 +140,24 @@ MIME-Version: 1.0
 X-OriginatorOrg: renesas.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: TY4PR01MB14282.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 690e7a43-c113-46cc-ea11-08deb7f1a5f9
-X-MS-Exchange-CrossTenant-originalarrivaltime: 22 May 2026 11:02:43.2328
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6781a1ca-8142-4aca-ad40-08deb7f33d28
+X-MS-Exchange-CrossTenant-originalarrivaltime: 22 May 2026 11:14:06.3611
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: q9KsWQ2yg6YCI6pyvcxiz6l0u0zxbysPvDqm9JslN/uBoIp4kj/3rPqVtXvP31D74AcDzS4dGVlZcuXTsphx/fAtFmgl4rpHsH9EGjWPw4E=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYYPR01MB8264
+X-MS-Exchange-CrossTenant-userprincipalname: /dfeGteuEX7ex8MegmzQ74TO5mKgXAKxhjWk6aURsGp9nqlWLXWgSlgDnYC1KHb030OtaDzFUQDK2OURwCAGrBIAmUTN2eHP3vchEwokvJg=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCPR01MB7992
 X-Spamd-Result: default: False [1.34 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_REJECT(1.00)[cv is fail on i=2];
 	DMARC_POLICY_ALLOW(-0.50)[renesas.com,none];
 	R_DKIM_ALLOW(-0.20)[renesas.com:s=selector1];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-32962-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-32963-lists,linux-renesas-soc=lfdr.de];
 	FROM_HAS_DN(0.00)[];
 	TO_DN_EQ_ADDR_SOME(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
@@ -173,15 +173,15 @@ X-Spamd-Result: default: False [1.34 / 15.00];
 	NEURAL_HAM(-0.00)[-0.999];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,netdev];
 	RCPT_COUNT_SEVEN(0.00)[11];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[ragnatech.se:email,TY4PR01MB14282.jpnprd01.prod.outlook.com:mid,lunn.ch:email,pbarker.dev:email,renesas.com:email,renesas.com:dkim,sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo,davemloft.net:email]
-X-Rspamd-Queue-Id: 6B5045B2ED2
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[ragnatech.se:email,TY4PR01MB14282.jpnprd01.prod.outlook.com:mid,lunn.ch:email,pbarker.dev:email,renesas.com:email,renesas.com:dkim,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,davemloft.net:email]
+X-Rspamd-Queue-Id: A23DC5B2CEE
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
 Hello Jakub,
 
-Thank you for your review.
+Thank you for your comments.
 
 > -----Original Message-----
 > From: Jakub Kicinski <kuba@kernel.org>
@@ -194,164 +194,77 @@ edhat.com; niklas.soderlund
 > <niklas.soderlund@ragnatech.se>; paul@pbarker.dev; netdev@vger.kernel.org=
 ; linux-renesas-
 > soc@vger.kernel.org; linux-kernel@vger.kernel.org
-> Subject: Re: [PATCH net-next v4 12/13] net: renesas: rswitch: add handler=
- for FDB notification
+> Subject: Re: [PATCH net-next v4 10/13] net: renesas: rswitch: clean up is=
+_rdev rswitch_device checking
 >=20
 > This is an AI-generated review of your patch. The human sending this emai=
 l has considered the AI
 > review valid, or at least plausible.
 > ---
-> net: renesas: rswitch: add handler for FDB notification
+> net: renesas: rswitch: clean up is_rdev rswitch_device checking
 >=20
-> The SWITCHDEV_FDB_ADD_TO_DEVICE notification writes the bridge MAC addres=
-s to the GWCA and adds a
-> static rule to the MAC table.
-> The SWITCHDEV_FDB_DEL_TO_DEVICE removes the static rule from the MAC tabl=
-e.
+> Add null pointer checking for ndev and remove unnecessay
+> rswitch_port_check() wrapper function.
 >=20
-> > diff --git a/drivers/net/ethernet/renesas/rswitch.h
-> > b/drivers/net/ethernet/renesas/rswitch.h
-> > --- a/drivers/net/ethernet/renesas/rswitch.h
-> > +++ b/drivers/net/ethernet/renesas/rswitch.h
-> > @@ -1213,11 +1213,20 @@ struct rswitch_private {
-> >  	bool etha_no_runtime_change;
-> >  	bool gwca_halt;
-> >  	struct net_device *offload_brdev;
-> > +	netdevice_tracker dev_tracker;
+> > Add null pointer checking for ndev and remove unnecessay
+> > rswitch_port_check() wrapper function.
 >=20
-> Is it safe to use a single shared dev_tracker for dynamically allocated a=
-synchronous work items?
+> This isn't a bug, but there's a typo (unnecessay) in the commit message.
 >=20
-> Because system_long_wq queues works asynchronously, multiple FDB events m=
-ight overwrite this single
-> tracker state before they execute, leaking the previous ref_tracker alloc=
-ations and potentially
-> causing a double-free on netdev_put().
->=20
-
-No, it was not safe and it actually threw warnings. Fortunately, I was able=
- to find an example how
-this was solved in a different driver. Now it is fixed and working.
-
-> [ ... ]
 > > diff --git a/drivers/net/ethernet/renesas/rswitch_l2.c
 > > b/drivers/net/ethernet/renesas/rswitch_l2.c
+> > index 3cc0ce8762f3c..dd8aecbcb2a8b 100644
 > > --- a/drivers/net/ethernet/renesas/rswitch_l2.c
 > > +++ b/drivers/net/ethernet/renesas/rswitch_l2.c
-> > @@ -82,8 +83,9 @@ static void rswitch_update_l2_hw_forwarding(struct rs=
-witch_private *priv)
-> >  			 *
-> >  			 * Do not allow L2 forwarding to self for hw port.
-> >  			 */
-> > -			iowrite32(FIELD_PREP(FWPC2_LTWFW, fwd_mask | BIT(rdev->port)),
-> > -				  priv->addr + FWPC2(rdev->port));
-> > +			rswitch_modify(priv->addr, FWPC2(rdev->port),
-> > +				       FIELD_PREP(FWPC2_LTWFW, ~(fwd_mask | BIT(rdev->port))),
-> > +				       0);
->=20
-> Since rswitch_modify() performs (val & ~clear) | set, and set is passed a=
-s 0, this operation can only
-> clear bits. Can it ever set bits back to 1 to block a port again?
-
-Since bridge ports are not overwritten, but need to be removed and rewritte=
-n, the bits are set, when=20
-the port is removed from the bridge.
-
->=20
 > [ ... ]
-> > +static int rswitch_gwca_write_mac_address(struct rswitch_private
-> > +*priv, const u8 *mac) {
-> > +	int err;
-> > +
-> > +	err =3D rswitch_gwca_change_mode(priv, GWMC_OPC_CONFIG);
+> > @@ -278,11 +273,11 @@ static int rswitch_switchdev_blocking_event(struc=
+t notifier_block *nb,
+> >  		return -EOPNOTSUPP;
 >=20
-> Since rswitch_gwca_change_mode() transitions to GWMC_OPC_DISABLE asynchro=
-nously from a workqueue
-> without stopping transmit queues or NAPI, can this race with the active d=
-atapath and corrupt the DMA
-> descriptor rings?
+> This wasn't introduced by this patch, but does returning -EOPNOTSUPP dire=
+ctly here abort the global
+> switchdev blocking notifier chain?
 >=20
-> [ ... ]
-> > +static void rswitch_switchdev_bridge_fdb_event_work(struct
-> > +work_struct *work) {
-> > +	struct rswitch_switchdev_event_work *switchdev_work;
-> > +	const unsigned char addr[] =3D {0, 0, 0, 0, 0, 0};
-> > +	struct rswitch_device *rdev;
-> > +	struct net_device *ndev;
-> > +
-> > +	switchdev_work =3D container_of(work, struct rswitch_switchdev_event_=
-work, work);
-> > +	ndev =3D switchdev_work->ndev;
-> > +
-> > +	rtnl_lock();
-> > +
-> > +	/* Unfortunately all net_device members point to br0, there is no sim=
-ple way to check
-> > +	 * if the event was triggered by a port device setting.
-> > +	 */
-> > +	rswitch_for_all_ports(switchdev_work->priv, rdev) {
-> > +		if (ether_addr_equal(rdev->ndev->dev_addr, switchdev_work->fdb_info.=
-addr))
-> > +			goto out;
-> > +	}
-> > +
-> > +	/* Handle only bridge device */
-> > +	if (is_rdev(ndev))
-> > +		goto out;
+> In a 32-bit signed integer representation, -EOPNOTSUPP (-95) has the 15th=
+ bit set (0xFFFFFFA1), which
+> inadvertently matches NOTIFY_STOP_MASK (0x8000).
 >=20
-> If the event originates from a completely unrelated device in the system =
-(for example, a different
-> ethernet or wifi interface), will is_rdev() evaluate to false and cause t=
-his unrelated MAC to be
-> erroneously programmed into the rswitch hardware?
+> Because this happens without verifying if the target device belongs to th=
+e driver via is_rdev(ndev),
+> it seems like this will silently break switchdev object offloading (like =
+VLANs, MDBs, MRP) for all
+> other NICs system-wide as long as this module is loaded.
+>=20
+> Additionally, notifier_to_errno() strips the stop mask, transforming -95 =
+to -32863. Since this is
+> negative, it returns 0, which could trick the switchdev core into thinkin=
+g the event was unhandled
+> rather than explicitly unsupported.
+>=20
+> Even though subsequent patches in this series (like "net: renesas: rswitc=
+h: add vlan aware switching")
+> refactor this block, they still return -EOPNOTSUPP for non-VLAN objects b=
+y wrapping it in
+> notifier_from_errno(-EOPNOTSUPP).
+>=20
+> Because notifier_from_errno(-EOPNOTSUPP) produces NOTIFY_STOP_MASK | 96, =
+doesn't the system-wide chain
+> breakage persist?
+>=20
+> >  	case SWITCHDEV_PORT_ATTR_SET:
+> >  		ret =3D switchdev_handle_port_attr_set(ndev, ptr,
+> > -						     rswitch_port_check,
+> > +						     is_rdev,
+> >  						     rswitch_port_attr_set);
+> >  		break;
+> >  	default:
+> > -		if (!rswitch_port_check(ndev))
+> > +		if (!is_rdev(ndev))
+> >  			return NOTIFY_DONE;
+> >  		ret =3D -EOPNOTSUPP;
+> >  	}
 
-I changed the logic, now this should not happen anymore.
->=20
-> > +
-> > +	switch (switchdev_work->event) {
-> > +	case SWITCHDEV_FDB_ADD_TO_DEVICE:
-> > +		rswitch_gwca_write_mac_address(switchdev_work->priv, switchdev_work-=
->fdb_info.addr);
-> > +		rswitch_add_addr_to_mactable(switchdev_work->priv, switchdev_work->f=
-db_info.addr);
-> > +		break;
-> > +	case SWITCHDEV_FDB_DEL_TO_DEVICE:
-> > +		rswitch_del_addr_from_mactable(switchdev_work->priv, switchdev_work-=
->fdb_info.addr);
-> > +		rswitch_gwca_write_mac_address(switchdev_work->priv, addr);
->=20
-> Does deleting any single FDB entry on the bridge wipe out the switch's CP=
-U MAC address since
-> rswitch_gwca_write_mac_address() is called with a zeroed MAC?
-
-No, this does not happen. I tested this and the MAC is not deleted, when a =
-single IF is removed=20
-From the bridge.
-
->=20
-> [ ... ]
-> > +		INIT_WORK(&switchdev_work->work,
-> > +rswitch_switchdev_bridge_fdb_event_work);
-> > +
-> > +		memcpy(&switchdev_work->fdb_info, ptr,
-> > +sizeof(switchdev_work->fdb_info));
-> > +
-> > +		switchdev_work->fdb_info.addr =3D kzalloc(ETH_ALEN, GFP_ATOMIC);
-> > +		if (!switchdev_work->fdb_info.addr)
-> > +			goto err_addr_alloc;
-> > +
-> > +		ether_addr_copy((u8 *)switchdev_work->fdb_info.addr,
-> > +				fdb_info->addr);
-> > +		netdev_hold(ndev, &priv->dev_tracker, GFP_ATOMIC);
-> > +		queue_work(system_long_wq, &switchdev_work->work);
->=20
-> Is there a mechanism to flush or cancel these untracked work items on mod=
-ule unload? If the driver
-> unloads while work is pending on system_long_wq, could it cause a use-aft=
-er-free when the worker
-> eventually executes and accesses switchdev_work->priv?
-
-I added flushing of the work item from the WQ when the driver is unloaded.
+I have reworked the event handler and -EOPNOTSUPP is not returned anymore.
 
 Best regards,
 
