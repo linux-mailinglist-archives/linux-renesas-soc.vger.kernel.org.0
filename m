@@ -1,138 +1,165 @@
-Return-Path: <linux-renesas-soc+bounces-33051-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-33052-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id wBB5KfaAEWo4mwYAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-33051-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 23 May 2026 12:27:02 +0200
+	id gLhDKXf/EWo3tQYAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-33052-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 23 May 2026 21:26:47 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF9475BE808
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 23 May 2026 12:27:01 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 50C115C0715
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 23 May 2026 21:26:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 3715A3007ACB
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 23 May 2026 10:26:58 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 672CC30142AC
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 23 May 2026 19:26:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2C07734D394;
-	Sat, 23 May 2026 10:26:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4DF223502A3;
+	Sat, 23 May 2026 19:26:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TrLr9Kuj"
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="uMn2NwSN";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="kFYN628S"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2922371876;
-	Sat, 23 May 2026 10:26:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F3592C21F8;
+	Sat, 23 May 2026 19:26:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.152
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779532017; cv=none; b=QIxEj9oCh+nZLduJTdEVmKPU56DsGDqlrVv57HD0mFFsdxotdIWGYZYF+8YIOjtY+Vfvf18vxWnsRDlfVdZ+uqGNt816T4IpJaADAEEcs9sDiVFslPSsUi86nfs3wKrMQTVmZ5wBFQb5N1ahBzvlWhpFgn5I+OTS8estgXjsNH4=
+	t=1779564401; cv=none; b=X6oQMWDGRjKn2Z8/PzHMzJNNooK4ipSPTvXW13oT7QqKBP8XzDo3iggnulzX6fAmSew7AgxbtOGR7ShNvZnvMF3YgKN5DEgAy4R2e9Z7sz59DHLaHAOAAvLsVWJFF20JfqQDCiJx8iY0p6hVXnJZX3UagDbOdJv5xeRYWrl7gOw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779532017; c=relaxed/simple;
-	bh=+5t9nJEuNRZ+RXImPsKSt24OOfiWO3O6+ZbC3GZF2Ak=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=f8w5JWQpD7jG8lzC9Kn/J73OvQUUEGsKYyAEdm7R40nr/NDzChC1YJCRGwMbxYrB9rMvdOBsPHEIoA2yAF6Csu2FQtLyqcRKrydXELIc8Aj+aLiZ1c8SRBN7stGDtxKf1rzpIvwniSNScx02zqu7bfHDuYUDlJl+fOF/tH4UFn8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TrLr9Kuj; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E38DE1F000E9;
-	Sat, 23 May 2026 10:26:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779532015;
-	bh=DnxFsIvB4g+whV8WLOQGnh517IDcreGsHFMmjC/hnIw=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=TrLr9KujNLXmyJniRJxaOWwPima5ERnM7C4gOH8fl0rNrjrBjgpDm9/VuAPPfL5Ce
-	 tIdLGeozB5gP11ecku+iQRorhJfBo5FPgR/6CoG8IsaFRytIcs1nK8nYTjnTqW+pMA
-	 dZC0qJRSlFk9mEex6k2lXI4B7xQDTIWrj+0sxw2GuBu3/5bEi65NJNyv6AgOaBSsBr
-	 7igedV7M4VL+RuVFHFvF26Nq8oTl/z4n/HRXB5rMeMgmEVwLSlLpVXrQ69XLFr8DOi
-	 pksJ+P5OtfMUIK9mhB+r4yqCa/xOfQhadcc75Qb6XrIyBMjLT/bfki+pFHWcY1ssFL
-	 zWaYTAbYTPduQ==
-Message-ID: <05db9476-7f26-4d90-b79c-5a4fa1de0f01@kernel.org>
-Date: Sat, 23 May 2026 13:26:51 +0300
+	s=arc-20240116; t=1779564401; c=relaxed/simple;
+	bh=2z5387J4X5I8dDW3H4EgMIEtqFtGFEoG2ZhgN/QA0QM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=jNV325+oMoboQ0j54jJOYcBjGDacSfnb5CUzg9n9BgDh1pX9JoDg7B9fyMD24ykNqYbVQZJNIE27wJroCLjixkg53PfJ5AF4nIHH5a2p2RaWpEEfKtiNbqRsheDWouh43cFMBOxoogU0elWtc2ouwboa2TEqVFl0jmI20y7RjM8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=uMn2NwSN; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=kFYN628S; arc=none smtp.client-ip=80.241.56.152
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+Received: from smtp1.mailbox.org (smtp1.mailbox.org [IPv6:2001:67c:2050:b231:465::1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4gNBw53XDGz9vHt;
+	Sat, 23 May 2026 21:26:29 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1779564389;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=bPp4+8gHs4KpY1yto9ukbd7UUiJ/HBW0qlJB2gqUZvQ=;
+	b=uMn2NwSNknqvca1BbRdF9T6wfxuzG4y+HdxEQ12zRSZf74YECw5iOMXbX4CNKmPZGrc+0K
+	+tmuEA471MA02xuMnc/H2oPB7GaOCvB+IZBd02WNgmM+h+tIw1c2wQyR0GgSife4XfcIFg
+	rq48EJcgw5pMxW5vnVqO16roC/RmtoOkVct7TbCLYc/P93LvAe3Val8mEZk9ccplMrOQ/7
+	smrsa6/yJqrbH4mqQj1n3/ZVF+1GSYwWR3ntbaniqrxaBVKqoT0DN5dUOlknGzOCngdD5v
+	KZQSwzHkqD1c+CEIGef0iKy4G/S8bwD6BDuxBhcliF3B2oMr6ksI2tXOCxHE9g==
+Authentication-Results: outgoing_mbo_mout;
+	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=kFYN628S;
+	spf=pass (outgoing_mbo_mout: domain of marek.vasut+renesas@mailbox.org designates 2001:67c:2050:b231:465::1 as permitted sender) smtp.mailfrom=marek.vasut+renesas@mailbox.org
+From: Marek Vasut <marek.vasut+renesas@mailbox.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1779564387;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=bPp4+8gHs4KpY1yto9ukbd7UUiJ/HBW0qlJB2gqUZvQ=;
+	b=kFYN628SgsQVc+pzlMc99z4bfbKyZFgZyNUGV5Wib3gvPvvEjNXPd08DK5fCX0DOEFLkeZ
+	b36nhGUWMThr5oxvi+bP6nY7hrZxWfdEniDFq8ihAwNyDIExREUJvKCsc9+LHY471FpzA3
+	om5vvn7b+HRYps+61LwYr1vDSFjw33bNOdVK/RlMY1rpUg8RyPmreckQIvDWi0MiuLW7cv
+	TKB+6QczcHXtiznCY+Nx10/lbd2SZ1Vpa2/2Qpe5mt46K1qEKLD75TQOTDfxtOM/GcwH8V
+	G5F/oJqLVqprPyhP1Jiz9olrkEFLROL/kAZ1RcTsNCcnYmzVsVLj0vpkKtc5sQ==
+To: linux-arm-kernel@lists.infradead.org
+Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
+	Brian Masney <bmasney@redhat.com>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Rob Herring <robh@kernel.org>,
+	Stephen Boyd <sboyd@kernel.org>,
+	devicetree@vger.kernel.org,
+	linux-clk@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org
+Subject: [PATCH] dt-bindings: clock: renesas: div6: Use ZT/ZTR trace clock in R-Mobile APE6 example
+Date: Sat, 23 May 2026 21:25:50 +0200
+Message-ID: <20260523192622.56605-1-marek.vasut+renesas@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 09/17] i3c: renesas: Use reset_control_bulk_{assert,
- deassert}()
-To: Frank Li <Frank.li@nxp.com>
-Cc: wsa+renesas@sang-engineering.com, tommaso.merciai.xr@bp.renesas.com,
- alexandre.belloni@bootlin.com, p.zabel@pengutronix.de,
- claudiu.beznea@tuxon.dev, linux-i3c@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-References: <20260522101815.1722909-1-claudiu.beznea@kernel.org>
- <20260522101815.1722909-10-claudiu.beznea@kernel.org>
- <ahCsOZ74txWyp0OO@lizhi-Precision-Tower-5810>
-Content-Language: en-US
-From: Claudiu Beznea <claudiu.beznea@kernel.org>
-In-Reply-To: <ahCsOZ74txWyp0OO@lizhi-Precision-Tower-5810>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spamd-Result: default: False [-0.66 / 15.00];
+Content-Transfer-Encoding: 8bit
+X-MBO-RS-META: gwsnr17ru6mwaek5f7ba9qnu37miwujp
+X-MBO-RS-ID: bc1d52ac7fda85522ee
+X-Spamd-Result: default: False [-0.16 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[mailbox.org,reject];
+	R_DKIM_ALLOW(-0.20)[mailbox.org:s=mail20150812];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-33051-lists,linux-renesas-soc=lfdr.de];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-33052-lists,linux-renesas-soc=lfdr.de,renesas];
 	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FROM_HAS_DN(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[13];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[mailbox.org:+];
+	MISSING_XM_UA(0.00)[];
 	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-0.999];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[claudiu.beznea@kernel.org,linux-renesas-soc@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	FROM_NEQ_ENVFROM(0.00)[marek.vasut@mailbox.org,linux-renesas-soc@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-0.990];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,dt];
 	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo,renesas.com:email]
-X-Rspamd-Queue-Id: AF9475BE808
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,e615007c:email]
+X-Rspamd-Queue-Id: 50C115C0715
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
+Since commit 2abdc3dcf978 ("dt-bindings: clock: renesas,cpg-clocks:
+Document ZT/ZTR trace clock on R-Mobile APE6"), the APE6 clock node
+expects two additional "clock-output-names" entries, "zt" and "ztr".
+Update the example accordingly.
 
+Fixes: 2abdc3dcf978 ("dt-bindings: clock: renesas,cpg-clocks: Document ZT/ZTR trace clock on R-Mobile APE6")
+Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+---
+Cc: Brian Masney <bmasney@redhat.com>
+Cc: Conor Dooley <conor+dt@kernel.org>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
+Cc: Michael Turquette <mturquette@baylibre.com>
+Cc: Rob Herring <robh@kernel.org>
+Cc: Stephen Boyd <sboyd@kernel.org>
+Cc: devicetree@vger.kernel.org
+Cc: linux-clk@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: linux-renesas-soc@vger.kernel.org
+---
+ .../devicetree/bindings/clock/renesas,cpg-div6-clock.yaml       | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-On 5/22/26 22:19, Frank Li wrote:
-> On Fri, May 22, 2026 at 01:18:07PM +0300, Claudiu Beznea wrote:
->> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
->>
->> Use reset_control_bulk_assert() and reset_control_bulk_deassert() in the
->> suspend and resume paths to simplify the code.
->>
->> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
->> ---
->>   drivers/i3c/master/renesas-i3c.c | 30 +++++++++++++-----------------
->>   1 file changed, 13 insertions(+), 17 deletions(-)
->>
->> diff --git a/drivers/i3c/master/renesas-i3c.c b/drivers/i3c/master/renesas-i3c.c
->> index d32646deb69f..e5963270d6e5 100644
->> --- a/drivers/i3c/master/renesas-i3c.c
->> +++ b/drivers/i3c/master/renesas-i3c.c
->> @@ -1414,24 +1414,22 @@ static void renesas_i3c_remove(struct platform_device *pdev)
->>   static int renesas_i3c_suspend(struct device *dev)
->>   {
->>   	struct renesas_i3c *i3c = dev_get_drvdata(dev);
->> +	struct reset_control_bulk_data resets[] = {
->> +		{ .rstc = i3c->presetn },
->> +		{ .rstc = i3c->tresetn },
->> +	};
-> 
-> Suppose it is also used in probe funciton. can move these into renesas_i3c
-As explained in patch 06/07 is either this way or complicate other code paths. 
-Please let me know the preferred approach.
-
+diff --git a/Documentation/devicetree/bindings/clock/renesas,cpg-div6-clock.yaml b/Documentation/devicetree/bindings/clock/renesas,cpg-div6-clock.yaml
+index 2197c952e21df..b6ee8c8efd46d 100644
+--- a/Documentation/devicetree/bindings/clock/renesas,cpg-div6-clock.yaml
++++ b/Documentation/devicetree/bindings/clock/renesas,cpg-div6-clock.yaml
+@@ -60,7 +60,7 @@ examples:
+             clock-output-names = "main", "pll0", "pll1", "pll2",
+                                   "pll2s", "pll2h", "z", "z2",
+                                   "i", "m3", "b", "m1", "m2",
+-                                  "zx", "zs", "hp";
++                                  "zx", "zs", "hp", "ztr", "zt";
+     };
+ 
+     sdhi2_clk: sdhi2_clk@e615007c {
 -- 
-Thank you,
-Claudiu
+2.53.0
 
 
