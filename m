@@ -1,51 +1,51 @@
-Return-Path: <linux-renesas-soc+bounces-33049-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-33050-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id WDubCFqAEWo4mwYAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-33049-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 23 May 2026 12:24:26 +0200
+	id oJhDM8yAEWo4mwYAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-33050-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 23 May 2026 12:26:20 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7095B5BE7CB
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 23 May 2026 12:24:24 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EBE15BE7E4
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 23 May 2026 12:26:20 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 96942300AB37
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 23 May 2026 10:24:23 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 0FC8B300F954
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 23 May 2026 10:26:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E218B36C9EE;
-	Sat, 23 May 2026 10:24:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1944E372ED6;
+	Sat, 23 May 2026 10:26:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dIm+gfDj"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gsI/6f3K"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9593225B0AA;
-	Sat, 23 May 2026 10:24:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E06E92D781B;
+	Sat, 23 May 2026 10:26:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779531862; cv=none; b=XjJ45lSy1bu7LM2uwWkLNoNm3Ni5Knt9KkR6s+BLKasvvxNxjjl3EI5O7wnxRSKzfbic76DHJEavLHS+Dr2PgS5OeqBTYiGGV7veTI7D5uMRmcStnpPDleuCrduxEaKhuuEjsAMp35qQREMM8gONJPQFQ93mu2WjQhSXoxqfZss=
+	t=1779531977; cv=none; b=rhaCEguh5bRN6kmFE+fN0MjrgMhvbH6vjwzDRTpQIygej4S3SAoCf7hDDTfexbWKMsG0A6GGm2A4426tpFPjtyR7qUV9zvXb4L7Nh049+LjnHw3m1vjVAeQRxwCmCo6Jb9sI8MZvuaa8UtOx4J+N7+FMt4bOPTL0+3h22uDCljQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779531862; c=relaxed/simple;
-	bh=0x2rke5RIqPZSgpGaIjEtadUjZ5HFFBTUC5A4Oj0z1Y=;
+	s=arc-20240116; t=1779531977; c=relaxed/simple;
+	bh=7FQ8hdsu6D51IfFdatJjGDcmvSPa90/Qs7thjJHUqJ4=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=HhGU0wW7NyXvvGVN5vL0lyTXy3NIL/hIkUT+7sbiW6Hpuv1ZE1KYn8zWoDVNFXkAPqEyVmkITZuhsR9PPz1cqaSFDTGTYFO674lmXgJHyU/8bECyXVVNLDW9hA5BCzSnea8uiOPdWjY/czczQEuM6AtH6VC0Dia+LSlwYfE/Ey8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dIm+gfDj; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B4C61F000E9;
-	Sat, 23 May 2026 10:24:17 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=n9QHjtZDIWSxQH4XNp+CFoYhLPsAh89/PoaDhpQ15HY6BPgQMnOVft6y4KfSFgXrrh1K1HM0wBSPY6j/ZrtXCA68XNVwFojtVYiqw6eTsN+MQBGOjf3W4i72Zg208gGSp89KVquh51pImnq89oMuVH6xsT9Ln3xWBHdJUQl02xc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gsI/6f3K; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D5A721F000E9;
+	Sat, 23 May 2026 10:26:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779531861;
-	bh=peRX6KbtQwwo/CDCYbvV6ceGBLh4Cr86lEYE8/dweaE=;
+	s=k20260515; t=1779531975;
+	bh=zg0BMpcJGdRhMwcv7oWgWGvnbS4a0TigRFF8ryZrM78=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=dIm+gfDjJOZ7mmLyYMVqbRm0MJk9FOuVRd8ctIAvZSmwqwtLoLIuZfrjsT9gZNTui
-	 IWtGpbLn1gqs4g4S5qkiN7lHtn1irR4ShoThMogQz9C/iWFjPQQzFiERc16LCSnDOy
-	 i4KmdwKIPB2wY6DRe0MsEue54hwFnkH4p1bj/KdMcGgi4NmjudtucRYX5PBnCtn9ds
-	 +rMBkeJd9OXxP0OJuCBppmGQ4EZvAsQrhs7KJfvIQUd4eP17iW55huRURuyb8Mu3jZ
-	 Nr8pq4qoW5rEWdNPj2+hMyW7CyQCHMNKcdGuwmWIEdg5roUGiTlHgKaaxqRgTOo8uV
-	 wcx1jasnILnQQ==
-Message-ID: <df2d27a3-c349-4aa4-b897-e9dc3418b2c0@kernel.org>
-Date: Sat, 23 May 2026 13:24:15 +0300
+	b=gsI/6f3K2og6R14AdMJX9N1SU1rJ4bwKxPmx7FpAn0jAouIRoCEfh7gSLTdDC39LI
+	 JepXtdRoV7lG47cwVOUPe8+EYq2+oaKmHannXLUGfaHKin1+tH+H7JCIRd4AiC6Id8
+	 kgVN8OVnGQ/zgWsw3Gf6wa2+B8DPSldsjIkNyaZZ1PI7ap1ifsTlHjgZGMxz/vp6Qx
+	 +5Mr5XwvD9SowPoBjwaSFjCGv54/hc7Sjzyw+PMIXS/oP7/A4ZP4UidRqYLOJzAyC+
+	 4sY9181x7M4TNyGiR2nGPlWU6Z17S4tZCs567eEC5n6ITsaNQsS0eKAGXssuhrRZil
+	 rQScWOZ3gpAcg==
+Message-ID: <4a82fe83-338b-46c0-b783-836256a28858@kernel.org>
+Date: Sat, 23 May 2026 13:26:09 +0300
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -53,7 +53,8 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 06/17] i3c: renesas: Reset the controller on resume
+Subject: Re: [PATCH 07/17] i3c: renesas: Perform Dynamic Address Assignment on
+ resume
 To: Frank Li <Frank.li@nxp.com>
 Cc: wsa+renesas@sang-engineering.com, tommaso.merciai.xr@bp.renesas.com,
  alexandre.belloni@bootlin.com, p.zabel@pengutronix.de,
@@ -61,252 +62,120 @@ Cc: wsa+renesas@sang-engineering.com, tommaso.merciai.xr@bp.renesas.com,
  linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
  Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>, stable@vger.kernel.org
 References: <20260522101815.1722909-1-claudiu.beznea@kernel.org>
- <20260522101815.1722909-7-claudiu.beznea@kernel.org>
- <ahCrOed9QpKR5ZRF@lizhi-Precision-Tower-5810>
+ <20260522101815.1722909-8-claudiu.beznea@kernel.org>
+ <ahCrpz-J8a5HQSmY@lizhi-Precision-Tower-5810>
 Content-Language: en-US
 From: Claudiu Beznea <claudiu.beznea@kernel.org>
-In-Reply-To: <ahCrOed9QpKR5ZRF@lizhi-Precision-Tower-5810>
+In-Reply-To: <ahCrpz-J8a5HQSmY@lizhi-Precision-Tower-5810>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-33049-lists,linux-renesas-soc=lfdr.de];
+	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-33050-lists,linux-renesas-soc=lfdr.de];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	RCVD_TLS_LAST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
-	DKIM_TRACE(0.00)[kernel.org:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	MIME_TRACE(0.00)[0:+];
+	TO_DN_SOME(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[claudiu.beznea@kernel.org,linux-renesas-soc@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
 	MID_RHS_MATCH_FROM(0.00)[];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
 	RCPT_COUNT_SEVEN(0.00)[11];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[]
-X-Rspamd-Queue-Id: 7095B5BE7CB
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,bootlin.com:url,renesas.com:email,intel.com:email]
+X-Rspamd-Queue-Id: 3EBE15BE7E4
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
 
 
-On 5/22/26 22:15, Frank Li wrote:
-> On Fri, May 22, 2026 at 01:18:04PM +0300, Claudiu Beznea wrote:
->> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+On 5/22/26 22:16, Frank Li wrote:
+> On Fri, May 22, 2026 at 01:18:05PM +0300, Claudiu Beznea wrote:
+>> From: Claudiu Beznea<claudiu.beznea.uj@bp.renesas.com>
 >>
->> Reset the controller on resume after enabling the clocks to follow the
->> same sequence as in probe and avoid potential ordering related failures.
+>> The Renesas RZ/G3S SoC supports a power saving mode where power to most
+>> SoC components, including I3C, is turned off.
 >>
->> Fixes: e7218986319b ("i3c: renesas: Add suspend/resume support")
->> Cc: stable@vger.kernel.org
->> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
->> ---
+>> On systems where the I3C devices also loses power during suspend (e.g. NXP
+>> P3T1085UK-ARD connected to the PMOD1_6A connector of the RZ SMARC Carrier
+>> 2 + Renesas RZ/G3S SMARC SOM), the devices becomes unreachable after
+>> resume.
+>>
+>> Running DAA in the controller resume path restores communication. However,
+>> DAA relies on interrupts for TX/RX, which are not available in the noirq
+>> suspend/resume phase (unless they are wakeup interrupts). For this, the
+>> suspend/resume callbacks were moved out of the noirq phase. Currently,
+>> there is no identified use case on either the Renesas RZ/G3S or Renesas
+>> RZ/G3E SoCs that requires the controller suspend/resume hooks to be part of
+>> the noirq suspend/resume phase.
+> Can you referhttps://lore.kernel.org/linux-i3c/20260512121732.406009-1- 
+> adrian.hunter@intel.com/T/#mafdc9631a2a18dfebfa5b5efcb8584d32bceba7f
 > 
-> Can you move these similar stuff to one helper function to avoid duplicate
-> efforts later?
+> which defer DAA to workqueue.
+> 
 
-If you are talking about moving also the control of the reset signals in the 
-renesas_i3c_reset() I can do that, but, FMPOV, it will complicate the code, 
-especially the initialization and failure paths (see the above diff built on top 
-of this series).
+I've reviewed this series and tested it. Tests passed on my side.
 
-Moving the reset de-assert in the renesas_i3c_reset() will involve calling 
-functions to assert back the resets in case of failure. FMPOV, that is a bit 
-unbalanced (wrt the way the code looks) because we are calling deassert in one 
-function and assert in another function. It is a bit difficult to follow.
+According to the following diff from patch 6/8 [1]:
 
-Please see the above diff and let me know your thoughts.
+  /**
+   * i3c_master_do_daa_ext() - Dynamic Address Assignment (extended version)
+   * @master: controller
+@@ -1878,9 +1889,7 @@ int i3c_master_do_daa_ext(struct i3c_master_controller 
+*master, bool rstdaa)
+  	if (ret)
+  		goto out;
 
+-	i3c_bus_normaluse_lock(&master->bus);
+-	i3c_master_register_new_i3c_devs(master);
+-	i3c_bus_normaluse_unlock(&master->bus);
++	queue_work(master->wq, &master->reg_work);
+  out:
+  	i3c_master_rpm_put(master);
 
-diff --git a/drivers/i3c/master/renesas-i3c.c b/drivers/i3c/master/renesas-i3c.c
-index 3b9807a89b54..5f45a024aa54 100644
---- a/drivers/i3c/master/renesas-i3c.c
-+++ b/drivers/i3c/master/renesas-i3c.c
-@@ -255,8 +255,7 @@ struct renesas_i3c_xferqueue {
-  struct renesas_i3c {
-         void __iomem *regs;
-         struct clk *tclk;
--       struct reset_control *presetn;
--       struct reset_control *tresetn;
-+       struct reset_control_bulk_data *resets;
-         struct device *dev;
-         int *irqs;
-         struct renesas_i3c_xferqueue xferqueue;
-@@ -264,6 +263,7 @@ struct renesas_i3c {
-         unsigned long rate;
-         unsigned int num_irqs;
-         enum i3c_internal_state internal_state;
-+       u32 num_resets;
-         u32 free_pos;
-         u32 dyn_addr;
-         u32 i2c_STDBR;
-@@ -492,16 +492,28 @@ static int renesas_i3c_reset(struct renesas_i3c *i3c)
-         u32 val;
-         int ret;
+only the registration of the new devices is deferred. The RSTDAA command is 
+still sent according to the following code in i3c_master_do_daa_ext():
 
-+       ret = reset_control_bulk_deassert(i3c->num_resets, i3c->resets);
-+       if (ret)
-+               return ret;
-+
-         PM_RUNTIME_ACQUIRE_IF_ENABLED_AUTOSUSPEND(i3c->dev, pm);
-         ret = PM_RUNTIME_ACQUIRE_ERR(&pm);
-         if (ret)
--               return ret;
-+               goto assert;
+	// ...
 
-         renesas_writel(i3c->regs, BCTL, 0);
-         renesas_set_bit(i3c->regs, RSTCTL, RSTCTL_RI3CRST);
+	if (master->shutting_down) {
+		ret = -ENODEV;
+	} else {
+		if (rstdaa)
+			rstret = i3c_master_rstdaa_locked(master, I3C_BROADCAST_ADDR);
+		ret = master->ops->do_daa(master);
+	}
 
--       return read_poll_timeout(renesas_readl, val, !(val & RSTCTL_RI3CRST),
--                                0, 1000, false, i3c->regs, RSTCTL);
-+       ret = read_poll_timeout(renesas_readl, val, !(val & RSTCTL_RI3CRST),
-+                               0, 1000, false, i3c->regs, RSTCTL);
-+       if (ret)
-+               goto assert;
-+
-+       return 0;
-+
-+assert:
-+       reset_control_bulk_assert(i3c->num_resets, i3c->resets);
-+       return ret;
-  }
+	// ...
 
-  static void renesas_i3c_hw_init(struct renesas_i3c *i3c)
-@@ -1430,11 +1442,20 @@ static const struct renesas_i3c_irq_desc 
-renesas_i3c_irqs[] = {
-         { .name = "nack", .isr = renesas_i3c_tend_isr, .desc = "i3c-nack" },
-  };
+which is what fixed the communication with the I3C devices I used in my testing, 
+in resume case.
 
-+static const char * const renesas_i3c_resets[] = { "tresetn", "presetn" };
-+
-  static void renesas_i3c_dont_use_autosuspend(void *data)
-  {
-         pm_runtime_dont_use_autosuspend(data);
-  }
+If I remove the i3c_master_do_daa_ext() call from renesas_i3c_resume() then the 
+I3C devices are not working anymore after resume on my setup.
 
-+static void renesas_i3c_resets_assert(void *data)
-+{
-+       struct renesas_i3c *i3c = data;
-+
-+       reset_control_bulk_assert(i3c->num_resets, i3c->resets);
-+}
-+
-  static int renesas_i3c_probe(struct platform_device *pdev)
-  {
-         struct renesas_i3c *i3c;
-@@ -1464,15 +1485,20 @@ static int renesas_i3c_probe(struct platform_device *pdev)
-         if (ret)
-                 return ret;
+Also, the i3c_master_do_daa_ext() call in i3c_hci_resume_common() remains 
+unchanged [2] in series [1].
 
--       i3c->tresetn = 
-devm_reset_control_get_optional_exclusive_deasserted(&pdev->dev, "tresetn");
--       if (IS_ERR(i3c->tresetn))
--               return dev_err_probe(&pdev->dev, PTR_ERR(i3c->tresetn),
--                                    "Error: missing tresetn ctrl\n");
-+       i3c->num_resets = ARRAY_SIZE(renesas_i3c_resets);
-+       i3c->resets = devm_kmalloc_array(&pdev->dev, i3c->num_resets,
-+                                        sizeof(*i3c->resets), GFP_KERNEL);
-+       if (!i3c->resets)
-+               return -ENOMEM;
+So, could you please let me know if I misunderstood your comment and if there is 
+anything that should be done for this patch?
 
--       i3c->presetn = 
-devm_reset_control_get_optional_exclusive_deasserted(&pdev->dev, "presetn");
--       if (IS_ERR(i3c->presetn))
--               return dev_err_probe(&pdev->dev, PTR_ERR(i3c->presetn),
--                                    "Error: missing presetn ctrl\n");
-+       for (unsigned int i = 0; i < i3c->num_resets; i++)
-+               i3c->resets[i].id = renesas_i3c_resets[i];
-+
-+       ret = devm_reset_control_bulk_get_optional_exclusive(&pdev->dev,
-+                                                            i3c->num_resets,
-+                                                            i3c->resets);
-+       if (ret)
-+               return ret;
-
-         spin_lock_init(&i3c->xferqueue.lock);
-         INIT_LIST_HEAD(&i3c->xferqueue.list);
-@@ -1481,6 +1507,11 @@ static int renesas_i3c_probe(struct platform_device *pdev)
-         if (ret)
-                 return ret;
-
-+       /* Add devm action for resets deasserted in renesas_i3c_reset(). */
-+       ret = devm_add_action_or_reset(&pdev->dev, renesas_i3c_resets_assert, NULL);
-+       if (ret)
-+               return ret;
-+
-         i3c->num_irqs = ARRAY_SIZE(renesas_i3c_irqs);
-         i3c->irqs = devm_kcalloc(&pdev->dev, i3c->num_irqs, sizeof(*i3c->irqs), 
-GFP_KERNEL);
-         if (!i3c->irqs)
-@@ -1523,15 +1554,11 @@ static void renesas_i3c_remove(struct platform_device *pdev)
-  static int renesas_i3c_suspend(struct device *dev)
-  {
-         struct renesas_i3c *i3c = dev_get_drvdata(dev);
--       struct reset_control_bulk_data resets[] = {
--               { .rstc = i3c->presetn },
--               { .rstc = i3c->tresetn },
--       };
-         int ret;
-
-         i2c_mark_adapter_suspended(&i3c->base.i2c);
-
--       ret = reset_control_bulk_assert(ARRAY_SIZE(resets), resets);
-+       ret = reset_control_bulk_assert(i3c->num_resets, i3c->resets);
-         if (ret)
-                 goto err_mark_resumed;
-
-@@ -1542,7 +1569,7 @@ static int renesas_i3c_suspend(struct device *dev)
-         return 0;
-
-  err_resets_deassert:
--       reset_control_bulk_deassert(ARRAY_SIZE(resets), resets);
-+       reset_control_bulk_deassert(i3c->num_resets, i3c->resets);
-  err_mark_resumed:
-         i2c_mark_adapter_resumed(&i3c->base.i2c);
-
-@@ -1552,23 +1579,15 @@ static int renesas_i3c_suspend(struct device *dev)
-  static int renesas_i3c_resume(struct device *dev)
-  {
-         struct renesas_i3c *i3c = dev_get_drvdata(dev);
--       struct reset_control_bulk_data resets[] = {
--               { .rstc = i3c->presetn },
--               { .rstc = i3c->tresetn },
--       };
-         int ret;
-
-         ret = pm_runtime_force_resume(dev);
-         if (ret)
-                 return ret;
-
--       ret = reset_control_bulk_deassert(ARRAY_SIZE(resets), resets);
--       if (ret)
--               return ret;
--
-         ret = renesas_i3c_reset(i3c);
-         if (ret)
--               goto err_resets_asserted;
-+               return ret;
-
-         PM_RUNTIME_ACQUIRE_IF_ENABLED_AUTOSUSPEND(i3c->dev, pm);
-         ret = PM_RUNTIME_ACQUIRE_ERR(&pm);
-@@ -1607,7 +1626,7 @@ static int renesas_i3c_resume(struct device *dev)
-          * if a runtime path is triggered after a failed resume). Checked on
-          * RZ/G3S.
-          */
--       reset_control_bulk_assert(ARRAY_SIZE(resets), resets);
-+       reset_control_bulk_assert(i3c->num_resets, i3c->resets);
-         return ret;
-  }
+[1] https://lore.kernel.org/all/20260512121732.406009-7-adrian.hunter@intel.com/
+[2] 
+https://elixir.bootlin.com/linux/v7.1-rc4/source/drivers/i3c/master/mipi-i3c-hci/core.c#L848
 
 -- 
 Thank you,
