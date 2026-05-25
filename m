@@ -1,49 +1,49 @@
-Return-Path: <linux-renesas-soc+bounces-33107-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-33108-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id WIVFNzi0FGpDPgcAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-33107-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 25 May 2026 22:42:32 +0200
+	id jjHQNz20FGpbPgcAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-33108-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 25 May 2026 22:42:37 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id A850B5CEB07
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 25 May 2026 22:42:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 629AE5CEB12
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 25 May 2026 22:42:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 0B7EE301385A
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 25 May 2026 20:41:55 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 8133D300EEB6
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 25 May 2026 20:41:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B10E33947AE;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DE74939A06B;
 	Mon, 25 May 2026 20:41:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="defuQ6lm"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZjIfMl8T"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4ABE13A1684;
-	Mon, 25 May 2026 20:41:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AC793A9014;
+	Mon, 25 May 2026 20:41:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779741684; cv=none; b=bBULAfLZu4ge9XRiHCTxdaTDrUmLJ788U99xXwzld4sJdq3XvY9vvI2gNR+vQDJz8nyyu41hkxR0nJF038v4NUgwHzjbL+MUnKDvhWq2+Ndw75chSxf+SiTfdS1CXr2GBg+TJyEuq55VHC5eO9s1zRIDv1GXqPz0Z9a/LQ3EuvM=
+	t=1779741684; cv=none; b=mJjTsnPWQa2IpowQiPIw0ns9REbTMVQwjjbdgXGsuBMX8G/KC9f3VNyOhc9JTBs2fZt+YDA4ai7bRP+FygX9FyEOuNYkvCQ4hVR69HSKSml4TiJAmoKecxL7zsM6RhGnPFifbQkCqD65xHg5IwGBHivxwPTlGMlepVc9yfHx5TQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1779741684; c=relaxed/simple;
-	bh=7XfxqmiChVonmmP1ZeMnSiORX/B7QnxdGrbI7z1jHT4=;
+	bh=d7J5q8ZQgewmJhEBzRiS/tCt111j8f1KlXO+ElXxDBQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=VVv+X9JCdyaSyPzrq9ztxnZC4X+VVKzASLnV2rO8M8OP3hVXE2NMPJeh0Gg9tdb6ZjhyvnOCppbyqDnx2jiL5lOoLaSe6777YOIrGVdQi2Ja4+IadNWELHciETGp9GdmYX//7xA8vDuvLEoy1x74AqA/QIUx6v5PUcm42eHyJYQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=defuQ6lm; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EEF971F00A3C;
-	Mon, 25 May 2026 20:41:19 +0000 (UTC)
+	 MIME-Version; b=nQf4aI03fq/YvClcKl0P4D1SyvXAJ5LkKfVgNqnUsgfbIUqjPK5Njc+rmsz8KvGY68HMd2WOh42uLGPrJ8KNeOyiHPlBHgAieYy1CvjpLKz0KXDFANaf2IJwgNYwPzEvMGqnxtCkW7TAs2lP07wEJgzTuGVZpmHgZfgX3nF7IvI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZjIfMl8T; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 895EF1F000E9;
+	Mon, 25 May 2026 20:41:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779741680;
-	bh=84GnMYede7vzyj1zJoWjeVX2b3o0qBbfmGXxfW12LXU=;
+	s=k20260515; t=1779741682;
+	bh=NsnZfiy0JWXUXQCk6vTQPEL70chZAK27lAlB5w8Z9Lc=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=defuQ6lmCLMo0D42VZMDbksK4uLkETATW4Di/HCG6M02l1tTcQgcZDXenP/XpEXHw
-	 2kKz7mJ7zgnp7aW9nmZI91J5SyQjDNfLlyVSfpeIL12b6tqOjvqPPB8CuG3Nk3ty2a
-	 mPlqoegbeEVMDcVjk2DEzeSaq58XjRyE9/erkTZW46uUDEg4T5RI5RSXA0Vv/Jycht
-	 knKY5J6bP2j+phlaO2zu+OuJrmnVJi2SI8BM+7zZBlGJ5quB0JvbegMENpevjW54Nf
-	 0Tspbp+H9fH+9HsKlyFvYjE3xHDeqrvdy9NOnnHpbsOwsbUOTmLViDR0w288g733ks
-	 j0gK17OSUBmzg==
+	b=ZjIfMl8TOnNMHo0VCWWmHfVtVYIoJCrBbEPedYJ/6Sr8/igzxl/qz/J6+pOzho53p
+	 vYERfossgpPPz0yg7a1gUlB1iFAUSLuJQWHlSu6Q06rzmAFvoh/h3mz4wl8qLwwb6g
+	 ILs7XuzghHoAkvAgO8wsqhflpq17z749H1s4jB0BhCSbSn2/PIeilo4cKDg4j2p0EF
+	 KMl+wMa43YGnU26JnyqYI+2fe8V2evbFJpjXsp2oTfUPco41hWBs0LCVsI0JFXYviM
+	 VlctW9XUXqWNUDxd+rIKRa5VNzzHGuowpyMWlsp48RZpmVos5Kfr9FTcv+zh2Oqeig
+	 C7WzflqtuYtGw==
 From: Jakub Kicinski <kuba@kernel.org>
 To: michael.dege@renesas.com
 Cc: Jakub Kicinski <kuba@kernel.org>,
@@ -58,12 +58,12 @@ Cc: Jakub Kicinski <kuba@kernel.org>,
 	netdev@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH net-next v5 12/14] net: renesas: rswitch: add passing of rswitch_private into notifiers
-Date: Mon, 25 May 2026 13:41:19 -0700
-Message-ID: <20260525204119.2471487-1-kuba@kernel.org>
+Subject: Re: [PATCH net-next v5 13/14] net: renesas: rswitch: add handler for FDB notification
+Date: Mon, 25 May 2026 13:41:20 -0700
+Message-ID: <20260525204120.2471521-1-kuba@kernel.org>
 X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260522-rswitch_add_vlans-v5-12-53589d944a9f@renesas.com>
-References: <20260522-rswitch_add_vlans-v5-12-53589d944a9f@renesas.com>
+In-Reply-To: <20260522-rswitch_add_vlans-v5-13-53589d944a9f@renesas.com>
+References: <20260522-rswitch_add_vlans-v5-13-53589d944a9f@renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -87,7 +87,7 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	MIME_TRACE(0.00)[0:+];
 	RCVD_TLS_LAST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-33107-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-33108-lists,linux-renesas-soc=lfdr.de];
 	FREEMAIL_CC(0.00)[kernel.org,renesas.com,lunn.ch,davemloft.net,google.com,redhat.com,ragnatech.se,pbarker.dev,gmail.com,vger.kernel.org];
 	DKIM_TRACE(0.00)[kernel.org:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
@@ -99,109 +99,179 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,netdev];
 	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
 	FROM_HAS_DN(0.00)[]
-X-Rspamd-Queue-Id: A850B5CEB07
+X-Rspamd-Queue-Id: 629AE5CEB12
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
 This is an AI-generated review of your patch. The human sending this
 email has considered the AI review valid, or at least plausible.
 ---
-net: renesas: rswitch: add passing of rswitch_private into notifiers
+net: renesas: rswitch: add handler for FDB notification
 
-This commit provides the rswitch_private structure to the network notifiers.
-This allows the notification handlers to access the hardware state and
-device-specific data.
+The SWITCHDEV_FDB_ADD_TO_DEVICE notification writes the bridge MAC address
+to the GWCA and adds a static rule to the MAC table.
+The SWITCHDEV_FDB_DEL_TO_DEVICE removes the static rule from the MAC table.
 
 > diff --git a/drivers/net/ethernet/renesas/rswitch_l2.c b/drivers/net/ethernet/renesas/rswitch_l2.c
-> index c76fc8121ef05..d2deb7cb76349 100644
+> index d2deb7cb76349..4d0646283f88f 100644
 > --- a/drivers/net/ethernet/renesas/rswitch_l2.c
 > +++ b/drivers/net/ethernet/renesas/rswitch_l2.c
-
 [ ... ]
-
-> -int rswitch_register_notifiers(void)
-> +int rswitch_register_notifiers(struct rswitch_private *priv)
->  {
-> -	int ret;
-> +	int err;
->  
-> -	ret = register_netdevice_notifier(&rswitch_netdevice_nb);
-> -	if (ret)
-> +	priv->rswitch_netdevice_nb.notifier_call = rswitch_netdevice_event;
-> +	err = register_netdevice_notifier(&priv->rswitch_netdevice_nb);
+> @@ -82,8 +83,9 @@ static void rswitch_update_l2_hw_forwarding(struct rswitch_private *priv)
+>  			 *
+>  			 * Do not allow L2 forwarding to self for hw port.
+>  			 */
+> -			iowrite32(FIELD_PREP(FWPC2_LTWFW, fwd_mask | BIT(rdev->port)),
+> -				  priv->addr + FWPC2(rdev->port));
+> +			rswitch_modify(priv->addr, FWPC2(rdev->port),
+> +				       FIELD_PREP(FWPC2_LTWFW, ~(fwd_mask | BIT(rdev->port))),
+> +				       0);
 
 [Severity: High]
-Does moving the notifier blocks into the per-device structure without
-filtering by instance cause duplicate event processing?
+Does this bitwise logic correctly disable hardware forwarding for inactive
+ports?
 
-Since callbacks like rswitch_netdevice_event only check if the device is an
-rswitch netdevice, rather than verifying it belongs to this specific priv
-instance, it seems every registered callback will process the same event if
-multiple driver instances exist. Could this lead to events on one instance
-inadvertently modifying the hardware registers of another?
+Since fwd_mask contains 0s for active ports and 1s for inactive ports, the
+inverted mask ~(fwd_mask | BIT(rdev->port)) yields 1s for active ports and
+0s for inactive ports.
 
-> +	if (err)
->  		goto register_netdevice_notifier_failed;
+This means the clear argument to rswitch_modify() will be 0 for inactive
+ports. Combined with a set argument of 0, does this mean once a port is
+active, it can never be disabled, potentially breaking Spanning Tree Protocol
+(STP) blocking states?
 
 [ ... ]
-
-> diff --git a/drivers/net/ethernet/renesas/rswitch_main.c b/drivers/net/ethernet/renesas/rswitch_main.c
-> index da400020a8f19..cfe7bfe6546b2 100644
-> --- a/drivers/net/ethernet/renesas/rswitch_main.c
-> +++ b/drivers/net/ethernet/renesas/rswitch_main.c
-> @@ -2241,6 +2241,30 @@ static int rswitch_init(struct rswitch_private *priv)
->  	return err;
+> @@ -285,6 +269,176 @@ static int rswitch_switchdev_blocking_event(struct notifier_block *nb,
+>  	return notifier_from_errno(ret);
 >  }
 >  
-> +static void rswitch_deinit(struct rswitch_private *priv)
+[ ... ]
+> +static void rswitch_switchdev_bridge_fdb_event_work(struct work_struct *work)
 > +{
-> +	unsigned int i;
+> +	struct rswitch_switchdev_event_work *switchdev_work;
+> +	const unsigned char addr[] = {0, 0, 0, 0, 0, 0};
+> +	struct rswitch_device *rdev;
+> +	struct net_device *ndev;
 > +
-> +	rswitch_gwca_hw_deinit(priv);
-> +	rcar_gen4_ptp_unregister(priv->ptp_priv);
+> +	switchdev_work = container_of(work, struct rswitch_switchdev_event_work, work);
+> +	ndev = switchdev_work->ndev;
 > +
-> +	rswitch_for_each_enabled_port(priv, i) {
-> +		struct rswitch_device *rdev = priv->rdev[i];
+> +	rtnl_lock();
 > +
-> +		unregister_netdev(rdev->ndev);
+> +	/* Unfortunately all net_device members point to br0, there is no simple way to check
+> +	 * if the event was triggered by a port device setting.
+> +	 */
+> +	rswitch_for_all_ports(switchdev_work->priv, rdev) {
+> +		if (ether_addr_equal(rdev->ndev->dev_addr, switchdev_work->fdb_info.addr))
+> +			goto out;
+> +	}
+> +
+> +	/* Handle only bridge device */
+> +	if (is_rdev(ndev) || !netif_is_bridge_master(ndev))
+> +		goto out;
+> +
+> +	switch (switchdev_work->event) {
+> +	case SWITCHDEV_FDB_ADD_TO_DEVICE:
+> +		rswitch_gwca_write_mac_address(switchdev_work->priv, switchdev_work->fdb_info.addr);
+> +		rswitch_add_addr_to_mactable(switchdev_work->priv, switchdev_work->fdb_info.addr);
+> +		break;
 
 [Severity: High]
-This is a pre-existing issue, but does the ordering in this teardown path
-cause a use-after-free?
+Could this code process FDB events for unrelated software bridges on the
+system?
 
-The hardware is reset and DMA queues are freed via rswitch_gwca_hw_deinit()
-before the loop that calls unregister_netdev(). If NAPI is actively polling
-or user space transmits packets while the queues are being freed, could this
-crash? Should unregister_netdev() be called to synchronously stop queues
-before destroying the hardware state?
+While netif_is_bridge_master() checks if the device is a bridge, it doesn't
+seem to verify if the bridge actually enslaves any of the switch's ports
+(for example, checking if ndev == rdev->brdev).
 
-> +		rswitch_ether_port_deinit_one(rdev);
-> +		phy_exit(priv->rdev[i]->serdes);
-> +	}
+Also, does writing the FDB address to the GWCA MAC address here via
+rswitch_gwca_write_mac_address() unconditionally overwrite the switch's
+Gateway MAC address with any static FDB entry?
 
 [ ... ]
+> +static int rswitch_switchdev_event(struct notifier_block *nb,
+> +				   unsigned long event,
+> +				   void *ptr)
+> +{
+[ ... ]
+> +		switchdev_work->fdb_info.addr = kzalloc(ETH_ALEN, GFP_ATOMIC);
+> +		if (!switchdev_work->fdb_info.addr)
+> +			goto err_addr_alloc;
+> +
+> +		priv->switchdev_work = switchdev_work;
 
-> @@ -2317,9 +2341,13 @@ static int renesas_eth_sw_probe(struct platform_device *pdev)
->  	if (list_empty(&priv->port_list))
->  		dev_warn(&pdev->dev, "could not initialize any ports\n");
->  
-> -	ret = rswitch_register_notifiers();
-> +	ret = rswitch_register_notifiers(priv);
->  	if (ret) {
-> +		rswitch_deinit(priv);
-> +		pm_runtime_put(&pdev->dev);
-> +		pm_runtime_disable(&pdev->dev);
+[Severity: High]
+Can storing the dynamically allocated work item pointer in a single
+priv->switchdev_work field lead to memory leaks or use-after-free
+conditions?
+
+If multiple events are queued rapidly, this pointer appears to be overwritten,
+losing track of previous work items and leaking the memory for both the work
+item and the fdb_info.addr reference.
+
+> +
+> +		ether_addr_copy((u8 *)switchdev_work->fdb_info.addr,
+> +				fdb_info->addr);
+> +		netdev_hold(ndev, &switchdev_work->dev_tracker, GFP_ATOMIC);
+> +		queue_work(system_long_wq, &switchdev_work->work);
+> +
+> +		break;
+> +	}
 
 [Severity: Medium]
-Can this asynchronous put leave the hardware in an active power state?
+Is system_long_wq the right workqueue to use here?
 
-The call to pm_runtime_put() queues the idle work asynchronously, but
-pm_runtime_disable() includes a barrier that might cancel the pending
-suspend work before it executes. Should this use pm_runtime_put_sync()
-instead to ensure the suspend completes before the device is disabled?
+Since system_long_wq allows concurrent execution across different CPUs, rapid
+ADD and DEL events for the same MAC address could race to acquire rtnl_lock()
+in the worker.
 
->  		dev_err(&pdev->dev, "could not register notifiers\n");
+Could this lack of strict FIFO ordering allow a DEL event to execute before
+an ADD event, leaving a stale, permanent entry in the MAC table? Would a
+dedicated ordered workqueue be more appropriate to preserve switchdev event
+ordering?
+
+> diff --git a/drivers/net/ethernet/renesas/rswitch_main.c b/drivers/net/ethernet/renesas/rswitch_main.c
+> index cfe7bfe6546b2..6fa37533feffd 100644
+> --- a/drivers/net/ethernet/renesas/rswitch_main.c
+> +++ b/drivers/net/ethernet/renesas/rswitch_main.c
+[ ... ]
+> @@ -2262,6 +2262,8 @@ static void rswitch_deinit(struct rswitch_private *priv)
+>  	rswitch_gwca_ts_queue_free(priv);
+>  	rswitch_gwca_linkfix_free(priv);
+>  
+> +	cancel_work_sync(&priv->switchdev_work->work);
 > +
->  		return ret;
->  	}
+>  	rswitch_clock_disable(priv);
+>  }
+
+[Severity: High]
+Can this cancel_work_sync() call cause a NULL pointer dereference or
+use-after-free?
+
+If no FDB events were processed, priv->switchdev_work will be NULL, causing
+an immediate dereference when accessing ->work.
+
+If an event did finish, the struct is freed by its own worker in
+rswitch_switchdev_bridge_fdb_event_work(), meaning cancel_work_sync() would
+operate on freed memory.
+
+[Severity: Critical]
+This is a pre-existing issue, but earlier in the same series, there appears
+to be a double lock acquisition without an unlock.
+
+Looking at rswitch_gwca_change_mode() in
+drivers/net/ethernet/renesas/rswitch_main.c:
+
+int rswitch_gwca_change_mode(...)
+{
+        ...
+        if (!rswitch_agent_clock_is_enabled(priv->addr, priv->gwca.index)) {
+                spin_lock(&priv->agent_lock);
+                rswitch_agent_clock_ctrl(priv->addr, priv->gwca.index, 1);
+                spin_lock(&priv->agent_lock);
+        }
+        ...
+
+Could this second spin_lock() cause an immediate deadlock whenever the agent
+clock is enabled?
 
