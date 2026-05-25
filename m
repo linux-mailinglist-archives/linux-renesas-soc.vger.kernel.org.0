@@ -1,136 +1,116 @@
-Return-Path: <linux-renesas-soc+bounces-33097-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-33098-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id kIWfMXCnFGrJPAcAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-33097-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 25 May 2026 21:48:00 +0200
+	id uBlbKH20FGpdPgcAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-33098-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 25 May 2026 22:43:41 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D0F45CE1A9
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 25 May 2026 21:48:00 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 42A935CEB4B
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 25 May 2026 22:43:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 1A1C9301724A
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 25 May 2026 19:47:55 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 98AF33025E72
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 25 May 2026 20:40:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A6E6835F5E9;
-	Mon, 25 May 2026 19:47:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E66DC346781;
+	Mon, 25 May 2026 20:40:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GVPtEeFC"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KeP44ALX"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8759F1CFBA;
-	Mon, 25 May 2026 19:47:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5D60175A86;
+	Mon, 25 May 2026 20:40:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779738474; cv=none; b=p6fMyrz8UghAjRzj6oUdagAlu9svaMtr1TNq4eCovdHLJtAClt0XKlrRS0DtrY0NRRXaAxkZY+cIWLAohnyDHgecjoFly96Mtwebe3YNprfypk6c+1so8/SNtz0m19uYUUKGe3VbQguj+lUso4Vufdv2SnT9kpn9iDocc/6wTtk=
+	t=1779741647; cv=none; b=Y6Ob9pQQfo1Pu2hy79JwsatuN/ckAiWtShF6x4lKNsQ/XifSrgqhKL9YNbAqmn+YvjCzhEy5V7U79c1/C70ck1AM4X7t6Z4iTbhENnp52+ee7OziJWbMXIw5naGNest0W+kMR8Ld4Hblq4FI10Kgii0JfT2ZYHoVlPWl/rKUBH4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779738474; c=relaxed/simple;
-	bh=63/2YWqsD7Ors963G51wcV/l7BgjtiH2c939Q4Bz/2Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QjpfImdWaHK60KPyHRdq6msc2i78AiShDnXOywDNsKsskEv3Uob/C5hbnp+IIAYxpuwhqVJoLdZ5wxztMD0EwcErUfdN5OhZBVgEQugQa+BtPR7xamc8gW49XE1yYNCQ4zimC/JKpwMECBM40I924tBFYN0pF02++qixOk27f9Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GVPtEeFC; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AD4811F000E9;
-	Mon, 25 May 2026 19:47:50 +0000 (UTC)
+	s=arc-20240116; t=1779741647; c=relaxed/simple;
+	bh=6ru5neY97HOtVhecJIGp0m2gwsYktxPjJCzFOqpTPTI=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ab05JvgIG1dvhJLpldd8eCUR69qSAKK8MnsWhboSPqPOb95yFoXGHmCXS3+GNPN3xeOrnC+9CrlGY1kxdBQZ8bb4C8Jgdg9ecP44/2LAbysbOhN8jR+7kG7fn4AMpXfSgP04GIudLtqhTgtYG/RR+XSzllVzlwq7Cz6sGovgoeE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KeP44ALX; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 560891F000E9;
+	Mon, 25 May 2026 20:40:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779738473;
-	bh=63/2YWqsD7Ors963G51wcV/l7BgjtiH2c939Q4Bz/2Y=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=GVPtEeFCZQSk9Wea8Lxyztx9CSsIescfzNCXFArUSSMYqsGkxNNxKQEysr+S5MOda
-	 z46juzqnVw7Mb+v342+1B9m/jrFkMEIgWqaK5n/mgl6ADz6Hr4d7HDV4p1TiMZ4SJL
-	 5uA4KBuSf6127jq0dFoqnzpahbM4f/PwE4x9R3UlC8/X5WZMZiDvcgMfr4ZL7036Al
-	 95+YVXShjuRvwQoapHPi9Fl5589retks03tP4Ih14LsRxoGSJyYz8DmcttDl8lRTqn
-	 aFZLp74USzwDnEzyzwBhY5vznHjeXgkRRosbNhEJz4qak3rSM/5HjPf7Y57DXbHfZp
-	 xlFEnvD0BvqTA==
-Date: Mon, 25 May 2026 20:47:48 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Marek Vasut <marek.vasut+renesas@mailbox.org>
-Cc: linux-arm-kernel@lists.infradead.org, Brian Masney <bmasney@redhat.com>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Rob Herring <robh@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
-	devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: clock: renesas: div6: Use ZT/ZTR trace
- clock in R-Mobile APE6 example
-Message-ID: <20260525-outrage-lego-2858c3eed769@spud>
-References: <20260523192622.56605-1-marek.vasut+renesas@mailbox.org>
+	s=k20260515; t=1779741646;
+	bh=IIctj1fMQCxtevyVNN1XinFPp1Y3XkrmPmLfIrsISmo=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=KeP44ALXyWTA1ZcjtMfAy+eBZpjKI4TZ1sxHSz+NsfhyLdvOUn4rNF0SbXhE2NOGX
+	 ZBeILOjdq5jM35bMOvm18Rbb6AtVwzsW02T/KBWBusPfHjPeravq17EIIqIekT7UMR
+	 WThN+hpJzH9xwSJh9BOvnHpB0eKEik0xJ8NcaItJXnV15dvM8uO+oppfZ3hFCDhzI/
+	 tzR1qTJJtzz8TRUetzq3MVVNhcXvgDV/f95Dt4KpCaKE/DbUhVQVmQH9ejbFnzw0ar
+	 um/UyPndqbh1PEvC+K0E2MRvdleCQuwTMFTqM7Of1MrmMF1dgBcXO+Sq+g85/i3kec
+	 83GKHVQmYeHtw==
+Date: Mon, 25 May 2026 13:40:45 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Michael Dege <michael.dege@renesas.com>
+Cc: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, Andrew Lunn
+ <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, Eric
+ Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Niklas
+ =?UTF-8?B?U8O2ZGVybHVuZA==?= <niklas.soderlund@ragnatech.se>, Paul Barker
+ <paul@pbarker.dev>, Richard Cochran <richardcochran@gmail.com>,
+ netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH net-next v5 13/14] net: renesas: rswitch: add handler
+ for FDB notification
+Message-ID: <20260525134045.2be8143f@kernel.org>
+In-Reply-To: <20260522-rswitch_add_vlans-v5-13-53589d944a9f@renesas.com>
+References: <20260522-rswitch_add_vlans-v5-0-53589d944a9f@renesas.com>
+	<20260522-rswitch_add_vlans-v5-13-53589d944a9f@renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="iMjt770BTEZflGTE"
-Content-Disposition: inline
-In-Reply-To: <20260523192622.56605-1-marek.vasut+renesas@mailbox.org>
-X-Spamd-Result: default: False [-2.26 / 15.00];
-	SIGNED_PGP(-2.00)[];
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	MIME_GOOD(-0.20)[multipart/signed,text/plain];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-33097-lists,linux-renesas-soc=lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	MIME_TRACE(0.00)[0:+,1:+,2:~];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[13];
+	TAGGED_FROM(0.00)[bounces-33098-lists,linux-renesas-soc=lfdr.de];
+	FREEMAIL_CC(0.00)[renesas.com,lunn.ch,davemloft.net,google.com,redhat.com,ragnatech.se,pbarker.dev,gmail.com,vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-0.999];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[conor@kernel.org,linux-renesas-soc@vger.kernel.org];
+	RCVD_COUNT_THREE(0.00)[4];
+	RCVD_TLS_LAST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	DKIM_TRACE(0.00)[kernel.org:+];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,dt];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	MISSING_XM_UA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[12];
+	NEURAL_HAM(-0.00)[-1.000];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[kuba@kernel.org,linux-renesas-soc@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mailbox.org:email,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
-X-Rspamd-Queue-Id: 4D0F45CE1A9
+	TAGGED_RCPT(0.00)[linux-renesas-soc,netdev];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	TO_DN_SOME(0.00)[]
+X-Rspamd-Queue-Id: 42A935CEB4B
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
+On Fri, 22 May 2026 14:12:42 +0200 Michael Dege wrote:
+> The SWITCHDEV_FDB_ADD_TO_DEVICE notification writes the bridge MAC address
+> to the GWCA and adds a static rule to the MAC table.
+> The SWITCHDEV_FDB_DEL_TO_DEVICE removes the static rule from the MAC table.
 
---iMjt770BTEZflGTE
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+drivers/net/ethernet/renesas/rswitch_l2.c:395:25: warning: variable 'rdev' set but not used [-Wunused-but-set-variable]
+  395 |         struct rswitch_device *rdev;
+      |                                ^
 
-On Sat, May 23, 2026 at 09:25:50PM +0200, Marek Vasut wrote:
-> Since commit 2abdc3dcf978 ("dt-bindings: clock: renesas,cpg-clocks:
-> Document ZT/ZTR trace clock on R-Mobile APE6"), the APE6 clock node
-> expects two additional "clock-output-names" entries, "zt" and "ztr".
-> Update the example accordingly.
->=20
-> Fixes: 2abdc3dcf978 ("dt-bindings: clock: renesas,cpg-clocks: Document ZT=
-/ZTR trace clock on R-Mobile APE6")
-> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
-
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
-pw-bot: not-applicable
-
---iMjt770BTEZflGTE
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCahSnZAAKCRB4tDGHoIJi
-0vl2AP9l+ryVmXD2JyeSGAK3rZF8YEqWuxvXoEPpknmVqr3CpgEAgMfUE6J96aiu
-6Qv/mObJL5G8vRFckeaPOk30b+HhLQs=
-=5QF5
------END PGP SIGNATURE-----
-
---iMjt770BTEZflGTE--
+I'm going to send out the AI reviews, too, FWIW. 
+Not sure if any of the comments are valid.
+-- 
+pw-bot: cr
 
