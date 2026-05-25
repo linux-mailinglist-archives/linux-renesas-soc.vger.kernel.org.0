@@ -1,49 +1,49 @@
-Return-Path: <linux-renesas-soc+bounces-33099-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-33100-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id yF5XE5+0FGpbPgcAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-33099-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 25 May 2026 22:44:15 +0200
+	id QAzaM4G0FGpbPgcAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-33100-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 25 May 2026 22:43:45 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EB0E5CEB6B
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 25 May 2026 22:44:14 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 36B7A5CEB5B
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 25 May 2026 22:43:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 6BCD8300A657
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 25 May 2026 20:41:11 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id AC7283038A7E
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 25 May 2026 20:41:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 76D1137D13E;
-	Mon, 25 May 2026 20:41:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F1936397332;
+	Mon, 25 May 2026 20:41:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="N+qn6R02"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UkmQ5NBc"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 347A9175A86;
-	Mon, 25 May 2026 20:41:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86C9F37F72A;
+	Mon, 25 May 2026 20:41:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779741670; cv=none; b=O4MlG6ueK5Z+LsIzBDDLx3oZ3QR+YSLt4h1I+uwol21E52Vf+oyqLNlfrS2xOHt5+Z+Au+KuI3PlmNJN3K6SfiJqMpzqI8QM2dZTVIztAPO1zP3zNne2zWzN1r/sSuq06nFPpsLTWUMZWkTQhtykAPnWWgXxNozFi2/j6tFpBX0=
+	t=1779741671; cv=none; b=dkZ8FO7wLQncAoZm8AuuFeBE6KEHL/ZGGX902qcqwgedTZwIiHD5KMotvT02YkLKM+1Pd+gaHcbHu/p3GkNEtC88HDd9NWb9YNZu4+oUNcLIsfLwIeb9fKSI8I2Cdg9yuAeF75NB5RhGUdTjPJj6NUIxy4MC6m+2j4G9RjnMEMU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779741670; c=relaxed/simple;
-	bh=FwTX5Kd+RQtQRZGq99p4SY2K4IInTRxViZtBEUOp+3Y=;
+	s=arc-20240116; t=1779741671; c=relaxed/simple;
+	bh=NCPcIMJPmdXJOd/frxIjWNnR+aQVRRXBhnYCMV8CmtU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=A9Qc7Povnyb3yvcy0rXWnQS7gq/ywGnMcOS6KUB8afq8nTYVOvtT/DPYi/QpJl4xF7WV/AmIU4b5sg1ZhHiZ4h2UgSie6+4VIY4nixO7rcKgLby4tX2NCeQQXu2tEF5/F6gaRJegdOW+HSAVrb0vxSSqBQ0DjL0hkS2RR5/Dku4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=N+qn6R02; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 49E5C1F000E9;
-	Mon, 25 May 2026 20:41:08 +0000 (UTC)
+	 MIME-Version; b=sZTCuow6Q0SDTVdvZ51GQyxtYPPez7YnjM2+B8iUzKQKjCHl1zXctrFe8dp1MnOSU+rFjyNHp1tZQ15qhUkHFCNFcGWMxhUylKqVlpqkjltlQyLpw8IL8o9Snj5+RjaC8RZBSAUuaVOyinzWLvigG0LFeP+8NAg89O+stnCWZ4g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UkmQ5NBc; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C43C81F00A3A;
+	Mon, 25 May 2026 20:41:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779741668;
-	bh=eeVLttWUbqCSOBn4ncdfJckoZfdJ7PzVb6h49z9CihI=;
+	s=k20260515; t=1779741670;
+	bh=/Gm6wpaKFFhWisFLTdLNUG+mSbSkmeJyBt+bFQc4/sw=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=N+qn6R023Nf11dM/3tx4xFQAE9xSwON42yIKg19wH8b8p+8HPlg99XrwcyzORe3KY
-	 Z5u3jHaAp3z5yUJL10DDqLvoIp92ljTWPZxdZWeAkSMYqxXc3MoceRIuzN6RMgJmyf
-	 dppQByrLvITZpuSZP+OmZ93OSR9ti01zzwYh+8a0c3BJ2/juEck0h7bQSez5DFW68w
-	 /fUwWm+mTUnJhInn6g672vlGY+0JG3lo7Yt4Gd/TQw75eHBT/d60PluY2FijiUzmv2
-	 mX0q4fJSZYGvtvzWR+Ie0dEikXzRG7aFZwBYtGS7wfxdGkMUcTfoydZOIdZSiUG0uO
-	 yBFi5gVR6u+2A==
+	b=UkmQ5NBcfM1PKJzqPsG1dKlj//PmkRYf6rWNRps9WwpaSpwxlLlmLH5cevlkdCmBA
+	 cpCBk1WoWsvrjuOD16bAJ7K+3+JUUGTpmdDx43/yQxELQv6J5/6XCkCiV6Pl1I/oEq
+	 FACUzraER4I1UG6OcokvVHgvLQyo2sj63nu0W8tTWX48bXTg8f3pkQS4neNhcJ04dL
+	 tB1zyAMtXj3MsyLFWMtr/FBhhKWtx1FvrNo88t/hmtL6Ft6uN6S/SIZI9UeL7FbD0Y
+	 xc+D/w09JYnjW8wuryJPtLgSzRH3XIp2t54AkbvnRN40Kgx/08KqlHf41NxqAASrUw
+	 j44wClgehNs4Q==
 From: Jakub Kicinski <kuba@kernel.org>
 To: michael.dege@renesas.com
 Cc: Jakub Kicinski <kuba@kernel.org>,
@@ -58,12 +58,12 @@ Cc: Jakub Kicinski <kuba@kernel.org>,
 	netdev@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH net-next v5 01/14] net: renesas: rswitch: improve port change mode functions
-Date: Mon, 25 May 2026 13:41:07 -0700
-Message-ID: <20260525204107.2471226-1-kuba@kernel.org>
+Subject: Re: [PATCH net-next v5 02/14] net: renesas: rswitch: use device instead of net_device
+Date: Mon, 25 May 2026 13:41:09 -0700
+Message-ID: <20260525204109.2471260-1-kuba@kernel.org>
 X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260522-rswitch_add_vlans-v5-1-53589d944a9f@renesas.com>
-References: <20260522-rswitch_add_vlans-v5-1-53589d944a9f@renesas.com>
+In-Reply-To: <20260522-rswitch_add_vlans-v5-2-53589d944a9f@renesas.com>
+References: <20260522-rswitch_add_vlans-v5-2-53589d944a9f@renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -78,7 +78,7 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_MISSING_CHARSET(0.50)[];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
@@ -87,7 +87,7 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	MIME_TRACE(0.00)[0:+];
 	RCVD_TLS_LAST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-33099-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-33100-lists,linux-renesas-soc=lfdr.de];
 	FREEMAIL_CC(0.00)[kernel.org,renesas.com,lunn.ch,davemloft.net,google.com,redhat.com,ragnatech.se,pbarker.dev,gmail.com,vger.kernel.org];
 	DKIM_TRACE(0.00)[kernel.org:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
@@ -97,142 +97,135 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	NEURAL_HAM(-0.00)[-0.999];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,netdev];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	FROM_HAS_DN(0.00)[]
-X-Rspamd-Queue-Id: 4EB0E5CEB6B
+X-Rspamd-Queue-Id: 36B7A5CEB5B
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
 This is an AI-generated review of your patch. The human sending this
 email has considered the AI review valid, or at least plausible.
 ---
-net: renesas: rswitch: improve port change mode functions
-
-This commit consolidates the mode change logic for ETHA and GWCA ports
-in the Renesas switch driver. It ensures the required transition to
-the "disable" mode is handled automatically within a single call to
-the mode change functions, removing redundant manual calls.
+net: renesas: rswitch: use device instead of net_device
+    
+In upcomming changes for adding vlan support struct net_device
+will not be available in all cases, therefore use struct device
+instead.
 
 > diff --git a/drivers/net/ethernet/renesas/rswitch_main.c b/drivers/net/ethernet/renesas/rswitch_main.c
-> index 6fe964816322a..9b739594cc028 100644
+> index 9b739594cc028..74d441ae19769 100644
 > --- a/drivers/net/ethernet/renesas/rswitch_main.c
 > +++ b/drivers/net/ethernet/renesas/rswitch_main.c
-> @@ -176,14 +176,21 @@ static int rswitch_gwca_change_mode(struct rswitch_private *priv,
->  	if (!rswitch_agent_clock_is_enabled(priv->addr, priv->gwca.index))
->  		rswitch_agent_clock_ctrl(priv->addr, priv->gwca.index, 1);
->  
-> -	iowrite32(mode, priv->addr + GWMC);
-> +	iowrite32(GWMC_OPC_DISABLE, priv->addr + GWMC);
->  
-> -	ret = rswitch_reg_wait(priv->addr, GWMS, GWMS_OPS_MASK, mode);
-> +	ret = rswitch_reg_wait(priv->addr, GWMS, GWMS_OPS_MASK, GWMC_OPC_DISABLE);
-> +	if (ret < 0)
-> +		return ret;
-
-[Severity: Medium]
-Does this error path leak the agent clock resource?
-
-In the pre-patch code, the clock was disabled unconditionally if the target
-mode was DISABLE, even if rswitch_reg_wait() timed out. By returning early
-here when ret < 0, it appears the rswitch_agent_clock_ctrl(..., 0) cleanup
-is skipped if the hardware times out during the transition.
-
->  
-> -	if (mode == GWMC_OPC_DISABLE)
-> +	if (mode == GWMC_OPC_DISABLE) {
->  		rswitch_agent_clock_ctrl(priv->addr, priv->gwca.index, 0);
->  
-> -	return ret;
-> +		return ret;
-> +	}
-
 [ ... ]
-
-> @@ -727,9 +728,6 @@ static int rswitch_gwca_hw_deinit(struct rswitch_private *priv)
->  {
->  	int err;
+> @@ -304,26 +304,30 @@ static int rswitch_gwca_queue_alloc_rx_buf(struct rswitch_gwca_queue *gq,
+>  	return -ENOMEM;
+>  }
 >  
+> -static void rswitch_gwca_queue_free(struct net_device *ndev,
+> +static void rswitch_gwca_queue_free(struct device *dev,
+>  				    struct rswitch_gwca_queue *gq)
+>  {
+>  	unsigned int i;
+>  
+>  	if (!gq->dir_tx) {
+> -		dma_free_coherent(ndev->dev.parent,
+> -				  sizeof(struct rswitch_ext_ts_desc) *
+> -				  (gq->ring_size + 1), gq->rx_ring, gq->ring_dma);
+> -		gq->rx_ring = NULL;
+> -
+> +		if (gq->rx_ring) {
+> +			dma_free_coherent(dev,
+> +					  sizeof(struct rswitch_ext_ts_desc) *
+> +					  (gq->ring_size + 1), gq->rx_ring, gq->ring_dma);
+> +			gq->rx_ring = NULL;
+> +		}
+>  		for (i = 0; i < gq->ring_size; i++)
+> -			skb_free_frag(gq->rx_bufs[i]);
+> +			if (gq->rx_bufs[i])
+> +				skb_free_frag(gq->rx_bufs[i]);
 
 [Severity: High]
-This isn't a bug introduced by this patch, but does the hardware teardown
-sequence leave transmitted SKBs queued indefinitely?
+This is a pre-existing issue, but does this cleanup path leak RX DMA
+mappings?
 
-When shutting down the driver, rswitch_deinit() invokes this function
-to disable the hardware data paths before the unregister_netdev() loop
-executes. While the netdevs are still registered and up, the network stack
-can continue to invoke ndo_start_xmit.
+It looks like we call skb_free_frag() for the RX buffers but we never call
+dma_unmap_single(). Furthermore, because the rx_ring is freed before the
+loop, any DMA addresses stored in the descriptors are lost, making it
+impossible to unmap them.
 
-Because the hardware is disabled early, are these transmitted SKBs and their
-DMA mappings queued without ever completing, causing them to be leaked later
-when rswitch_txdmac_free() frees the rings? Should unregister_netdev() be
-called before shutting down the hardware?
+>  		kfree(gq->rx_bufs);
+>  		gq->rx_bufs = NULL;
+>  	} else {
+> -		dma_free_coherent(ndev->dev.parent,
+> -				  sizeof(struct rswitch_ext_desc) *
+> -				  (gq->ring_size + 1), gq->tx_ring, gq->ring_dma);
+> -		gq->tx_ring = NULL;
+> +		if (gq->tx_ring) {
+> +			dma_free_coherent(dev,
+> +					  sizeof(struct rswitch_ext_desc) *
+> +					  (gq->ring_size + 1), gq->tx_ring, gq->ring_dma);
+> +			gq->tx_ring = NULL;
+> +		}
+>  		kfree(gq->skbs);
+>  		gq->skbs = NULL;
+>  		kfree(gq->unmap_addrs);
 
-> -	err = rswitch_gwca_change_mode(priv, GWMC_OPC_DISABLE);
-> -	if (err < 0)
-> -		return err;
->  	err = rswitch_gwca_change_mode(priv, GWMC_OPC_RESET);
->  	if (err < 0)
->  		return err;
+[Severity: High]
+This isn't a bug introduced by this patch, but does the TX teardown also
+leak resources?
 
-[ ... ]
-
-> @@ -1116,14 +1114,20 @@ static int rswitch_etha_change_mode(struct rswitch_etha *etha,
->  	if (!rswitch_agent_clock_is_enabled(etha->coma_addr, etha->index))
->  		rswitch_agent_clock_ctrl(etha->coma_addr, etha->index, 1);
->  
-> -	iowrite32(mode, etha->addr + EAMC);
-> -
-> -	ret = rswitch_reg_wait(etha->addr, EAMS, EAMS_OPS_MASK, mode);
-> +	iowrite32(EAMC_OPC_DISABLE, etha->addr + EAMC);
-> +	ret = rswitch_reg_wait(etha->addr, EAMS, EAMS_OPS_MASK, EAMC_OPC_DISABLE);
-> +	if (ret < 0)
-> +		return ret;
-
-[Severity: Medium]
-Will this return cause a similar clock resource leak if the hardware wait times
-out, skipping the clock cleanup for EAMC_OPC_DISABLE?
-
->  
-> -	if (mode == EAMC_OPC_DISABLE)
-> +	if (mode == EAMC_OPC_DISABLE) {
->  		rswitch_agent_clock_ctrl(etha->coma_addr, etha->index, 0);
->  
-> -	return ret;
-> +		return ret;
-> +	}
-> +
-> +	iowrite32(mode, etha->addr + EAMC);
-> +
-> +	return rswitch_reg_wait(etha->addr, EAMS, EAMS_OPS_MASK, mode);
->  }
+It appears it does not iterate over pending gq->skbs to unmap and free
+them before freeing the array itself.
 
 [ ... ]
-
-> @@ -1203,9 +1207,6 @@ static int rswitch_etha_hw_init(struct rswitch_etha *etha, const u8 *mac)
->  {
->  	int err;
+> @@ -483,18 +486,17 @@ static int rswitch_gwca_queue_ext_ts_fill(struct net_device *ndev,
+>  		index = (i + start_index) % gq->ring_size;
+>  		desc = &gq->rx_ring[index];
+>  		if (!gq->dir_tx) {
+> -			dma_addr = dma_map_single(ndev->dev.parent,
+> +			dma_addr = dma_map_single(dev,
+>  						  gq->rx_bufs[index] + RSWITCH_HEADROOM,
+>  						  RSWITCH_MAP_BUF_SIZE,
+>  						  DMA_FROM_DEVICE);
+> -			if (dma_mapping_error(ndev->dev.parent, dma_addr))
+> +			if (dma_mapping_error(dev, dma_addr))
+>  				goto err;
 >  
-> -	err = rswitch_etha_change_mode(etha, EAMC_OPC_DISABLE);
-> -	if (err < 0)
-> -		return err;
+>  			desc->desc.info_ds = cpu_to_le16(RSWITCH_DESC_BUF_SIZE);
+>  			rswitch_desc_set_dptr(&desc->desc, dma_addr);
+>  			dma_wmb();
+>  			desc->desc.die_dt = DT_FEMPTY | DIE;
+> -			desc->info1 = cpu_to_le64(INFO1_SPN(rdev->etha->index));
+>  		} else {
+>  			desc->desc.die_dt = DT_EEMPTY | DIE;
+>  		}
+> @@ -507,8 +509,10 @@ static int rswitch_gwca_queue_ext_ts_fill(struct net_device *ndev,
+>  		for (; i-- > 0; ) {
+>  			index = (i + start_index) % gq->ring_size;
+>  			desc = &gq->rx_ring[index];
+> +			desc->desc.die_dt = 0x00;
+> +			dma_wmb();
+>  			dma_addr = rswitch_desc_get_dptr(&desc->desc);
+> -			dma_unmap_single(ndev->dev.parent, dma_addr,
+> +			dma_unmap_single(dev, dma_addr,
+>  					 RSWITCH_MAP_BUF_SIZE, DMA_FROM_DEVICE);
+>  		}
+>  	}
 
-[Severity: Low]
-Is this explicit DISABLE mode transition still necessary?
+[Severity: High]
+This is a pre-existing issue, but is there a hardware race condition in
+this error path?
 
-Looking at the end of this function after the patch is applied, there is
-another transition to DISABLE before switching to OPERATION:
+Earlier in the loop, buffers are mapped and immediately exposed to the
+running hardware by setting desc->desc.die_dt = DT_FEMPTY | DIE. If a
+subsequent allocation in the batch fails, we jump to this error path to
+revoke previously armed descriptors by clearing die_dt and calling
+dma_unmap_single().
 
-    err = rswitch_etha_change_mode(etha, EAMC_OPC_DISABLE);
-    if (err < 0)
-        return err;
+If the active hardware has already fetched the descriptor and started a
+DMA write before we revoke it, will unmapping it lead to IOMMU faults or
+memory corruption?
 
-    return rswitch_etha_change_mode(etha, EAMC_OPC_OPERATION);
-
-Since rswitch_etha_change_mode() now handles the DISABLE transition
-internally, does leaving this explicit call result in redundant transitions
-and unnecessary clock toggling?
-
->  	err = rswitch_etha_change_mode(etha, EAMC_OPC_CONFIG);
->  	if (err < 0)
->  		return err;
+Should the descriptors only be armed after all allocations and mappings in
+the batch have succeeded?
 
