@@ -1,65 +1,65 @@
-Return-Path: <linux-renesas-soc+bounces-33084-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-33085-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id kIJEIZctFGpgKgcAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-33084-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 25 May 2026 13:08:07 +0200
+	id YN21Oa0tFGpYKgcAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-33085-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 25 May 2026 13:08:29 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 193AD5C9A93
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 25 May 2026 13:08:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93A425C9AC1
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 25 May 2026 13:08:29 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id E454B3047BEC
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 25 May 2026 11:05:22 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 0E885304B7F3
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 25 May 2026 11:05:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E56C137D11B;
-	Mon, 25 May 2026 11:05:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1501B37DE80;
+	Mon, 25 May 2026 11:05:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="JGastcsf"
+	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="XJe66L2z"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from OS0P286CU010.outbound.protection.outlook.com (mail-japanwestazon11011033.outbound.protection.outlook.com [40.107.74.33])
+Received: from OS0P286CU011.outbound.protection.outlook.com (mail-japanwestazon11010059.outbound.protection.outlook.com [52.101.228.59])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5792C37CD4B;
-	Mon, 25 May 2026 11:05:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.74.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01B0A37D10D;
+	Mon, 25 May 2026 11:05:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.228.59
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779707118; cv=fail; b=ACPMGMmDo4YY6Dx9Ami+hwSDPYw4HJQCZNICPnEUk6Aqfa21T+npcfJkyqEXcVQ9toHHlQPg2593WBYjSJAJY4Gv3n9lakb15reiRPcg5VikK0cKJHT5V3HaD1lrufMADWcexjtGpHvQ2s06jqFdwi74wwwTR2PPQWrQh7Ko4yE=
+	t=1779707125; cv=fail; b=E0Ajq6QFqXfYfwsKoPDH7kx17oDll2Vb8rvr6I5MSebk+0isnKRfi4aitoIGpZHDrpZnHCeNgYi23sJ2rXyCZC1VH4YMKaNtzFD890Est+2IGXAMBdbhHXzWJB3fQ1QPC4SNpSW2vDpavG5sTbuVzw4vRMREwnlUlzXHCZd/g1E=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779707118; c=relaxed/simple;
-	bh=itFkZTxgxP0sTbsQd+itWJtXHAMOXK2kQZTNi9GbPBQ=;
+	s=arc-20240116; t=1779707125; c=relaxed/simple;
+	bh=TbbMzE0df5UGDH1S6EzwU6S+U8h+mZfQVORCxerSaHo=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=Nzze0tb8cgMLTi0Y9vyPWms+q/Zi+07PXChuZg+nTp7ttyEXDLFU+QDuAYbnR5f0XeNWLUxoZuGeWeeFpQIKzI196AWI41Qb7e0js2NLMSN9IwlYRsc3MUe9nwievZ/AT0oEKU9ABvwEbrc6HvYwymZbROPtnH7b6XtRgZ1TDgs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=JGastcsf; arc=fail smtp.client-ip=40.107.74.33
+	 Content-Type:MIME-Version; b=FjYabsBsOrsCAWXts30REOp9rkul5aKPRYVDXaXemAnQ2j+dn267cKgT85FwYt95jz871TErleEhzk1ZYnxepC/81K8oIBSEPagwHcXqo5sduFfsfAzn/7WK57BpW/i4IcX6VzWAOQM2jobfdqfYwZp4K65Tl+BoKp7xbzoDnQw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=XJe66L2z; arc=fail smtp.client-ip=52.101.228.59
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=XUk3jQvXb8Vt8uf3xM7VHNjYyeikxV/i5CkwGLoeY8bK1VhW1NDqovYxapiJd1CNfGi9AIwIaR1+/bJB7ZolI4oqP6naBJe+3iDp35DHnrM+sjCU/zox3rvIwg+Xe3LdfNK1jBGsjgtF0r2dl+PNBSwjwuWLRWIkNc4NTCwGp1NmZL4sO1YcCL274UWrMHDdslRoEKRaJ+Td5zn+71PhgbDY09pOnsmUlR4uMQERzciK0d4KtZGlu4MDIb0sGYUBkfSn2/Aaie33RxpKj+2OZZYjCGIY9eTVQqJ2/zKHBB/BfR+De6H6a/XkqOlJL+Xi/kq2zbdFiUmTk7UTlOCGWw==
+ b=JFlbSESYBTSSyJfTKGRzEToXqXCJ7CIllx/igfPTWsIk6G3sZzlQ+8DFCHZfAP2Up8PXSacpVtH4y1JUlxLAJSkiH1/Wo5jscAx/DcKA+NiOFiO+u/p/Ggu592PXrx8UGL50gEACX3Ca9Sdo4gcd7Rtq3X7hw2BasqdkeGk+HJB9LBQu/nQw6hV9P0nSS+mL2zV8cWg1n0MWh47OWM4yzuUqBy7Gb3ei/j0T3Ic8T4Y6uZj+etoUf3PwIsS7Z1yKduJOpTrz0yRMDEQpZkYlQr253XtmoPDOU4cLtdVETt9MYRy1aRq6s7N4HFTVLrj4myeFB53RebzGA7DlKJLhZQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=3LJksnLf1gFGDwNQsfqAwhyTi9WvCwz33gOutULRtlo=;
- b=nYilwIDEaMQ+tEM3fGlagc6K/JaKnSrUklIPIEgROLQkZvWVbVsGZWcecKx+rcwaaHJHzCGY1A5ri2j/yJx7elNtv0uF+yM85aZPHzaVMcaPJwtWJoBVmyRwvVi8A+sp37ApzwukoskCYNX8VcgTR5df0xNI3mSG00ZAQYvjllmpmzBwtdQOJJQOpRAJYJL4ts6T7KUbw1b171eve9IQpU5JZ9fpa04zk7it/G9fnohAnVS3Lk9yLFnh2M9oeNU4q05qqswnvBmHVzcmLHcq/H4p0khknLhmpHEsLnRUfcomp/zGKXY+u18sM5MoDj40FNEUO0KTy08iWOzG6oj9UQ==
+ bh=BJIdqMa070+ks79q0OP+AIGS7IZ8x6Xb0FBg+wYViVQ=;
+ b=DG7Koijyn4J/rxr0xeKV4xELr1OtImxjqUE5Hm6eUnkm9e8UnuDEl31YLyI2e8TAMIYNNfbHNodMjj4YHMvu4NfEd29H/ohfQPjmrFDHZJdfNrGkfLj9Ml+V848yCertqZ1zwtgZxnpa9ap4u6PaLEz4HQgdZXSmPoJoWsj5UoF4llJx8L9AniI74zTcSXLYTuMK06aPsVHZ7Xmh9AZ7HvSxmj22Pq4QPY8V2IxM+s42Cyzp0ZcDGK3MtYFKDzQfsa7CLHxOJDrSg/yMRkeif8Aib0Zs/MLqWBgPp8gzYOn+fL6n4aX6fu3+N2gmuPOK4mdWxlQMD+ifEXFk2lCulg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
  header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3LJksnLf1gFGDwNQsfqAwhyTi9WvCwz33gOutULRtlo=;
- b=JGastcsfGBUV/9jVG5Iv/GzANckIGebc5sSexP/jedS8DKVMqXOFH8LHm4t7cjPq+hsVy5DxfK44aU8bys2TEug0dAAdpCDcrZwSwQMGwjsbh+fv65wACutRo8NfQ1ysFr4ZsTEafv/mqcKIlikWOEY6fbpmPng2p1LTcL47200=
+ bh=BJIdqMa070+ks79q0OP+AIGS7IZ8x6Xb0FBg+wYViVQ=;
+ b=XJe66L2z3un8gxX8J0wurv/B2fjgojimelrmN4IRCtxLTPa0eC0Wz8um3oIHASnr5gtzDeJIZCzcnVDFdbQ50swp5f9neS405ddx01AHJRCOOrXzJGUrrMrSqyhjxg8pOHt2SeUZ0avyRNlU6Ve7RT8N18P8IqIsbHjm4NSFEUI=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=bp.renesas.com;
 Received: from TY6PR01MB17377.jpnprd01.prod.outlook.com (2603:1096:405:35b::6)
  by OS3PR01MB8602.jpnprd01.prod.outlook.com (2603:1096:604:19c::7) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.48.19; Mon, 25 May
- 2026 11:05:14 +0000
+ 2026 11:05:20 +0000
 Received: from TY6PR01MB17377.jpnprd01.prod.outlook.com
  ([fe80::f373:26d6:86c4:6aa3]) by TY6PR01MB17377.jpnprd01.prod.outlook.com
  ([fe80::f373:26d6:86c4:6aa3%6]) with mapi id 15.21.0048.016; Mon, 25 May 2026
- 11:05:14 +0000
+ 11:05:20 +0000
 From: John Madieu <john.madieu.xa@bp.renesas.com>
 To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
 	Mark Brown <broonie@kernel.org>,
@@ -80,9 +80,9 @@ Cc: Jaroslav Kysela <perex@perex.cz>,
 	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	John Madieu <john.madieu.xa@bp.renesas.com>
-Subject: [PATCH v7 17/18] ASoC: rsnd: Support unprefixed DT node names for RZ/G3E
-Date: Mon, 25 May 2026 11:02:29 +0000
-Message-Id: <20260525110230.4014435-18-john.madieu.xa@bp.renesas.com>
+Subject: [PATCH v7 18/18] ASoC: rsnd: Add system suspend/resume support
+Date: Mon, 25 May 2026 11:02:30 +0000
+Message-Id: <20260525110230.4014435-19-john.madieu.xa@bp.renesas.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20260525110230.4014435-1-john.madieu.xa@bp.renesas.com>
 References: <20260525110230.4014435-1-john.madieu.xa@bp.renesas.com>
@@ -99,58 +99,58 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: TY6PR01MB17377:EE_|OS3PR01MB8602:EE_
-X-MS-Office365-Filtering-Correlation-Id: 69f3450c-b3a2-4cf6-640d-08deba4d7ef4
+X-MS-Office365-Filtering-Correlation-Id: cd1e98a6-2cba-4a0b-873d-08deba4d82b1
 X-LD-Processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|52116014|1800799024|7416014|376014|38350700014|11063799006|3023799007|56012099003|18002099003|22082099003;
+	BCL:0;ARA:13230040|366016|52116014|1800799024|7416014|376014|38350700014|11063799006|56012099003|18002099003|22082099003;
 X-Microsoft-Antispam-Message-Info:
-	/71g56lbR+YaNPTb6STNHll8IDgffU4GZHLYTPrL+/0txpG9RWT2yUOvTHjap34HtkvZKtthPFMY31rikZdOifDkWC8dM23voEtSczB3nuVgxumJi4wHeKTkXP3I8VXy3ppzwHp+lXZTnWnuWxeCvXWzgvSSx0w+4CaD08Z2i0rSNoMjK2NNzswoFpyt5RcMIFeHBE9kdr+8ADofphnnmjpduNQXEkmiszrrBlvl0tbK0EwtRM3+G8XL29w6xAJGkzpPaHa/g0AvC3jHn768iNAq+FdOMxMXBIKMfGH944WFqwq0NJ7sx8R0QjEKFiqKOsAMApSPPHFW0p79v4xKF1PAopNhjqroopfoSuf29UWTfu3o585xcEoWHcoDPvfdG79oxLklRzE8e4E5ZuqRo1QraCiM+jT+WxUhbyYH5b1erVZDfroh6jsAmuxNwvMXy8XPCazxiuE4nkECGXETf32u8214UmWn0AGDx2dW49GIPTUlfylDtRq4lIROjavrsnyCdY/YvRIC0+YEqp7BW7QdmsuKbqB0E5F3VNFSBHfCV1hRrS6YlIUe1lpbiyWOjGVO/hCJPOIYys9fdlpd35KZpqHyfQbc9d9ndKVGwfl8+VeQcnaYm0dH0bbC29XXT88sXhocTU1o57QlOGHZjsUQfbKfvTg87EcBz3JJDG+XkErwPgjCpjGOBeHxaNK5ZBLcf7EMjq8flWpJ283y7SO9fi5obZ5EfpGISLj0rWDjmg25nv0jHUI40ChCYa5K
+	309TwizGbiFDnbvpRJfb+nP5MHkR25w0ZPQCu5TCvuFPdvw4VyNk2YMzIIK7dW6ZIrNuUPtmXI2S77wNAzLGw9p0I89ANQhio9F1w9TLmBS0LrJhevr9PWnlwSDX7xHJoo9hSPetmaYMkxp8hfwhEs+0BTw5zY9rJMvytpjETPFC9vPDu9S1XU6Vh+Jcq8XY33hetY6MqSTvEV0ErJTAjGineiGAb/tSQ16edIUAz38S/J3yDMIVlFHI49xEN+48C6d2+6v2e3wVf9RialU9KnDL2do+hw9WZ47sxuJz5nzOnNPEPZdaV9I5UdBsxWuuQadrvx1HZ3tN8GQThndLwBHeCywU3z6krXnCnX/+kKNmkntxEHtfTmjdr9zywpElF9Qcc3FeL0+ucSSmENdytRXICaPlamBpmE4lGMr8EBO2JtUGd62CvedvlzslWd2Fq2J+usRJAmyfept30NMF3s6TH2Ds+d6RItSU3gzAL/Q7s3xpCm27H4fBfzd8muvLPRrWC61fw/RyPXC3oIh2OaoOpj5tUS6hu6eJv1kdsBbt8s1/ySGG4dmZthLegNPRh+lts12cZbs3lHBW3u8YZ/BoAxeH54A6TskrbKooQSjAiNO9v3YQq24rsnfkpIJBVvXPCO6V/O4BWpVRs/ikaaekVxruP9WEQCirOg535idlrXECtsq/U+juBfpVJW7iGBaFM9KjcyDMuajaMRT5Cp5W5p0TDIBmwAk9OMkZC5GcxAjjg7+H6ygPVZ1Tiw1L
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY6PR01MB17377.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(52116014)(1800799024)(7416014)(376014)(38350700014)(11063799006)(3023799007)(56012099003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY6PR01MB17377.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(52116014)(1800799024)(7416014)(376014)(38350700014)(11063799006)(56012099003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?9dwdk8XYx8X2ZeZRArzNcugs6Pq0jVO/s7/2CgTVCzEk3QQehy6cngsILU1s?=
- =?us-ascii?Q?XvHewYhSFEZmX91UjUzu2mhmp29f4pnl9XQ+N5uDHU1lPV1eG7vHrEvvQi+i?=
- =?us-ascii?Q?YP7PJ5aPr9Mu0VnUCZzdQkkuC0MuUK4jCXs41JYIo+x6tGiUO9csYIAEgNCu?=
- =?us-ascii?Q?4y8Q+Qfhtyd1DhMKW11blWzgTxslaaOZCa/EsYcAegGKxsb1RcXxMvJYMLPl?=
- =?us-ascii?Q?F4fIflNwqHNqInLKpv/ByVLGVUvC+9TUZTTr2DOIKuFjLytE+7B2dI16D8Xs?=
- =?us-ascii?Q?39Ih4vLNkOxi8LtSprwIciWR/ABIxpfYq3otzyNEGhRTccHEyD9ceoVVLXgo?=
- =?us-ascii?Q?YgHV/dP+6hyc3W4lyTzAsnZ2e49HyzJkTnl0q+dRQWVeh8i2Bn3OGiMh9wmc?=
- =?us-ascii?Q?x9e6FDRu60G646GQRQocfRstkiOXQFYirFwKef32TPz/BmL42QZDu4XdygQK?=
- =?us-ascii?Q?0U9Ccq9eQHdte5/8DIFhODbJm/UAMNKlIAQ7vWLtjOuidJEVlfjsx7qo9TIt?=
- =?us-ascii?Q?rru+03S3sh14TWSOjxgX07UQg7p67NJEoYKC4U4PPLzPJIOhslPYjCeCAUMV?=
- =?us-ascii?Q?Urw97Mora6R0tqhv45QxSV4pM/GVOiIKDCQkB241eZa7wWIHsB4y47F9Kl4x?=
- =?us-ascii?Q?LZ2uFFb1EG+C+SMEyXLEmZVtS1H4D33KSfg2gKIfJqZd8vwO0V1Sr6EpAfP6?=
- =?us-ascii?Q?CuPS7u9VXW+QbNWIKEH8lqhNs9/RdFJUYMY7TLmmNAQ7pbPuwDeWug1l98k8?=
- =?us-ascii?Q?Cl2LTeMOWOvy8/k4JFjyML1SkxG0Yd+jwNLQIQfAw121XFAQF+XEQRMEfnhg?=
- =?us-ascii?Q?RW2VigCmChiE0padUmPa6pRr3cjrNuo6sJ/B8jof9BGqfyxx2JvsAuA8skRq?=
- =?us-ascii?Q?U7mKGSFTtpOUDIOGAXI3N4TJKjwsvT+5x6leEn5HAnbuMSeEVwX6ckpOHYdJ?=
- =?us-ascii?Q?xYdqI57TuZnRHWcmSfuyz34l8UmhjL6EQc10S0Okqn4+Eq0JjqpSmR4znHBI?=
- =?us-ascii?Q?kRbLRQrGRaUh09N7/GgHkGWk65/EmUdo/gH1eRGpqy9NFnidczE/JUlVXzkr?=
- =?us-ascii?Q?X5EmRY+e7FGbts58+4U+cLfD0XilepOingiKOvfJ3lzzUxm1dDejSZ8qnBdZ?=
- =?us-ascii?Q?ks0uRQ7FpYJeQt3OBvClnveyABTqALcUBUXCQiCBLjjQp0w+X5j+LjeCj7aK?=
- =?us-ascii?Q?HVILOFMDNLp9RQnQBaQlxUwOQ2icGDYC6D64N+XkLuCe+IXrCEqq8ohEHwLn?=
- =?us-ascii?Q?GJatDE83UZqX5t/7iJAl7FV3YIlCa55kPNZNIjdZw9SDwk1TNX8wSdZ8lAGo?=
- =?us-ascii?Q?Gtkj6VTBab/8SRu47SNFyju9i61JDgF0UhFTu8EhUwO0+dsjX1e1zx+j+DtY?=
- =?us-ascii?Q?p5oxuy6Ggs28fRfJFn/6gwl6+YUltqq/6EzVkSh0PX8rSKv694nrQUeZ0hq2?=
- =?us-ascii?Q?THGUEjpo2YKM0bBm5a9HryjVklA85svB+0zLqw6LBwxVZpKQLCMrX8iN4p9Z?=
- =?us-ascii?Q?E8L2WBi21+s8oJ/0WbEN7kgLWVgqZWZsGY5J4nJRQs4i4wLq2M2Rp4EmFFVN?=
- =?us-ascii?Q?crRsXPQz8HG/1dkKwOa9v6hlme9E7BxilROwtRkqcbzNhXOBRrkL1TTVRsHk?=
- =?us-ascii?Q?oKbDt2D/E6YTa8ytxGz+XLUs6y4ellrRJeR9bt7alFsH3zjpFoLdK6qcTMZ+?=
- =?us-ascii?Q?bBPGYXXkl3+3c/y+kvYw2x6es2ms7h46xNsNphOE1tusOvIkx9ElbpcRsFVi?=
- =?us-ascii?Q?Xk309M/MFCmiQVUMYnQiobqrLG5fiF8=3D?=
+	=?us-ascii?Q?s7+XOw+2+LNWrzLvpP1e6dj/q4aEutroB5VR8938ZAjtLiOsptIgPFXgD0w1?=
+ =?us-ascii?Q?YFOCRTMNe3vlQPaI8wTp0j8RS+fH7eHv4WIOcAsWmVgyaUzO3iZhiH81hcc2?=
+ =?us-ascii?Q?5wTAnYpeOtahW3tyN+vx3xOwNF5M2Q43o5wfABY2LhNOg669AsidoRRXDQmn?=
+ =?us-ascii?Q?PoqwDFAkRi71XsRAxpf2lhTr0VDRfbYcEh4lsyiL7HlUEQ8MFpgygmymcK+w?=
+ =?us-ascii?Q?831GFWeN3t0TdrT9x7IbsBJL+UiilmulZ00B5+qJrKzYZ9vfPcN9XL6c6AE/?=
+ =?us-ascii?Q?ALy5skyxgwyDlbQwa01duQSE8TwR9wcA9rvfQOjFflK5npyg4e3xXaQKZsFK?=
+ =?us-ascii?Q?+QNMnmlU/Gf3n2ji2lY9tFLsJOvfRgR4grkygkiIyoiEsMa0sNRbuS6tkI+U?=
+ =?us-ascii?Q?VARoXXQVke6QesfnuEOblwuqrDK7j1g5l1X2TomNx0K2cwGOvsBh8P4zQPKS?=
+ =?us-ascii?Q?LxRFNKCk0mbVUPjhcgJTW89NsLSE4R64ez0dxhNW8F4ga5TeBNzV1414wv33?=
+ =?us-ascii?Q?UlbSNiVII29Dja5WeZN5VJH7xWPfq5+xlB+mYOgAzogJ8MymxBk0F0K3y7ZV?=
+ =?us-ascii?Q?wSJOyj/Ze8as9eck0OGB+6YJvAkMtSGE/puB9V5nSWBXnNkwJTnugvNWVHuw?=
+ =?us-ascii?Q?qq8mdWc7gFHszRf+EiXZXxyClh8Z5luanDespf0rHvSGTTC8Mf6CLi+PVsgO?=
+ =?us-ascii?Q?vieLBc3fw7rVHQLDCtjFlQi/tFKwh520rzRjCAf3YkFxD4eLQb/67Lr07iPC?=
+ =?us-ascii?Q?rnWB0XdMUgM7A7chUq7vGUoCdxYv8dJ8bFDfNhVbz+TrTK8lefJ60kj1NMaO?=
+ =?us-ascii?Q?fgrCX2wM0Ay3JSYcB+74RCtYcMsqygJJj5by1XatX2RoIQ0Z/mv12Uh9ZqYb?=
+ =?us-ascii?Q?ezJugE1PGvTKjRdaRE+cLZyHMbt6zvjBvnqjNZrKErHqyqtgRaEzxf5c1Jhq?=
+ =?us-ascii?Q?bu9Vld2RwDI+XzgcGochOJKSqky5WtXxi1E25jj/zbuNW6A/wCN2G77t+KL4?=
+ =?us-ascii?Q?OOp31WsctrpYuHJBXX7ql71VPckCjdxjhsJmeDgBtV/Duinb5TVA809zLCPP?=
+ =?us-ascii?Q?B2S3DmecHzIL1R8dg1R9iDH9YKErMN9goVDQPqA+nunR+NkVzYc4LC1LoEus?=
+ =?us-ascii?Q?eykm46lSX7nVSdinQvbzmJYH+jGOiFPPNmFzvcI+Fb6ArnRcNR9tfRK+M3/L?=
+ =?us-ascii?Q?j2uKH7buK0G0ZwvEPKBsiutC8hSMUubcLLZ+goTnrgj3l4qBjYfyTsOVBP6g?=
+ =?us-ascii?Q?eXl+MWeGG8tCj5ddGfP1ZbTVcmkuEqfa3HxwPyyB5pXpoywxxA9Tapcm8hYk?=
+ =?us-ascii?Q?vLjbJ8SDQH6aKKI0u45qiEVxdg/Rh/9mimoDZZV47CtXaj9TxNOns+FVeN7d?=
+ =?us-ascii?Q?VO2DMCBAKcEmyNAbenPcMBnmm0feTQosQN/i43tniqpHaXkBtkd/PnVxYZJt?=
+ =?us-ascii?Q?E2TupHVFsUIkaPVExJeGLre3Sdlt5L12IPhWdHDC0hkBYMNTZPE9gUi/IHiu?=
+ =?us-ascii?Q?CRCWcZsfaT+GLLDMLNXxgWPDef0OReFdIQPRKMAmDIYJIdRif+Ite1WHZjer?=
+ =?us-ascii?Q?taAH6iqutxpDtp97sTVjrj6Au+RfKAlBG8rw1JceOUoUvCl5Nx9mlMlB5uaX?=
+ =?us-ascii?Q?vEJES67RretS44PbtU9dSSbeNZSzg173occHSLo/QBNEKax6vujvt47b/OIa?=
+ =?us-ascii?Q?E0VwwtoQveQL05p4e7oTC8aXzeOC67u9yqGeA6Cqrs98e0LWneziO+6meE96?=
+ =?us-ascii?Q?kzlVTSgeZ5rC8zCCShM8g+YXKuQZqXs=3D?=
 X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 69f3450c-b3a2-4cf6-640d-08deba4d7ef4
+X-MS-Exchange-CrossTenant-Network-Message-Id: cd1e98a6-2cba-4a0b-873d-08deba4d82b1
 X-MS-Exchange-CrossTenant-AuthSource: TY6PR01MB17377.jpnprd01.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 May 2026 11:05:14.1442
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 May 2026 11:05:20.2535
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: olKbb4tj6afcmTD0VzJdnv5tJftJ82bD0Ske8Iqnbenmta2weBnKOcr5l4GzhcEuF6YixHtKYFGCpHssQfvgXOP7euq9k6Jll7sA6BLtEkM=
+X-MS-Exchange-CrossTenant-UserPrincipalName: vcfsMA54kQ22/kuCiK9pmJzA8YrxUkI82nmtcrG7hFosiVLX8MxmoxaseghfBiQPXixRH3sLIqMmQhi+rK875HV1abaMTD6rQyTgKPzZjo4=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS3PR01MB8602
 X-Spamd-Result: default: False [2.84 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
@@ -163,7 +163,7 @@ X-Spamd-Result: default: False [2.84 / 15.00];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-33084-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-33085-lists,linux-renesas-soc=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
@@ -180,23 +180,14 @@ X-Spamd-Result: default: False [2.84 / 15.00];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
 	FROM_HAS_DN(0.00)[]
-X-Rspamd-Queue-Id: 193AD5C9A93
+X-Rspamd-Queue-Id: 93A425C9AC1
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-The RZ/G3E device tree binding uses standard unprefixed node names
-("ssi", "ssiu", "src", "dvc", "mix", "ctu") instead of the legacy
-"rcar_sound," prefixed names used by R-Car bindings.
-
-Convert rsnd_parse_of_node() from a macro into a function that tries
-the legacy prefixed name first, then falls back to the unprefixed name
-by stripping the "rcar_sound," prefix. This makes the driver work
-transparently with both old and new bindings.
-
-While at it, update the related comments in dma.c, ssi.c and ssiu.c
-that reference the hardcoded "rcar_sound,ssiu" / "rcar_sound,ssi"
-names to note that the driver now accepts both the prefixed and the
-unprefixed forms.
+Add system suspend/resume support for the ASoC rsnd driver, required
+for RZ/G3E platforms. Distribute the per-module suspend/resume work
+across the relevant files (adg.c, ssi.c, ssiu.c, src.c, ctu.c, mix.c,
+dvc.c, dma.c) rather than centralising it in core.c.
 
 Signed-off-by: John Madieu <john.madieu.xa@bp.renesas.com>
 ---
@@ -206,142 +197,445 @@ Changes:
 v7: No changes
 
 v6:
- - Factor the "rcar_sound," prefix-strip into a small static
-   helper rsnd_node_name_strip_prefix() and call it from
-   rsnd_parse_of_node(), so the convention is in one place.
- - Drop the of_node_name_eq() "dai" fallback that v5 added to
-   rsnd_dai_of_node() and rsnd_dai_probe(); not needed once
-   rsnd_parse_of_node() handles both forms uniformly.
+ - rsnd_dma_suspend()/_resume(): respect the audmapp probe
+   ordering. On suspend, assert the reset before disabling the
+   clock; on resume, enable the clock before deasserting the
+   reset.
+ - rsnd_src_suspend()/_resume(): cache src_ctrl in a local and
+   add an "if (!src_ctrl) return;" early-out so platforms that
+   do not instantiate the SRC subsystem are safe.
 
-v5: New patch.
+v5: No changes
 
- sound/soc/renesas/rcar/core.c | 34 ++++++++++++++++++++++++++++++++++
- sound/soc/renesas/rcar/dma.c  |  8 ++++----
- sound/soc/renesas/rcar/rsnd.h |  4 ++--
- sound/soc/renesas/rcar/ssi.c  |  8 ++++----
- sound/soc/renesas/rcar/ssiu.c |  8 ++++----
- 5 files changed, 48 insertions(+), 14 deletions(-)
+v4:
+ - Absorb rsnd_adg_mod_get() helper directly instead of a
+   separate preparatory patch.
+ - Distribute suspend/resume declarations into their respective
+   IP sections in rsnd.h.
 
+v3: No changes
+v2:
+ - Distribute suspend/resume into per-module files (ssi.c,
+   ssiu.c, src.c, ctu.c, mix.c, dvc.c, adg.c, dma.c) instead of
+   monolithic loops in core.c, following Morimoto-san's
+   architecture suggestion.
+
+ sound/soc/renesas/rcar/adg.c  | 26 +++++++++++++++++++++
+ sound/soc/renesas/rcar/core.c | 43 +++++++++++++++++++++++++++++++++--
+ sound/soc/renesas/rcar/ctu.c  | 20 ++++++++++++++++
+ sound/soc/renesas/rcar/dma.c  | 22 ++++++++++++++++++
+ sound/soc/renesas/rcar/dvc.c  | 20 ++++++++++++++++
+ sound/soc/renesas/rcar/mix.c  | 20 ++++++++++++++++
+ sound/soc/renesas/rcar/rsnd.h | 18 +++++++++++++++
+ sound/soc/renesas/rcar/src.c  | 34 +++++++++++++++++++++++++++
+ sound/soc/renesas/rcar/ssi.c  | 20 ++++++++++++++++
+ sound/soc/renesas/rcar/ssiu.c | 20 ++++++++++++++++
+ 10 files changed, 241 insertions(+), 2 deletions(-)
+
+diff --git a/sound/soc/renesas/rcar/adg.c b/sound/soc/renesas/rcar/adg.c
+index 483979c24319..5479cefb6dbe 100644
+--- a/sound/soc/renesas/rcar/adg.c
++++ b/sound/soc/renesas/rcar/adg.c
+@@ -953,3 +953,29 @@ void rsnd_adg_remove(struct rsnd_priv *priv)
+ 	/* It should be called after rsnd_adg_clk_disable() */
+ 	rsnd_adg_null_clk_clean(priv);
+ }
++
++static struct rsnd_mod *rsnd_adg_mod_get(struct rsnd_priv *priv)
++{
++	struct rsnd_adg *adg = rsnd_priv_to_adg(priv);
++
++	if (!adg)
++		return NULL;
++
++	return rsnd_mod_get(adg);
++}
++
++void rsnd_adg_suspend(struct rsnd_priv *priv)
++{
++	struct rsnd_mod *mod = rsnd_adg_mod_get(priv);
++
++	if (mod)
++		rsnd_suspend_clk_reset(mod->clk, mod->rstc);
++}
++
++void rsnd_adg_resume(struct rsnd_priv *priv)
++{
++	struct rsnd_mod *mod = rsnd_adg_mod_get(priv);
++
++	if (mod)
++		rsnd_resume_clk_reset(mod->clk, mod->rstc);
++}
 diff --git a/sound/soc/renesas/rcar/core.c b/sound/soc/renesas/rcar/core.c
-index f5c8ba8c5d56..fbf7f7236460 100644
+index fbf7f7236460..9ce56cd84f46 100644
 --- a/sound/soc/renesas/rcar/core.c
 +++ b/sound/soc/renesas/rcar/core.c
-@@ -1301,6 +1301,40 @@ rsnd_devm_reset_control_get_optional_indexed(struct device *dev,
- 	return devm_reset_control_get_optional(dev, name);
+@@ -962,7 +962,8 @@ static int rsnd_soc_hw_rule_channels(struct snd_pcm_hw_params *params,
+ static const struct snd_pcm_hardware rsnd_pcm_hardware = {
+ 	.info =		SNDRV_PCM_INFO_INTERLEAVED	|
+ 			SNDRV_PCM_INFO_MMAP		|
+-			SNDRV_PCM_INFO_MMAP_VALID,
++			SNDRV_PCM_INFO_MMAP_VALID	|
++			SNDRV_PCM_INFO_RESUME,
+ 	.buffer_bytes_max	= 64 * 1024,
+ 	.period_bytes_min	= 32,
+ 	.period_bytes_max	= 8192,
+@@ -2159,11 +2160,35 @@ static void rsnd_remove(struct platform_device *pdev)
+ 		remove_func[i](priv);
  }
  
-+/*
-+ * Strip the "rcar_sound," prefix from a legacy node name.
-+ *
-+ * The RZ/G3E binding uses unprefixed sub-node names (e.g. "ssi",
-+ * "ssiu") while earlier R-Car bindings use the legacy "rcar_sound,*"
-+ * form. This helper returns the unprefixed portion (the part after
-+ * the comma) or NULL if there is no prefix.
-+ *
-+ * Centralising the convention here keeps every call site consistent.
-+ */
-+static const char *rsnd_node_name_strip_prefix(const char *name)
++void rsnd_suspend_clk_reset(struct clk *clk, struct reset_control *rstc)
 +{
-+	const char *comma = strchr(name, ',');
-+
-+	return comma ? comma + 1 : NULL;
++	clk_unprepare(clk);
++	reset_control_assert(rstc);
 +}
 +
-+struct device_node *rsnd_parse_of_node(struct rsnd_priv *priv, const char *name)
++void rsnd_resume_clk_reset(struct clk *clk, struct reset_control *rstc)
 +{
-+	struct device_node *np = rsnd_priv_to_dev(priv)->of_node;
-+	struct device_node *node;
-+	const char *unprefixed;
-+
-+	node = of_get_child_by_name(np, name);
-+	if (node)
-+		return node;
-+
-+	unprefixed = rsnd_node_name_strip_prefix(name);
-+	if (unprefixed)
-+		node = of_get_child_by_name(np, unprefixed);
-+
-+	return node;
++	reset_control_deassert(rstc);
++	clk_prepare(clk);
 +}
 +
- static struct device_node*
- 	rsnd_pick_endpoint_node_for_ports(struct device_node *e_ports,
- 					  struct device_node *e_port)
+ static int rsnd_suspend(struct device *dev)
+ {
+ 	struct rsnd_priv *priv = dev_get_drvdata(dev);
+ 
++	/*
++	 * Reverse order of probe:
++	 * ADG -> DVC -> MIX -> CTU -> SRC -> SSIU -> SSI -> DMA
++	 */
+ 	rsnd_adg_clk_disable(priv);
++	rsnd_adg_suspend(priv);
++	rsnd_dvc_suspend(priv);
++	rsnd_mix_suspend(priv);
++	rsnd_ctu_suspend(priv);
++	rsnd_src_suspend(priv);
++	rsnd_ssiu_suspend(priv);
++	rsnd_ssi_suspend(priv);
++	rsnd_dma_suspend(priv);
+ 
+ 	return 0;
+ }
+@@ -2172,7 +2197,21 @@ static int rsnd_resume(struct device *dev)
+ {
+ 	struct rsnd_priv *priv = dev_get_drvdata(dev);
+ 
+-	return rsnd_adg_clk_enable(priv);
++	/*
++	 * Same order as probe:
++	 * DMA -> SSI -> SSIU -> SRC -> CTU -> MIX -> DVC -> ADG
++	 */
++	rsnd_dma_resume(priv);
++	rsnd_ssi_resume(priv);
++	rsnd_ssiu_resume(priv);
++	rsnd_src_resume(priv);
++	rsnd_ctu_resume(priv);
++	rsnd_mix_resume(priv);
++	rsnd_dvc_resume(priv);
++	rsnd_adg_resume(priv);
++	rsnd_adg_clk_enable(priv);
++
++	return 0;
+ }
+ 
+ static const struct dev_pm_ops rsnd_pm_ops = {
+diff --git a/sound/soc/renesas/rcar/ctu.c b/sound/soc/renesas/rcar/ctu.c
+index 293b0eec1ded..7db0fb3612bc 100644
+--- a/sound/soc/renesas/rcar/ctu.c
++++ b/sound/soc/renesas/rcar/ctu.c
+@@ -378,3 +378,23 @@ void rsnd_ctu_remove(struct rsnd_priv *priv)
+ 		rsnd_mod_quit(rsnd_mod_get(ctu));
+ 	}
+ }
++
++void rsnd_ctu_suspend(struct rsnd_priv *priv)
++{
++	struct rsnd_ctu *ctu;
++	int i;
++
++	for_each_rsnd_ctu(ctu, priv, i)
++		rsnd_suspend_clk_reset(rsnd_mod_get(ctu)->clk,
++				       rsnd_mod_get(ctu)->rstc);
++}
++
++void rsnd_ctu_resume(struct rsnd_priv *priv)
++{
++	struct rsnd_ctu *ctu;
++	int i;
++
++	for_each_rsnd_ctu(ctu, priv, i)
++		rsnd_resume_clk_reset(rsnd_mod_get(ctu)->clk,
++				      rsnd_mod_get(ctu)->rstc);
++}
 diff --git a/sound/soc/renesas/rcar/dma.c b/sound/soc/renesas/rcar/dma.c
-index 92974610ac15..537b71841f8e 100644
+index 537b71841f8e..793dd4adbe5c 100644
 --- a/sound/soc/renesas/rcar/dma.c
 +++ b/sound/soc/renesas/rcar/dma.c
-@@ -794,11 +794,11 @@ static void rsnd_dma_of_path(struct rsnd_mod *this,
- 	int nr, i, idx;
- 
- 	/*
--	 * It should use "rcar_sound,ssiu" on DT.
--	 * But, we need to keep compatibility for old version.
-+	 * It should use "rcar_sound,ssiu" (R-Car) or "ssiu" (RZ/G3E) on DT.
-+	 * We need to keep compatibility for old version.
- 	 *
--	 * If it has "rcar_sound.ssiu", it will be used.
--	 * If not, "rcar_sound.ssi" will be used.
-+	 * If it has "rcar_sound.ssiu" or "ssiu", it will be used.
-+	 * If not, "rcar_sound.ssi" or "ssi" will be used.
- 	 * see
- 	 *	rsnd_ssiu_dma_req()
- 	 *	rsnd_ssi_dma_req()
+@@ -1035,3 +1035,25 @@ int rsnd_dma_probe(struct rsnd_priv *priv)
+ 	/* dummy mem mod for debug */
+ 	return rsnd_mod_init(NULL, &mem, &mem_ops, NULL, NULL, 0, 0);
+ }
++
++void rsnd_dma_suspend(struct rsnd_priv *priv)
++{
++	struct rsnd_dma_ctrl *dmac = rsnd_priv_to_dmac(priv);
++
++	if (dmac) {
++		/* Mirror probe (which enables clk before deasserting reset) */
++		rsnd_suspend_clk_reset(NULL, dmac->audmapp_rstc);
++		clk_disable_unprepare(dmac->audmapp_clk);
++	}
++}
++
++void rsnd_dma_resume(struct rsnd_priv *priv)
++{
++	struct rsnd_dma_ctrl *dmac = rsnd_priv_to_dmac(priv);
++
++	if (dmac) {
++		/* Clock must be stable before reset is deasserted */
++		clk_prepare_enable(dmac->audmapp_clk);
++		rsnd_resume_clk_reset(NULL, dmac->audmapp_rstc);
++	}
++}
+diff --git a/sound/soc/renesas/rcar/dvc.c b/sound/soc/renesas/rcar/dvc.c
+index 26f80d542da8..7601dfb0810a 100644
+--- a/sound/soc/renesas/rcar/dvc.c
++++ b/sound/soc/renesas/rcar/dvc.c
+@@ -381,3 +381,23 @@ void rsnd_dvc_remove(struct rsnd_priv *priv)
+ 		rsnd_mod_quit(rsnd_mod_get(dvc));
+ 	}
+ }
++
++void rsnd_dvc_suspend(struct rsnd_priv *priv)
++{
++	struct rsnd_dvc *dvc;
++	int i;
++
++	for_each_rsnd_dvc(dvc, priv, i)
++		rsnd_suspend_clk_reset(rsnd_mod_get(dvc)->clk,
++				       rsnd_mod_get(dvc)->rstc);
++}
++
++void rsnd_dvc_resume(struct rsnd_priv *priv)
++{
++	struct rsnd_dvc *dvc;
++	int i;
++
++	for_each_rsnd_dvc(dvc, priv, i)
++		rsnd_resume_clk_reset(rsnd_mod_get(dvc)->clk,
++				      rsnd_mod_get(dvc)->rstc);
++}
+diff --git a/sound/soc/renesas/rcar/mix.c b/sound/soc/renesas/rcar/mix.c
+index 9ffa591aa4a4..c4da4c4bedb3 100644
+--- a/sound/soc/renesas/rcar/mix.c
++++ b/sound/soc/renesas/rcar/mix.c
+@@ -345,3 +345,23 @@ void rsnd_mix_remove(struct rsnd_priv *priv)
+ 		rsnd_mod_quit(rsnd_mod_get(mix));
+ 	}
+ }
++
++void rsnd_mix_suspend(struct rsnd_priv *priv)
++{
++	struct rsnd_mix *mix;
++	int i;
++
++	for_each_rsnd_mix(mix, priv, i)
++		rsnd_suspend_clk_reset(rsnd_mod_get(mix)->clk,
++				       rsnd_mod_get(mix)->rstc);
++}
++
++void rsnd_mix_resume(struct rsnd_priv *priv)
++{
++	struct rsnd_mix *mix;
++	int i;
++
++	for_each_rsnd_mix(mix, priv, i)
++		rsnd_resume_clk_reset(rsnd_mod_get(mix)->clk,
++				      rsnd_mod_get(mix)->rstc);
++}
 diff --git a/sound/soc/renesas/rcar/rsnd.h b/sound/soc/renesas/rcar/rsnd.h
-index 7d7da6cecf09..f38bd92d4faf 100644
+index f38bd92d4faf..b480085fb0e7 100644
 --- a/sound/soc/renesas/rcar/rsnd.h
 +++ b/sound/soc/renesas/rcar/rsnd.h
-@@ -501,8 +501,8 @@ rsnd_devm_reset_control_get_optional_indexed(struct device *dev,
- /*
-  * DT
+@@ -267,6 +267,8 @@ u32 rsnd_get_busif_shift(struct rsnd_dai_stream *io, struct rsnd_mod *mod);
+ int rsnd_dma_attach(struct rsnd_dai_stream *io,
+ 		    struct rsnd_mod *mod, struct rsnd_mod **dma_mod);
+ int rsnd_dma_probe(struct rsnd_priv *priv);
++void rsnd_dma_suspend(struct rsnd_priv *priv);
++void rsnd_dma_resume(struct rsnd_priv *priv);
+ struct dma_chan *rsnd_dma_request_channel(struct device_node *of_node, char *name,
+ 					  struct rsnd_mod *mod, char *x);
+ 
+@@ -429,6 +431,8 @@ int rsnd_mod_init(struct rsnd_priv *priv,
+ 		  enum rsnd_mod_type type,
+ 		  int id);
+ void rsnd_mod_quit(struct rsnd_mod *mod);
++void rsnd_suspend_clk_reset(struct clk *clk, struct reset_control *rstc);
++void rsnd_resume_clk_reset(struct clk *clk, struct reset_control *rstc);
+ struct dma_chan *rsnd_mod_dma_req(struct rsnd_dai_stream *io,
+ 				  struct rsnd_mod *mod);
+ void rsnd_mod_interrupt(struct rsnd_mod *mod,
+@@ -625,6 +629,8 @@ int rsnd_adg_ssi_clk_stop(struct rsnd_mod *ssi_mod);
+ int rsnd_adg_ssi_clk_try_start(struct rsnd_mod *ssi_mod, unsigned int rate);
+ int rsnd_adg_probe(struct rsnd_priv *priv);
+ void rsnd_adg_remove(struct rsnd_priv *priv);
++void rsnd_adg_suspend(struct rsnd_priv *priv);
++void rsnd_adg_resume(struct rsnd_priv *priv);
+ int rsnd_adg_set_src_timesel_gen2(struct rsnd_mod *src_mod,
+ 				  struct rsnd_dai_stream *io,
+ 				  unsigned int in_rate,
+@@ -822,6 +828,8 @@ extern const char * const volume_ramp_rate[];
   */
--#define rsnd_parse_of_node(priv, node)					\
--	of_get_child_by_name(rsnd_priv_to_dev(priv)->of_node, node)
-+struct device_node *rsnd_parse_of_node(struct rsnd_priv *priv, const char *name);
+ int rsnd_ssi_probe(struct rsnd_priv *priv);
+ void rsnd_ssi_remove(struct rsnd_priv *priv);
++void rsnd_ssi_suspend(struct rsnd_priv *priv);
++void rsnd_ssi_resume(struct rsnd_priv *priv);
+ struct rsnd_mod *rsnd_ssi_mod_get(struct rsnd_priv *priv, int id);
+ int rsnd_ssi_use_busif(struct rsnd_dai_stream *io);
+ u32 rsnd_ssi_multi_secondaries_runtime(struct rsnd_dai_stream *io);
+@@ -845,6 +853,8 @@ int rsnd_ssiu_attach(struct rsnd_dai_stream *io,
+ 		     struct rsnd_mod *mod);
+ int rsnd_ssiu_probe(struct rsnd_priv *priv);
+ void rsnd_ssiu_remove(struct rsnd_priv *priv);
++void rsnd_ssiu_suspend(struct rsnd_priv *priv);
++void rsnd_ssiu_resume(struct rsnd_priv *priv);
+ void rsnd_parse_connect_ssiu(struct rsnd_dai *rdai,
+ 			     struct device_node *playback,
+ 			     struct device_node *capture);
+@@ -856,6 +866,8 @@ bool rsnd_ssiu_busif_err_status_clear(struct rsnd_mod *mod);
+  */
+ int rsnd_src_probe(struct rsnd_priv *priv);
+ void rsnd_src_remove(struct rsnd_priv *priv);
++void rsnd_src_suspend(struct rsnd_priv *priv);
++void rsnd_src_resume(struct rsnd_priv *priv);
+ struct rsnd_mod *rsnd_src_mod_get(struct rsnd_priv *priv, int id);
+ 
+ #define rsnd_src_get_in_rate(priv, io) rsnd_src_get_rate(priv, io, 1)
+@@ -875,6 +887,8 @@ unsigned int rsnd_src_get_rate(struct rsnd_priv *priv,
+  */
+ int rsnd_ctu_probe(struct rsnd_priv *priv);
+ void rsnd_ctu_remove(struct rsnd_priv *priv);
++void rsnd_ctu_suspend(struct rsnd_priv *priv);
++void rsnd_ctu_resume(struct rsnd_priv *priv);
+ struct rsnd_mod *rsnd_ctu_mod_get(struct rsnd_priv *priv, int id);
+ #define rsnd_ctu_of_node(priv) rsnd_parse_of_node(priv, RSND_NODE_CTU)
+ #define rsnd_parse_connect_ctu(rdai, playback, capture)			\
+@@ -887,6 +901,8 @@ struct rsnd_mod *rsnd_ctu_mod_get(struct rsnd_priv *priv, int id);
+  */
+ int rsnd_mix_probe(struct rsnd_priv *priv);
+ void rsnd_mix_remove(struct rsnd_priv *priv);
++void rsnd_mix_suspend(struct rsnd_priv *priv);
++void rsnd_mix_resume(struct rsnd_priv *priv);
+ struct rsnd_mod *rsnd_mix_mod_get(struct rsnd_priv *priv, int id);
+ #define rsnd_mix_of_node(priv) rsnd_parse_of_node(priv, RSND_NODE_MIX)
+ #define rsnd_parse_connect_mix(rdai, playback, capture)			\
+@@ -899,6 +915,8 @@ struct rsnd_mod *rsnd_mix_mod_get(struct rsnd_priv *priv, int id);
+  */
+ int rsnd_dvc_probe(struct rsnd_priv *priv);
+ void rsnd_dvc_remove(struct rsnd_priv *priv);
++void rsnd_dvc_suspend(struct rsnd_priv *priv);
++void rsnd_dvc_resume(struct rsnd_priv *priv);
+ struct rsnd_mod *rsnd_dvc_mod_get(struct rsnd_priv *priv, int id);
+ #define rsnd_dvc_of_node(priv) rsnd_parse_of_node(priv, RSND_NODE_DVC)
+ #define rsnd_parse_connect_dvc(rdai, playback, capture)			\
+diff --git a/sound/soc/renesas/rcar/src.c b/sound/soc/renesas/rcar/src.c
+index cad15fcc37f2..ac806bdc96d9 100644
+--- a/sound/soc/renesas/rcar/src.c
++++ b/sound/soc/renesas/rcar/src.c
+@@ -834,3 +834,37 @@ void rsnd_src_remove(struct rsnd_priv *priv)
+ 		rsnd_mod_quit(rsnd_mod_get(src));
+ 	}
+ }
 +
- #define RSND_NODE_DAI	"rcar_sound,dai"
- #define RSND_NODE_SSI	"rcar_sound,ssi"
- #define RSND_NODE_SSIU	"rcar_sound,ssiu"
++void rsnd_src_suspend(struct rsnd_priv *priv)
++{
++	struct rsnd_src_ctrl *src_ctrl = rsnd_priv_to_src_ctrl(priv);
++	struct rsnd_src *src;
++	int i;
++
++	if (!src_ctrl)
++		return;
++
++	for_each_rsnd_src(src, priv, i)
++		rsnd_suspend_clk_reset(rsnd_mod_get(src)->clk,
++				       rsnd_mod_get(src)->rstc);
++
++	clk_disable_unprepare(src_ctrl->scu_x2);
++	clk_disable_unprepare(src_ctrl->scu);
++}
++
++void rsnd_src_resume(struct rsnd_priv *priv)
++{
++	struct rsnd_src_ctrl *src_ctrl = rsnd_priv_to_src_ctrl(priv);
++	struct rsnd_src *src;
++	int i;
++
++	if (!src_ctrl)
++		return;
++
++	clk_prepare_enable(src_ctrl->scu);
++	clk_prepare_enable(src_ctrl->scu_x2);
++
++	for_each_rsnd_src(src, priv, i)
++		rsnd_resume_clk_reset(rsnd_mod_get(src)->clk,
++				      rsnd_mod_get(src)->rstc);
++}
 diff --git a/sound/soc/renesas/rcar/ssi.c b/sound/soc/renesas/rcar/ssi.c
-index e6734671328c..007a7c91d470 100644
+index 007a7c91d470..2fa76a079982 100644
 --- a/sound/soc/renesas/rcar/ssi.c
 +++ b/sound/soc/renesas/rcar/ssi.c
-@@ -1009,11 +1009,11 @@ static struct dma_chan *rsnd_ssi_dma_req(struct rsnd_dai_stream *io,
- 	char *name;
- 
- 	/*
--	 * It should use "rcar_sound,ssiu" on DT.
--	 * But, we need to keep compatibility for old version.
-+	 * It should use "rcar_sound,ssiu" (R-Car) or "ssiu" (RZ/G3E) on DT.
-+	 * We need to keep compatibility for old version.
- 	 *
--	 * If it has "rcar_sound.ssiu", it will be used.
--	 * If not, "rcar_sound.ssi" will be used.
-+	 * If it has "rcar_sound.ssiu" or "ssiu", it will be used.
-+	 * If not, "rcar_sound.ssi" or "ssi" will be used.
- 	 * see
- 	 *	rsnd_ssiu_dma_req()
- 	 *	rsnd_dma_of_path()
+@@ -1257,3 +1257,23 @@ void rsnd_ssi_remove(struct rsnd_priv *priv)
+ 		rsnd_mod_quit(rsnd_mod_get(ssi));
+ 	}
+ }
++
++void rsnd_ssi_suspend(struct rsnd_priv *priv)
++{
++	struct rsnd_ssi *ssi;
++	int i;
++
++	for_each_rsnd_ssi(ssi, priv, i)
++		rsnd_suspend_clk_reset(rsnd_mod_get(ssi)->clk,
++				       rsnd_mod_get(ssi)->rstc);
++}
++
++void rsnd_ssi_resume(struct rsnd_priv *priv)
++{
++	struct rsnd_ssi *ssi;
++	int i;
++
++	for_each_rsnd_ssi(ssi, priv, i)
++		rsnd_resume_clk_reset(rsnd_mod_get(ssi)->clk,
++				      rsnd_mod_get(ssi)->rstc);
++}
 diff --git a/sound/soc/renesas/rcar/ssiu.c b/sound/soc/renesas/rcar/ssiu.c
-index 8d4ce9d35e9e..7d3d463c21bf 100644
+index 7d3d463c21bf..2a8593a5d4a6 100644
 --- a/sound/soc/renesas/rcar/ssiu.c
 +++ b/sound/soc/renesas/rcar/ssiu.c
-@@ -400,11 +400,11 @@ static struct dma_chan *rsnd_ssiu_dma_req(struct rsnd_dai_stream *io,
- 	char *name;
- 
- 	/*
--	 * It should use "rcar_sound,ssiu" on DT.
--	 * But, we need to keep compatibility for old version.
-+	 * It should use "rcar_sound,ssiu" (R-Car) or "ssiu" (RZ/G3E) on DT.
-+	 * We need to keep compatibility for old versions.
- 	 *
--	 * If it has "rcar_sound.ssiu", it will be used.
--	 * If not, "rcar_sound.ssi" will be used.
-+	 * If it has "rcar_sound.ssiu" or "ssiu", it will be used.
-+	 * If not, "rcar_sound.ssi" or "ssi" will be used.
- 	 * see
- 	 *	rsnd_ssi_dma_req()
- 	 *	rsnd_dma_of_path()
+@@ -629,3 +629,23 @@ void rsnd_ssiu_remove(struct rsnd_priv *priv)
+ 		rsnd_mod_quit(rsnd_mod_get(ssiu));
+ 	}
+ }
++
++void rsnd_ssiu_suspend(struct rsnd_priv *priv)
++{
++	struct rsnd_ssiu *ssiu;
++	int i;
++
++	for_each_rsnd_ssiu(ssiu, priv, i)
++		rsnd_suspend_clk_reset(rsnd_mod_get(ssiu)->clk,
++				       rsnd_mod_get(ssiu)->rstc);
++}
++
++void rsnd_ssiu_resume(struct rsnd_priv *priv)
++{
++	struct rsnd_ssiu *ssiu;
++	int i;
++
++	for_each_rsnd_ssiu(ssiu, priv, i)
++		rsnd_resume_clk_reset(rsnd_mod_get(ssiu)->clk,
++				      rsnd_mod_get(ssiu)->rstc);
++}
 -- 
 2.25.1
 
