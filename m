@@ -1,49 +1,49 @@
-Return-Path: <linux-renesas-soc+bounces-33145-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-33146-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id +ETAAphfFWp7UgcAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-33145-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 26 May 2026 10:53:44 +0200
+	id 4HQFGb9fFWp7UgcAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-33146-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 26 May 2026 10:54:23 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id B42055D2BFA
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 26 May 2026 10:53:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D94C95D2C26
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 26 May 2026 10:54:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 3624E30610BD
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 26 May 2026 08:47:38 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 66BF93073724
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 26 May 2026 08:47:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0D21E3CEBB1;
-	Tue, 26 May 2026 08:47:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F37D23CEBA7;
+	Tue, 26 May 2026 08:47:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aa6yauWi"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ak9C+P+x"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D246D3CE0AF;
-	Tue, 26 May 2026 08:47:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDF5C3CB90B;
+	Tue, 26 May 2026 08:47:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779785257; cv=none; b=nvP3TBY3zKOR387+EvhLj1/18JjZqDO0HyTnfwRqHF6zMf7mSpK4OZv5GemGR2eFm+wzrSC1YHL45agE7RNxhdWvzEeZMyBY0Z0LsbVwtX6PpjwIUOWLEZ5Rb3AhjpGuMCpXQAuhp1BiMuV4AkknUkzYbNONBz9g1uAhnNsVRlY=
+	t=1779785262; cv=none; b=H0ZOhd0FuigvsENV3gtBDQmATNqRnwwecMHoMH5AcEOs1uqvIf9WIlsmHmY97+hbEVtYv+nYXCl+OF82jy+nEGbk1j8Ndb/FSwMwhl8fTP7FVobFVOTMyqjzV8+0bmmt4/GhgwW0FIY/r4Wb+W1vbuY+TA57eVmd9PlvVY+Gl8o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779785257; c=relaxed/simple;
-	bh=dOXXO6smS/hgkgXlh7QjPIQvG5iQs5dkEYEFowcS2zU=;
+	s=arc-20240116; t=1779785262; c=relaxed/simple;
+	bh=zHOsvF3r8My9+a/blX5s4gYbAnSonFaADUYLxSO1XtI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=pcAWhBebM5Cy4iSE2uLFV0SUJalNnOKwwT3JPRDnTCjX5jQHuZBR9jgeS0nYTyuNmv4CsbZI/prOloYqCwYBs82Css2CIqJPt5q6I2LTjdeKP8+4eDu6a4dg+P80bHihIZcpjvs5eVY1Pe8TWvOdL8QpAX13tdSCXnJ4dnkedzA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aa6yauWi; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1819D1F00A3A;
-	Tue, 26 May 2026 08:47:31 +0000 (UTC)
+	 MIME-Version; b=ffoAJvbMD+JcVXtwFWquxX7Ji4tbhwPVag/xk7f5hlmvMowQcyrw/Nyhewh4J/qovUSxkk3y1AkcLEI6YIMzEaXYRpMUuNLzL6Q98LOjFw/tZPkihznZxNCnqm3mZL8y0Y8M5VGSC4rjga/9ZTazEzF02s+QnCZsuq13BTxMe3s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ak9C+P+x; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 054301F00A3C;
+	Tue, 26 May 2026 08:47:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779785256;
-	bh=vCNRTrFYWrhBaJRY6mUheb5Drs3QTKVC1HA4HvxgwHA=;
+	s=k20260515; t=1779785261;
+	bh=h/Xo6c7rA6ZkqK8zsLmYgGZUvj28siO3yG2ezNiZLmE=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=aa6yauWibIfIdDyXDfB8faeaEhzY8fDi6INerRQ3je18j+AGrqpi7tTZ3vM8Oiq8P
-	 5urmktaI4VoMkWxdgSztx6g66WaEFl3mRf0xjVuVpq39FStitBr7ilj0B68sOqN70L
-	 NJeugFSgaBblc8diT94XX7XlSxFA/BpRb+nZjoicIworG9mqRUShaoTImwRTHMpau+
-	 8G2q24b/PoNcrnV/ra4XhOGjCGGAtLXYoL5+QtcmpJzvmtph8nT6w4V3ObYKJ7HcbM
-	 ethRZ4OHul3D54a0eMV4C3gSauoAN4N2/cr9xpLsVKOPoRTPDF3LribyDtnpctBLgK
-	 ZGqpopHg1lk+w==
+	b=Ak9C+P+x89kPXgciryi5UHVEy7Tqw8/8AWOvEYtPMpsr8ygDEpunPdu89SkVtts6k
+	 2MxaOeR2RpdMdjBD5S0yGf9nlsxiTdMB7dK7Mam3SdHf8VTNQXBeI7CJCB1py3xcjd
+	 enW1QeESDneNffDzMAKU6vHoUcqWGb7mnlAJCtiVanGtFeD2AcmZWOeiT+STXTUXLA
+	 SrKuP2UG2QKFzEnWwMNT1sAqDYqxEoErtwLc83JIEMXBTEdtJQRuOlrYQaSUB1RTge
+	 xY7KOPciDybBxKJDs/Mg9HVcwEZ0VZSMk+k+1A7gzAQmddwQWgvsMNw0GHJCKs/CRM
+	 IEv3m25hFad2Q==
 From: Claudiu Beznea <claudiu.beznea@kernel.org>
 To: vkoul@kernel.org,
 	Frank.Li@kernel.org,
@@ -66,9 +66,9 @@ Cc: claudiu.beznea@kernel.org,
 	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
 	Frank Li <Frank.Li@nxp.com>,
 	John Madieu <john.madieu.xa@bp.renesas.com>
-Subject: [PATCH v6 03/18] dmaengine: sh: rz-dmac: Use list_first_entry_or_null()
-Date: Tue, 26 May 2026 11:46:55 +0300
-Message-ID: <20260526084710.3491480-4-claudiu.beznea@kernel.org>
+Subject: [PATCH v6 04/18] dmaengine: sh: rz-dmac: Use rz_dmac_disable_hw()
+Date: Tue, 26 May 2026 11:46:56 +0300
+Message-ID: <20260526084710.3491480-5-claudiu.beznea@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260526084710.3491480-1-claudiu.beznea@kernel.org>
 References: <20260526084710.3491480-1-claudiu.beznea@kernel.org>
@@ -90,7 +90,7 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-33145-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-33146-lists,linux-renesas-soc=lfdr.de];
 	RCPT_COUNT_TWELVE(0.00)[21];
 	FREEMAIL_TO(0.00)[kernel.org,gmail.com,perex.cz,suse.com,bp.renesas.com,pengutronix.de,glider.be,renesas.com];
 	RCVD_TLS_LAST(0.00)[];
@@ -107,14 +107,18 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
 	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	FROM_HAS_DN(0.00)[]
-X-Rspamd-Queue-Id: B42055D2BFA
+X-Rspamd-Queue-Id: D94C95D2C26
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
 From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 
-Use list_first_entry_or_null() instead of open-coding it with a
-list_empty() check and list_first_entry(). This simplifies the code.
+Use rz_dmac_disable_hw() instead of open coding it. This unifies the
+code and prepares it for the addition of suspend to RAM and cyclic DMA.
+
+The rz_dmac_disable_hw() from rz_dmac_chan_probe() was moved after
+vchan_init() as it initializes the channel->vc.chan.device used in
+rz_dmac_disable_hw().
 
 Reviewed-by: Frank Li <Frank.Li@nxp.com>
 Tested-by: John Madieu <john.madieu.xa@bp.renesas.com>
@@ -122,52 +126,56 @@ Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 ---
 
 Changes in v6:
+- fixed typo in patch description
 - collected tags
 
 Changes in v5:
 - none
 
 Changes in v4:
-- none
-
+- in rz_dmac_chan_probe(): moved rz_dmac_disable_hw() after the
+  vchan_init(&channel->vc, &dmac->engine) call as this is the one which
+  initializes data structures used by the debug code from
+  rz_dmac_disable_hw(); updated the patch description to reflect this
+ 
 Changes in v3:
 - none, this patch is new
 
- drivers/dma/sh/rz-dmac.c | 10 ++++------
- 1 file changed, 4 insertions(+), 6 deletions(-)
+ drivers/dma/sh/rz-dmac.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/dma/sh/rz-dmac.c b/drivers/dma/sh/rz-dmac.c
-index 6d80cb668957..1717b407ab9e 100644
+index 1717b407ab9e..40ddf534c094 100644
 --- a/drivers/dma/sh/rz-dmac.c
 +++ b/drivers/dma/sh/rz-dmac.c
-@@ -503,11 +503,10 @@ rz_dmac_prep_dma_memcpy(struct dma_chan *chan, dma_addr_t dest, dma_addr_t src,
- 		__func__, channel->index, &src, &dest, len);
+@@ -873,7 +873,7 @@ static void rz_dmac_irq_handle_channel(struct rz_dmac_chan *channel)
+ 			channel->index, chstat);
  
- 	scoped_guard(spinlock_irqsave, &channel->vc.lock) {
--		if (list_empty(&channel->ld_free))
-+		desc = list_first_entry_or_null(&channel->ld_free, struct rz_dmac_desc, node);
-+		if (!desc)
- 			return NULL;
+ 		scoped_guard(spinlock_irqsave, &channel->vc.lock)
+-			rz_dmac_ch_writel(channel, CHCTRL_DEFAULT, CHCTRL, 1);
++			rz_dmac_disable_hw(channel);
+ 		return;
+ 	}
  
--		desc = list_first_entry(&channel->ld_free, struct rz_dmac_desc, node);
+@@ -1000,15 +1000,15 @@ static int rz_dmac_chan_probe(struct rz_dmac *dmac,
+ 	}
+ 	rz_lmdesc_setup(channel, lmdesc);
+ 
+-	/* Initialize register for each channel */
+-	rz_dmac_ch_writel(channel, CHCTRL_DEFAULT, CHCTRL, 1);
 -
- 		desc->type = RZ_DMAC_DESC_MEMCPY;
- 		desc->src = src;
- 		desc->dest = dest;
-@@ -533,11 +532,10 @@ rz_dmac_prep_slave_sg(struct dma_chan *chan, struct scatterlist *sgl,
- 	int i = 0;
+ 	channel->vc.desc_free = rz_dmac_virt_desc_free;
+ 	vchan_init(&channel->vc, &dmac->engine);
+ 	INIT_LIST_HEAD(&channel->ld_queue);
+ 	INIT_LIST_HEAD(&channel->ld_free);
+ 	INIT_LIST_HEAD(&channel->ld_active);
  
- 	scoped_guard(spinlock_irqsave, &channel->vc.lock) {
--		if (list_empty(&channel->ld_free))
-+		desc = list_first_entry_or_null(&channel->ld_free, struct rz_dmac_desc, node);
-+		if (!desc)
- 			return NULL;
- 
--		desc = list_first_entry(&channel->ld_free, struct rz_dmac_desc, node);
--
- 		for_each_sg(sgl, sg, sg_len, i)
- 			dma_length += sg_dma_len(sg);
- 
++	/* Initialize register for each channel */
++	rz_dmac_disable_hw(channel);
++
+ 	/* Request the channel interrupt. */
+ 	scnprintf(pdev_irqname, sizeof(pdev_irqname), "ch%u", index);
+ 	irq = platform_get_irq_byname(pdev, pdev_irqname);
 -- 
 2.43.0
 
