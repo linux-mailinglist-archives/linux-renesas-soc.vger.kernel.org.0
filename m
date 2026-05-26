@@ -1,266 +1,526 @@
-Return-Path: <linux-renesas-soc+bounces-33178-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-33179-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id QIScOhfcFWpzdQcAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-33178-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 26 May 2026 19:44:55 +0200
+	id OI47FwzoFWqXegcAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-33179-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 26 May 2026 20:35:56 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4436D5DAE15
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 26 May 2026 19:44:55 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id AFDEF5DB6A6
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 26 May 2026 20:35:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id D0A4D300CBDE
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 26 May 2026 17:44:48 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 635563040A97
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 26 May 2026 18:30:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6D82D41B357;
-	Tue, 26 May 2026 17:44:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 15683405C51;
+	Tue, 26 May 2026 18:30:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="aPcZnY0s"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YtuJpVga"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from OS0P286CU010.outbound.protection.outlook.com (mail-japanwestazon11011044.outbound.protection.outlook.com [40.107.74.44])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45CE8403EB2;
-	Tue, 26 May 2026 17:44:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.74.44
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779817487; cv=fail; b=srw7OUkHh6dMBfCAS44zUYYR6YqzBxHsPXh1qmcyFw4zhfpEtDyUtrMUV3IeZPUScdHLRtnRQJ17glH/ROPqlaLaxPnJmsUyH9iKWqxpJlelO3khnaQfbl/XDfZCCsaYmS+ErMn77NsNhWdhn9OjRmTj+kpyx3KZqIRgDZNbVwg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779817487; c=relaxed/simple;
-	bh=AyhSl+ZRCy7K7stpsAHD0+IF84GVPFuA3H1cFeDrlNw=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=A7OwIURyf/A9rjmg6HyKnYBUO6mxvOR0Tahv6ujBsTBHShfeEpGs8vlVFx45jn+gL1bfwylzSN11IQotbWm3ZbUwcvfuRAHMsgGXaVY79DVHoyNv/wWw0QufpsDTPD/VJNxgkgoCJwZ4ipW0TylxdBrujpXKntLfZJFVe1MtqQg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=aPcZnY0s; arc=fail smtp.client-ip=40.107.74.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=a5ivpCn5odzaS1rcwxwWe4QOmf7VqSDbEKFgAvDAQyQHHNoE+SMNvFxH+uHCYSddjcfn/+Mi8TYL9ZJd458Oi9sf16Xr3cFzzijo3VBeR0PHRAloYDN4uOeM9JYpfPK2tnccNhVBGwQL4dtDT73LyEmJVn2SfFVFRdMX2dPj3okghtusmhIZGs62mQk7aohgHeXpz9ESqCuwWX05EfuDr61E9fkjSs0++VFKro/FFmLfS1OM/Wgvv1lAyemWWwEvgLNBZJLwW5pRN/sGXFbtCPy8kuBGiJcZsRZR29aGfcKUDVd+i4jKi6611ptA3b07T5UblOk0oZtWR51AUIJPzA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=/YmZVoJEbJoh53NmiXyKtSLHN2sh8bpaD4ie7IOehTE=;
- b=ZaAzTqw6YQj5H4OA9d+dcT/qnHOgPEmczPopdpV6Bl/4L41lLubtenPgjUSFVSn0dgcOb2Eg8F9b0zZQDGeQp/6+8Qp2UM12L9VreWO0vX/BqcN937a8pQC5Ssio4NKc6cvY6JfY3+Olo0va1DZyD4Yr9nDzJH56+fKak34LNlsxcrchit8gd+iEuezEKJ+BNTjJBjmb1uK5I4EsEDPX6QoZsmbgR2/4eJpqFQMRKCTSxusdp+6EDSYoab+7rL3qV2yl13u77SWHGQ0KQ650DzsCKHcfe82CrJak8LvOWoJKx7YMwfM19NPUgVJ5j2DlGM3+vmiDijE7GvrVPDCo6A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/YmZVoJEbJoh53NmiXyKtSLHN2sh8bpaD4ie7IOehTE=;
- b=aPcZnY0sZjLpuphVo6aftMlI2sZLthhgcLTr1o+QfogmPgYkUHe9Ro81E6HTBkdALRpb6y6MjR1BML6lvzXtVSGMM8LypzwUdtqZEJ7co5TnghGUOvuDky3GuWfIUgjWoPvRbrXmc2L0pA/yyeMGzT7yHkWYk3D61x99U/7Yl5w=
-Received: from TY4PR01MB14282.jpnprd01.prod.outlook.com (2603:1096:405:20d::9)
- by OS9PR01MB16891.jpnprd01.prod.outlook.com (2603:1096:604:408::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.71.12; Tue, 26 May
- 2026 17:44:42 +0000
-Received: from TY4PR01MB14282.jpnprd01.prod.outlook.com
- ([fe80::655d:9c47:4499:eb3a]) by TY4PR01MB14282.jpnprd01.prod.outlook.com
- ([fe80::655d:9c47:4499:eb3a%5]) with mapi id 15.21.0048.019; Tue, 26 May 2026
- 17:44:40 +0000
-From: Michael Dege <michael.dege@renesas.com>
-To: Jakub Kicinski <kuba@kernel.org>
-CC: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-	"andrew+netdev@lunn.ch" <andrew+netdev@lunn.ch>, "davem@davemloft.net"
-	<davem@davemloft.net>, "edumazet@google.com" <edumazet@google.com>,
-	"pabeni@redhat.com" <pabeni@redhat.com>, niklas.soderlund
-	<niklas.soderlund@ragnatech.se>, "paul@pbarker.dev" <paul@pbarker.dev>,
-	"richardcochran@gmail.com" <richardcochran@gmail.com>,
-	"netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH net-next v5 08/14] net: renesas: rswitch: add locking for
- agent clock control
-Thread-Topic: [PATCH net-next v5 08/14] net: renesas: rswitch: add locking for
- agent clock control
-Thread-Index: AQHc6eRi1pYOqHPL60CPnlV+4dd91rYfOd8AgAFgKQA=
-Date: Tue, 26 May 2026 17:44:40 +0000
-Message-ID:
- <TY4PR01MB1428279E78F8BF79FF1F40C39820B2@TY4PR01MB14282.jpnprd01.prod.outlook.com>
-References: <20260522-rswitch_add_vlans-v5-8-53589d944a9f@renesas.com>
- <20260525204114.2471390-1-kuba@kernel.org>
-In-Reply-To: <20260525204114.2471390-1-kuba@kernel.org>
-Accept-Language: en-US, en-GB
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TY4PR01MB14282:EE_|OS9PR01MB16891:EE_
-x-ms-office365-filtering-correlation-id: 12f1eae0-4557-4255-33c3-08debb4e76ab
-x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|376014|366016|1800799024|7416014|18002099003|22082099003|56012099006|38070700021|5023799004|11063799006|6133799003|4143699003;
-x-microsoft-antispam-message-info:
- QcukeoLI1VJOg5SzCBo0Ysjbhum+vEmfvZywQ5JBBwqtOfk2dp1nV5SGhU2KVhmSUIHDlbcVX5CCXN7PYJplXDSXB42hwLWWEM/SF13ymAJckemzR0UrcY1QMBf8T6DX9CIyOk+I9YzAWYcDyWtaKSjRZNlWnwbkjmvMIh+vXBUWzZ2e1KjGjjyddae2JwXTcIfimS2OdNo29Aix3/06ts/adnLB/WgIy3btYqS/6R160wcxZCfH7aYSguW5yk9ATUy0ZGlTvJMeYbNo/K6riVOw/EXXIQwaZGiX+ENIaBCOfvAyjkCfwcnepqSC0ULUjyBfTnCqYT3Xxzmx69cU5c04drRzL37rQtwU9fcG0dHdoW16BXF5EmW8UroeIwPfN7ZO58Ut8x5T/oU8nPeDOzN9KfbgOAM3P/uxTBJvYTDt4A/KI8IHEGwp9xPgHk1U/5AmEnrDwyfFmH2MkVKwara9i7fpwWSuov+IlS25BNK33abGyeTxME6FsE/gRjR1I8PYAGxr+V/pewe9DtjT7xqx7rpaxPL5uNuIsL62osD02pJjExuSUYIN6fh9kpaNnfIvswhE6bKHtlbOVjeua7GSSi7lXgULpIID0Agl6kZv0xMApADrIBcQWWAl7XnP2ViiZb3a9BEaNQm2Mp7dPbql4KEdgzMorZRErTdh023if59080fOh3FAYpphWGE2gHF0ID6wCcwkWfqE9P1cbvKIxMrrT8BX+wSM2y9rGBoHCUVr1mc9sV5CnRvSILEX
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY4PR01MB14282.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(7416014)(18002099003)(22082099003)(56012099006)(38070700021)(5023799004)(11063799006)(6133799003)(4143699003);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?VEhjLXgZ62svhx3/E27nQ8hR6tp5/VS+pFN3mgfS/tooHV+Likz41hdnuJIr?=
- =?us-ascii?Q?03j6DJgpXtxtlGlNUbt6j9sMEiMUZfVem/fGg4TKhqCc/bhJK5lDRxVIzVU1?=
- =?us-ascii?Q?enKafly9D8B0pVeBcgVMmT5Op8KM6uaFbj3++r+R6R2qVnD1dhJuZ9wGAAxL?=
- =?us-ascii?Q?xgp+AEqXK80sgEG701DQVWIpRRAk3lXobF3XXtJPcdvPdYnROjvzK1pganTc?=
- =?us-ascii?Q?3qgpj2mV/Obya2Jsm6Km3mHvWaqOEJeph1tLnMC3/7euJfNuoGblkgrwvSgn?=
- =?us-ascii?Q?8E4ebMCg9iZtnQMMFLfw1H+SR5VDEPBEHOmQ4YMKAiIuccyB+PoeahTBlrTR?=
- =?us-ascii?Q?yNhjydt9Uql+nCmCNRAYh+aY0zcWKfPSbL1aibBEaf7qxd4GOJk1g+ipy9Vi?=
- =?us-ascii?Q?SlogpLLiUq8/gJE3h9M8+b3CWxqzQxDDoGEyhwNpUjeJqW+eBBmmT1XHw0ll?=
- =?us-ascii?Q?l/ZXM5uNADHpcVpXhJLKvbLFhrHzmuFFwfV5a0icMUJrr3I645/BtPoEOyeO?=
- =?us-ascii?Q?8zaXanMO+wXe5JrNL+1usd4k8PE3p+m78cggwTfN6AwuUc0MS5efxt1kupta?=
- =?us-ascii?Q?ZVrynWfh0cXJP3aD9KdxARwZwM+uEGg/zBl+LMgALwSHXIAR6bufIlki3NKF?=
- =?us-ascii?Q?OzB6BKqgVKQn4Z51u9NcB6/zna2ph78qVWF6i2MKVrOkw4+V3++XRCbAHHVw?=
- =?us-ascii?Q?yIAbu4GXx6Vsi7aJw+jbEx+L/9LnRihAYe2GcW5NnvH8gcj4a8ODbfPo0oOC?=
- =?us-ascii?Q?Iygcgfo62FRq8ycFVlJXH9mupsUDKMLtum7ihRwigDw9jMSbAaS6XLJavnu1?=
- =?us-ascii?Q?aTPD3NTO9Ex09SwQJG3a9E5uknJ8EDdnPU/ok2u/7Rw8YatGLgbJvJZD1Wok?=
- =?us-ascii?Q?u/QvHOAFZaUJwhnrWFTCrK9N7Ab5aBHe5CZefPN/kXRnRU91+3GbTXiZovGe?=
- =?us-ascii?Q?kODMx6dGP/hhj3F+IWRYQylnueho7g1ENPwEh/CONFmV9EtLrcYfrNRH0S0l?=
- =?us-ascii?Q?C9VjI95egN7vsaK3lZluG9sjyBMT99KZgmF71565EDIdRbhbqKAhzmGcqXpb?=
- =?us-ascii?Q?bI79a/+jizyMTPOMvBPfnoMpOZPfEC7P2uolwpmBpK/aXlENibYEGMisV+4y?=
- =?us-ascii?Q?FZv7GkVOQz8ITnMN0AyiGWLmu5t5HJsJ5R/uJFkUSslMRPpnP0PHc4adLp8l?=
- =?us-ascii?Q?JVcDepEh69vQ2sZLSwtz4v95VofGyHUG/Ax2g0pmYKB4IcrkZL9YuUf7W8ai?=
- =?us-ascii?Q?vhV1AKLHAKmwbmKaI+TIJvHDEMoo+qnDBnsgR/d6LmNcaC5+At0jZgze7Cwc?=
- =?us-ascii?Q?REo2W2G9Jj5k0xOSgOYB1xt+34qm9cqAUT0rIUg6zsAcwxmEM9mQLZ8u3z7G?=
- =?us-ascii?Q?v1yAIDQ4E0y3gsQyLarOR02HtMnr5YGvn1yPHhvJR6BsWUuBdpgDTCUgRtML?=
- =?us-ascii?Q?CbeqBnxnbuZ2mCZGeoVmOd9+reZkZCgf1S6tfvsstyRf1MhrDAPF3gU5bgNB?=
- =?us-ascii?Q?G/mGmCnKbJabAf/7Dmt9FheXETHPqH/DxrjRnQEX+skTY9PBJStbLpxGrgNN?=
- =?us-ascii?Q?K/YYqDuncOBkFuzBLRfS4kQuBl+bDpnpEpSQRJ5sQ1TJUb+n1x00ebDFNEBm?=
- =?us-ascii?Q?kmAgfF1cPOZD92gvSxZ5DlEX9SbufRIwDZOj1nBNZtZZjwoQ4ltlJOIoDXVu?=
- =?us-ascii?Q?fzwYjgTr9furYCdYYJtTi5jF4ZHeWEkRikw6zGMGHqY2PT4lI5bLhc/XPtir?=
- =?us-ascii?Q?otze3Eq0+g=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7959040960B;
+	Tue, 26 May 2026 18:30:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779820254; cv=none; b=Y0iFQ4z18hUCLYm+9Y+yAiNlT0jWF5TCcLgUa73uHxfJK6LFy120QNIgfrQBmC+iN5qtX1pq5kgrxk1jTbFZ/7XubMjmkzYceY7zPZnz/qFGWurzTVY4l/g9DALzLsOvkUU84ANCkL0Cu5tLQU6ONHloF/gGkNEFXF/UkYhIkpI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779820254; c=relaxed/simple;
+	bh=/ERmcwIepsFqkT/BF/kT/SRYDPH4+5R/FJ/hGYlVGiw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=dCXex7yUK6n9SHI6Vf7k9zsCznI/e0HY/ldAs4yVS/QUUyyPo/6QFKrK9RXQ1/FJ655mndI9lDgBT42cFN3cw0Gy5FeN2ZpiOU6hyJVIapJUJa1fWocIBbkpbhuRTa/4J5yEfynuPV/GQ5Dzmp4zvaP7KEkCDOlhqiWJPxR/soQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YtuJpVga; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B38E81F000E9;
+	Tue, 26 May 2026 18:30:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1779820252;
+	bh=80z6UQMwUuOxqzeC8wLOTRdmWHUtibnlUFycndwtq+8=;
+	h=From:To:Cc:Subject:Date;
+	b=YtuJpVgarK/O+W4xkr9Gz63gwNr25JSVAqudaYqzG2eF0QWPPSIK277x5ke5WFfuv
+	 OKIXuoF6WDzk7/JoBE8ut63rnMsWaLVB+nkGaz3Qqoned0RKxZJklEv3W2iwSUEaJL
+	 HuSZxvdb4br+vEuv0y1UF0KalAJYYF79FYKv3wr7lBcBc+Nhc6TktizG/6FQK8KE1E
+	 RaySF8KfftWasGZAZK6bpqetdsl6xu4CtQJvfV4oQ9Le2wJqh2zRoGq02FRQYnTo52
+	 o0OR0WEPlwl/uh4fsDw4wWVsItxuBEBU1yyRj7HQYe2kwPEG0CFHf7uorKnk9T1WYR
+	 c5HEfXmQI+OCw==
+From: Claudiu Beznea <claudiu.beznea@kernel.org>
+To: yoshihiro.shimoda.uh@renesas.com,
+	vkoul@kernel.org,
+	neil.armstrong@linaro.org,
+	geert+renesas@glider.be,
+	magnus.damm@gmail.com,
+	prabhakar.mahadev-lad.rj@bp.renesas.com
+Cc: claudiu.beznea@kernel.org,
+	claudiu.beznea@tuxon.dev,
+	linux-renesas-soc@vger.kernel.org,
+	linux-phy@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
+	stable@vger.kernel.org,
+	Pavel Machek <pavel@nabladev.com>,
+	Nobuhiro Iwamatsu <iwamatsu@nigauri.org>
+Subject: [PATCH v2] phy: renesas: rcar-gen3-usb2: Avoid long delay in atomic context
+Date: Tue, 26 May 2026 21:30:45 +0300
+Message-ID: <20260526183045.3887660-1-claudiu.beznea@kernel.org>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TY4PR01MB14282.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 12f1eae0-4557-4255-33c3-08debb4e76ab
-X-MS-Exchange-CrossTenant-originalarrivaltime: 26 May 2026 17:44:40.5365
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: LnQqvEY05s33ZTxzVz2gc5Pq4GXVdrjqc2GS3uT02jsVaIfJwc1Czd48llvFO/QvabLFgaoYnsBsTAeaWwftmw37e87o8ikCk7rYh4qysag=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS9PR01MB16891
-X-Spamd-Result: default: False [1.34 / 15.00];
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [0.84 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_REJECT(1.00)[cv is fail on i=2];
-	DMARC_POLICY_ALLOW(-0.50)[renesas.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
-	R_DKIM_ALLOW(-0.20)[renesas.com:s=selector1];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_MISSING_CHARSET(0.50)[];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_TWELVE(0.00)[12];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[15];
+	FREEMAIL_TO(0.00)[renesas.com,kernel.org,linaro.org,glider.be,gmail.com,bp.renesas.com];
+	TAGGED_FROM(0.00)[bounces-33179-lists,linux-renesas-soc=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-33178-lists,linux-renesas-soc=lfdr.de];
-	FREEMAIL_CC(0.00)[renesas.com,lunn.ch,davemloft.net,google.com,redhat.com,ragnatech.se,pbarker.dev,gmail.com,vger.kernel.org];
+	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[michael.dege@renesas.com,linux-renesas-soc@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[claudiu.beznea@kernel.org,linux-renesas-soc@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[renesas.com:+];
-	RCVD_COUNT_FIVE(0.00)[5];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,netdev];
-	NEURAL_HAM(-0.00)[-0.999];
-	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo,lunn.ch:email]
-X-Rspamd-Queue-Id: 4436D5DAE15
+	DKIM_TRACE(0.00)[kernel.org:+];
+	NEURAL_HAM(-0.00)[-0.994];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,renesas.com:email,nigauri.org:email,nabladev.com:email]
+X-Rspamd-Queue-Id: AFDEF5DB6A6
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hello Jakub,
+From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 
-Thank you for your comment.
+The OTG PHY initialization sequence needs to wait for 20 ms at a specific
+step, as described in commit 72c0339c115b ("phy: renesas:
+rcar-gen3-usb2: follow the hardware manual procedure").
 
-> -----Original Message-----
-> From: Jakub Kicinski <kuba@kernel.org>
-> Sent: Monday, May 25, 2026 10:41 PM
-> To: Michael Dege <michael.dege@renesas.com>
-> Cc: Jakub Kicinski <kuba@kernel.org>; Yoshihiro Shimoda <yoshihiro.shimod=
-a.uh@renesas.com>;
-> andrew+netdev@lunn.ch; davem@davemloft.net; edumazet@google.com; pabeni@r=
-edhat.com; niklas.soderlund
-> <niklas.soderlund@ragnatech.se>; paul@pbarker.dev; richardcochran@gmail.c=
-om; netdev@vger.kernel.org;
-> linux-renesas-soc@vger.kernel.org; linux-kernel@vger.kernel.org
-> Subject: Re: [PATCH net-next v5 08/14] net: renesas: rswitch: add locking=
- for agent clock control
->=20
-> This is an AI-generated review of your patch. The human sending this emai=
-l has considered the AI
-> review valid, or at least plausible.
-> ---
-> net: renesas: rswitch: add locking for agent clock control
->=20
-> This commit introduces an agent_lock to serialize access to the shared RC=
-EC and RCDC agent clock
-> registers. This aims to prevent potential race conditions between ETHA an=
-d GWCA ports when enabling or
-> disabling clocks.
->=20
-> > diff --git a/drivers/net/ethernet/renesas/rswitch.h
-> > b/drivers/net/ethernet/renesas/rswitch.h
-> > --- a/drivers/net/ethernet/renesas/rswitch.h
-> > +++ b/drivers/net/ethernet/renesas/rswitch.h
-> [ ... ]
-> > @@ -1207,6 +1208,8 @@ struct rswitch_private {
-> >  	struct list_head port_list;
-> >
-> >  	spinlock_t lock;	/* lock interrupt registers' control */
-> > +	spinlock_t agent_lock;	/* rswitch agent clock control */
-> > +
->=20
-> [Severity: High]
-> Is this lock initialized anywhere before it is used?
->=20
-> It looks like agent_lock is added to the structure, but spin_lock_init() =
-is missing from the driver
-> probe path. Depending on kzalloc for zero-initialization is not valid for=
- spinlocks and can cause
-> issues on architectures or kernel configurations that require explicit in=
-itialization.
->=20
+Commit 55a387ebb921 ("phy: renesas: rcar-gen3-usb2: Lock around hardware
+registers and driver data") tried to address various problems in the
+rcar-gen3-usb2 driver and converted the mutex protecting HW register
+accesses to a spin lock, leaving, however, a long delay in the critical
+section protected by the spin lock. This may become a problem,
+especially on RT kernels.
 
-Good point fixed this.
+To address this, release the spin lock before sleeping for 20 ms as
+required by the HW manual and reacquire it afterwards. To avoid other
+threads entering the critical section and configuring the HW while the
+software is waiting for the OTG initialization to complete, introduce the
+otg_initializing variable alongside the otg_init_done completion. Any
+other thread trying to configure the HW while the OTG PHY initialization
+is in progress waits for the completion instead of immediately returning
+errors to PHY users. The IRQs were also disabled while waiting for the OTG
+PHY initialization to complete, as the interrupt handler may also apply HW
+settings.
 
-> > diff --git a/drivers/net/ethernet/renesas/rswitch_main.c
-> > b/drivers/net/ethernet/renesas/rswitch_main.c
-> > --- a/drivers/net/ethernet/renesas/rswitch_main.c
-> > +++ b/drivers/net/ethernet/renesas/rswitch_main.c
-> > @@ -173,8 +173,12 @@ int rswitch_gwca_change_mode(struct
-> > rswitch_private *priv,  {
-> >  	int ret;
-> >
-> > -	if (!rswitch_agent_clock_is_enabled(priv->addr, priv->gwca.index))
-> > +	if (!rswitch_agent_clock_is_enabled(priv->addr, priv->gwca.index)) {
-> > +		spin_lock(&priv->agent_lock);
-> >  		rswitch_agent_clock_ctrl(priv->addr, priv->gwca.index, 1);
-> > +		spin_lock(&priv->agent_lock);
-> > +	}
->=20
-> [Severity: High]
-> Does this code cause an immediate deadlock?
->=20
-> Because spin_lock() is called twice consecutively without a spin_unlock()=
-, it appears the CPU will
-> spin indefinitely waiting for the lock it already holds.
+Fixes: 55a387ebb921 ("phy: renesas: rcar-gen3-usb2: Lock around hardware registers and driver data")
+Cc: stable@vger.kernel.org
+Reported-by: Pavel Machek <pavel@nabladev.com>
+Closes: https://lore.kernel.org/all/afhkX2Ys2BG1gnqy@duo.ucw.cz
+Reported-by: Nobuhiro Iwamatsu <iwamatsu@nigauri.org>
+Closes: https://lore.kernel.org/all/afhkX2Ys2BG1gnqy@duo.ucw.cz
+Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+---
 
-This is a bug. I also fixed it.
+Changes in v2:
+- dropped the rcar_gen3_phy_wait_otg_init() and used inline the code; with it
+  the comment that was previously in rcar_gen3_phy_wait_otg_init() was added
+  in struct rcar_gen3_chan for above the org_initializing variable
+- dropped READ_ONCE()/WRITE_ONCE() arround struct rcar_gen3_chan::otg_initializing
+- checked for struct rcar_gen3_chan::otg_initializing before checking for
+  rcar_gen3_is_any_otg_rphy_initialized() in all code places
+- added rcar_gen3_phy_usb2_irqs_mask_all() and rcar_gen3_phy_usb2_irqs_unmask()
+  to mask/unmask only the interrupts at the controller level since the line is
+  shared
+- along with it dropped disable_irq_nosync()/enable_irq() from v1 along with
+  struct rcar_gen3_chan::irq
+- increased the completion timeout to 30 ms
 
-Best regards,
+ drivers/phy/renesas/phy-rcar-gen3-usb2.c | 216 +++++++++++++++++++----
+ 1 file changed, 185 insertions(+), 31 deletions(-)
 
-Michael
+diff --git a/drivers/phy/renesas/phy-rcar-gen3-usb2.c b/drivers/phy/renesas/phy-rcar-gen3-usb2.c
+index 9a45d840efeb..734079a07189 100644
+--- a/drivers/phy/renesas/phy-rcar-gen3-usb2.c
++++ b/drivers/phy/renesas/phy-rcar-gen3-usb2.c
+@@ -138,12 +138,20 @@ struct rcar_gen3_chan {
+ 	struct rcar_gen3_phy rphys[NUM_OF_PHYS];
+ 	struct regulator *vbus;
+ 	struct work_struct work;
++	struct completion otg_init_done;
+ 	spinlock_t lock;	/* protects access to hardware and driver data structure. */
+ 	enum usb_dr_mode dr_mode;
+ 	bool extcon_host;
+ 	bool is_otg_channel;
+ 	bool uses_otg_pins;
+ 	bool otg_internal_reg;
++	/*
++	 * The OTG can be initialized only once and needs to release the spinlock
++	 * and wait for 20 ms due to hardware constraints. If a thread executes
++	 * PHY configuration code while the OTG PHY is waiting for the 20 ms, the
++	 * thread will have to wait for the OTG PHY initialization to complete.
++	 */
++	bool otg_initializing;
+ };
+ 
+ struct rcar_gen3_phy_drv_data {
+@@ -392,26 +400,48 @@ static ssize_t role_store(struct device *dev, struct device_attribute *attr,
+ 	struct rcar_gen3_chan *ch = dev_get_drvdata(dev);
+ 	bool is_b_device;
+ 	enum phy_mode cur_mode, new_mode;
++	unsigned long flags;
++	int ret = -EIO;
+ 
+-	guard(spinlock_irqsave)(&ch->lock);
++	spin_lock_irqsave(&ch->lock, flags);
+ 
+-	if (!ch->is_otg_channel || !rcar_gen3_is_any_otg_rphy_initialized(ch))
+-		return -EIO;
++	if (!ch->is_otg_channel)
++		goto unlock;
++
++	if (ch->otg_initializing) {
++		unsigned long timeout = msecs_to_jiffies(30);
++
++		spin_unlock_irqrestore(&ch->lock, flags);
++
++		ret = wait_for_completion_timeout(&ch->otg_init_done, timeout);
++		ret = ret ? 0 : -ETIMEDOUT;
++		if (ret)
++			return ret;
++
++		spin_lock_irqsave(&ch->lock, flags);
++	}
+ 
+-	if (sysfs_streq(buf, "host"))
++	if (!rcar_gen3_is_any_otg_rphy_initialized(ch))
++		goto unlock;
++
++	if (sysfs_streq(buf, "host")) {
+ 		new_mode = PHY_MODE_USB_HOST;
+-	else if (sysfs_streq(buf, "peripheral"))
++	} else if (sysfs_streq(buf, "peripheral")) {
+ 		new_mode = PHY_MODE_USB_DEVICE;
+-	else
+-		return -EINVAL;
++	} else {
++		ret = -EINVAL;
++		goto unlock;
++	}
+ 
+ 	/* is_b_device: true is B-Device. false is A-Device. */
+ 	is_b_device = rcar_gen3_check_id(ch);
+ 	cur_mode = rcar_gen3_get_phy_mode(ch);
+ 
+ 	/* If current and new mode is the same, this returns the error */
+-	if (cur_mode == new_mode)
+-		return -EINVAL;
++	if (cur_mode == new_mode) {
++		ret = -EINVAL;
++		goto unlock;
++	}
+ 
+ 	if (new_mode == PHY_MODE_USB_HOST) { /* And is_host must be false */
+ 		if (!is_b_device)	/* A-Peripheral */
+@@ -425,7 +455,10 @@ static ssize_t role_store(struct device *dev, struct device_attribute *attr,
+ 			rcar_gen3_init_for_peri(ch);
+ 	}
+ 
+-	return count;
++unlock:
++	spin_unlock_irqrestore(&ch->lock, flags);
++
++	return ret ?: count;
+ }
+ 
+ static ssize_t role_show(struct device *dev, struct device_attribute *attr,
+@@ -441,14 +474,11 @@ static ssize_t role_show(struct device *dev, struct device_attribute *attr,
+ }
+ static DEVICE_ATTR_RW(role);
+ 
+-static void rcar_gen3_init_otg(struct rcar_gen3_chan *ch)
++static void rcar_gen3_init_otg_phase0(struct rcar_gen3_chan *ch)
+ {
+ 	void __iomem *usb2_base = ch->base;
+ 	u32 val;
+ 
+-	if (!ch->is_otg_channel || rcar_gen3_is_any_otg_rphy_initialized(ch))
+-		return;
+-
+ 	/* Should not use functions of read-modify-write a register */
+ 	val = readl(usb2_base + USB2_LINECTRL1);
+ 	val = (val & ~USB2_LINECTRL1_DP_RPD) | USB2_LINECTRL1_DPRPD_EN |
+@@ -471,7 +501,11 @@ static void rcar_gen3_init_otg(struct rcar_gen3_chan *ch)
+ 			writel(val | USB2_ADPCTRL_IDPULLUP, usb2_base + USB2_ADPCTRL);
+ 		}
+ 	}
+-	mdelay(20);
++}
++
++static void rcar_gen3_init_otg_phase1(struct rcar_gen3_chan *ch)
++{
++	void __iomem *usb2_base = ch->base;
+ 
+ 	writel(0xffffffff, usb2_base + USB2_OBINTSTA);
+ 	writel(ch->phy_data->obint_enable_bits, usb2_base + USB2_OBINTEN);
+@@ -510,6 +544,11 @@ static irqreturn_t rcar_gen3_phy_usb2_irq(int irq, void *_ch)
+ 		goto rpm_put;
+ 
+ 	scoped_guard(spinlock, &ch->lock) {
++		if (ch->otg_initializing) {
++			ret = IRQ_NONE;
++			goto rpm_put;
++		}
++
+ 		status = readl(usb2_base + USB2_OBINTSTA);
+ 		if (status & ch->phy_data->obint_enable_bits) {
+ 			dev_vdbg(dev, "%s: %08x\n", __func__, status);
+@@ -528,14 +567,59 @@ static irqreturn_t rcar_gen3_phy_usb2_irq(int irq, void *_ch)
+ 	return ret;
+ }
+ 
++static void rcar_gen3_phy_usb2_irqs_mask_all(struct rcar_gen3_chan *channel,
++					     u32 *masked_irqs_bits)
++{
++	void __iomem *usb2_base = channel->base;
++	u32 val, bitmask = 0;
++
++	for (unsigned int i = 0; i < NUM_OF_PHYS; i++)
++		bitmask |= channel->rphys[i].int_enable_bits;
++
++	val = readl(usb2_base + USB2_INT_ENABLE);
++	*masked_irqs_bits = val & bitmask;
++	val &= ~bitmask;
++	writel(val, usb2_base + USB2_INT_ENABLE);
++}
++
++static void rcar_gen3_phy_usb2_irqs_unmask(struct rcar_gen3_chan *channel,
++					   u32 irqs_bits)
++{
++	void __iomem *usb2_base = channel->base;
++	u32 val, bitmask = 0;
++
++	for (unsigned int i = 0; i < NUM_OF_PHYS; i++)
++		bitmask |= channel->rphys[i].int_enable_bits;
++
++	val = readl(usb2_base + USB2_INT_ENABLE);
++	val &= ~bitmask;
++	val |= irqs_bits;
++	writel(val, usb2_base + USB2_INT_ENABLE);
++}
++
+ static int rcar_gen3_phy_usb2_init(struct phy *p)
+ {
+ 	struct rcar_gen3_phy *rphy = phy_get_drvdata(p);
+ 	struct rcar_gen3_chan *channel = rphy->ch;
+ 	void __iomem *usb2_base = channel->base;
++	unsigned long flags;
++	int ret = 0;
+ 	u32 val;
+ 
+-	guard(spinlock_irqsave)(&channel->lock);
++	spin_lock_irqsave(&channel->lock, flags);
++
++	if (channel->otg_initializing) {
++		unsigned long timeout = msecs_to_jiffies(30);
++
++		spin_unlock_irqrestore(&channel->lock, flags);
++
++		ret = wait_for_completion_timeout(&channel->otg_init_done, timeout);
++		ret = ret ? 0 : -ETIMEDOUT;
++		if (ret)
++			return ret;
++
++		spin_lock_irqsave(&channel->lock, flags);
++	}
+ 
+ 	/* Initialize USB2 part */
+ 	val = readl(usb2_base + USB2_INT_ENABLE);
+@@ -548,8 +632,24 @@ static int rcar_gen3_phy_usb2_init(struct phy *p)
+ 	}
+ 
+ 	/* Initialize otg part (only if we initialize a PHY with IRQs). */
+-	if (rphy->int_enable_bits)
+-		rcar_gen3_init_otg(channel);
++	if (rphy->int_enable_bits && channel->is_otg_channel &&
++	    !rcar_gen3_is_any_otg_rphy_initialized(channel)) {
++		u32 masked_irq_bits = 0;
++
++		rcar_gen3_init_otg_phase0(channel);
++		rcar_gen3_phy_usb2_irqs_mask_all(channel, &masked_irq_bits);
++		reinit_completion(&channel->otg_init_done);
++		channel->otg_initializing = true;
++		spin_unlock_irqrestore(&channel->lock, flags);
++
++		fsleep(20000);
++
++		spin_lock_irqsave(&channel->lock, flags);
++		channel->otg_initializing = false;
++		complete_all(&channel->otg_init_done);
++		rcar_gen3_phy_usb2_irqs_unmask(channel, masked_irq_bits);
++		rcar_gen3_init_otg_phase1(channel);
++	}
+ 
+ 	if (channel->phy_data->vblvl_ctrl) {
+ 		/* SIDDQ mode release */
+@@ -568,7 +668,9 @@ static int rcar_gen3_phy_usb2_init(struct phy *p)
+ 
+ 	rphy->initialized = true;
+ 
+-	return 0;
++	spin_unlock_irqrestore(&channel->lock, flags);
++
++	return ret;
+ }
+ 
+ static int rcar_gen3_phy_usb2_exit(struct phy *p)
+@@ -576,9 +678,24 @@ static int rcar_gen3_phy_usb2_exit(struct phy *p)
+ 	struct rcar_gen3_phy *rphy = phy_get_drvdata(p);
+ 	struct rcar_gen3_chan *channel = rphy->ch;
+ 	void __iomem *usb2_base = channel->base;
++	unsigned long flags;
++	int ret = 0;
+ 	u32 val;
+ 
+-	guard(spinlock_irqsave)(&channel->lock);
++	spin_lock_irqsave(&channel->lock, flags);
++
++	if (channel->otg_initializing) {
++		unsigned long timeout = msecs_to_jiffies(30);
++
++		spin_unlock_irqrestore(&channel->lock, flags);
++
++		ret = wait_for_completion_timeout(&channel->otg_init_done, timeout);
++		ret = ret ? 0 : -ETIMEDOUT;
++		if (ret)
++			return ret;
++
++		spin_lock_irqsave(&channel->lock, flags);
++	}
+ 
+ 	rphy->initialized = false;
+ 
+@@ -588,7 +705,8 @@ static int rcar_gen3_phy_usb2_exit(struct phy *p)
+ 		val &= ~USB2_INT_ENABLE_UCOM_INTEN;
+ 	writel(val, usb2_base + USB2_INT_ENABLE);
+ 
+-	return 0;
++	spin_unlock_irqrestore(&channel->lock, flags);
++	return ret;
+ }
+ 
+ static int rcar_gen3_phy_usb2_power_on(struct phy *p)
+@@ -596,6 +714,7 @@ static int rcar_gen3_phy_usb2_power_on(struct phy *p)
+ 	struct rcar_gen3_phy *rphy = phy_get_drvdata(p);
+ 	struct rcar_gen3_chan *channel = rphy->ch;
+ 	void __iomem *usb2_base = channel->base;
++	unsigned long flags;
+ 	u32 val;
+ 	int ret = 0;
+ 
+@@ -605,7 +724,20 @@ static int rcar_gen3_phy_usb2_power_on(struct phy *p)
+ 			return ret;
+ 	}
+ 
+-	guard(spinlock_irqsave)(&channel->lock);
++	spin_lock_irqsave(&channel->lock, flags);
++
++	if (channel->otg_initializing) {
++		unsigned long timeout = msecs_to_jiffies(30);
++
++		spin_unlock_irqrestore(&channel->lock, flags);
++
++		ret = wait_for_completion_timeout(&channel->otg_init_done, timeout);
++		ret = ret ? 0 : -ETIMEDOUT;
++		if (ret)
++			return ret;
++
++		spin_lock_irqsave(&channel->lock, flags);
++	}
+ 
+ 	if (!rcar_gen3_are_all_rphys_power_off(channel))
+ 		goto out;
+@@ -620,27 +752,48 @@ static int rcar_gen3_phy_usb2_power_on(struct phy *p)
+ 	/* The powered flag should be set for any other phys anyway */
+ 	rphy->powered = true;
+ 
+-	return 0;
++	spin_unlock_irqrestore(&channel->lock, flags);
++
++	if (ret && channel->vbus && !channel->otg_internal_reg)
++		regulator_disable(channel->vbus);
++
++	return ret;
+ }
+ 
+ static int rcar_gen3_phy_usb2_power_off(struct phy *p)
+ {
+ 	struct rcar_gen3_phy *rphy = phy_get_drvdata(p);
+ 	struct rcar_gen3_chan *channel = rphy->ch;
++	unsigned long flags;
+ 	int ret = 0;
+ 
+-	scoped_guard(spinlock_irqsave, &channel->lock) {
+-		rphy->powered = false;
++	spin_lock_irqsave(&channel->lock, flags);
+ 
+-		if (rcar_gen3_are_all_rphys_power_off(channel)) {
+-			u32 val = readl(channel->base + USB2_USBCTR);
++	if (channel->otg_initializing) {
++		unsigned long timeout = msecs_to_jiffies(30);
+ 
+-			val |= USB2_USBCTR_PLL_RST;
+-			writel(val, channel->base + USB2_USBCTR);
+-		}
++		spin_unlock_irqrestore(&channel->lock, flags);
++
++		ret = wait_for_completion_timeout(&channel->otg_init_done, timeout);
++		ret = ret ? 0 : -ETIMEDOUT;
++		if (ret)
++			return ret;
++
++		spin_lock_irqsave(&channel->lock, flags);
+ 	}
+ 
+-	if (channel->vbus && !channel->otg_internal_reg)
++	rphy->powered = false;
++
++	if (rcar_gen3_are_all_rphys_power_off(channel)) {
++		u32 val = readl(channel->base + USB2_USBCTR);
++
++		val |= USB2_USBCTR_PLL_RST;
++		writel(val, channel->base + USB2_USBCTR);
++	}
++
++	spin_unlock_irqrestore(&channel->lock, flags);
++
++	if (!ret && channel->vbus && !channel->otg_internal_reg)
+ 		ret = regulator_disable(channel->vbus);
+ 
+ 	return ret;
+@@ -1007,6 +1160,7 @@ static int rcar_gen3_phy_usb2_probe(struct platform_device *pdev)
+ 		return ret;
+ 
+ 	spin_lock_init(&channel->lock);
++	init_completion(&channel->otg_init_done);
+ 	for (i = 0; i < NUM_OF_PHYS; i++) {
+ 		channel->rphys[i].phy = devm_phy_create(dev, NULL,
+ 							channel->phy_data->phy_usb2_ops);
+-- 
+2.43.0
+
 
