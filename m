@@ -1,392 +1,204 @@
-Return-Path: <linux-renesas-soc+bounces-33134-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-33135-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id MIfBCSZIFWqLUAcAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-33134-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 26 May 2026 09:13:42 +0200
+	id UIv9CDVNFWoIUQcAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-33135-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 26 May 2026 09:35:17 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72E1C5D18F6
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 26 May 2026 09:13:40 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 29BAC5D1BDA
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 26 May 2026 09:35:15 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id A9AE33004211
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 26 May 2026 07:10:42 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id ADFE43003484
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 26 May 2026 07:35:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 178C13B4E81;
-	Tue, 26 May 2026 07:10:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1162B3CB8F4;
+	Tue, 26 May 2026 07:35:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="hwmq2jjV"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nzKd/TWc"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from OS0P286CU010.outbound.protection.outlook.com (mail-japanwestazon11011012.outbound.protection.outlook.com [40.107.74.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CDEA3A83B1;
-	Tue, 26 May 2026 07:10:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.74.12
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779779441; cv=fail; b=blIRJBju0W25/UDjXSPOmKXemEuZ+1ef0C6lS4zWjmxCq9yPQx0UAGtvZcRoTMoQ1Mp/PX6oYNmNHtgh+ECgDtqgWYLXZCsfXEiTbkjqYlllToof0DQk5uFPop1mUrc2CzSzvT3dllSR1/7PaXVz4ISPPmBtRQ4GV3CAjQCo9e4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779779441; c=relaxed/simple;
-	bh=QhFk3jBTeZ8CVcFqzKjwcNdZGJ8ECl8ng/Ja08JUjCg=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=mpG1785H7tVrE1dsZwh6FXO6iDwNIC0ifpOAISD+5c5moZe+2z4e/RDu+dxPoSfY9qCnEtMcNhyxNLKTZ99VqK27GcZmos5oXr68ldV50uFY9iyAeNvsO3YCWmCzq2cH7L72JBizhXtnpwL/LnLYDuK5AQYLtRcAhmhFE/Vg7tU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=hwmq2jjV; arc=fail smtp.client-ip=40.107.74.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Tg8N0dDKQvfLvztVEeYLJ/Hd3OuC4gnRAgbMXRrhd6XYDaFawUiMBM9UWrtQhzfc8AKS5rIJeDoiu6eC2ZDZRSuZ5asI/tuwYydsUZC1Iqbi26LuFmY2UAPIeU2NDqeVJHZDHO80H6Y+pENt+CxydPRL8CI6XteRS10ejUYo+cIxf/rbdoR1yQzrhrM5CS+jPiqL9JCOBoeluX6I6DH1tBg1nrFNrThK2HY7HJQOIg5DN49O0UBk3qAff1pyGK7lOmpJ5jKQfOlFvuTmtfPMwGKK4lLoLaGzVQDYTanOooiHvTWdJXMNUvG/o8jEba4pHCgiBMpvE/GNnJ6tWnUe/A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ru95XIWdaAYDG2JSDUBBng2Dxfkf0RMwN0krD/UlGtc=;
- b=MvJCmJof7QCw1lE42is/qSlBhXH3rm95wFrM6OywYWmXvQLHyaHZAbZpCkFTlQ5dCtZbKuQ0rr9xCNaiiVjsZ8drZFo9EA+c3oAlBUg1Nt20/+0uRTZhv44oltb5L9ojYvBB3ivQsjNWFfR7D+dnNf+LJO8DXHAVUBWVV5AA0VkT2sHARdRMkXf5H12e5WwLCIDlTb1bvnIAvq7B3Dbn9T4w5kfbz5wb/55T7qMbiaa4vc+hM/Q0pvGq+Umtzap+poruP+2J4PdvxFY4jhtpdwWPa6wovl7Kf5QF+eATS+imT/43oV1XU/J9PUDF5yBmGTo30GXRpQlFfeuF5wHEhA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ru95XIWdaAYDG2JSDUBBng2Dxfkf0RMwN0krD/UlGtc=;
- b=hwmq2jjVqsMVmZl86ljO0UJjypDrmPeAB9N3d78Lrkj1LUNVDhaHyezlXbcKIl+K+EwzhdDQmuMtwh8SGd3QvJ2DhJiJrzXOz90syXYyT7HvgxnH+cyVZsgP1DgQxU5UFqQlByDNizQcLvtPby599l6pUIwisLyHO/rZ43Hsl6k=
-Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com (2603:1096:400:3d0::7)
- by TYRPR01MB14166.jpnprd01.prod.outlook.com (2603:1096:405:21d::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.48.20; Tue, 26 May
- 2026 07:10:32 +0000
-Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com
- ([fe80::87d1:4928:d55:97de]) by TY3PR01MB11346.jpnprd01.prod.outlook.com
- ([fe80::87d1:4928:d55:97de%4]) with mapi id 15.21.0048.019; Tue, 26 May 2026
- 07:10:32 +0000
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>, biju.das.au
-	<biju.das.au@gmail.com>
-CC: Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong
-	<neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, David Airlie
-	<airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Maarten Lankhorst
-	<maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>, magnus.damm
-	<magnus.damm@gmail.com>, laurent.pinchart
-	<laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, Jernej
- Skrabec <jernej.skrabec@gmail.com>, Luca Ceresoli
-	<luca.ceresoli@bootlin.com>, "dri-devel@lists.freedesktop.org"
-	<dri-devel@lists.freedesktop.org>, "devicetree@vger.kernel.org"
-	<devicetree@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "linux-renesas-soc@vger.kernel.org"
-	<linux-renesas-soc@vger.kernel.org>, Prabhakar Mahadev Lad
-	<prabhakar.mahadev-lad.rj@bp.renesas.com>, Conor Dooley
-	<conor.dooley@microchip.com>
-Subject: RE: [PATCH v2 1/2] dt-bindings: display: bridge: Document Renesas
- RZ/G3L LVDS encoder
-Thread-Topic: [PATCH v2 1/2] dt-bindings: display: bridge: Document Renesas
- RZ/G3L LVDS encoder
-Thread-Index: AQHc67XSOXReT+gxn06RqQ9MqkvErbYf5RAAgAAAvHA=
-Date: Tue, 26 May 2026 07:10:32 +0000
-Message-ID:
- <TY3PR01MB11346D70EE900B94D60F70D98860B2@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-References: <20260524194457.479681-1-biju.das.jz@bp.renesas.com>
- <20260524194457.479681-2-biju.das.jz@bp.renesas.com>
- <ahVGkvLudN2c7VM7@tom-desktop>
-In-Reply-To: <ahVGkvLudN2c7VM7@tom-desktop>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TY3PR01MB11346:EE_|TYRPR01MB14166:EE_
-x-ms-office365-filtering-correlation-id: 1dbf1d8c-0b8f-49c2-269b-08debaf5e021
-x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|366016|1800799024|7416014|376014|38070700021|18002099003|22082099003|56012099003|11063799006|3023799007|4143699003;
-x-microsoft-antispam-message-info:
- PS57cDy3kJ+EIM11DyhkXIaJNF6VEzvU0JvW6MXSMudd/DneE/h6nOlauWijvkbKR6Fbbmi6N74NDATrqu3yK7M3861SdsKXJLgtCaMFAoT3kqN5gxdi8HUEHUwEyES8OePCYqvXk2at9xHMbRCyk1SIolTQd73MHv0NPDQlqcZd1z/5zYbDbDhPAAvcz/Fq2x/3BIFqhSGnVoLhzSsHvOQh/7aUwa79gr8ZW88MZ1W1NFWif9K8mbymdhnC5oRX99PSi3TBFVmQfVo/1yKgqQ2mZpOv/v4Q7xZwR8bpqOWAMkDLvzC4ntDKCK+fi60CKFRHOuiuYt0j4IuLRsrr8QbwkLV7h8I2aLVPnuvthbgsquoQu0OEC9309W5qswYp6cpyZfTPYGIww/nXKrKLbpxCPuaItIq/29fffl6+E1bRh6dF7xaOiLSh03fqkrWKGR4TceOlhqcOAQm/PBB3Z0h6WzTpOwjmdOEE7BENOnQrRrTRenwUbvoXsrAz7c49mzL7rrBOyxwInCrDn7+KhHV2q/0HEls7c9zcZiDv2uH5CYgVyaCcD+KpOKtjs7xnK42wrmsZnEFaSLBLHE9p53wRkuQjmJvHj7oZ4IQC9LInE3lJ2hxvL2OynTvIqju2KZeV5O+YGN+OPT88r3zP8XrT26wWYq+L+j2TiS1k5XMfW+Y/fbEk54GmpO2X43ufYVZmKpc6oHV/ITdYKGiglA==
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB11346.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(376014)(38070700021)(18002099003)(22082099003)(56012099003)(11063799006)(3023799007)(4143699003);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?p4yhsOxT3MbYSPtbv9vA9TqD8phbHWUJqJvPiRgxsNaLhdI/jRetwFnsNeG9?=
- =?us-ascii?Q?rXDF21+E0p1VSu2VCuILmsNxkZ8oFUA3kEzJqo/WBbCOX+DghsUlodp994oj?=
- =?us-ascii?Q?ev7UHEk2pvT1/E9mSdSTqapxz+ZQSkP1UeMtVE4mTUQoDYRr83/SlWfnnJQf?=
- =?us-ascii?Q?GTaJM8OwLohIs9juRv0qSpv6h+pEdOWOgzO1ZmIqb/jDKAgcrgbMcPFkU/D4?=
- =?us-ascii?Q?NKq/vbrRh2fjTEZ0QO4xWlFo0MK5EWbqSIDcDgTsoJY6tnlVXCCP6HmcV6w2?=
- =?us-ascii?Q?2rgPV0uGPBnWmnlQMi3PvrzkassxjRj4tM7iHeEuWbgdd0m6tT0BowOpmPnl?=
- =?us-ascii?Q?qvq6HUinD2UO44fj5nfoT9WkzJJaWQXw39V0XMbsFndMnpCj1G6uc1E9LDBZ?=
- =?us-ascii?Q?+6KxYIhQPpc82cNR/Wzv4Jd1nmQ0wMb9rgg9php4HtKCeazZ1eAmEI50YdL5?=
- =?us-ascii?Q?GsBcB2L0XGN1Ku0+JxAfbwuY2Y1mRloigg7snLM6LTTX5ich3vEWFU68XUBw?=
- =?us-ascii?Q?zjuT8ryu4n/+GP/KswrLc5d3af6LCbLg4IjJ+mWvxZL0pgNiIQlmI+PmGf/R?=
- =?us-ascii?Q?7Tqy/nIJHes//+WdTe52KDa5TSlEoMkV3yZbknsUt3SrOkigsS2Bx3GZJd0n?=
- =?us-ascii?Q?txh3Nw4/j6wxCOGSSeIQEfUFcgc2QF87Okq0GicvmVk+qzX4QOeAqiKbWR5w?=
- =?us-ascii?Q?Q/UD+wcixWbRnCyHZf9Yi8f2jii2L0dik1UqfgUgLu1PX1CncPsO6Aczn4u3?=
- =?us-ascii?Q?XYy/GL9vub5NHXvdhCVJwsi9W5njPPlNSjlZ/DGsR90fLVbgxr7awPcLS3Dx?=
- =?us-ascii?Q?6i9594B98FBqxUmTUA1slKhV2T+TPDHgPlZvP+OK7BHshF11AkhU8yAiCQwk?=
- =?us-ascii?Q?/sh8dXzBLB1WzdPqvdFkmy4u2Z+j5PZk+hr853wKwvx4JWvWsUKq7erAL1eb?=
- =?us-ascii?Q?kxOWzuLnj4pTX907PKr5cXepGmsB9H9xtM92OSZlWJAY3ff7ZZGizBF6jkSD?=
- =?us-ascii?Q?nAmbVRWgY1e0V3ZTms0qzm+QcGeLuvKB0vQ5eOeKQzPF5VDy6wL9LWUillX0?=
- =?us-ascii?Q?okvDtkO+PUm6i03xCETdau00QE10xNHdxWNrN058J2m77bS2lQtSNO+sMMyc?=
- =?us-ascii?Q?M94D6eqoT5IrxWdUgjoopon+obtCgxM4yLmrJ8pBmqCp7NaI+FczVagnPfcS?=
- =?us-ascii?Q?cx7cnNDvE0Cf6I6z86KBOm3PmejKWO69UuHIK6+86hqm4I6PKQHr8YA85Qvf?=
- =?us-ascii?Q?6GjAned1Qp37UyRNn6KpIXZUtF/CJCGa2aGCE45nX6f/Q5ud9/xMmuDuLkcX?=
- =?us-ascii?Q?Zs5jci1scc39gbOvyP7zJVwjsLvP0Fov7erS8+Ro8nBEeN+KVLLHthJynPpk?=
- =?us-ascii?Q?ml9r32O3/95bcRsuuh0MKEN2HCo1HMEKCLjL9PQkrU+uF9Th0Iiu4WfpHZnC?=
- =?us-ascii?Q?g3g8B2BLFO2gcEE1xUsxKy5Y6RVGumMV8RY+xRLwE4FWb7kF4jxmQlEaSpa+?=
- =?us-ascii?Q?zEkqnQDyDHHu+vHHs7GGlEu5sm96qgtJ8dgUQB/opVW5fSsJ9RE6cLBDfPE9?=
- =?us-ascii?Q?HqD8UqyKcImc025jA5hb4T7uxe1sXZeb8LfbRrrW1/Wa2tB1f/dQQJElWBd1?=
- =?us-ascii?Q?kbaAcMrgPiPKsq8AXE4hBmhXz4y1UDVzEcymyv8WXRXXf09loojnwFRuGCLd?=
- =?us-ascii?Q?pBoHOML8zzYD+VTwB1TQf/wUGzmUGHdB7sqOz36IpMPOVlNbkbGozz+CQYar?=
- =?us-ascii?Q?1cAoJFWa5A=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 067823CB8E3
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 26 May 2026 07:35:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779780911; cv=none; b=ZsQGKIXl7Qz+1TvIglKrmdrkxDx4+wcNmBKSM4qq7cXE51F+hQdD1msmgs7fV/+yQnnuE4odSV1dXwSti32G+g3Wi/ozrNyUX5Zw+N4LBg3sFq//klxrZHCbFwomQkeQZVwFkhOxy5rUXM07XaHA43GQzNeXWMlbrZNQRGgPFyQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779780911; c=relaxed/simple;
+	bh=pM6gb96Uc7J7i5tjT061qzccy4DTtI88BnKwFnoFOXo=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=AbqDkTSAVN/xWo1Td0t5zrZqw6jfZ8x7XiKd8HdjHO+ldYuzaBxCmvnmrTR7Zb6tNp8aY5o/TO27+WK+FW2ZI3U4CwL89jOgfoFITcdg3pw5kdxCePInurgGil65bNNv7jHZheJhKR6CIOf0mm73psrd7zidLdurh0aOQa6khTQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nzKd/TWc; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1779780909; x=1811316909;
+  h=date:from:to:cc:subject:message-id;
+  bh=pM6gb96Uc7J7i5tjT061qzccy4DTtI88BnKwFnoFOXo=;
+  b=nzKd/TWcZMD6mBNmPJxW/p6nRMjWCX8CaNjJrkwv18rha2Tj2QZDwvfQ
+   2+LKU5oQgx037phbQ3ZXHS55FTpt8WGoxAI7DUx7vjTVIGvX9B07PZL9S
+   UFEcbE+fTSY4oKoxnuCf9zoFyZr/JkS3lB9JzovvHPZ4gU4YCHs9MICoo
+   ZSZtce9Kov6Z4kkk57yRJwm6FZad3n4ryUPKIQR6s60z8MqBvyGTgFgrZ
+   rc7Fp46K19ZseqJlkyQjeg5gstD1Ofg5bQm0c78uhMXdIItNC+UOl+DYm
+   Qr0dqGsur/0Q6ClwAF41Nx/95wAQk+RN2suBM4PHvkA6V2csscW7tUGQy
+   A==;
+X-CSE-ConnectionGUID: RdnCyvSPReuM3Xy82UIXJQ==
+X-CSE-MsgGUID: BHqLHRl1R3mOYB86YqF+0Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11797"; a="84474088"
+X-IronPort-AV: E=Sophos;i="6.24,169,1774335600"; 
+   d="scan'208";a="84474088"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2026 00:35:09 -0700
+X-CSE-ConnectionGUID: OrPa44/aSM2Omx0wN3OYpw==
+X-CSE-MsgGUID: xfY5KIu9Tf2utSMVzLfpZQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,169,1774335600"; 
+   d="scan'208";a="243665698"
+Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
+  by fmviesa004.fm.intel.com with ESMTP; 26 May 2026 00:35:06 -0700
+Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wRmJc-000000002DK-1z3G;
+	Tue, 26 May 2026 07:35:04 +0000
+Date: Tue, 26 May 2026 15:34:51 +0800
+From: kernel test robot <lkp@intel.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: linux-renesas-soc@vger.kernel.org
+Subject: [geert-renesas-devel:next] BUILD SUCCESS
+ e2bc40aa4828ef4c81b7346de1f4e5ef6477a3e5
+Message-ID: <202605261543.xiIqDWvq-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11346.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1dbf1d8c-0b8f-49c2-269b-08debaf5e021
-X-MS-Exchange-CrossTenant-originalarrivaltime: 26 May 2026 07:10:32.2882
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 01Q68T1BvbwXv6hJGCtm0gbx4GNOks3Ve22K91eZjXQu5eUer0qHuWooa97uLbAiB6l12qUPRZEIuR3KcQxJJW0AxU4FJfaPNPIHOqMND88=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYRPR01MB14166
-X-Spamd-Result: default: False [1.34 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_REJECT(1.00)[cv is fail on i=2];
-	DMARC_POLICY_ALLOW(-0.50)[renesas.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[bp.renesas.com:s=selector1];
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-33134-lists,linux-renesas-soc=lfdr.de];
-	RCPT_COUNT_TWELVE(0.00)[25];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	FREEMAIL_TO(0.00)[bp.renesas.com,gmail.com];
-	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_CC(0.00)[intel.com,linaro.org,kernel.org,gmail.com,ffwll.ch,linux.intel.com,suse.de,glider.be,ideasonboard.com,kwiboo.se,bootlin.com,lists.freedesktop.org,vger.kernel.org,bp.renesas.com,microchip.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_TWO(0.00)[2];
+	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-33135-lists,linux-renesas-soc=lfdr.de];
+	DKIM_TRACE(0.00)[intel.com:+];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
 	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[biju.das.jz@bp.renesas.com,linux-renesas-soc@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[lkp@intel.com,linux-renesas-soc@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[bp.renesas.com:+];
-	RCVD_COUNT_FIVE(0.00)[5];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
-	NEURAL_HAM(-0.00)[-0.999];
-	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[bp.renesas.com:dkim,renesas.com:email,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,microchip.com:email,108a0000:email,0.0.0.10:email,0.0.0.0:email,TY3PR01MB11346.jpnprd01.prod.outlook.com:mid,devicetree.org:url,0.0.0.1:email]
-X-Rspamd-Queue-Id: 72E1C5D18F6
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	RCVD_COUNT_FIVE(0.00)[6];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo,intel.com:mid,intel.com:dkim]
+X-Rspamd-Queue-Id: 29BAC5D1BDA
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi Tommaso,
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git next
+branch HEAD: e2bc40aa4828ef4c81b7346de1f4e5ef6477a3e5  Merge branches 'renesas-drivers-for-v7.2' and 'renesas-dts-for-v7.2' into renesas-next
 
-Thanks for the feedback.
+elapsed time: 930m
 
-> -----Original Message-----
-> From: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
-> Sent: 26 May 2026 08:07
-> Subject: Re: [PATCH v2 1/2] dt-bindings: display: bridge: Document Renesa=
-s RZ/G3L LVDS encoder
->=20
-> Hi Biju,
-> Thanks for your patch.
->=20
-> On Sun, May 24, 2026 at 08:44:50PM +0100, Biju wrote:
-> > From: Biju Das <biju.das.jz@bp.renesas.com>
-> >
-> > Document the LVDS encoder IP found on the RZ/G3L SoC. It supports
-> > single-link mode. LVDS and the DSI interface share a peripheral clock
-> > and the MIPI_DSI_PRESET_N reset signal. However, the LVDS module
-> > cannot be used at the same time as MIPI-DSI.
-> >
->=20
-> Same here, this should be v3 instead of v2.
+configs tested: 79
+configs skipped: 3
 
-Will send this as v3.
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-Cheers,
-Biju
+tested configs:
+alpha                   allnoconfig    gcc-15.2.0
+alpha                  allyesconfig    gcc-15.2.0
+arc                    allmodconfig    gcc-15.2.0
+arc                     allnoconfig    gcc-15.2.0
+arc                    allyesconfig    gcc-15.2.0
+arm                     allnoconfig    clang-23
+arm                    allyesconfig    gcc-15.2.0
+arm64                  allmodconfig    clang-19
+arm64                   allnoconfig    gcc-15.2.0
+arm64                randconfig-001    gcc-8.5.0
+arm64       randconfig-002-20260526    gcc-8.5.0
+arm64                randconfig-003    clang-23
+csky                   allmodconfig    gcc-15.2.0
+csky                    allnoconfig    gcc-15.2.0
+csky        randconfig-001-20260526    gcc-15.2.0
+hexagon                allmodconfig    clang-17
+hexagon                 allnoconfig    clang-23
+hexagon     randconfig-001-20260526    clang-20
+hexagon     randconfig-002-20260526    clang-23
+i386                   allmodconfig    gcc-14
+i386                    allnoconfig    gcc-14
+i386                   allyesconfig    gcc-14
+loongarch               allnoconfig    clang-23
+loongarch   randconfig-001-20260526    gcc-15.2.0
+loongarch   randconfig-002-20260526    clang-20
+m68k                   allmodconfig    gcc-15.2.0
+m68k                    allnoconfig    gcc-15.2.0
+m68k                   allyesconfig    gcc-15.2.0
+microblaze              allnoconfig    gcc-15.2.0
+microblaze             allyesconfig    gcc-15.2.0
+mips                   allmodconfig    gcc-15.2.0
+mips                    allnoconfig    gcc-15.2.0
+mips                   allyesconfig    gcc-15.2.0
+nios2                  allmodconfig    gcc-11.5.0
+nios2                   allnoconfig    gcc-11.5.0
+nios2       randconfig-001-20260526    gcc-11.5.0
+nios2       randconfig-002-20260526    gcc-8.5.0
+openrisc               allmodconfig    gcc-15.2.0
+openrisc                allnoconfig    gcc-15.2.0
+parisc                 allmodconfig    gcc-15.2.0
+parisc                  allnoconfig    gcc-15.2.0
+parisc                 allyesconfig    gcc-15.2.0
+parisc      randconfig-001-20260526    gcc-15.2.0
+parisc      randconfig-002-20260526    gcc-14.3.0
+powerpc                allmodconfig    gcc-15.2.0
+powerpc                 allnoconfig    gcc-15.2.0
+powerpc     randconfig-001-20260526    clang-23
+powerpc     randconfig-002-20260526    clang-19
+powerpc64   randconfig-001-20260526    gcc-15.2.0
+powerpc64   randconfig-002-20260526    gcc-10.5.0
+riscv                  allmodconfig    clang-23
+riscv                   allnoconfig    gcc-15.2.0
+s390                   allmodconfig    clang-18
+s390                    allnoconfig    clang-23
+s390                   allyesconfig    gcc-15.2.0
+s390                 randconfig-001    gcc-11.5.0
+s390        randconfig-002-20260526    clang-23
+sh                     allmodconfig    gcc-15.2.0
+sh                      allnoconfig    gcc-15.2.0
+sh                     allyesconfig    gcc-15.2.0
+sh                   randconfig-001    gcc-15.2.0
+sh          randconfig-001-20260526    gcc-10.5.0
+sh                   randconfig-002    gcc-14.3.0
+sparc                   allnoconfig    gcc-15.2.0
+sparc64                allmodconfig    clang-23
+um                     allmodconfig    clang-19
+um                      allnoconfig    clang-23
+um                     allyesconfig    gcc-14
+x86_64                 allmodconfig    clang-20
+x86_64                  allnoconfig    clang-20
+x86_64                 allyesconfig    clang-20
+x86_64      randconfig-001-20260526    gcc-14
+x86_64      randconfig-002-20260526    clang-20
+x86_64      randconfig-003-20260526    gcc-14
+x86_64      randconfig-004-20260526    clang-20
+x86_64      randconfig-005-20260526    gcc-14
+x86_64      randconfig-006-20260526    gcc-14
+x86_64                rhel-9.4-rust    clang-20
+xtensa                  allnoconfig    gcc-15.2.0
 
-> Apart from that patch LGTM.
->=20
-> Reviewed-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
->=20
-> Kind Regards,
-> Tommaso
->=20
-> > Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
-> > Acked-by: Conor Dooley <conor.dooley@microchip.com>
-> > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> > ---
-> > v2->v3:
-> >  * No change.
-> > v1->v2:
-> >  * Collected tag.
-> > ---
-> >  .../bridge/renesas,r9a08g046-lvds.yaml        | 128 ++++++++++++++++++
-> >  1 file changed, 128 insertions(+)
-> >  create mode 100644
-> > Documentation/devicetree/bindings/display/bridge/renesas,r9a08g046-lvd
-> > s.yaml
-> >
-> > diff --git
-> > a/Documentation/devicetree/bindings/display/bridge/renesas,r9a08g046-l
-> > vds.yaml
-> > b/Documentation/devicetree/bindings/display/bridge/renesas,r9a08g046-l
-> > vds.yaml
-> > new file mode 100644
-> > index 000000000000..b1f6d020ae7b
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/display/bridge/renesas,r9a08g0
-> > +++ 46-lvds.yaml
-> > @@ -0,0 +1,128 @@
-> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause) %YAML 1.2
-> > +---
-> > +$id:
-> > +http://devicetree.org/schemas/display/bridge/renesas,r9a08g046-lvds.y
-> > +aml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: Renesas RZ/G3L LVDS Encoder
-> > +
-> > +maintainers:
-> > +  - Biju Das <biju.das.jz@bp.renesas.com>
-> > +  - Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
-> > +
-> > +description: |
-> > +  This binding describe the LVDS encoder embedded in the Renesas
-> > +RZ/G3L
-> > +  SoC. The encoder can operate in LVDS Single-link mode with 4 lanes
-> > +  (Data) + 1 lane (Clock).
-> > +
-> > +properties:
-> > +  compatible:
-> > +    const: renesas,r9a08g046-lvds
-> > +
-> > +  reg:
-> > +    maxItems: 1
-> > +
-> > +  clocks:
-> > +    items:
-> > +      - description: Peripheral clock
-> > +      - description: PHY clock
-> > +      - description: Dot clock
-> > +
-> > +  clock-names:
-> > +    items:
-> > +      - const: pclk
-> > +      - const: phyclk
-> > +      - const: dotclk
-> > +
-> > +  resets:
-> > +    items:
-> > +      - description: LVDS_RESET_N
-> > +      - description: MIPI_DSI_PRESET_N
-> > +      - description: MIPI_DSI_CMN_RSTB
-> > +      - description: MIPI_DSI_ARESET_N
-> > +
-> > +  reset-names:
-> > +    items:
-> > +      - const: lvdrst
-> > +      - const: prst
-> > +      - const: rst
-> > +      - const: arst
-> > +
-> > +  power-domains:
-> > +    maxItems: 1
-> > +
-> > +  ports:
-> > +    $ref: /schemas/graph.yaml#/properties/ports
-> > +
-> > +    properties:
-> > +      port@0:
-> > +        $ref: /schemas/graph.yaml#/properties/port
-> > +        description: Input channel, directly connected to the Display =
-Unit.
-> > +
-> > +      port@1:
-> > +        $ref: /schemas/graph.yaml#/properties/port
-> > +        description: |
-> > +          Output channel, directly connected to the LVDS panel or brid=
-ge.
-> > +
-> > +    required:
-> > +      - port@0
-> > +      - port@1
-> > +
-> > +required:
-> > +  - compatible
-> > +  - reg
-> > +  - clocks
-> > +  - clock-names
-> > +  - resets
-> > +  - reset-names
-> > +  - power-domains
-> > +  - ports
-> > +
-> > +additionalProperties: false
-> > +
-> > +examples:
-> > +  - |
-> > +    #include <dt-bindings/clock/renesas,r9a08g046-cpg.h>
-> > +
-> > +    lvds-cmn@108a0000 {
-> > +        compatible =3D "renesas,r9a08g046-lvds-cmn",
-> > +                     "simple-mfd", "syscon";
-> > +        reg =3D <0x108a0000 0x10000>;
-> > +        #address-cells =3D <1>;
-> > +        #size-cells =3D <1>;
-> > +
-> > +        lvds0: lvds@10 {
-> > +            compatible =3D "renesas,r9a08g046-lvds";
-> > +            reg =3D <0x10 0x8>;
-> > +            clocks =3D <&cpg CPG_MOD R9A08G046_MIPI_DSI_PCLK>,
-> > +                     <&cpg CPG_MOD R9A08G046_LVDS_PLLCLK>,
-> > +                     <&cpg CPG_MOD R9A08G046_LVDS_CLK_DOT0>;
-> > +            clock-names =3D "pclk", "phyclk", "dotclk";
-> > +            resets =3D <&cpg R9A08G046_LVDS_RESET_N>,
-> > +                     <&cpg R9A08G046_MIPI_DSI_PRESET_N>,
-> > +                     <&cpg R9A08G046_MIPI_DSI_CMN_RSTB>,
-> > +                     <&cpg R9A08G046_MIPI_DSI_ARESET_N>;
-> > +            reset-names =3D "lvdrst", "prst", "rst", "arst";
-> > +            power-domains =3D <&cpg>;
-> > +
-> > +            ports {
-> > +                #address-cells =3D <1>;
-> > +                #size-cells =3D <0>;
-> > +
-> > +                port@0 {
-> > +                    reg =3D <0>;
-> > +                    lvds0_in: endpoint {
-> > +                        remote-endpoint =3D <&du_out_lvds0>;
-> > +                    };
-> > +                };
-> > +
-> > +                port@1 {
-> > +                    reg =3D <1>;
-> > +                    lvds0_out: endpoint {
-> > +                        remote-endpoint =3D <&panel_in>;
-> > +                    };
-> > +                };
-> > +            };
-> > +        };
-> > +    };
-> > +...
-> > --
-> > 2.43.0
-> >
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
