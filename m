@@ -1,167 +1,190 @@
-Return-Path: <linux-renesas-soc+bounces-33192-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-33193-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 0CCrCQmiFmqBnwcAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-33192-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 May 2026 09:49:29 +0200
+	id COqFMhiiFmqBnwcAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-33193-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 May 2026 09:49:44 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7768C5E09F2
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 May 2026 09:49:27 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id D4CB95E0A0E
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 May 2026 09:49:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id E27A73006B31
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 May 2026 07:48:25 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id B7CDD30028F2
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 May 2026 07:49:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 49D793C9897;
-	Wed, 27 May 2026 07:48:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="c+uRvcLT"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 81D5B3CCFB2;
+	Wed, 27 May 2026 07:49:38 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ua1-f52.google.com (mail-ua1-f52.google.com [209.85.222.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70FE439B949;
-	Wed, 27 May 2026 07:48:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC8123C872E
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 27 May 2026 07:49:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779868105; cv=none; b=KH+kppgPoNEteL1+6yT9bjvLveBmwmsonvtfmEPTn+LVuKJA4wQupEBjDPd7eQIrTRBcEHosP0VDUmuGWxM5CHCyJkoPuqqOAbLnexEoAs08xxCWZFeoh59cOXHJHkcqUbAAomxEkdqWMjirdwk9ddHKeyujWVjZGkv8scuhS2o=
+	t=1779868178; cv=none; b=uzaS1d2c153o/To7F+30NMKKUBTn00ICM6/rdhk6AYh1UdyCegy6rb2liQjmXOv9BZFuhLGyKxtocokYTabaltnqGh5hesyS0kLReJNT7CBTAJiH0KhAd0VFutTcsuHt2EX3YNOvgvOooENdibEjHmRpPEILD5FflMjdMNfyqKk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779868105; c=relaxed/simple;
-	bh=tMPQ8gRw1l2kxM7BJtqHRx/Gs89K25JdPZuV9UiK7Zk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=r0sUQHyMg5bDQEkzLdkV9k0o2XtUjoY6iXvqCXO37892zqFlwmYWoAqpV+RQQNBjv9TzLCjk0ABHBYmONrVYhK9NHna6gtUOaXAc5Tj+zJD4JJh++41DRF0eYiC9wZGOExmVW5hrrSusLfLfIyurm1+2canO7k44d/Eq2eKzmSk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=c+uRvcLT; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from killaraus.ideasonboard.com (62-193-63-110.as16211.net [62.193.63.110])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 66FCD55;
-	Wed, 27 May 2026 09:48:01 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1779868081;
-	bh=tMPQ8gRw1l2kxM7BJtqHRx/Gs89K25JdPZuV9UiK7Zk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=c+uRvcLTPMULSnB1WDUNYogb9UkGUTr6ZzQdeAFZiu/G6etu+W1vMuj1Kq/AxL6Qy
-	 I++qKxJnUbiPgYpTJe0MGU581aOgvCepf8ZOC4FfQkYY2VgqDxV1Vi2fuStGpBm+g2
-	 ReYFjqAEJzFGjwtV5uIANwR23Ye3Y8hXg5R0m6dM=
-Date: Wed, 27 May 2026 09:48:17 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Thorsten Leemhuis <regressions@leemhuis.info>
-Cc: linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	Linux kernel regressions list <regressions@lists.linux.dev>,
-	Hans Verkuil <hans@jjverkuil.nl>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: Re: [PATCH v2 2/2] Revert "media: renesas: vsp1: brx: Fix format
- propagation"
-Message-ID: <20260527074817.GA468138@killaraus.ideasonboard.com>
-References: <20260506215650.1897177-1-laurent.pinchart+renesas@ideasonboard.com>
- <20260506215650.1897177-3-laurent.pinchart+renesas@ideasonboard.com>
- <0977c2c0-79ea-4435-9e1c-f54ca5e18342@leemhuis.info>
+	s=arc-20240116; t=1779868178; c=relaxed/simple;
+	bh=j8lyWip3ni+b0tIn2WJm+uY4Eku+ozs0Gksj2gGBzEE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=XwYg6tmJ9LcRKigNLUc+HX7ckmtfFuOlAFITSUR/m2uvgJoGI4myashXYI+VjDCl/unwgjySmRUK9ZmoQOiQaK9nPeB9QnUB1P676oIaMeHkzQ8GyhHp1Ij8UXdpwf5sIzhabsy1SQuRnouZb/7KUfiUjRliMTqziE/XVyNLNT8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ua1-f52.google.com with SMTP id a1e0cc1a2514c-960ae134040so2128263241.3
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 27 May 2026 00:49:36 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779868176; x=1780472976;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=PEhdAJn+PWSD3SIUt/1YVQ0ghKtTAVNe27MEz5AgvB8=;
+        b=kegL6d1t+FApNRAJJbou0JNwZsWNpCYmv7uA+c3u+grfvZpLP6wWNaRT6THkVX1h5Z
+         ZgQ9XeHw41wgRpnQ5T+im8/8z9koZ9SaH1rbJQXdOppcste8a5e8noH4AEqvFko1pxkV
+         vj7dItBxlyojFF4hz+ROUE05xZtU9lGJpOEZUkDCvE1NNS5PBe/7O6ATRgP8pzJeXVPm
+         kKjQv1PhStI4zmW/vxthdhCh6gYzKzbQoZ5xbmcM+FFjRp3pqh0b6tinxMWdOjZzazMF
+         OpwQy0EyqonQPxAmtADsIBe1IjWZoOFBCpJx/2nrSeZ4lB6KI7rEObWAq9pvdwU2m93T
+         gzIg==
+X-Gm-Message-State: AOJu0YyVv0EB+6oAYfWL4I090G4ArIeC7eHSTAZWQuoUMkjTcdBhH0U8
+	Nwmk5c7p2q41d+O+xYQcEBv6+OXc6vc5TWmXvoixLABf2xL0w7oauD6rmBEJhCuFiLY=
+X-Gm-Gg: Acq92OE14fD8t+yPh4bwC4A/zjV3v6KIG5tgHBLmGLuy3GuH/FqJas12RKqI9iciUFj
+	Wnn3jH5JZw72Y2dyK1bytAwkZvoSJ/FIdNrMx9okuNf9HoWcAFEO/uooWcx2nWcBq+YtzpZBkOl
+	Zvg0HsJ2WsaOhxL96xrPxHC7GqyqCw4aRyKMk0q8WsbBux1rcPC7kjVyWgrABPJeX/1e8X2/9RH
+	haJhjCVTdfggvsB3+Bn3iEKrSqlM2sdp8rkHVB5Y7bqVVHLD6eZenmex+CZp0AUhgPY23jroms8
+	AtD8qgWQZaiHNsCNRwP6C45EiKlCpbyyNwZ9Xe2dp5hh0xWActzIiaJJFycYNuCefERfY5OZaoO
+	ZE1al8AgZ2zKEedyWo3skfIuvZ+NInGwr4IHGDYaMjENmZoYxhrGdXKjtM41WnilxlJkF7B/K6z
+	lo/scir0cSQV7Df9RzUuDqxlvSOfTqraRGfsP4B5mtXKUl3xPwPUrgPZHcrLr+ef1EQldBRRKQC
+	js=
+X-Received: by 2002:a05:6102:32d5:b0:5ff:c5c8:2734 with SMTP id ada2fe7eead31-67c805b5ee2mr10621353137.25.1779868175661;
+        Wed, 27 May 2026 00:49:35 -0700 (PDT)
+Received: from mail-vk1-f179.google.com (mail-vk1-f179.google.com. [209.85.221.179])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-67fd8850d17sm16139071137.1.2026.05.27.00.49.35
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 27 May 2026 00:49:35 -0700 (PDT)
+Received: by mail-vk1-f179.google.com with SMTP id 71dfb90a1353d-5751e12c524so3980482e0c.1
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 27 May 2026 00:49:35 -0700 (PDT)
+X-Received: by 2002:a05:6102:5e88:b0:631:8665:3511 with SMTP id
+ ada2fe7eead31-67c82ff7ba4mr11184297137.30.1779868175098; Wed, 27 May 2026
+ 00:49:35 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <0977c2c0-79ea-4435-9e1c-f54ca5e18342@leemhuis.info>
-X-Spamd-Result: default: False [-2.16 / 15.00];
+References: <20260519074702.3308-4-wsa+renesas@sang-engineering.com> <20260519074702.3308-6-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20260519074702.3308-6-wsa+renesas@sang-engineering.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 27 May 2026 09:49:24 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXpGLYrSMNgkqUGhhBJPuQKt-KZGGsXsbchAixbYRvD9w@mail.gmail.com>
+X-Gm-Features: AVHnY4JfiVZzEOtyriYMG_UyYpzEp54K25gB24_348nKEGFu3kahakUyvYBwnjc
+Message-ID: <CAMuHMdXpGLYrSMNgkqUGhhBJPuQKt-KZGGsXsbchAixbYRvD9w@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] arm64: renesas: r8a78000-ironhide: enable to use SCMI
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>, 
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: linux-renesas-soc@vger.kernel.org, Magnus Damm <magnus.damm@gmail.com>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	devicetree@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spamd-Result: default: False [-1.46 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[ideasonboard.com:+];
-	TAGGED_FROM(0.00)[bounces-33192-lists,linux-renesas-soc=lfdr.de];
+	FREEMAIL_CC(0.00)[vger.kernel.org,gmail.com,kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
 	MISSING_XM_UA(0.00)[];
+	DMARC_NA(0.00)[linux-m68k.org];
+	TAGGED_FROM(0.00)[bounces-33193-lists,linux-renesas-soc=lfdr.de];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
+	RCVD_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[laurent.pinchart@ideasonboard.com,linux-renesas-soc@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	TAGGED_RCPT(0.00)[linux-renesas-soc];
-	RCPT_COUNT_SEVEN(0.00)[8];
+	FROM_NEQ_ENVFROM(0.00)[geert@linux-m68k.org,linux-renesas-soc@vger.kernel.org];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[ideasonboard.com:email,ideasonboard.com:dkim,renesas.com:email,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
-X-Rspamd-Queue-Id: 7768C5E09F2
+	DBL_PROHIBIT(0.00)[0.0.0.14:email];
+	R_DKIM_NA(0.00)[];
+	NEURAL_HAM(-0.00)[-0.998];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,dt];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,renesas.com:email]
+X-Rspamd-Queue-Id: D4CB95E0A0E
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi Thorsten,
+Hi Wolfram, Morimoto-san,
 
-On Wed, May 27, 2026 at 09:35:03AM +0200, Thorsten Leemhuis wrote:
-> On 5/6/26 23:56, Laurent Pinchart wrote:
-> > This reverts commit 937f3e6b51f1cea079be9ba642665f2bf8bcc31f.
-> > 
-> > The change to format propagation in the BRx broke configuration of the
-> > DRM pipeline. Revert it to fix the regression.
-> 
-> Laurent, is this still on your radar? From the outside it looks like
-> this fix for the 7.1 regression should ideally go to Linus this week, as
-> he ideally wants all known regression fixed by -rc6.
-> 
-> But it's easy to miss things from the outside, so if this is not a
-> proper regression, the revert obsolete, or something like that, just
-> mention it.
+On Tue, 19 May 2026 at 09:47, Wolfram Sang
+<wsa+renesas@sang-engineering.com> wrote:
+> From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+>
+> Enable SCMI via MFIS-SCP and STCM transport area to manage clocks.
 
-Thank you for the reminder. Hans, Mauro, this series seems to not have
-been merged in the media fixes branch. Could you pick it up ?
+S-TCM
 
-> > The original commit was meant to fix a v4l2-compliance failure, with no
-> > known userspace applications being affected beside test tools. Reverting
-> > is the simplest option, a more comprehensive fix can be developed (and
-> > tested more thoroughly) later.
-> > 
-> > Reported-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > Closes: https://lore.kernel.org/linux-media/CA+V-a8t481xuwava0nb7uY9CUPqFWZ_8EP0xrK3BgumP7HDcLg@mail.gmail.com
-> > Fixes: 937f3e6b51f1 ("media: renesas: vsp1: brx: Fix format propagation")
-> > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> > ---
-> >  drivers/media/platform/renesas/vsp1/vsp1_brx.c | 10 ++--------
-> >  1 file changed, 2 insertions(+), 8 deletions(-)
-> > 
-> > diff --git a/drivers/media/platform/renesas/vsp1/vsp1_brx.c b/drivers/media/platform/renesas/vsp1/vsp1_brx.c
-> > index b1a2c68e9944..9d93cb8b8e82 100644
-> > --- a/drivers/media/platform/renesas/vsp1/vsp1_brx.c
-> > +++ b/drivers/media/platform/renesas/vsp1/vsp1_brx.c
-> > @@ -156,20 +156,14 @@ static int brx_set_format(struct v4l2_subdev *subdev,
-> >  		compose->height = format->height;
-> >  	}
-> >  
-> > -	/*
-> > -	 * Propagate the format code to all pads, and the whole format to the
-> > -	 * source pad.
-> > -	 */
-> > +	/* Propagate the format code to all pads. */
-> >  	if (fmt->pad == BRX_PAD_SINK(0)) {
-> >  		unsigned int i;
-> >  
-> > -		for (i = 0; i < brx->entity.source_pad; ++i) {
-> > +		for (i = 0; i <= brx->entity.source_pad; ++i) {
-> >  			format = v4l2_subdev_state_get_format(state, i);
-> >  			format->code = fmt->format.code;
-> >  		}
-> > -
-> > -		format = v4l2_subdev_state_get_format(state, i);
-> > -		*format = fmt->format;
-> >  	}
-> >  
-> >  done:
+> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+
+Thanks for your patch!
+
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+
+> --- a/arch/arm64/boot/dts/renesas/r8a78000-ironhide.dts
+> +++ b/arch/arm64/boot/dts/renesas/r8a78000-ironhide.dts
+> @@ -6,6 +6,7 @@
+>   */
+>
+>  /dts-v1/;
+> +#include <dt-bindings/soc/renesas,r8a78000-mfis.h>
+>  #include "r8a78000.dtsi"
+>
+>  / {
+> @@ -20,6 +21,23 @@ chosen {
+>                 stdout-path = "serial0:1843200n8";
+>         };
+>
+> +       firmware {
+> +               scmi: scmi {
+> +                       compatible = "arm,scmi";
+> +                       mboxes = <&mfis_scp 2 MFIS_CHANNEL_TX>, <&mfis_scp 2 MFIS_CHANNEL_RX>;
+> +                       mbox-names = "tx", "rx";
+> +                       shmem = <&scmi_tx_shmem>, <&scmi_rx_shmem>;
+> +                       arm,no-completion-irq;
+> +                       #address-cells = <1>;
+> +                       #size-cells = <0>;
+> +
+> +                       scmi_clk: protocol@14 {
+> +                               reg = <0x14>;
+> +                               #clock-cells = <1>;
+> +                       };
+
+I am a bit reluctant to apply this patch: with all current firmware
+versions, the system will lock up after "clk: Disabling unused clocks",
+unless "clk_ignore_unused" is used, or unless out-of-tree SCMI
+quirk handling patches are applied.
+
+Perhaps that is OK because renesas_defconfig does not have
+CONFIG_ARM_SCMI_PROTOCOL enabled yet?
+
+> +               };
+> +       };
+> +
+
+Gr{oetje,eeting}s,
+
+                        Geert
 
 -- 
-Regards,
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-Laurent Pinchart
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
