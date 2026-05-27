@@ -1,99 +1,98 @@
-Return-Path: <linux-renesas-soc+bounces-33206-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-33207-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id AFv9OG7hFmo9uQcAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-33206-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 May 2026 14:19:58 +0200
+	id UHsKKr3lFmruvgcAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-33207-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 May 2026 14:38:21 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F1EA5E4119
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 May 2026 14:19:58 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id A6FD55E4466
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 May 2026 14:38:20 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 2CCC0300F191
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 May 2026 12:18:50 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id DD2E6302225A
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 May 2026 12:26:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7B31F3CB2C5;
-	Wed, 27 May 2026 12:18:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2CA183FF88C;
+	Wed, 27 May 2026 12:26:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iup0aUza"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ro1GsPx7"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 026C33BB117
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 27 May 2026 12:18:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 222BA3FCB09
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 27 May 2026 12:26:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.47
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779884328; cv=pass; b=FtI7Ww4mzBgBWdEWVmjYSQlhlUkdB6Uj0K3MHRafw6+ug5VD01s2W42snFhOGz4FQ0dEGrW1Dn93sZfPxcmWc0d/VE/S8xUKkhcw66j3lck3md7C0zuFm6VG1clE/aRWoWtDj5V32ILDMUGSLFjB9mx9tBJQQQR81Rd90MKZTTU=
+	t=1779884796; cv=pass; b=dGwPlRIX8sI+5VbToK5O3U7AEXa2zoY1gDGHlXX85vCSxiYAmwrIalXWNZpk3XCu8TYgBFlTQ/bttr915QLQfmNn0qhWLKSaVUYa5K5nLkvVL6ia5LfH9axbf2IVS1ypBSFCvNdrVuWcYzZQv0SOuYg+hpGenNf0Oxedr9iFWo0=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779884328; c=relaxed/simple;
-	bh=eunLwWZyeNP6y8RjCZ9qVFbItePsAKJFGFspcKcRlSE=;
+	s=arc-20240116; t=1779884796; c=relaxed/simple;
+	bh=6ZMU4lW6pYzhBZFEupznRgcRzfwIjb09StuSviQb75I=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=tnYN6oIfwtUceIP0sOyeS4/gVfUKkZerh/FtE1tT6qsT4GBbe41UH20ZUQqFsLV9qL67CVWTKVuDvDX2JO1G5osZRDyaop2MoXnfFZFBZj2fv8ogXZNZwi7rZymucqCwxsFqJV4HeiBuaaGV6kO55sGkchrvMZqMS3H6kURz8bI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iup0aUza; arc=pass smtp.client-ip=209.85.128.42
+	 To:Cc:Content-Type; b=FmFgUzwhBNR+2oLovECpEBowLtMoZaJ4dbhSYf1451R1qIf03F4s7EkpuHoBsOEWZW0YZiw6I9GbWJlBDaauePBoK5qb8tw646Zv+hPVv8eWlaFDpYMTqry0VpSkqUvIEG4ION8A85RM3pyXdztVu/W9A3cz235ntR3//QdxR8o=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ro1GsPx7; arc=pass smtp.client-ip=209.85.221.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4906238c62eso30742125e9.3
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 27 May 2026 05:18:46 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1779884325; cv=none;
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-45ea19f412aso3714454f8f.3
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 27 May 2026 05:26:32 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1779884791; cv=none;
         d=google.com; s=arc-20240605;
-        b=iZQYoywGzHON/aQCrlG0MOyo7OQZ0jismsXPvaBcuUb/Bfec0ZlaA096MuGoZ5V190
-         XWQaHIZb4z6iu3Myck4O7k2/G4m6qLF8/hQy5dTVkRZUWGUytyPfBOq+Sl/d2Sz+5fOg
-         WUde/ZdnaDFNrkB4cj9NTwv8mWED1RDXrbsk3VkjbkImMfgHQ9+DVNLmWOaLbW72+98m
-         FsczQehNIHb2kKKKU444ANHczhjuSFcFA1bPZQJQwttgPkyLi3j2/8eEDSxeDELkeugz
-         N/1nGRNSCUm0EaKthtHPIbr0aiGJHH1YEVOq6QlhDRvTDwcmL8Tp+x8XjJgUlyI8deKt
-         34ow==
+        b=GoKOmKAhoYdLU/NjXPMwt1Ku8pWhAkgCV7nRiOvUXAec3a7WfUpN1fTxuTD94w28iL
+         8pi9Bc+XdBov4ZQKDEEMTzUKo/+tPLk7FAAYWVDXNQyfs7Royx2MS9NOadL452WBeNk0
+         CLrUsVSi4brBD00tyNDj4/N6IRN884KyUck7L1xHBa0Mx3sQ0os8AaZ7Gocj8RVgIdwr
+         ods4N4c+cXogDH1VyqCcz0B0W2IHoQHmV7t/CYVF+0L5t02CTRSm6Qh5XolqUKz0sPo3
+         dlXTrRkyXLqJTJUM8sX8HrjcWa6ApqzHU4L0mfQXviMc51MfFQevj98ga+GFdn+pE9AS
+         rraQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=pkxjcWbu9MZjjBxbwrKkIq+DQQqJ5ptkHwwdkN7jP4U=;
-        fh=Z17AYa/bYHBSr1klv0eCoTgPOPVNVRbdv8ZA0vVqsko=;
-        b=BuJ58ulmVK22ABXeUu9XCzgNtp74gDVzrgFiquidsgxJhTIJQwOZWIqZziSl7YfUIC
-         riFj0ABKEraMuNQsoUs8rlO0AsEioCvD0TmD10h688ZjkW6LLxjMy5vu2UA5bdd0UNWK
-         T3L40qJ2xekQDzvvmJgB8sBbi3kQ4e6nsNO2uy+jblt2dXm2+q8/ifawLRGxwlcvB6KL
-         KcFVm0sKugNHJNBC8rCksf3fcYc96qx9IZ7z9Dqap39ebgFofTel4vxRjWUt9urluUX5
-         HPX9Vx0z0gLHa4w7+uAqxbW3kz4V+Ljq3M6H2RqRiQMNwb/+b36TB21Zijo8lS/JWKTM
-         /mtA==;
+        bh=0unYbIUfrk39HwFjBZy82CeKdBA84Qzv0p5UdmWw7Mk=;
+        fh=YKIaRO7E9rRUAmYK4Pm08cE7IVQ/kYfV+soPo53h9eE=;
+        b=Q7BM3GeEyqPW5i7FseqaGy9Xuyl0Z7fOmY35uyVIzb0Jqj036Xp3P1MJ3Y2kJr0GwA
+         fsylEwif2TS5Wh8P/8ya7gDuPXn9NzJetIjG6dBLZfKvMND4eRLSNk9Fi3VarrZIzirE
+         McBzAc8kibpkkLhX0TGZ9NpSlCdruVKo+MLas/PjPESbGcNfhHrxng2UCNhFWSi1N81B
+         8a0/MXsIlxjGZgRjWwdNmjlgCykEtyMrKfmmxw7e8EqTp3hXY3KPb0Z2GROWJObSKJLh
+         wQTxj9QgmNq9Y+4QD80BDPw1/53Dn2bASQRyID5abrT5QpaDDDOpKfdIJyPz0aoOYBV2
+         uWuA==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779884325; x=1780489125; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1779884791; x=1780489591; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=pkxjcWbu9MZjjBxbwrKkIq+DQQqJ5ptkHwwdkN7jP4U=;
-        b=iup0aUza5Dxbcz6eyzcJ9cBFl/3Y0L2eNnEXatvKGNVMcETHdK7QmYTmB4Br0T0M52
-         Lo9YgYeRDBwH7sV94LrwF+qJDv7PAJvF+0WnOAGJcaAUOQLeWuwXn6cjemMDmgvdBJJK
-         DiehVJVKF7mwNYU0LaTis3pjtQsB7Iq0JuxI7DWraT1ha/rqTBrsQgetADW6IIQ/nNzr
-         dlXGX+yLWfi6OfaTyVfPEs00Jiv4q/a/BIjOHHVavNwwiDnSo34PqrhLl0If4cnnijwY
-         k24fCovl+npQqHdaz77GQ4E3U/vsAnI380GmllsIb/voJ/zrw5JQrfi/nLl2uGjfLXmM
-         k50Q==
+        bh=0unYbIUfrk39HwFjBZy82CeKdBA84Qzv0p5UdmWw7Mk=;
+        b=Ro1GsPx7NSysyHsNIkceFw9DnbgIyzl6xXhF9rFe8VJ/6L1XkDeSlPSlstQ2U+ZAt3
+         XbvA3EhFKsR85z0uy6XZLblornfRuGe/ZbzqF7VZ5yxg2Bjgg9xOS2HbWZBdOvdG8gwT
+         2nKSeSwFAZD4ugNtMED5aamFGJw+7RvAfpicbicQOPj+1PKcPMLbIiA9mM9w7UG8LZIW
+         PYah9ArBt0swN83uaJI/CR8NWOyJiGeoZiU92KNp1zWM/B8e00DKNTl5mMxOrdfwn6r8
+         QL6qzPXq5DrzVQy6L7RUPs+2fgZe0tbs5btZdzHTa4EkWhXy9Mx+4QaYmVlr9KS9vc+3
+         S7zQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779884325; x=1780489125;
+        d=1e100.net; s=20251104; t=1779884791; x=1780489591;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=pkxjcWbu9MZjjBxbwrKkIq+DQQqJ5ptkHwwdkN7jP4U=;
-        b=qjxHxjEF0f0S9VwH/oASDxwWAZnZz5OojvhDNaNo9pfI8nQ77G3ap+tsWoeHztYgW5
-         Fk0UzsvcVUCnJyYllO3gE7fy/K4dhKSplorhNbs1ThqR1FH9PdzdWq/8kGpylLO8puCp
-         MHSspHLzGkMu/Q3nzfYoxuD7bsE+tMUIOxePp5+PZ9KGj2MwqYdru8s3aMKUyDPfqDJM
-         gl8910kygZbUt8guNJkh9vdRwu3ej7ylBKhUdfTx0wHYuy9ta//qLzSd06SOxKxr0Nqi
-         Pm7iJNn+o4U+NVsq3ZUtlTsBgGbNc9gDJzAPnU5tMvuZrvZDGBSrvorEXU6/H3eX1+BT
-         z5ZQ==
-X-Forwarded-Encrypted: i=1; AFNElJ+4AjOdhSkDQFKx0mgUw5D20vu8i0kJSeetuqJj3c+q4Sy9eJkvcc+C2HJoMDPkoECXuU67NO4NO1L6P+ebsgJZXA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyepst46WFfNPKZeWRtR6Ax1FOtV2EbLi/rX6t1qyFaD8k4y7XO
-	LnmA1511Hk3Nxr/W3OQx12Y93XxVuh21/FwSe311eheoHedMYWO4yjHdXZuLCFYmj3TcAuPxPEl
-	eUgaiyUpYgwADKLGaLZkydfGsyvxqUTY=
-X-Gm-Gg: Acq92OFad5fI8DRi86I3FlWkw4UviWAMZlFBB45hfgCl14FZbkMiS309hm9Wv6y02Q+
-	0vuD3YYMCRjJBqClLdLDx+2Tdb5+Eh9tsT4iLJgkgi3iAutFLjICiDLBFUravubXGPDz5K6+Wdh
-	8gvXE3pLcFVsFEaaKEM536bDkiedvpdi75ZkuUN9IIKJ694kqUvcDhLxkTD0sEsB/9X3BSAz/5e
-	+snCEagJpxOaxxCnwLCt9h5QrVGALf7xRUohzVBOsSZoJRgYdaowTZc8uC1SEUJRvk8rpEPuUCm
-	79xd8EUgWFYtSNpEkJ1IXH4kytBStnnCatgStAOlsiUDLKoYnMURAz59agB0/WEg5eH4wHGS2HM
-	eWXSCGQefM3iavRp/
-X-Received: by 2002:a05:600c:4ecc:b0:490:3a07:c467 with SMTP id
- 5b1f17b1804b1-490426cf642mr354995575e9.22.1779884324964; Wed, 27 May 2026
- 05:18:44 -0700 (PDT)
+        bh=0unYbIUfrk39HwFjBZy82CeKdBA84Qzv0p5UdmWw7Mk=;
+        b=YW9Pz8shqK+DN2xUTD1wlK4H53SF99A3MDCz0od27kNcREm8annZMmAEpVHxTZFSWZ
+         xF+UoHqdMkhGLavmoWcjV/Tyhmr6kzckTzEA+ZHGGLJ8q4oWbMuRJ90xF5O4Q+8oqgoi
+         8HfO1g38JeqBF4w+QaOc1mtjyLEIgQRs2XXb/3ZHM0X7i+qAbZvgA+iLewiyulXdMjbm
+         hHGep736DU9b+H3kvcJYQPV0fNau+fsi7lpJIw0DQQos5fhJrrG7T6Ykptn1KrO/Ye4W
+         j3PrPCng650iXo6GPuLqi/HGTgfR1354fCoypsoVaqt9LxHivKfKzm9P6cy3wX82204y
+         hOjw==
+X-Forwarded-Encrypted: i=1; AFNElJ836U2bWTSRX2T1iQXGBylTb6DOiBYm/sf9aqmSPZcWsQ36ntyXiaSUT2EjMHZ/HfrUIGlNxhN+hSrSHUCdrj/y0A==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyinxCtSzueyy0wBTWBZPzjAxwpAZcCQweagNC5nmZxldeYCeDP
+	u8YnW6f/OXenGlU/HG9UTo4RvZG0jBkVFfQyLJo75xUTHfgfrkcfS6zjbWVHaLI6vXLvayIixYl
+	ZqWckjqpjoux1UPa2OaP/wBb0uK6XNLY=
+X-Gm-Gg: Acq92OE3fIxcK3aQe1f3+N0GWqgQfRgzuYE9jufIPWcHQFm4GtjcYpTYkvdmUVoexAC
+	EtBU8AqssF1sBYYnSy2lzvfyRprc7+Jg4ouJFEskE+U98uW/6A3qpaYJFEvoLiTAWJQF6MT46xo
+	30Xkdnr6hZYhNZxvhJXPUhC7IYkt5N9ad0wYbz6vVu7CYzVQqr1DSQAFQOInhWlEVxqF/Az5ufR
+	gNRGDlejh8H8j1ptS6EDJQaCMZBdtWI0U7HuunUSs0yTSh84JNXwbDI6dFozz5y4rpHPFlFJJ/G
+	Ba5OYyUYHQCynKV6LB3QTIASP1Z9SCSVXPoyRxi15GhyS1uFtwf0sjB2nA+xlgRdCHPN+LM=
+X-Received: by 2002:a05:6000:25f6:b0:45e:9115:2982 with SMTP id
+ ffacd0b85a97d-45eb38d8177mr37043341f8f.34.1779884791248; Wed, 27 May 2026
+ 05:26:31 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -101,13 +100,13 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 References: <20260505120153.680979-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20260505120153.680979-2-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdXDvM1NoU0fi+9dGZWcEyEmfni_P7NH2o3V5rK-OiNjeA@mail.gmail.com>
-In-Reply-To: <CAMuHMdXDvM1NoU0fi+9dGZWcEyEmfni_P7NH2o3V5rK-OiNjeA@mail.gmail.com>
+ <20260505120153.680979-4-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdV+6qVRJGUVe9noYWRnG1nEeq9SPJYnwsbOEpG1osaBVw@mail.gmail.com>
+In-Reply-To: <CAMuHMdV+6qVRJGUVe9noYWRnG1nEeq9SPJYnwsbOEpG1osaBVw@mail.gmail.com>
 From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Wed, 27 May 2026 13:18:18 +0100
-X-Gm-Features: AVHnY4LEw9oHmwZWVib4bDP0uuax_0rVbkEiyBIIYgKqbHTFAWVr1VNFjySy3Pg
-Message-ID: <CA+V-a8uLjFfPGOiq_ZxbzcY9JE3PsCHyHcx1dP8+=x-71cE--A@mail.gmail.com>
-Subject: Re: [PATCH 1/3] arm64: dts: renesas: r9a09g077: Add xSPI nodes
+Date: Wed, 27 May 2026 13:26:05 +0100
+X-Gm-Features: AVHnY4JOosN5hDdtlUJOoB80nqu5nBarbvLX9T5TFXyo0j4X995ZvK_F-UFaGJM
+Message-ID: <CA+V-a8v3+aK-+peT1G-raBMBKBshscc=pJh4mDgbTEhzpHHBYg@mail.gmail.com>
+Subject: Re: [PATCH 3/3] arm64: dts: renesas: rzt2h-n2h-evk: Enable xSPI nodes
 To: Geert Uytterhoeven <geert@linux-m68k.org>
 Cc: Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>, 
 	Krzysztof Kozlowski <krzk@kernel.org>, Conor Dooley <conor+dt@kernel.org>, linux-renesas-soc@vger.kernel.org, 
@@ -121,12 +120,12 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-33206-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-33207-lists,linux-renesas-soc=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
@@ -144,9 +143,9 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,dt];
 	RCPT_COUNT_SEVEN(0.00)[11];
 	FREEMAIL_FROM(0.00)[gmail.com];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,801c0000:email,0.0.0.3:email]
-X-Rspamd-Queue-Id: 6F1EA5E4119
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[0.4.147.224:email,mail.gmail.com:mid,linux-m68k.org:email,1fb000:email,sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo,renesas.com:email,0.0.0.0:email]
+X-Rspamd-Queue-Id: A6FD55E4466
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
@@ -154,7 +153,7 @@ Hi Geert,
 
 Thank you for the review.
 
-On Wed, May 27, 2026 at 11:13=E2=80=AFAM Geert Uytterhoeven
+On Wed, May 27, 2026 at 11:43=E2=80=AFAM Geert Uytterhoeven
 <geert@linux-m68k.org> wrote:
 >
 > Hi Prabhakar,
@@ -163,65 +162,205 @@ On Wed, May 27, 2026 at 11:13=E2=80=AFAM Geert Uytterhoeven
 :
 > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > >
-> > Add xSPI (Expanded SPI) device nodes to the RZ/T2H (R9A09G077) SoC DTSI=
-.
-> > The RZ/T2H integrates two xSPI interfaces.
+> > Enable the xSPI0 and xSPI1 controllers on the RZ/T2H N2H EVK board.
+> >
+> > The xSPI0 controller is connected to an MX25LW51245 octal flash device.
+> > Although the hardware supports octal mode, configure the bus width to
+> > 1-bit (x1) mode. Enabling octal mode causes the BootROM to fail loading
+> > the first-stage bootloader following a Watchdog Timer (WDT) reset.
+> >
+> > The xSPI1 controller is connected to an AT25SF128A flash device.
+> > Configure this interface for 4-bit (x4) mode to utilize the available
+> > data lines.
 > >
 > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 >
 > Thanks for your patch!
 >
-> > --- a/arch/arm64/boot/dts/renesas/r9a09g077.dtsi
-> > +++ b/arch/arm64/boot/dts/renesas/r9a09g077.dtsi
-> > @@ -1006,6 +1006,44 @@ mii_conv3: mii-conv@3 {
-> >                         };
-> >                 };
+> > --- a/arch/arm64/boot/dts/renesas/rzt2h-n2h-evk-common.dtsi
+> > +++ b/arch/arm64/boot/dts/renesas/rzt2h-n2h-evk-common.dtsi
+> > @@ -5,6 +5,7 @@
+> >   * Copyright (C) 2025 Renesas Electronics Corp.
+> >   */
 > >
-> > +               xspi0: spi@801c0000 {
-> > +                       compatible =3D "renesas,r9a09g077-xspi", "renes=
-as,r9a09g047-xspi";
-> > +                       reg =3D <0 0x801c0000 0 0x1000>,
-> > +                             <0 0x40000000 0 0x10000000>;
-> > +                       reg-names =3D "regs", "dirmap";
-> > +                       interrupts =3D <GIC_SPI 654 IRQ_TYPE_LEVEL_HIGH=
->,
-> > +                                    <GIC_SPI 655 IRQ_TYPE_LEVEL_HIGH>;
-> > +                       interrupt-names =3D "pulse", "err_pulse";
-> > +                       clocks =3D <&cpg CPG_MOD 4>,
-> > +                                <&cpg CPG_CORE R9A09G077_XSPI_CLK0>;
-> > +                       clock-names =3D "ahb", "spi";
-> > +                       resets =3D <&cpg 0x4>;
+> > +#include <dt-bindings/clock/renesas,r9a09g077-cpg-mssr.h>
+> >  #include <dt-bindings/gpio/gpio.h>
+> >  #include <dt-bindings/leds/common.h>
+> >  #include <dt-bindings/net/mscc-phy-vsc8531.h>
+> > @@ -20,6 +21,8 @@ aliases {
+> >                 mmc0 =3D &sdhi0;
+> >                 mmc1 =3D &sdhi1;
+> >                 serial0 =3D &sci0;
+> > +               spi0 =3D &xspi0;
+> > +               spi1 =3D &xspi1;
+> >         };
+> >
+> >         chosen {
+> > @@ -331,6 +334,59 @@ ctrl-pins {
+> >                                  <RZT2H_PORT_PINMUX(17, 4, 0x29)>; /* S=
+D1_CD */
+> >                 };
+> >         };
+> > +
+> > +       xspi0_pins: xspi0-group {
+> > +               clk-pins {
+> > +                       pinmux =3D <RZT2H_PORT_PINMUX(5, 1, 0x1c)>, /* =
+XSPI0_CKP */
+> > +                                <RZT2H_PORT_PINMUX(5, 2, 0x1c)>; /* XS=
+PI0_CKN */
 >
-> 4
+> XSPI0_CKN is not connected to the OSPI FLASH (zero-ohm "DNF" resistor!),
+> only to the HyperRAM.
 >
-Ouch.
-> > +                       reset-names =3D "hresetn";
-> > +                       power-domains =3D <&cpg>;
-> > +                       #address-cells =3D <1>;
-> > +                       #size-cells =3D <0>;
-> > +                       status =3D "disabled";
+Agreed, I will drop it.
+
+> > +                       input-schmitt-disable;
+> > +                       slew-rate =3D <1>;
+> > +                       drive-strength-microamp =3D <9000>;
+> > +               };
+> > +
+> > +               data-pins {
+> > +                       pinmux =3D <RZT2H_PORT_PINMUX(5, 6, 0x1c)>, /* =
+XSPI0_IO0 */
+> > +                                <RZT2H_PORT_PINMUX(5, 7, 0x1c)>, /* XS=
+PI0_IO1 */
+> > +                                <RZT2H_PORT_PINMUX(6, 0, 0x1c)>, /* XS=
+PI0_IO2 */
+> > +                                <RZT2H_PORT_PINMUX(6, 1, 0x1c)>, /* XS=
+PI0_IO3 */
+> > +                                <RZT2H_PORT_PINMUX(6, 2, 0x1c)>, /* XS=
+PI0_IO4 */
+> > +                                <RZT2H_PORT_PINMUX(6, 3, 0x1c)>, /* XS=
+PI0_IO5 */
+> > +                                <RZT2H_PORT_PINMUX(6, 4, 0x1c)>, /* XS=
+PI0_IO6 */
+> > +                                <RZT2H_PORT_PINMUX(6, 5, 0x1c)>; /* XS=
+PI0_IO7 */
+> > +                       input-schmitt-disable;
+> > +                       slew-rate =3D <1>;
+> > +                       drive-strength-microamp =3D <9000>;
+> > +               };
+> > +
+> > +               ctrl-pins {
+> > +                       pinmux =3D <RZT2H_PORT_PINMUX(5, 3, 0x1c)>, /* =
+XSPI0_CS0 */
+> > +                                <RZT2H_PORT_PINMUX(6, 6, 0x1c)>, /* XS=
+PI0_RESET0 */
+> > +                                <RZT2H_PORT_PINMUX(5, 5, 0x1c)>; /* XS=
+PI0_DS */
+> > +                       input-schmitt-disable;
+> > +                       slew-rate =3D <1>;
+> > +                       drive-strength-microamp =3D <9000>;
 > > +               };
 >
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> i.e. will queue in renesas-devel for v7.2 with the above fixed.
+> As the three subnodes define the same parameters, you can do without
+> the subnodes, and keep all pins together?
 >
-Thank you for taking care of this (and also patch 2/3).
+> Don't you also need P7_5 for XSPI0_ES, and SW5-6 closed?
+>
+Agreed, XSPI0_ES is needed (5: OFF, 6: ON). Since XSPI0_ES has
+different DRCTL settings I'll keep it as a group but with only two sub
+nodes.
+
+> > +       };
+> > +
+> > +       xspi1_pins: xspi1-group {
+> > +               ctrl-pins {
+> > +                       pinmux =3D <RZT2H_PORT_PINMUX(1, 0, 0x1c)>, /* =
+XSPI1_CKP */
+> > +                                <RZT2H_PORT_PINMUX(1, 1, 0x1c)>; /* XS=
+PI1_CS0 */
+> > +                       input-schmitt-enable;
+> > +                       slew-rate =3D <1>;
+> > +                       drive-strength-microamp =3D <9000>;
+> > +               };
+> > +
+> > +               data-pins {
+> > +                       pinmux =3D <RZT2H_PORT_PINMUX(1, 4, 0x1c)>, /* =
+XSPI1_IO0 */
+> > +                                <RZT2H_PORT_PINMUX(1, 5, 0x1c)>, /* XS=
+PI1_IO1 */
+> > +                                <RZT2H_PORT_PINMUX(1, 6, 0x1c)>, /* XS=
+PI1_IO2 */
+> > +                                <RZT2H_PORT_PINMUX(1, 7, 0x1c)>; /* XS=
+PI1_IO3 */
+> > +                       input-schmitt-enable;
+> > +                       slew-rate =3D <1>;
+> > +                       drive-strength-microamp =3D <9000>;
+> > +               };
+>
+> As the two subnodes define the same parameters, you can do without
+> the subnodes, and keep all pins together?
+>
+Ok, I will drop the subnodes.
+
+> And SW1-6 must be closed?
+>
+SW1[6] needs to be ON, I will add comments for it.
+
+> > +       };
+> >  };
+> >
+> >  &sci0 {
+> > @@ -395,3 +451,82 @@ &wdt2 {
+> >         timeout-sec =3D <60>;
+> >  };
+> >
+> > +&xspi0 {
+> > +       pinctrl-0 =3D <&xspi0_pins>;
+> > +       pinctrl-names =3D "default";
+> > +       status =3D "okay";
+> > +
+> > +       assigned-clocks =3D <&cpg CPG_CORE R9A09G077_XSPI_CLK0>;
+> > +       assigned-clock-rates =3D <50000000>;
+> > +
+> > +       flash@0 {
+> > +               compatible =3D "jedec,spi-nor";
+> > +               reg =3D <0>;
+> > +               m25p,fast-read;
+> > +               spi-tx-bus-width =3D <1>;
+> > +               spi-rx-bus-width =3D <1>;
+> > +               vcc-supply =3D <&reg_3p3v>;
+> > +
+> > +               partitions {
+> > +                       compatible =3D "fixed-partitions";
+> > +                       #address-cells =3D <1>;
+> > +                       #size-cells =3D <1>;
+> > +
+> > +                       partition@0 {
+> > +                               label =3D "bl2-0";
+> > +                               reg =3D <0x00000000 0x00060000>;
+> > +                               read-only;
+> > +                       };
+> > +
+> > +                       partition@1fb000 {
+>
+> 60000?
+>
+Agreed.
+
+> > +                               label =3D "fip-0";
+> > +                               reg =3D <0x00060000 0x007a0000>;
+> > +                               read-only;
+> > +                       };
+> > +
+> > +                       partition@300000 {
+>
+> 800000?
+>
+Agreed.
+
+> > +                               label =3D "user-0";
+> > +                               reg =3D <0x800000 0x003800000>;
+> > +                       };
+>
+> Given this is a 64 MiB part, I assume the reg entries are correct,
+> and the unit-addresses are not?
+>
+Yes, thats right.
+
+I will address the comments and send a v2 for just this single patch.
 
 Cheers,
 Prabhakar
-
-> Gr{oetje,eeting}s,
->
->                         Geert
->
-> --
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m6=
-8k.org
->
-> In personal conversations with technical people, I call myself a hacker. =
-But
-> when I'm talking to journalists I just say "programmer" or something like=
- that.
->                                 -- Linus Torvalds
->
 
