@@ -1,192 +1,226 @@
-Return-Path: <linux-renesas-soc+bounces-33189-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-33190-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id CP6yIyqbFmq1ngcAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-33189-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 May 2026 09:20:10 +0200
+	id uBQqGImgFmqBnwcAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-33190-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 May 2026 09:43:05 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BD655E05C6
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 May 2026 09:20:10 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 643465E0920
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 May 2026 09:43:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 20DB8300574B
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 May 2026 07:18:21 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 8652A300A646
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 May 2026 07:43:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 48A333B7B7A;
-	Wed, 27 May 2026 07:18:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9006C3C943B;
+	Wed, 27 May 2026 07:43:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b="WN0sbbk8"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vs1-f42.google.com (mail-vs1-f42.google.com [209.85.217.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay.yourmailgateway.de (relay.yourmailgateway.de [188.68.63.166])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1B74280A56
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 27 May 2026 07:18:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B45BD3BD24A;
+	Wed, 27 May 2026 07:42:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=188.68.63.166
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779866300; cv=none; b=ZD1WAv9JMbDbCqvTaY4sCBDBrH07a/1XpsRmOhqmDYgCGE3cwicu+brxYkZ3Uc/cdDab52Z+wiGX8gaOaZ3+Yzh3MrWl9VD1RiGlaT3U8LSJ0zMiZb/b4u4Be9jqtI441CpBBfvyLARCyt5MlTbDaXrR9zirFWJo1aH2OEwxy8M=
+	t=1779867780; cv=none; b=Djub3eRHx/wOI0PBE48cd2DshSYgog/U28UfuQl6Srrt6i9OyKHypjG89bllLamoBeAUTP+Dg3rL15zOMmFNKnHXkv4VghBF3Hll9EkADvHuALXxpVe7yzLatns6QDjkDyTJiDRmDk7Ueg0lt107fE86oh2BRwlvaYSIzfztYbg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779866300; c=relaxed/simple;
-	bh=Dao9kdOrtlJ45gmh2RbDmGbQQTZZO+n/rTm5/im873w=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=oEkw6aZFcR51ix2WbpavSyTp8irjZMwWYi/ddUJmkdrGUcgihUJ1kZrNRjUyvZNK/5BEB8rlLx+B/sFeSTnkqAkXb4Zo6mo1fMONJaAyns3lyokrGv+v9Ge3Kn0E0iKuiD0aia/ZoUTlwNmJ+mz/sT6oukTWH2gKcguHJvRUomU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vs1-f42.google.com with SMTP id ada2fe7eead31-6314a0eefb1so3628045137.2
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 27 May 2026 00:18:18 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779866298; x=1780471098;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=sy2hrrBG21BdHck1YdIk1SaSJwWCDlg+jpuiQs79vfM=;
-        b=S/TrtaUhAKnjLvxll15qeuAR7nUxvoyfIKch6Bn3SaX0tgVf5+7Sf+za2Yc/cfUoUE
-         2mElGmURzLhcw48EGrrAq+wBsdUTk5UFcarHHzIS+o4Rbha78K5mbhfmf+tLDJnXvpGV
-         i9vZXGDXOL3dcdJe4oa0/18vmd7TxWdUGq+lr0wBR3ondJHVzVgs+jdW0/4c/k/bStB0
-         d+ZeX8SdCtegPlvKGNQ/ycNmTV6dKsTV4CKcblvK56f2OIi+YZV/vqFM2F63UCDPcXZo
-         tD9GXnUiVHAJ+3CospPFHjk2wjhQGsqAvW0blqhggjO6hwblGtKEINgvas8c/stAyfoM
-         bEIw==
-X-Forwarded-Encrypted: i=1; AFNElJ/CMioElOfcvO2Yu/g6ojOf0fEcvOy5I/OYwuCf7fmBZN1OjZ4juhYtfiXo5oIdP/6h/vD/UAPn6s5+ScnR77PhGQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzck+WxBOwry1/ixRkn+zHoDa0Qe9o0J1IIXvKVgkR4rD2QiR54
-	1JDtW/5W2Ad2aVnNG+MvUY4FLTeg+0tP51JaW32s8zKBH0viyZlKHU58PWpDsj975Fk=
-X-Gm-Gg: Acq92OG/SoxFeMP1nHKt/mXCLCgnw8klO68r1KCcFuzKT6dDLhtCx7wd4RFLzuMBy3f
-	DzJzIwNRKz2G7sofnrvIEfzwOoFWCrkZyW/36hDijUppmBUClp6OsCLGT/VLojCN5Pp/U5rhWmF
-	uypEwXkHfrCG48FAB89Ola+/JOSqR9vOJLlriGtdK0FZ/c/c7oMkZ8f172NXhd79G/V1vPDI3Wr
-	jRIzHlU+yDH/XxVhQ7CRoSJvvemSqbuyL9rf+O8ufX6QbsDd/+btt9tTdufdH+xcrz7FJC74GCM
-	mIqIq7SHtcuQM1ZSExWBQIKg1GS7tTcomV5qep3b8elBsPtZ55arShyIeW0rlG7BX3+CHajn/Vk
-	kZdmPrg6KMEbTk0WfU+DjregmX2jeC2j5F+TiKV09zMfq26kYkNgfcFmaPu3F5twt17jSvNOYlB
-	y682R6kUf9MBtrSSHY0KKMNRvaD7qety7C70CF5J3iv3Q2N8sYs0ne/lxjz+sNbXsw
-X-Received: by 2002:a05:6102:5114:b0:631:23fa:38d7 with SMTP id ada2fe7eead31-67c80d66fc5mr9909911137.14.1779866297741;
-        Wed, 27 May 2026 00:18:17 -0700 (PDT)
-Received: from mail-vk1-f173.google.com (mail-vk1-f173.google.com. [209.85.221.173])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-961cc2b70e5sm3182801241.0.2026.05.27.00.18.16
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 27 May 2026 00:18:17 -0700 (PDT)
-Received: by mail-vk1-f173.google.com with SMTP id 71dfb90a1353d-57513733658so3865758e0c.3
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 27 May 2026 00:18:16 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ/h/IX66eoJ53pnjoiXSstjvh3Uj2TBJ3IQoMU1eY7PKClKyUZkgUEznRJZ9TpUjS7+mEOZXvnVcVNUHnB5ZdlOLg==@vger.kernel.org
-X-Received: by 2002:a05:6122:4581:b0:575:a5b5:3233 with SMTP id
- 71dfb90a1353d-5865f154435mr10929054e0c.4.1779866296537; Wed, 27 May 2026
- 00:18:16 -0700 (PDT)
+	s=arc-20240116; t=1779867780; c=relaxed/simple;
+	bh=a2Y8X5Smv57ajcfAfVNBiZIFlppcEAQ6eJFxUUek++8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=DiR4VU0N++BkT4PL2cJoQyEamEX4QjgdkKA15CzvMKXaCWURkgFaUkIsWYTmYYajla5zzRIoyCNKaMF0NkoOC1l1OLZ5iwC1fy0Gz+HVd7kpqYVNkDoqfLno5QlJIXE6IwAMSf4f3VT8PMYCw7X6Z4ndM990qHBwOsAQVq/Eaa8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info; spf=pass smtp.mailfrom=leemhuis.info; dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b=WN0sbbk8; arc=none smtp.client-ip=188.68.63.166
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leemhuis.info
+Received: from mors-relay-8202.netcup.net (localhost [127.0.0.1])
+	by mors-relay-8202.netcup.net (Postfix) with ESMTPS id 4gQLxQ3yZzz4054;
+	Wed, 27 May 2026 09:35:06 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=leemhuis.info;
+	s=key2; t=1779867306;
+	bh=a2Y8X5Smv57ajcfAfVNBiZIFlppcEAQ6eJFxUUek++8=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=WN0sbbk8dHGIXg/X0UdZKmAgM1d2uCk7EP+gewVZ3VXFcfYumVTVGXbjCaPl9UiEO
+	 ljFMz85Z6Bg3sI3QJR7M6z8XmML+bdRfpk4wMJStHYWwelsXEYCcRPtO6Dim+kIjs9
+	 vk57tYS0ZUpVExIxnApqNP5YU+XDOvpYx/O+k3cgzOBBzZHcKKj0nCuCgtnPKJKTmj
+	 M3Ggkm4EzMMEfj7Qj2dO6AM9BhZ0MXA2cDOHecE722jXLXGgGfznX6FNtyPzQQGYYB
+	 RNHTgVvqMvIoY3rs1ZIG5yW6HTfk/bBIOBuR3AcPDFYgQev6gWiNJDsPmMRM4dt2br
+	 q+O4LUCO/HwNQ==
+Received: from policy02-mors.netcup.net (unknown [46.38.225.35])
+	by mors-relay-8202.netcup.net (Postfix) with ESMTPS id 4gQLxQ3D1cz3ySy;
+	Wed, 27 May 2026 09:35:06 +0200 (CEST)
+Received: from mxe9fb.netcup.net (unknown [10.243.12.53])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by policy02-mors.netcup.net (Postfix) with ESMTPS id 4gQLxP6RtYz8sh8;
+	Wed, 27 May 2026 09:35:05 +0200 (CEST)
+Received: from [IPV6:2a02:8108:8984:1d00:a0cf:1912:4be:477f] (unknown [IPv6:2a02:8108:8984:1d00:a0cf:1912:4be:477f])
+	by mxe9fb.netcup.net (Postfix) with ESMTPSA id 58DAF60384;
+	Wed, 27 May 2026 09:35:05 +0200 (CEST)
+Authentication-Results: mxe9fb;
+        spf=pass (sender IP is 2a02:8108:8984:1d00:a0cf:1912:4be:477f) smtp.mailfrom=regressions@leemhuis.info smtp.helo=[IPV6:2a02:8108:8984:1d00:a0cf:1912:4be:477f]
+Received-SPF: pass (mxe9fb: connection is authenticated)
+Message-ID: <0977c2c0-79ea-4435-9e1c-f54ca5e18342@leemhuis.info>
+Date: Wed, 27 May 2026 09:35:03 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260514125328.20954-1-marek.vasut+renesas@mailbox.org>
-In-Reply-To: <20260514125328.20954-1-marek.vasut+renesas@mailbox.org>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 27 May 2026 09:18:04 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXhk2rf9+1mvdoUbd2T=vNC0L5UXeiEzwDPvfMOT==+mA@mail.gmail.com>
-X-Gm-Features: AVHnY4IRt8fLyNfU8YOCQpYkCYZ9ntliUcjglmYbKUGrrnuUFeY-Av16LJkvBmg
-Message-ID: <CAMuHMdXhk2rf9+1mvdoUbd2T=vNC0L5UXeiEzwDPvfMOT==+mA@mail.gmail.com>
-Subject: Re: [PATCH v2] arm64: dts: renesas: r8a78000: Fix GIC-720AE View 1
- Redistributor description
-To: Marek Vasut <marek.vasut+renesas@mailbox.org>
-Cc: linux-arm-kernel@lists.infradead.org, Marc Zyngier <maz@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, Magnus Damm <magnus.damm@gmail.com>, 
-	Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spamd-Result: default: False [0.04 / 15.00];
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 2/2] Revert "media: renesas: vsp1: brx: Fix format
+ propagation"
+To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ linux-media@vger.kernel.org
+Cc: linux-renesas-soc@vger.kernel.org,
+ Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+ Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+ Linux kernel regressions list <regressions@lists.linux.dev>
+References: 
+ <20260506215650.1897177-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20260506215650.1897177-3-laurent.pinchart+renesas@ideasonboard.com>
+From: Thorsten Leemhuis <regressions@leemhuis.info>
+Content-Language: de-DE, en-US
+X-Enigmail-Draft-Status: N11222
+Autocrypt: addr=linux@leemhuis.info; keydata=
+ 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 MEK4
+In-Reply-To: 
+ <20260506215650.1897177-3-laurent.pinchart+renesas@ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-PPP-Message-ID: 
+ <177986730564.3967245.11737610773534317714@mxe9fb.netcup.net>
+X-NC-CID: YzDKEPAXYRUkrN1wUqTFc8mKbz45nudHb3MBoA4DMsf3k6KDgW4=
+X-Spamd-Result: default: False [-0.16 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4];
+	R_DKIM_ALLOW(-0.20)[leemhuis.info:s=key2];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[lists.infradead.org,kernel.org,renesas.com,gmail.com,vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
+	TAGGED_FROM(0.00)[bounces-33190-lists,linux-renesas-soc=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	DMARC_NA(0.00)[linux-m68k.org];
-	TAGGED_FROM(0.00)[bounces-33189-lists,linux-renesas-soc=lfdr.de];
-	MIME_TRACE(0.00)[0:+];
+	DMARC_NA(0.00)[leemhuis.info];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DKIM_TRACE(0.00)[leemhuis.info:+];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo,leemhuis.info:mid,leemhuis.info:dkim,ideasonboard.com:email];
+	RCPT_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[geert@linux-m68k.org,linux-renesas-soc@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	NEURAL_HAM(-0.00)[-0.977];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	R_DKIM_NA(0.00)[];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,dt];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,mailbox.org:email,glider.be:email,mail.gmail.com:mid,linux-m68k.org:email]
-X-Rspamd-Queue-Id: 2BD655E05C6
+	FROM_NEQ_ENVFROM(0.00)[regressions@leemhuis.info,linux-renesas-soc@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_COUNT_SEVEN(0.00)[7]
+X-Rspamd-Queue-Id: 643465E0920
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Thu, 14 May 2026 at 14:53, Marek Vasut
-<marek.vasut+renesas@mailbox.org> wrote:
-> The Renesas R-Car X5H (R8A78000) SoC contains Arm CoreLink GIC-720AE
-> Generic Interrupt Controller with Multi View capability. Firmware has
-> access to configuration View 0, Linux kernel has access to View 1.
->
-> The Arm CoreLink GIC-720AE Generic Interrupt Controller Technical
-> Reference Manual, currently latest r2p1 [1], chapter "5. Programmers
-> model for GIC-720AE", subchapter "5.4 Redistributor registers
-> for control and physical LPIs summary", part "5.4.3 GICR_TYPER,
-> Redistributor Type Register", "Table 5-50: GICR_TYPER bit descriptions"
-> on page 200, clarifies register "GICR_TYPER" bit 4 "Last" behavior
-> in Multi View setup as follows:
->
-> "
-> Last
-> Last Redistributor:
->
-> 0 ... This Redistributor is not the last Redistributor on the chip.
-> 1 ... This Redistributor is the last Redistributor on the chip.
->       When GICD_CFGID.VIEW =3D=3D 1, for views 1, 2, or 3 this bit
->       always returns 1.
-> "
->
-> On this SoC, GICD_CFGID.VIEW is 1 and the Linux kernel has access to
-> View 1, therefore Linux kernel GICv3 driver will interpret register
-> "GICR_TYPER" bit 4 "Last" =3D 1 in the first Redistributor in continuous
-> Redistributor page as that first Redistributor being the one and only
-> Redistributor and will stop processing the continuous Redistributor
-> page further. This will prevent the other Redistributors from being
-> recognized by the system and used for other PEs.
->
-> Because the hardware indicates that the continuous Redistributor page
-> is not continuous for View 1, 2, or 3, describe every Redistributor
-> separately in the DT. This makes all Redistributors for all cores
-> accessible in Linux.
->
-> [1] https://documentation-service.arm.com/static/69ef3c1cd35efd294e335c43
->     Arm=C2=AE CoreLink=E2=84=A2 GIC-720AE Generic Interrupt Controller
->     Revision: r2p1 / Issue 12 / 102666_0201_12_en
->
-> Fixes: 63500d12cf76 ("arm64: dts: renesas: Add R8A78000 SoC support")
-> Acked-by: Marc Zyngier <maz@kernel.org>
-> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+On 5/6/26 23:56, Laurent Pinchart wrote:
+> This reverts commit 937f3e6b51f1cea079be9ba642665f2bf8bcc31f.
+> 
+> The change to format propagation in the BRx broke configuration of the
+> DRM pipeline. Revert it to fix the regression.
 
-> V2: - Update GIC-700AE documentation link to generated PDF
->     - Update commit message to match the PDF
->     - Add AB from Marc
+Laurent, is this still on your radar? From the outside it looks like
+this fix for the 7.1 regression should ideally go to Linus this week, as
+he ideally wants all known regression fixed by -rc6.
 
-LGTM, so
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-devel for v7.2.
+But it's easy to miss things from the outside, so if this is not a
+proper regression, the revert obsolete, or something like that, just
+mention it.
 
-Gr{oetje,eeting}s,
+Ciao, Thorsten
 
-                        Geert
+> The original commit was meant to fix a v4l2-compliance failure, with no
+> known userspace applications being affected beside test tools. Reverting
+> is the simplest option, a more comprehensive fix can be developed (and
+> tested more thoroughly) later.
+> 
+> Reported-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Closes: https://lore.kernel.org/linux-media/CA+V-a8t481xuwava0nb7uY9CUPqFWZ_8EP0xrK3BgumP7HDcLg@mail.gmail.com
+> Fixes: 937f3e6b51f1 ("media: renesas: vsp1: brx: Fix format propagation")
+> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> ---
+>  drivers/media/platform/renesas/vsp1/vsp1_brx.c | 10 ++--------
+>  1 file changed, 2 insertions(+), 8 deletions(-)
+> 
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_brx.c b/drivers/media/platform/renesas/vsp1/vsp1_brx.c
+> index b1a2c68e9944..9d93cb8b8e82 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1_brx.c
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_brx.c
+> @@ -156,20 +156,14 @@ static int brx_set_format(struct v4l2_subdev *subdev,
+>  		compose->height = format->height;
+>  	}
+>  
+> -	/*
+> -	 * Propagate the format code to all pads, and the whole format to the
+> -	 * source pad.
+> -	 */
+> +	/* Propagate the format code to all pads. */
+>  	if (fmt->pad == BRX_PAD_SINK(0)) {
+>  		unsigned int i;
+>  
+> -		for (i = 0; i < brx->entity.source_pad; ++i) {
+> +		for (i = 0; i <= brx->entity.source_pad; ++i) {
+>  			format = v4l2_subdev_state_get_format(state, i);
+>  			format->code = fmt->format.code;
+>  		}
+> -
+> -		format = v4l2_subdev_state_get_format(state, i);
+> -		*format = fmt->format;
+>  	}
+>  
+>  done:
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
 
