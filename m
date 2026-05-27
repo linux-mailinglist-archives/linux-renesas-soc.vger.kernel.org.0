@@ -1,366 +1,151 @@
-Return-Path: <linux-renesas-soc+bounces-33207-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-33208-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id UHsKKr3lFmruvgcAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-33207-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 May 2026 14:38:21 +0200
+	id gAOsILDoFmruvgcAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-33208-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 May 2026 14:50:56 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6FD55E4466
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 May 2026 14:38:20 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id DAE9B5E46A9
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 May 2026 14:50:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id DD2E6302225A
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 May 2026 12:26:38 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id E4F553051C4A
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 May 2026 12:46:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2CA183FF88C;
-	Wed, 27 May 2026 12:26:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ro1GsPx7"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5C7C126FA5A;
+	Wed, 27 May 2026 12:46:09 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+Received: from mail-vs1-f41.google.com (mail-vs1-f41.google.com [209.85.217.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 222BA3FCB09
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 27 May 2026 12:26:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.47
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779884796; cv=pass; b=dGwPlRIX8sI+5VbToK5O3U7AEXa2zoY1gDGHlXX85vCSxiYAmwrIalXWNZpk3XCu8TYgBFlTQ/bttr915QLQfmNn0qhWLKSaVUYa5K5nLkvVL6ia5LfH9axbf2IVS1ypBSFCvNdrVuWcYzZQv0SOuYg+hpGenNf0Oxedr9iFWo0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779884796; c=relaxed/simple;
-	bh=6ZMU4lW6pYzhBZFEupznRgcRzfwIjb09StuSviQb75I=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBDED274B23
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 27 May 2026 12:46:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.41
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779885969; cv=none; b=lCK7OCNApdGZCeXi0hGCwPDn8iucYV01d3a9Lc6lSrB0+D1UusW97KVL+RisA1ME+wn9Dum05uY+PrS6aU0AgqQfyl2MWZBu1K07Gv2hIv6piIyVCsADumQuEwr2cd+zXp0+V/c+tbzTOxz7YcekcoQ0uTN/8kubyoIzeIM8xr8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779885969; c=relaxed/simple;
+	bh=kqktGqpqwvczwM0VR2SPhNu80C/+HjpMr/FFlTiSoeI=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=FmFgUzwhBNR+2oLovECpEBowLtMoZaJ4dbhSYf1451R1qIf03F4s7EkpuHoBsOEWZW0YZiw6I9GbWJlBDaauePBoK5qb8tw646Zv+hPVv8eWlaFDpYMTqry0VpSkqUvIEG4ION8A85RM3pyXdztVu/W9A3cz235ntR3//QdxR8o=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ro1GsPx7; arc=pass smtp.client-ip=209.85.221.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	 To:Cc:Content-Type; b=jHuGraKkpamRQYDKn7qnvf3PJgZfg1Mb6vTG4zNzAZ/wYk84RxHtmT6oIEn0rmeISOkmkuuF/lTIjfkxK8SMyQoyUUyPXxII/iI2xoujDK/CQaK3rn3SupTO+x36SzMRl9DIuqnS0xpzF9q6/gdsGROqYYZ/OfQdP9C0WVe66zY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-45ea19f412aso3714454f8f.3
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 27 May 2026 05:26:32 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1779884791; cv=none;
-        d=google.com; s=arc-20240605;
-        b=GoKOmKAhoYdLU/NjXPMwt1Ku8pWhAkgCV7nRiOvUXAec3a7WfUpN1fTxuTD94w28iL
-         8pi9Bc+XdBov4ZQKDEEMTzUKo/+tPLk7FAAYWVDXNQyfs7Royx2MS9NOadL452WBeNk0
-         CLrUsVSi4brBD00tyNDj4/N6IRN884KyUck7L1xHBa0Mx3sQ0os8AaZ7Gocj8RVgIdwr
-         ods4N4c+cXogDH1VyqCcz0B0W2IHoQHmV7t/CYVF+0L5t02CTRSm6Qh5XolqUKz0sPo3
-         dlXTrRkyXLqJTJUM8sX8HrjcWa6ApqzHU4L0mfQXviMc51MfFQevj98ga+GFdn+pE9AS
-         rraQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=0unYbIUfrk39HwFjBZy82CeKdBA84Qzv0p5UdmWw7Mk=;
-        fh=YKIaRO7E9rRUAmYK4Pm08cE7IVQ/kYfV+soPo53h9eE=;
-        b=Q7BM3GeEyqPW5i7FseqaGy9Xuyl0Z7fOmY35uyVIzb0Jqj036Xp3P1MJ3Y2kJr0GwA
-         fsylEwif2TS5Wh8P/8ya7gDuPXn9NzJetIjG6dBLZfKvMND4eRLSNk9Fi3VarrZIzirE
-         McBzAc8kibpkkLhX0TGZ9NpSlCdruVKo+MLas/PjPESbGcNfhHrxng2UCNhFWSi1N81B
-         8a0/MXsIlxjGZgRjWwdNmjlgCykEtyMrKfmmxw7e8EqTp3hXY3KPb0Z2GROWJObSKJLh
-         wQTxj9QgmNq9Y+4QD80BDPw1/53Dn2bASQRyID5abrT5QpaDDDOpKfdIJyPz0aoOYBV2
-         uWuA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779884791; x=1780489591; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=0unYbIUfrk39HwFjBZy82CeKdBA84Qzv0p5UdmWw7Mk=;
-        b=Ro1GsPx7NSysyHsNIkceFw9DnbgIyzl6xXhF9rFe8VJ/6L1XkDeSlPSlstQ2U+ZAt3
-         XbvA3EhFKsR85z0uy6XZLblornfRuGe/ZbzqF7VZ5yxg2Bjgg9xOS2HbWZBdOvdG8gwT
-         2nKSeSwFAZD4ugNtMED5aamFGJw+7RvAfpicbicQOPj+1PKcPMLbIiA9mM9w7UG8LZIW
-         PYah9ArBt0swN83uaJI/CR8NWOyJiGeoZiU92KNp1zWM/B8e00DKNTl5mMxOrdfwn6r8
-         QL6qzPXq5DrzVQy6L7RUPs+2fgZe0tbs5btZdzHTa4EkWhXy9Mx+4QaYmVlr9KS9vc+3
-         S7zQ==
+Received: by mail-vs1-f41.google.com with SMTP id ada2fe7eead31-631466587e9so8775874137.1
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 27 May 2026 05:46:07 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779884791; x=1780489591;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=0unYbIUfrk39HwFjBZy82CeKdBA84Qzv0p5UdmWw7Mk=;
-        b=YW9Pz8shqK+DN2xUTD1wlK4H53SF99A3MDCz0od27kNcREm8annZMmAEpVHxTZFSWZ
-         xF+UoHqdMkhGLavmoWcjV/Tyhmr6kzckTzEA+ZHGGLJ8q4oWbMuRJ90xF5O4Q+8oqgoi
-         8HfO1g38JeqBF4w+QaOc1mtjyLEIgQRs2XXb/3ZHM0X7i+qAbZvgA+iLewiyulXdMjbm
-         hHGep736DU9b+H3kvcJYQPV0fNau+fsi7lpJIw0DQQos5fhJrrG7T6Ykptn1KrO/Ye4W
-         j3PrPCng650iXo6GPuLqi/HGTgfR1354fCoypsoVaqt9LxHivKfKzm9P6cy3wX82204y
-         hOjw==
-X-Forwarded-Encrypted: i=1; AFNElJ836U2bWTSRX2T1iQXGBylTb6DOiBYm/sf9aqmSPZcWsQ36ntyXiaSUT2EjMHZ/HfrUIGlNxhN+hSrSHUCdrj/y0A==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyinxCtSzueyy0wBTWBZPzjAxwpAZcCQweagNC5nmZxldeYCeDP
-	u8YnW6f/OXenGlU/HG9UTo4RvZG0jBkVFfQyLJo75xUTHfgfrkcfS6zjbWVHaLI6vXLvayIixYl
-	ZqWckjqpjoux1UPa2OaP/wBb0uK6XNLY=
-X-Gm-Gg: Acq92OE3fIxcK3aQe1f3+N0GWqgQfRgzuYE9jufIPWcHQFm4GtjcYpTYkvdmUVoexAC
-	EtBU8AqssF1sBYYnSy2lzvfyRprc7+Jg4ouJFEskE+U98uW/6A3qpaYJFEvoLiTAWJQF6MT46xo
-	30Xkdnr6hZYhNZxvhJXPUhC7IYkt5N9ad0wYbz6vVu7CYzVQqr1DSQAFQOInhWlEVxqF/Az5ufR
-	gNRGDlejh8H8j1ptS6EDJQaCMZBdtWI0U7HuunUSs0yTSh84JNXwbDI6dFozz5y4rpHPFlFJJ/G
-	Ba5OYyUYHQCynKV6LB3QTIASP1Z9SCSVXPoyRxi15GhyS1uFtwf0sjB2nA+xlgRdCHPN+LM=
-X-Received: by 2002:a05:6000:25f6:b0:45e:9115:2982 with SMTP id
- ffacd0b85a97d-45eb38d8177mr37043341f8f.34.1779884791248; Wed, 27 May 2026
- 05:26:31 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1779885967; x=1780490767;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=vxoZNqOSzYfBwMiwQrf9ojD/Y5NqNn7W22JpIB2VCXQ=;
+        b=gq1FGP1uSs8GrtbpTV40Sw8i71oLNmcDVl94tsVAwEjJ8Nn2osG0B3zxzXX+QFsQ41
+         Rl7oM/Lgzc4mPi+c/9y3gt2ifhUztO9JJ4aJuW/Om2H3eHZV4gAfgD+d5WTFJrlr92yh
+         t+3uJDDJ39KhxW+N9IxlEXX0ZfpOi+3UKtXuwnxER28TNEEAeJIqz9SdJiIs2PSjyjAa
+         SwB8xcgXh4/xsNz9Ijm5V/97qwB/rygQZ2Cd6y7ucYw6CVmt1i0E5tSGMRMqRUmP/lGH
+         J89zGgsFyIUXY9BKyI80+actTRax4170m5cUyVSX4/KbtXP5nwwmWi6TK1JFnu6HDK/8
+         FdmA==
+X-Forwarded-Encrypted: i=1; AFNElJ/2aBVl3gRRmjIwK4+KckBYQIRFFDJN2LBGnlUh2rFVN1Fjz2LrAOvui+yvmKPmuhanh5mNJg2ly3SoAtGmbu/fjQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YySkyaILnZoZX32F6pEIVr1zPQpnYZtBbAgMwF4beMnSm0WpBYb
+	KzC2h1CrmxglwqgZeqO1vQi7hvGaem/hXElxDp0DVrHfO+NXO0urnwtHMvJhz8WNegs=
+X-Gm-Gg: Acq92OFfHHacrNQB10j74eItedfyHgOyl+m9xa6RhJmDUYDwPZpeln+XuiETBYfscV3
+	M1Z9N96hRmUBVQZewJQbbCY0Bc/qdw8cuModlAblIvwUrEmqIf8Bf7LtzgA81b7XJ2/CULF9zJx
+	dnF+1CWn22hsj0OlQ6plp+SpldiNv+NVakCafdAtLIRfaeHb/EdSgOXIIx962CInduXtU85JuI4
+	1iMy6oAL2U/BFexCPIIxASvWAlBCDTJaV4qR7oNtkAA5JfdLsVcN6mZPyAIu5Big2+t3T6bD429
+	J7RmEEbGA6Ao2OUZEfBsh9N50YkUL2q8k0xnIFY2DJHXbl44U1H+oP+khtt3q1J9jiDnCabRLYr
+	oif6lCh8s7R+Ek3TeO8qB/DwXp2AGfd3hSWJwNQ06ehJ4DyKKbYrY6L+feL9mo396hAP9wAfmtR
+	kdKAByearp7BwoRIsCAxFYZnoz+ghyKHWmmQ9btmRSk4bY+SgSXeN1nSPqlXW9Df+k0ehYbJee+
+	2o=
+X-Received: by 2002:a05:6102:15aa:b0:633:c6c4:b32c with SMTP id ada2fe7eead31-67c7d9768c3mr13317531137.15.1779885966983;
+        Wed, 27 May 2026 05:46:06 -0700 (PDT)
+Received: from mail-vk1-f169.google.com (mail-vk1-f169.google.com. [209.85.221.169])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-67fda9014bfsm15942023137.5.2026.05.27.05.46.06
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 27 May 2026 05:46:06 -0700 (PDT)
+Received: by mail-vk1-f169.google.com with SMTP id 71dfb90a1353d-56f70865797so7316969e0c.1
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 27 May 2026 05:46:06 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ8Xudh8vUxwlgdvZGK8ODyeeQPQDX3VV1D4aIZwmFg8Sw75LYavscqahsUNq+Yqs+mLjK1jW0bbja4JSc99jnvbMQ==@vger.kernel.org
+X-Received: by 2002:a05:6122:2203:b0:56e:e80c:bb25 with SMTP id
+ 71dfb90a1353d-586649efacfmr12944471e0c.13.1779885965769; Wed, 27 May 2026
+ 05:46:05 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260505120153.680979-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20260505120153.680979-4-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdV+6qVRJGUVe9noYWRnG1nEeq9SPJYnwsbOEpG1osaBVw@mail.gmail.com>
-In-Reply-To: <CAMuHMdV+6qVRJGUVe9noYWRnG1nEeq9SPJYnwsbOEpG1osaBVw@mail.gmail.com>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Wed, 27 May 2026 13:26:05 +0100
-X-Gm-Features: AVHnY4JOosN5hDdtlUJOoB80nqu5nBarbvLX9T5TFXyo0j4X995ZvK_F-UFaGJM
-Message-ID: <CA+V-a8v3+aK-+peT1G-raBMBKBshscc=pJh4mDgbTEhzpHHBYg@mail.gmail.com>
-Subject: Re: [PATCH 3/3] arm64: dts: renesas: rzt2h-n2h-evk: Enable xSPI nodes
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk@kernel.org>, Conor Dooley <conor+dt@kernel.org>, linux-renesas-soc@vger.kernel.org, 
+References: <20260525110603.4018170-1-john.madieu.xa@bp.renesas.com> <20260525110603.4018170-2-john.madieu.xa@bp.renesas.com>
+In-Reply-To: <20260525110603.4018170-2-john.madieu.xa@bp.renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 27 May 2026 14:45:54 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUqiHE06_pw3dJ00f30ohSuT_Hv_k7SoK9bACeDqE6i0A@mail.gmail.com>
+X-Gm-Features: AVHnY4LUPp8GTEwUz2koHfZTdHXj-kQ8ZH0SWOlUn5c1woQCDpOdaxSIe2lwISM
+Message-ID: <CAMuHMdUqiHE06_pw3dJ00f30ohSuT_Hv_k7SoK9bACeDqE6i0A@mail.gmail.com>
+Subject: Re: [PATCH v4 1/8] dt-bindings: clock: renesas: Add audio clock
+ inputs for RZ/V2H family
+To: John Madieu <john.madieu.xa@bp.renesas.com>
+Cc: mturquette@baylibre.com, sboyd@kernel.org, robh@kernel.org, 
+	krzk+dt@kernel.org, conor+dt@kernel.org, magnus.damm@gmail.com, 
+	bmasney@redhat.com, prabhakar.mahadev-lad.rj@bp.renesas.com, 
+	linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org, 
 	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Biju Das <biju.das.jz@bp.renesas.com>, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+	biju.das.jz@bp.renesas.com, john.madieu@gmail.com
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spamd-Result: default: False [-0.66 / 15.00];
+X-Spamd-Result: default: False [0.04 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-33207-lists,linux-renesas-soc=lfdr.de];
+	FREEMAIL_CC(0.00)[baylibre.com,kernel.org,gmail.com,redhat.com,bp.renesas.com,vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-33208-lists,linux-renesas-soc=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
+	DMARC_NA(0.00)[linux-m68k.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[gmail.com,kernel.org,vger.kernel.org,bp.renesas.com,renesas.com];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
+	RCPT_COUNT_TWELVE(0.00)[15];
+	MIME_TRACE(0.00)[0:+];
+	MISSING_XM_UA(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[prabhakarcsengg@gmail.com,linux-renesas-soc@vger.kernel.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[geert@linux-m68k.org,linux-renesas-soc@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	NEURAL_HAM(-0.00)[-0.952];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,dt];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[0.4.147.224:email,mail.gmail.com:mid,linux-m68k.org:email,1fb000:email,sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo,renesas.com:email,0.0.0.0:email]
-X-Rspamd-Queue-Id: A6FD55E4466
+	R_DKIM_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,mail.gmail.com:mid,renesas.com:email,linux-m68k.org:email]
+X-Rspamd-Queue-Id: DAE9B5E46A9
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi Geert,
+On Mon, 25 May 2026 at 13:07, John Madieu <john.madieu.xa@bp.renesas.com> wrote:
+> RZ/V2H, RZ/V2N, and RZ/G3E support two optional external audio clock
+> inputs (AUDIO_CLKB and AUDIO_CLKC) that can be used by the Audio Clock
+> Generator (ADG) to derive internal audio clocks. The third ADG input
+> (AUDIO_CLKA) is fed internally by the AUDIO_EXTAL pin and does not need
+> a separate binding entry.
+>
+> Update the bindings to allow these optional clocks for all RZ/V2H family
+> SoCs.
+>
+> Signed-off-by: John Madieu <john.madieu.xa@bp.renesas.com>
 
-Thank you for the review.
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-On Wed, May 27, 2026 at 11:43=E2=80=AFAM Geert Uytterhoeven
-<geert@linux-m68k.org> wrote:
->
-> Hi Prabhakar,
->
-> On Tue, 5 May 2026 at 14:02, Prabhakar <prabhakar.csengg@gmail.com> wrote=
-:
-> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> >
-> > Enable the xSPI0 and xSPI1 controllers on the RZ/T2H N2H EVK board.
-> >
-> > The xSPI0 controller is connected to an MX25LW51245 octal flash device.
-> > Although the hardware supports octal mode, configure the bus width to
-> > 1-bit (x1) mode. Enabling octal mode causes the BootROM to fail loading
-> > the first-stage bootloader following a Watchdog Timer (WDT) reset.
-> >
-> > The xSPI1 controller is connected to an AT25SF128A flash device.
-> > Configure this interface for 4-bit (x4) mode to utilize the available
-> > data lines.
-> >
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->
-> Thanks for your patch!
->
-> > --- a/arch/arm64/boot/dts/renesas/rzt2h-n2h-evk-common.dtsi
-> > +++ b/arch/arm64/boot/dts/renesas/rzt2h-n2h-evk-common.dtsi
-> > @@ -5,6 +5,7 @@
-> >   * Copyright (C) 2025 Renesas Electronics Corp.
-> >   */
-> >
-> > +#include <dt-bindings/clock/renesas,r9a09g077-cpg-mssr.h>
-> >  #include <dt-bindings/gpio/gpio.h>
-> >  #include <dt-bindings/leds/common.h>
-> >  #include <dt-bindings/net/mscc-phy-vsc8531.h>
-> > @@ -20,6 +21,8 @@ aliases {
-> >                 mmc0 =3D &sdhi0;
-> >                 mmc1 =3D &sdhi1;
-> >                 serial0 =3D &sci0;
-> > +               spi0 =3D &xspi0;
-> > +               spi1 =3D &xspi1;
-> >         };
-> >
-> >         chosen {
-> > @@ -331,6 +334,59 @@ ctrl-pins {
-> >                                  <RZT2H_PORT_PINMUX(17, 4, 0x29)>; /* S=
-D1_CD */
-> >                 };
-> >         };
-> > +
-> > +       xspi0_pins: xspi0-group {
-> > +               clk-pins {
-> > +                       pinmux =3D <RZT2H_PORT_PINMUX(5, 1, 0x1c)>, /* =
-XSPI0_CKP */
-> > +                                <RZT2H_PORT_PINMUX(5, 2, 0x1c)>; /* XS=
-PI0_CKN */
->
-> XSPI0_CKN is not connected to the OSPI FLASH (zero-ohm "DNF" resistor!),
-> only to the HyperRAM.
->
-Agreed, I will drop it.
+Gr{oetje,eeting}s,
 
-> > +                       input-schmitt-disable;
-> > +                       slew-rate =3D <1>;
-> > +                       drive-strength-microamp =3D <9000>;
-> > +               };
-> > +
-> > +               data-pins {
-> > +                       pinmux =3D <RZT2H_PORT_PINMUX(5, 6, 0x1c)>, /* =
-XSPI0_IO0 */
-> > +                                <RZT2H_PORT_PINMUX(5, 7, 0x1c)>, /* XS=
-PI0_IO1 */
-> > +                                <RZT2H_PORT_PINMUX(6, 0, 0x1c)>, /* XS=
-PI0_IO2 */
-> > +                                <RZT2H_PORT_PINMUX(6, 1, 0x1c)>, /* XS=
-PI0_IO3 */
-> > +                                <RZT2H_PORT_PINMUX(6, 2, 0x1c)>, /* XS=
-PI0_IO4 */
-> > +                                <RZT2H_PORT_PINMUX(6, 3, 0x1c)>, /* XS=
-PI0_IO5 */
-> > +                                <RZT2H_PORT_PINMUX(6, 4, 0x1c)>, /* XS=
-PI0_IO6 */
-> > +                                <RZT2H_PORT_PINMUX(6, 5, 0x1c)>; /* XS=
-PI0_IO7 */
-> > +                       input-schmitt-disable;
-> > +                       slew-rate =3D <1>;
-> > +                       drive-strength-microamp =3D <9000>;
-> > +               };
-> > +
-> > +               ctrl-pins {
-> > +                       pinmux =3D <RZT2H_PORT_PINMUX(5, 3, 0x1c)>, /* =
-XSPI0_CS0 */
-> > +                                <RZT2H_PORT_PINMUX(6, 6, 0x1c)>, /* XS=
-PI0_RESET0 */
-> > +                                <RZT2H_PORT_PINMUX(5, 5, 0x1c)>; /* XS=
-PI0_DS */
-> > +                       input-schmitt-disable;
-> > +                       slew-rate =3D <1>;
-> > +                       drive-strength-microamp =3D <9000>;
-> > +               };
->
-> As the three subnodes define the same parameters, you can do without
-> the subnodes, and keep all pins together?
->
-> Don't you also need P7_5 for XSPI0_ES, and SW5-6 closed?
->
-Agreed, XSPI0_ES is needed (5: OFF, 6: ON). Since XSPI0_ES has
-different DRCTL settings I'll keep it as a group but with only two sub
-nodes.
+                        Geert
 
-> > +       };
-> > +
-> > +       xspi1_pins: xspi1-group {
-> > +               ctrl-pins {
-> > +                       pinmux =3D <RZT2H_PORT_PINMUX(1, 0, 0x1c)>, /* =
-XSPI1_CKP */
-> > +                                <RZT2H_PORT_PINMUX(1, 1, 0x1c)>; /* XS=
-PI1_CS0 */
-> > +                       input-schmitt-enable;
-> > +                       slew-rate =3D <1>;
-> > +                       drive-strength-microamp =3D <9000>;
-> > +               };
-> > +
-> > +               data-pins {
-> > +                       pinmux =3D <RZT2H_PORT_PINMUX(1, 4, 0x1c)>, /* =
-XSPI1_IO0 */
-> > +                                <RZT2H_PORT_PINMUX(1, 5, 0x1c)>, /* XS=
-PI1_IO1 */
-> > +                                <RZT2H_PORT_PINMUX(1, 6, 0x1c)>, /* XS=
-PI1_IO2 */
-> > +                                <RZT2H_PORT_PINMUX(1, 7, 0x1c)>; /* XS=
-PI1_IO3 */
-> > +                       input-schmitt-enable;
-> > +                       slew-rate =3D <1>;
-> > +                       drive-strength-microamp =3D <9000>;
-> > +               };
->
-> As the two subnodes define the same parameters, you can do without
-> the subnodes, and keep all pins together?
->
-Ok, I will drop the subnodes.
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-> And SW1-6 must be closed?
->
-SW1[6] needs to be ON, I will add comments for it.
-
-> > +       };
-> >  };
-> >
-> >  &sci0 {
-> > @@ -395,3 +451,82 @@ &wdt2 {
-> >         timeout-sec =3D <60>;
-> >  };
-> >
-> > +&xspi0 {
-> > +       pinctrl-0 =3D <&xspi0_pins>;
-> > +       pinctrl-names =3D "default";
-> > +       status =3D "okay";
-> > +
-> > +       assigned-clocks =3D <&cpg CPG_CORE R9A09G077_XSPI_CLK0>;
-> > +       assigned-clock-rates =3D <50000000>;
-> > +
-> > +       flash@0 {
-> > +               compatible =3D "jedec,spi-nor";
-> > +               reg =3D <0>;
-> > +               m25p,fast-read;
-> > +               spi-tx-bus-width =3D <1>;
-> > +               spi-rx-bus-width =3D <1>;
-> > +               vcc-supply =3D <&reg_3p3v>;
-> > +
-> > +               partitions {
-> > +                       compatible =3D "fixed-partitions";
-> > +                       #address-cells =3D <1>;
-> > +                       #size-cells =3D <1>;
-> > +
-> > +                       partition@0 {
-> > +                               label =3D "bl2-0";
-> > +                               reg =3D <0x00000000 0x00060000>;
-> > +                               read-only;
-> > +                       };
-> > +
-> > +                       partition@1fb000 {
->
-> 60000?
->
-Agreed.
-
-> > +                               label =3D "fip-0";
-> > +                               reg =3D <0x00060000 0x007a0000>;
-> > +                               read-only;
-> > +                       };
-> > +
-> > +                       partition@300000 {
->
-> 800000?
->
-Agreed.
-
-> > +                               label =3D "user-0";
-> > +                               reg =3D <0x800000 0x003800000>;
-> > +                       };
->
-> Given this is a 64 MiB part, I assume the reg entries are correct,
-> and the unit-addresses are not?
->
-Yes, thats right.
-
-I will address the comments and send a v2 for just this single patch.
-
-Cheers,
-Prabhakar
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
