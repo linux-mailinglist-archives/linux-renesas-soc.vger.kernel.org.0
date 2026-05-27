@@ -1,134 +1,132 @@
-Return-Path: <linux-renesas-soc+bounces-33237-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-33238-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 4N6bBLU9F2qg9wcAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-33237-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 May 2026 20:53:41 +0200
+	id 6GT8OItTF2oPBQgAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-33238-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 May 2026 22:26:51 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 249715E93EB
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 May 2026 20:53:39 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 45D075EA087
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 May 2026 22:26:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id A694E303E2D0
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 May 2026 18:38:12 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id A341F300DF60
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 May 2026 20:21:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EC6573F44DC;
-	Wed, 27 May 2026 18:38:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CFE643B8949;
+	Wed, 27 May 2026 20:21:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=vinatta.cz header.i=@vinatta.cz header.b="CZPrCZhI"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZrUDLXsy"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from vinatta.cz (vinatta.cz [37.205.8.231])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 958FA3C5837;
-	Wed, 27 May 2026 18:38:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=37.205.8.231
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7F633B1031
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 27 May 2026 20:21:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779907090; cv=none; b=ByEA/OwU9bY8c69rmYXKIaJBrvVBcPPAFfyYTqnNB68Zu4p74DhkP+EzA3+WXN4TrkWOiK48FfCfEWBNhg7cvzQ3KS+J7Y9cAA481/Zi2oitNLUx29OU6OnSOvpqCuRjQQBmACOqy4l3vioJAjoMXQ0GgHD4oehFyj5mdn4t318=
+	t=1779913273; cv=none; b=YVZ4jl3FMrNfF1xIVLEh8bRhSYfLKnnHLwD3ZNI5jXVga41j5Arvlf9mbGxHTnOzPxGwUKy5UG0rHIwLkFTXQR3AoLyOUh2oJSD5zqgQE5g2MKmJ/k/lgMNufvko53oWBLKcyf7XXjMsqdS+9lPjfzsMLCXYb6Gh1J1a9RQy10c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779907090; c=relaxed/simple;
-	bh=ApEPioN6Lb4OKyOa7Ff37Nv+Yg/r+wxB4CavphylJVQ=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:To:From:Cc:
-	 References:In-Reply-To; b=SlaPwXfkiGihZWJbmhahPCdvnpzyPRUXBB++bfuazN5Z9cHXFWTssLvY2E2rl0zCbV1i91drlTN2H7aNvjCzZamTKrL0EJ/3FlaPD6DfUYQ8wO8JWjL5tNRNjGrRuqjk3yXz3Lncj1mRroMSiouz6UZDuJn8w/ZZPAIu20IKcz8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=matfyz.cz; spf=pass smtp.mailfrom=vinatta.cz; dkim=pass (2048-bit key) header.d=vinatta.cz header.i=@vinatta.cz header.b=CZPrCZhI; arc=none smtp.client-ip=37.205.8.231
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=matfyz.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=vinatta.cz
-DKIM-Signature: a=rsa-sha256; bh=kpx6Uj9RIdUNjK8W3CnmyMzyh2ekBIwrGqDnhdzKB20=;
- c=relaxed/relaxed; d=vinatta.cz;
- h=Subject:Subject:Sender:To:To:Cc:Cc:From:From:Date:Date:MIME-Version:MIME-Version:Content-Type:Content-Type:Content-Transfer-Encoding:Content-Transfer-Encoding:Reply-To:In-Reply-To:In-Reply-To:Message-Id:Message-Id:References:References:Autocrypt:Openpgp;
- i=@vinatta.cz; s=default; t=1779906099; v=1; x=1780338099;
- b=CZPrCZhIXkDoHB0cMhVJm/JiciH7dzJdwyLBNIe3/8l0Zq3QV7VFjYO1LEd+kDuYAthVAc6v
- 9Phsze4RHJ9Wiy9dWqZUi5r11Ec++f5qsA7nGRjusmk7hxln5DUEsOKnpA2/zvZ9LMdttYtwoyk
- obUMhAA8pyd2d3p8TJdxtRngXAsD4MSuHOA2w5iCmS3mJjwGMFQ4EIGNj12WNFNtf7i78IRXvpe
- JEqKD5JLfzCf1QT+W+0p1tE0PQQ7dibqrscIPMku5iDYLpWuWEeYveIaDWU/huyQb4ixLw5hd7h
- EVuNnF/o8bxGM9wtY1p5oWRroCkzvfJ9ffBm6K/KgWwcQ==
-Received: by vinatta.cz (envelope-sender <karel@vinatta.cz>) with ESMTPS id
- 4f3f7766; Wed, 27 May 2026 20:21:39 +0200
+	s=arc-20240116; t=1779913273; c=relaxed/simple;
+	bh=CL9+6k7wNF/Fy7o6POllhCjmlhVQBfyr9jPXJAyaNjE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Pk4a9AeGzgP7hqJ6Jq1LzS2wvrSYDRd1zOr//FfomEntPZIAPI7k4PoyyclRcHqmIZS75J8eCm9RFjrSZhOqjsckpmHajtyuniactfoeOOmYtEZWmDYtsg/xyKnOmCML3aspYAwAcdjwMoM+mR3HP6GPJFPt8j3XM7yfw95IGWs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZrUDLXsy; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8CA271F0155B
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 27 May 2026 20:21:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1779913272;
+	bh=CL9+6k7wNF/Fy7o6POllhCjmlhVQBfyr9jPXJAyaNjE=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=ZrUDLXsyFFaXWW0XNris92AUEqKRd86ttexYx+Cga0tawFEHXLP5Ge36JqCAYkplv
+	 DodSCOUNAiK5O54IYqiAyUVddc16ngi2euptfhA1QmFUrYFpt/dt+E1m7k4keZdXct
+	 Tp6buG3Xm9nV7pz7kmOlNXQyDfgRFftjsjUxC2Dq+Lt8HTKD7zSmYh+yppSrocxWSF
+	 FXJ+mHLiBx8c0vIeUHEBMw9mds22iKNXxDhn7eAD24TAI58KhQanQF/IeRzFwRp0Q7
+	 lFCt2jefn/tm54YNF02ex2RIGtjdmuxQ15DWmcrBNmoQLY6lMdQLPupv4pE5y1rXbm
+	 CiC/mSyXyKw/A==
+Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-5a8891febd2so16025369e87.1
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 27 May 2026 13:21:12 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ+n7Z33gkFUl5WFT5UPYTSgusLtWk8R54FZokUJadilGi/aW6yPUsN3l3dwKHKCQZK2EClPhCDQDRsqH1dhVnArDw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwJC+58JoeqbH/O4pXgl527dvoRWrzYaIlJ8+TJ7QDsKtQ5tKEM
+	nVNf5Y3LE4S1Ur677VRascppRupnkMQ4BCrZMyaH6ihsG98un6VLhoaVC3VtdmSLaJgCwe+RWn+
+	93erDjnJR3u2QXgc42J7ZnrXcX1h+vec=
+X-Received: by 2002:a05:6512:3086:b0:5aa:4d22:b94a with SMTP id
+ 2adb3069b0e04-5aa4d22bb03mr871554e87.20.1779913271202; Wed, 27 May 2026
+ 13:21:11 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 27 May 2026 20:21:38 +0200
-Message-Id: <DITO1XL17NWQ.31DQEIXADGBND@matfyz.cz>
-Subject: Re: [PATCH v1 2/3] regulator: Use named initializers for
+MIME-Version: 1.0
+References: <cover.1779893336.git.u.kleine-koenig@baylibre.com>
+In-Reply-To: <cover.1779893336.git.u.kleine-koenig@baylibre.com>
+From: Linus Walleij <linusw@kernel.org>
+Date: Wed, 27 May 2026 22:20:59 +0200
+X-Gmail-Original-Message-ID: <CAD++jL==yFhKsBuxBkyGgQO18n5FhQw-aeO9yMPR8s4Zu8iM=g@mail.gmail.com>
+X-Gm-Features: AVHnY4KjDSA9qFtwb_8I3UpWWDeHjxhItJHAkLGZCFb2ck_4Vp4ui18Tx3tYdQo
+Message-ID: <CAD++jL==yFhKsBuxBkyGgQO18n5FhQw-aeO9yMPR8s4Zu8iM=g@mail.gmail.com>
+Subject: Re: [PATCH v1 0/3] gpio: Use named initializers for
  platform_device_id arrays
-To: =?utf-8?b?VXdlIEtsZWluZS1Lw7ZuaWcgKFRoZSBDYXBhYmxlIEh1Yik=?=
- <u.kleine-koenig@baylibre.com>, "Liam Girdwood" <lgirdwood@gmail.com>,
- "Mark Brown" <broonie@kernel.org>
-From: "Karel Balej" <balejk@matfyz.cz>
-Cc: "Matti Vaittinen" <mazziesaccount@gmail.com>, "Marek Vasut"
- <marek.vasut+renesas@gmail.com>, "Chanwoo Choi" <cw00.choi@samsung.com>,
- "Krzysztof Kozlowski" <krzk@kernel.org>, "Matthias Brugger"
- <matthias.bgg@gmail.com>, "AngeloGioacchino Del Regno"
- <angelogioacchino.delregno@collabora.com>, "Samuel Kayode"
- <samkay014@gmail.com>, =?utf-8?q?Andr=C3=A9_Draszik?=
- <andre.draszik@linaro.org>, "Aaro Koskinen" <aaro.koskinen@iki.fi>,
- "Andreas Kemnade" <andreas@kemnade.info>, "Kevin Hilman"
- <khilman@baylibre.com>, "Roger Quadros" <rogerq@kernel.org>, "Tony
- Lindgren" <tony@atomide.com>, <linux-kernel@vger.kernel.org>,
- <linux-renesas-soc@vger.kernel.org>,
- <linux-arm-kernel@lists.infradead.org>,
- <linux-mediatek@lists.infradead.org>, <imx@lists.linux.dev>,
- <linux-arm-msm@vger.kernel.org>, <linux-samsung-soc@vger.kernel.org>,
- <linux-omap@vger.kernel.org>
-References: <cover.1779878004.git.u.kleine-koenig@baylibre.com>
- <d02f55dfd5bdd743ae5cd76f2a5af0d346226a68.1779878004.git.u.kleine-koenig@baylibre.com>
-In-Reply-To: <d02f55dfd5bdd743ae5cd76f2a5af0d346226a68.1779878004.git.u.kleine-koenig@baylibre.com>
-X-Spamd-Result: default: False [0.44 / 15.00];
+To: =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig_=28The_Capable_Hub=29?= <u.kleine-koenig@baylibre.com>
+Cc: Bartosz Golaszewski <brgl@kernel.org>, Benson Leung <bleung@chromium.org>, 
+	Guenter Roeck <groeck@chromium.org>, linux-gpio@vger.kernel.org, 
+	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	Matti Vaittinen <mazziesaccount@gmail.com>, Marek Vasut <marek.vasut+renesas@gmail.com>, 
+	=?UTF-8?Q?Andr=C3=A9_Draszik?= <andre.draszik@linaro.org>, 
+	Robert Jarzmik <robert.jarzmik@free.fr>, Aaro Koskinen <aaro.koskinen@iki.fi>, 
+	Andreas Kemnade <andreas@kemnade.info>, Kevin Hilman <khilman@baylibre.com>, 
+	Roger Quadros <rogerq@kernel.org>, Tony Lindgren <tony@atomide.com>, linux-pwm@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, linux-omap@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MV_CASE(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
-	R_DKIM_ALLOW(-0.20)[vinatta.cz:s=default];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
-	DMARC_POLICY_SOFTFAIL(0.10)[matfyz.cz : SPF not aligned (relaxed), DKIM not aligned (relaxed),none];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FREEMAIL_TO(0.00)[baylibre.com,gmail.com,kernel.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-33237-lists,linux-renesas-soc=lfdr.de];
-	RCPT_COUNT_TWELVE(0.00)[24];
-	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-33238-lists,linux-renesas-soc=lfdr.de];
+	FREEMAIL_CC(0.00)[kernel.org,chromium.org,vger.kernel.org,lists.linux.dev,ideasonboard.com,gmail.com,linaro.org,free.fr,iki.fi,kemnade.info,baylibre.com,atomide.com];
 	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[vinatta.cz:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[balejk@matfyz.cz,linux-renesas-soc@vger.kernel.org];
-	FREEMAIL_CC(0.00)[gmail.com,samsung.com,kernel.org,collabora.com,linaro.org,iki.fi,kemnade.info,baylibre.com,atomide.com,vger.kernel.org,lists.infradead.org,lists.linux.dev];
-	NEURAL_HAM(-0.00)[-1.000];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
-	TO_DN_SOME(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[20];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo,matfyz.cz:mid,matfyz.cz:email,vinatta.cz:dkim]
-X-Rspamd-Queue-Id: 249715E93EB
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[linusw@kernel.org,linux-renesas-soc@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
+X-Rspamd-Queue-Id: 45D075EA087
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Uwe Kleine-K=C3=B6nig (The Capable Hub), 2026-05-27T12:47:45+02:00:
-> diff --git a/drivers/regulator/88pm886-regulator.c b/drivers/regulator/88=
-pm886-regulator.c
-> index a38bd4f312b7..7328cd1cf265 100644
-> --- a/drivers/regulator/88pm886-regulator.c
-> +++ b/drivers/regulator/88pm886-regulator.c
-> @@ -373,7 +373,7 @@ static int pm886_regulator_probe(struct platform_devi=
-ce *pdev)
->  }
-> =20
->  static const struct platform_device_id pm886_regulator_id_table[] =3D {
-> -	{ "88pm886-regulator", },
-> +	{ .name =3D "88pm886-regulator" },
->  	{ }
->  };
->  MODULE_DEVICE_TABLE(platform, pm886_regulator_id_table);
+On Wed, May 27, 2026 at 4:57=E2=80=AFPM Uwe Kleine-K=C3=B6nig (The Capable =
+Hub)
+<u.kleine-koenig@baylibre.com> wrote:
 
-Acked-by: Karel Balej <balejk@matfyz.cz> # for Marvell 88PM886
+> this series targets to use named initializers for platform_device_id
+> arrays. In general these are better readable for humans and more robust
+> to changes in the respective struct definition.
+
+The series:
+Reviewed-by: Linus Walleij <linusw@kernel.org>
+
+I agree with the goal of these patch series and the end
+result makes the kernel a better place.
+
+Yours,
+Linus Walleij
 
