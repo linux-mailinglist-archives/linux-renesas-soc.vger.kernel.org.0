@@ -1,153 +1,167 @@
-Return-Path: <linux-renesas-soc+bounces-33191-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-33192-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 8DsuALWgFmqBnwcAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-33191-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 May 2026 09:43:49 +0200
+	id 0CCrCQmiFmqBnwcAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-33192-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 May 2026 09:49:29 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D2645E094D
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 May 2026 09:43:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7768C5E09F2
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 May 2026 09:49:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id E7BD93005D15
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 May 2026 07:43:08 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id E27A73006B31
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 May 2026 07:48:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C61833C942C;
-	Wed, 27 May 2026 07:43:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 49D793C9897;
+	Wed, 27 May 2026 07:48:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="c+uRvcLT"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vs1-f42.google.com (mail-vs1-f42.google.com [209.85.217.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63FB63BD24A
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 27 May 2026 07:43:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70FE439B949;
+	Wed, 27 May 2026 07:48:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779867787; cv=none; b=Im7WipGpg0pZJLY/iUuaQd6bUcSicCJIIGMulk1ZEtbvjj7ZTzFjXn7cDAZYDdGaA5ztfemuiclZ4RBbjsmC6zEghnQJt3LoCHzpNQvvW8B+i4VDckpo7wikKrSovOJ41GzsXeI+xdjtHZ6vGehoiuWCT4IbgjS9YAG0Zk90b04=
+	t=1779868105; cv=none; b=KH+kppgPoNEteL1+6yT9bjvLveBmwmsonvtfmEPTn+LVuKJA4wQupEBjDPd7eQIrTRBcEHosP0VDUmuGWxM5CHCyJkoPuqqOAbLnexEoAs08xxCWZFeoh59cOXHJHkcqUbAAomxEkdqWMjirdwk9ddHKeyujWVjZGkv8scuhS2o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779867787; c=relaxed/simple;
-	bh=JwgSYIJee9nbOlXvju6QWKDMz2Smf422DMhM+XMAwDs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=WgAnWUTNLh6o+7yCCDQK0ycexo/q3oeG3EpoGCvirsvgc01ywbEcL/tawVoRcWEtLFmCQMELYSAChUW84+HTzJMp8Au8wFe7OoOAYiRW1p7p91MgsFUgKOfCEM/ftaf9/B6Qo4l2jjFXrR2VrdaWm5CXYJVKzPEwO2Pz2fKF4+c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vs1-f42.google.com with SMTP id ada2fe7eead31-6312a0d556cso5357067137.3
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 27 May 2026 00:43:06 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779867785; x=1780472585;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=zaz04lQzyGk1Skxwlpp5bPiKiAek9aybHx2v/yLROzU=;
-        b=dvKcadknhIum7xSXCaFJGgzA/IzVUy5EkyypEQQrN4Ks8j5eI32j6NfONBIMlHv/39
-         HWopJlUjEs7Q0GM+xpZYMRXxNVvHUBaN5PKeneR9HxwfZ/PKNWMhUTTrj/gC7Z8WmgzH
-         iMu2LXncwrzF6gvWCP6GgCE/GqTPNcwPmXbTAgBbJEMJiEBdfLDFWK2pvvI4Hzem0vcJ
-         uCbdq6tm2q5S9pYmhf2dxAoEdfG62KvvwZsWL3A93Bm4V5nLptMeKu0pL238FYUGwcrp
-         2NJ2NPM5SkEv3/AOZAUKwEBTtLe2VXSTGp6IO7JdnHaEDbuMfMiajJ4i9oP7l7SEaxdL
-         S3Og==
-X-Gm-Message-State: AOJu0Yzu1ZEjeApXpWVzr5LpegIFS5GjIfr6W5D0FlporTQxl1OVtpv0
-	MfkO+P5a1Rhmd0vkZecHH1mh23LKaow+e+gYkpdLjXp30wdUXeujewhE+gvtXRMgCrQ=
-X-Gm-Gg: Acq92OEJNSvkvfaq5PvHmSJPHN8+pIlN0IZUP03FtUoNFOEf0puNnjWCwMXbSP3f+++
-	FPJDCK2OkTPAWOvNP+gPOTfdyRneInej89BldsqXEaWEluHbOLADi2n8LuBhg0oSvTcm78S12vK
-	/Mbo/IHzM3BWo5KaRT/eKZaPTsukOymd5FZtOZfV5cSR5mehIRBxFF6ThUr1NWbY3/aI4H3vn52
-	52SWHR+S8z90UU+QkDt326F9K02eTwGxF6lMcDZly7Mh2CJY8f979hiFjCwC0gRLB0x6rl7nxxr
-	u+wQ6y0wic9gm2A3e+HRv90QtT+Q9nA6UCUhMb4V06Z7uw0r4Vnd0vBf1weOFxAzxOKVqMb7Xtd
-	8frjKoaDSSB9z2qs9KGp0Jwt73Od6zvSKBCeshYDROOO+iXaWxr+o+KWR4dzmEUiNAFRZA6RAyr
-	CbxswcGsYrrQTq3j0GAgMDTTgo4EOW8aipCwLvOYsLNn/yRtf2Vpt6hndJAYYcIgKSUqdL2xA=
-X-Received: by 2002:a05:6102:3e28:b0:62d:b0b2:88b1 with SMTP id ada2fe7eead31-67c7405ef67mr11664467137.4.1779867785300;
-        Wed, 27 May 2026 00:43:05 -0700 (PDT)
-Received: from mail-ua1-f45.google.com (mail-ua1-f45.google.com. [209.85.222.45])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-67fd8851f5bsm15884553137.3.2026.05.27.00.43.05
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 27 May 2026 00:43:05 -0700 (PDT)
-Received: by mail-ua1-f45.google.com with SMTP id a1e0cc1a2514c-95d439bd3a5so2751597241.3
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 27 May 2026 00:43:05 -0700 (PDT)
-X-Received: by 2002:a05:6102:2910:b0:607:798d:8083 with SMTP id
- ada2fe7eead31-67c7ffeba62mr10523147137.15.1779867784961; Wed, 27 May 2026
- 00:43:04 -0700 (PDT)
+	s=arc-20240116; t=1779868105; c=relaxed/simple;
+	bh=tMPQ8gRw1l2kxM7BJtqHRx/Gs89K25JdPZuV9UiK7Zk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=r0sUQHyMg5bDQEkzLdkV9k0o2XtUjoY6iXvqCXO37892zqFlwmYWoAqpV+RQQNBjv9TzLCjk0ABHBYmONrVYhK9NHna6gtUOaXAc5Tj+zJD4JJh++41DRF0eYiC9wZGOExmVW5hrrSusLfLfIyurm1+2canO7k44d/Eq2eKzmSk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=c+uRvcLT; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from killaraus.ideasonboard.com (62-193-63-110.as16211.net [62.193.63.110])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 66FCD55;
+	Wed, 27 May 2026 09:48:01 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1779868081;
+	bh=tMPQ8gRw1l2kxM7BJtqHRx/Gs89K25JdPZuV9UiK7Zk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=c+uRvcLTPMULSnB1WDUNYogb9UkGUTr6ZzQdeAFZiu/G6etu+W1vMuj1Kq/AxL6Qy
+	 I++qKxJnUbiPgYpTJe0MGU581aOgvCepf8ZOC4FfQkYY2VgqDxV1Vi2fuStGpBm+g2
+	 ReYFjqAEJzFGjwtV5uIANwR23Ye3Y8hXg5R0m6dM=
+Date: Wed, 27 May 2026 09:48:17 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Thorsten Leemhuis <regressions@leemhuis.info>
+Cc: linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Linux kernel regressions list <regressions@lists.linux.dev>,
+	Hans Verkuil <hans@jjverkuil.nl>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>
+Subject: Re: [PATCH v2 2/2] Revert "media: renesas: vsp1: brx: Fix format
+ propagation"
+Message-ID: <20260527074817.GA468138@killaraus.ideasonboard.com>
+References: <20260506215650.1897177-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20260506215650.1897177-3-laurent.pinchart+renesas@ideasonboard.com>
+ <0977c2c0-79ea-4435-9e1c-f54ca5e18342@leemhuis.info>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260519074702.3308-4-wsa+renesas@sang-engineering.com> <20260519074702.3308-5-wsa+renesas@sang-engineering.com>
-In-Reply-To: <20260519074702.3308-5-wsa+renesas@sang-engineering.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 27 May 2026 09:42:54 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWOgpsakC_C_uUhPttfvK44j8aRuAQxG-BWWdDdioQfzA@mail.gmail.com>
-X-Gm-Features: AVHnY4Iup01oc5_MZvrm0JVzZZt-FPjPltbZPQJVVUpHhN-Mvj_g0SQttnrdTgM
-Message-ID: <CAMuHMdWOgpsakC_C_uUhPttfvK44j8aRuAQxG-BWWdDdioQfzA@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] arm64: renesas: r8a78000: add MFIS, MFIS SCP and
- transport nodes
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: linux-renesas-soc@vger.kernel.org, 
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, Vinh Nguyen <vinh.nguyen.xz@renesas.com>, 
-	Hai Pham <hai.pham.ud@renesas.com>, Magnus Damm <magnus.damm@gmail.com>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	devicetree@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spamd-Result: default: False [-1.46 / 15.00];
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <0977c2c0-79ea-4435-9e1c-f54ca5e18342@leemhuis.info>
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FROM_HAS_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,renesas.com,gmail.com,kernel.org];
-	RCVD_TLS_LAST(0.00)[];
-	DMARC_NA(0.00)[linux-m68k.org];
-	TAGGED_FROM(0.00)[bounces-33191-lists,linux-renesas-soc=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,dt];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[geert@linux-m68k.org,linux-renesas-soc@vger.kernel.org];
+	DKIM_TRACE(0.00)[ideasonboard.com:+];
+	TAGGED_FROM(0.00)[bounces-33192-lists,linux-renesas-soc=lfdr.de];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	MISSING_XM_UA(0.00)[];
+	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	R_DKIM_NA(0.00)[];
-	NEURAL_HAM(-0.00)[-0.997];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,mail.gmail.com:mid,glider.be:email]
-X-Rspamd-Queue-Id: 6D2645E094D
+	NEURAL_HAM(-0.00)[-1.000];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[laurent.pinchart@ideasonboard.com,linux-renesas-soc@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	TAGGED_RCPT(0.00)[linux-renesas-soc];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[ideasonboard.com:email,ideasonboard.com:dkim,renesas.com:email,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
+X-Rspamd-Queue-Id: 7768C5E09F2
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Tue, 19 May 2026 at 09:47, Wolfram Sang
-<wsa+renesas@sang-engineering.com> wrote:
-> From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
->
-> Describe the MFIS and MFIS SCP instances which are used for various
-> tasks including inter-processor communication. Remove the PRR node
-> because it is part of MFIS on R-Car X5H and should be handled using the
-> MFIS compatible. Also, describe the STCM transport area used for shared
+Hi Thorsten,
 
-S-TCM
+On Wed, May 27, 2026 at 09:35:03AM +0200, Thorsten Leemhuis wrote:
+> On 5/6/26 23:56, Laurent Pinchart wrote:
+> > This reverts commit 937f3e6b51f1cea079be9ba642665f2bf8bcc31f.
+> > 
+> > The change to format propagation in the BRx broke configuration of the
+> > DRM pipeline. Revert it to fix the regression.
+> 
+> Laurent, is this still on your radar? From the outside it looks like
+> this fix for the 7.1 regression should ideally go to Linus this week, as
+> he ideally wants all known regression fixed by -rc6.
+> 
+> But it's easy to miss things from the outside, so if this is not a
+> proper regression, the revert obsolete, or something like that, just
+> mention it.
 
-> memory mailboxing.
->
-> Signed-off-by: Vinh Nguyen <vinh.nguyen.xz@renesas.com>
-> Signed-off-by: Hai Pham <hai.pham.ud@renesas.com>
-> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Thank you for the reminder. Hans, Mauro, this series seems to not have
+been merged in the media fixes branch. Could you pick it up ?
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-devel for v7.2.
-
-Gr{oetje,eeting}s,
-
-                        Geert
+> > The original commit was meant to fix a v4l2-compliance failure, with no
+> > known userspace applications being affected beside test tools. Reverting
+> > is the simplest option, a more comprehensive fix can be developed (and
+> > tested more thoroughly) later.
+> > 
+> > Reported-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > Closes: https://lore.kernel.org/linux-media/CA+V-a8t481xuwava0nb7uY9CUPqFWZ_8EP0xrK3BgumP7HDcLg@mail.gmail.com
+> > Fixes: 937f3e6b51f1 ("media: renesas: vsp1: brx: Fix format propagation")
+> > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> > ---
+> >  drivers/media/platform/renesas/vsp1/vsp1_brx.c | 10 ++--------
+> >  1 file changed, 2 insertions(+), 8 deletions(-)
+> > 
+> > diff --git a/drivers/media/platform/renesas/vsp1/vsp1_brx.c b/drivers/media/platform/renesas/vsp1/vsp1_brx.c
+> > index b1a2c68e9944..9d93cb8b8e82 100644
+> > --- a/drivers/media/platform/renesas/vsp1/vsp1_brx.c
+> > +++ b/drivers/media/platform/renesas/vsp1/vsp1_brx.c
+> > @@ -156,20 +156,14 @@ static int brx_set_format(struct v4l2_subdev *subdev,
+> >  		compose->height = format->height;
+> >  	}
+> >  
+> > -	/*
+> > -	 * Propagate the format code to all pads, and the whole format to the
+> > -	 * source pad.
+> > -	 */
+> > +	/* Propagate the format code to all pads. */
+> >  	if (fmt->pad == BRX_PAD_SINK(0)) {
+> >  		unsigned int i;
+> >  
+> > -		for (i = 0; i < brx->entity.source_pad; ++i) {
+> > +		for (i = 0; i <= brx->entity.source_pad; ++i) {
+> >  			format = v4l2_subdev_state_get_format(state, i);
+> >  			format->code = fmt->format.code;
+> >  		}
+> > -
+> > -		format = v4l2_subdev_state_get_format(state, i);
+> > -		*format = fmt->format;
+> >  	}
+> >  
+> >  done:
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+Regards,
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Laurent Pinchart
 
