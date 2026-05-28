@@ -1,185 +1,127 @@
-Return-Path: <linux-renesas-soc+bounces-33304-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-33305-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id rnhmLU5eGGozjggAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-33304-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 28 May 2026 17:25:02 +0200
+	id WEJhDr91GGpSkQgAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-33305-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 28 May 2026 19:05:03 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 600CE5F45BC
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 28 May 2026 17:25:01 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B4295F5628
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 28 May 2026 19:05:01 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 4529C3080B0A
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 28 May 2026 15:14:21 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 59C55313DE35
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 28 May 2026 16:58:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CE1B643E483;
-	Thu, 28 May 2026 15:14:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8ED8D3F8890;
+	Thu, 28 May 2026 16:58:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="KIwHsSqc"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jBWo0zRY"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5987F3F8704
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 28 May 2026 15:12:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.169
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779981225; cv=pass; b=flbQglzGvRERBINVi0I94SSSEFR1Gy4O9km8ntIj/RlgrwsE9rMhbHHQ7ooB0OJahsvHbOrq0lhD8wstEeQMA3Xn2NkeyZvemEXe9R7VsxtXvaBUzZXLVQQiSbzFHdnveI1/K6GULDAD2b+xgsSXK9b5VxP35K7C9t07uDa70Pw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779981225; c=relaxed/simple;
-	bh=6S9TkIeh9d7MOG/y/RYKoCP7qm0FvkE2uz6UMNW6Wl8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=eDAEInmqIoYYvo1w/BAZ377IYbzSKfVzLloZ6eYRZxnOOtQG/vGH4LLLGGInsapFVDoRj5Emhm8AVsmje2bDEd7SLq/BZ6TjdfBkyJ/e8xnwak3oOsDwHqIVfTPyOE5psPG6xFphiBrmEmELPXARRWnlxSgq9H5CZDMYK1FD6Uo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=KIwHsSqc; arc=pass smtp.client-ip=209.85.214.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-2bab82d75fdso65946195ad.2
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 28 May 2026 08:12:48 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1779981159; cv=none;
-        d=google.com; s=arc-20240605;
-        b=XpXnCHH/D2Y7UjDCXhiYki2ZKkyqd1WEoDir38y2NiOV+Bgj7+357hKlxlPQHAdUBT
-         BGMxQsy8mwRHSt8wg1iTsreEH4IOEccrDgVTFkvxfV0QDR9Wb3cXNGHampTLyk2drRiD
-         aSgu3XzOJE6SkovCHRVFlb2fc5vJbppevvvlv1EN3m0oUWesr5YZkP5j9hofcfjiJqPA
-         k6rdWUSYnopy6ec8skTReQ/NkjNsDVsoocqnOwICwwJ5Gopr900wSvv0EAC9v8AFmOac
-         Zfkd4MM4dmhiN9L5PAK+XIcvozyV0hXItmxLIA0OPw9tqxZotpREE+xrfkVQRaDtaCm1
-         t2QQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=bNBevCqfk00J2rt3EB2DabDjtH6s2ImxOWmElvURxdM=;
-        fh=yKyjZOJCcoNVJDsWinVzLZJCaF3OgbsdgxO0gJ67JOo=;
-        b=AZ7p3ojFVQ50PY7PZw8G7epNUdr7FAk2xIiSyfetY/oG+0X2sgQY6OwjxL30UYXAYp
-         9eQESe+n18N9Nehg4aCdYj31+SDq5ZrCZQ6GOJweiQVee9lUqSJ3M55r2zVJrbMsvHfq
-         LvCHQ+3y4110VPgN3+tp3Q+bFAtkFFmWnO4aP/bqXtAXwuAp991mGRSJj0V15ywPRM/y
-         BXCRp4ZQWylAKzLruvZfI6HSRWpmQTUI5br7h+mdRw74L62ryX59uKAwtGJLMtSlsICx
-         deGUYJ8dquhs6fvhtWQlMUF7IRV00f1gwaD1XW0JFvXnIfDzKzEPLt0kXLEqDCF/hdA7
-         YbSQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore.com; s=google; t=1779981159; x=1780585959; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=bNBevCqfk00J2rt3EB2DabDjtH6s2ImxOWmElvURxdM=;
-        b=KIwHsSqcyql7qcD8GdiJhMZrTA14unruMIFF4bBLBxgMdaZbUjZaJGr4jRflcu7p5L
-         YBZni2zygAK2aCyg6ncGTn4hlctMp80G8V6MSVBEZyMo7KoA1uzKcJIaFzYt53UspJsV
-         hv4405yx2Qz/CxBIaduReWvvCxFwierAUzB+1uG2yd3NJQTBsRVznwSWny0Dmyn56SS+
-         JJ4rtVFF8QVRzB4qbxvxdEkdRbGYxDOFDjKWpIQTugDoOK5uSaAeX8Hz09h878We09mv
-         hWQ4ekGwKMyRag7G6IyHEV7q1maCTGz8Kuf7yQJDyDSyOEU/qYVLtRSBM9UY4uYIlQ2c
-         MEcA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779981159; x=1780585959;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=bNBevCqfk00J2rt3EB2DabDjtH6s2ImxOWmElvURxdM=;
-        b=d3nxOAbNmf6+D0oYN/KdlCcbCyNwApazXWrejyfknRk2levLFIe3eF7gqz59pVo6E8
-         CAZKOaqLOa4KNAMBJt5ihqWc9tRUiqxRK8Z6Cmw28QSasTVjJUzDtXUE3kijQsNnswSy
-         1No7a/oxnADBbYlwTk3DwQ1h53FFSbMV/mPqldnHA9yvPfFWHulJKiM4fpHbWRT+EUEj
-         ZtEd8a+PdNlQadmLvqdSnjTq+ByHFCzlxH43LLjOFnqv+RYY4aJ1V908XXReL/BMXsfs
-         dd62mNOBmPCLLn9dAICiG5+vyeEh8L0xjt5CuMG8uORUOrD8SA4dRDcnlceKrYujyWm6
-         9zYQ==
-X-Forwarded-Encrypted: i=1; AFNElJ+cd5ZQRGe17Jmh7d+hMFL7kcg9UotEuaJLB15VCcbZzc8atKLW4KB7Py943ZkP6A7NyWinV6E+VsgyY4gzVG2tZA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzJjQpXhF7CkWw+wkzhl0GiFK+T/b6lCike+rOTJqP57lm1n+NL
-	uHwcYi5rSOY9uHW7pt/8SsbKIcVYMTy6i0JU/njmjgiBQPdapRkD3/CLZUVv3Sj6mb/Xl64IVnE
-	1Qf75Hkcj/sS7w+A/wovLq8BrJIys6VHh6a/SfpwY
-X-Gm-Gg: Acq92OHmCSEu7CqHujPqXi/DblPJZak/AdG9Lnin2PNAmfJIYyQr6Q/dQKGDpoayXKJ
-	ohiIaa8e9WCxZxRsfBwC7Pa7uqc8NTHjU8tEOyfbPkQGPne1SsfOU8bc70NE+iFFUdrrw1LAdK6
-	qEm8Gw7B1nz/XfMl6uHpoMnYer3eW3MflcXQJzl3TYbY8+1pP6dFpPLNWRnCjR1EO11Z0IxSbe1
-	VsEkDl+j3GxwJeb8ubmuN9NXnlabIklNzUByjgnlZC7N8gOM8+eyDAovsS53lsbVGTJeqz0MehJ
-	WprbkLTfr1ZfCK5ilg==
-X-Received: by 2002:a17:903:2bcc:b0:2b2:5099:2f3e with SMTP id
- d9443c01a7336-2beb06ea859mr302897195ad.4.1779981158837; Thu, 28 May 2026
- 08:12:38 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88F5F3F23C4;
+	Thu, 28 May 2026 16:58:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779987484; cv=none; b=CRLyDFaF9ZWAlIizpQQ1zKiGgRLcS6929RzxESaNFpf/gGk9VrjRqx07zuOLJmpG/VRfQIH7eew6bTEojmLtfKkffXonQ82vRTORo8pTlCyVMIU+FuuycQcXKHipFZoE+Rlb+cX/5ft08LuH0QZ6hdW3D9cM4QKMOWSoIaarLI8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779987484; c=relaxed/simple;
+	bh=yWNIU/hhmPn8ZIFrHSRxosfz2L080Hxv40eQznvjKIY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=uguGbonqHChVhaIqgZa6kLnMoZd2674LGiEkYCcSpxgiELuARAzN8n91tUnf/lCSOI1w5IDj/nuebcNV/vbiPtXav1oWSP4263YgiqjMlaimmqNC2Oao/px48Hjx0m+tZoO4I8OaC/OkJE9lL8kd8ymh/rJpxhNAcTgkCIj3PkI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jBWo0zRY; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A10841F000E9;
+	Thu, 28 May 2026 16:58:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1779987483;
+	bh=mqHHdoj9vjNwfVpSJsgTn6gGe4QSnDtlofWFNRNEaRk=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=jBWo0zRYKO0YB6u894QKuBbRLksmljcQgFBDIlaAD3l7/gMPP34LHccK796Ne/DED
+	 HLgZnJ5LqQvJoKGq1Ccwi/Q+gIgfxSkB9DtP7uY25XOZq5TmuervV9mX6dmtwaUdfd
+	 G28Pi6MwjMcb08X5fdmoSY6d0V97wWY8ObMgouVCXXMzrvfZ3H347EugYshvPh76z/
+	 C9QH9bKn+5nymLh0OI//KWIEYZ5joTzD7NOZeVI7VDFXiM4b2oEIseWdGeeEqDSFr1
+	 9Bi5WNw1mmARY+LNAjXO8klQvlcYnlDProxxI9baYIfHf6rC4+W64r5jRyqUnBBifP
+	 4+90wiyfQ3n5Q==
+Message-ID: <88d1db83-1127-462f-9b1a-7c18a7087960@kernel.org>
+Date: Thu, 28 May 2026 19:57:59 +0300
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <202605281316.GwqEa9Tn-lkp@intel.com>
-In-Reply-To: <202605281316.GwqEa9Tn-lkp@intel.com>
-From: Paul Moore <paul@paul-moore.com>
-Date: Thu, 28 May 2026 11:12:26 -0400
-X-Gm-Features: AVHnY4KGkw7s8GFEZnhSp-WLxdURT-RSXphDvHJcUZTiyxeBb39-HOM0H2amaTc
-Message-ID: <CAHC9VhQkE9cNxakvHSn8wgguDTehYHUpF7ujc+tzUbT1fqgmzQ@mail.gmail.com>
-Subject: Re: [linux-next:master] BUILD REGRESSION e7d700e14934e68f86338c5610cf2ae76798b663
-To: kernel test robot <lkp@intel.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
-	Linux Memory Management List <linux-mm@kvack.org>, audit@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, Mark Brown <broonie@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/4] i2c: riic: Abort the transfer on completion timeout
+To: Wolfram Sang <wsa@sang-engineering.com>
+Cc: chris.brandt@renesas.com, andi.shyti@kernel.org,
+ claudiu.beznea@tuxon.dev, linux-renesas-soc@vger.kernel.org,
+ linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260520131206.932050-1-claudiu.beznea@kernel.org>
+ <20260520131206.932050-2-claudiu.beznea@kernel.org>
+ <ahhJtz7QG3IxQA0G@shikoro>
+Content-Language: en-US
+From: Claudiu Beznea <claudiu.beznea@kernel.org>
+In-Reply-To: <ahhJtz7QG3IxQA0G@shikoro>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-Spamd-Result: default: False [-2.16 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[paul-moore.com,none];
-	R_DKIM_ALLOW(-0.20)[paul-moore.com:s=google];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	TAGGED_FROM(0.00)[bounces-33305-lists,linux-renesas-soc=lfdr.de];
+	FROM_HAS_DN(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
 	RCVD_TLS_LAST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-33304-lists,linux-renesas-soc=lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[paul@paul-moore.com,linux-renesas-soc@vger.kernel.org];
-	DKIM_TRACE(0.00)[paul-moore.com:+];
+	FROM_NEQ_ENVFROM(0.00)[claudiu.beznea@kernel.org,linux-renesas-soc@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	NEURAL_HAM(-0.00)[-1.000];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	MID_RHS_MATCH_FROM(0.00)[];
 	TAGGED_RCPT(0.00)[linux-renesas-soc];
-	RCPT_COUNT_FIVE(0.00)[6];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo,mail.gmail.com:mid,paul-moore.com:url,paul-moore.com:dkim,intel.com:email]
-X-Rspamd-Queue-Id: 600CE5F45BC
+	TO_DN_SOME(0.00)[]
+X-Rspamd-Queue-Id: 5B4295F5628
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Thu, May 28, 2026 at 1:09=E2=80=AFAM kernel test robot <lkp@intel.com> w=
-rote:
->
-> tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-n=
-ext.git master
-> branch HEAD: e7d700e14934e68f86338c5610cf2ae76798b663  Add linux-next spe=
-cific files for 20260527
->
-> Error/Warning (recently discovered and may have been fixed):
->
->     https://lore.kernel.org/oe-kbuild-all/202605280441.YSawqHBc-lkp@intel=
-.com
->     https://lore.kernel.org/oe-kbuild-all/202605280456.3Hhpgxl0-lkp@intel=
-.com
->
->     kernel/auditfilter.c:592:15: error: incompatible pointer types assign=
-ing to 'struct audit_fsnotify_mark *' from 'int (struct task_struct *)' [-W=
-incompatible-pointer-types]
->     kernel/auditfilter.c:592:17: error: use of undeclared identifier 'aud=
-it_alloc_mark'; did you mean 'audit_alloc'?
->     kernel/auditfilter.c:592:38: error: 'audit_alloc_mark' undeclared (fi=
-rst use in this function); did you mean 'audit_alloc'?
->     kernel/auditfilter.c:592:60: error: too many arguments provided to fu=
-nction-like macro invocation
->     kernel/auditfilter.c:592:85: error: macro 'audit_alloc_mark' passed 4=
- arguments, but takes just 3
->     kernel/auditfilter.c:879:10: error: use of undeclared identifier 'aud=
-it_dupe_exe'; did you mean 'audit_dupe_rule'?
->     kernel/auditfilter.c:879:31: error: 'audit_dupe_exe' undeclared (firs=
-t use in this function); did you mean 'audit_dupe_rule'?
->     kernel/auditfilter.c:879:59: error: macro 'audit_dupe_exe' passed 3 a=
-rguments, but takes just 2
->     kernel/auditfilter.c:879:8: error: incompatible pointer to integer co=
-nversion assigning to 'int' from 'struct audit_entry *(struct audit_krule *=
-, struct audit_watch_ctx *)' [-Wint-conversion]
+Hi, Wolfram,
 
-Thanks.  This should already be fixed in the audit tree, if you
-continue to see errors please let me know.
+On 5/28/26 16:57, Wolfram Sang wrote:
+> On Wed, May 20, 2026 at 04:12:03PM +0300, Claudiu Beznea wrote:
+>> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+>>
+>> riic_xfer() configures a transfer and waits for the interrupt handler to
+>> signal its completion. If the completion times out, the device may be
+>> powered off through runtime PM. However, the transfer interrupt may still
+>> fire after the timeout.
+>>
+>> To avoid cases where riic_xfer() powers off the device (via runtime PM)
+>> while the interrupt handler is still running, disable and synchronize the
+>> interrupts after the completion times out.
+>>
+>> Fixes: 310c18a41450 ("i2c: riic: add driver")
+>> Cc: stable@vger.kernel.org
+>> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+> 
+> How did you test this?
 
---=20
-paul-moore.com
+I haven't managed to reproduce it on i2c. I reproduced a similar behavior while 
+working on renesas-i3c driver and decided to implement this on this i2c driver 
+as well.
+
+-- 
+Thank you,
+Claudiu
+
 
