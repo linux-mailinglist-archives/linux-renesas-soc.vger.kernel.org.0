@@ -1,223 +1,248 @@
-Return-Path: <linux-renesas-soc+bounces-33265-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-33266-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id eDAGC60GGGrGaQgAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-33265-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 28 May 2026 11:11:09 +0200
+	id GFYMOo4IGGrGaQgAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-33266-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 28 May 2026 11:19:10 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24D825EF488
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 28 May 2026 11:11:08 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id ECD745EF751
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 28 May 2026 11:19:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 31EDF305BF34
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 28 May 2026 08:58:20 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id C17E83097EF6
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 28 May 2026 09:06:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4BAFF38E129;
-	Thu, 28 May 2026 08:57:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8847339C019;
+	Thu, 28 May 2026 09:06:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="Tv3W1+un"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ua1-f48.google.com (mail-ua1-f48.google.com [209.85.222.48])
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8122538AC90
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 28 May 2026 08:57:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E337939EF11
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 28 May 2026 09:06:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779958652; cv=none; b=Uq1EYEXDlpw7r5+jgW/tFo/VfQ8eU4rvTejnYETtM8hQ8IJWwypRKcME/KPSF6zjh/5yKgdJy4e+G6oWjY4ieIgTr+Qcf1EuBwxKBiImjDawJ81+65rA8XRIRFYglov1CxM8EGoMZhL0bsdUhvIW5UfnxSRc7EAENf8baq3HtZI=
+	t=1779959187; cv=none; b=a6HhAviVX6rdRIARCWfqKeyQumpNpEgnmHbaahByUn6i+3+TWYrjw6RpASfGETwAWo6hv27vi/LxuMQaQgAR331KaNBbVlBkCp15uRomxtVY4pCg+TGnx4hbXF7H1UhQijIjXZzt9VhAx557xBUVC+hSev2M5hoVMCQPwmc7n4k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779958652; c=relaxed/simple;
-	bh=udN5yvImCBSxZLul/qJ3biL3aUpy3IPt8kYNBe9x0r4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=O8qqfDCwMNYG4SdLG4WhfRbKciMDa+9RWjuTDz7rG/4ewUQnWosovc6AbQxlo7rUyM44/+Um+aBzbxyjbWIwofwb7W9Jv5cjM7geHvkMsFbXDKWgwJlvUNbCESqwWRFjjVozVX783PnedQbNiBxGi/kRA/M+k7rAm3c24tRGgSQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ua1-f48.google.com with SMTP id a1e0cc1a2514c-96393c6700cso103542241.3
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 28 May 2026 01:57:30 -0700 (PDT)
+	s=arc-20240116; t=1779959187; c=relaxed/simple;
+	bh=pePpbntnwnsj7EYGTYln0S0Z1fUMMahUgMDQxO5w1uU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=fR/4sKicYO5PMl6mXhwzq+Bpju8XyAV8lsXQY5sa7ekzzF7fnycYScZlAjTjc5fbzkZdCQx7ujdrk/rCDNtK9dYRylg4dqRGzDOaDOMgibFP10ClqvNffJqRJ0i/wWrOPGF/Tcs2u+vtmsaIFxYT7WxmKHGP1M6GOeYVcML4cvc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=Tv3W1+un; arc=none smtp.client-ip=209.85.221.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-45e6a4d0be0so5621022f8f.1
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 28 May 2026 02:06:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre.com; s=google; t=1779959182; x=1780563982; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=NCpVC/B+fK7iJncp3doDyeYOwNSb+lqrnGIijdp/R+8=;
+        b=Tv3W1+unErPZI61reAybS1V/bYvqFOlMWOiABauoKx7v6A9wwt42V8f+FWjnpsmWSL
+         31SOA0f14puPUwBpNrUN7FQ1Qz8NPp8O4cwZT2KBHFndrKUyna6LBthvJ8gZjoXLwOfE
+         A0II/Sgt+8HRPnRwJl9noZZDXeYod8kPY3vk7YruzPmQWMHTgGk3XrKlkX6eBNbgI53Z
+         IaHk9U/GXRuGaLZo7gdL1rZELjqDh4mm3ij3S/QCXWhqqyt9lIdeLJwr5lR0qzHwx7nU
+         ycvcrPa4BzwLRAvhImwivIXDBWOW6VBV6GamBq1aTMWdwvR8l7Mm5QdikhjUzSXrWi/l
+         DuqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779958649; x=1780563449;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=mOQGBHBqxMpQsOHiSMJOANdscDpYsZb967PigVYTEH0=;
-        b=s1WsaVgNEes8RxzSQQ8K4Hewb8UGBYnSsv1hiFgTNQjpweLMVToL+zDamh08aInL6P
-         rVEjY0jKb720NrwwuC5rPm93/Cs9j5CblS6r8KGiea3l1DJjkqIpuhNk6hE1OCp6a3CQ
-         IKcr6LKzZAbBjfFO8EcwbilMuH62ic8fEF5dzenbl5ZrxP5TJxJ0q3jaX5oyH2mMwDeO
-         Z+qvNkJPPUGKeDRRdcXWQlULm+tKl/t8H+k2au2cFLdZ8uGBU5qJEdpnj97dfhiuZPwb
-         lZUeiwHp7SRPOKmfsQfdT8CERQLNulBybFOBUUoNlyVPbKU7Yzpp0fX5OBxCvr/lo5Pv
-         Tjxg==
-X-Forwarded-Encrypted: i=1; AFNElJ+uMvxmaXd6JQiIqXf3QXV5O4pOh4vqDJr5357byLxedHzxYM7MCJ0B44+xY9sAjBCAiPXGoFm7HW//To47hG7RsA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy7weehyzYPXG+3uT9QGlXZ4q2IKlSFIq/1QKHvJPTD5y+Qo7g3
-	Lrx3k3CKEJtFRWUI5AVzyzQk/0Xcpor0fjQhyjF4VHRc2fjKJwKnOxAUK389Hok2BYY=
-X-Gm-Gg: Acq92OFFMscHxnH6cm5xU7ihtGCVdh9+lLxs0cWnl5VV2x/MwM6xSriuUiOadLsEz/o
-	a5NWNOo4XSm5Z8825uD6KFLDLVQGXuM49gUO3CFXppHNlom5oIZQJGRqcL0p4vJxGg8PLCxpvJ3
-	OrAXAiqyypFLieQaxG5TZEeqwQj8TwRmvptNeKPvouqrrPFoue5Vyvod90d7lkhVCZ++8P7E0u+
-	3plclI7/zz1QYYKIka0DgipKn65VSbbJgBAEFgyofNEKZlFFDxUA+S5RYWpMUTupotx+xpqnv+H
-	hw+iI/kRzo4Hg8nhrgiAVFU9nqxfOoscpLTPBGCQHDzIRy6+kAPwQ5rv2u3u05buQ5SjYGy3uX9
-	z4hB5g4PYUns38xUiMGzd5Qeb9oTmUoNBWvMXSDMhRIICyxRBdA9IqRflHZUgIYKXh0NmCtfRf7
-	Q7/oZZPaYDsudkOQ/ciDid7UninaGfaAuwVBdKJjqFnhrkOaQJmg8gfcxSl4lIuIBjZuepOg3Oh
-	U0=
-X-Received: by 2002:a05:6102:508b:b0:62f:2f1f:599b with SMTP id ada2fe7eead31-67c76e8b9e0mr12759307137.7.1779958649271;
-        Thu, 28 May 2026 01:57:29 -0700 (PDT)
-Received: from mail-vk1-f171.google.com (mail-vk1-f171.google.com. [209.85.221.171])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-963909241d3sm1564494241.2.2026.05.28.01.57.27
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 28 May 2026 01:57:28 -0700 (PDT)
-Received: by mail-vk1-f171.google.com with SMTP id 71dfb90a1353d-57513a91514so4241891e0c.2
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 28 May 2026 01:57:27 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ84B7hI+Imrs8j6BmDmq9FsMstR9lvIjNtsuG9jWqdQJ7Db4qk+Oaqpshuuh2D5Q6IvdvO962pNzO9FT919hfkwtw==@vger.kernel.org
-X-Received: by 2002:a05:6122:2404:b0:575:e902:bf83 with SMTP id
- 71dfb90a1353d-586590103ffmr13726592e0c.0.1779958647483; Thu, 28 May 2026
- 01:57:27 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1779959182; x=1780563982;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=NCpVC/B+fK7iJncp3doDyeYOwNSb+lqrnGIijdp/R+8=;
+        b=cOop006AcsHoCzQV5237b5IPDipBddedkwQZ0lbzO4bbqTCu+gjhrA4RZSjMm0AHw6
+         Kll2mxPLoYmMZt2BVQ3Y4nZQs6k3fDx5PIyk+uEkZUVf6aVQrdvplismHEiI6c+X8ihB
+         haIGwIqOBKvYitVzgS8dU6b0lC0ARaVPlcvXnjKwqWMYo3gSSPlAM9Mm2SrCvORW3zlA
+         hZxf6EaBlEAq38qe7J82wSqjCBKUIJlkjpThnQjtPt4gvFQwQtsiICi//qt3xhu04GBs
+         hFq+uO5yi7sZkn1CUWtae18WRBIHgTEnI1kyGWloe96BbPEh0G1UpvKlW/Hi/eVoLWyU
+         t5bQ==
+X-Forwarded-Encrypted: i=1; AFNElJ/ADrhYYHUTVlZP0lghtSYM5F6g+etpof5UNxolSQnQMMsWGp01EMcWRiFCFjyBbkGdvGol0wZEZK0nWE2GZVJUMg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyjiEcEvyYOL4x7TNDnop/67ecDDuP+/ax6kyzRaQ5h3xU1Zvoe
+	6RoyWm7pwXDz6ewS5GQ0ZWrvzFc2fWEs6IIQ4okowKXXQ+7JS0jem+dEktoq/pO3Z/Y=
+X-Gm-Gg: Acq92OHkq6Lb57qCfLBi0yUYaQfrxESpDP3+xWjfiLcbFCFBxyVOzYkLNdUj3fINtuj
+	QT+fVh9qcUbF7eLlDZgsBBGMs17iaAHkqFmO0KChK7XOTnOKOjKzHJVQfLTgj9uyrP2ugL8OFgK
+	rfQ6U5i78vcGOEZnJy5pNWWD23yR/6xmPTf89hNLgrEam/5sye1l3PNzxI9ySjRqkPVaovF9dmr
+	NeCdUt0Vdlc/k6HUWcm2+wxe9WFtiLvwlVBlnPzAxqmhi5dAH/hkfTV/3MMHok8QIqHV0mhUrjU
+	NIbbbj+S8M8D0C6aqiP+3blOicJs+VK8RhGYieDrDDW1wG5h46L+/NQsodMyyApDFZRabxGG491
+	YBqmg5eVSKYS5UXqZPml0kgQ06Ez93/iAiboihYZuZeS2nQnyJzvVzKOYzcXDJT6fL78G+krshZ
+	yNB5GWk0baub6d2HggHe/b2Czjwd+elmIJHjyVVSZmqpUx56UEyhdTrGshafE0jEfbZ2QoIhlNc
+	sWdi+iZQQExDwksWMrPiaf0bg==
+X-Received: by 2002:a05:600c:35c8:b0:490:44eb:c1e7 with SMTP id 5b1f17b1804b1-49044ebc2d5mr480016505e9.30.1779959181935;
+        Thu, 28 May 2026 02:06:21 -0700 (PDT)
+Received: from localhost (p200300f65f47db04e95e43453a0d1648.dip0.t-ipconnect.de. [2003:f6:5f47:db04:e95e:4345:3a0d:1648])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-49091d57c0dsm45855525e9.0.2026.05.28.02.06.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 28 May 2026 02:06:21 -0700 (PDT)
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig=20=28The=20Capable=20Hub=29?= <u.kleine-koenig@baylibre.com>
+To: Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>
+Cc: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Charles Keepax <ckeepax@opensource.cirrus.com>,
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org,
+	linux-renesas-soc@vger.kernel.org,
+	Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
+	Venkata Prasad Potturu <venkataprasad.potturu@amd.com>,
+	James Ogletree <jogletre@opensource.cirrus.com>,
+	Fred Treven <fred.treven@cirrus.com>,
+	Ben Bright <ben.bright@cirrus.com>,
+	David Rhodes <david.rhodes@cirrus.com>,
+	Richard Fitzgerald <rf@opensource.cirrus.com>,
+	Cezary Rojewski <cezary.rojewski@intel.com>,
+	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
+	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+	Syed Saba Kareem <Syed.SabaKareem@amd.com>,
+	"Mario Limonciello (AMD)" <superm1@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>,
+	Mark Pearson <mpearson-lenovo@squebb.ca>,
+	Hasun Park <hasunpark@gmail.com>,
+	Li Qiang <liqiang01@kylinos.cn>,
+	Kees Cook <kees@kernel.org>,
+	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
+	Mac Chiang <mac.chiang@intel.com>,
+	Maciej Strozek <mstrozek@opensource.cirrus.com>,
+	patches@opensource.cirrus.com,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	=?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>,
+	Srinivas Kandagatla <srini@kernel.org>,
+	Shengjiu Wang <shengjiu.wang@gmail.com>,
+	Xiubo Li <Xiubo.Lee@gmail.com>,
+	Fabio Estevam <festevam@gmail.com>,
+	Nicolin Chen <nicoleotsuka@gmail.com>,
+	Frank Li <Frank.Li@nxp.com>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	"Guilherme G. Piccoli" <gpiccoli@igalia.com>,
+	Mario Limonciello <mario.limonciello@amd.com>,
+	Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
+	=?utf-8?q?Amadeusz_S=C5=82awi=C5=84ski?= <amadeuszx.slawinski@linux.intel.com>,
+	linux-arm-msm@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org,
+	imx@lists.linux.dev
+Subject: [PATCH v1 0/4] ASoC: Use named initializers for platform_device_id arrays
+Date: Thu, 28 May 2026 11:05:59 +0200
+Message-ID: <cover.1779958164.git.u.kleine-koenig@baylibre.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260514210220.7616-1-fabrizio.castro.jz@renesas.com> <CA+V-a8vhCqdVf4iAusGj3rtCjkazAFqQJ4cwcnEGS0qK-EnVVw@mail.gmail.com>
-In-Reply-To: <CA+V-a8vhCqdVf4iAusGj3rtCjkazAFqQJ4cwcnEGS0qK-EnVVw@mail.gmail.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 28 May 2026 10:57:16 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVrKr=Y=Xe-J-udh+CqoBD6XCKCSLBX7-N2ayrnw5prSg@mail.gmail.com>
-X-Gm-Features: AVHnY4I9H1eGF8fVLQOfT5PSdArnKqJgHxtwFeff4WqnVF15bhO3tOXP7xLSidc
-Message-ID: <CAMuHMdVrKr=Y=Xe-J-udh+CqoBD6XCKCSLBX7-N2ayrnw5prSg@mail.gmail.com>
-Subject: Re: [PATCH v2] arm64: dts: renesas: rzt2h-n2h-evk: Configure
- eMMC/SDHI pins
-To: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Cc: Fabrizio Castro <fabrizio.castro.jz@renesas.com>, Magnus Damm <magnus.damm@gmail.com>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spamd-Result: default: False [-1.46 / 15.00];
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2760; i=u.kleine-koenig@baylibre.com; h=from:subject:message-id; bh=pePpbntnwnsj7EYGTYln0S0Z1fUMMahUgMDQxO5w1uU=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBqGAV3A/XGhyTdPC2Sbsk19+exJrBTv8hN9EsT0 GAAjGOFfiyJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCahgFdwAKCRCPgPtYfRL+ Tgg8B/9D5gNT6QFkJSSGOnZq876EyBKdLt05krj7I+eM9aYvKsGkdCLHcG7QZHsH64DDJCElr0r rkkvYPqCAgT0nB7gOzo9U0qtyp69Vifs5eRYtlUzz+MYNPrOw1HZyPhMUokS9DH1Pp+kkk1fj3S pf2IkbuFyVhLCrKlKWuXJYjCf8Go8i/nKubc2wg6igcHvdnyTzxT+83dJT/P31ERPelDR9wXr3g NwuRB3IaDbFvfetwIRZGEvJ38cIqOwdZWALeex3CzgiNZyJVzlnyX0/cb63x8sz08tUXTRpK9XZ iQM3C8HjSEsS1U3+EfHXzpVCPMgXHp9ra49eC3vLgqNt/Qh1
+X-Developer-Key: i=u.kleine-koenig@baylibre.com; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [0.84 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	R_DKIM_ALLOW(-0.20)[baylibre.com:s=google];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[renesas.com,gmail.com,kernel.org,vger.kernel.org,bp.renesas.com];
-	TAGGED_FROM(0.00)[bounces-33265-lists,linux-renesas-soc=lfdr.de];
-	DMARC_NA(0.00)[linux-m68k.org];
-	FREEMAIL_TO(0.00)[gmail.com];
+	TAGGED_FROM(0.00)[bounces-33266-lists,linux-renesas-soc=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RECEIVED_HELO_LOCALHOST(0.00)[];
+	DMARC_NA(0.00)[baylibre.com];
+	FREEMAIL_TO(0.00)[gmail.com,kernel.org];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FREEMAIL_CC(0.00)[perex.cz,suse.com,gmail.com,collabora.com,opensource.cirrus.com,renesas.com,vger.kernel.org,lists.infradead.org,amd.com,cirrus.com,intel.com,linux.intel.com,linux.dev,kernel.org,oss.qualcomm.com,squebb.ca,kylinos.cn,metafoo.de,analog.com,nxp.com,pengutronix.de,igalia.com,lists.ozlabs.org,lists.linux.dev];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
+	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[geert@linux-m68k.org,linux-renesas-soc@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
-	NEURAL_HAM(-0.00)[-0.988];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	R_DKIM_NA(0.00)[];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,dt];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo,renesas.com:email]
-X-Rspamd-Queue-Id: 24D825EF488
+	FROM_NEQ_ENVFROM(0.00)[u.kleine-koenig@baylibre.com,linux-renesas-soc@vger.kernel.org];
+	DKIM_TRACE(0.00)[baylibre.com:+];
+	RCPT_COUNT_GT_50(0.00)[53];
+	TAGGED_RCPT(0.00)[linux-renesas-soc];
+	NEURAL_HAM(-0.00)[-1.000];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[baylibre.com:mid,baylibre.com:dkim]
+X-Rspamd-Queue-Id: ECD745EF751
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi Prabhakar,
+Hello,
 
-On Wed, 27 May 2026 at 20:06, Lad, Prabhakar <prabhakar.csengg@gmail.com> w=
-rote:
-> On Thu, May 14, 2026 at 10:02=E2=80=AFPM Fabrizio Castro
-> <fabrizio.castro.jz@renesas.com> wrote:
-> > The HW user manual for the Renesas RZ/T2H and the RZ/N2H states
-> > that for SDR104, SDR50, and HS200 to work properly the eMMC/SDHI
-> > interface pins have to be configured as specified below:
-> > * SDn_CLK pin - drive strength: Ultra High, slew rate: Fast
-> > * Other SDn_* pins: drive strength: High, slew rate: Fast,
-> >   Schmitt trigger: disabled (not applicable to SDn_RST pins).
-> >
-> > HS DDR and DDR50 are currently not supported, and for every
-> > other bus mode the eMMC/SDHI interface pins should be configured
-> > as specified below:
-> > * SDn_CLK pin - drive strength: High, slew rate: Fast
-> > * Other SDn_* pins: drive strength: Middle, slew rate: Fast,
-> >   Schmitt trigger: disabled (not applicable to SDn_RST pins).
-> >
-> > Adjust the pin definitions accordingly.
-> >
-> > Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+this series targets to use named initializers for platform_device_id
+arrays. In general these are better readable for humans and more robust
+to changes in the respective struct definition.
 
-> > --- a/arch/arm64/boot/dts/renesas/rzt2h-n2h-evk-common.dtsi
-> > +++ b/arch/arm64/boot/dts/renesas/rzt2h-n2h-evk-common.dtsi
-> > @@ -275,12 +275,63 @@ data-pins {
-> >                                  <RZT2H_PORT_PINMUX(12, 7, 0x29)>, /* S=
-D0_DATA5 */
-> >                                  <RZT2H_PORT_PINMUX(13, 0, 0x29)>, /* S=
-D0_DATA6 */
-> >                                  <RZT2H_PORT_PINMUX(13, 1, 0x29)>; /* S=
-D0_DATA7 */
-> > +                       drive-strength-microamp =3D <5000>;
-> > +                       slew-rate =3D <1>;
-> > +                       input-schmitt-disable;
-> >                 };
-> >
-> > -               ctrl-pins {
-> > -                       pinmux =3D <RZT2H_PORT_PINMUX(12, 0, 0x29)>, /*=
- SD0_CLK */
-> > -                                <RZT2H_PORT_PINMUX(12, 1, 0x29)>, /* S=
-D0_CMD */
-> > -                                <RZT2H_PORT_PINMUX(13, 2, 0x29)>; /* S=
-D0_RST# */
-> > +               clk-pins {
-> > +                       pinmux =3D <RZT2H_PORT_PINMUX(12, 0, 0x29)>; /*=
- SD0_CLK */
-> > +                       drive-strength-microamp =3D <9000>;
-> > +                       slew-rate =3D <1>;
-> > +               };
-> > +
-> > +               cmd-pins {
-> > +                       pinmux =3D <RZT2H_PORT_PINMUX(12, 1, 0x29)>; /*=
- SD0_CMD */
-> > +                       drive-strength-microamp =3D <5000>;
-> > +                       slew-rate =3D <1>;
-> > +                       input-schmitt-disable;
-> > +               };
-> > +
-> > +               rst-pins {
-> > +                       pinmux =3D <RZT2H_PORT_PINMUX(13, 2, 0x29)>; /*=
- SD0_RST# */
-> > +                       drive-strength-microamp =3D <5000>;
-> > +                       slew-rate =3D <1>;
-> > +               };
-> > +       };
-> > +
-> > +       sdhi0_emmc_pins_uhs: sd0-emmc-group-uhs {
-> This needs to be sd0-emmc-uhs-group and to keep it consistent, we can
-> rename sdhi0_emmc_pins_uhs to sdhi0_emmc_uhs_pins (and same for
-> below). Since Geert has already reviewed, perhaps this can be fixed up
-> while applying.
->
-> Rest LGTM,
->
-> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+This robustness is needed as I want to do
 
-Thanks, will fix that while applying.
+	diff --git a/include/linux/mod_devicetable.h b/include/linux/mod_devicetable.h
+	--- a/include/linux/mod_devicetable.h
+	+++ b/include/linux/mod_devicetable.h
+	@@ -610,4 +610,7 @@ struct dmi_system_id {
+	 struct platform_device_id {
+		char name[PLATFORM_NAME_SIZE];
+	-	kernel_ulong_t driver_data;
+	+	union {
+	+		kernel_ulong_t driver_data;
+	+		const void *driver_data_ptr;
+	+	};
+	 };
 
-Apparently we've been consistent with using "-group" as a suffix,
-but have a mix of "pins" in the middle and as a suffix.
+which allows dropping several casts and eases porting CHERI to mainline
+linux. When adapting e.g. sound/soc/amd/acp/acp-legacy-mach.c to that
+and make use of driver_data_ptr, the added const makes it obvious that
+acp_asoc_probe() modifies the structs linked in the id_table resulting
+in issues if more than one device is probed using the same platform id.
+sound/soc/amd/acp/acp-sof-mach.c has the same issue.
 
-Gr{oetje,eeting}s,
+If you consider the last patch mostly churn, just drop it.
 
-                        Geert
+Best regards
+Uwe
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
+Uwe Kleine-König (The Capable Hub) (4):
+  ASoC: codecs: mt6357: Drop unused assignment of platform_device_id
+    driver data
+  ASoC: renesas: fsi: Simplify driver_data handling
+  ASoC: Use named initializers for platform_device_id arrays
+  ASOC: Unify code style for platform_device_id arrays
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+ sound/soc/amd/acp/acp-sdw-legacy-mach.c |  4 ++--
+ sound/soc/amd/acp/acp-sdw-sof-mach.c    |  4 ++--
+ sound/soc/amd/acp/acp-sof-mach.c        | 14 +++++++-------
+ sound/soc/codecs/adau7118-hw.c          |  2 +-
+ sound/soc/codecs/bt-sco.c               | 10 +++-------
+ sound/soc/codecs/cs40l50-codec.c        |  4 ++--
+ sound/soc/codecs/cs42l43.c              |  4 ++--
+ sound/soc/codecs/mt6357.c               |  4 ++--
+ sound/soc/codecs/wcd934x.c              |  6 ++----
+ sound/soc/fsl/imx-pcm-rpmsg.c           |  6 +++---
+ sound/soc/intel/avs/boards/da7219.c     |  6 ++----
+ sound/soc/intel/avs/boards/dmic.c       |  6 ++----
+ sound/soc/intel/avs/boards/es8336.c     |  6 ++----
+ sound/soc/intel/avs/boards/hdaudio.c    |  6 ++----
+ sound/soc/intel/avs/boards/i2s_test.c   |  6 ++----
+ sound/soc/intel/avs/boards/max98357a.c  |  6 ++----
+ sound/soc/intel/avs/boards/max98373.c   |  6 ++----
+ sound/soc/intel/avs/boards/max98927.c   |  6 ++----
+ sound/soc/intel/avs/boards/nau8825.c    |  6 ++----
+ sound/soc/intel/avs/boards/pcm3168a.c   |  6 ++----
+ sound/soc/intel/boards/sof_sdw.c        |  4 ++--
+ sound/soc/renesas/fsi.c                 |  8 +++-----
+ 22 files changed, 51 insertions(+), 79 deletions(-)
+
+
+base-commit: e7d700e14934e68f86338c5610cf2ae76798b663
+-- 
+2.47.3
+
 
