@@ -1,180 +1,171 @@
-Return-Path: <linux-renesas-soc+bounces-33338-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-33339-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id SOw7EnlqGWrGwQgAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-33338-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 29 May 2026 12:29:13 +0200
+	id iNYYAZhrGWrGwQgAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-33339-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 29 May 2026 12:34:00 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1130600D16
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 29 May 2026 12:29:12 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 56612600E3E
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 29 May 2026 12:33:58 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id CD43A300BC8F
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 29 May 2026 10:26:36 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 1C7F1314507B
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 29 May 2026 10:30:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9CD7C3BD657;
-	Fri, 29 May 2026 10:26:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EDF9F3C7E19;
+	Fri, 29 May 2026 10:30:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="KU3zG31W"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vs1-f54.google.com (mail-vs1-f54.google.com [209.85.217.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 614363BED19
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 29 May 2026 10:26:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C99C3C7DF1;
+	Fri, 29 May 2026 10:30:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780050395; cv=none; b=QTGTrNt21dG/5Ne9qQw/+5tkX9snyf+rDBTexNfjAjIS6muuJtvfVaQhoIk3U6/EbWHvgEOrfbRsCY/QDrccwZ2RSMSa4V1UAQkfSqjte3UxIylxyK8C0KBfA1qOruvsSCS0mBmsumvBKozMCemr9mTA9w6w/29exAhh5XUWtgQ=
+	t=1780050645; cv=none; b=LTKRW+i/Xz25GYCjpSa0UiXwI7gHRYsWglVW98nSuzkfMZWbLzK4BGWEk6zMaAwwMiQAi6t4c9sZJC8HfrBvBwhNS80hkNeoXD+K6r5j4bBxDoIMGHf9Z1DVFR41aWMJTrK3SdEpmT2PdJX10fYa6fXBJoMf3PfvksKcwZAkiLw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780050395; c=relaxed/simple;
-	bh=c+8bOIJH2/zmKEeYW8ysGdmmpN9b/JyJJqcEUviAgwU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=raQ/tZSKNnHac+vr+IiTNkKCNIOPjq4hqjVr3n3aZeFetYQZFaCj6lVtOdkqAzxNdR9fWI5eLuSJqB+DveKRSU6B8Dvkcg+kyB9xpfPJcR49MNeA5WiYrQbyrA+HN/IVcOeOdLhTy98I5lylTdT+PGGTXwNPK3PETVbldpe1kSc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vs1-f54.google.com with SMTP id ada2fe7eead31-6c25b040555so191607137.1
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 29 May 2026 03:26:34 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780050393; x=1780655193;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=hGrKUr6SO+4MwqjYJ/JW0TEtGW5JoCk1D2hlkLnc7q0=;
-        b=FkVu0CJGez4Nu/w0WUYDoyZiB3ofIi1TfRs+DU22thosLd3FOi8+lYE098G6UOwKDF
-         eB0cstKNDKzF457kYNtHOQot6Zh5bS2JUD8EaZfIxAF+NCTXytwxrZhOoCAedqymSMQD
-         Nako3VNAHxJLa3WYp8hpHJiZay0+DEF8QMmBIiQG9i/GAQ01YEP3UmL/WxW2InGp5Wqw
-         3kqx4yty1rOmZuPJpx/MrNv4LgJGcJeBE7qh2rGVqdhdBhzJuSeTzr8Uz2CQKSV64/y8
-         IolXztCEhIQjjEtZMtfXcyq/rACSn04Mw6rUYjbPgjPCv6rGREp/kX5lqyNljv/5kkbM
-         s3tQ==
-X-Forwarded-Encrypted: i=1; AFNElJ/AJ2VGk+eHgWsm1QNGl2bU9cCyDuBysGfd453eBlkk/ygqNFE/fO80R8nTuvJ18ehd67aNXPrO1PuSOz/diFTJ8Q==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy77ofegDwHJHKUx7rqRiW4iJqJy6Y2I3JMK/NK0pREOTioMkfU
-	R27YSbDcUpjwpJ4Q95cDuCegzhiwMxOr+2sfTQo5iHiQN1e3BbQS7dXFcA7R1MY7HSU=
-X-Gm-Gg: Acq92OHK1fy4VTXMw+HITug2zGVfGkqMq8cMDvPHXB+tr/Z98/mj9jHjUesJLKTDrFB
-	5D/zTxPUp/mzGWQ1zSnPPL3LOyHJ/3ZCAQ26AE4zWcBEClkPZLPoWKmsUSapzanWRju+u35MHUO
-	PGnAlQmz59KADALdldw4QXZWZnFYtIP6jaxd58EIotv0u9/0j+GCxr/ibuIXRZVV1OxtHompKjg
-	0M32OJuDP4aB1sM+fCP0XbKrUk5FheiPiCis3Ko+kozwVpQ5qBuJejc+7+gFfJzhRiA2rthfrqG
-	B2vrhoZDYqIjKHEqZ/BMY+B9qrS5NdrLz9dIIw+X9OYMgOyP9dxgKjfn+F7hH8szVNzda2W3ZAO
-	9UpRJx7C/0YtmZ1nzMDo142GMiF41Cx0WFzRs8xM5RI4Ro40XzyaecwMQ3a9hmGFsQP1OUTnIGX
-	2hlx/bfzws6e2ONmFjmG//KRJ7G0YoTjn6nAdoBmMQcU/OHY+7dRut+NSKFoDhs3cMFRDkeOA=
-X-Received: by 2002:a05:6102:5983:b0:604:f029:224c with SMTP id ada2fe7eead31-6bf2daaadf4mr776335137.8.1780050393339;
-        Fri, 29 May 2026 03:26:33 -0700 (PDT)
-Received: from mail-vs1-f50.google.com (mail-vs1-f50.google.com. [209.85.217.50])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-6bfbae51f62sm701698137.6.2026.05.29.03.26.32
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 29 May 2026 03:26:32 -0700 (PDT)
-Received: by mail-vs1-f50.google.com with SMTP id ada2fe7eead31-632e479586aso9948651137.2
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 29 May 2026 03:26:32 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ+HJZDucoGNp0ZTerJF1cyZ8vzb/3w5A3EZygpoLx2fshXP400xty0oW8mKY7T1LngCbcanQM8hERwCz1abj8wIsQ==@vger.kernel.org
-X-Received: by 2002:a05:6102:8008:b0:631:2a82:111f with SMTP id
- ada2fe7eead31-6bf39267a54mr800161137.17.1780050392478; Fri, 29 May 2026
- 03:26:32 -0700 (PDT)
+	s=arc-20240116; t=1780050645; c=relaxed/simple;
+	bh=NdIG7Ww5G0F8LZX380aJn8V319Vfxe4XWWMwSLvoH8g=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=cF3QqszJUn0UFeFy8neQRgRQf95UjvMD3OCBZFC6qOSGxmqCLRMKoabhdyDaTFZ4GT7zotfKQNdxMkJWepesjWLfo/ixHWHIGXGG1TizFmjLndhRCJcVdBAE1T4CgKNcgi1NzHAT2gwNlqol6rmJkp9j1/t4VbC2ULhf8ijNrmg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=KU3zG31W; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from killaraus.ideasonboard.com (184.31.0.109.rev.sfr.net [109.0.31.184])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 10CFB741;
+	Fri, 29 May 2026 12:30:23 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1780050623;
+	bh=NdIG7Ww5G0F8LZX380aJn8V319Vfxe4XWWMwSLvoH8g=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=KU3zG31WChpN6/Uwk7EOnE90REjap9ximnKtS6PqoKZs4MzmqucMfDPKLu6GO73I/
+	 gwdahIgWHTitHJg652lJhsOM+JZyDXzSlb4B+Z4tdxsxDm3PrTLm20JADiemyDj3ar
+	 V51D931fwwofA5wK35bLB6BLdgPxG9JtIf9Ukbk4=
+Date: Fri, 29 May 2026 12:30:42 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Thorsten Leemhuis <regressions@leemhuis.info>
+Cc: linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Linux kernel regressions list <regressions@lists.linux.dev>,
+	Hans Verkuil <hans@jjverkuil.nl>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>
+Subject: Re: [PATCH v2 2/2] Revert "media: renesas: vsp1: brx: Fix format
+ propagation"
+Message-ID: <20260529103042.GA680101@killaraus.ideasonboard.com>
+References: <20260506215650.1897177-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20260506215650.1897177-3-laurent.pinchart+renesas@ideasonboard.com>
+ <0977c2c0-79ea-4435-9e1c-f54ca5e18342@leemhuis.info>
+ <20260527074817.GA468138@killaraus.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260519111958.233194-1-biju.das.jz@bp.renesas.com> <20260519111958.233194-2-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20260519111958.233194-2-biju.das.jz@bp.renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 29 May 2026 12:26:21 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXGjA3FCsO0QGLaRbYm0FaJYUXkd27qiW+NM8R2q5Mwdw@mail.gmail.com>
-X-Gm-Features: AVHnY4LFt0O6F_i-Vh9tP5Toq47ZnKZeLEtgQ8mqX4PxSw3V2T6vgOee0I80fc8
-Message-ID: <CAMuHMdXGjA3FCsO0QGLaRbYm0FaJYUXkd27qiW+NM8R2q5Mwdw@mail.gmail.com>
-Subject: Re: [PATCH 1/2] arm64: dts: renesas: r9a08g046: Add RSPI{0..2} nodes
-To: Biju <biju.das.au@gmail.com>
-Cc: Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Biju Das <biju.das.jz@bp.renesas.com>, linux-renesas-soc@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spamd-Result: default: False [-1.46 / 15.00];
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260527074817.GA468138@killaraus.ideasonboard.com>
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[gmail.com,kernel.org,bp.renesas.com,vger.kernel.org];
-	TAGGED_FROM(0.00)[bounces-33338-lists,linux-renesas-soc=lfdr.de];
-	DMARC_NA(0.00)[linux-m68k.org];
-	FREEMAIL_TO(0.00)[gmail.com];
-	RCVD_TLS_LAST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[ideasonboard.com:+];
+	TAGGED_FROM(0.00)[bounces-33339-lists,linux-renesas-soc=lfdr.de];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
 	MISSING_XM_UA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
+	NEURAL_HAM(-0.00)[-1.000];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[geert@linux-m68k.org,linux-renesas-soc@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	NEURAL_HAM(-0.00)[-0.990];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	R_DKIM_NA(0.00)[];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,dt];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[renesas.com:email,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,linux-m68k.org:email,mail.gmail.com:mid]
-X-Rspamd-Queue-Id: A1130600D16
+	FROM_NEQ_ENVFROM(0.00)[laurent.pinchart@ideasonboard.com,linux-renesas-soc@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	TAGGED_RCPT(0.00)[linux-renesas-soc];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[ideasonboard.com:email,ideasonboard.com:dkim,killaraus.ideasonboard.com:mid,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,renesas.com:email]
+X-Rspamd-Queue-Id: 56612600E3E
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi Biju,
+On Wed, May 27, 2026 at 09:48:17AM +0200, Laurent Pinchart wrote:
+> On Wed, May 27, 2026 at 09:35:03AM +0200, Thorsten Leemhuis wrote:
+> > On 5/6/26 23:56, Laurent Pinchart wrote:
+> > > This reverts commit 937f3e6b51f1cea079be9ba642665f2bf8bcc31f.
+> > > 
+> > > The change to format propagation in the BRx broke configuration of the
+> > > DRM pipeline. Revert it to fix the regression.
+> > 
+> > Laurent, is this still on your radar? From the outside it looks like
+> > this fix for the 7.1 regression should ideally go to Linus this week, as
+> > he ideally wants all known regression fixed by -rc6.
+> > 
+> > But it's easy to miss things from the outside, so if this is not a
+> > proper regression, the revert obsolete, or something like that, just
+> > mention it.
+> 
+> Thank you for the reminder. Hans, Mauro, this series seems to not have
+> been merged in the media fixes branch. Could you pick it up ?
 
-On Tue, 19 May 2026 at 13:20, Biju <biju.das.au@gmail.com> wrote:
-> From: Biju Das <biju.das.jz@bp.renesas.com>
->
-> Add device tree nodes for the three RSPI channels on the RZ/G3L
-> (R9A08G046) SoC.
->
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+I have sent a pull request:
 
-I spoke too soon...
+https://lore.kernel.org/linux-media/20260529102955.GA675012@killaraus.ideasonboard.com
 
-> --- a/arch/arm64/boot/dts/renesas/r9a08g046.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/r9a08g046.dtsi
-> @@ -442,6 +442,78 @@ rsci3: serial@100f3000 {
->                         status = "disabled";
->                 };
->
-> +               rspi0: spi@100b0000 {
-> +                       compatible = "renesas,r9a08g046-rspi";
-> +                       reg = <0 0x100b0000 0 0x400>;
-> +                       interrupts = <GIC_SPI 440 IRQ_TYPE_LEVEL_HIGH>,
-> +                                    <GIC_SPI 441 IRQ_TYPE_LEVEL_HIGH>,
-> +                                    <GIC_SPI 442 IRQ_TYPE_EDGE_RISING>,
-> +                                    <GIC_SPI 443 IRQ_TYPE_EDGE_RISING>,
-> +                                    <GIC_SPI 444 IRQ_TYPE_EDGE_RISING>;
-> +                       interrupt-names = "idle", "error", "end", "rx", "tx";
-> +                       clocks = <&cpg CPG_MOD R9A08G046_RSPI0_PCLK>,
-> +                                <&cpg CPG_MOD R9A08G046_RSPI0_TCLK>;
-> +                       clock-names = "pclk", "tclk";
-> +                       resets = <&cpg R9A08G046_RSPI0_PRESETN>,
-> +                                <&cpg R9A08G046_RSPI0_TRESETN>;
-> +                       reset-names = "presetn", "tresetn";
-> +                       dmas = <&dmac 0x26f2>, <&dmac 0x26f1>;
-> +                       dma-names = "rx", "tx";
-> +                       power-domains = <&cpg>;
-> +                       num-cs = <1>;
-
-Why specify this, and why one?
-The hardware has four, and the driver hardcodes four.
-
-> +                       #address-cells = <1>;
-> +                       #size-cells = <0>;
-> +                       status = "disabled";
-> +               };
-
-Gr{oetje,eeting}s,
-
-                        Geert
+> > > The original commit was meant to fix a v4l2-compliance failure, with no
+> > > known userspace applications being affected beside test tools. Reverting
+> > > is the simplest option, a more comprehensive fix can be developed (and
+> > > tested more thoroughly) later.
+> > > 
+> > > Reported-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > > Closes: https://lore.kernel.org/linux-media/CA+V-a8t481xuwava0nb7uY9CUPqFWZ_8EP0xrK3BgumP7HDcLg@mail.gmail.com
+> > > Fixes: 937f3e6b51f1 ("media: renesas: vsp1: brx: Fix format propagation")
+> > > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> > > ---
+> > >  drivers/media/platform/renesas/vsp1/vsp1_brx.c | 10 ++--------
+> > >  1 file changed, 2 insertions(+), 8 deletions(-)
+> > > 
+> > > diff --git a/drivers/media/platform/renesas/vsp1/vsp1_brx.c b/drivers/media/platform/renesas/vsp1/vsp1_brx.c
+> > > index b1a2c68e9944..9d93cb8b8e82 100644
+> > > --- a/drivers/media/platform/renesas/vsp1/vsp1_brx.c
+> > > +++ b/drivers/media/platform/renesas/vsp1/vsp1_brx.c
+> > > @@ -156,20 +156,14 @@ static int brx_set_format(struct v4l2_subdev *subdev,
+> > >  		compose->height = format->height;
+> > >  	}
+> > >  
+> > > -	/*
+> > > -	 * Propagate the format code to all pads, and the whole format to the
+> > > -	 * source pad.
+> > > -	 */
+> > > +	/* Propagate the format code to all pads. */
+> > >  	if (fmt->pad == BRX_PAD_SINK(0)) {
+> > >  		unsigned int i;
+> > >  
+> > > -		for (i = 0; i < brx->entity.source_pad; ++i) {
+> > > +		for (i = 0; i <= brx->entity.source_pad; ++i) {
+> > >  			format = v4l2_subdev_state_get_format(state, i);
+> > >  			format->code = fmt->format.code;
+> > >  		}
+> > > -
+> > > -		format = v4l2_subdev_state_get_format(state, i);
+> > > -		*format = fmt->format;
+> > >  	}
+> > >  
+> > >  done:
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+Regards,
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Laurent Pinchart
 
