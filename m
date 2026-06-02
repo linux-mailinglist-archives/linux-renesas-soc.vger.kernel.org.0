@@ -1,220 +1,176 @@
-Return-Path: <linux-renesas-soc+bounces-33415-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-33416-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id mDORKsixHmr7JAAAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-33415-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 02 Jun 2026 12:34:48 +0200
+	id iDscFiy2HmrZJgAAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-33416-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 02 Jun 2026 12:53:32 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D8CC62CADE
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 02 Jun 2026 12:34:48 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id AF27662CF88
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 02 Jun 2026 12:53:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 227063043C24
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Jun 2026 10:34:33 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 7B6943037E53
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Jun 2026 10:46:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A10553D6CAE;
-	Tue,  2 Jun 2026 10:34:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="c2MtEDF2"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 82C04367286;
+	Tue,  2 Jun 2026 10:46:00 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0BD523D6691
-	for <linux-renesas-soc@vger.kernel.org>; Tue,  2 Jun 2026 10:34:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-vk1-f178.google.com (mail-vk1-f178.google.com [209.85.221.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 291A8371056
+	for <linux-renesas-soc@vger.kernel.org>; Tue,  2 Jun 2026 10:45:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780396469; cv=none; b=MVKJUUhWmsDh5AZz9At9Kx528HHBRDyy4DyxsQ0wyUhQbk3uQ6T7O4tbftoPjift62T3Jqr+47U+RlJJ/Cn+5Ovm9Vjr/uPx29oe+mCCEOEHBhGrQWoW9ZIuUmTWFCmotfBj2+UvTaOqNbYXHUcwVzM6lTHe0e45JFj6OF9Xk8E=
+	t=1780397160; cv=none; b=GGuwkKxfDZU/XtleNWqcgWtB6bTn8w/XwfCnNv1A+C8O5B+KwDCNK41KmXGkxCdZR9tAfFrxJWdp8FhSlbgNn1Tizry7p9mkSNtas997MPcTTgk6BxPl8C33mlzCUX0Ps2F+g4m931uDvPYnudF/wBYe0dX+jaeLVbjexbD3d5E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780396469; c=relaxed/simple;
-	bh=sSLG3wXzMGkuchBhOWXlkifyhi6ZS+mT6rRQfEDVsGo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PMouLYlt94e+jAXybTULgiqKmijaNG95ak20NZC68UuA89/jPmI7r3/fgywIMxeqykGnyIFqmm8LsEjhBclcFr6gqn/ijupDyuhCCWbtpKiN3PV3+EJEM52SIYKB9yVDqN6heNPLuy68gcbx0c4aNOslfpMyZA6ZsYng4eUANzQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=c2MtEDF2; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7A27A2364
-	for <linux-renesas-soc@vger.kernel.org>; Tue,  2 Jun 2026 03:34:22 -0700 (PDT)
-Received: from [192.168.0.1] (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 2F0EA3F632
-	for <linux-renesas-soc@vger.kernel.org>; Tue,  2 Jun 2026 03:34:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1780396467; bh=sSLG3wXzMGkuchBhOWXlkifyhi6ZS+mT6rRQfEDVsGo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=c2MtEDF24NZMmzshFfswZKEHkPKTOhzvaJ64ZcCQuhwS4Rh9M+PExlxrceFjyRIPh
-	 B7nPj19iGjbzaZ1KjAY+iDzi3tn/MAC+fZF3fQi9RXNmXMVrIK7Jf/tRnc7HgEUfRV
-	 jOdTH8V/UAa6TrspOgEOj0wh0hAaiQt3P4KDg/Tg=
-Date: Tue, 2 Jun 2026 11:33:49 +0100
-From: Liviu Dudau <liviu.dudau@arm.com>
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>,
-	"Kandpal, Suraj" <suraj.kandpal@intel.com>,
-	Harry Wentland <harry.wentland@amd.com>,
-	Leo Li <sunpeng.li@amd.com>, Rodrigo Siqueira <siqueira@igalia.com>,
-	Alex Deucher <alexander.deucher@amd.com>,
-	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Rob Clark <robin.clark@oss.qualcomm.com>,
-	Dmitry Baryshkov <lumag@kernel.org>,
-	Abhinav Kumar <abhinav.kumar@linux.dev>,
-	Sean Paul <sean@poorly.run>,
-	Marijn Suijten <marijn.suijten@somainline.org>,
-	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
-	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	=?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>,
-	Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-	Jessica Zhang <jesszhan0024@gmail.com>,
-	Louis Chauvet <louis.chauvet@bootlin.com>,
-	amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	freedreno@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v5 4/8] drm/mali: use drmm_writeback_connector_init()
-Message-ID: <ah6xjR_vHhsXqvyI@e142607>
-References: <20260505-wb-drop-encoder-v5-0-42567b7c7af2@oss.qualcomm.com>
- <20260505-wb-drop-encoder-v5-4-42567b7c7af2@oss.qualcomm.com>
+	s=arc-20240116; t=1780397160; c=relaxed/simple;
+	bh=m2OLyRHEzfiH1If3842QvlE2x2DkDa+BCMu7OEfVKso=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=LguoLC3pcESYkcqSRmUG1mMvOZAXKl1afR7Mn4vbHWBgDW52W+e1Jq2dEP/DT+KOIQc27yfbLYA8YC1Ze3I0qcdjPS4TG+EpKazm7M7NPnYV4y9HroW2aFhv6ztnpr9qcHAFFJzUEyGNY9d4l8eH9h5vGzANS3dayyjZ6y8dze8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vk1-f178.google.com with SMTP id 71dfb90a1353d-59ccf81e6feso1092478e0c.2
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 02 Jun 2026 03:45:59 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780397158; x=1781001958;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=k13AOr7bxtlzRyNR5p/riJSVMmAVP/2fDxhyixHG370=;
+        b=GV7+A7/ajzzxoAids3bagpS0VsY8nWdMbBAwjGmhU3GWNrThMs/fs3x5YwsB8jWJl+
+         PZMlhigPEatsEtlxZYXZkX9Hhwy8E+JyaO3LmHuhRv4J2IYMBt8Ny0APKNr2IG3NpqSF
+         B7CNt5dBXbE+NPn8LbDG/LDpIjfFzxTTlWZRQM9kqlWQTZe/mzW04p9vBJ8unPUZwEoI
+         5JtTbXtKcsIOUGghqInTbRqx7t5wu2b/9ddHhH718uF8qhLBiaoio79ByfxVVSYDUGJH
+         9nxPVC0NxCI/cjlv3BW1WckY/1sRlmggp4YIIkQeBiW6khNtSS180qq2k0CPRa1oh/Cz
+         hi+Q==
+X-Gm-Message-State: AOJu0YwHglydTgbaAFrR5bv7zRH8S4JsDPNCc0iTu7dhFNPBd98Dzvx8
+	ZOr+ga1k9t0XhJ47QoChmq3PBrIYdWpbUrDJmRDDSNJMb+ItT6snlu60g/W6kip4
+X-Gm-Gg: Acq92OFejrDfQtA5j52pueEoEe3LLqDexaL2mHYNEzyqPpgUXtEq+EOkJwvSLcgqHTs
+	eaaDhFjUTCnJ5NZBwjipcwSXO9gmDJRlmKF59dQ/T/Qm3qOMtkmkuYcqU1/tB4s6UTk7iPbxlAW
+	kXrh9r49QzSNRTq7P9I2rg8QaZVYQ+aWkK/+iNFSVo8BYm3SI8OXjin/pVe4fSq+ybisZ7wI/BJ
+	WI73BXADf3u3aZPvzY20lXyOClmABFRBuQ6KrRB5BKMS4ze0b1sslEeQrvm5Ppr1jB+kQBGNPrk
+	0OXpTh3G4lyQAG627wzM5OpRDUD47X+y2RAzizb/4/2yOImdofl5Otqk/BDPz56gtynYGDTFy9R
+	t86NJWsUPkNgPX5aoxva/xNshN/iu9g7YlAQnKbzVY9UQNlPezeve/qm04GOqhRm9WvVyPTVFRI
+	ZZU+BtZApvE7wwcnhYxlYEbTDcafcXIUZzMr0tDR6xQ3jUSrpW5UGI3uKaU22xxkod2VI+/lWO0
+	fdde1tqGg==
+X-Received: by 2002:a05:6122:1e09:b0:575:24a9:78da with SMTP id 71dfb90a1353d-59bf52e4d02mr6326920e0c.11.1780397158187;
+        Tue, 02 Jun 2026 03:45:58 -0700 (PDT)
+Received: from mail-ua1-f43.google.com (mail-ua1-f43.google.com. [209.85.222.43])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-59b02af204esm9400788e0c.5.2026.06.02.03.45.56
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 02 Jun 2026 03:45:56 -0700 (PDT)
+Received: by mail-ua1-f43.google.com with SMTP id a1e0cc1a2514c-96387977596so2045121241.1
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 02 Jun 2026 03:45:56 -0700 (PDT)
+X-Received: by 2002:a67:f0cc:0:b0:6d4:ba3e:bf97 with SMTP id
+ ada2fe7eead31-6d4ba3ec953mr3380461137.4.1780397156313; Tue, 02 Jun 2026
+ 03:45:56 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260505-wb-drop-encoder-v5-4-42567b7c7af2@oss.qualcomm.com>
-X-Rspamd-Queue-Id: 2D8CC62CADE
+References: <20260530080340.24715-2-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20260530080340.24715-2-wsa+renesas@sang-engineering.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 2 Jun 2026 12:45:44 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdX8gGvjTPat-7=r3q-bXgQJU=A2DsDEPXZy6k20_JKx9w@mail.gmail.com>
+X-Gm-Features: AVHnY4L7BRTCvrScNJxSzK89y_cx_oaLMyrwYaCieTPGajQeUgjKit7WoEbSICA
+Message-ID: <CAMuHMdX8gGvjTPat-7=r3q-bXgQJU=A2DsDEPXZy6k20_JKx9w@mail.gmail.com>
+Subject: Re: [PATCH v2] arm64: renesas: r8a779g0: add MFIS node
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc: linux-renesas-soc@vger.kernel.org, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	devicetree@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Rspamd-Queue-Id: AF27662CF88
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.16 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-1.46 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[arm.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
-	R_DKIM_ALLOW(-0.20)[arm.com:s=foss];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-33415-lists,linux-renesas-soc=lfdr.de];
-	RCPT_COUNT_TWELVE(0.00)[35];
+	FREEMAIL_CC(0.00)[vger.kernel.org,glider.be,gmail.com,kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-33416-lists,linux-renesas-soc=lfdr.de];
+	FROM_HAS_DN(0.00)[];
+	DMARC_NA(0.00)[linux-m68k.org];
 	RCVD_TLS_LAST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[linux.intel.com,intel.com,amd.com,igalia.com,gmail.com,ffwll.ch,kernel.org,suse.de,oss.qualcomm.com,linux.dev,poorly.run,somainline.org,ideasonboard.com,glider.be,raspberrypi.com,wanadoo.fr,bootlin.com,lists.freedesktop.org,vger.kernel.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[liviu.dudau@arm.com,linux-renesas-soc@vger.kernel.org];
-	DKIM_TRACE(0.00)[arm.com:+];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[arm.com:dkim,arm.com:email,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,qualcomm.com:email,intel.com:email,bootlin.com:email]
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_SOME(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[geert@linux-m68k.org,linux-renesas-soc@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	RCVD_COUNT_FIVE(0.00)[6];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	R_DKIM_NA(0.00)[];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,dt];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sang-engineering.com:email,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,e6260000:email,mail.gmail.com:mid,e6460000:email,linux-m68k.org:email]
 X-Rspamd-Action: no action
 
-On Tue, May 05, 2026 at 03:25:01AM +0300, Dmitry Baryshkov wrote:
-> The driver uses drm_writeback_connector_init() instead of its drmm
-> counterpart, but it doesn't perform the job queue cleanup (neither
-> manually nor by calling drm_writeback_connector_cleanup()). On the
-> contrary, the drmm_writeback_connector_init() function ensures the
-> proper cleanup of the job queue.
-> 
-> Use drmm_plain_encoder_alloc() to allocate simple encoder and
-> drmm_writeback_connector_init() in order to initialize writeback
-> connector instance.
-> 
-> Reviewed-by: Suraj Kandpal <suraj.kandpal@intel.com>
-> Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Hi Wolfram,
 
-Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
+On Sat, 30 May 2026 at 10:03, Wolfram Sang
+<wsa+renesas@sang-engineering.com> wrote:
+> Describe the MFIS core which is used for various tasks including
+> inter-processor communication. Interrupt numbers look irregular but they
+> all work as expected on a Renesas R-Car V4H SparrowHawk board.
+>
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
-Best regards,
-Liviu
+Thanks for your patch!
 
-> ---
->  drivers/gpu/drm/arm/malidp_mw.c | 25 ++++++++++++++-----------
->  1 file changed, 14 insertions(+), 11 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/arm/malidp_mw.c b/drivers/gpu/drm/arm/malidp_mw.c
-> index fad343842038..6e0c78e998aa 100644
-> --- a/drivers/gpu/drm/arm/malidp_mw.c
-> +++ b/drivers/gpu/drm/arm/malidp_mw.c
-> @@ -84,11 +84,6 @@ malidp_mw_connector_detect(struct drm_connector *connector, bool force)
->  	return connector_status_connected;
->  }
->  
-> -static void malidp_mw_connector_destroy(struct drm_connector *connector)
-> -{
-> -	drm_connector_cleanup(connector);
-> -}
-> -
->  static struct drm_connector_state *
->  malidp_mw_connector_duplicate_state(struct drm_connector *connector)
->  {
-> @@ -114,7 +109,6 @@ static const struct drm_connector_funcs malidp_mw_connector_funcs = {
->  	.reset = malidp_mw_connector_reset,
->  	.detect = malidp_mw_connector_detect,
->  	.fill_modes = drm_helper_probe_single_connector_modes,
-> -	.destroy = malidp_mw_connector_destroy,
->  	.atomic_duplicate_state = malidp_mw_connector_duplicate_state,
->  	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
->  };
-> @@ -211,6 +205,7 @@ static u32 *get_writeback_formats(struct malidp_drm *malidp, int *n_formats)
->  int malidp_mw_connector_init(struct drm_device *drm)
->  {
->  	struct malidp_drm *malidp = drm_to_malidp(drm);
-> +	struct drm_encoder *encoder;
->  	u32 *formats;
->  	int ret, n_formats;
->  
-> @@ -224,11 +219,19 @@ int malidp_mw_connector_init(struct drm_device *drm)
->  	if (!formats)
->  		return -ENOMEM;
->  
-> -	ret = drm_writeback_connector_init(drm, &malidp->mw_connector,
-> -					   &malidp_mw_connector_funcs,
-> -					   &malidp_mw_encoder_helper_funcs,
-> -					   formats, n_formats,
-> -					   1 << drm_crtc_index(&malidp->crtc));
-> +	encoder = drmm_plain_encoder_alloc(drm, NULL, DRM_MODE_ENCODER_VIRTUAL,
-> +					   NULL);
-> +	if (IS_ERR(encoder))
-> +		return PTR_ERR(encoder);
+> --- a/arch/arm64/boot/dts/renesas/r8a779g0.dtsi
+> +++ b/arch/arm64/boot/dts/renesas/r8a779g0.dtsi
+> @@ -589,6 +589,23 @@ tmu4: timer@ffc00000 {
+>                         status = "disabled";
+>                 };
+>
+> +               mfis: system-controller@e6260000 {
+> +                       compatible = "renesas,r8a779g0-mfis";
+> +                       reg = <0 0xe6260000 0 0xf000>;
+
+Why 0xf000 and not 0x10000?
+
+> +                       reg-names = "common";
+> +                       interrupts = <GIC_SPI 123 IRQ_TYPE_LEVEL_HIGH>, <GIC_SPI 125 IRQ_TYPE_LEVEL_HIGH>,
+> +                                    <GIC_SPI 127 IRQ_TYPE_LEVEL_HIGH>, <GIC_SPI 129 IRQ_TYPE_LEVEL_HIGH>,
+> +                                    <GIC_SPI 916 IRQ_TYPE_LEVEL_HIGH>, <GIC_SPI 918 IRQ_TYPE_LEVEL_HIGH>,
+> +                                    <GIC_SPI 920 IRQ_TYPE_LEVEL_HIGH>, <GIC_SPI 922 IRQ_TYPE_LEVEL_HIGH>,
+> +                                    <GIC_SPI 131 IRQ_TYPE_LEVEL_HIGH>, <GIC_SPI 133 IRQ_TYPE_LEVEL_HIGH>,
+> +                                    <GIC_SPI 135 IRQ_TYPE_LEVEL_HIGH>, <GIC_SPI 137 IRQ_TYPE_LEVEL_HIGH>;
+> +                       interrupt-names = "ch0e",  "ch1e",  "ch2e",  "ch3e",  "ch4e",  "ch5e",  "ch6e",  "ch7e",  "ch8e",  "ch9e",
+
+This is way too longer for a single line, and the double spacing
+doesn't really help (yeah, it does align ch1e and ch11e...).
+
+> +                                         "ch10e", "ch11e";
+> +                       #hwlock-cells = <1>;
+> +                       #mbox-cells = <2>;
+> +                       status = "disabled";
+> +               };
 > +
-> +	drm_encoder_helper_add(encoder, &malidp_mw_encoder_helper_funcs);
-> +
-> +	encoder->possible_crtcs = drm_crtc_mask(&malidp->crtc);
-> +
-> +	ret = drmm_writeback_connector_init(drm, &malidp->mw_connector,
-> +					    &malidp_mw_connector_funcs,
-> +					    encoder,
-> +					    formats, n_formats);
->  	kfree(formats);
->  	if (ret)
->  		return ret;
-> 
-> -- 
-> 2.47.3
-> 
+>                 tsn0: ethernet@e6460000 {
+>                         compatible = "renesas,r8a779g0-ethertsn", "renesas,rcar-gen4-ethertsn";
+>                         reg = <0 0xe6460000 0 0x7000>,
+
+Gr{oetje,eeting}s,
+
+                        Geert
 
 -- 
-====================
-| I would like to |
-| fix the world,  |
-| but they're not |
-| giving me the   |
- \ source code!  /
-  ---------------
-    ¯\_(ツ)_/¯
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
