@@ -1,50 +1,50 @@
-Return-Path: <linux-renesas-soc+bounces-33414-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-33415-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 8KyyFJKxHmr7JAAAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-33414-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 02 Jun 2026 12:33:54 +0200
+	id mDORKsixHmr7JAAAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-33415-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 02 Jun 2026 12:34:48 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2F8A62CA85
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 02 Jun 2026 12:33:53 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D8CC62CADE
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 02 Jun 2026 12:34:48 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id BABCC304DAE5
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Jun 2026 10:33:17 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 227063043C24
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Jun 2026 10:34:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 98AEE36F8F0;
-	Tue,  2 Jun 2026 10:33:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A10553D6CAE;
+	Tue,  2 Jun 2026 10:34:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="tBDAILO/"
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="c2MtEDF2"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BD7683932D9
-	for <linux-renesas-soc@vger.kernel.org>; Tue,  2 Jun 2026 10:33:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0BD523D6691
+	for <linux-renesas-soc@vger.kernel.org>; Tue,  2 Jun 2026 10:34:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780396394; cv=none; b=Tf8alM2Yt6eYx1LwmMXOe6Mp66djIXcTW22qdIEPs4Gc0xWSstfZl5GQ4413DiLgGe+gEXVm5fXbpeSBMW+zhR+WwyksQ/CUHvj/OyiXwMu7pVm+z9j8JVy+c+8Griu20JJcrLVdGAp+VWqP9nrH36Ujv+/KMePCumbbBrJdEWA=
+	t=1780396469; cv=none; b=MVKJUUhWmsDh5AZz9At9Kx528HHBRDyy4DyxsQ0wyUhQbk3uQ6T7O4tbftoPjift62T3Jqr+47U+RlJJ/Cn+5Ovm9Vjr/uPx29oe+mCCEOEHBhGrQWoW9ZIuUmTWFCmotfBj2+UvTaOqNbYXHUcwVzM6lTHe0e45JFj6OF9Xk8E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780396394; c=relaxed/simple;
-	bh=iOHUK6brXgyIm879Y6Al2FeqYaz5id6uidKZL33WOWI=;
+	s=arc-20240116; t=1780396469; c=relaxed/simple;
+	bh=sSLG3wXzMGkuchBhOWXlkifyhi6ZS+mT6rRQfEDVsGo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bG+/2+lEVcSYmnmUvHUY0FGAJ6/SYcjy2xm8ubXGqwPvKK06187H3fFmDLp6p3P7yJU/T8Tye1V2naQf8eLkM694J6NTDQ/bAbXvZ06UEX2q2D2Z7MqrdE9dLp0pPnM3O1PNM/CG39a9J4OZD+Lh/apZeodiSyCJrszSff+1egk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=tBDAILO/; arc=none smtp.client-ip=217.140.110.172
+	 Content-Type:Content-Disposition:In-Reply-To; b=PMouLYlt94e+jAXybTULgiqKmijaNG95ak20NZC68UuA89/jPmI7r3/fgywIMxeqykGnyIFqmm8LsEjhBclcFr6gqn/ijupDyuhCCWbtpKiN3PV3+EJEM52SIYKB9yVDqN6heNPLuy68gcbx0c4aNOslfpMyZA6ZsYng4eUANzQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=c2MtEDF2; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E73821596
-	for <linux-renesas-soc@vger.kernel.org>; Tue,  2 Jun 2026 03:33:06 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7A27A2364
+	for <linux-renesas-soc@vger.kernel.org>; Tue,  2 Jun 2026 03:34:22 -0700 (PDT)
 Received: from [192.168.0.1] (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id A78D43F632
-	for <linux-renesas-soc@vger.kernel.org>; Tue,  2 Jun 2026 03:33:11 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 2F0EA3F632
+	for <linux-renesas-soc@vger.kernel.org>; Tue,  2 Jun 2026 03:34:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1780396391; bh=iOHUK6brXgyIm879Y6Al2FeqYaz5id6uidKZL33WOWI=;
+	t=1780396467; bh=sSLG3wXzMGkuchBhOWXlkifyhi6ZS+mT6rRQfEDVsGo=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=tBDAILO/jB5mp+zrux17V6Nw/Vm/CkawznXnHxoXqSTQPbe+qUJ708wY8Z/MG6nIO
-	 Sj57uqbpKdhYYtKQt2VkCzzKwe5tMkOLFsr5CbiyA/KAe1ajyH9YRZsNP93vFAMJa9
-	 tYMnHUh3bMgvMRV/6BSTdqJxIVIBuV+1qXb2zjsI=
-Date: Tue, 2 Jun 2026 11:32:32 +0100
+	b=c2MtEDF24NZMmzshFfswZKEHkPKTOhzvaJ64ZcCQuhwS4Rh9M+PExlxrceFjyRIPh
+	 B7nPj19iGjbzaZ1KjAY+iDzi3tn/MAC+fZF3fQi9RXNmXMVrIK7Jf/tRnc7HgEUfRV
+	 jOdTH8V/UAa6TrspOgEOj0wh0hAaiQt3P4KDg/Tg=
+Date: Tue, 2 Jun 2026 11:33:49 +0100
 From: Liviu Dudau <liviu.dudau@arm.com>
 To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 Cc: Jani Nikula <jani.nikula@linux.intel.com>,
@@ -76,10 +76,10 @@ Cc: Jani Nikula <jani.nikula@linux.intel.com>,
 	amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
 	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
 	freedreno@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v5 3/8] drm/komeda: use drmm_writeback_connector_init()
-Message-ID: <ah6xQEWemicF_ECc@e142607>
+Subject: Re: [PATCH v5 4/8] drm/mali: use drmm_writeback_connector_init()
+Message-ID: <ah6xjR_vHhsXqvyI@e142607>
 References: <20260505-wb-drop-encoder-v5-0-42567b7c7af2@oss.qualcomm.com>
- <20260505-wb-drop-encoder-v5-3-42567b7c7af2@oss.qualcomm.com>
+ <20260505-wb-drop-encoder-v5-4-42567b7c7af2@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -89,20 +89,20 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260505-wb-drop-encoder-v5-3-42567b7c7af2@oss.qualcomm.com>
-X-Rspamd-Queue-Id: C2F8A62CA85
+In-Reply-To: <20260505-wb-drop-encoder-v5-4-42567b7c7af2@oss.qualcomm.com>
+X-Rspamd-Queue-Id: 2D8CC62CADE
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.16 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	MID_RHS_NOT_FQDN(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[arm.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	R_DKIM_ALLOW(-0.20)[arm.com:s=foss];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-33414-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-33415-lists,linux-renesas-soc=lfdr.de];
 	RCPT_COUNT_TWELVE(0.00)[35];
 	RCVD_TLS_LAST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
@@ -116,13 +116,13 @@ X-Spamd-Result: default: False [-0.16 / 15.00];
 	FROM_NEQ_ENVFROM(0.00)[liviu.dudau@arm.com,linux-renesas-soc@vger.kernel.org];
 	DKIM_TRACE(0.00)[arm.com:+];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[arm.com:dkim,arm.com:email,intel.com:email,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,bootlin.com:email,qualcomm.com:email]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[arm.com:dkim,arm.com:email,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,qualcomm.com:email,intel.com:email,bootlin.com:email]
 X-Rspamd-Action: no action
 
-On Tue, May 05, 2026 at 03:25:00AM +0300, Dmitry Baryshkov wrote:
+On Tue, May 05, 2026 at 03:25:01AM +0300, Dmitry Baryshkov wrote:
 > The driver uses drm_writeback_connector_init() instead of its drmm
 > counterpart, but it doesn't perform the job queue cleanup (neither
 > manually nor by calling drm_writeback_connector_cleanup()). On the
@@ -143,81 +143,66 @@ Best regards,
 Liviu
 
 > ---
->  .../drm/arm/display/komeda/komeda_wb_connector.c   | 30 ++++++++++++----------
->  1 file changed, 17 insertions(+), 13 deletions(-)
+>  drivers/gpu/drm/arm/malidp_mw.c | 25 ++++++++++++++-----------
+>  1 file changed, 14 insertions(+), 11 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_wb_connector.c b/drivers/gpu/drm/arm/display/komeda/komeda_wb_connector.c
-> index 41cc3e080dc9..bcc53d4015f1 100644
-> --- a/drivers/gpu/drm/arm/display/komeda/komeda_wb_connector.c
-> +++ b/drivers/gpu/drm/arm/display/komeda/komeda_wb_connector.c
-> @@ -5,6 +5,7 @@
->   *
->   */
->  #include <drm/drm_framebuffer.h>
-> +#include <drm/drm_managed.h>
->  #include "komeda_dev.h"
->  #include "komeda_kms.h"
->  
-> @@ -121,17 +122,10 @@ komeda_wb_connector_fill_modes(struct drm_connector *connector,
->  	return 0;
+> diff --git a/drivers/gpu/drm/arm/malidp_mw.c b/drivers/gpu/drm/arm/malidp_mw.c
+> index fad343842038..6e0c78e998aa 100644
+> --- a/drivers/gpu/drm/arm/malidp_mw.c
+> +++ b/drivers/gpu/drm/arm/malidp_mw.c
+> @@ -84,11 +84,6 @@ malidp_mw_connector_detect(struct drm_connector *connector, bool force)
+>  	return connector_status_connected;
 >  }
 >  
-> -static void komeda_wb_connector_destroy(struct drm_connector *connector)
+> -static void malidp_mw_connector_destroy(struct drm_connector *connector)
 > -{
 > -	drm_connector_cleanup(connector);
-> -	kfree(to_kconn(to_wb_conn(connector)));
 > -}
 > -
->  static const struct drm_connector_funcs komeda_wb_connector_funcs = {
->  	.reset			= drm_atomic_helper_connector_reset,
->  	.detect			= komeda_wb_connector_detect,
->  	.fill_modes		= komeda_wb_connector_fill_modes,
-> -	.destroy		= komeda_wb_connector_destroy,
->  	.atomic_duplicate_state	= drm_atomic_helper_connector_duplicate_state,
->  	.atomic_destroy_state	= drm_atomic_helper_connector_destroy_state,
+>  static struct drm_connector_state *
+>  malidp_mw_connector_duplicate_state(struct drm_connector *connector)
+>  {
+> @@ -114,7 +109,6 @@ static const struct drm_connector_funcs malidp_mw_connector_funcs = {
+>  	.reset = malidp_mw_connector_reset,
+>  	.detect = malidp_mw_connector_detect,
+>  	.fill_modes = drm_helper_probe_single_connector_modes,
+> -	.destroy = malidp_mw_connector_destroy,
+>  	.atomic_duplicate_state = malidp_mw_connector_duplicate_state,
+>  	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
 >  };
-> @@ -143,13 +137,15 @@ static int komeda_wb_connector_add(struct komeda_kms_dev *kms,
->  	struct komeda_wb_connector *kwb_conn;
->  	struct drm_writeback_connector *wb_conn;
->  	struct drm_display_info *info;
+> @@ -211,6 +205,7 @@ static u32 *get_writeback_formats(struct malidp_drm *malidp, int *n_formats)
+>  int malidp_mw_connector_init(struct drm_device *drm)
+>  {
+>  	struct malidp_drm *malidp = drm_to_malidp(drm);
 > +	struct drm_encoder *encoder;
-> +
->  	u32 *formats, n_formats = 0;
->  	int err;
+>  	u32 *formats;
+>  	int ret, n_formats;
 >  
->  	if (!kcrtc->master->wb_layer)
->  		return 0;
->  
-> -	kwb_conn = kzalloc_obj(*kwb_conn);
-> +	kwb_conn = drmm_kzalloc(&kms->base, sizeof(*kwb_conn), GFP_KERNEL);
->  	if (!kwb_conn)
+> @@ -224,11 +219,19 @@ int malidp_mw_connector_init(struct drm_device *drm)
+>  	if (!formats)
 >  		return -ENOMEM;
 >  
-> @@ -165,11 +161,19 @@ static int komeda_wb_connector_add(struct komeda_kms_dev *kms,
->  		return -ENOMEM;
->  	}
->  
-> -	err = drm_writeback_connector_init(&kms->base, wb_conn,
-> -					   &komeda_wb_connector_funcs,
-> -					   &komeda_wb_encoder_helper_funcs,
+> -	ret = drm_writeback_connector_init(drm, &malidp->mw_connector,
+> -					   &malidp_mw_connector_funcs,
+> -					   &malidp_mw_encoder_helper_funcs,
 > -					   formats, n_formats,
-> -					   BIT(drm_crtc_index(&kcrtc->base)));
-> +	encoder = drmm_plain_encoder_alloc(&kms->base, NULL,
-> +					   DRM_MODE_ENCODER_VIRTUAL, NULL);
+> -					   1 << drm_crtc_index(&malidp->crtc));
+> +	encoder = drmm_plain_encoder_alloc(drm, NULL, DRM_MODE_ENCODER_VIRTUAL,
+> +					   NULL);
 > +	if (IS_ERR(encoder))
 > +		return PTR_ERR(encoder);
 > +
-> +	drm_encoder_helper_add(encoder, &komeda_wb_encoder_helper_funcs);
+> +	drm_encoder_helper_add(encoder, &malidp_mw_encoder_helper_funcs);
 > +
-> +	encoder->possible_crtcs = drm_crtc_mask(&kcrtc->base);
+> +	encoder->possible_crtcs = drm_crtc_mask(&malidp->crtc);
 > +
-> +	err = drmm_writeback_connector_init(&kms->base, wb_conn,
-> +					    &komeda_wb_connector_funcs,
+> +	ret = drmm_writeback_connector_init(drm, &malidp->mw_connector,
+> +					    &malidp_mw_connector_funcs,
 > +					    encoder,
 > +					    formats, n_formats);
->  	komeda_put_fourcc_list(formats);
->  	if (err) {
->  		kfree(kwb_conn);
+>  	kfree(formats);
+>  	if (ret)
+>  		return ret;
 > 
 > -- 
 > 2.47.3
