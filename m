@@ -1,39 +1,39 @@
-Return-Path: <linux-renesas-soc+bounces-33411-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-33412-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id CHWGAduWHmrPlAkAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-33411-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 02 Jun 2026 10:39:55 +0200
+	id UAqBATmVHmrPlAkAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-33412-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 02 Jun 2026 10:32:57 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C63162AB4C
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 02 Jun 2026 10:39:54 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id D2EE862A95B
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 02 Jun 2026 10:32:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id DAB1130048C3
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Jun 2026 08:32:35 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 6669F3011A74
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Jun 2026 08:32:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E97F7384CF6;
-	Tue,  2 Jun 2026 08:32:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 773743B8959;
+	Tue,  2 Jun 2026 08:32:49 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D92E53B38B7;
-	Tue,  2 Jun 2026 08:32:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AF1B3BED27;
+	Tue,  2 Jun 2026 08:32:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780389154; cv=none; b=LTYNL7+grPC1281z6vOuZextq1p/ydGmGuhl6EInt0jjriAV9Ou0w++7G6b9sn8ELfCw9d2bvgOhRsOKgPoYnesgfjbILlSKn4+EtO0IzvYHw6pB0q8oVxqVbbN8yoMVoSk3qiBUS7vBCQ/p+Av9wEk3RhSo0sT6LM1erCzYNdw=
+	t=1780389169; cv=none; b=jsKadxZDj5TMliOPuUDx7GKjNzvJsxXpjzia4qAzxeo27DzkOL4BC0FgW5YnxmZ/tta/RT3ZolZgXXR5mLwGJjmBcuZdrKLP3QUbQxlyVAE4TB8OUtSduxoePlWBVWVB0LqqPzi3+oIdULTnRam5pnPL82PCXit0gZEh/IB0npY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780389154; c=relaxed/simple;
-	bh=ndHGN0UXh11XcWnTob2TUzx8bQhOe3x9CAkDAynTgZ8=;
+	s=arc-20240116; t=1780389169; c=relaxed/simple;
+	bh=qqNCKMAaLr1HTwbzbmS2abAsUQROgPJ8wtz5nvzKm1c=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=NJySaSFtN4FEJ9vyPcCQTXmhoUjZpcpezAHo7ZIy35r63UVrA3muQkGrjYo1qtMl9ygt4peC6KxZ6cShAzg0WN8yhe0ih4ONFeHj97cmiuAJO8jWsNA5tuHrL3RO8ylVFTJ9FrgdV9HKb2Sx89p5dhaZLzuIB7MVZ/3dF/N+8sU=
+	 In-Reply-To:Content-Type; b=AbHkfvjyHOJkYI3BVggxYwIS3jbVsfr97oGKw0KAEaxVbXfP7v3iDjdr+mQokHGGTlvqMUWt4LknuhRvMy44DkCO6Gn55j4AKGFYxAZX7GdmugexKKeJWuV8A5++RDDFAwbhuYi8LERPOeHT18IYdp1T+6xL6vP8KwYqslfcVNA=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D7731F00893;
-	Tue,  2 Jun 2026 08:32:31 +0000 (UTC)
-Message-ID: <4fc2bc34-18c9-48ea-bf7e-fc12117f6ed3@tuxon.dev>
-Date: Tue, 2 Jun 2026 11:32:30 +0300
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 85E2D1F00893;
+	Tue,  2 Jun 2026 08:32:45 +0000 (UTC)
+Message-ID: <6f5be8ea-f89a-496d-a285-11a7cd3e42c7@tuxon.dev>
+Date: Tue, 2 Jun 2026 11:32:44 +0300
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -41,8 +41,8 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/5] rtc: renesas-rtca3: Fix incorrect error message for
- reset assert
+Subject: Re: [PATCH 4/5] rtc: renesas-rtca3: Fix typo in rtca3_ppb_per_cycle
+ documentation
 To: Prabhakar <prabhakar.csengg@gmail.com>,
  Alexandre Belloni <alexandre.belloni@bootlin.com>,
  Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
@@ -52,20 +52,20 @@ Cc: linux-rtc@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
  Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
  Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 References: <20260506164914.3987293-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20260506164914.3987293-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20260506164914.3987293-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Language: en-US
 From: Claudiu Beznea <claudiu.beznea@tuxon.dev>
-In-Reply-To: <20260506164914.3987293-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20260506164914.3987293-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Spamd-Result: default: False [0.04 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-33411-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-33412-lists,linux-renesas-soc=lfdr.de];
 	FROM_HAS_DN(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
@@ -79,13 +79,13 @@ X-Spamd-Result: default: False [0.04 / 15.00];
 	NEURAL_HAM(-0.00)[-1.000];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[claudiu.beznea@tuxon.dev,linux-renesas-soc@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
 	R_DKIM_NA(0.00)[];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCPT_COUNT_SEVEN(0.00)[10];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tuxon.dev:mid,renesas.com:email,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
-X-Rspamd-Queue-Id: 8C63162AB4C
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo,tuxon.dev:mid,renesas.com:email]
+X-Rspamd-Queue-Id: D2EE862A95B
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
@@ -94,8 +94,8 @@ X-Rspamd-Server: lfdr
 On 5/6/26 19:49, Prabhakar wrote:
 > From: Lad Prabhakar<prabhakar.mahadev-lad.rj@bp.renesas.com>
 > 
-> Update the message to "assert reset" to accurately reflect the
-> operation being performed.
+> Correct a typo in the kernel-doc comment for struct
+> rtca3_ppb_per_cycle by fixing "adjutment" to "adjustment".
 > 
 > Signed-off-by: Lad Prabhakar<prabhakar.mahadev-lad.rj@bp.renesas.com>
 
