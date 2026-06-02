@@ -1,79 +1,79 @@
-Return-Path: <linux-renesas-soc+bounces-33452-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-33451-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id H+STImI0H2raigAAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-33452-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 02 Jun 2026 21:52:02 +0200
+	id BB+dDlc0H2rYigAAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-33451-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 02 Jun 2026 21:51:51 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id E39FF6318DE
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 02 Jun 2026 21:52:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDD906318D5
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 02 Jun 2026 21:51:50 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=gmail.com header.s=20251104 header.b=PNnZCnSZ;
-	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-33452-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-33452-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=gmail.com header.s=20251104 header.b=M70HasNR;
+	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-33451-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-33451-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=none) header.from=gmail.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 8D2D23034661
+	by sea.lore.kernel.org (Postfix) with ESMTP id 237AD3024A56
 	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Jun 2026 19:50:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2020A372ECB;
-	Tue,  2 Jun 2026 19:50:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 711D237B41B;
+	Tue,  2 Jun 2026 19:50:31 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E93C92853E0
-	for <linux-renesas-soc@vger.kernel.org>; Tue,  2 Jun 2026 19:50:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF0653537FE
+	for <linux-renesas-soc@vger.kernel.org>; Tue,  2 Jun 2026 19:50:27 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780429831; cv=none; b=rtpvzyNfWgxUcLxvSpWGzqJyaxYKC1Lr9JmlVMvu0lz1oDBV7WmrGpTdNuZX9CpseuxD2nY8iPsK3T5+HeBX8b8EEQjE4DrFuOqD9E6UWfsNJRhysL1Xo0bzzMJC0HqpCRAN8iU30mBwcSHCB+nmQjAnkLe4Ad/lx3Lxt/zVt/U=
+	t=1780429831; cv=none; b=sRRHr34ctfgYfVWDPdQQQBqXKIj0g846Cs6DHWxrIGah5AjkJh6AVlQD5cGjN5ix+Vqnp+Gzr2JiorM86Z//67JMW1X3+gT/njy3m6M20kGMm+KbKOccEsfZRoZoBCnfebRmWEEjBmQrAvKQFGDsyzjWNiFBg6H16C3Ys4uFpi8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1780429831; c=relaxed/simple;
-	bh=ICsOPPnxezUsTeLqn0LswfluUIrWBBXoACSLyfd4mJM=;
+	bh=caT2SiyFRVe1tQnApula+Tg1pRxT4kUa1c+sMzr3lwQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=IFlp/TdNOuFDUltBK+DMLOYwP+Kz7QT1Lj22FdB/dY5RjxaSu7+x8eR5qWLxdMdUkH9u+VMRT7iZhzabPsYE3M4mNSyvf+og4j+4CZFSF+aDw54O+YVI+6kVcZkmQYcNVnJKFdEHb9BQgerHIMgBOFxU+i7LNGMheZBkZLpTUdw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PNnZCnSZ; arc=none smtp.client-ip=209.85.128.41
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4903997fcb5so120622435e9.2
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 02 Jun 2026 12:50:26 -0700 (PDT)
+	 MIME-Version; b=piy+SqvHFMGN3XVmASzdoVYdlYrtjlM7RVsV2oJSU+mIIT574YpipVNluzgodez0t4t0p8bIJ1lyN/GFqxgfjXAb/SI8a5IEwMyQld4YskGxwflFH31jJ6P8/nYzrwz1MlBDwlGsDwE0GATk/ERhBua4ZMsf1FfxOtB8Fl1n4Q8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=M70HasNR; arc=none smtp.client-ip=209.85.128.54
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4903997fcb5so120622605e9.2
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 02 Jun 2026 12:50:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780429825; x=1781034625; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1780429826; x=1781034626; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ZYXbG4suH7pFw0IrR422TpDoJXmZjD7Z4NW2wPRZuB8=;
-        b=PNnZCnSZUZJCqguLnv3g3BQ4UAjf1JPFev/n5LqI2oKMFezB4q/wXw7sfvj0kLu2w3
-         i9U8RrKJmFwkWncF5JMzWGwnRy5YM3sBnjay7cgqcuTW8BDA23MJILtG9PunEuct0uw/
-         c4YGWB+zUS9ORS2DEXz7AX7odQaQeOn+RPqLHUD4TowKekH7UfW9bwn/2fq+r8guiUQY
-         x66IayqvwyWy7l1t/pX0rSXTOhdGp264RV9p6mm2Xi7OAmC2kX2Yc4dTiRn7KVwThjxf
-         SCGavamo2CGzFyT+UztAP1zLQsCn6kU9wqzcVCWld7ODRJU6WTnGqMi2nHGUpUNXbRr7
-         c7aA==
+        bh=xjilDvsFAgDJCrCqQ2GjmgGRXnCNlPL3o8T3tdVudnQ=;
+        b=M70HasNRsP2BYDeScyP4cInCOF54UeFuAJp1plKuabNPp8ToTgzp6UK9IDf7/s2fnU
+         9sE18UZJApkYfIk2vpgrOZwcsI9v8e7j2/sjUhWy0hK+YlBZVs2HtZzYPsKp+hLvMUA5
+         J7EedlTxfoWBx27PN6dN4vre2l7Z9KH1rwM2LMXSkdsQMBxQDC/XxcuB1LNQvTSvjJmO
+         qfDiRcD9pVEZVsiim4KDEYXzHZscsqMXSQnaQvxPrllscCnTK3HCe6F77d8qUQ7z8/w3
+         p9GarzFOkADnXv+i4x1AHi0p6UZUy5+mt4QWVOjzPmcz8GyvyJG+z9gBpdpTr/5A5hQz
+         Z4jg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780429825; x=1781034625;
+        d=1e100.net; s=20251104; t=1780429826; x=1781034626;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=ZYXbG4suH7pFw0IrR422TpDoJXmZjD7Z4NW2wPRZuB8=;
-        b=DW2BwnUIRQy6ET69RfgoZWla97AcvbvVOv2HWjhdJO768V37QppHwmEgmSz+swC3al
-         UmSdoDjuOlhJDe5f/+XqSDISfQUzeBNlCOAzGQ/uR+n96aQUyq5yMRIgt5b3qjMT+OeQ
-         uDlz3MsO8uEcudJ8Z7wiTQQK+fs7Q0PYRS6mTKJYEC6PM0CQkDaqBbPEvP/OIlf7Vdj1
-         KudqJ5hxmh1wRg5uquIeHznfxkgA944WK/FvcqgJFO+Rp1XILuQNzgQF74bGaQKGnqyP
-         rstHC0OpyvLxJT8pFudu97lyRkI61ZiyUBElI+wY/b3oIyv/hvcVtrsR9wuqnzcmqBmC
-         D78A==
-X-Gm-Message-State: AOJu0YxooGagE1K1S9oBWqeRmvRDO09HdmhBDdcZ0E21gNO9urCmlfVE
-	8ZokjkYkVOVbS8pmmrAA/GyUB65D33/6PKBxwz+WlKmDXdfE1N5FiQRt
-X-Gm-Gg: Acq92OHnZn937sV8/lm4DJMEAmq8V2rMphBffEgYwXGdl9jjzd1ItySWoqu642FoOjR
-	xtnr10psTVCl+Q5WPB/PUDtur0HjC13Fyp0dGveVQpfigw21pLQlgcibwyEXYb6lQPXuM0wk1nH
-	S64eokRVnh5TxqAJM1Ssh9GV2BzELJvisimDynK+dePsOt8KeYwe2O/cGYyFD4PJ80IFN7SDnZh
-	4ULTHkn+Or/ciAfvCdKxK73bJv+MIwl2q1CqSmS5s6qzx8wdMgxF0BU4Uwdjm7K1KBELvNxZ1td
-	Yd4Q+bFPkJzPdfx7KeBU88F8NzOaJtYMrT6g6BtIcZL5/WXoVa6Z05s2bj73Y8OsVTVvzJUuRpB
-	gpCwQ+i4bIx/7//MKAn789SY5ty1BJpIA27Dj+cdgWcUcI6UwcJoLEL1sAQxT/nZU4veZY7T2fT
-	8W839r8CEqSNYygbgcdKZveQcl0Xd5gFqmvaua5h7+H6Xtv5uhX2kSa2TCICzIssNAzdVz+3nXC
-	qyD7naDhTk0jB+r+m7Dadf0xmvM1rBIJBekpUfmCJE8yiKezqBau6v2
-X-Received: by 2002:a05:600c:a49:b0:490:b3e7:4614 with SMTP id 5b1f17b1804b1-490b5e64ac8mr3939265e9.25.1780429825427;
-        Tue, 02 Jun 2026 12:50:25 -0700 (PDT)
+        bh=xjilDvsFAgDJCrCqQ2GjmgGRXnCNlPL3o8T3tdVudnQ=;
+        b=qhDayCzVxYOZn6msusNh8ZoU8oIlDOu0ATL/ulkwwJc6g1xZGZlgb+zOp/BDe10da4
+         Rmuk083XvBWQ/AxKfP9MkTkQ15PDWpLqvSprEj7/f0VL51OBtcbkpuskL5iZZ9W2PgzK
+         FAb4ylwjwT6Ic5sNCnjfJZeTQIYTn7bTLZFnfp67CkYfCwt3a3CNOaTC/ngVGM1MFcUN
+         P0lQj1iAYOFfl86pktGJoBJ0qtz0dU7TVs1PEsuhfeYe6lrSo+tsAiNWENKuMopiXl5n
+         kgIc7wCVlOB0lkrlb0vCE/JqfgQyx47EXmRIBJhfr3V9hpqeo+pxTk088zPOcKP7INLy
+         j3lA==
+X-Gm-Message-State: AOJu0YzykwROEmMFXwMtQnwimzkfa6xtZCGk+MSKuIMDfHF3ciEqacGY
+	D/EN3JFSpeBhDP8B4iP/v9Y97l1uIFoG9nllagsnTzudRnJBXRxwUWJl
+X-Gm-Gg: Acq92OHi1LPejerXuLEiPwbl2314eb8y0A/4M2NtVbdt8sms+wBKuf5T5qj5kMc/R7h
+	5h7Cr1bvPLWO8k18aUTHjg3NR1p+rmOHV7bQFb4wWbMoMELNTpdbNpGiWCjVlRMzYMiMRzl0Stu
+	dt+Ms+MmlqVMF9LnEu5LsDPY07pEYbDViSGn/rl2wKMMmww3fpvznxP0BDkdsR0Y/vQwO6luZtI
+	sSWHaiCK5ynnkTW92lAlcvs+maFtsf+KddkvAHwULWta+oLPxf44N/wUPocNx70PF9qB6pw8Mch
+	GKCW+rFDuWyb/EcM5T9SdSkpC/cVG9/7gdbD41RHY7eNi2m7JiW503fk7pFgb+GHp4Dw4z64trW
+	nH8pXrjyPn8/bywfOpcWVjd9yYqPS3y9rcaD8FUeS/JwSV/kmMF801v9nvhKiRdo9aTJqzLKxgo
+	al/4eif4VDTOhAJzD71j+jIjpi4xsS+pLUqSG+nd/OCzF9VIrHsqWMRbCVhfy/woYjoojvyNgQn
+	35hdCZLTY6RNJjQqVH8DDiMfVvYQHnCRc8rZtxwRb68Eq3Nsq2w4KEu
+X-Received: by 2002:a05:600c:810c:b0:490:afc5:f95d with SMTP id 5b1f17b1804b1-490b5e82e89mr4565035e9.29.1780429826082;
+        Tue, 02 Jun 2026 12:50:26 -0700 (PDT)
 Received: from iku.example.org ([2a06:5906:61b:2d00:5ef:9913:4a77:3bcf])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-490b0e13eefsm87353395e9.2.2026.06.02.12.50.24
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-490b0e13eefsm87353395e9.2.2026.06.02.12.50.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Tue, 02 Jun 2026 12:50:25 -0700 (PDT)
 From: Prabhakar <prabhakar.csengg@gmail.com>
@@ -97,9 +97,9 @@ Cc: linux-renesas-soc@vger.kernel.org,
 	Biju Das <biju.das.jz@bp.renesas.com>,
 	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
 	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v4 2/4] PCI: rzg3s-host: Use shared reset controls for power domain resets
-Date: Tue,  2 Jun 2026 20:50:17 +0100
-Message-ID: <20260602195019.1798126-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH v4 3/4] PCI: rzg3s-host: Prepare System Controller handling for multiple controllers
+Date: Tue,  2 Jun 2026 20:50:18 +0100
+Message-ID: <20260602195019.1798126-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20260602195019.1798126-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 References: <20260602195019.1798126-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
@@ -123,7 +123,7 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-33452-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-33451-lists,linux-renesas-soc=lfdr.de];
 	FREEMAIL_TO(0.00)[bp.renesas.com,kernel.org,google.com,pengutronix.de,glider.be,gmail.com,vger.kernel.org];
 	FORGED_SENDER(0.00)[prabhakarcsengg@gmail.com,linux-renesas-soc@vger.kernel.org];
 	RCPT_COUNT_TWELVE(0.00)[19];
@@ -148,13 +148,23 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[bp.renesas.com:mid,renesas.com:email,vger.kernel.org:from_smtp,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: E39FF6318DE
+X-Rspamd-Queue-Id: BDD906318D5
 
 From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Switch to shared reset controls for PCIe power resets to prepare for
-RZ/V2H(P) support. On this platform, multiple PCIe controllers share
-the same reset line, requiring shared ownership of the reset control.
+Prepare the driver to handle multiple PCIe controllers with distinct
+System Controller (SYSC) register sets, as required by RZ/V2H(P). The
+current design stores a single sysc_info structure per SoC, which is
+insufficient for multi-controller configurations.
+
+Introduce controller identifiers and extend struct rzg3s_pcie_soc_data
+to hold a sysc_info array indexed per PCIe controller. Add a
+controller_id field to struct rzg3s_pcie_host and select the appropriate
+System Controller information during probe based on the hardware
+instance.
+
+Keep existing single-controller SoCs functionally unchanged while
+preparing the driver for RZ/V2H(P) multi-controller support.
 
 Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Reviewed-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
@@ -167,28 +177,120 @@ v2->v3:
 - No change.
 
 v1->v2:
+- Renamed RZG3S_PCIE_CHANNEL_ID* to RZG3S_PCIE_CONTROLLER_ID* for clarity.
 - Updated commit message.
 ---
- drivers/pci/controller/pcie-rzg3s-host.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/pci/controller/pcie-rzg3s-host.c | 48 ++++++++++++++++--------
+ 1 file changed, 33 insertions(+), 15 deletions(-)
 
 diff --git a/drivers/pci/controller/pcie-rzg3s-host.c b/drivers/pci/controller/pcie-rzg3s-host.c
-index d86e7516dcc2..a5192e4b58df 100644
+index a5192e4b58df..edb49af7429a 100644
 --- a/drivers/pci/controller/pcie-rzg3s-host.c
 +++ b/drivers/pci/controller/pcie-rzg3s-host.c
-@@ -1276,9 +1276,9 @@ static int rzg3s_pcie_resets_prepare_and_get(struct rzg3s_pcie_host *host)
- 	for (i = 0; i < data->num_cfg_resets; i++)
- 		host->cfg_resets[i].id = data->cfg_resets[i];
+@@ -241,6 +241,18 @@ struct rzg3s_pcie_msi {
+ 	int irq;
+ };
  
--	ret = devm_reset_control_bulk_get_exclusive(host->dev,
--						    data->num_power_resets,
--						    host->power_resets);
-+	ret = devm_reset_control_bulk_get_shared(host->dev,
-+						 data->num_power_resets,
-+						 host->power_resets);
- 	if (ret)
- 		return ret;
++/**
++ * enum rzg3s_pcie_controller_id - RZ/G3S PCIe controller IDs
++ * @RZG3S_PCIE_CONTROLLER_ID_0: PCIe controller 0
++ * @RZG3S_PCIE_CONTROLLER_ID_1: PCIe controller 1
++ * @RZG3S_PCIE_CONTROLLER_ID_MAX: Max PCIe controllers
++ */
++enum rzg3s_pcie_controller_id {
++	RZG3S_PCIE_CONTROLLER_ID_0,
++	RZG3S_PCIE_CONTROLLER_ID_1,
++	RZG3S_PCIE_CONTROLLER_ID_MAX,
++};
++
+ struct rzg3s_pcie_host;
  
+ /**
+@@ -253,7 +265,7 @@ struct rzg3s_pcie_host;
+  *                power-on
+  * @cfg_resets: array with the resets that need to be de-asserted after
+  *              configuration
+- * @sysc_info: SYSC info
++ * @sysc_info: System Controller info for each controller
+  * @num_power_resets: number of power resets
+  * @num_cfg_resets: number of configuration resets
+  */
+@@ -264,7 +276,7 @@ struct rzg3s_pcie_soc_data {
+ 	int (*config_deinit)(struct rzg3s_pcie_host *host);
+ 	const char * const *power_resets;
+ 	const char * const *cfg_resets;
+-	struct rzg3s_sysc_info sysc_info;
++	struct rzg3s_sysc_info sysc_info[RZG3S_PCIE_CONTROLLER_ID_MAX];
+ 	u8 num_power_resets;
+ 	u8 num_cfg_resets;
+ };
+@@ -296,6 +308,7 @@ struct rzg3s_pcie_port {
+  * @hw_lock: lock for access to the HW resources
+  * @intx_irqs: INTx interrupts
+  * @max_link_speed: maximum supported link speed
++ * @controller_id: PCIe controller identifier, used for System Controller access
+  */
+ struct rzg3s_pcie_host {
+ 	void __iomem *axi;
+@@ -311,6 +324,7 @@ struct rzg3s_pcie_host {
+ 	raw_spinlock_t hw_lock;
+ 	int intx_irqs[PCI_NUM_INTX];
+ 	int max_link_speed;
++	enum rzg3s_pcie_controller_id controller_id;
+ };
+ 
+ #define rzg3s_msi_to_host(_msi)	container_of(_msi, struct rzg3s_pcie_host, msi)
+@@ -1698,7 +1712,7 @@ static int rzg3s_pcie_probe(struct platform_device *pdev)
+ 		return -ENOMEM;
+ 
+ 	sysc = host->sysc;
+-	sysc->info = &host->data->sysc_info;
++	sysc->info = &host->data->sysc_info[host->controller_id];
+ 
+ 	host->axi = devm_platform_ioremap_resource(pdev, 0);
+ 	if (IS_ERR(host->axi))
+@@ -1891,10 +1905,12 @@ static const struct rzg3s_pcie_soc_data rzg3s_soc_data = {
+ 	.config_deinit = rzg3s_pcie_config_deinit,
+ 	.init_phy = rzg3s_soc_pcie_init_phy,
+ 	.sysc_info = {
+-		.functions = {
+-			[RZG3S_SYSC_FUNC_ID_RST_RSM_B] = {
+-				.offset = 0xd74,
+-				.mask = BIT(0),
++		[RZG3S_PCIE_CONTROLLER_ID_0] = {
++			.functions = {
++				[RZG3S_SYSC_FUNC_ID_RST_RSM_B] = {
++					.offset = 0xd74,
++					.mask = BIT(0),
++				},
+ 			},
+ 		},
+ 	},
+@@ -1909,14 +1925,16 @@ static const struct rzg3s_pcie_soc_data rzg3e_soc_data = {
+ 	.config_post_init = rzg3e_pcie_config_post_init,
+ 	.config_deinit = rzg3e_pcie_config_deinit,
+ 	.sysc_info = {
+-		.functions = {
+-			[RZG3S_SYSC_FUNC_ID_L1_ALLOW] = {
+-				.offset = 0x1020,
+-				.mask = BIT(0),
+-			},
+-			[RZG3S_SYSC_FUNC_ID_MODE] = {
+-				.offset = 0x1024,
+-				.mask = BIT(0),
++		[RZG3S_PCIE_CONTROLLER_ID_0] = {
++			.functions = {
++				[RZG3S_SYSC_FUNC_ID_L1_ALLOW] = {
++					.offset = 0x1020,
++					.mask = BIT(0),
++				},
++				[RZG3S_SYSC_FUNC_ID_MODE] = {
++					.offset = 0x1024,
++					.mask = BIT(0),
++				},
+ 			},
+ 		},
+ 	},
 -- 
 2.54.0
 
