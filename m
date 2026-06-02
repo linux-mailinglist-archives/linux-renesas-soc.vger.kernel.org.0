@@ -1,189 +1,228 @@
-Return-Path: <linux-renesas-soc+bounces-33429-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-33430-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id IMTuL0bXHmodVwAAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-33429-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 02 Jun 2026 15:14:46 +0200
+	id h6v2NG3cHmrjWQAAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-33430-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 02 Jun 2026 15:36:45 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B43E62E5EE
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 02 Jun 2026 15:14:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7246B62E8D1
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 02 Jun 2026 15:36:45 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=gmail.com header.s=20251104 header.b=MvWJ3mfB;
-	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-33429-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 172.232.135.74 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-33429-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=gmail.com;
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=cWxipr1D;
+	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-33430-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 172.232.135.74 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-33430-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=quarantine) header.from=kernel.org;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 88781301AA6F
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Jun 2026 13:13:40 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 7F5373093E57
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Jun 2026 13:31:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 085793E008F;
-	Tue,  2 Jun 2026 13:13:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 16D2D3E2768;
+	Tue,  2 Jun 2026 13:30:54 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A95DC3D1A86
-	for <linux-renesas-soc@vger.kernel.org>; Tue,  2 Jun 2026 13:13:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6E03233941;
+	Tue,  2 Jun 2026 13:30:52 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780406016; cv=none; b=W1DD9I8e/K2OJKuRy/X0fi3NysP0Bj+WVsZvGIJcz5cF/kCmmIbFR/xm4T0gs61ZtTHswCSHkJApuVbZw8kbxLK3OFBk76KxuxHqec9HTmFao4NX+PTmVNQyFvo3i0lf0Q8A02frvRHNyLw3++WAKIlMeCPOPXfl1CUY5YzRQVk=
+	t=1780407054; cv=none; b=i4mFyqlV4VWuZgAJABEttyBatww1cN+FnBWaKqpqk9D1I2QA3qwnBRbtGB35lY2y/qnmHbME0jsH8+FRL5kwXomxvrGa+pdwrWn0KuWimya1OHSYoh5mjojHwnfzyKQwhqo5SmOlVNk3X33qNG8C8uDIv+0TC2MV39wJUP3SJiM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780406016; c=relaxed/simple;
-	bh=eWPy+VzuovJm+ElD2gK6/fOIlHy+EasXmbIJDRlJmhw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=i9H+R7vwO1Q16dJxBdp8oZx7JouzNELqtU1zFoY8yyp+tdNkKwoFRUgxoNMHDhQMPqLgehXOL/fh6sXgk4KVBwMcZIueKhfJ/ywZ5N/2mzqoW6y0WZ34t+TsQ7qg48TRSt7ay9ANKR+eFL/H8ykR3uuYxz98puxQ2j85RcUw4oo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MvWJ3mfB; arc=none smtp.client-ip=209.85.128.46
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-490b3e03939so3542645e9.1
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 02 Jun 2026 06:13:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780406014; x=1781010814; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=jTfcCRizo1BCoCuZvjrGsrottsZL+2Hdq3AL0290nzE=;
-        b=MvWJ3mfB+zivYWrpj9uxYW0OOM8dcNtNZIbJqE46l8Ej89uSmkKCHKqrFcNbjO53ri
-         zNI1NJhM4SGQPAIdiD5mKoBOcOfFgj0Ivb2r0a1kSpyQ4BXntEavxrEpZ9KOi0p31+RJ
-         prdc7tSXRlZ6nDT590WBeSPWyKf9U5XKqiaoMyQ4GXVTgADfjrHL39LDqcmnB2ZaLLOU
-         lRzTn2F1LOCVk+aU4fxz/VL01gGu7tcWXsjUjuHHsOzxDa57R/I9kUNBuIzUE6XuU2FP
-         ipGNk82+tgTbJxePfGRPqv0EJ/H6zjE2jhly8zOuWaOAKWHIQbWMqYpa31eZMb16BfFM
-         6COw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780406014; x=1781010814;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=jTfcCRizo1BCoCuZvjrGsrottsZL+2Hdq3AL0290nzE=;
-        b=jXkF5e82VkKv/JUpsZgMuaKTTnESQezpPKKg40xj9R6xl50HkGlM4KMdKbRmFdbs5x
-         vzM3n9awGnSrQDQJP25dfjF8xOieZHGPXBHML9rlFGxZZSwejB2xMo5OR872rAWGY3wl
-         TvS+y8NLImWhbeRePTxIITFvU8i6YYV74hHz5TILSJkNPn6l1I31cnqU6rObp/RDL3HN
-         N90r+TmWOU04YGeRpFPi555+v3yCXjIPt0FH2HzjpNvoBkQNGPl/tzka+APp9ZOl9RVe
-         guce0TWNUx1L0aF8cykDGd7WI6ySM+XNjzVr8RJaWUA/lJd1jz96cHZO591ezik/lFXj
-         8BJA==
-X-Forwarded-Encrypted: i=1; AFNElJ8I57QM6h+D7aGNgL+i2XZNIK1Ksn8xr5QlScCnH/Oh+5UoE3kNdRCgNlUeBxMMXnjIhMVgruO3thyg4yE78fiSjw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyGlxZ8upZMuVJ37++AFfYFKWXXaZCPITzTyN7zY7wQsfHPdy0P
-	VRicC1z5/DaA549hMR355+jeByqNtDoUlbGIgp9cp/ivs+LnsA2qiHtnyuW+DQ==
-X-Gm-Gg: Acq92OHwJq2bG0Xm4FjMdvTJ3N5mnP2nuMe6miewrOFNdZczFT1vPZMSxAijTqPTuaF
-	kV5zfzhvkNUlAX+Qw7p7zMKpYW1wL5Dy1xngvmRKOVZ+PaJIsVZ2LcCw0NiJ4TSWgvlDya9kPPn
-	KRvmkLsmvaS4Bd+xDikUCgqO0nw6ok/bhuvIW+y4E9i5DU2plFFw5RFij51BUqjn/lC4kXEUFTu
-	Ex3yj4bB/HofeecOLExUufeZg2m/O4Dxw+631OMjbsCQusoBr3PptpWtPPEzS4eAJDIKO7+PNni
-	KU7bxgA2ZIKpeXaaT4vCPMYiJcYdGT/XhKFzZAJ7rLCdJ/7PP0X99CoX6tqDtUNV9q3miwBXgzr
-	uVid1gcRBrSvtV2h/oQ+yWkco9rDLvvpZhjwwgUw+HVzREyxuyqLwvQFPxeZP41LzVgBQzxf8+4
-	/AhakJCpNVPt5RbC00ZLiIW61CX0MGKl9p/iKuB7dIBg==
-X-Received: by 2002:a05:600d:6405:10b0:48f:e230:29f4 with SMTP id 5b1f17b1804b1-490b0ea300dmr44802245e9.15.1780406013876;
-        Tue, 02 Jun 2026 06:13:33 -0700 (PDT)
-Received: from biju.lan ([2a00:23c4:a700:7301:dd72:88d8:481a:904e])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-490b0e13f91sm86589155e9.3.2026.06.02.06.13.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Jun 2026 06:13:33 -0700 (PDT)
-From: Biju <biju.das.au@gmail.com>
-X-Google-Original-From: Biju <biju.das.jz@bp.renesas.com>
-To: Lee Jones <lee@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>
-Cc: Biju Das <biju.das.jz@bp.renesas.com>,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Biju Das <biju.das.au@gmail.com>
-Subject: [PATCH] dt-bindings: mfd: syscon: Make ranges required for renesas,r9a08g046-lvds-cmn
-Date: Tue,  2 Jun 2026 14:13:29 +0100
-Message-ID: <20260602131331.90756-1-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1780407054; c=relaxed/simple;
+	bh=WnoCYYY2O9xdTYGKzcRY4YVB5VH1xlhm+ELi8P1QuIM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=J0YXY6UqTjyo8JB/89gFaDfr2GJzQcdQkSCcQIV/n7aN9fusrLGhY5EA7HlsESenweLVQTFrtl673nfcocAeAdUSodaK6MQAylMhzKHCyup242eT9lObmVBZ31vYfISumTQitPLkSoq+6C+kA+e/lfaD3KE77qkw/5cNYnlcLlw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cWxipr1D; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BD1501F00893;
+	Tue,  2 Jun 2026 13:30:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780407052;
+	bh=LPGoqrF6mb31SwqNmGzzMqxaVZZ8znhqb4FkUA/VCz8=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=cWxipr1D62ketjcWQHp6nNED2Wmoompy3wuVag1agy1YlyiB3s4WiamHmW6b8d8f3
+	 1yD2BRNTAteW7+MDmYHZRdfdHf8du/YyVlmwrm4qRyJtqow/sSmgUcFDpVWuw+MtvR
+	 araYop00eGUzJNx31nuneRZZMJ6HwEv2tEORdQVbyiSgQZ5tixZKF5zkRNIHb2GqIZ
+	 zSW/gqMAycpZrGfVqoT+YKOytAN9Zbfz+56EtCx4WW8941NAJO//JeqgrHQLtalpb4
+	 ysqff86AgezehekBpCTN58qCIdOtrfdMpiGQgHQi5LhQNDgWhsa3X/18M3jaT8F4NC
+	 WXIXczCGQBnIg==
+Message-ID: <8bfee508-9d3e-47ef-8542-cda6cf28847e@kernel.org>
+Date: Tue, 2 Jun 2026 16:30:47 +0300
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 00/18] Renesas: dmaengine and ASoC fixes
+To: vkoul@kernel.org, Frank.Li@kernel.org, lgirdwood@gmail.com,
+ broonie@kernel.org, perex@perex.cz, tiwai@suse.com,
+ biju.das.jz@bp.renesas.com, prabhakar.mahadev-lad.rj@bp.renesas.com,
+ p.zabel@pengutronix.de, geert+renesas@glider.be,
+ kuninori.morimoto.gx@renesas.com, long.luu.ur@renesas.com
+Cc: claudiu.beznea@tuxon.dev, dmaengine@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org,
+ Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+References: <20260526084710.3491480-1-claudiu.beznea@kernel.org>
+Content-Language: en-US
+From: Claudiu Beznea <claudiu.beznea@kernel.org>
+In-Reply-To: <20260526084710.3491480-1-claudiu.beznea@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-1.66 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
 	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-33430-lists,linux-renesas-soc=lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:vkoul@kernel.org,m:Frank.Li@kernel.org,m:lgirdwood@gmail.com,m:broonie@kernel.org,m:perex@perex.cz,m:tiwai@suse.com,m:biju.das.jz@bp.renesas.com,m:prabhakar.mahadev-lad.rj@bp.renesas.com,m:p.zabel@pengutronix.de,m:geert+renesas@glider.be,m:kuninori.morimoto.gx@renesas.com,m:long.luu.ur@renesas.com,m:claudiu.beznea@tuxon.dev,m:dmaengine@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-sound@vger.kernel.org,m:linux-renesas-soc@vger.kernel.org,m:claudiu.beznea.uj@bp.renesas.com,m:geert@glider.be,s:lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-33429-lists,linux-renesas-soc=lfdr.de];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	FORGED_RECIPIENTS(0.00)[m:lee@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:geert+renesas@glider.be,m:magnus.damm@gmail.com,m:biju.das.jz@bp.renesas.com,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-renesas-soc@vger.kernel.org,m:prabhakar.mahadev-lad.rj@bp.renesas.com,m:biju.das.au@gmail.com,m:krzk@kernel.org,m:conor@kernel.org,m:geert@glider.be,m:magnusdamm@gmail.com,m:bijudasau@gmail.com,s:lists@lfdr.de];
-	FREEMAIL_TO(0.00)[kernel.org,glider.be,gmail.com];
-	FREEMAIL_CC(0.00)[bp.renesas.com,vger.kernel.org,gmail.com];
-	FORWARDED(0.00)[lists@lfdr.de];
-	RCPT_COUNT_TWELVE(0.00)[12];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_SENDER(0.00)[bijudasau@gmail.com,linux-renesas-soc@vger.kernel.org];
+	FREEMAIL_TO(0.00)[kernel.org,gmail.com,perex.cz,suse.com,bp.renesas.com,pengutronix.de,glider.be,renesas.com];
+	FORGED_SENDER(0.00)[claudiu.beznea@kernel.org,linux-renesas-soc@vger.kernel.org];
+	RCPT_COUNT_TWELVE(0.00)[18];
+	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORWARDED(0.00)[lists@lfdr.de];
+	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[bijudasau@gmail.com,linux-renesas-soc@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	RCVD_COUNT_FIVE(0.00)[5];
+	ALIAS_RESOLVED(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[claudiu.beznea@kernel.org,linux-renesas-soc@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	MID_RHS_MATCH_FROM(0.00)[];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
-	ALIAS_RESOLVED(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,renesas.com:email]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,renesas.com:email,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,sashiko.dev:url]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 5B43E62E5EE
+X-Rspamd-Queue-Id: 7246B62E8D1
 
-From: Biju Das <biju.das.jz@bp.renesas.com>
+Hi,
 
-Add a conditional schema rule to the syscon bindings that requires the
-ranges property when the compatible string contains
-renesas,r9a08g046-lvds-cmn. This ensures the LVDS common control block
-on the RZ/G3L SoC correctly declares its address translation, as the
-device has child nodes that need a valid ranges mapping to be described
-in the device tree.
+Gentle ping on this series.
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
- Documentation/devicetree/bindings/mfd/syscon.yaml | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+Thank you,
+Claudiu
 
-diff --git a/Documentation/devicetree/bindings/mfd/syscon.yaml b/Documentation/devicetree/bindings/mfd/syscon.yaml
-index 9c81010d5a74..cbf83a06ae25 100644
---- a/Documentation/devicetree/bindings/mfd/syscon.yaml
-+++ b/Documentation/devicetree/bindings/mfd/syscon.yaml
-@@ -269,6 +269,8 @@ properties:
-   resets:
-     maxItems: 1
- 
-+  ranges: true
-+
- required:
-   - compatible
-   - reg
-@@ -276,6 +278,18 @@ required:
- allOf:
-   - $ref: syscon-common.yaml#
- 
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            const: renesas,r9a08g046-lvds-cmn
-+    then:
-+      properties:
-+        ranges: true
-+
-+      required:
-+        - ranges
-+
- unevaluatedProperties: false
- 
- examples:
--- 
-2.43.0
+On 5/26/26 11:46, Claudiu Beznea wrote:
+> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+> 
+> Hi,
+> 
+> This series addresses issues identified in the DMA engine and RZ SSI
+> drivers.
+> 
+> As described in the patch "dmaengine: sh: rz-dmac: Set the Link End (LE)
+> bit on the last descriptor", stress testing on the Renesas RZ/G2L SoC
+> showed that starting all available DMA channels could cause the system
+> to stall after several hours of operation. This issue was resolved by
+> setting the Link End bit on the last descriptor of a DMA transfer.
+> 
+> However, after applying that fix, the SSI audio driver began to suffer
+> from frequent overruns and underruns. This was caused by the way the SSI
+> driver emulated cyclic DMA transfers: at the start of playback/capture
+> it initially enqueued 4 DMA descriptors as single SG transfers, and upon
+> completion of each descriptor, a new one was enqueued. Since there was
+> no indication to the DMA hardware where the descriptor list ended
+> (though the LE bit), the DMA engine continued transferring until the
+> audio stream was stopped. From time to time, audio signal spikes were
+> observed in the recorded file with this approach.
+> 
+> To address these issue, cyclic DMA support was added to the DMA engine
+> driver, and the SSI audio driver was reworked to use this support via
+> the generic PCM dmaengine APIs.
+> 
+> Due to the behavior described above, no Fixes tags were added to the
+> patches in this series, and all patches should be merged through the
+> same tree.
+> 
+> In case this series will be merged this release cycle, as the audio
+> patches are acked, best would be to go though the DMA tree.
+> 
+> However, there might be merge conflict on the rz-ssi driver due to the
+> recently posted patch at [1].
+> 
+> Thank you,
+> Claudiu
+> 
+> [1] https://lore.kernel.org/all/875x4agb2x.wl-kuninori.morimoto.gx@renesas.com
+> 
+> Changes in v6:
+> - addressed sashiko review comments
+> - addressed Frank's review comments
+> - collected tags
+> 
+> Changes in v5:
+> - dropped patch "dmaengine: sh: rz-dmac: Do not disable the channel on error"
+> - added patch "dmaengine: sh: rz-dmac: Add runtime PM support"
+> 
+> Changes in v4:
+> - collected tags
+> - addressed review comments got from sashiko.dev. For this:
+> - added patches:
+> -- dmaengine: sh: rz-dmac: Move interrupt request after everything is set up
+> -- dmaengine: sh: rz-dmac: Fix incorrect NULL check on list_first_entry()
+> 
+> Changes in v3:
+> - addressed review comments got from sashiko.dev. For this:
+> - added patches 1-9
+> - added patch "ASoC: renesas: rz-ssi: Add pause support"
+> - dropped patches:
+> -- dmaengine: sh: rz-dmac: Add enable status bit
+> -- dmaengine: sh: rz-dmac: Add pause status bit
+> 
+> Changes in v2:
+> - fixed typos in patch descriptions and patch titles
+> - updated "ASoC: renesas: rz-ssi: Use generic PCM dmaengine APIs"
+>    to fix the PIO mode
+> - in patch "dmaengine: sh: rz-dmac: Add suspend to RAM support"
+>    clear the RZ_DMAC_CHAN_STATUS_SYS_SUSPENDED status bit for
+>    channel w/o RZ_DMAC_CHAN_STATUS_PAUSED_INTERNAL
+> - per-patch updates can be found in individual patches changelog
+> - rebased on top of next-20260319
+> - updated the cover letter
+> 
+> Claudiu Beznea (18):
+>    dmaengine: sh: rz-dmac: Move interrupt request after everything is set
+>      up
+>    dmaengine: sh: rz-dmac: Fix incorrect NULL check for
+>      list_first_entry()
+>    dmaengine: sh: rz-dmac: Use list_first_entry_or_null()
+>    dmaengine: sh: rz-dmac: Use rz_dmac_disable_hw()
+>    dmaengine: sh: rz-dmac: Add helper to compute the lmdesc address
+>    dmaengine: sh: rz-dmac: Save the start LM descriptor
+>    dmaengine: sh: rz-dmac: Add helper to check if the channel is enabled
+>    dmaengine: sh: rz-dmac: Add helper to check if the channel is paused
+>    dmaengine: sh: rz-dmac: Use virt-dma APIs for channel descriptor
+>      processing
+>    dmaengine: sh: rz-dmac: Refactor pause/resume code
+>    dmaengine: sh: rz-dmac: Drop the update of channel->chctrl with
+>      CHCTRL_SETEN
+>    dmaengine: sh: rz-dmac: Add cyclic DMA support
+>    dmaengine: sh: rz-dmac: Adjust rz_dmac_chan_get_residue() to return
+>      error codes
+>    dmaengine: sh: rz-dmac: Add runtime PM support
+>    dmaengine: sh: rz-dmac: Add suspend to RAM support
+>    ASoC: renesas: rz-ssi: Add pause support
+>    ASoC: renesas: rz-ssi: Use generic PCM dmaengine APIs
+>    dmaengine: sh: rz-dmac: Set the Link End (LE) bit on the last
+>      descriptor
+> 
+>   drivers/dma/sh/rz-dmac.c   | 823 ++++++++++++++++++++++++++-----------
+>   sound/soc/renesas/Kconfig  |   1 +
+>   sound/soc/renesas/rz-ssi.c | 399 +++++++-----------
+>   3 files changed, 723 insertions(+), 500 deletions(-)
+> 
 
 
