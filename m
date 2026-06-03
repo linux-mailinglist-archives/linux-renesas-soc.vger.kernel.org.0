@@ -1,198 +1,147 @@
-Return-Path: <linux-renesas-soc+bounces-33501-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-33502-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id 92RKEAXjH2pPrwAAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-33501-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 03 Jun 2026 10:17:09 +0200
+	id 9rS/NL3jH2p+rwAAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-33502-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 03 Jun 2026 10:20:13 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCB536359C2
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 03 Jun 2026 10:17:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 681B3635A1C
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 03 Jun 2026 10:20:13 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=none;
-	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-33501-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 2600:3c09:e001:a7::12fc:5321 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-33501-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
-	dmarc=none;
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b="SWvm/YIk";
+	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-33502-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 2600:3c09:e001:a7::12fc:5321 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-33502-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=quarantine) header.from=kernel.org;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 8947F3039B45
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  3 Jun 2026 08:17:02 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 475E430546FA
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  3 Jun 2026 08:19:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2C52640962A;
-	Wed,  3 Jun 2026 08:16:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E519040910D;
+	Wed,  3 Jun 2026 08:19:39 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB032413240
-	for <linux-renesas-soc@vger.kernel.org>; Wed,  3 Jun 2026 08:16:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE2618472;
+	Wed,  3 Jun 2026 08:19:38 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780474617; cv=none; b=OwrjMQyPR3IKhG2o+8M2jv/UQj/78oQwvMbhlpYFzSnKcDFjMWd5WyIIvEL3z1C6nHWw0dto3cdfgdGOCaqqnuP6qkQf3mRz2mi9NKodntoNqOFMIPmGf7P8G1EyNP5zumD3LtFSEHlBg3HuU+XeX3ehBsPiFugTYgXmN9bgEmE=
+	t=1780474779; cv=none; b=lty3YuNbCfKviaKU8qW8DcD4PFOHSM0zQVx1+rinB653mqD1RhLM35XHlkn5egw/lg0+4uchFjm2fMqpv1ezUXovpajcr6G2QdjDzmtAQqLE+8cGaqxfdrgu67oGfjeBTsOy+XOCTjfD+sTicGYuzNnsqIw1YOHuJFzcGN/X1i0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780474617; c=relaxed/simple;
-	bh=NRGp7ciKl4RNiUi+iulN7hzq/FhBMMKaYzGB9VRrhxU=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=DlD4qv3PLd1Fjqm/S86drIPF7rmPu+U7BtSV4zaLCGSQ3K0tWEyffV7Rjlf6hzX0FT335st8A2Eig1iqsvcnzrErq/DLwk51TqcSuwjCjm56WUKDKlUSyzlynJlvgZArZUnnpbpeQBHKdXRXl9hCu9gqNqn+/t/Fu4WjsYQXOLk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
-	(envelope-from <p.zabel@pengutronix.de>)
-	id 1wUgmJ-0001Xn-Ca; Wed, 03 Jun 2026 10:16:43 +0200
-Received: from lupine.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::4e] helo=lupine)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <p.zabel@pengutronix.de>)
-	id 1wUgmI-000sok-30;
-	Wed, 03 Jun 2026 10:16:42 +0200
-Received: from pza by lupine with local (Exim 4.98.2)
-	(envelope-from <p.zabel@pengutronix.de>)
-	id 1wUgmI-000000002l3-3UCX;
-	Wed, 03 Jun 2026 10:16:42 +0200
-Message-ID: <50a908557bb3ce5f14b67396d1e73e70289a583a.camel@pengutronix.de>
-Subject: Re: [PATCH v4 2/4] PCI: rzg3s-host: Use shared reset controls for
- power domain resets
-From: Philipp Zabel <p.zabel@pengutronix.de>
-To: Prabhakar <prabhakar.csengg@gmail.com>, Claudiu Beznea	
- <claudiu.beznea.uj@bp.renesas.com>, Manivannan Sadhasivam
- <mani@kernel.org>,  Lorenzo Pieralisi <lpieralisi@kernel.org>, Krzysztof
- =?UTF-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>, Rob Herring
- <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, Krzysztof Kozlowski
-	 <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Geert
- Uytterhoeven	 <geert+renesas@glider.be>, Magnus Damm
- <magnus.damm@gmail.com>, 	linux-pci@vger.kernel.org
-Cc: linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>,
- Fabrizio Castro <fabrizio.castro.jz@renesas.com>, Lad Prabhakar
- <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Date: Wed, 03 Jun 2026 10:16:42 +0200
-In-Reply-To: <20260602195019.1798126-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: 
-	<20260602195019.1798126-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-	 <20260602195019.1798126-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2-0+deb13u1 
+	s=arc-20240116; t=1780474779; c=relaxed/simple;
+	bh=nWwjS8Mr20fDWKSL0zfgfubdVpa6oMYco7fA71M/hAY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=IrkX6Ci346Gu1YicPzXX4GfBMle5pWQr0iiwaAXSBF8lEhyioNiYAp8nmqLOthDHAqbqTtlQ5L8j5RtLArPFMsLBb3I5tOt7TH6thj18K4gWBO54fkIY0ArgrAbRjMZsiP4+NOe6yrgio7ojG3Au8IU1KrkLrSMsupTqbzwspoE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SWvm/YIk; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 919751F00898;
+	Wed,  3 Jun 2026 08:19:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780474778;
+	bh=JcYA2oFILzb6weg9P7dCyayz8oFLadaOOZdee5CSgOQ=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=SWvm/YIkETWsR0+HHd1o6beNzkUd/KKdobYbOCh05Lm+8gIhs4MeR+3xEl9obrGdG
+	 AqcHLpG+OjWP2m7BsJBU+w0xU5V8XWaQZdVFMqF2foRkSTVshRUZ3jBL06Yq4ZYkKZ
+	 r3ejsSBdm40Il+8NXJWCnIJBhRXtMKtKnoJ8damxm3i8IVOV7xGr7zopfE81FnvcvM
+	 2+SwgmTWA9QHrG56g+yJI4cAMWTZ77P1vkUOCmIEYxu9VzCwF3xUNQxzB5PFWANCy7
+	 LbG/3gyg1Jk94lM2BPOHAWJZMO7miFmlMolxUJO+8WE8gW6PUUgS3eB7MGF/ut7272
+	 6j8u8jBMoB40Q==
+Message-ID: <096df078-1027-44f2-b02c-c0a27b646a87@kernel.org>
+Date: Wed, 3 Jun 2026 11:19:33 +0300
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/7] pinctrl: renesas: rzg2l: Generalize the power
+ source code
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc: geert+renesas@glider.be, linusw@kernel.org, robh@kernel.org,
+ krzk+dt@kernel.org, conor+dt@kernel.org, magnus.damm@gmail.com,
+ prabhakar.mahadev-lad.rj@bp.renesas.com, claudiu.beznea@tuxon.dev,
+ linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+References: <20260528080439.615958-1-claudiu.beznea@kernel.org>
+ <20260528080439.615958-2-claudiu.beznea@kernel.org>
+ <ah9BkQjUKwZ9KXMH@ninjato>
+Content-Language: en-US
+From: Claudiu Beznea <claudiu.beznea@kernel.org>
+In-Reply-To: <ah9BkQjUKwZ9KXMH@ninjato>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [0.04 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	DMARC_NA(0.00)[pengutronix.de];
+	TAGGED_FROM(0.00)[bounces-33502-lists,linux-renesas-soc=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:prabhakar.csengg@gmail.com,m:claudiu.beznea.uj@bp.renesas.com,m:mani@kernel.org,m:lpieralisi@kernel.org,m:kwilczynski@kernel.org,m:robh@kernel.org,m:bhelgaas@google.com,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:geert+renesas@glider.be,m:magnus.damm@gmail.com,m:linux-pci@vger.kernel.org,m:linux-renesas-soc@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:biju.das.jz@bp.renesas.com,m:fabrizio.castro.jz@renesas.com,m:prabhakar.mahadev-lad.rj@bp.renesas.com,m:prabhakarcsengg@gmail.com,m:krzk@kernel.org,m:conor@kernel.org,m:geert@glider.be,m:magnusdamm@gmail.com,s:lists@lfdr.de];
-	FREEMAIL_TO(0.00)[gmail.com,bp.renesas.com,kernel.org,google.com,glider.be,vger.kernel.org];
-	FORGED_SENDER(0.00)[p.zabel@pengutronix.de,linux-renesas-soc@vger.kernel.org];
-	RCPT_COUNT_TWELVE(0.00)[18];
-	TAGGED_FROM(0.00)[bounces-33501-lists,linux-renesas-soc=lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_SENDER(0.00)[claudiu.beznea@kernel.org,linux-renesas-soc@vger.kernel.org];
+	FREEMAIL_CC(0.00)[glider.be,kernel.org,gmail.com,bp.renesas.com,tuxon.dev,vger.kernel.org];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	FORGED_RECIPIENTS(0.00)[m:wsa+renesas@sang-engineering.com,m:geert+renesas@glider.be,m:linusw@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:magnus.damm@gmail.com,m:prabhakar.mahadev-lad.rj@bp.renesas.com,m:claudiu.beznea@tuxon.dev,m:linux-renesas-soc@vger.kernel.org,m:linux-gpio@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:claudiu.beznea.uj@bp.renesas.com,m:wsa@sang-engineering.com,m:geert@glider.be,m:krzk@kernel.org,m:conor@kernel.org,m:magnusdamm@gmail.com,s:lists@lfdr.de];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FORWARDED(0.00)[lists@lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[p.zabel@pengutronix.de,linux-renesas-soc@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ALIAS_RESOLVED(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	R_DKIM_NA(0.00)[];
 	TO_DN_SOME(0.00)[];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,vger.kernel.org:from_smtp,renesas.com:email,pengutronix.de:from_mime,pengutronix.de:mid]
+	FORGED_SENDER_FORWARDING(0.00)[];
+	ALIAS_RESOLVED(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[claudiu.beznea@kernel.org,linux-renesas-soc@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	MID_RHS_MATCH_FROM(0.00)[];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,dt];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[renesas.com:email,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,vger.kernel.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: CCB536359C2
+X-Rspamd-Queue-Id: 681B3635A1C
 
-On Di, 2026-06-02 at 20:50 +0100, Prabhakar wrote:
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->=20
-> Switch to shared reset controls for PCIe power resets to prepare for
-> RZ/V2H(P) support. On this platform, multiple PCIe controllers share
-> the same reset line, requiring shared ownership of the reset control.
->=20
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> Reviewed-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> Tested-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> ---
-> v3->v4:
-> - Added RB/TB tags.
->=20
-> v2->v3:
-> - No change.
->=20
-> v1->v2:
-> - Updated commit message.
-> ---
->  drivers/pci/controller/pcie-rzg3s-host.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
->=20
-> diff --git a/drivers/pci/controller/pcie-rzg3s-host.c b/drivers/pci/contr=
-oller/pcie-rzg3s-host.c
-> index d86e7516dcc2..a5192e4b58df 100644
-> --- a/drivers/pci/controller/pcie-rzg3s-host.c
-> +++ b/drivers/pci/controller/pcie-rzg3s-host.c
-> @@ -1276,9 +1276,9 @@ static int rzg3s_pcie_resets_prepare_and_get(struct=
- rzg3s_pcie_host *host)
->  	for (i =3D 0; i < data->num_cfg_resets; i++)
->  		host->cfg_resets[i].id =3D data->cfg_resets[i];
-> =20
-> -	ret =3D devm_reset_control_bulk_get_exclusive(host->dev,
-> -						    data->num_power_resets,
-> -						    host->power_resets);
-> +	ret =3D devm_reset_control_bulk_get_shared(host->dev,
-> +						 data->num_power_resets,
-> +						 host->power_resets);
->  	if (ret)
->  		return ret;
-> =20
 
-I have a few questions about this.
 
-Can you move rzg3s_pcie_resets_prepare_and_get() and
-rzg3s_pcie_power_resets_deassert() up before setting
-RZG3S_SYSC_FUNC_ID_MODE and RZG3S_SYSC_FUNC_ID_RST_RSM_B in
-rzg3s_pcie_probe() without ill effect?
+On 6/2/26 23:48, Wolfram Sang wrote:
+> On Thu, May 28, 2026 at 11:04:33AM +0300, Claudiu Beznea wrote:
+>> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+>>
+>> The current functions used to get/set the pin power source check the
+>> OTHER_POC register, which is specific to the RZ/G3L SoC only. To allow the
+>> code to be extended for other power source functionalities (e.g. I3C on
+>> RZ/G3S), generalize the functions used to get/set the pin power source.
+>>
+>> For this, introduce the struct rzg2l_register_masks data structure whose
+>> purpose is to store SoC specific register bit masks. The members of this
+>> structure are then used in rzg2l_caps_to_pwr_reg() to retrieve the bitmask
+>> corresponding to a SoC specific power source capability.
+>>
+>> The conversion between HW specific power source values and SW specific
+>> power source values is now handled through rzg2l_pwr_reg_val_to_ps() and
+>> rzg2l_ps_to_pwr_reg_val().
+>>
+>> Finally, to keep the code generic, the register update in
+>> rzg2l_set_power_source() was changed to a read-modify-write approach to
+>> cover all cases.
+>>
+>> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+> 
+> Tested-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> 
+> Have you seen the comment from Sashiko about this patch? Doesn't sound
+> entirely wrong to me...
 
-Can you move rzg3s_pcie_power_resets_deassert() up before setting
-RZG3S_SYSC_FUNC_ID_MODE and RZG3S_SYSC_FUNC_ID_RST_RSM_B
-rzg3s_pcie_resume_noirq()?
+Indeed, that should be fixed. I'll add a fix patch in the next version.
 
-Those would have the same effect as the reset already being deasserted
-by the other controller.
+Thank you for testing this,
+Claudiu
 
-Is the "power-on" mentioned in the comment about the delay in
-rzg3s_pcie_power_resets_deassert() the same for both controllers or are
-they powered on individually? Specifically, when the first controller
-deasserts the resets during resume, is it guaranteed that the necessary
-delay has also passed for the second controller, which is resumed
-later?
-
-Can the reset_control_bulk_assert(..., host->power_resets) be moved
-down past setting RZG3S_SYSC_FUNC_ID_RST_RSM_B in
-rzg3s_pcie_suspend_noirq() and in the rzg3s_pcie_resume_noirq() error
-path without issue? That would have the same effect as the reset still
-being held deasserted by the other controller.
-
-The power_resets are initially deasserted in rzg3s_pcie_probe(), but
-never asserted in .remove. This unbalances the deassertion counter if
-one controller is unbound and rebound while the other still holds the
-reset requested, which would cause the reset to never be asserted
-during suspend.
-
-regards
-Philipp
 
