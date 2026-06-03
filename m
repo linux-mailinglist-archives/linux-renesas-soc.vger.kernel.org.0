@@ -1,80 +1,82 @@
-Return-Path: <linux-renesas-soc+bounces-33514-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-33513-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id DkHdALkMIGpPvAAAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-33514-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 03 Jun 2026 13:15:05 +0200
+	id X87ROdQLIGrluwAAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-33513-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 03 Jun 2026 13:11:16 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15768636EC6
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 03 Jun 2026 13:15:04 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C82E636DDA
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 03 Jun 2026 13:11:16 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=9elements.com header.s=google header.b=TySAk75b;
-	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-33514-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 104.64.211.4 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-33514-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=9elements.com header.s=google header.b=KKHStzNz;
+	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-33513-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 172.232.135.74 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-33513-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=quarantine) header.from=9elements.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id A1F3030B562A
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  3 Jun 2026 11:04:41 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id D46CD30DB4C3
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  3 Jun 2026 11:04:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B8288472780;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A0DF546AF20;
 	Wed,  3 Jun 2026 11:01:34 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 181B346AEF5
-	for <linux-renesas-soc@vger.kernel.org>; Wed,  3 Jun 2026 11:01:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38AE4407592
+	for <linux-renesas-soc@vger.kernel.org>; Wed,  3 Jun 2026 11:01:33 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780484494; cv=none; b=MeS8iDStPOg2EN1+CKKckip9YkcnviUwdxWkFdDkfbjaRpYXP2b8zAa956tPhas7xTraDuHb/hfJN0deZPJt1VjTAVDMiskoCVxkrCVlZH/nZ5DWY+o+ugURAMsYLGwOjUxCbbPAeL1qJB48xeO8HEUujK2PycdXPijm2zzeYWo=
+	t=1780484494; cv=none; b=RljpdUc+rAO/riWxxJvzVI2LlnhgUxfB06zcHj/MGBgkjUhJmrV7c7f/KBm80MyvHuGzn8w1grghvWSBPMtbxMWMWNGV0RpSqlvQPJ1fgCbCphUzuCHjdZj62Ow/gnZds2ulN39KrVmBtVRTctiX07mZDhmU82GyOh3J92s5AYQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1780484494; c=relaxed/simple;
-	bh=gUffnRCkZd8GCDVad4nVwDK9l/4YI41QMrTFTZag9po=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=C34bx+d34/JHJV4MskBLh1YFV5rAFyGdEioY8aDZracu0eYY6WAtmbIMO5hcMkU8bSDIpGRvPXMrH5/wHlga1b8y9bEo+z/LfWNiYiYKpHZwowgIg4rGiN1kWD1VlvAXZmWngHkfbs4KIFbXbfcYTxolCMrbwYLNqFXxc1t+2fY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=9elements.com; spf=pass smtp.mailfrom=9elements.com; dkim=pass (2048-bit key) header.d=9elements.com header.i=@9elements.com header.b=TySAk75b; arc=none smtp.client-ip=209.85.128.52
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-490b09e4cccso16315055e9.0
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 03 Jun 2026 04:01:31 -0700 (PDT)
+	bh=LOrULc1iZDTGIdl+ETs35u9hgIKubwyvl2ebHAU2vSI=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=UuttVPxhg+YY9AAhzE/CUHI6yvEq7Lup13wjatiz+1hgU3V96GF4Vf4hc/FSOwYyWNVe8D9btTVQiDTuG9bGI4ul7Qnl5BlFhW4OaK4B6dZoj5Wxp2ERp6MoI+h0K/oRuh+GHfarFdF5SLJeRWxSvXfO336Jxt/s+2x7xIqcUPE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=9elements.com; spf=pass smtp.mailfrom=9elements.com; dkim=pass (2048-bit key) header.d=9elements.com header.i=@9elements.com header.b=KKHStzNz; arc=none smtp.client-ip=209.85.128.53
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-49041fb8c23so94676685e9.0
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 03 Jun 2026 04:01:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=9elements.com; s=google; t=1780484490; x=1781089290; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=im10zWUipLMKBqnVFXqr0KEaN2pPpAtbqMH2WbacGe4=;
-        b=TySAk75bvOfPx1XvqKp8CqfVI2ej2/DNr6ytwUdC87W85ssfcFPp05diYJAdWif3+q
-         M7j6ovNAbgeQ0Z5Atzz8HHHY7h0HVXqMfHsuV/4WU4j5dXckO0B4WtPxFuM7pUyj0pBD
-         VZ2o7t7Xr/fVFL9QlS0zB3af4Gpc0bDkpXLKSehc8RJNjqS3ylj8GUlNDrA1aSDbBSAX
-         VRDOINiAX/aniK3G6LJNfEsJhuYthEw65axsK8ov4MQVHvBDhn5NF7tP5h6ycozmJzsP
-         Zqud9tHBwtr6Ea0/vACuogTdWP6sikZhdLUkUM8GaJGnQqSYPOj72lPfzU3weloV29zF
-         BCAA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780484490; x=1781089290;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=9elements.com; s=google; t=1780484492; x=1781089292; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=im10zWUipLMKBqnVFXqr0KEaN2pPpAtbqMH2WbacGe4=;
-        b=r85op233QGjPV6jgZhpfQPVEE8au9gc3JWRUB+rT2GyUi5HhfBkb4/EenO65vM//X2
-         yjSJCF8WjVNmiCIpaVuleVCvHW51f0CQuOK3yh8L4FU++0XagKGraK5T2YB+qTZkFdap
-         ECDxj8jhETH7ucb2h1ky5v+cVdYGDa7tkIlk40Xj7lk/MbKW81vlZQ3bJoTi3DmygUGl
-         YWRRiHfaZ6sEi/k1E4n3aXlWccbyfpre7AIwVR5GTQSe517QB3HmQdmVmm9N7HJka3D2
-         An1iMrLmcuVzUkkraTWg3cpp7L2S1VvOsGt3IbN0cNdeArwRqbEFDbx+ASvMPLImsMCA
-         nR3Q==
-X-Forwarded-Encrypted: i=1; AFNElJ89kGShTvKlC695AAZo3qGILbgLKnSCgjgMsrtQ0z0sh7AxoI8cYDPE5kpAB6mmj2LBCFiqnTs/HPH8qF8X398Q+w==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyO8Brt+rJvyeKHjhTZQctn1AG52i+toB0qI5v3Yii5Lh7GV9QL
-	/MmtLUzgZAvsbbCwSeEVMvF5lzGib6MMxSEY8eQF9jzD/EYPxtitNuZPTP/HitBY1PE=
-X-Gm-Gg: Acq92OEHb0NITc2cIGNucVbWEI6Z89bNo1HWWw1i308n5tVjXle9qHJSgSk/gW91PtG
-	u+E2SxSizJR+daiWzsajgN1WFTZpzeSZV0FoHC3RJHhxikzbJvqC4SWUMtm/FrJB4uowpQNyIl3
-	gnSrKVKZQ5z/PAQ01IQ3yh6x07lm44Fo2ZxJrKifse3TrGQAC3dsYFaiZdOGiD6rSwpIm+q3si7
-	KKsB9CbVvtVDMCT9+GKoL+oggSQFP08cr6xcYKwyzo8Yolejsb3s7rHb42j0l+GwUjTucscYKiQ
-	FKetU8x26/jtKe+kUxVxYPAF9qwZ3C8ud1pQStDRpQyMGpXDD1lqseDgakxldPmG1YMd4hOfGRY
-	27Q6JiybC9EWz4K+1KiH8tlDshP5IHrYiiUS3O6KZKgU7VSU/rAaHZkDqzMUlRGaMRhMcUyCcv8
-	kj3whA5s/BVRzWht4wqJqWtSCBajnUgmAzjXDhotM9KlT7mujE9wOgccQwHxFqvdaONtLlyTYdB
-	bFmOpzM0AtiCK0AHlYUjzsBMnG/aVzsCp4x5UAOqNFo+zvmLoEeaA==
-X-Received: by 2002:a05:600c:8b30:b0:48f:e26a:1744 with SMTP id 5b1f17b1804b1-490b5eb4aeemr46258005e9.9.1780484490576;
-        Wed, 03 Jun 2026 04:01:30 -0700 (PDT)
+        bh=IvwOj7IozsLi3dm+wQtK/2q0qsSj46KnFnlknrmF+Y8=;
+        b=KKHStzNz8CDpKxlJmB79NNHO6J4rSUmdnz50AqbyZv/T//rrhUGjSTL+YbYj1owc/7
+         rPhtrelU48GP4z2BKbzR7v+olEXDnEldfSQDHuoACWTa+tB02ShTHJW29Jrpmhe7v2/9
+         3oZvKztk4mwbbKI2bb4c8OK9TakD6dt9u9usu9DgOQC1p/7dkDK7dXw6s5qUMDlBrZQ9
+         7iAMmzU6BHwkSl//Lvb4oN4eqHHFo9s833loBC7eIyi/lkpr12aH7d7uY0cS4FDpnrn1
+         lG7Jug9B/2gi1WZsB2IGZlC40q1e1XeD8Zh8cZYvVi1XTlQPA9zbeCCMxQbfm7JFnuzz
+         P7hA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780484492; x=1781089292;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=IvwOj7IozsLi3dm+wQtK/2q0qsSj46KnFnlknrmF+Y8=;
+        b=R99qkzMzE+pGwOVaIl+jRlH6wXNaABB6NyikSZAKSB24BG6Wo1bhC7WRiuRIvMJB4k
+         nJ4+u7wnTEmhEdvNJbbE1YPl77DbuEmsMF2rUqTlmcdXgBs++l9n/6HwyCmERklbjmIi
+         a6fF00HgBmKVwmeOc0LIFlm2wcmLYpOshn65WvTB/YdDqVPBWTujQPybqqnogop1e3Sp
+         BQ0MM07iiIyI27zRQcJMFd5rrwI6qhzSU3MO+LxMN/dcUye/Jmc384/kl25AUrt9Y7Vj
+         g1ZWbr8O4Ga7YA2imqKcFpTCTOH/OKGkp54tUbCXrxr6ZIEJfG2V2ohatAJHIPqF3XWZ
+         28eQ==
+X-Forwarded-Encrypted: i=1; AFNElJ93mPbU7WkxrmhQp2K55oY+0cid+TI2k9PV65Ft4IWkF1UfHGlNMcC6/8yaa836q5EUEBy3z/p6SquBCIyjof4yJw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzPiBEiV7oMN0ArZmYlH9RUwtSJ+uFPQdlwy6tzFh2mjF6kgDb9
+	gvdrGBiIi8pd1W8fZLV9+GU/bwr4yqei+uH6I0mZ8uYxpx9j7kw39EzyT5jFZBQKZR0=
+X-Gm-Gg: Acq92OH4qqjV8OR/9XNFq9ISQEW7RWF0w55dxJoJImIJ/eoqS4wvdTZWzXgVoWuOWfZ
+	6aYbyAz9SHLRbiRJRhOzaLK8S3eFkoWbujpPJNKFgtqycOHqI5cP9E8LuEL0+PXpbK+elFW0reP
+	0n1tKpXC6BUSb2Q3ggqMuJjOXSFNVUMpJU41kijGFweS2latbtynxoiL0+sIZBFCFPZhTPGkPbb
+	gl/nVZeOTgBEzpNIftnkrkSRaKiJa2aQwm4WZWBIH2GNDOz0xtppksaEky6m4zvzZN42a42qdvc
+	iE2EhlRLLBeQPiQKZmv2rVgbWGwP61NfthxPD/sdQmjJyhvJtiCrFwjml9T6TxDKEbDDPcrMHOn
+	SI7uCQ0fMwYlkdJVVkRYltPdr4O77b1sMDdcnzF2bjZE17sLklTkS/smNza0ysxzJaIpwDSu8gv
+	8p28DONZWg22N9Iw3PHwfeBYufJYad48DGtfVZ69oXGFy2qQmoD6sWLU4OrlDutN7k6TLBBJPtQ
+	NP0JppDuL6/1BaHDZYNcb3G9E8Yv2++BeQu7u9U8D6Bc9BVwiWhjA==
+X-Received: by 2002:a05:600c:1c1e:b0:48a:5565:ec3d with SMTP id 5b1f17b1804b1-490b5ed1283mr47522445e9.22.1780484491776;
+        Wed, 03 Jun 2026 04:01:31 -0700 (PDT)
 Received: from nareshubuntu2404-gh-runner.lab.9e.network ([188.111.3.154])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-490b0e76153sm138908575e9.11.2026.06.03.04.01.28
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-490b0e76153sm138908575e9.11.2026.06.03.04.01.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Jun 2026 04:01:29 -0700 (PDT)
+        Wed, 03 Jun 2026 04:01:31 -0700 (PDT)
 From: Naresh Solanki <naresh.solanki@9elements.com>
 To: Guenter Roeck <linux@roeck-us.net>,
 	Rob Herring <robh@kernel.org>,
@@ -89,10 +91,12 @@ Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
 	linux-renesas-soc@vger.kernel.org,
 	Patrick Rudolph <patrick.rudolph@9elements.com>,
 	Naresh Solanki <naresh.solanki@9elements.com>
-Subject: [PATCH 1/2] dt-bindings: hwmon: isl68137: Add RAA228234 compatible
-Date: Wed,  3 Jun 2026 11:01:26 +0000
-Message-ID: <20260603110127.23930-1-naresh.solanki@9elements.com>
+Subject: [PATCH 2/2] hwmon: pmbus: isl68137: Add support for RAA228234
+Date: Wed,  3 Jun 2026 11:01:27 +0000
+Message-ID: <20260603110127.23930-2-naresh.solanki@9elements.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260603110127.23930-1-naresh.solanki@9elements.com>
+References: <20260603110127.23930-1-naresh.solanki@9elements.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -107,11 +111,11 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[9elements.com,quarantine];
 	R_DKIM_ALLOW(-0.20)[9elements.com:s=google];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-33514-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-33513-lists,linux-renesas-soc=lfdr.de];
 	FREEMAIL_CC(0.00)[glider.be,gmail.com,vger.kernel.org,9elements.com];
 	RCPT_COUNT_TWELVE(0.00)[13];
 	FORGED_SENDER_MAILLIST(0.00)[];
@@ -120,7 +124,7 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	FORGED_SENDER(0.00)[naresh.solanki@9elements.com,linux-renesas-soc@vger.kernel.org];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_RECIPIENTS(0.00)[m:linux@roeck-us.net,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:geert+renesas@glider.be,m:magnus.damm@gmail.com,m:grantpeltier93@gmail.com,m:linux-hwmon@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-renesas-soc@vger.kernel.org,m:patrick.rudolph@9elements.com,m:naresh.solanki@9elements.com,m:krzk@kernel.org,m:conor@kernel.org,m:geert@glider.be,m:magnusdamm@gmail.com,s:lists@lfdr.de];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
@@ -133,33 +137,46 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	ALIAS_RESOLVED(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[9elements.com:mid,9elements.com:dkim,9elements.com:from_mime,9elements.com:email,vger.kernel.org:from_smtp,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 15768636EC6
+X-Rspamd-Queue-Id: 8C82E636DDA
 
 From: Patrick Rudolph <patrick.rudolph@9elements.com>
 
-Add the compatible string for the Renesas RAA228234 8-phase PWM
-controller, which shares the same PMBus interface as the RAA228228.
+The RAA228234 is an 8-phase PWM controller from Renesas. It uses the
+same DMPVR2 PMBus interface as the RAA228228 (a dual-output 20-phase
+controller), so it can share the raa_dmpvr2_2rail_nontc configuration.
+
+Add the device to the I2C and OF device ID tables.
+
+Tested on RAA228234 hardware; confirmed all sensor readings are correct.
 
 Signed-off-by: Patrick Rudolph <patrick.rudolph@9elements.com>
 Signed-off-by: Naresh Solanki <naresh.solanki@9elements.com>
 ---
- Documentation/devicetree/bindings/hwmon/pmbus/isil,isl68137.yaml | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/hwmon/pmbus/isl68137.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/hwmon/pmbus/isil,isl68137.yaml b/Documentation/devicetree/bindings/hwmon/pmbus/isil,isl68137.yaml
-index 8216cdf758d8..2988bc6300ae 100644
---- a/Documentation/devicetree/bindings/hwmon/pmbus/isil,isl68137.yaml
-+++ b/Documentation/devicetree/bindings/hwmon/pmbus/isil,isl68137.yaml
-@@ -55,6 +55,7 @@ properties:
-           - renesas,raa228004
-           - renesas,raa228006
-           - renesas,raa228228
-+          - renesas,raa228234
-           - renesas,raa228244
-           - renesas,raa228246
-           - renesas,raa229001
+diff --git a/drivers/hwmon/pmbus/isl68137.c b/drivers/hwmon/pmbus/isl68137.c
+index 21d047b577a4..bef1459cec48 100644
+--- a/drivers/hwmon/pmbus/isl68137.c
++++ b/drivers/hwmon/pmbus/isl68137.c
+@@ -448,6 +448,7 @@ static const struct i2c_device_id raa_dmpvr_id[] = {
+ 	{"raa228004", raa_dmpvr2_hv},
+ 	{"raa228006", raa_dmpvr2_hv},
+ 	{"raa228228", raa_dmpvr2_2rail_nontc},
++	{"raa228234", raa_dmpvr2_2rail_nontc},
+ 	{"raa228244", raa_dmpvr2_2rail_nontc},
+ 	{"raa228246", raa_dmpvr2_2rail_nontc},
+ 	{"raa228942", raa_dmpvr2_2rail_nontc},
+@@ -501,6 +502,7 @@ static const struct of_device_id isl68137_of_match[] = {
+ 	{ .compatible = "renesas,raa228004", .data = (void *)raa_dmpvr2_hv },
+ 	{ .compatible = "renesas,raa228006", .data = (void *)raa_dmpvr2_hv },
+ 	{ .compatible = "renesas,raa228228", .data = (void *)raa_dmpvr2_2rail_nontc },
++	{ .compatible = "renesas,raa228234", .data = (void *)raa_dmpvr2_2rail_nontc },
+ 	{ .compatible = "renesas,raa228244", .data = (void *)raa_dmpvr2_2rail_nontc },
+ 	{ .compatible = "renesas,raa228246", .data = (void *)raa_dmpvr2_2rail_nontc },
+ 	{ .compatible = "renesas,raa229001", .data = (void *)raa_dmpvr2_2rail },
 -- 
 2.43.0
 
