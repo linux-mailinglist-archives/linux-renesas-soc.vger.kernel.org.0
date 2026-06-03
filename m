@@ -1,185 +1,320 @@
-Return-Path: <linux-renesas-soc+bounces-33539-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-33541-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id va6LM3c/IGrlzAAAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-33539-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 03 Jun 2026 16:51:35 +0200
+	id CpWyCaM/IGrtzAAAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-33541-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 03 Jun 2026 16:52:19 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DD23638CA8
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 03 Jun 2026 16:51:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7527E638CCD
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 03 Jun 2026 16:52:18 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=gmail.com header.s=20251104 header.b=c6elcTAg;
-	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-33539-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-33539-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=gmail.com;
+	dkim=pass header.d=ideasonboard.com header.s=mail header.b=eT8scUdi;
+	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-33541-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-33541-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=ideasonboard.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id F2E67319AABF
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  3 Jun 2026 14:33:56 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 8B55531C92D5
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  3 Jun 2026 14:34:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 72F4B331222;
-	Wed,  3 Jun 2026 14:33:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 892AF33BBB9;
+	Wed,  3 Jun 2026 14:33:58 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2D1834D90C
-	for <linux-renesas-soc@vger.kernel.org>; Wed,  3 Jun 2026 14:33:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F252233ADA3;
+	Wed,  3 Jun 2026 14:33:56 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780497227; cv=none; b=NqtJFx9cXYqdyW6xm3KdaV1ScquFouHgPF6HKfuGFjW5WvKtclZaMBb0NQo2Da8UqYi/qcf6lJXeuTxjkPh3FBjnzHgV2tPKa18ZKxeQ3FJpCW2BMv8k2JQD1v1w+tCic/SKvu4a8oay3Rhp4WIBg3EBwGLo/h95bJr0HyMPwIw=
+	t=1780497238; cv=none; b=P1tD25+yIQxQOvZEf6nRbki+H5xFFb4H7aYnDGRE7YjPq3e+zGRth4exCIWPvavNLhMn+j0bvBNAXqNW0muGOl1Jv3C46QserZ5tz26MRfrKfU+Om5KQP3Joujvv1PJaIssc5StcKfMsgU3uG4JSj1NjxUVQanTg58bDZKAvzKQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780497227; c=relaxed/simple;
-	bh=DYaktsBqOc25DaPSr846Lq7CCic5W7A90K1koGLeUdk=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=r+mVOBuAVm+Lg3q6rxITGop0qa54X3ZhTl96ouZoMUt3TxS2f0nEeSxsn6TzicIHnB+8jRf245/7J7Qweb3aRlBO9nsdWezDXtbz63rnrRENNOB0h8d6KlQJgDNDtBRMvbGneymuyw2DrKmetEdVSehfie8I/gi4V4Bc3cQmdAA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=c6elcTAg; arc=none smtp.client-ip=209.85.128.49
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-490b4a8e28bso11237075e9.1
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 03 Jun 2026 07:33:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780497224; x=1781102024; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=uhBI88HcMxiu/qVRbd3Bgg5S6TL2Bjx/bQArdCqGIeA=;
-        b=c6elcTAgtmW2qCEz/5fF5QjKN6h8fUTlJjx8ETql1g6pvznAhcrHcNOVmnSNWNOrgO
-         mHAxgsikJN6EGZdTrHCz38vCakUdnPA83hHw2yFxo3rMULg54KpVT2ADUUP3MnLXvFgL
-         rurHwK9vkb0yBsdQDAZH5oMDp8zZBiyRJJA4Isf0CiwGYPZzoMqQ8vKGbL4vVh1xbmcH
-         0sFocROk16hcVYKtYA5mhrStWZ1aJ0KWDB7SY919K6U6zf0mDvkZTylW2U/ONJufzoPg
-         7Vrb11xSTV3Nb7P9Hr5p1xgr8yeRt1oZBo1mmn7crADROt5gcwAGtS0IlS++lNIP+PNQ
-         JaXA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780497224; x=1781102024;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=uhBI88HcMxiu/qVRbd3Bgg5S6TL2Bjx/bQArdCqGIeA=;
-        b=D+yoEL/+TGJEu/mWPtKzWSZTRV3mHt5bqVh4TSYc+88TrZyTA2ReNiaZD4lOUstxon
-         h+N4lY6MOg2s28yJz1SnUAEmwrrNFOez6yPV1YSsM3GQN46cvJorbCGT51bO40xw8o/h
-         r65LJwuasiCvs47NjmBzthDrgcqeb8r/Aj3ct6MWnDyj6s3gTA95if/ffC5fgFnSd9u1
-         PLxEJwe7e4zVO1h83VLBT3mkaINQ1w+10uDaHTkq26VgiCDmu4DLogYVrojEbFPY3z6B
-         lCFDFSP8JL02olKc8EZ9SonDMCKazaaqaS/JAiyfaYwsdxzQp8oGlKQfO5/TbEmXDbfD
-         ZmyA==
-X-Forwarded-Encrypted: i=1; AFNElJ8MOnA0k/1R/FXVAqabriw938VKa4jf2i/RZCn6/MJImUt1n6OKRS1eZjDM+0iIOWwGXJxnQ0CVMD7ItMOv1arB0w==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxPj1XtZllzK00ivGmdz2jpzc1OAtb87+arMUhknbKI88+gwYBI
-	Uu5w5ODFxpG4z7WN4oK/jrlqS+AeyFfcn/0bl2cF+Oh0vacqfFWj2gYb
-X-Gm-Gg: Acq92OGb/vpaRjY4C8TrJY8xMjw+MAy4n49EyP1nk+fMBEytNjV2iWkQmjc3KFNahoX
-	mnGfbDFwzfUKERNGDkcqlSNVitWGMt+3tBoGTa/i8P7h0eiCyxU/gyBSFqQv9l2APzeSkSCEJra
-	MV9/HjUHa8s/3A42UHV4VxVEt7vF5G18beoT1G+opNMk/a3Iv3zZZRY8MrUUoM9Qhv2zpf/k5Q+
-	e6EK7SjTvChV2RH+3Q5QJa5GBT+XYIraEvJ1n0sAzcGUPFd2vtg/YYkSeA13vNI0TZU6be191fD
-	PMQ/Q7opSGJ1GSrBGKIFsmmME0TgQKqEIqgkFILxhLmSdf28utVk/zJyzXazj5g5m7e71gXajIW
-	7udvcsbqepkWn2OuyJHySZXkRmfe3LfSKWG/h1FhT2Bo4JQk7jDka6AgEa2Ygk/VLR18k5anjOs
-	hNBJQKT2++a6c7POkJqQKtMOvGfKuN4lmL4DY4dRvSLU6Enbdswr99ivZXcz4=
-X-Received: by 2002:a05:600c:810c:b0:490:afc5:f95d with SMTP id 5b1f17b1804b1-490b5e82e89mr65586495e9.29.1780497224451;
-        Wed, 03 Jun 2026 07:33:44 -0700 (PDT)
-Received: from localhost.localdomain ([2a00:23c4:a700:7301:179c:89ab:19f6:9ba4])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-490b0e823f7sm160147395e9.13.2026.06.03.07.33.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Jun 2026 07:33:44 -0700 (PDT)
-From: Biju <biju.das.au@gmail.com>
-X-Google-Original-From: Biju <biju.das.jz@bp.renesas.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>
-Cc: Biju Das <biju.das.jz@bp.renesas.com>,
-	linux-renesas-soc@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Biju Das <biju.das.au@gmail.com>
-Subject: [PATCH 2/2] arm64: dts: renesas: r9a09g047: Add max-frequency for SDHI controllers
-Date: Wed,  3 Jun 2026 15:33:36 +0100
-Message-ID: <20260603143340.162457-3-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260603143340.162457-1-biju.das.jz@bp.renesas.com>
-References: <20260603143340.162457-1-biju.das.jz@bp.renesas.com>
+	s=arc-20240116; t=1780497238; c=relaxed/simple;
+	bh=UTcBEx5Okbprk6wN9sGn7FXnZinOqc/dR1NUcU+TZFA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NInd3S01LQT0aPitY+xJ9t6WI8cYw71Dyq6z6bKFsd5/UW3WR9+HaLPbllTEf492HPnaUh8XGumaK3VCI2V1BlozBGuhGPZziEr4p7UiJrxYlqqOnfNcDuNzsGHY3CljWoilR0vWDKEsduM5YT4kEEzVxLIQTBOGXK1QkUAX0Yc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=eT8scUdi; arc=none smtp.client-ip=213.167.242.64
+Received: from ideasonboard.com (93-46-82-201.ip106.fastwebnet.it [93.46.82.201])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id C777C929;
+	Wed,  3 Jun 2026 16:33:31 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1780497211;
+	bh=UTcBEx5Okbprk6wN9sGn7FXnZinOqc/dR1NUcU+TZFA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=eT8scUdiSwiZU0vIpbKpif4dEiqPkX6/wf8TqNE+q1qDkc3v5urBWncTg8s4EeLIT
+	 g6j8yEexHDAowziqy2gYuQi/sMa1HR88qwFqhXnKYfu8WrdKiFNAS+/SfScy/1YGw8
+	 Df3LPTCGIgrlFxwEHRc/90wZENLCGxVd5N4Zop00=
+Date: Wed, 3 Jun 2026 16:33:52 +0200
+From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
+	Jai Luthra <jai.luthra+renesas@ideasonboard.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
+Subject: Re: [PATCH v9 12/13] media: rppx1: ga: Add support for gamma out
+ correction
+Message-ID: <aiA7Qk9CwyN-lE7M@zed>
+References: <20260516211320.3041412-1-niklas.soderlund+renesas@ragnatech.se>
+ <20260516211320.3041412-13-niklas.soderlund+renesas@ragnatech.se>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260516211320.3041412-13-niklas.soderlund+renesas@ragnatech.se>
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-1.66 / 15.00];
+X-Spamd-Result: default: False [-0.16 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
+	MID_RHS_NOT_FQDN(0.50)[];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-33539-lists,linux-renesas-soc=lfdr.de];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
-	FREEMAIL_CC(0.00)[bp.renesas.com,vger.kernel.org,gmail.com];
-	FORGED_SENDER(0.00)[bijudasau@gmail.com,linux-renesas-soc@vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-33541-lists,linux-renesas-soc=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:geert+renesas@glider.be,m:magnus.damm@gmail.com,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:biju.das.jz@bp.renesas.com,m:linux-renesas-soc@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:prabhakar.mahadev-lad.rj@bp.renesas.com,m:biju.das.au@gmail.com,m:geert@glider.be,m:magnusdamm@gmail.com,m:krzk@kernel.org,m:conor@kernel.org,m:bijudasau@gmail.com,s:lists@lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_SENDER(0.00)[jacopo.mondi@ideasonboard.com,linux-renesas-soc@vger.kernel.org];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_RECIPIENTS(0.00)[m:niklas.soderlund+renesas@ragnatech.se,m:jacopo.mondi@ideasonboard.com,m:jai.luthra+renesas@ideasonboard.com,m:mchehab@kernel.org,m:kuninori.morimoto.gx@renesas.com,m:laurent.pinchart@ideasonboard.com,m:linux-media@vger.kernel.org,m:linux-renesas-soc@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:jacopo.mondi+renesas@ideasonboard.com,m:niklas.soderlund@ragnatech.se,m:jai.luthra@ideasonboard.com,s:lists@lfdr.de];
 	FORWARDED(0.00)[lists@lfdr.de];
-	FREEMAIL_TO(0.00)[glider.be,gmail.com,kernel.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	PRECEDENCE_BULK(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[bijudasau@gmail.com,linux-renesas-soc@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
+	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,dt];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[jacopo.mondi@ideasonboard.com,linux-renesas-soc@vger.kernel.org];
+	DKIM_TRACE(0.00)[ideasonboard.com:+];
+	RCPT_COUNT_SEVEN(0.00)[10];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
+	TO_DN_SOME(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[bp.renesas.com:mid,renesas.com:email,vger.kernel.org:from_smtp,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[ideasonboard.com:dkim,ideasonboard.com:from_mime,ideasonboard.com:email,vger.kernel.org:from_smtp,ragnatech.se:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,zed:mid]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 2DD23638CA8
+X-Rspamd-Queue-Id: 7527E638CCD
 
-From: Biju Das <biju.das.jz@bp.renesas.com>
+Hi Niklas
 
-Add max-frequency property of 200MHz to the sdhi0, sdhi1, and sdhi2
-MMC controllers in the R9A09G047 SoC DTSI to define the maximum
-supported bus frequency.
+On Sat, May 16, 2026 at 11:13:19PM +0200, Niklas Söderlund wrote:
+> Extend the RPPX1 driver to allow setting the gamma out correction
+> configuration parameters. It uses the RPPX1 framework for parameters and
+> its writer abstraction to allow the user to control how, and when,
+> configuration is applied to the RPPX1.
+>
+> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> Co-developed-by: Jai Luthra <jai.luthra+renesas@ideasonboard.com>
+> Signed-off-by: Jai Luthra <jai.luthra+renesas@ideasonboard.com>
+> Co-developed-by: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
+> Signed-off-by: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
- arch/arm64/boot/dts/renesas/r9a09g047.dtsi | 3 +++
- 1 file changed, 3 insertions(+)
+Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 
-diff --git a/arch/arm64/boot/dts/renesas/r9a09g047.dtsi b/arch/arm64/boot/dts/renesas/r9a09g047.dtsi
-index b48da8534a3d..760099697278 100644
---- a/arch/arm64/boot/dts/renesas/r9a09g047.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r9a09g047.dtsi
-@@ -1265,6 +1265,7 @@ sdhi0: mmc@15c00000  {
- 			clocks = <&cpg CPG_MOD 0xa3>, <&cpg CPG_MOD 0xa5>,
- 				 <&cpg CPG_MOD 0xa4>, <&cpg CPG_MOD 0xa6>;
- 			clock-names = "core", "clkh", "cd", "aclk";
-+			max-frequency = <200000000>;
- 			resets = <&cpg 0xa7>;
- 			power-domains = <&cpg>;
- 			status = "disabled";
-@@ -1285,6 +1286,7 @@ sdhi1: mmc@15c10000 {
- 			clocks = <&cpg CPG_MOD 0xa7>, <&cpg CPG_MOD 0xa9>,
- 				 <&cpg CPG_MOD 0xa8>, <&cpg CPG_MOD 0xaa>;
- 			clock-names = "core", "clkh", "cd", "aclk";
-+			max-frequency = <200000000>;
- 			resets = <&cpg 0xa8>;
- 			power-domains = <&cpg>;
- 			status = "disabled";
-@@ -1305,6 +1307,7 @@ sdhi2: mmc@15c20000 {
- 			clocks = <&cpg CPG_MOD 0xab>, <&cpg CPG_MOD 0xad>,
- 				 <&cpg CPG_MOD 0xac>, <&cpg CPG_MOD 0xae>;
- 			clock-names = "core", "clkh", "cd", "aclk";
-+			max-frequency = <200000000>;
- 			resets = <&cpg 0xa9>;
- 			power-domains = <&cpg>;
- 			status = "disabled";
--- 
-2.43.0
+Thanks
+  j
 
+> ---
+>  .../platform/dreamchip/rppx1/rpp_module.h     |  1 +
+>  .../platform/dreamchip/rppx1/rpp_params.c     |  5 ++
+>  .../media/platform/dreamchip/rppx1/rppx1_ga.c | 43 ++++++++++++++-
+>  .../uapi/linux/media/dreamchip/rppx1-config.h | 53 ++++++++++++++++++-
+>  4 files changed, 100 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/media/platform/dreamchip/rppx1/rpp_module.h b/drivers/media/platform/dreamchip/rppx1/rpp_module.h
+> index 48b61b5c35b4..948e26d7361d 100644
+> --- a/drivers/media/platform/dreamchip/rppx1/rpp_module.h
+> +++ b/drivers/media/platform/dreamchip/rppx1/rpp_module.h
+> @@ -54,6 +54,7 @@ union rppx1_params_block {
+>  	struct rppx1_hist_params hist;
+>  	struct rppx1_exm_params exm;
+>  	struct rppx1_wbmeas_params wbmeas;
+> +	struct rppx1_ga_params ga;
+>  };
+>
+>  union rppx1_stats_block {
+> diff --git a/drivers/media/platform/dreamchip/rppx1/rpp_params.c b/drivers/media/platform/dreamchip/rppx1/rpp_params.c
+> index 8d85d0c7bff1..86d445b52504 100644
+> --- a/drivers/media/platform/dreamchip/rppx1/rpp_params.c
+> +++ b/drivers/media/platform/dreamchip/rppx1/rpp_params.c
+> @@ -30,6 +30,8 @@ rppx1_ext_params_blocks_info[] = {
+>  	RPPX1_PARAMS_BLOCK_INFO(EXM_PRE1, exm),
+>  	RPPX1_PARAMS_BLOCK_INFO(EXM_PRE2, exm),
+>  	RPPX1_PARAMS_BLOCK_INFO(WBMEAS_POST, wbmeas),
+> +	RPPX1_PARAMS_BLOCK_INFO(GA_HV, ga),
+> +	RPPX1_PARAMS_BLOCK_INFO(GA_MV, ga),
+>  };
+>
+>  int rppx1_params(struct rppx1 *rpp, struct vb2_buffer *vb, size_t max_size,
+> @@ -84,6 +86,9 @@ int rppx1_params(struct rppx1 *rpp, struct vb2_buffer *vb, size_t max_size,
+>  		case RPPX1_PARAMS_BLOCK_TYPE_WBMEAS_POST:
+>  			module = &rpp->post.wbmeas;
+>  			break;
+> +		case RPPX1_PARAMS_BLOCK_TYPE_GA_HV:
+> +			module = &rpp->hv.ga;
+> +			break;
+>  		default:
+>  			dev_warn(rpp->dev,
+>  				 "Not handled RPPX1 block type: 0x%04x\n",
+> diff --git a/drivers/media/platform/dreamchip/rppx1/rppx1_ga.c b/drivers/media/platform/dreamchip/rppx1/rppx1_ga.c
+> index 0667672b2694..1d9c24c43f77 100644
+> --- a/drivers/media/platform/dreamchip/rppx1/rppx1_ga.c
+> +++ b/drivers/media/platform/dreamchip/rppx1/rppx1_ga.c
+> @@ -15,9 +15,11 @@
+>  #define GAMMA_OUT_MODE_REG			0x0008
+>  #define GAMMA_OUT_MODE_GAMMA_OUT_EQU_SEGM	BIT(0)
+>
+> -#define GAMMA_OUT_Y_REG_NUM			17
+>  #define GAMMA_OUT_Y_REG(n)			(0x000c + (4 * (n)))
+>
+> +#define GAMMA_OUT_HV_GAMMA_CURVE_MASK		GENMASK(11, 0)
+> +#define GAMMA_OUT_MV_GAMMA_CURVE_MASK		GENMASK(23, 0)
+> +
+>  static int rppx1_ga_probe(struct rpp_module *mod)
+>  {
+>  	/* Version check. */
+> @@ -44,7 +46,46 @@ static int rppx1_ga_start(struct rpp_module *mod,
+>  	return 0;
+>  }
+>
+> +static int
+> +rppx1_ga_fill_params(struct rpp_module *mod,
+> +		     const union rppx1_params_block *block,
+> +		     rppx1_reg_write write, void *priv)
+> +{
+> +	const struct rppx1_ga_params *cfg = &block->ga;
+> +	u32 mask;
+> +
+> +	/* If the modules is disabled, simply bypass it. */
+> +	if (cfg->header.flags & V4L2_ISP_PARAMS_FL_BLOCK_DISABLE) {
+> +		write(priv, mod->base + GAMMA_OUT_ENABLE_REG, 0);
+> +		return 0;
+> +	}
+> +
+> +	switch (cfg->header.type) {
+> +	case RPPX1_PARAMS_BLOCK_TYPE_GA_HV:
+> +		mask = GAMMA_OUT_HV_GAMMA_CURVE_MASK;
+> +		break;
+> +	case RPPX1_PARAMS_BLOCK_TYPE_GA_MV:
+> +		mask = GAMMA_OUT_MV_GAMMA_CURVE_MASK;
+> +		break;
+> +	default:
+> +		return -EINVAL;
+> +	}
+> +
+> +	write(priv, mod->base + GAMMA_OUT_MODE_REG, cfg->mode);
+> +
+> +	for (unsigned int i = 0; i < RPPX1_GA_MAX_SAMPLES; i++)
+> +		write(priv, mod->base + GAMMA_OUT_Y_REG(i),
+> +		      cfg->gamma_y[i] & mask);
+> +
+> +	/* Enable module. */
+> +	write(priv, mod->base + GAMMA_OUT_ENABLE_REG,
+> +	      GAMMA_OUT_ENABLE_GAMMA_OUT_EN);
+> +
+> +	return 0;
+> +}
+> +
+>  const struct rpp_module_ops rppx1_ga_ops = {
+>  	.probe = rppx1_ga_probe,
+>  	.start = rppx1_ga_start,
+> +	.fill_params = rppx1_ga_fill_params,
+>  };
+> diff --git a/include/uapi/linux/media/dreamchip/rppx1-config.h b/include/uapi/linux/media/dreamchip/rppx1-config.h
+> index 7ebcc00ace04..05faec2f68e3 100644
+> --- a/include/uapi/linux/media/dreamchip/rppx1-config.h
+> +++ b/include/uapi/linux/media/dreamchip/rppx1-config.h
+> @@ -91,6 +91,8 @@ enum rppx1_meas_chan {
+>   * @RPPX1_PARAMS_BLOCK_TYPE_CCOR_POST: POST pipe Color Correction
+>   * @RPPX1_PARAMS_BLOCK_TYPE_LSC_PRE1: PRE1 pipe Lens Shading Correction
+>   * @RPPX1_PARAMS_BLOCK_TYPE_LSC_PRE2: PRE2 Lens Shading Correction
+> + * @RPPX1_PARAMS_BLOCK_TYPE_GA_HV: Human Vision Pipe Gamma Out Correction
+> + * @RPPX1_PARAMS_BLOCK_TYPE_GA_MV: Machine Vision Gamma Out Correction
+>   */
+>  enum rppx1_params_block_type {
+>  	RPPX1_PARAMS_BLOCK_TYPE_WBMEAS_POST,
+> @@ -107,6 +109,8 @@ enum rppx1_params_block_type {
+>  	RPPX1_PARAMS_BLOCK_TYPE_CCOR_POST,
+>  	RPPX1_PARAMS_BLOCK_TYPE_LSC_PRE1,
+>  	RPPX1_PARAMS_BLOCK_TYPE_LSC_PRE2,
+> +	RPPX1_PARAMS_BLOCK_TYPE_GA_HV,
+> +	RPPX1_PARAMS_BLOCK_TYPE_GA_MV,
+>  };
+>
+>  /**
+> @@ -497,6 +501,51 @@ struct rppx1_lsc_params {
+>  	__u16 y_sect_size[RPPX1_LSC_NUM_SECTORS];
+>  };
+>
+> +/* Gamma Out */
+> +#define RPPX1_GA_MAX_SAMPLES 17
+> +
+> +/**
+> + * enum rppx1_ga_seg_mode - Gamma out curve segmentation mode
+> + *
+> + * Segmentation mode of the 16 input sampling points for the Gamma Out
+> + * Correction module.
+> + *
+> + * @RPPX1_GA_SEG_MODE_LOGARITHMIC: logarithmic-like segmentation mode
+> + * @RPPX1_GA_SEG_MODE_EQUIDISTANT: equidistant segmentation mode
+> + */
+> +enum rppx1_ga_seg_mode {
+> +	RPPX1_GA_SEG_MODE_LOGARITHMIC,
+> +	RPPX1_GA_SEG_MODE_EQUIDISTANT
+> +};
+> +
+> +/**
+> + * struct rppx1_ga_params - Gamma Out Correction configuration
+> + *
+> + * The Gamma Out Correction module is available on the Human Vision Output
+> + * Pipe (HV) and the Machine Vision Output Pipe (MV). Userspace selects
+> + * which pipe to operate by setting the @header.type field to
+> + * RPPX1_PARAMS_BLOCK_TYPE_GA_HV or RPPX1_PARAMS_BLOCK_TYPE_GA_MV.
+> + *
+> + * The module allows to apply a @gamma_y gamma correction curve to RGB data
+> + * represented as a table of 16 entries. The 16 input sampling points can be
+> + * equidistant or segmented using a logarithmic scale according to the value of
+> + * @mode.
+> + *
+> + * The gamma curve values are 12 bits on the HV output pipe and 24 bits on the
+> + * MV output pipe. Userspace is expected to provide the curve values with a
+> + * bit-depth matching the one of pipe in use.
+> + *
+> + * @header: block header (type = RPPX1_PARAMS_BLOCK_TYPE_GA_HV or
+> + *	    type = RPPX1_PARAMS_BLOCK_TYPE_GA_MV)
+> + * @mode: gamma curve input segmentation mode (see rppx1_ga_seg_mode)
+> + * @gamma_y: gamma out curve y-axis values
+> + */
+> +struct rppx1_ga_params {
+> +	struct v4l2_isp_params_block_header header;
+> +	__u8 mode;
+> +	__u32 gamma_y[RPPX1_GA_MAX_SAMPLES];
+> +};
+> +
+>  /**
+>   * RPPX1_PARAMS_MAX_SIZE - Maximum size of all RPP-X1 parameter blocks
+>   *
+> @@ -517,7 +566,9 @@ struct rppx1_lsc_params {
+>  	sizeof(struct rppx1_bls_params)				+	\
+>  	sizeof(struct rppx1_ccor_params)			+	\
+>  	sizeof(struct rppx1_lsc_params)				+	\
+> -	sizeof(struct rppx1_lsc_params))
+> +	sizeof(struct rppx1_lsc_params)				+	\
+> +	sizeof(struct rppx1_ga_params)				+	\
+> +	sizeof(struct rppx1_ga_params))
+>
+>  /* ---------------------------------------------------------------------------
+>   * Statistics Structures
+> --
+> 2.54.0
+>
 
