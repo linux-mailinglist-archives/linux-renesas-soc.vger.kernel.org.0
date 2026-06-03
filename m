@@ -1,149 +1,282 @@
-Return-Path: <linux-renesas-soc+bounces-33530-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-33531-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id lGETFKswIGqEyQAAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-33530-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 03 Jun 2026 15:48:27 +0200
+	id QZPrA3AxIGqgyQAAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-33531-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 03 Jun 2026 15:51:44 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id A61816383C8
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 03 Jun 2026 15:48:26 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 695F4638413
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 03 Jun 2026 15:51:43 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=none;
-	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-33530-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-33530-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
-	dmarc=none;
+	dkim=pass header.d=ideasonboard.com header.s=mail header.b=tEByaRPd;
+	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-33531-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-33531-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=ideasonboard.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 7A0523037164
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  3 Jun 2026 13:38:39 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 467383162365
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  3 Jun 2026 13:38:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E13B62FD1DA;
-	Wed,  3 Jun 2026 13:38:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 10B192F39B9;
+	Wed,  3 Jun 2026 13:38:49 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAC491E766F;
-	Wed,  3 Jun 2026 13:38:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EA2B2FD1DA;
+	Wed,  3 Jun 2026 13:38:47 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780493918; cv=none; b=iz9V3IIr7SGMzbzMjhihbx93PprXAV3GHyEPkUqCMB+0Nha3myTCIKJ1j+ltFKpYLYTKXM69QM48r76zhAxrPhMsAIBHWGHEA2wgelKm/ztQDSfqjt/wMgDdZd/oQ116yyTZnrwJS5ssa5KlAwHq3gnyzWgDQ79BRgxrtFZsAPY=
+	t=1780493929; cv=none; b=OOWjasYodhYS7jfgQqTgmVYvSSCRl9s/QTj+u4Z8UrnTNV4gGQ8C6OBLPaHrVI8Xko+/DLZkj4zCbr/xZrPU9ZSx3MdFQr5BI/aYIEx4Fn3G/U6rVADvJXWu336GJXFfO/U8MInyOMwvmm8fzAEGtFzd+x4r55lcPoWH645sV28=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780493918; c=relaxed/simple;
-	bh=jpfMl3LBsN10XtaqYl6MLqpzotID798CTdJ4oaGnIxw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ds4nQfbsJMTiKS75pW1ExwdeUnZcD8VVdoU5prhCBwyZQ+d5xNnBki6DRnow1OGLovgc41ZSviN8ZhlBM+fa06zdAUQuf5e9UJvh1f82hyVwNzvzQ/6Qz27vqQYIfvRA6BeiOjM+Y8WWURXSfwv6LIm5I04XZq/6M7dfRqBh31Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E7E771F00893;
-	Wed,  3 Jun 2026 13:38:33 +0000 (UTC)
-Message-ID: <2e62a5af-06f5-4a11-80f1-81c62f9b2311@tuxon.dev>
-Date: Wed, 3 Jun 2026 16:38:31 +0300
+	s=arc-20240116; t=1780493929; c=relaxed/simple;
+	bh=fKPVotE20fGkW2T9nWm8ZIiasB4LWiX7gXuuh+z8fnE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=cUBJ1CIrCP3UhfBR8ffRMC2RCWWzTkQU/bvGnjLObOwxnuz9kUw0HZ3lJMNU1mhmkih4eSgwyd3u6/nyXpJhQnf/TcSYOw0r76s1Hz2wh6g3HJttkhYN5wxXvQ5KJvJCGu9WxhB7aoyx6VwipTdbdScendtykDIOB53Srdlp1lQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=tEByaRPd; arc=none smtp.client-ip=213.167.242.64
+Received: from ideasonboard.com (93-46-82-201.ip106.fastwebnet.it [93.46.82.201])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7F02D986;
+	Wed,  3 Jun 2026 15:38:21 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1780493901;
+	bh=fKPVotE20fGkW2T9nWm8ZIiasB4LWiX7gXuuh+z8fnE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=tEByaRPdQHC2lfHvnd1ihO+E2Cm+RiDv5M7ccdTf2J4MpdbCTkuWJbN9kfVGrpjuM
+	 peNksAcoPSRelzNS0G4CYS4ObEMPH3OuKUyhyNWGO5iQvpoWokvW0cZKmaNm5d98/m
+	 1t0hzgsODgqfFtpLBojQfh7iu7Fw79s6slY6mW3s=
+Date: Wed, 3 Jun 2026 15:38:42 +0200
+From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
+	Jai Luthra <jai.luthra+renesas@ideasonboard.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
+Subject: Re: [PATCH v9 06/13] media: rppx1: awbg: Add support for white
+ balance gain settings
+Message-ID: <aiAuUs0Q_1zI0iZW@zed>
+References: <20260516211320.3041412-1-niklas.soderlund+renesas@ragnatech.se>
+ <20260516211320.3041412-7-niklas.soderlund+renesas@ragnatech.se>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RESEND v3 3/5] phy: renesas: rcar-gen3-usb2: Lock around
- hardware registers and driver data
-To: Xia Fukun <xiafukun@huawei.com>, yoshihiro.shimoda.uh@renesas.com,
- vkoul@kernel.org, kishon@kernel.org, geert+renesas@glider.be,
- magnus.damm@gmail.com, horms+renesas@verge.net.au,
- fabrizio.castro@bp.renesas.com, Greg KH <gregkh@linuxfoundation.org>
-Cc: linux-renesas-soc@vger.kernel.org, linux-phy@lists.infradead.org,
- linux-kernel@vger.kernel.org,
- Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>, stable@vger.kernel.org,
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- "tanghui (C)" <tanghui20@huawei.com>
-References: <20250507125032.565017-1-claudiu.beznea.uj@bp.renesas.com>
- <20250507125032.565017-4-claudiu.beznea.uj@bp.renesas.com>
- <e49fc109-41a2-449f-a232-d8beac2c5e08@huawei.com>
-Content-Language: en-US
-From: Claudiu Beznea <claudiu.beznea@tuxon.dev>
-In-Reply-To: <e49fc109-41a2-449f-a232-d8beac2c5e08@huawei.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260516211320.3041412-7-niklas.soderlund+renesas@ragnatech.se>
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [0.04 / 15.00];
+X-Spamd-Result: default: False [-0.16 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-33531-lists,linux-renesas-soc=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:xiafukun@huawei.com,m:yoshihiro.shimoda.uh@renesas.com,m:vkoul@kernel.org,m:kishon@kernel.org,m:geert+renesas@glider.be,m:magnus.damm@gmail.com,m:horms+renesas@verge.net.au,m:fabrizio.castro@bp.renesas.com,m:gregkh@linuxfoundation.org,m:linux-renesas-soc@vger.kernel.org,m:linux-phy@lists.infradead.org,m:linux-kernel@vger.kernel.org,m:claudiu.beznea.uj@bp.renesas.com,m:stable@vger.kernel.org,m:prabhakar.mahadev-lad.rj@bp.renesas.com,m:tanghui20@huawei.com,m:geert@glider.be,m:magnusdamm@gmail.com,m:horms@verge.net.au,s:lists@lfdr.de];
-	DMARC_NA(0.00)[tuxon.dev];
 	RCVD_COUNT_THREE(0.00)[4];
-	FREEMAIL_TO(0.00)[huawei.com,renesas.com,kernel.org,glider.be,gmail.com,verge.net.au,bp.renesas.com,linuxfoundation.org];
-	FORGED_SENDER(0.00)[claudiu.beznea@tuxon.dev,linux-renesas-soc@vger.kernel.org];
-	RCPT_COUNT_TWELVE(0.00)[16];
-	TAGGED_FROM(0.00)[bounces-33530-lists,linux-renesas-soc=lfdr.de];
+	FORGED_SENDER(0.00)[jacopo.mondi@ideasonboard.com,linux-renesas-soc@vger.kernel.org];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:niklas.soderlund+renesas@ragnatech.se,m:jacopo.mondi@ideasonboard.com,m:jai.luthra+renesas@ideasonboard.com,m:mchehab@kernel.org,m:kuninori.morimoto.gx@renesas.com,m:laurent.pinchart@ideasonboard.com,m:linux-media@vger.kernel.org,m:linux-renesas-soc@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:jacopo.mondi+renesas@ideasonboard.com,m:niklas.soderlund@ragnatech.se,m:jai.luthra@ideasonboard.com,s:lists@lfdr.de];
 	FORWARDED(0.00)[lists@lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	TO_DN_SOME(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[claudiu.beznea@tuxon.dev,linux-renesas-soc@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	R_DKIM_NA(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[jacopo.mondi@ideasonboard.com,linux-renesas-soc@vger.kernel.org];
+	DKIM_TRACE(0.00)[ideasonboard.com:+];
+	RCPT_COUNT_SEVEN(0.00)[10];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
-	MID_RHS_MATCH_FROM(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	TO_DN_SOME(0.00)[];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,vger.kernel.org:from_smtp]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,ideasonboard.com:dkim,ideasonboard.com:from_mime,ideasonboard.com:email,ragnatech.se:email,zed:mid,vger.kernel.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: A61816383C8
+X-Rspamd-Queue-Id: 695F4638413
 
+Hi Niklas
 
+On Sat, May 16, 2026 at 11:13:13PM +0200, Niklas Söderlund wrote:
+> Extend the RPPX1 driver to allow setting the white balance gain
+> configuration parameters. It uses the RPPX1 framework for parameters and
+> its writer abstraction to allow the user to control how, and when,
+> configuration is applied to the RPPX1.
+>
+> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> Co-developed-by: Jai Luthra <jai.luthra+renesas@ideasonboard.com>
+> Signed-off-by: Jai Luthra <jai.luthra+renesas@ideasonboard.com>
+> Co-developed-by: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
+> Signed-off-by: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
 
-On 6/3/26 16:22, Xia Fukun wrote:
-> On 5/7/2025 8:50 PM, Claudiu wrote:
-> 
->> @@ -348,6 +349,8 @@ static ssize_t role_store(struct device *dev, struct device_attribute *attr,
->>   	bool is_b_device;
->>   	enum phy_mode cur_mode, new_mode;
->>   
->> +	guard(spinlock_irqsave)(&ch->lock);
->> +
->>   	if (!ch->is_otg_channel || !rcar_gen3_is_any_otg_rphy_initialized(ch))
->>   		return -EIO;
->>   
->> @@ -415,7 +418,7 @@ static void rcar_gen3_init_otg(struct rcar_gen3_chan *ch)
->>   		val = readl(usb2_base + USB2_ADPCTRL);
->>   		writel(val | USB2_ADPCTRL_IDPULLUP, usb2_base + USB2_ADPCTRL);
->>   	}
->> -	msleep(20);
->> +	mdelay(20);
->>   
->>   	writel(0xffffffff, usb2_base + USB2_OBINTSTA);
->>   	writel(ch->obint_enable_bits, usb2_base + USB2_OBINTEN);
-> The fix for the rcar_gen3_init_otg function has not been backported to
-> the 5.10-stable branch, which leads to a "scheduling while atomic" bug
-> in that branch:
-> 
-> rcar_gen3_phy_usb2_init()                    ← phy_init() callback
->    → guard(spinlock_irqsave)(&ch->lock)       ← acquires spinlock, disabling preemption + IRQs
->    → rcar_gen3_init_otg(ch)
->        → msleep(20)                           ← BUG: scheduling while atomic!
-> 
-> The patch for 5.10 is available at the following link:
-> https://web.git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/commit/? 
-> h=linux-5.10.y&id=0f86a559900fbe96af08a3a226a86fac27b02b8f
-> 
-> Perhaps the stable patch for the 5.10 branch needs to be updated to
-> fix this serious bug?
+Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 
-Sasha applied today the patch at [1] to solve this problem on v5.10.
+Thanks
+  j
 
-Thank you,
-Claudiu
-
-[1] 
-https://lore.kernel.org/all/20260501225859.504868-1-nobuhiro.iwamatsu.x90@mail.toshiba/
+> ---
+>  .../platform/dreamchip/rppx1/rpp_module.h     |  1 +
+>  .../platform/dreamchip/rppx1/rpp_params.c     |  5 +++
+>  .../platform/dreamchip/rppx1/rppx1_awbg.c     | 32 +++++++++++++++
+>  .../uapi/linux/media/dreamchip/rppx1-config.h | 40 ++++++++++++++++++-
+>  4 files changed, 77 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/media/platform/dreamchip/rppx1/rpp_module.h b/drivers/media/platform/dreamchip/rppx1/rpp_module.h
+> index 64a1b848f1ea..0e36b717b4ef 100644
+> --- a/drivers/media/platform/dreamchip/rppx1/rpp_module.h
+> +++ b/drivers/media/platform/dreamchip/rppx1/rpp_module.h
+> @@ -47,6 +47,7 @@ void rpp_module_clrset(struct rpp_module *mod, u32 offset, u32 mask, u32 value);
+>
+>  union rppx1_params_block {
+>  	struct v4l2_isp_block_header header;
+> +	struct rppx1_awbg_params awbg;
+>  	struct rppx1_wbmeas_params wbmeas;
+>  };
+>
+> diff --git a/drivers/media/platform/dreamchip/rppx1/rpp_params.c b/drivers/media/platform/dreamchip/rppx1/rpp_params.c
+> index 7325abeba92a..17bbcf366970 100644
+> --- a/drivers/media/platform/dreamchip/rppx1/rpp_params.c
+> +++ b/drivers/media/platform/dreamchip/rppx1/rpp_params.c
+> @@ -17,6 +17,8 @@
+>
+>  static const struct v4l2_isp_params_block_type_info
+>  rppx1_ext_params_blocks_info[] = {
+> +	RPPX1_PARAMS_BLOCK_INFO(AWBG_PRE1, awbg),
+> +	RPPX1_PARAMS_BLOCK_INFO(AWBG_PRE2, awbg),
+>  	RPPX1_PARAMS_BLOCK_INFO(WBMEAS_POST, wbmeas),
+>  };
+>
+> @@ -51,6 +53,9 @@ int rppx1_params(struct rppx1 *rpp, struct vb2_buffer *vb, size_t max_size,
+>  		block_offset += block->header.size;
+>
+>  		switch (block->header.type) {
+> +		case RPPX1_PARAMS_BLOCK_TYPE_AWBG_PRE1:
+> +			module = &rpp->pre1.awbg;
+> +			break;
+>  		case RPPX1_PARAMS_BLOCK_TYPE_WBMEAS_POST:
+>  			module = &rpp->post.wbmeas;
+>  			break;
+> diff --git a/drivers/media/platform/dreamchip/rppx1/rppx1_awbg.c b/drivers/media/platform/dreamchip/rppx1/rppx1_awbg.c
+> index 4a242b41142b..f30e12d6f880 100644
+> --- a/drivers/media/platform/dreamchip/rppx1/rppx1_awbg.c
+> +++ b/drivers/media/platform/dreamchip/rppx1/rppx1_awbg.c
+> @@ -26,6 +26,38 @@ static int rppx1_awbg_probe(struct rpp_module *mod)
+>  	return 0;
+>  }
+>
+> +static int
+> +rppx1_awbg_fill_params(struct rpp_module *mod,
+> +		       const union rppx1_params_block *block,
+> +		       rppx1_reg_write write, void *priv)
+> +{
+> +	const struct rppx1_awbg_params *cfg = &block->awbg;
+> +
+> +	/* If the modules is disabled, simply bypass it. */
+> +	if (cfg->header.flags & V4L2_ISP_PARAMS_FL_BLOCK_DISABLE) {
+> +		write(priv, mod->base + AWB_ENABLE_REG, 0);
+> +		return 0;
+> +	}
+> +
+> +	/*
+> +	 * RPP gains are 18-bit with 12 bit fractional part and 0x1000 = 1.0,
+> +	 * giving a possible range of 0.0 to 64.0. NOTE: RPP documentation is
+> +	 * contradictory this is the register definition, the function
+> +	 * description states 0x400 = 1.0 AND 18-bit with 12 fractional bits,
+> +	 * which is not possible...
+> +	 */
+> +
+> +	write(priv, mod->base + AWB_GAIN_GR_REG, cfg->gain_green_r);
+> +	write(priv, mod->base + AWB_GAIN_GB_REG, cfg->gain_green_b);
+> +	write(priv, mod->base + AWB_GAIN_R_REG, cfg->gain_red);
+> +	write(priv, mod->base + AWB_GAIN_B_REG, cfg->gain_blue);
+> +
+> +	write(priv, mod->base + AWB_ENABLE_REG, AWB_ENABLE_AWB_GAIN_EN);
+> +
+> +	return 0;
+> +}
+> +
+>  const struct rpp_module_ops rppx1_awbg_ops = {
+>  	.probe = rppx1_awbg_probe,
+> +	.fill_params = rppx1_awbg_fill_params,
+>  };
+> diff --git a/include/uapi/linux/media/dreamchip/rppx1-config.h b/include/uapi/linux/media/dreamchip/rppx1-config.h
+> index 938f8f258f9e..5ed8a335c9de 100644
+> --- a/include/uapi/linux/media/dreamchip/rppx1-config.h
+> +++ b/include/uapi/linux/media/dreamchip/rppx1-config.h
+> @@ -48,9 +48,15 @@ struct rppx1_window {
+>   * NOTE: Only append to the enumeration as the numbers are uAPI.
+>   *
+>   * @RPPX1_PARAMS_BLOCK_TYPE_WBMEAS_POST: AWB Measurement Configuration
+> + * @RPPX1_PARAMS_BLOCK_TYPE_AWBG_PRE1: PRE1 pipe White Balance Gains
+> + * @RPPX1_PARAMS_BLOCK_TYPE_AWBG_PRE2: PRE2 White Balance Gains
+> + * @RPPX1_PARAMS_BLOCK_TYPE_AWBG_POST: MAIN_POST White Balance Gains
+>   */
+>  enum rppx1_params_block_type {
+>  	RPPX1_PARAMS_BLOCK_TYPE_WBMEAS_POST,
+> +	RPPX1_PARAMS_BLOCK_TYPE_AWBG_PRE1,
+> +	RPPX1_PARAMS_BLOCK_TYPE_AWBG_PRE2,
+> +	RPPX1_PARAMS_BLOCK_TYPE_AWBG_POST,
+>  };
+>
+>  /**
+> @@ -109,6 +115,35 @@ struct rppx1_wbmeas_params {
+>  	__u32 ccor_offs[3];
+>  };
+>
+> +/**
+> + * struct rppx1_awbg_params  - WB gain configuration
+> + *
+> + * The RPP-X1 White Balance Gain module is available in the PRE1 and PRE2
+> + * pre-fusion pipes and in the MAIN_POST post-fusion pipe. Userspace selects
+> + * which pipe to operate by setting the @header.type field to
+> + * RPPX1_PARAMS_BLOCK_TYPE_AWBG_PRE1, RPPX1_PARAMS_BLOCK_TYPE_AWBG_PRE2
+> + * or RPPX1_PARAMS_BLOCK_TYPE_AWBG_POST.
+> + *
+> + * The White Balance module allows to specify per-color channel gains, expressed
+> + * as unsigned fixed-point values as 18 bits unsigned integers in Q6.12 format
+> + * with a maximum of 63.999.
+> + *
+> + * @header: block header (type = RPPX1_PARAMS_BLOCK_TYPE_AWBG_PRE1 or
+> + *	    type = RPPX1_PARAMS_BLOCK_TYPE_AWBG_PRE2 or
+> + *	    type = RPPX1_PARAMS_BLOCK_TYPE_AWBG_POST)
+> + * @gain_red: gain for red component, 18-bit (unsigned Q6.12)
+> + * @gain_green_r: gain for green component in red lines, 18-bit (unsigned Q6.12)
+> + * @gain_blue: gain for blue component, 18-bit (unsigned Q6.12)
+> + * @gain_green_b: gain for green component in blue lines, 18-bit (unsigned Q6.12)
+> + */
+> +struct rppx1_awbg_params {
+> +	struct v4l2_isp_params_block_header header;
+> +	__u32 gain_red;
+> +	__u32 gain_green_r;
+> +	__u32 gain_blue;
+> +	__u32 gain_green_b;
+> +};
+> +
+>  /**
+>   * RPPX1_PARAMS_MAX_SIZE - Maximum size of all RPP-X1 parameter blocks
+>   *
+> @@ -116,7 +151,10 @@ struct rppx1_wbmeas_params {
+>   * multiple pipes.
+>   */
+>  #define RPPX1_PARAMS_MAX_SIZE						\
+> -	(sizeof(struct rppx1_wbmeas_params))
+> +	(sizeof(struct rppx1_wbmeas_params)			+	\
+> +	sizeof(struct rppx1_awbg_params)			+	\
+> +	sizeof(struct rppx1_awbg_params)			+	\
+> +	sizeof(struct rppx1_awbg_params))
+>
+>  /* ---------------------------------------------------------------------------
+>   * Statistics Structures
+> --
+> 2.54.0
+>
 
