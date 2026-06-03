@@ -1,234 +1,166 @@
-Return-Path: <linux-renesas-soc+bounces-33512-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-33514-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id ZyRHAoQIIGrFuQAAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-33512-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 03 Jun 2026 12:57:08 +0200
+	id DkHdALkMIGpPvAAAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-33514-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 03 Jun 2026 13:15:05 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A722636C35
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 03 Jun 2026 12:57:07 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 15768636EC6
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 03 Jun 2026 13:15:04 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=ideasonboard.com header.s=mail header.b=YLg7Gve8;
-	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-33512-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 2600:3c09:e001:a7::12fc:5321 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-33512-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=ideasonboard.com;
+	dkim=pass header.d=9elements.com header.s=google header.b=TySAk75b;
+	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-33514-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 104.64.211.4 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-33514-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=quarantine) header.from=9elements.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id D6FFA3004D25
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  3 Jun 2026 10:56:40 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id A1F3030B562A
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  3 Jun 2026 11:04:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 089073F54A7;
-	Wed,  3 Jun 2026 10:56:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B8288472780;
+	Wed,  3 Jun 2026 11:01:34 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 519B83314B9;
-	Wed,  3 Jun 2026 10:56:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 181B346AEF5
+	for <linux-renesas-soc@vger.kernel.org>; Wed,  3 Jun 2026 11:01:31 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780484199; cv=none; b=ANC8kbT0YcoicFLUp6k6Zu5RLkLUYhyI6rvRSB/srkzWbIVTy83HRM4muy71N/BpE+TVFJulndjn2KfRwmpo2C5AnmO3eUxXpuTNO3RYweeJPtZPoeuEet6Yx9gv+PiNx+PsDJSepF7vo4w4nhQeNXvGorNRHDD+6XrJ+/oFpQo=
+	t=1780484494; cv=none; b=MeS8iDStPOg2EN1+CKKckip9YkcnviUwdxWkFdDkfbjaRpYXP2b8zAa956tPhas7xTraDuHb/hfJN0deZPJt1VjTAVDMiskoCVxkrCVlZH/nZ5DWY+o+ugURAMsYLGwOjUxCbbPAeL1qJB48xeO8HEUujK2PycdXPijm2zzeYWo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780484199; c=relaxed/simple;
-	bh=bt8ClXGe1tma98inRptOqEQMuax6JOkpf6nqc1GOUKc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bvXpMXZO5+rzCcmqpQqPRNwbLzQyJ+ohm+gb1jZ6vYO9lRgzIbQcDkOzfB2EnFd6zDl/jC5m1pW2f9o7VxIS/bpeWwzH1XIk2oim1F1Pusal9X33NNDdE31d/zw9llk+4yKBd+V3WmwIdzIwtYJxaYvWZjGfsBB6aQU6hZN59aQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=YLg7Gve8; arc=none smtp.client-ip=213.167.242.64
-Received: from ideasonboard.com (93-46-82-201.ip106.fastwebnet.it [93.46.82.201])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id D8911929;
-	Wed,  3 Jun 2026 12:56:11 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1780484171;
-	bh=bt8ClXGe1tma98inRptOqEQMuax6JOkpf6nqc1GOUKc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=YLg7Gve8akVKtvHys5qEul6GB5NyHpaitunVARJlexKED0nmZvpIUDcjAlNHIrjVM
-	 hu6TXpHv7vwW6t4H8ojLKJz76vMF/kqnBO/XcEL1b3IBdmRZGIZ3bBhU/QKChVnEC3
-	 t7bxxks1TROPYpLQ6MNqNJdEdt28W1mEHVhcwyJQ=
-Date: Wed, 3 Jun 2026 12:56:32 +0200
-From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>, 
-	Hans Verkuil <hverkuil+cisco@kernel.org>
-Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
-	Jai Luthra <jai.luthra+renesas@ideasonboard.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
-Subject: Re: [PATCH v9 03/13] media: rppx1: Add framework to support
- Dreamchip RPPX1 ISP
-Message-ID: <aiAHZnFg6UvFf0Xd@zed>
-References: <20260516211320.3041412-1-niklas.soderlund+renesas@ragnatech.se>
- <20260516211320.3041412-4-niklas.soderlund+renesas@ragnatech.se>
+	s=arc-20240116; t=1780484494; c=relaxed/simple;
+	bh=gUffnRCkZd8GCDVad4nVwDK9l/4YI41QMrTFTZag9po=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=C34bx+d34/JHJV4MskBLh1YFV5rAFyGdEioY8aDZracu0eYY6WAtmbIMO5hcMkU8bSDIpGRvPXMrH5/wHlga1b8y9bEo+z/LfWNiYiYKpHZwowgIg4rGiN1kWD1VlvAXZmWngHkfbs4KIFbXbfcYTxolCMrbwYLNqFXxc1t+2fY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=9elements.com; spf=pass smtp.mailfrom=9elements.com; dkim=pass (2048-bit key) header.d=9elements.com header.i=@9elements.com header.b=TySAk75b; arc=none smtp.client-ip=209.85.128.52
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-490b09e4cccso16315055e9.0
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 03 Jun 2026 04:01:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=9elements.com; s=google; t=1780484490; x=1781089290; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=im10zWUipLMKBqnVFXqr0KEaN2pPpAtbqMH2WbacGe4=;
+        b=TySAk75bvOfPx1XvqKp8CqfVI2ej2/DNr6ytwUdC87W85ssfcFPp05diYJAdWif3+q
+         M7j6ovNAbgeQ0Z5Atzz8HHHY7h0HVXqMfHsuV/4WU4j5dXckO0B4WtPxFuM7pUyj0pBD
+         VZ2o7t7Xr/fVFL9QlS0zB3af4Gpc0bDkpXLKSehc8RJNjqS3ylj8GUlNDrA1aSDbBSAX
+         VRDOINiAX/aniK3G6LJNfEsJhuYthEw65axsK8ov4MQVHvBDhn5NF7tP5h6ycozmJzsP
+         Zqud9tHBwtr6Ea0/vACuogTdWP6sikZhdLUkUM8GaJGnQqSYPOj72lPfzU3weloV29zF
+         BCAA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780484490; x=1781089290;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=im10zWUipLMKBqnVFXqr0KEaN2pPpAtbqMH2WbacGe4=;
+        b=r85op233QGjPV6jgZhpfQPVEE8au9gc3JWRUB+rT2GyUi5HhfBkb4/EenO65vM//X2
+         yjSJCF8WjVNmiCIpaVuleVCvHW51f0CQuOK3yh8L4FU++0XagKGraK5T2YB+qTZkFdap
+         ECDxj8jhETH7ucb2h1ky5v+cVdYGDa7tkIlk40Xj7lk/MbKW81vlZQ3bJoTi3DmygUGl
+         YWRRiHfaZ6sEi/k1E4n3aXlWccbyfpre7AIwVR5GTQSe517QB3HmQdmVmm9N7HJka3D2
+         An1iMrLmcuVzUkkraTWg3cpp7L2S1VvOsGt3IbN0cNdeArwRqbEFDbx+ASvMPLImsMCA
+         nR3Q==
+X-Forwarded-Encrypted: i=1; AFNElJ89kGShTvKlC695AAZo3qGILbgLKnSCgjgMsrtQ0z0sh7AxoI8cYDPE5kpAB6mmj2LBCFiqnTs/HPH8qF8X398Q+w==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyO8Brt+rJvyeKHjhTZQctn1AG52i+toB0qI5v3Yii5Lh7GV9QL
+	/MmtLUzgZAvsbbCwSeEVMvF5lzGib6MMxSEY8eQF9jzD/EYPxtitNuZPTP/HitBY1PE=
+X-Gm-Gg: Acq92OEHb0NITc2cIGNucVbWEI6Z89bNo1HWWw1i308n5tVjXle9qHJSgSk/gW91PtG
+	u+E2SxSizJR+daiWzsajgN1WFTZpzeSZV0FoHC3RJHhxikzbJvqC4SWUMtm/FrJB4uowpQNyIl3
+	gnSrKVKZQ5z/PAQ01IQ3yh6x07lm44Fo2ZxJrKifse3TrGQAC3dsYFaiZdOGiD6rSwpIm+q3si7
+	KKsB9CbVvtVDMCT9+GKoL+oggSQFP08cr6xcYKwyzo8Yolejsb3s7rHb42j0l+GwUjTucscYKiQ
+	FKetU8x26/jtKe+kUxVxYPAF9qwZ3C8ud1pQStDRpQyMGpXDD1lqseDgakxldPmG1YMd4hOfGRY
+	27Q6JiybC9EWz4K+1KiH8tlDshP5IHrYiiUS3O6KZKgU7VSU/rAaHZkDqzMUlRGaMRhMcUyCcv8
+	kj3whA5s/BVRzWht4wqJqWtSCBajnUgmAzjXDhotM9KlT7mujE9wOgccQwHxFqvdaONtLlyTYdB
+	bFmOpzM0AtiCK0AHlYUjzsBMnG/aVzsCp4x5UAOqNFo+zvmLoEeaA==
+X-Received: by 2002:a05:600c:8b30:b0:48f:e26a:1744 with SMTP id 5b1f17b1804b1-490b5eb4aeemr46258005e9.9.1780484490576;
+        Wed, 03 Jun 2026 04:01:30 -0700 (PDT)
+Received: from nareshubuntu2404-gh-runner.lab.9e.network ([188.111.3.154])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-490b0e76153sm138908575e9.11.2026.06.03.04.01.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 03 Jun 2026 04:01:29 -0700 (PDT)
+From: Naresh Solanki <naresh.solanki@9elements.com>
+To: Guenter Roeck <linux@roeck-us.net>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Grant Peltier <grantpeltier93@gmail.com>,
+	linux-hwmon@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	Patrick Rudolph <patrick.rudolph@9elements.com>,
+	Naresh Solanki <naresh.solanki@9elements.com>
+Subject: [PATCH 1/2] dt-bindings: hwmon: isl68137: Add RAA228234 compatible
+Date: Wed,  3 Jun 2026 11:01:26 +0000
+Message-ID: <20260603110127.23930-1-naresh.solanki@9elements.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260516211320.3041412-4-niklas.soderlund+renesas@ragnatech.se>
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-1.66 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
-	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[9elements.com,quarantine];
+	R_DKIM_ALLOW(-0.20)[9elements.com:s=google];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-33512-lists,linux-renesas-soc=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER(0.00)[jacopo.mondi@ideasonboard.com,linux-renesas-soc@vger.kernel.org];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS(0.00)[m:niklas.soderlund+renesas@ragnatech.se,m:hverkuil+cisco@kernel.org,m:jacopo.mondi@ideasonboard.com,m:jai.luthra+renesas@ideasonboard.com,m:mchehab@kernel.org,m:kuninori.morimoto.gx@renesas.com,m:laurent.pinchart@ideasonboard.com,m:linux-media@vger.kernel.org,m:linux-renesas-soc@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:jacopo.mondi+renesas@ideasonboard.com,m:niklas.soderlund@ragnatech.se,m:hverkuil@kernel.org,m:jai.luthra@ideasonboard.com,s:lists@lfdr.de];
-	FORWARDED(0.00)[lists@lfdr.de];
+	TAGGED_FROM(0.00)[bounces-33514-lists,linux-renesas-soc=lfdr.de];
+	FREEMAIL_CC(0.00)[glider.be,gmail.com,vger.kernel.org,9elements.com];
+	RCPT_COUNT_TWELVE(0.00)[13];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[ideasonboard.com:+];
-	MISSING_XM_UA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	ALIAS_RESOLVED(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[jacopo.mondi@ideasonboard.com,linux-renesas-soc@vger.kernel.org];
+	FORWARDED(0.00)[lists@lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_SENDER(0.00)[naresh.solanki@9elements.com,linux-renesas-soc@vger.kernel.org];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_RECIPIENTS(0.00)[m:linux@roeck-us.net,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:geert+renesas@glider.be,m:magnus.damm@gmail.com,m:grantpeltier93@gmail.com,m:linux-hwmon@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-renesas-soc@vger.kernel.org,m:patrick.rudolph@9elements.com,m:naresh.solanki@9elements.com,m:krzk@kernel.org,m:conor@kernel.org,m:geert@glider.be,m:magnusdamm@gmail.com,s:lists@lfdr.de];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,cisco];
+	PRECEDENCE_BULK(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[naresh.solanki@9elements.com,linux-renesas-soc@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[9elements.com:+];
+	RCVD_COUNT_FIVE(0.00)[5];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	TO_DN_SOME(0.00)[];
+	ALIAS_RESOLVED(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[zed:mid,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,vger.kernel.org:from_smtp,ideasonboard.com:from_mime,ideasonboard.com:dkim]
+	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[9elements.com:mid,9elements.com:dkim,9elements.com:from_mime,9elements.com:email,vger.kernel.org:from_smtp,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 9A722636C35
+X-Rspamd-Queue-Id: 15768636EC6
 
-Hi Niklas,
-  let me point Hans to a single part of this patch then I'll review
-  the rest
+From: Patrick Rudolph <patrick.rudolph@9elements.com>
 
-On Sat, May 16, 2026 at 11:13:10PM +0200, Niklas Söderlund wrote:
+Add the compatible string for the Renesas RAA228234 8-phase PWM
+controller, which shares the same PMBus interface as the RAA228228.
 
-[snip]
+Signed-off-by: Patrick Rudolph <patrick.rudolph@9elements.com>
+Signed-off-by: Naresh Solanki <naresh.solanki@9elements.com>
+---
+ Documentation/devicetree/bindings/hwmon/pmbus/isil,isl68137.yaml | 1 +
+ 1 file changed, 1 insertion(+)
 
-> diff --git a/Documentation/userspace-api/media/v4l/metafmt-rppx1.rst b/Documentation/userspace-api/media/v4l/metafmt-rppx1.rst
-> new file mode 100644
-> index 000000000000..ad256ae1c1b2
-> --- /dev/null
-> +++ b/Documentation/userspace-api/media/v4l/metafmt-rppx1.rst
-> @@ -0,0 +1,99 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +.. _v4l2-meta-fmt-rppx1-params:
-> +.. _v4l2-meta-fmt-rppx1-stats:
-> +
-> +*************************************************************************
-> +V4L2_META_FMT_RPP_X1_PARAMS ('DR1P'), V4L2_META_FMT_RPP_X1_STATS ('DR1S')
-> +*************************************************************************
-> +
-> +Configuration Parameters
-> +========================
-> +
-> +The configuration parameters are passed to the metadata output video node, using
-> +the :c:type:`v4l2_meta_format` interface. Rather than a single struct containing
-> +sub-structs for each configurable area of the ISP, parameters for the Dreamchip
-> +RPPX1 use the v4l2-isp parameters system, through which groups of parameters are
-> +defined as distinct structs or "blocks" which may be added to the data member of
-> +:c:type:`v4l2_isp_buffer`. Userspace is responsible for populating the data
-> +member with the blocks that need to be configured by the driver.  Each
-> +block-specific struct embeds :c:type:`v4l2_isp_block_header` as its first member
-> +and userspace must populate the type member with a value from
-> +:c:type:`rppx1_params_block_type`.
-> +
-> +.. code-block:: c
-> +
-> +	struct v4l2_isp_params_buffer *params =
-> +		(struct v4l2_isp_params_buffer *)buffer;
-> +
-> +	params->version = V4L2_ISP_PARAMS_VERSION_V1;
-> +	params->data_size = 0;
-> +
-> +	void *data = (void *)params->data;
-> +
-> +	struct rppx1_ccor_params *ccor =
-> +		(struct rppx1_ccor_params *)data;
-> +
-> +	ccor->header.type = RPPX1_PARAMS_BLOCK_TYPE_CCOR_POST;
-> +	ccor->header.flags |= V4L2_ISP_PARAMS_FL_BLOCK_ENABLE;
-> +	ccor->header.size = sizeof(struct rppx1_ccor_params);
-> +
-> +        ccor->coeff[0][0] = 0x1000;
-> +        ccor->coeff[0][1] = 0x0000;
-> +        ccor->coeff[0][2] = 0x0000;
-> +        ccor->coeff[1][0] = 0x0000;
-> +        ccor->coeff[1][1] = 0x1000;
-> +        ccor->coeff[1][2] = 0x0000;
-> +        ccor->coeff[2][0] = 0x0000;
-> +        ccor->coeff[2][1] = 0x0000;
-> +        ccor->coeff[2][2] = 0x1000;
-> +
-> +        ccor->offset[0] = 0x200000;
-> +        ccor->offset[1] = 0x200000;
-> +        ccor->offset[2] = 0x200000;
-> +
-> +	data += sizeof(struct rppx1_ccor_params);
-> +	params->data_size += sizeof(struct rppx1_ccor_params);
-> +
-> +3A Statistics
-> +=============
-> +
-> +The ISP device collects different statistics over an input bayer frame. Those
-> +statistics can be obtained by userspace from the metadata capture video node,
-> +using the :c:type:`v4l2_meta_format` interface. Rather than a single struct
-> +containing sub-structs for each statistics area of the ISP, statistics for the
-> +Dreamchip RPPX1 use the v4l2-isp statistics system, through which groups of
-> +statistics are defined as distinct structs or "blocks" which may be added to the
-> +data member of :c:type:`v4l2_isp_buffer`. Userspace is responsible for parsing
-> +the buffer and extracting the blocks of statistics. Each block-specific struct
-> +embeds :c:type:`v4l2_isp_block_header` as its first member and userspace must
-> +interpret the type member with a value from :c:type:`rppx1_stats_block_type`.
-> +
-> +.. code-block:: C
-> +
-> +        const struct v4l2_isp_buffer *stats =
-> +                (struct v4l2_isp_buffer *)buf;
-> +        size_t block_offset = 0;
-> +
-> +        while (block_offset < stats->data_size) {
-> +                const struct v4l2_isp_stats_block_header *block =
-> +                        (void*)(stats->data + block_offset);
-> +
-> +                block_offset += block->size;
-> +
-> +                switch (block->type) {
-> +                case RPPX1_STATS_BLOCK_TYPE_HIST_POST:
-> +                        for (unsigned int i = 0; i < RPPX1_HIST_NUM_BINS; i++)
-> +                                printf("hist.hist_bins[%u] = 0x%08x\n",
-> +                                        i, hist.hist_bins[%i]);
-> +                        break;
-> +                default:
-> +                        printf("Unknown block type 0x%04x", block->type);
-> +                        break;
-> +                }
-> +        }
-> +
-> +Dreamchip RPPX1 uAPI data types
-> +===============================
-> +
-> +.. kernel-doc:: include/uapi/linux/media/dreamchip/rppx1-config.h
+diff --git a/Documentation/devicetree/bindings/hwmon/pmbus/isil,isl68137.yaml b/Documentation/devicetree/bindings/hwmon/pmbus/isil,isl68137.yaml
+index 8216cdf758d8..2988bc6300ae 100644
+--- a/Documentation/devicetree/bindings/hwmon/pmbus/isil,isl68137.yaml
++++ b/Documentation/devicetree/bindings/hwmon/pmbus/isil,isl68137.yaml
+@@ -55,6 +55,7 @@ properties:
+           - renesas,raa228004
+           - renesas,raa228006
+           - renesas,raa228228
++          - renesas,raa228234
+           - renesas,raa228244
+           - renesas,raa228246
+           - renesas,raa229001
+-- 
+2.43.0
 
-Hans, compare this with the existing (for example) Mali documentation
-in Documentation/userspace-api/media/v4l/metafmt-arm-mali-c55.rst
-
-The Mali one is short on the stats part, but here there's is really
-nothing that is platform specific apart from the reference to the uAPI
-file here above.
-
-One reason why we want generic formats is exactly because we're
-repeating this documentation bits on every formats, without them
-adding much if anything at all.
-
-Thanks
-  j
 
