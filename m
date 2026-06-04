@@ -1,216 +1,166 @@
-Return-Path: <linux-renesas-soc+bounces-33597-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-33598-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id sSypLTWJIWprIQEAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-33597-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 04 Jun 2026 16:18:29 +0200
+	id E1IeL96YIWqDJgEAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-33598-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 04 Jun 2026 17:25:18 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48185640C33
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 04 Jun 2026 16:18:29 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A28D641668
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 04 Jun 2026 17:25:18 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=XOgx2IWr;
-	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-33597-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-33597-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=quarantine) header.from=kernel.org;
+	dkim=pass header.d=gmail.com header.s=20251104 header.b=o2JuDYDM;
+	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-33598-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 172.232.135.74 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-33598-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=gmail.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id E6DF83043989
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  4 Jun 2026 14:11:40 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id A839930BB1E5
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  4 Jun 2026 15:19:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7588F47F2CD;
-	Thu,  4 Jun 2026 14:11:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 35D6B329C71;
+	Thu,  4 Jun 2026 15:19:02 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E62EC259C80;
-	Thu,  4 Jun 2026 14:11:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9170633120E
+	for <linux-renesas-soc@vger.kernel.org>; Thu,  4 Jun 2026 15:19:00 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780582299; cv=none; b=ddvnutLRemxuNOOW3HVtb1Z5D7DOW+qzQxNdWZ0OWToFShcqm4n04qXrKa8V9s3He6xDcIMUd0uqgNSU6ai+jwT0M4+23B6r/4eFk0I1WSFtJ7oduTe0cg9kjiUHOGbno+US4UcxgjjNWMTakhewl0UftYn79psgn1BOhWfw+Ao=
+	t=1780586342; cv=none; b=mLnEeP+3f+uu4RT5RbMQls6FLEZR+X6i20xr3wfg/Luje/YukRA510jmSpY+Oryl4NtmdQil0GS4Ajg2eEtrJZ1s46XbjZPlGuPakBX5MeiL1ueuYVm/Qjm6k4vfN82gGvmzdqoYXY+0KtgyrAKFW8RxLE3wElANoucRXwtlX28=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780582299; c=relaxed/simple;
-	bh=c8MRTraEcn0OO+rGytzTy1mD4h0gR3K/7RG7LVvZFt8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RFQp+jW/NSGRSTGIQQH9z+yERm4wnSaPzIoZOVrmc6jHR7iXgp5BWeBDYtCE3mEYBgBuCedAVI+fYWT2JY7qJTlffMsjBQ8CdwYT0+9QU1O2jLBxSmBrTx6mhKM+rJG5TwjxjdQRpT60r8MmDXOZNUQpKaSuS2hxO7oV0en0Aro=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XOgx2IWr; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8A9E91F00893;
-	Thu,  4 Jun 2026 14:11:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780582297;
-	bh=0Sh8NbjgSm3sX3rE5H27Sw9yGDX3iYRRahDZnYRzigY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=XOgx2IWry6BQMO6hf28wILss3wx9fWI9pLICcpBiEVvTiBYLRWH76sW0VccP0wsD6
-	 x6Rp4lgpXHKOwgxN7oGX5zC0Ei4svwjET5+bnxB07wPuFNMNIQjU93gMZ8agZUJkm+
-	 j0jhV99LPtm1d9A2nOAmT964FlZr8ApxETSo9q2G5esDbwSCW4mTxcsEIV573cdI/9
-	 RL+/pdbC+5hBwMJ6PSxYhkuue/2TI2vZgDeNel2pyMmGlonrJQtlTNJk5vuH8Mi1iW
-	 PmLjfaIbytO+sCNgAFxGSN4VTEeChsII1Vx6HOPJMbaR7X1oreY3CGSQjHKg2EiJ2d
-	 XKvrYEL43jJFw==
-Date: Thu, 4 Jun 2026 09:11:36 -0500
-From: Rob Herring <robh@kernel.org>
-To: John Madieu <john.madieu.xa@bp.renesas.com>
-Cc: lgirdwood@gmail.com, broonie@kernel.org, krzk+dt@kernel.org,
-	conor+dt@kernel.org, geert+renesas@glider.be, magnus.damm@gmail.com,
-	kuninori.morimoto.gx@renesas.com, linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org, john.madieu@gmail.com
-Subject: Re: [PATCH] ASoC: dt-bindings: sound: renesas,r9a09g047: Fix
- dma-names list and ports schema
-Message-ID: <20260604141136.GA328529-robh@kernel.org>
-References: <20260603202805.3530046-1-john.madieu.xa@bp.renesas.com>
+	s=arc-20240116; t=1780586342; c=relaxed/simple;
+	bh=FsJzusXRvjkVBK8CC4DoLzl0EEg02IPeRG+NSu1x/s8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=IS5cH34DaEv9vcA6nvwXeeXSqEUsSvhOdvWPSw6SDHgWHzrtdOEWOuWXn+7ly60ivCTX2XRZpfu9YEyLATOsC8iJKyqgsClH9Tn/w4s9ApyFmzUBD28zEIeUsMtIztKIVv6I+6XrMtdrCCNGGuBnWt+dMpKES48KfTaSc5G1lNU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=o2JuDYDM; arc=none smtp.client-ip=209.85.128.47
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-490b9318997so6427305e9.2
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 04 Jun 2026 08:19:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1780586339; x=1781191139; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=v5Yo1OVsaBzd6nBAtTG4s9KPM7zpBpOTGHL8RzytDbE=;
+        b=o2JuDYDMnnaKL72OufOMaJTrWIxe8MvV4t7cgEQWQ0sKAoOm3mGDKWFc0X4mc/uBbm
+         feD0ngnBXt7RUBGIvaP7dVcLILHn5waHybtPpBSSERJsBDZvFRrL/VXuml5DYPjVMTpe
+         rITvAW8Zi+c91u48xon3sO/w1L9+fYfqjYpMi/hc6e1329JV9RqW0dlnSxwEiPdjo6Ju
+         LAcSm5cMteooyViGW0jjeG5+fuc/joiSuWhRflTg+D5sgPpIRT/wjgBhnHUcTe07svVp
+         KHgrlUPQJYlP6PXy3oDdb5PEXex3qNBF5goUM8PNIZU+gKVhOO54ef1hoA0xQ3NI8sGn
+         ewaw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780586339; x=1781191139;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=v5Yo1OVsaBzd6nBAtTG4s9KPM7zpBpOTGHL8RzytDbE=;
+        b=LV0VfkKfYlrA7AQSuS+G1ouLqfpb0uA1STGMfPMu/zk2qpILiOFgAHWxCLeKZE+/2Q
+         sIxOsdtp9TMpzITaVnQVlutWJHcq3hkyDt5MTgyuu+zGUzyl1sma4+EjwqaPdg5+48Uq
+         3E4Giyl/JCpTHiRXF42H1skhXmE6+LAn4kv39hR4PpladgS+FZKJJNoc90RJMzmdwe31
+         q9LC+K1w8v5wJToNG4TUUlFmPDAB0hgKnVu3K/pylfH1nBiOfWc5A0Uq7Rg0eJZByiZM
+         AACovhWYFojOhnr9l80SF0DnFU2UHGkR+Rdixmj7hrc04CLcXjscbHZc6fPM7YO1w/oD
+         HL6g==
+X-Forwarded-Encrypted: i=1; AFNElJ86VmSX4L8hqOhJ9wyNWpMk57mUKvNrVsSLmB8alOAVNerwxLp6n12LezBPCZUqPP4Kpm7YG0pDXv/hZ5EcvE9uDA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw9ShqZWAxuGbDDUvq9Bkn8CARrNqgz/uWw8LPMNDJK7MfY14OZ
+	S8L+3YE79GlzD3XWSCd8nzBFHRQbfzwRnHshyiyLuEs0uKcRmQTRsYm/
+X-Gm-Gg: Acq92OHR2FAx6F+MhRtjobnfNb+OFX9XzXsXt5Kz3cdyfHbUQxnpnZ6eeBUhkT9eLb5
+	hp2FQHPKt7aZkIrO/mju5IroE/9NaVGpVQF3LpsDcWElmj+1AYZY0b9gRt0XsSpIINrD7gHu1E0
+	Gzb3Wg3YtyjnA/5V7SpRotk2Or1YGcLnb7nN+jjf/U/5otUsVC5cHU5yiw4dMRdr8GMUKB/9N4B
+	OEZC/2edAHvTyV4iyPC6W8dq2t90HQlka7z/c3kTKQ9m5NyMDaGRgRSN6i0Zi1omQk2OyYtDEM2
+	gH9BitJr3P9bvYqZWQ5aaKhenNp+aiSOqAk6cD/UgxSvhK5APYJhgrPIxCMXyolhmHOLdjQPz4q
+	WIvK0mKaT1Ilar9HKvGvCx1Qm9mikih3oaMWkdd+k2l5b/jZPfGOtO6/Sazt/wgcHXqdbyRygRI
+	S9rmqHSjJnfhcelnjlrgvSS021pb1BAGMlJcAdco4yhBbUOGjge8kHesl9MP4=
+X-Received: by 2002:a05:600c:470e:b0:490:601f:d775 with SMTP id 5b1f17b1804b1-490b5e83527mr132886395e9.5.1780586338813;
+        Thu, 04 Jun 2026 08:18:58 -0700 (PDT)
+Received: from localhost.localdomain ([2a00:23c4:a700:7301:1615:3574:e0c0:837d])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-490bc3b5b82sm82776805e9.1.2026.06.04.08.18.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 04 Jun 2026 08:18:58 -0700 (PDT)
+From: Biju <biju.das.au@gmail.com>
+X-Google-Original-From: Biju <biju.das.jz@bp.renesas.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Stephen Boyd <sboyd@kernel.org>
+Cc: Biju Das <biju.das.jz@bp.renesas.com>,
+	Brian Masney <bmasney@redhat.com>,
+	linux-renesas-soc@vger.kernel.org,
+	linux-clk@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	Biju Das <biju.das.au@gmail.com>
+Subject: [PATCH 0/3] Add GFX support for RZ/G3L SoC
+Date: Thu,  4 Jun 2026 16:18:48 +0100
+Message-ID: <20260604151855.307772-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260603202805.3530046-1-john.madieu.xa@bp.renesas.com>
+Content-Transfer-Encoding: 8bit
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [0.34 / 15.00];
+X-Spamd-Result: default: False [-0.16 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	RCPT_COUNT_TWELVE(0.00)[15];
+	FREEMAIL_FROM(0.00)[gmail.com];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-33597-lists,linux-renesas-soc=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER(0.00)[robh@kernel.org,linux-renesas-soc@vger.kernel.org];
-	RCPT_COUNT_TWELVE(0.00)[13];
-	FORGED_RECIPIENTS(0.00)[m:john.madieu.xa@bp.renesas.com,m:lgirdwood@gmail.com,m:broonie@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:geert+renesas@glider.be,m:magnus.damm@gmail.com,m:kuninori.morimoto.gx@renesas.com,m:linux-sound@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-renesas-soc@vger.kernel.org,m:john.madieu@gmail.com,m:krzk@kernel.org,m:conor@kernel.org,m:geert@glider.be,m:magnusdamm@gmail.com,m:johnmadieu@gmail.com,s:lists@lfdr.de];
+	TAGGED_FROM(0.00)[bounces-33598-lists,linux-renesas-soc=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:geert+renesas@glider.be,m:mturquette@baylibre.com,m:magnus.damm@gmail.com,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:sboyd@kernel.org,m:biju.das.jz@bp.renesas.com,m:bmasney@redhat.com,m:linux-renesas-soc@vger.kernel.org,m:linux-clk@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:prabhakar.mahadev-lad.rj@bp.renesas.com,m:biju.das.au@gmail.com,m:geert@glider.be,m:magnusdamm@gmail.com,m:krzk@kernel.org,m:conor@kernel.org,m:bijudasau@gmail.com,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[bijudasau@gmail.com,linux-renesas-soc@vger.kernel.org];
 	FORWARDED(0.00)[lists@lfdr.de];
-	FREEMAIL_CC(0.00)[gmail.com,kernel.org,glider.be,renesas.com,vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_TO(0.00)[glider.be,baylibre.com,gmail.com,kernel.org];
+	FREEMAIL_CC(0.00)[bp.renesas.com,redhat.com,vger.kernel.org,gmail.com];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	ALIAS_RESOLVED(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[robh@kernel.org,linux-renesas-soc@vger.kernel.org];
 	TO_DN_SOME(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[bijudasau@gmail.com,linux-renesas-soc@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	RCVD_COUNT_FIVE(0.00)[5];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	ALIAS_RESOLVED(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
-	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,renesas.com:email]
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,dt];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,vger.kernel.org:from_smtp,bp.renesas.com:mid]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 48185640C33
+X-Rspamd-Queue-Id: 5A28D641668
 
-On Wed, Jun 03, 2026 at 08:28:05PM +0000, John Madieu wrote:
-> Express the dvc/src/ssiu dma-names as an items list rather than an
-> allOf-wrapped single schema, and drop the now-redundant maxItems. Fix
-> the ports container to reference graph.yaml's ports definition instead
-> of port-base (a ports container is not itself a port), keeping
-> port-base on the port@N children, and constrain each playback/capture
-> phandle-array entry to a single phandle.
-> 
-> While at it, drop the unused top-level #address-cells/#size-cells since
-> no child node uses a unit address and the ports node provides its own,
-> require interrupts/dmas/dma-names on the src sub-nodes to match the
-> ssi/ssiu sub-nodes and the driver, pin clocks and resets to their fixed
-> counts (47 and 14) to match the clock-names/reset-names lists, and put
-> compatible and reg first in the example.
-> 
-> Fixes: a86fd3c20218 ("ASoC: dt-bindings: sound: Add DT binding for RZ/G3E sound")
-> Signed-off-by: John Madieu <john.madieu.xa@bp.renesas.com>
-> ---
->  .../sound/renesas,r9a09g047-sound.yaml        | 71 +++++++++++--------
->  1 file changed, 43 insertions(+), 28 deletions(-)
+From: Biju Das <biju.das.jz@bp.renesas.com>
 
+Hi all,
 
-> @@ -143,11 +139,12 @@ properties:
->                through the list to find a free channel.
->  
->            dma-names:
-> -            maxItems: 5
-> -            allOf:
-> -              - items:
-> -                  enum:
-> -                    - tx
-> +            items:
-> +              - const: tx
-> +              - const: tx
-> +              - const: tx
-> +              - const: tx
-> +              - const: tx
+This patch series aims to add GFX support for RZ/G3L SoC
 
-All you need is:
+This patch series depend upon[1] for clk and dtsi patches
+[1] https://lore.kernel.org/all/20260603065731.93243-1-biju.das.jz@bp.renesas.com/
 
-maxItems: 5
-items:
-  const: tx
+Biju Das (3):
+  clk: renesas: r9a08g046: Add clock and reset entries for GE3D
+  arm64: dts: renesas: r9a08g046: Add Mali-G31 GPU node
+  arm64: dts: renesas: rzg3l-smarc-som: Enable Mali-G31
 
-(The schema form (vs. list form) of 'items' applies to all items.)
+ arch/arm64/boot/dts/renesas/r9a08g046.dtsi    | 126 ++++++++++++++++++
+ .../boot/dts/renesas/rzg3l-smarc-som.dtsi     |  14 ++
+ drivers/clk/renesas/r9a08g046-cpg.c           |  23 ++++
+ 3 files changed, 163 insertions(+)
 
->  
->          required:
->            - dmas
-> @@ -203,12 +200,22 @@ properties:
->                falls through the list to find a free channel.
->  
->            dma-names:
-> -            maxItems: 10
-> -            allOf:
-> -              - items:
-> -                  enum:
-> -                    - tx
-> -                    - rx
-> +            items:
-> +              - enum: [ tx, rx ]
-> +              - enum: [ tx, rx ]
-> +              - enum: [ tx, rx ]
-> +              - enum: [ tx, rx ]
-> +              - enum: [ tx, rx ]
-> +              - enum: [ tx, rx ]
-> +              - enum: [ tx, rx ]
-> +              - enum: [ tx, rx ]
-> +              - enum: [ tx, rx ]
-> +              - enum: [ tx, rx ]
+-- 
+2.43.0
 
-maxItems: 10
-items:
-  enum: [ tx, rx ]
-
-> +
-> +        required:
-> +          - interrupts
-> +          - dmas
-> +          - dma-names
->  
->    ssiu:
->      type: object
-> @@ -229,12 +236,17 @@ properties:
->                falls through the list to find a free channel.
->  
->            dma-names:
-> -            maxItems: 10
-> -            allOf:
-> -              - items:
-> -                  enum:
-> -                    - tx
-> -                    - rx
-> +            items:
-> +              - enum: [ tx, rx ]
-> +              - enum: [ tx, rx ]
-> +              - enum: [ tx, rx ]
-> +              - enum: [ tx, rx ]
-> +              - enum: [ tx, rx ]
-> +              - enum: [ tx, rx ]
-> +              - enum: [ tx, rx ]
-> +              - enum: [ tx, rx ]
-> +              - enum: [ tx, rx ]
-> +              - enum: [ tx, rx ]
-
-And same here.
-
-Rob
 
