@@ -1,90 +1,91 @@
-Return-Path: <linux-renesas-soc+bounces-33582-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-33583-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id 8HFFGCNlIWrRFgEAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-33582-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 04 Jun 2026 13:44:35 +0200
+	id cFHdAdNqIWqBGAEAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-33583-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 04 Jun 2026 14:08:51 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9062A63F864
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 04 Jun 2026 13:44:34 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 58CFF63FB90
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 04 Jun 2026 14:08:50 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
 	dkim=none;
-	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-33582-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-33582-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
+	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-33583-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-33583-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
 	dmarc=none;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 18F01300517C
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  4 Jun 2026 11:42:01 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 2773B3022A95
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  4 Jun 2026 11:59:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A4A85421A0A;
-	Thu,  4 Jun 2026 11:41:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EFF47426691;
+	Thu,  4 Jun 2026 11:59:41 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f169.google.com (mail-vk1-f169.google.com [209.85.221.169])
+Received: from mail-vk1-f179.google.com (mail-vk1-f179.google.com [209.85.221.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABDCD42315B
-	for <linux-renesas-soc@vger.kernel.org>; Thu,  4 Jun 2026 11:41:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A786D3F1658
+	for <linux-renesas-soc@vger.kernel.org>; Thu,  4 Jun 2026 11:59:40 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780573319; cv=none; b=LoFdzA7x1efvNjUudBCLWq96p+S8dGmC8WxJRiiSPY0AjRDnC6L/59TVOB97GZxS/VmPtJVEmDoYD2AfPDHd1qT1lLVPmG9p2zB8DQ/qVrCQIQP4T9HfyBs+Wb83GiufSJscij9VWJr0hxnKQl9sqGPuLhz5FfOAadcs4rf0nr4=
+	t=1780574381; cv=none; b=hmoWNran2pyAn84a57/MwsBuFA8sXAwgZ1dQJEPfBnKpH9fJD3TtIn9DU5fHJnhlnPh1UbLBAS1FU8VWe/JNttSJsI1CZAZjCYMP4FxFSsCVPzFfwd/GMG3AFFAE9JGIcKpqW28cKBhk5gnYZchWYX4acVwE4yAuOZ60o95iHkg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780573319; c=relaxed/simple;
-	bh=NFcn+5re6W8fOUpStLnoOpP08n3MpCoonlan2BCzqsg=;
+	s=arc-20240116; t=1780574381; c=relaxed/simple;
+	bh=ywQR6+si3be3C5PHwLaMuL1HKazcqbrmNysyvyYb15o=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=AtZ6fQO75QmZymGFBosjTPcDBBZZf6Hn/VjY6q7lxXNILkDaW2yE5A9ULsnlFPQKtO+5eQIDE7pJikSHIr8P/i2vLmrbMats7zL0lFFRcuIem7gMYWs1qSMuk1SWhudGhIj/S1n39BNhzgJAN8CLZpx4zpz5wfPGvaeIbn+LQ0g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.169
-Received: by mail-vk1-f169.google.com with SMTP id 71dfb90a1353d-5ab03872a64so138132e0c.1
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 04 Jun 2026 04:41:53 -0700 (PDT)
+	 To:Cc:Content-Type; b=RROWX4HBcaZFzx2B3TT9h6w+lFPjjjvNQ/X377v67Po3UDlNmlteZeVVgFe85VeZiNA8KNy74ThJq9nDtSKtEc7Um8ybRLM0G/Dek2Jx9uk+hI+vN4uG1TS8Jm0W938SvcoxAaxoJhCbmc1MkcgrwfpNqoBX+qs9kVe//SMBO8s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.179
+Received: by mail-vk1-f179.google.com with SMTP id 71dfb90a1353d-59d07df448bso480539e0c.0
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 04 Jun 2026 04:59:40 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780573312; x=1781178112;
+        d=1e100.net; s=20251104; t=1780574379; x=1781179179;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=9SjEL3J1M6ssyuV3yx1NZqXFQtnLE7rLxALmfU/mPzo=;
-        b=flEmxeNuDVtf6fTfTZWwlhaJZw0595EvYQ/KOoleeWrjRhp1wilz+B60gADv6db8Y/
-         7sFtUeiB1nDRwWx2fEtFEJqsghIdlPXky1feA8ItaLdAF7/w9/MZjsoprXa53pTELi3L
-         QtDpxjl2x9tG8mnRdaNaKDJufyJPJrP6gqti1nHY4pidM/r0VuFARJCZeWUaxxG9UI9w
-         p/+HF7plDuUtV9QGf6KDo3WWr+UcLtcWuOkt4BvGxIUCCllRVOGDBsRXZohxRtOz04L3
-         EQQTEdTQFS/Vv2eKzb93V9XAoKkHfHV1kBmMtQ9flKLZuYlYSMowv/+QlEzsDazRpcI3
-         BbVQ==
-X-Forwarded-Encrypted: i=1; AFNElJ+F6imAc4wWlGPrpKlq382iJgaUA7GIcGzgUdL2BfTq+Q/69QCJJC77QNQdiGN4OWBVV2kGa4aab+hQHiCmXhDUgA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxenNNmDRfEdgxZp/JwZLi13i19vuTa3eHVNgqipHx6EVl42Iqk
-	QKPbPIFhz4iDk1AB61uArrHTKt/xkrk/H+bG4MF1m8ufZeFOBWA/IGp6poo2jhjCwkQ=
-X-Gm-Gg: Acq92OEch8kZsItpVUQqNHE9Fy6iV6iScfpDHWuXpxGr3OWtD3DyGusUAwzCsXm06so
-	HZFx1UFRiRll8iXAW8S635g5cmDj/pMuy82tmTZZDRmNRzdMdcZ6pFFF2pqjrESVrSs4BwcVYN0
-	w5sCzE5MiryE5ExMFVTwsQ2s3HF8aCKGAvwQjRhLm96JaX9yBbUBfX8GODR2nt59etKviKDs4yf
-	DQhaMoGC4vEWU+mGfdDv3XXkwfu2b+KH3uTYo2t40yQqiDClrx7SCLaezhvxkgs4BO72249Dec5
-	2L8JR/zypbG/rA62IJwlkjwmKWiCD2JZO43jo0xPRYxBI0jKoa6m2xvqhaEMbZqJvilpFY5gJpk
-	HISM4nXNeJ1/xWY0O1v11eC6cWjlXsV7YTqP7OdZO3cq2lXWJSBAi5vreJsHgkuQa/LT3roJY9k
-	XMoNGed3mmFohIQhOgeD5gEZWM4qGSN2EGcKquj75PzRTpA9+twVaIFH9RRt8c3bIhf7KVXl0=
-X-Received: by 2002:a05:6122:3d0d:b0:59d:ac8d:e130 with SMTP id 71dfb90a1353d-5a6e814a73emr4424163e0c.9.1780573312512;
-        Thu, 04 Jun 2026 04:41:52 -0700 (PDT)
-Received: from mail-vs1-f42.google.com (mail-vs1-f42.google.com. [209.85.217.42])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5a6dd501a90sm5010498e0c.17.2026.06.04.04.41.51
+        bh=ISCTVs8so3qeH2PLNzTEp9wspkUuH6UUbf7a9c+3AGw=;
+        b=aEWwDIuAFS02090rtdc7tDsseaVMK3vxcCfYYpQj4679V7orLtgENsQPOm8iu7V9GU
+         odSN/9KfSZ59mkWQLGpGO4iFtBoRPNNfRzHjmiSfWVaqxxoSrB9ZC1mzU+lys1UZpKV3
+         uSa+KbmxWT1yrdtamomk4fA8oIl5oN3PqVarFm5oh/bjl6q/GH2mP7EFQ6ggz3Y7TzkS
+         +dUKr3PmUW0JZbxzX5BMx7dsUXitZkeNhOJhyJinnflav1HUSMcmZ64Pv5Bdz3fvcjz/
+         41a2RtdhuPcX8RWeELKiMNdXrm8T6ZiNQH0a449Ywrfg68P/N6hFHHoKJFqs84FbZDeC
+         0L2g==
+X-Forwarded-Encrypted: i=1; AFNElJ+mSV5ssGSQy7hZFUL30u+QeHgfSdj6gzZNPQEjktb9SoWuzV5WtW/41FQ5Z86kFyXWBxsQiKLnYLxs9Bt0RbZKXg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzAV/Vmqz5xBdvBr0P4lysLGSsGsiRRQCD4OjV9tw13z7uU+9Re
+	Bud4SouvpDItVLe4+PcWyZsKebglNTXaR2SlhebduezrlOzsGdSNNXuVW/rRtfe6aTU=
+X-Gm-Gg: Acq92OEvht8jQ2Rv6mVBT580f4tD7ehmt7fPBcJj26ot2aoum+TAAcfazBvsaJFsbB1
+	epw0IRdZjtCLuP14vIRUEYO2QsvjvP0HcrmNXG5Z2GfrIj4mK+KiOvbsheykBjxPhTyM8POejYC
+	vXhX/ekEtmQtZiq0F1akch+nvsJvH1un+WtGCpJYltdaRiYAv6ORS3iYKAcigC3nVXnnIPE4P0N
+	0lHK4YOZGFSFB/BqmwZegly4mlk4/yE63RG05Q2HIn/1A9Etj4wqWKXZMpioa/IbGri7XD9jt02
+	eJe3Uo22bs7cktIl6TRC3i0tpdU92inXc0eeK2uFWUDKrerm773bvVx3BdYF0RzFcJTU72qjwd4
+	Mqqf+aMyWEpiCJ8tYLXwC8jt4vFD9eLpxpxXJy/MHleFgGAwFWftKnigw1A8l2KUESb3fOvb4Pc
+	j49JGArq2Ff9ZwrJuzs6LjVqeZ//Q7gk7xHQlwEYIUqtZ+j+Dhas5qqsgGvYv9rpZMhOjJYKJd1
+	AmQ3sNzPA==
+X-Received: by 2002:a05:6122:2a45:b0:5a0:2018:4dfa with SMTP id 71dfb90a1353d-5a6e42800e7mr4609983e0c.3.1780574379551;
+        Thu, 04 Jun 2026 04:59:39 -0700 (PDT)
+Received: from mail-vs1-f52.google.com (mail-vs1-f52.google.com. [209.85.217.52])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5a6d64139fcsm4929194e0c.4.2026.06.04.04.59.38
         for <linux-renesas-soc@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 04 Jun 2026 04:41:51 -0700 (PDT)
-Received: by mail-vs1-f42.google.com with SMTP id ada2fe7eead31-6cfcad4f979so550699137.1
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 04 Jun 2026 04:41:51 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ/MH26q+Omd7W7wzgabbQcSX9qN45odM3RC8Z6/HwBLGlRShdiut3mFh7nzUy7+vw8o5kS22xKkBdiDWhIwlMb4JA==@vger.kernel.org
-X-Received: by 2002:a05:6102:8017:b0:633:3040:ca5c with SMTP id
- ada2fe7eead31-6ec4cc6cc9fmr4288587137.30.1780573310828; Thu, 04 Jun 2026
- 04:41:50 -0700 (PDT)
+        Thu, 04 Jun 2026 04:59:39 -0700 (PDT)
+Received: by mail-vs1-f52.google.com with SMTP id ada2fe7eead31-6cfb0a137c9so385118137.1
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 04 Jun 2026 04:59:38 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ8eOa4SEA3f3l9PJ/YfGslsf2GdZBueje15HIeHi9L8VSOepMflxQFdd3gTcHDulyYRcBfOG4+Mnplr2tCsfLiP+w==@vger.kernel.org
+X-Received: by 2002:a05:6102:d87:b0:631:4c79:b1d2 with SMTP id
+ ada2fe7eead31-6ec4b271de0mr4360203137.25.1780574378638; Thu, 04 Jun 2026
+ 04:59:38 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260525110603.4018170-1-john.madieu.xa@bp.renesas.com> <20260525110603.4018170-3-john.madieu.xa@bp.renesas.com>
-In-Reply-To: <20260525110603.4018170-3-john.madieu.xa@bp.renesas.com>
+References: <20260525110603.4018170-1-john.madieu.xa@bp.renesas.com> <20260525110603.4018170-4-john.madieu.xa@bp.renesas.com>
+In-Reply-To: <20260525110603.4018170-4-john.madieu.xa@bp.renesas.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 4 Jun 2026 13:41:39 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVC_XtgRxJVjX6wnzMHYZeSGeqOmHsm4Tg6RJ0Tm=dX6w@mail.gmail.com>
-X-Gm-Features: AVVi8Ccw5Ba_60Dzs2adNDvsycCaE2yjwE6AKvLwWxbsEZk5LA6wgR8624sRVIc
-Message-ID: <CAMuHMdVC_XtgRxJVjX6wnzMHYZeSGeqOmHsm4Tg6RJ0Tm=dX6w@mail.gmail.com>
-Subject: Re: [PATCH v4 2/8] clk: renesas: r9a09g047: Add audio clock and reset support
+Date: Thu, 4 Jun 2026 13:59:27 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXHFZrsdEm1D18oGTwZ0jZ15e40eo5KH1RELfUxaa5E4w@mail.gmail.com>
+X-Gm-Features: AVVi8CcbcHPVoG2RyTFJmvI5Pqu_feKTjza5L3FARlzu4TpWPjIkF65Jen6BRfI
+Message-ID: <CAMuHMdXHFZrsdEm1D18oGTwZ0jZ15e40eo5KH1RELfUxaa5E4w@mail.gmail.com>
+Subject: Re: [PATCH v4 3/8] arm64: dts: renesas: rzv2h: Add audio clock inputs
 To: John Madieu <john.madieu.xa@bp.renesas.com>
 Cc: mturquette@baylibre.com, sboyd@kernel.org, robh@kernel.org, 
 	krzk+dt@kernel.org, conor+dt@kernel.org, magnus.damm@gmail.com, 
@@ -97,12 +98,12 @@ X-Rspamd-Action: no action
 X-Spamd-Result: default: False [0.04 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-33582-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-33583-lists,linux-renesas-soc=lfdr.de];
 	DMARC_NA(0.00)[linux-m68k.org];
 	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS(0.00)[m:john.madieu.xa@bp.renesas.com,m:mturquette@baylibre.com,m:sboyd@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:magnus.damm@gmail.com,m:bmasney@redhat.com,m:prabhakar.mahadev-lad.rj@bp.renesas.com,m:linux-renesas-soc@vger.kernel.org,m:linux-clk@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:biju.das.jz@bp.renesas.com,m:john.madieu@gmail.com,m:krzk@kernel.org,m:conor@kernel.org,m:magnusdamm@gmail.com,m:johnmadieu@gmail.com,s:lists@lfdr.de];
@@ -123,32 +124,22 @@ X-Spamd-Result: default: False [0.04 / 15.00];
 	ALIAS_RESOLVED(0.00)[];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,dt];
 	R_DKIM_NA(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,linux-m68k.org:from_mime,linux-m68k.org:email,vger.kernel.org:from_smtp,glider.be:email,renesas.com:email]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,renesas.com:email,mail.gmail.com:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,linux-m68k.org:from_mime,linux-m68k.org:email]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 9062A63F864
+X-Rspamd-Queue-Id: 58CFF63FB90
 
 Hi John,
 
 On Mon, 25 May 2026 at 13:07, John Madieu <john.madieu.xa@bp.renesas.com> wrote:
-> Add clock and reset entries for audio-related modules on the RZ/G3E SoC.
+> Model the optional external audio clock inputs as CPG input clocks for
+> RZ/V2H family SoCs (RZ/V2H, RZ/V2N, RZ/G3E), allowing the Audio Clock
+> Generator (ADG) to derive internal audio clocks from these external
+> sources.
 >
-> Target modules are:
->  - SSIU (Serial Sound Interface Unit) with SSI ch0-ch9
->  - SCU (Sampling Rate Converter Unit) with SRC ch0-ch9, DVC ch0-ch1,
->    CTU/MIX ch0-ch1
->  - DMACpp (Audio DMA Controller)
->  - ADG (Audio Clock Generator) with divider input clocks and audio
->    master clock outputs
->
-> The ADG SSI clock outputs (adg_ssi[0-9]_clk) are parented on
-> CLK_PLLCLN_DIV8 as a deliberate simplification: the ADG dynamically
-> muxes each output between adg_0_clk_195m and audio_clk[a,b,c] at
-> runtime via ADG_AUDIO_CLK_SEL{0,1,2}, owned by the rsnd-adg driver.
->
-> While at it, reorder plldty_div16 to group it with the other plldty
-> fixed dividers.
+> The clock frequencies are board-specific and must be overridden in the
+> board DTS files.
 >
 > Signed-off-by: John Madieu <john.madieu.xa@bp.renesas.com>
 > ---
@@ -156,51 +147,56 @@ On Mon, 25 May 2026 at 13:07, John Madieu <john.madieu.xa@bp.renesas.com> wrote:
 > Changes:
 >
 > v4:
->  - Drop CLK_AUDIO_CLKA and its DEF_INPUT("audio_clka") entry, and
->    reparent adg_0_audio_clka on CLK_AUDIO_EXTAL, since AUDIO_CLKA is
->    provided by the existing AUDIO_EXTAL pin (Geert Uytterhoeven).
->  - Drop the internal core clocks Geert flagged as unused:
->    pllcm33_div4_ddiv2, pllcm33_div4_ddiv2_div2, pllcln_div32,
->    plldty_div2, plldty_div4 and cdiv5_mainosc. pllcln_div4 is kept,
->    as scu_0_clkx2 is parented on it.
->  - Rename the audio module clocks as suggested by Geert: ssif_clk ->
->    ssif_0_clk, scu_clk -> scu_0_clk, scu_clkx2 -> scu_0_clkx2,
->    admac_clk -> dmacpp_0_clk, adg_clks1 -> adg_0_clks1, adg_clk_200m
->    -> adg_0_clk_195m, adg_audio_clk{a,b,c} -> adg_0_audio_clk{a,b,c},
->    ssif_supply_clk -> ssiu_supply_clk. Update the target-module list
->    in the commit message (ADMAC -> DMACpp) to match.
->  - Rename the audio reset entries as suggested by Geert: SCU_RESET_SRU
->    -> SCU_0_RESET_SRU, ADMAC_ARESETN -> DMACpp_0_ARST,
->    ADG_RST_RESET_ADG -> ADG_0_RST_RESET_ADG.
->  - The adg_ssi[0-9]_clk parent is left unchanged as CLK_PLLCLN_DIV8.
->    Geert questioned whether this is correct, since these clocks are
->    ADG-generated. The parent is not changed; instead the commit
->    message now documents that the ADG muxes each output between
->    adg_0_clk_195m and audio_clk[a,b,c] at runtime via
->    ADG_AUDIO_CLK_SEL{0,1,2}, which no static parent can describe.
+>  - Drop the audio_clka fixed-clock node from the RZ/V2H family DTSIs,
+>    and drop its reference from the pinctrl clocks and clock-names
+>    lists, consistent with dropping the AUDIO_CLKA input from the
+>    binding and the CPG driver (patches 1 and 2).
+>  - Reword the commit message accordingly.
 
 Thanks for the update!
 
-> --- a/drivers/clk/renesas/r9a09g047-cpg.c
-> +++ b/drivers/clk/renesas/r9a09g047-cpg.c
+> --- a/arch/arm64/boot/dts/renesas/r9a09g047.dtsi
+> +++ b/arch/arm64/boot/dts/renesas/r9a09g047.dtsi
+> @@ -14,6 +14,20 @@ / {
+>         #size-cells = <2>;
+>         interrupt-parent = <&gic>;
+>
+> +       audio_clkb: audio-clkb {
 
-> @@ -532,6 +538,96 @@ static const struct rzv2h_mod_clk r9a09g047_mod_clks[] __initconst = {
->                                                 BUS_MSTOP(3, BIT(4))),
->         DEF_MOD("tsu_1_pclk",                   CLK_QEXTAL, 16, 10, 8, 10,
->                                                 BUS_MSTOP(2, BIT(15))),
-> +       DEF_MOD("ssif_0_clk",                   CLK_PLLCLN_DIV8, 15, 5, 7, 21,
-> +                                               BUS_MSTOP(2, BIT(3) | BIT(4))),
+audio-b-clk, to follow node name recommendations.
 
-I will reorder while applying, to preserve sort order (by _onindex/_onbit).
+> +               compatible = "fixed-clock";
+> +               #clock-cells = <0>;
+> +               /* This value must be overridden by the board */
+> +               clock-frequency = <0>;
+> +       };
+> +
+> +       audio_clkc: audio-clkc {
+
+audio-c-clk
+
+> +               compatible = "fixed-clock";
+> +               #clock-cells = <0>;
+> +               /* This value must be overridden by the board */
+> +               clock-frequency = <0>;
+> +       };
+> +
+>         audio_extal_clk: audio-clk {
+
+I will move the two nodes down while applying, as "audio" sorts before
+"audio-b" and "audio-c".
+
+>                 compatible = "fixed-clock";
+>                 #clock-cells = <0>;
 
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-clk for v7.3 with the above fixed.
+i.e. will queue in renesas-devel for v7.3 with the above fixed.
 
 Gr{oetje,eeting}s,
 
                         Geert
 
---
+-- 
 Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
 In personal conversations with technical people, I call myself a hacker. But
