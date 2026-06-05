@@ -1,268 +1,228 @@
-Return-Path: <linux-renesas-soc+bounces-33629-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-33630-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id v0D4M6njImp0ewEAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-33629-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 05 Jun 2026 16:56:41 +0200
+	id Dw2aBvrlImrMewEAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-33630-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 05 Jun 2026 17:06:34 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3016E6490E7
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 05 Jun 2026 16:56:41 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BCBC6491DC
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 05 Jun 2026 17:06:33 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=gmail.com header.s=20251104 header.b=QDEG+Jds;
-	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-33629-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-33629-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=gmail.com;
-	arc=pass ("subspace.kernel.org:s=arc-20240116:i=2")
+	dkim=pass header.d=linaro.org header.s=google header.b="SJ/Or5HF";
+	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-33630-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-33630-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=linaro.org;
+	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id EBE02306B7CF
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Jun 2026 14:47:08 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id BC39D300A10C
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Jun 2026 14:50:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0EBC03D1CDB;
-	Fri,  5 Jun 2026 14:45:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8BA5F3D0916;
+	Fri,  5 Jun 2026 14:50:55 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24A373D25D3
-	for <linux-renesas-soc@vger.kernel.org>; Fri,  5 Jun 2026 14:45:02 +0000 (UTC)
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780670705; cv=pass; b=eLNKmabAlwy0jbEONHQlWPFh08icTtJEHy52Q38jtQ4OTA6uR6aq2muH/P5dDQCBmapraqsNzvZ5c+9NFRo1Fs+wD6stpCu/O9KvhnuJ8kDqf1RjAR0wv2vzxSeCevQoUCDkbx7VlAtgLX95auAziq/k9kochhHjqNuQUOi1W7E=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780670705; c=relaxed/simple;
-	bh=V99FgU+T9GXepKQjZbwcvobP8EXHRxrvdmdHmWGWLss=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=d99rhLC6TV1+S7we2w5PESp7nAnasggH7/PANfjpcAJ7R7yC6xkIKMSy+Dp8kAy9Z/IqhZspdFhPqhp5PDlbiInBpV0aZwoJdVW6sBqsnKD0bR3XcU3WqrVAf9RLyG7XWq1+EpOBtT0k3FGvav4cD7y+iVNoOUzofZvgAhQmbsc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QDEG+Jds; arc=pass smtp.client-ip=209.85.218.42
-Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-befd83e0521so617771666b.1
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 05 Jun 2026 07:45:01 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1780670700; cv=none;
-        d=google.com; s=arc-20240605;
-        b=DImH3EZEtWS0VbUett7nLZDdjEQjBpbUqJvCcvMhUO2fN/e+0eOfReIafjaLq07ojA
-         oJZ/wNOITwV/5UUQr545R98ibQPHsylmwJlencBhIPuucc4gwh+bUiAD1Kgj6cOKM835
-         QtjFHN5CO4hPtyRm8pt2acdBS0TQaa0dr2I3fccB+2VFWNHCGStyngOhR7RN6nYIiodQ
-         GnGBVNY712/kZKsN0Ty8/MmEH22bFxePBYPB7lu0s6L0G5YzZcaD2IPz8YXSyGDll2+F
-         VcMhEmj6p5cHGAag88+shSsCfMz0bDKppnnlVASXKh+zxIrENGgpHMtllgkbQpbJYgf0
-         rUnw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=fcZIkbRV/9Yp73cfd2Dm5cvs461vRsgl4cer6irrsmM=;
-        fh=Ubqb/M9lDud9DV3lLB3tS36Q2rjRZa5VivZwSH3N51o=;
-        b=iJ9gfBHWj7BubjMbgmR9Nz/b7u984YWix06sYyiW/23w6YCcLf8AJY5fwD8HxKthYd
-         Nu0VRNlwCU6kapcKv4cSDbm6jS76SFfuFziQl0IW8V4U9KQNdYmjZ7DCrr+0emgwUNUb
-         8828D349l1hXRSVpbJvszwOWoRLzweCOUIGFg2xIue0CWAMhceIONabcQqtHg8xfgCBT
-         EKfImph6P9cATLZTpB6BLagEHGUBItNfxCJVgBDz6gMuCGnW5YpCOQqdPz1KdQGLKFrN
-         KFCa2OuqpYyEoHgCB3SVgf/4epo8RyxgIxrSxwpQ7qm+KWs5CiwdXyfsTg5GB0aZaxe4
-         jbZA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 021D03CF057
+	for <linux-renesas-soc@vger.kernel.org>; Fri,  5 Jun 2026 14:50:53 +0000 (UTC)
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780671055; cv=none; b=SCkRiRIyOUStej0Wexfuo2k0eTEJrRui20nW6uzOblbWLOo7qiHchiH8JIFOICPpVgbS8QypmTz/6swXEq105CH72pEzSglQFDBYWYZXmpdo46x0/cViakJbQz8SH1W1pH3whfPtLVvw7zKlTLryJ+y3ZjGJJJAWRfxJ3JgHUcU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780671055; c=relaxed/simple;
+	bh=noLWCZ7k/hogDRaJM1qtY69Rcq9ht/JpS1l/lTFXwLs=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=WE3XKLmgdvl637pcCCHkFo0UIAp1cWrhoLqUc0bVwZzE/lXJQ/YrtF26aHZzU4iwSsBil91b9D4OshSMbffYHe4nJOixeclWCPW014fn/7D5WiT68DjBbbIBgmhcKPGXpicl52tFeC4t6+BcylXknjk+9mX6HqXdZBB6RmyxXPE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=SJ/Or5HF; arc=none smtp.client-ip=209.85.128.42
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-490b1bbcf3aso16450895e9.1
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 05 Jun 2026 07:50:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780670700; x=1781275500; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=fcZIkbRV/9Yp73cfd2Dm5cvs461vRsgl4cer6irrsmM=;
-        b=QDEG+JdsCi/nGhsGKHWrmakZCAAAKH94mJTgHAZsugCteBQLJ25F//75ar+srWpCPd
-         4A44v/U3CUW6nqTQRd/qKB+M+kFmeYbE9+nlRqymKwDmadGXMH6dBGJmZdWsAmVxrAT7
-         KQDiapY7mTQSL0SPpNNwC/gfnu5wSLuXrg8ImJufJh/kr6HXBKRo/DFW97P7T+zTTvvH
-         TkDi9uk8k2lvgiv36m4CuHV0WEy+hy7MPDtcbXT2e8UbponLrOXhgjoSA2oV1gzmuamT
-         4TGt6CiJV/ngqyzr6vxhrNQYyd/D0/IeX/v+xbt9Emomtg/Slf1iJYdzIdejRULLkKiu
-         rlXA==
+        d=linaro.org; s=google; t=1780671052; x=1781275852; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=V0j4B4g7G9TNgdgRoQeZbJsIdkpUUijRXOBtL+WYeVA=;
+        b=SJ/Or5HFnolqnGOOaD8aDRtpUJ7UnOgr/HxKnBZRDwNpNPoFsJgMYQNVld/H0GpC1U
+         kDHpBYItNLI30paJ1iVCMCBcEGu4VznealEx+h2fa5tR64UYVJCYP3rf1q33LyCRFghA
+         qmwPHnXZAynzt6v3gc4d7XqM7gC62rpbbnBrl/CxrP/j+cH8KxX9SDdQPejFD4+xaPK6
+         864dCKEd7ZRT3pVcpgijwYZAyL5VZdK1bDemAROFgnS/oRGVNJBOy27qWcnutOVHK0UK
+         z2Y7TvCOR5o8cFYjhrucecv5f8hLf/rDN5lxq6D2bFBSIeZYW4A7G5vCQavTbROPlLdJ
+         lnhA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780670700; x=1781275500;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=fcZIkbRV/9Yp73cfd2Dm5cvs461vRsgl4cer6irrsmM=;
-        b=hPo2svyrkr2LqO/61Z2BFoIn9BREOtJRpqNCQW6KbB2iqRtEENtW4NLcQRn3HdIt+4
-         T4fJo7WLytS5qjNwZS5JcqcPD0xsvdZKM3vdoF15y9Aak9VgjDSybxvHcwLsWQdOZfa3
-         H0dbDT2Cgkjzfa/z+TyAjyO+eG5EWSq6ZVLFesOEUNRqDoQWY1ztMM6EyIillzP7anDa
-         ADN5ehBLoXJfLlFMb/vd5vvZJbGZ7qTCvhMyfJ6aUu5E+K2fWg8FeCacAphVWH4UH5a+
-         xiYb/znvRlVUGU2xLCewU35WV71CWwdsGHq47OeFcQQogbLJPwGcPfpjn3C607gDPzFJ
-         6Oaw==
-X-Forwarded-Encrypted: i=1; AFNElJ/Ndd+w7Cw9PmXREBvRDURm7O09qdIbGEb/rS0reKhJ8daB4oZZ7+WCc0sfCFqVrSi+eoYViO5rt96M+9FvrpRvtw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxkZIFjrb55lhmeCtNojUihyZEQEYrOG+7luzdeuL8kU/bYibLi
-	gW0zf1R9AsaHUXU8ayxlc1ozvftkjR+059z5ToNtbAuFA3/qXdatWQTmWJ8Tt50eTcq5b0d3sTs
-	+Ki9zX7BIYum3Bd0ZGSSBEJAbEe5+FlQ=
-X-Gm-Gg: Acq92OGmMRc17DqEMlFKhhErRzXCW0/cu134ChyFDv2Mr3zKexY9O1z7jAZBHgF0ppG
-	Mv968UgODibPgTyWKEI/qHcA3T3gG3783nfgtNRWJuTxe3JyKVjh8ZBv5CiIF/62rdzm4nld4lW
-	/6UtF8/h27moGW4gf8DPwsHhuq1cP9G3KQinUiTf0FoIGLFgSlszUvRN28tB/BN91lyGf0p5Bfm
-	av80aDlrQXXs4Hnahx+C/E4+pYbbCMbS4MiaUQ0k8tBbfbz4WjaAQgh/uHe67GCNqx9xI4HEGdu
-	cAlmM4E49xFt4hh61elP1rg2iLJxbwj6o3tJrNn1V3sy/1imGc2ntqrvglcfzXRgVuY4C0zGvWp
-	5+A8=
-X-Received: by 2002:a17:907:972a:b0:bdb:5c26:d499 with SMTP id
- a640c23a62f3a-bf3a8a06e97mr148149566b.22.1780670700008; Fri, 05 Jun 2026
- 07:45:00 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1780671052; x=1781275852;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=V0j4B4g7G9TNgdgRoQeZbJsIdkpUUijRXOBtL+WYeVA=;
+        b=cL6HQEpxBOsrFbQ2HP/47THWAozS4NebZIhx4Y3ro4A56tnQG6rYlbGxByWKUUBzpE
+         Kfm4+PzaYGByMdB2xJXN5fw2I9GvAJ9L73FahgxQqW+g2cUp0/wQZuf3FXbws2L8XSSd
+         lewydekKD4f7NeAnpD88hO3ljwwX7QDaEwWmjBANNif8qtuI/eaXcZKBIKJ5PJS5F4mV
+         ctP4YXVhcdBvWdYnn3CkYPPaZosSwFUuMCcwrVHUfjXEKjULSH+DeCdc5iG3jzVZi9QE
+         QVWPCuqACoyEnXNzBDDaAcOVNp6jr38Yl5JJc1hV8TdZg8vxoIfYSA08MaPu8yUtXoNh
+         30yw==
+X-Forwarded-Encrypted: i=1; AFNElJ/n0dhsIoN0SxkJwPGq5UTRb8IQloe9PJUbVTtxL7ABEw7Bph+OhWKmAGe9cy7QnYs0g4IQ3jhmcg7/FnzYMegnNQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxO1Rt1Ty51TdkaOguoNTGXjKGEzU1hgx1Gne/0IncCn7juHATY
+	+hJdC68ppH2YtTHpr3yHW/qOOvoZ/biaamu4m6AxbgE7gqDA2isAn1v+31xjwcDB3DI=
+X-Gm-Gg: Acq92OFw3IPwyVBLhhxX2PfETr7snhjpVxBKPlHPDp3+7GJAM9YywZ3yDHOAhtPiPFX
+	bZqzy9XaFpiYK8mwCqu4Iuv5preb1rlPXHY6LHeLIrMFfTDnh/PZSDW92cbnO9YFeRWTIOu1Wrq
+	bjOuLZ3uoXT/Kcofb3pAlPBV/M4IXqjo/rA2vFDf8LoCC3cXZpkwNDF0OcmsNvFOvfmyiLGsnz3
+	IlvdNEeIeuhlcREd5LdY7zzFBqsvC/swker0dm1yJ94UIFvHuySmvOtFU7X8QEED6GmxjR2X/fK
+	w6O0af3Jr4SBjWlygY7aJlw8C4GMXbUhjC/3BpatEQDwcciOfCwVtIBGYbUm1yuu1/HtdMrZDUj
+	Edu6TCU19falHmv8V5+RqAQraosVykjMHzDowxhaxqM/Y8mxLL3Zhj+sjsSechLCFcnOtUQaBJz
+	2Bb6cBgfGjW1ntoXaJwepyES0tsr4nrCu3LRoPX9TKnjBqy2zXNtlTb9mc7/B+7tYjsQ==
+X-Received: by 2002:a05:600c:1c1e:b0:490:44eb:c1e0 with SMTP id 5b1f17b1804b1-490c26056a4mr68528555e9.21.1780671052262;
+        Fri, 05 Jun 2026 07:50:52 -0700 (PDT)
+Received: from arrakeen.starnux.net ([2a01:e0a:106d:1080:8261:5fff:fe11:bdda])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-490bc3d663csm176178315e9.11.2026.06.05.07.50.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 05 Jun 2026 07:50:51 -0700 (PDT)
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Subject: [PATCH v7 0/2] drm: panel: support the R63419 based dual-DSI video
+ mode Display Panels
+Date: Fri, 05 Jun 2026 16:50:47 +0200
+Message-Id: <20260605-topic-sm8650-ayaneo-pocket-s2-r63419-v7-0-b84b6da84293@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260511191910.1945705-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20260511191910.1945705-2-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdWVjvdX2Ve-Sf91oJoCWcO-fF-363ytO66Pr=SBA69N+g@mail.gmail.com>
-In-Reply-To: <CAMuHMdWVjvdX2Ve-Sf91oJoCWcO-fF-363ytO66Pr=SBA69N+g@mail.gmail.com>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Fri, 5 Jun 2026 15:44:32 +0100
-X-Gm-Features: AVVi8CcZWc8NSzDAQ_aVku7QXQXrcmHdaazPbFgpm7kgo3ZnjYI1QxUBkTayMTw
-Message-ID: <CA+V-a8uYEOB2DcOjQ63hLDW-vYxGLTpphvDXyAwV3g1-GrHhgA@mail.gmail.com>
-Subject: Re: [PATCH 1/4] clk: renesas: rzv2h-cpg: Use per-SoC PLL reference
- frequency for calculations
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Magnus Damm <magnus.damm@gmail.com>, linux-renesas-soc@vger.kernel.org, 
-	linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	devicetree@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAEfiImoC/5XQy07EIBQG4FeZsBYDh0uLK9/DuKBwmMFLaaA2T
+ iZ9d2Fc2DguKmHzJ4fvP+FCCuaIhTwcLiTjEktMYw3d3YG4kx2PSKOvmQADzST0dE5TdLS891o
+ xas92xESn5F5xpgVo1kJyQ7EDqTsEP7BAKjVlDPHzWvP0/J3Lx/CCbm52mzjFMqd8vu6x8Db3z
+ 8qFU0ZNz3FQtl7FH9/iaHO6T/lIWucCG1WwnSo0lVvHmVTCM3ejih9VMblTFU0NmrsA0uIQblS
+ 5UeuDfaqs6tAbMDYoNH/8gNqowHeqqqreq44xMEYYdqPqrQo7VV1VrtHXY83vXdd1/QLqdF0Mm
+ QIAAA==
+X-Change-ID: 20260428-topic-sm8650-ayaneo-pocket-s2-r63419-e72467e2db0f
+To: Jessica Zhang <jesszhan0024@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Geert Uytterhoeven <geert+renesas@glider.be>, 
+ Magnus Damm <magnus.damm@gmail.com>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Conor Dooley <conor.dooley@microchip.com>, KancyJoe <kancy2333@outlook.com>
+X-Mailer: b4 0.15.1
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2735;
+ i=neil.armstrong@linaro.org; h=from:subject:message-id;
+ bh=noLWCZ7k/hogDRaJM1qtY69Rcq9ht/JpS1l/lTFXwLs=;
+ b=owEBbQKS/ZANAwAKAXfc29rIyEnRAcsmYgBqIuJK66bVPMQ1g9Q/2C8MA7ktzUvGIRC7z+2QQSUq
+ gLYjO8OJAjMEAAEKAB0WIQQ9U8YmyFYF/h30LIt33NvayMhJ0QUCaiLiSgAKCRB33NvayMhJ0e+CEA
+ CRYThuOvq3cuir9RXhER/VOuVviw44dKQkZG9ueWjPmdbMF6QuWbXSPu0JGa+Ej4cpbtmbF6BZBu3E
+ P8n+4qIjovTvcgaZ7+uuiiflqkgNl4zzmwykG5ZjWcwZT8RbLmT6LGt1S3BLnOXMju3TIKclRaAQsU
+ Hoso5dtmjywHD5II3meXR7FZ45rJOIinR4/JR2L6hAvc+dyYZ5HzhWW/AdXV415orxIRytMxDVYzkS
+ FbvDg2rEdgO7P9PNmBqI4rRxbF4LqNL9B/UUFzGaNeFX8qQci09hmuTyF0ZcjF2vMore1JOZOG5Pt/
+ MfuLf+/Y058EKxVZAztViJ6J04k7depqEkoiqM82GpElRTIL9OSN1D2UlFJLJXO4SlQPFDNBC+1m5w
+ ZX8Yt6t6doMXkYbvBZeL+0McML0MHCazZvlBUofZPicZunaHq1BrxruW3J4J2pfGqPzF/5IARdhrUG
+ f3vqUZ0/+Okdn1xKj10pfJucrDJQHsyr3y/kL0WA4AXgzwM1HVyFOxbawyPS/6en8RAiA9dJsZxpwB
+ eTRNIbTPsL5ulGwMhm9hEQx2LRSUvxUpEJWYKPOPhBEzvXZ1F8t/xuOCrijfWjVr82PeVgJaDhdMvO
+ 0TRH7Hr5fEuOd4ASp0+1yCvK3FNRdgVIrQyUfvdcgX/EgQyaprw5edOz36fQ==
+X-Developer-Key: i=neil.armstrong@linaro.org; a=openpgp;
+ fpr=89EC3D058446217450F22848169AB7B1A4CFF8AE
 X-Rspamd-Action: no action
 X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[linaro.org,none];
+	R_DKIM_ALLOW(-0.20)[linaro.org:s=google];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_RECIPIENTS(0.00)[m:geert@linux-m68k.org,m:mturquette@baylibre.com,m:sboyd@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:magnus.damm@gmail.com,m:linux-renesas-soc@vger.kernel.org,m:linux-clk@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:devicetree@vger.kernel.org,m:biju.das.jz@bp.renesas.com,m:fabrizio.castro.jz@renesas.com,m:prabhakar.mahadev-lad.rj@bp.renesas.com,m:krzk@kernel.org,m:conor@kernel.org,m:magnusdamm@gmail.com,s:lists@lfdr.de];
-	TAGGED_FROM(0.00)[bounces-33629-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-33630-lists,linux-renesas-soc=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER(0.00)[prabhakarcsengg@gmail.com,linux-renesas-soc@vger.kernel.org];
-	FORWARDED(0.00)[lists@lfdr.de];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[14];
+	FORGED_RECIPIENTS(0.00)[m:jesszhan0024@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:geert+renesas@glider.be,m:magnus.damm@gmail.com,m:dri-devel@lists.freedesktop.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-renesas-soc@vger.kernel.org,m:dmitry.baryshkov@oss.qualcomm.com,m:neil.armstrong@linaro.org,m:conor.dooley@microchip.com,m:kancy2333@outlook.com,m:krzk@kernel.org,m:conor@kernel.org,m:geert@glider.be,m:magnusdamm@gmail.com,s:lists@lfdr.de];
+	FREEMAIL_TO(0.00)[gmail.com,linux.intel.com,kernel.org,suse.de,ffwll.ch,glider.be];
+	FORGED_SENDER(0.00)[neil.armstrong@linaro.org,linux-renesas-soc@vger.kernel.org];
+	RCPT_COUNT_TWELVE(0.00)[19];
+	FREEMAIL_CC(0.00)[lists.freedesktop.org,vger.kernel.org,oss.qualcomm.com,linaro.org,microchip.com,outlook.com];
 	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORWARDED(0.00)[lists@lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	ALIAS_RESOLVED(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[prabhakarcsengg@gmail.com,linux-renesas-soc@vger.kernel.org];
-	FREEMAIL_CC(0.00)[baylibre.com,kernel.org,gmail.com,vger.kernel.org,bp.renesas.com,renesas.com];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,dt];
+	FROM_NEQ_ENVFROM(0.00)[neil.armstrong@linaro.org,linux-renesas-soc@vger.kernel.org];
+	DKIM_TRACE(0.00)[linaro.org:+];
+	ALIAS_RESOLVED(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,mail.gmail.com:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,renesas.com:email,linux-m68k.org:email]
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[linaro.org:mid,linaro.org:dkim,linaro.org:from_mime,linaro.org:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,msgid.link:url,vger.kernel.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 3016E6490E7
+X-Rspamd-Queue-Id: 8BCBC6491DC
 
-Hi Geert,
+Add support for the Renesas 63419 based dual-DSI video mode
+Display Panels found in the Ayaneo gaming handled devices.
 
-Thank you for the review.
+Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
+---
+Changes in v7:
+- Reverse "on" command order
+- Rebase on drm-misc-next
+- Link to v6: https://patch.msgid.link/20260522-topic-sm8650-ayaneo-pocket-s2-r63419-v6-0-16edddda9951@linaro.org
 
-On Fri, Jun 5, 2026 at 2:37=E2=80=AFPM Geert Uytterhoeven <geert@linux-m68k=
-.org> wrote:
->
-> Hi Prabhakar,
->
-> On Mon, 11 May 2026 at 21:19, Prabhakar <prabhakar.csengg@gmail.com> wrot=
-e:
-> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> >
-> > Use a per-SoC PLL reference input frequency for PLL parameter
-> > calculations instead of relying on the hardcoded 24MHz constant.
-> >
-> > Add an input_fref field to struct rzv2h_pll_limits and derive the PLL
-> > reference frequency from it in rzv2h_get_pll_pars(). Fall back to the
-> > existing 24MHz value when no SoC-specific input is provided.
-> >
-> > This allows the existing PLL divider calculation logic to be reused
-> > unchanged on SoCs such as RZ/T2H, which use a 48MHz PLL reference
-> > input instead of the 24MHz reference used on RZ/V2H(P), while keeping
-> > current RZ/V2H(P) behaviour intact.
-> >
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->
-> Thanks for your patch!
->
-> > --- a/drivers/clk/renesas/rzv2h-cpg.c
-> > +++ b/drivers/clk/renesas/rzv2h-cpg.c
-> > @@ -242,6 +242,7 @@ struct rzv2h_plldsi_div_clk {
-> >  bool rzv2h_get_pll_pars(const struct rzv2h_pll_limits *limits,
-> >                         struct rzv2h_pll_pars *pars, u64 freq_millihz)
-> >  {
-> > +       unsigned long input_fref =3D limits->input_fref ?: RZ_V2H_OSC_C=
-LK_IN_MEGA;
-> >         u64 fout_min_millihz =3D mul_u32_u32(limits->fout.min, MILLI);
-> >         u64 fout_max_millihz =3D mul_u32_u32(limits->fout.max, MILLI);
-> >         struct rzv2h_pll_pars p, best;
->
-> > --- a/include/linux/clk/renesas.h
-> > +++ b/include/linux/clk/renesas.h
-> > @@ -53,6 +53,8 @@ static inline void rzg2l_cpg_dsi_div_set_divider(u8 d=
-ivider, int target) { }
-> >   * various parameters used to configure a PLL. These limits ensure
-> >   * the PLL operates within valid and stable ranges.
-> >   *
-> > + * @input_fref: Reference input frequency to the PLL (in MHz)
->
-> Iff there is a default, it should be documented here?
->
-Agreed.
+Changes in v6:
+- Get new dt bindings review from Conor
+- Properly init dsi_ctx
+- Link to v5: https://patch.msgid.link/20260521-topic-sm8650-ayaneo-pocket-s2-r63419-v5-0-dd5700299390@linaro.org
 
-> > + *
-> >   * @fout: Output frequency range (in MHz)
-> >   * @fout.min: Minimum allowed output frequency
-> >   * @fout.max: Maximum allowed output frequency
-> > @@ -78,6 +80,8 @@ static inline void rzg2l_cpg_dsi_div_set_divider(u8 d=
-ivider, int target) { }
-> >   * @k.max: Maximum delta-sigma value
-> >   */
-> >  struct rzv2h_pll_limits {
-> > +       u32 input_fref;
-> > +
-> >         struct {
-> >                 u32 min;
-> >                 u32 max;
-> > @@ -156,6 +160,7 @@ struct rzv2h_pll_div_pars {
-> >
-> >  #define RZV2H_CPG_PLL_DSI_LIMITS(name)                                =
- \
-> >         static const struct rzv2h_pll_limits (name) =3D {              =
-   \
-> > +               .input_fref =3D 24 * MEGA,                             =
-   \
->
-> Why add this if 24 * MEGA is the default value anyway?
-> Why not do the same for the two similar RZ/G3E macros?
-> Perhaps the default handling and the RZ_V2H_OSC_CLK_IN_MEGA macro
-> should just be dropped?
->
-Agreed. I will drop this change and get rid of RZ_V2H_OSC_CLK_IN_MEGA mcro.
+Changes in v5:
+- Import panel-common-dual.yaml in bindings
+- Set reg as required
+- fix bindings example typo
+- Add helper to switch link in order to use single dsi_ctx to properly handle errors
+- Disable vdd supplies if vcc supplied fail to enable
+- Precise the power off sequence is recommended by the vendor spec
+- Drop passing of node to second dsi to avoid re-probing the driver twice
+- Link to v4: https://patch.msgid.link/20260519-topic-sm8650-ayaneo-pocket-s2-r63419-v4-0-b8929af5e951@linaro.org
 
-Cheers,
-Prabhakar
+Changes in v4:
+- Moved height/width in the drm_mode, duplicated modes to use drm_connector_helper_get_modes_fixed
+- Create dsi_info on the stack with proper OF node and name passed
+- Switched to devm_drm_panel_add/devm_mipi_dsi_attach & dropped remove
+- Link to v3: https://patch.msgid.link/20260504-topic-sm8650-ayaneo-pocket-s2-r63419-v3-0-9f61cf24aebf@linaro.org
 
-> >                 .fout =3D { .min =3D 25 * MEGA, .max =3D 375 * MEGA }, =
-       \
-> >                 .fvco =3D { .min =3D 1600 * MEGA, .max =3D 3200 * MEGA =
-},     \
-> >                 .m =3D { .min =3D 64, .max =3D 533 },                  =
-       \
->
-> Gr{oetje,eeting}s,
->
->                         Geert
->
->
-> --
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m6=
-8k.org
->
-> In personal conversations with technical people, I call myself a hacker. =
-But
-> when I'm talking to journalists I just say "programmer" or something like=
- that.
->                                 -- Linus Torvalds
+Changes in v3:
+- Added DDIC compatible as fallback
+- Added rotation in bindings example
+- Fixed bindings subject
+- Added second MODULE_AUTHOR entry and re-ordered signed-off-by order
+- Link to v2: https://patch.msgid.link/20260430-topic-sm8650-ayaneo-pocket-s2-r63419-v2-0-91ac10453d0c@linaro.org
+
+Changes in v2:
+- Add missing rotation property into bindings
+- Fix commit message & subject typos
+- Link to v1: https://patch.msgid.link/20260428-topic-sm8650-ayaneo-pocket-s2-r63419-v1-0-981eb5ab5a51@linaro.org
+
+---
+KancyJoe (1):
+      drm: panel: add support for the Renesas R63419 based dual-DSI video mode Display Panels
+
+Neil Armstrong (1):
+      dt-bindings: display: panel: document the Renesas R63419 based dual-DSI video mode Display Panels
+
+ .../bindings/display/panel/renesas,r63419.yaml     |  98 ++++++
+ drivers/gpu/drm/panel/Kconfig                      |  12 +
+ drivers/gpu/drm/panel/Makefile                     |   1 +
+ drivers/gpu/drm/panel/panel-renesas-r63419.c       | 366 +++++++++++++++++++++
+ 4 files changed, 477 insertions(+)
+---
+base-commit: 640c57d6ca1346a1c2363a3f473b405af979e046
+change-id: 20260428-topic-sm8650-ayaneo-pocket-s2-r63419-e72467e2db0f
+
+Best regards,
+--  
+Neil Armstrong <neil.armstrong@linaro.org>
+
 
