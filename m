@@ -1,81 +1,81 @@
-Return-Path: <linux-renesas-soc+bounces-33615-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-33616-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id H/t1MjjBImrsdAEAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-33615-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 05 Jun 2026 14:29:44 +0200
+	id nyPEJoDBImoBdQEAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-33616-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 05 Jun 2026 14:30:56 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC69F648259
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 05 Jun 2026 14:29:43 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B81364828A
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 05 Jun 2026 14:30:56 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=gmail.com header.s=20251104 header.b=Kw7h9mKp;
-	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-33615-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 104.64.211.4 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-33615-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=gmail.com header.s=20251104 header.b=qXcVtmGv;
+	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-33616-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-33616-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=none) header.from=gmail.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id C7BE3306586A
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Jun 2026 12:23:02 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id E921330F5369
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Jun 2026 12:23:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 802A1339853;
-	Fri,  5 Jun 2026 12:20:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EEB49380FEB;
+	Fri,  5 Jun 2026 12:20:45 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47CB94DBD88
-	for <linux-renesas-soc@vger.kernel.org>; Fri,  5 Jun 2026 12:20:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16B7C4DC522
+	for <linux-renesas-soc@vger.kernel.org>; Fri,  5 Jun 2026 12:20:44 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780662040; cv=none; b=IlsITS/lWYhLD3LwYqDYFEL9l98afyCiWIRuG5wUVkLREerDWM+Sfk30r/GZBoHCun2uv9LE4MYEiiETE+IWeJT7oAYXkHqRfUrN2mS2m2+gDJbE+1xCnL1+y4L2zFVTf7pFyQ3yhXDpMEomVj5ES2hba4NCAUQg7VIKPI6VvUs=
+	t=1780662045; cv=none; b=boM92HWoID+X6k9nZP164CAHSVfzcjwC54WZ34PCYzUKDW2Ga1gVnFgCmv5d3udQ6jKdqgOjGH3+aL0I/n44vfajJTIkUYRGoBC4IJR5C3GHr0emDoamFYNCtiD3Cd/1JydyR5/HcCy2oydYe40APwwptmdzD2/iQwd+QBeJiaI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780662040; c=relaxed/simple;
-	bh=uUylIx3XFV4TA4RmfYqmD8Wd0T0GOAThqW1V8bTR8aU=;
+	s=arc-20240116; t=1780662045; c=relaxed/simple;
+	bh=6JrAI+jHNCVY9D9mXTcwbzLOirSfEaNGPwbU2EKa/Ak=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=dlygxJTDbvRsmtT69/eLq1UrzWkz8ger7ca36HhF8+ROnZfEGWtdGCKFllV1AqbSTao3ndrBMzg3dcEivQM+CzOJF6c2SAPgDFRv1SKpoAeSHiyqV2PlRvD27Op7yO4YV9dif9/Ws+Ke2s8a7Fn53U3BqaVso4oO18C6F57pL/0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Kw7h9mKp; arc=none smtp.client-ip=209.85.210.178
-Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-84226d0f1d2so1274822b3a.1
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 05 Jun 2026 05:20:39 -0700 (PDT)
+	 MIME-Version; b=pMs7lkSbSXUTGx3A10GnZ3q6xjY7r8PYS8iwKKhqZnT1ULGhDCWz+7YTNfNMvUbE/KvDkskikoLflQZfOfOhKOWqm+YGzeCDE+sU8FyEJO7cpghQ3TqIHI54/9Hbi6GOBbxxOfBy1KlgVCYk8HEQC9PQgRGOjK8UOpdB6f3Uhng=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qXcVtmGv; arc=none smtp.client-ip=209.85.210.175
+Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-8423f869421so1344812b3a.3
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 05 Jun 2026 05:20:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780662038; x=1781266838; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1780662043; x=1781266843; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=JFsk3bK57pNH+uGXIvFwcPQqhl/Aln1/JKtxJWK3Jkw=;
-        b=Kw7h9mKpfakWEmCXO/ZHF1BzGFn+G12svbyxI8WaWsvSDbNitxPe4ep9qudctoHudr
-         17t6izyotpvUtx3Ss1RcbYSZqld3PXzpOwx9jYz0bdZPogDCEL0jafX6ePsqaDs1QngS
-         BeR717OvRAGPDxv6+yJxZSDGIYX3g27JcO0vLnkadjNz+Ow/TO30sDBwz+IAtL8hEl1/
-         ix3iTuyacKuUvPNnUlaYEfNybvAg0Og19DiJozLqsLUdFQ/w+szQTtsR6EjGRbBqftBp
-         EemHozwCorQ+oA/0Ffbe1loXSOvubpMEg6LxHrPbM1EENe0FKUSTd11C81jkZzST30qW
-         1ERA==
+        bh=FFeJyXKmHA1Uec1iK3fvTQXNf+MjrFSlqdhOvHAIFVA=;
+        b=qXcVtmGvGw7GKuID7xkrFjgKlu/h04nD69yfEpd1w7Z6ytp8hTm+xIDl5km7xBf7dP
+         NnozEcjdInb3zb/1Nc6QYK6v/edalcGNlUgApJHfOvrd9oG32yjuKx5c64QRKywq/8tI
+         bs0zEUARt8WyZZVogzR7IVqFHPlOJxJrl4iHXX8DDQZcrw7IRgjMsiCIvJWyOfQVi1FT
+         la263xsAWD69pteJXQkojJVqXF8CxYLayHkKFdWUp6LEu6zfN4VXWN5rDcydUIzYVjiE
+         VZ38zyzdNUunFhLLsZFXPGCmHneHY3K/gaBpbwVsP3JQvQfS+J3KgzFIA3AjMWcSTA1i
+         PpKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780662038; x=1781266838;
+        d=1e100.net; s=20251104; t=1780662043; x=1781266843;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=JFsk3bK57pNH+uGXIvFwcPQqhl/Aln1/JKtxJWK3Jkw=;
-        b=CNtFdHXTF/lBvgPzT/Ek1L6P+WLdQx+YjY82WQeLjoPuhLjRiP05EY5/2ihzmY5lWq
-         D/qP7GGLg9UVxQnxtqhRqmB38LU4Nn+ryIrjgRD8pLDGlroAejRRCdlIsLa/HG10wAl8
-         cDAmS8FWRSA5clZIEALTEA2ksgkb4whQ/dWHGbqjgYP6Op+vlsPneI81B34fFlt/Jqo3
-         s2SYXV0PlQR1j3OKNkJa83RuqqdHm+UEPNMvwR5oC6kFCJr9tEXXFGdBHYnhYfKNPfF9
-         wI45ZVwE0Oavzw2F92nkQ7bSU1SAR4xfJYUe4xpMF2kmcbUBB8puTHUcN+4Do0/icucM
-         Zg2w==
-X-Forwarded-Encrypted: i=1; AFNElJ8a3G9KJ6EwkWWx1zhSszWDn+RIJV8w/FledVMlRsN+praXaa3CYznL2uN7XbEiVvutPQqQeTo95SxLHm2JfUnbhQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzeiA8Nj+dPIokf7fTlbvGqOmnL1olbll+lnCgq1oBkMBF2nXMa
-	gMwRtSpDo7Nnzl0e7ed07d4eY+Y9tJBYDcK5BRUK7GTEMEERRe9Q2h9MksHx0A==
-X-Gm-Gg: Acq92OF7j0QB5T80APzuQhCA7hsz4asl3hbMPznKAKetVkfQHIHXndNzNDoawMVS71a
-	YhdRp0oRzj8aZSq8FGfRmhfBYhiSb/A9PBsggXeeQrhW/HL2cP7JwHEd8ftZLTmFKPhD+J1sIYe
-	3aBjXLuetJe4MnLvmZsuV7kcpJPHe42N7xbb7HDXASpJqIpOLu3ceJZnG8KU5m2dzocY1a9a+1G
-	TQZ4nkHvTfqztzEzcXI5ZxHkFlFZAI1oeJNBWOOCMi3b93lt6xgP5WP8iLki031OWNsWlqaMjgp
-	blx6FTTyqCgID4E6fejFYxVSdpx80w6r+zfyazhBTQ4LvCfoXfW19uslZ+Ota4sb7xzKZhbftAc
-	dK/O5YD7h+Dm3UDOxwF0rRraGayBFMo22t4l22bQr6wW29vf1VzlKMR4aQ8R766MG2VRnkH/eGY
-	quVGyWSN7RfwAbwsMOphIeFK/dlLzIol/a8IqPBAWtJfShPWdPZM9IWv6u2TtsXJYPpieG
-X-Received: by 2002:a05:6a00:1d84:b0:837:db4e:a35d with SMTP id d2e1a72fcca58-842b0e3da27mr3436451b3a.23.1780662038529;
-        Fri, 05 Jun 2026 05:20:38 -0700 (PDT)
+        bh=FFeJyXKmHA1Uec1iK3fvTQXNf+MjrFSlqdhOvHAIFVA=;
+        b=g++QA/d/sR45htWxlUAXz+ghWOvweRbXIbiF4hwOUTmJ3XS4JRPAqdCam8d3M9tllL
+         yizu4zAU3GwN2DFBX+upujrf23o6XJYaL2m4kr2dsxjqw44RxtfEd7PZ3vSsTZj7ILHl
+         BVy1a7ddeNWmLMO3XWGbdjzvQgiXJZaHSvWhsv2wkerzXkBdfcyTckAgD2cphLKmjARe
+         OS8MbiH49qMrJ2mKqqfsw6dZ1v7j/x30QLu1XTnJ4140L+UHaDm7aluV3w5jlVKpGcqs
+         o9QGKTDAAuIUj8Nn7mkyoqQ7Tt9W7M6LU9Keg0B6wEdCe/kXc3S+LkT55ZP1bohogl0b
+         i3cQ==
+X-Forwarded-Encrypted: i=1; AFNElJ+ascZxj5NDEuToa9UaJVYpDOOXHN4Hpai4gsZf+en1zbUvGfcNgM1u4+/hVdz8cXNvO8MK1BmOkP6T8gSTslcwgQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyCs4gF59YDXhv4rDGEddSDj28joMERdSY0DOiCXCnERkWR02gT
+	LfRCVSCAEedaYcbW2E6r3bspI82AN84t7CXOOaMCzvMHrH3LDHs0CpF+
+X-Gm-Gg: Acq92OEIHc+0citZYMwdDe8xxwz4Jewa7/JgMqDHWDejDAjnbdRkr6SpsF39hIZzJBs
+	iPcItEKQQm6FbNbIjkFq3cRBtODIl88ci+YIHN2JHyjktkkrQwBbmp0n4m2LxBgGwERvO4a931K
+	7xdWpMETA6GbBSj74bsgp5NMAdNAR+iat3K6DDZOA3uUSSwqVhLJ7cQXF5XHh4Y/wpViItVOKC5
+	QAIQ1aaqmsiFeBhsudf8OK3Y3WAogohWgni0+YBB+ZxqHqQA3mCUol9pOuLmv8+C0b6VSeICOd1
+	f99qlsVQUPX/KJCu6YgCeM9EtDu+x6kEFj5DGPBkPGDFDp5/rcZh5ow5Tbc7jQ/boO0yiC8SGqt
+	RooIU/6fbnUfa65fDoW8diW4JLKuRFHio6DKepQYIhspGXkr7GWTSkNPnqeoUewtpkFs1JUa/5q
+	o4EqU8kS4rOTwXvXXm6CMJeIrSUGCHzuDTvNqpGxGCclCNECN3qLccSeg4Ts/Kr/ipmo1+
+X-Received: by 2002:a05:6a00:929e:b0:83f:250d:59c with SMTP id d2e1a72fcca58-842b0fa5602mr3482846b3a.39.1780662043121;
+        Fri, 05 Jun 2026 05:20:43 -0700 (PDT)
 Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84282221059sm8594381b3a.7.2026.06.05.05.20.34
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84282221059sm8594381b3a.7.2026.06.05.05.20.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 05 Jun 2026 05:20:38 -0700 (PDT)
+        Fri, 05 Jun 2026 05:20:42 -0700 (PDT)
 From: phucduc.bui@gmail.com
 To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
 	Mark Brown <broonie@kernel.org>,
@@ -92,9 +92,9 @@ Cc: Liam Girdwood <lgirdwood@gmail.com>,
 	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH v4 05/10] ASoC: renesas: fsi: Fix register access from in-flight IRQ after shutdown
-Date: Fri,  5 Jun 2026 19:19:49 +0700
-Message-ID: <20260605121955.105661-6-phucduc.bui@gmail.com>
+Subject: [PATCH v4 06/10] ASoC: renesas: fsi: Move fsi_clk_init()
+Date: Fri,  5 Jun 2026 19:19:50 +0700
+Message-ID: <20260605121955.105661-7-phucduc.bui@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260605121955.105661-1-phucduc.bui@gmail.com>
 References: <20260605121955.105661-1-phucduc.bui@gmail.com>
@@ -112,14 +112,14 @@ X-Spamd-Result: default: False [-0.16 / 15.00];
 	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
 	FREEMAIL_FROM(0.00)[gmail.com];
-	TO_DN_SOME(0.00)[];
-	TAGGED_FROM(0.00)[bounces-33615-lists,linux-renesas-soc=lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[15];
+	TAGGED_FROM(0.00)[bounces-33616-lists,linux-renesas-soc=lfdr.de];
 	FORWARDED(0.00)[lists@lfdr.de];
 	FORGED_RECIPIENTS(0.00)[m:kuninori.morimoto.gx@renesas.com,m:broonie@kernel.org,m:geert+renesas@glider.be,m:lgirdwood@gmail.com,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:magnus.damm@gmail.com,m:perex@perex.cz,m:tiwai@suse.com,m:linux-sound@vger.kernel.org,m:linux-renesas-soc@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:phucduc.bui@gmail.com,m:geert@glider.be,m:krzk@kernel.org,m:conor@kernel.org,m:magnusdamm@gmail.com,m:phucducbui@gmail.com,s:lists@lfdr.de];
 	MIME_TRACE(0.00)[0:+];
@@ -136,59 +136,171 @@ X-Spamd-Result: default: False [-0.16 / 15.00];
 	DKIM_TRACE(0.00)[gmail.com:+];
 	MID_RHS_MATCH_FROM(0.00)[];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,dt];
-	RCPT_COUNT_TWELVE(0.00)[15];
+	TO_DN_SOME(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,renesas.com:email]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,renesas.com:email]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: CC69F648259
+X-Rspamd-Queue-Id: 2B81364828A
 
 From: bui duc phuc <phucduc.bui@gmail.com>
 
-In-flight IRQs may still be running when the SPU clock is disabled,
-leading to register access after shutdown and causing system hangs.
-
-Fix this to use fsi_stream_is_working() when handling in-flight IRQ
-handlers. If no streams are active, the handler now returns immediately
-to prevent hardware access.
+Move fsi_clk_init() after set_rate() functions to prepare for subsequent
+refactoring.
 
 Suggested-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
 ---
-
-Changes in v4:
- - use fsi_stream_is_working instead of running_streams.
-
- sound/soc/renesas/fsi.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ sound/soc/renesas/fsi.c | 128 ++++++++++++++++++++--------------------
+ 1 file changed, 64 insertions(+), 64 deletions(-)
 
 diff --git a/sound/soc/renesas/fsi.c b/sound/soc/renesas/fsi.c
-index 429c3c9b6ede..0f350bddeb1d 100644
+index 0f350bddeb1d..43e6772c06d5 100644
 --- a/sound/soc/renesas/fsi.c
 +++ b/sound/soc/renesas/fsi.c
-@@ -470,6 +470,10 @@ static int fsi_get_current_fifo_samples(struct fsi_priv *fsi,
- 
- static void fsi_count_fifo_err(struct fsi_priv *fsi)
+@@ -717,70 +717,6 @@ static void fsi_spdif_clk_ctrl(struct fsi_priv *fsi, int enable)
+ /*
+  *		clock function
+  */
+-static int fsi_clk_init(struct device *dev,
+-			struct fsi_priv *fsi,
+-			int xck,
+-			int ick,
+-			int div,
+-			int (*set_rate)(struct device *dev,
+-					struct fsi_priv *fsi))
+-{
+-	struct fsi_clk *clock = &fsi->clock;
+-	int is_porta = fsi_is_port_a(fsi);
+-
+-	clock->xck	= NULL;
+-	clock->ick	= NULL;
+-	clock->div	= NULL;
+-	clock->rate	= 0;
+-	clock->count	= 0;
+-	clock->set_rate	= set_rate;
+-
+-	clock->own = devm_clk_get(dev, NULL);
+-	if (IS_ERR(clock->own))
+-		return -EINVAL;
+-
+-	/* external clock */
+-	if (xck) {
+-		clock->xck = devm_clk_get(dev, is_porta ? "xcka" : "xckb");
+-		if (IS_ERR(clock->xck)) {
+-			dev_err(dev, "can't get xck clock\n");
+-			return -EINVAL;
+-		}
+-		if (clock->xck == clock->own) {
+-			dev_err(dev, "cpu doesn't support xck clock\n");
+-			return -EINVAL;
+-		}
+-	}
+-
+-	/* FSIACLK/FSIBCLK */
+-	if (ick) {
+-		clock->ick = devm_clk_get(dev,  is_porta ? "icka" : "ickb");
+-		if (IS_ERR(clock->ick)) {
+-			dev_err(dev, "can't get ick clock\n");
+-			return -EINVAL;
+-		}
+-		if (clock->ick == clock->own) {
+-			dev_err(dev, "cpu doesn't support ick clock\n");
+-			return -EINVAL;
+-		}
+-	}
+-
+-	/* FSI-DIV */
+-	if (div) {
+-		clock->div = devm_clk_get(dev,  is_porta ? "diva" : "divb");
+-		if (IS_ERR(clock->div)) {
+-			dev_err(dev, "can't get div clock\n");
+-			return -EINVAL;
+-		}
+-		if (clock->div == clock->own) {
+-			dev_err(dev, "cpu doesn't support div clock\n");
+-			return -EINVAL;
+-		}
+-	}
+-
+-	return 0;
+-}
+-
+ #define fsi_clk_invalid(fsi) fsi_clk_valid(fsi, 0)
+ static void fsi_clk_valid(struct fsi_priv *fsi, unsigned long rate)
  {
-+	if (!fsi_stream_is_working(fsi, &fsi->playback) &&
-+	    !fsi_stream_is_working(fsi, &fsi->capture))
-+		return;
+@@ -1034,6 +970,70 @@ static int fsi_clk_set_rate_cpg(struct device *dev,
+ 	return ret;
+ }
+ 
++static int fsi_clk_init(struct device *dev,
++			struct fsi_priv *fsi,
++			int xck,
++			int ick,
++			int div,
++			int (*set_rate)(struct device *dev,
++					struct fsi_priv *fsi))
++{
++	struct fsi_clk *clock = &fsi->clock;
++	int is_porta = fsi_is_port_a(fsi);
 +
- 	u32 ostatus = fsi_reg_read(fsi, DOFF_ST);
- 	u32 istatus = fsi_reg_read(fsi, DIFF_ST);
- 
-@@ -681,6 +685,10 @@ static void fsi_irq_clear_status(struct fsi_priv *fsi)
- 	u32 data = 0;
- 	struct fsi_master *master = fsi_get_master(fsi);
- 
-+	if (!fsi_stream_is_working(fsi, &fsi->playback) &&
-+	    !fsi_stream_is_working(fsi, &fsi->capture))
-+		return;
++	clock->xck	= NULL;
++	clock->ick	= NULL;
++	clock->div	= NULL;
++	clock->rate	= 0;
++	clock->count	= 0;
++	clock->set_rate	= set_rate;
 +
- 	data |= AB_IO(1, fsi_get_port_shift(fsi, &fsi->playback));
- 	data |= AB_IO(1, fsi_get_port_shift(fsi, &fsi->capture));
- 
++	clock->own = devm_clk_get(dev, NULL);
++	if (IS_ERR(clock->own))
++		return -EINVAL;
++
++	/* external clock */
++	if (xck) {
++		clock->xck = devm_clk_get(dev, is_porta ? "xcka" : "xckb");
++		if (IS_ERR(clock->xck)) {
++			dev_err(dev, "can't get xck clock\n");
++			return -EINVAL;
++		}
++		if (clock->xck == clock->own) {
++			dev_err(dev, "cpu doesn't support xck clock\n");
++			return -EINVAL;
++		}
++	}
++
++	/* FSIACLK/FSIBCLK */
++	if (ick) {
++		clock->ick = devm_clk_get(dev,  is_porta ? "icka" : "ickb");
++		if (IS_ERR(clock->ick)) {
++			dev_err(dev, "can't get ick clock\n");
++			return -EINVAL;
++		}
++		if (clock->ick == clock->own) {
++			dev_err(dev, "cpu doesn't support ick clock\n");
++			return -EINVAL;
++		}
++	}
++
++	/* FSI-DIV */
++	if (div) {
++		clock->div = devm_clk_get(dev,  is_porta ? "diva" : "divb");
++		if (IS_ERR(clock->div)) {
++			dev_err(dev, "can't get div clock\n");
++			return -EINVAL;
++		}
++		if (clock->div == clock->own) {
++			dev_err(dev, "cpu doesn't support div clock\n");
++			return -EINVAL;
++		}
++	}
++
++	return 0;
++}
++
+ static void fsi_pointer_update(struct fsi_stream *io, int size)
+ {
+ 	io->buff_sample_pos += size;
 -- 
 2.43.0
 
