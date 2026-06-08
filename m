@@ -1,167 +1,147 @@
-Return-Path: <linux-renesas-soc+bounces-33645-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-33646-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id cGz3N6dZJmoQVQIAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-33645-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 08 Jun 2026 07:56:55 +0200
+	id MKTkJJxrJmrwWAIAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-33646-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 08 Jun 2026 09:13:32 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D699652FBE
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 08 Jun 2026 07:56:55 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id F044E6536C1
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 08 Jun 2026 09:13:31 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=oTLEsb7E;
-	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-33645-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-33645-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=quarantine) header.from=kernel.org;
+	dkim=none;
+	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-33646-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-33646-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
+	dmarc=none;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id E9E57300EA8A
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Jun 2026 05:56:07 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 4746F30233DD
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Jun 2026 07:11:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6C49A38238F;
-	Mon,  8 Jun 2026 05:56:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 27D9C36DA18;
+	Mon,  8 Jun 2026 07:11:37 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from cstnet.cn (smtp81.cstnet.cn [159.226.251.81])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65F473590A9;
-	Mon,  8 Jun 2026 05:56:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35B4838C406;
+	Mon,  8 Jun 2026 07:11:33 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780898167; cv=none; b=E42eHYMiFtaynLurDFs9e1WpQpmrW1ROCVwdjwNRFsMHomRED3AP/PWOay9gfJOsgBrOaLa/uJek1/Ihkk7lWxbhJg5jxSTzaJdYWDsFSUj9xhP0fNsdgZTMEEefrVYjcFoFkslkXOnrl3V6tZN+gfoODGVhjSThKcySvD6MQ0M=
+	t=1780902697; cv=none; b=IQda4J1vwRLVV5dH7L8ydU+VfMQcD6rlxaxjuJS8ZuFCHsWgroXKY15S5tA4ToEhOP2TgucKPFlx5p9HugrLvIm2r39wcg11OT1kRDauU4IjGPKFXvvxhJ1eLpF49see0S676wUt73lzBIv6p8m/VuTlhejxr85CxTrqXdWfClo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780898167; c=relaxed/simple;
-	bh=0MdKOXRySoGARuPpCuOczIDb+WVwxAcv6j9Yr+cjKRA=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=NcUBFLhCQNn7CRrT8uK9CIEerCLjWstwJUtc+PubI8Z8/5sYW/ZfNuVuz0hy0Fzs2mup4iD/ObDMxUwwaO0nFmbz1ptw/ER5jRM/MJhYGl2L9CcsCOFV9iBL6Z+DWCSFl5DK+00tVwGPbPKj9wIccdh1iXQ46qUOMpuZGwFwrLo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oTLEsb7E; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5CE061F00893;
-	Mon,  8 Jun 2026 05:56:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780898166;
-	bh=6tTBHhwnLy48LiDCb4fczQwpX7BSRsJ3hkvOsxaWUbQ=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=oTLEsb7EE3B35cg5dziOrLCNlD/+xoFSKHn9s4Yuvob0WV4BSru84skz6uIrcWEJv
-	 JrrFnHlRKlzT6GtkgDlhndHve9Nf6Um4HOqPNo430WbdGTVdMQKZ6V0A67Miqv4t7j
-	 idotGAKg4hE05FXigEK66u3PGMKTGoUgIe4ptQjVxvDM/9W75w4+qeDgT8+a4OqMXe
-	 RgNNyutar610xBq3koc+Lp/7G+ECGso8DkaydAyJDGjububoSkywBP1XJ7bB8MNc4e
-	 eYShytXK90umG1pBLzuESPmfBkSYCUlRbu0wqW2UL/FmxHHRfyxRmTRRWJYo2vpDFt
-	 rLAR+HvPCAN3g==
-From: Vinod Koul <vkoul@kernel.org>
-To: Frank.Li@kernel.org, lgirdwood@gmail.com, broonie@kernel.org, 
- perex@perex.cz, tiwai@suse.com, biju.das.jz@bp.renesas.com, 
- prabhakar.mahadev-lad.rj@bp.renesas.com, p.zabel@pengutronix.de, 
- geert+renesas@glider.be, kuninori.morimoto.gx@renesas.com, 
- long.luu.ur@renesas.com, Claudiu Beznea <claudiu.beznea@kernel.org>
-Cc: claudiu.beznea@tuxon.dev, dmaengine@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, 
- linux-renesas-soc@vger.kernel.org, 
- Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-In-Reply-To: <20260526084710.3491480-1-claudiu.beznea@kernel.org>
-References: <20260526084710.3491480-1-claudiu.beznea@kernel.org>
-Subject: Re: [PATCH v6 00/18] Renesas: dmaengine and ASoC fixes
-Message-Id: <178089816101.15844.5628352417869771177.b4-ty@kernel.org>
-Date: Mon, 08 Jun 2026 11:26:01 +0530
+	s=arc-20240116; t=1780902697; c=relaxed/simple;
+	bh=dlSg88VmdGxXbPR7ZyuEinTyShHdG/AqDdM1y5ib2zU=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=G9gLyQJWHlXB7+ATe6haUIzw1IkoXQLCFZ3JQ7gvddpDKX/8Wa9oOBtujpoOA70pbvQb5cinDPxZ3e91lSb9WQJAonP1TNS5XpFmzIwaG8GkZluB7wahkxY2q0dnau+7ob6PV9xQSVgs8loIP1egGUST4+Y0ZTVO5jL0u8dy5hc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.81
+Received: from dfae2b116770.home.arpa (unknown [36.110.52.2])
+	by APP-03 (Coremail) with SMTP id rQCowABXeuEjayZqs7wDFA--.289S2;
+	Mon, 08 Jun 2026 15:11:31 +0800 (CST)
+From: Wentao Liang <vulab@iscas.ac.cn>
+To: chris.brandt@renesas.com,
+	andi.shyti@kernel.org
+Cc: linux-renesas-soc@vger.kernel.org,
+	linux-i2c@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Wentao Liang <vulab@iscas.ac.cn>,
+	stable@vger.kernel.org
+Subject: [PATCH] i2c: riic: fix refcount leak in riic_i2c_resume_noirq()
+Date: Mon,  8 Jun 2026 07:11:23 +0000
+Message-Id: <20260608071123.128964-1-vulab@iscas.ac.cn>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.13.0
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:rQCowABXeuEjayZqs7wDFA--.289S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7Kr4rtr1UAw4DXr43Xr17trb_yoW8JFyxpw
+	4xKrWSyFyUGr4IqanrAr1FvFyY9ay3trZxCrWDK3s3Za1rXas8Jr4YvFyYgr1kAryDJryY
+	yw47taySkF1qyFJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUkK14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+	1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
+	6F4UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
+	Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
+	I7IYx2IY67AKxVWUAVWUtwAv7VC2z280aVAFwI0_Gr1j6F4UJwAm72CE4IkC6x0Yz7v_Jr
+	0_Gr1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7MxkF7I0En4kS14v2
+	6r126r1DMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrV
+	AFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCI
+	c40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267
+	AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_
+	Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VUbLiSJ
+	UUUUU==
+X-CM-SenderInfo: pyxotu46lvutnvoduhdfq/1tbiCRAMA2omaj4DuwAAs2
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [0.04 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-33645-lists,linux-renesas-soc=lfdr.de];
-	FORGED_RECIPIENTS(0.00)[m:Frank.Li@kernel.org,m:lgirdwood@gmail.com,m:broonie@kernel.org,m:perex@perex.cz,m:tiwai@suse.com,m:biju.das.jz@bp.renesas.com,m:prabhakar.mahadev-lad.rj@bp.renesas.com,m:p.zabel@pengutronix.de,m:geert+renesas@glider.be,m:kuninori.morimoto.gx@renesas.com,m:long.luu.ur@renesas.com,m:claudiu.beznea@kernel.org,m:claudiu.beznea@tuxon.dev,m:dmaengine@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-sound@vger.kernel.org,m:linux-renesas-soc@vger.kernel.org,m:claudiu.beznea.uj@bp.renesas.com,m:geert@glider.be,s:lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_TO(0.00)[kernel.org,gmail.com,perex.cz,suse.com,bp.renesas.com,pengutronix.de,glider.be,renesas.com];
-	FORGED_SENDER(0.00)[vkoul@kernel.org,linux-renesas-soc@vger.kernel.org];
-	RCPT_COUNT_TWELVE(0.00)[18];
+	TAGGED_FROM(0.00)[bounces-33646-lists,linux-renesas-soc=lfdr.de];
+	DMARC_NA(0.00)[iscas.ac.cn];
 	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_SENDER(0.00)[vulab@iscas.ac.cn,linux-renesas-soc@vger.kernel.org];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:chris.brandt@renesas.com,m:andi.shyti@kernel.org,m:linux-renesas-soc@vger.kernel.org,m:linux-i2c@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:vulab@iscas.ac.cn,m:stable@vger.kernel.org,s:lists@lfdr.de];
 	FORWARDED(0.00)[lists@lfdr.de];
-	FROM_HAS_DN(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
 	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	ALIAS_RESOLVED(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[vkoul@kernel.org,linux-renesas-soc@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
+	FROM_NEQ_ENVFROM(0.00)[vulab@iscas.ac.cn,linux-renesas-soc@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+	FORGED_SENDER_FORWARDING(0.00)[];
+	R_DKIM_NA(0.00)[];
+	ALIAS_RESOLVED(0.00)[];
+	TAGGED_RCPT(0.00)[linux-renesas-soc];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 5D699652FBE
+X-Rspamd-Queue-Id: F044E6536C1
 
+When riic_i2c_resume_noirq() is called, it deasserts the reset
+using reset_control_deassert(), which for shared resets increments
+a reference count. If pm_runtime_force_resume() then fails, the
+function returns without calling reset_control_assert() to
+decrement the count. This leaves the reset deasserted and the
+reference count unbalanced, which can prevent other users of the
+shared reset from properly asserting it later.
 
-On Tue, 26 May 2026 11:46:52 +0300, Claudiu Beznea wrote:
-> This series addresses issues identified in the DMA engine and RZ SSI
-> drivers.
-> 
-> As described in the patch "dmaengine: sh: rz-dmac: Set the Link End (LE)
-> bit on the last descriptor", stress testing on the Renesas RZ/G2L SoC
-> showed that starting all available DMA channels could cause the system
-> to stall after several hours of operation. This issue was resolved by
-> setting the Link End bit on the last descriptor of a DMA transfer.
-> 
-> [...]
+Fix the leak by calling reset_control_assert() on the error
+handling path for a failed pm_runtime_force_resume().
 
-Applied, thanks!
+Cc: stable@vger.kernel.org
+Fixes: e383f0961422 ("i2c: riic: Move suspend handling to NOIRQ phase")
+Signed-off-by: Wentao Liang <vulab@iscas.ac.cn>
+---
+ drivers/i2c/busses/i2c-riic.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-[01/18] dmaengine: sh: rz-dmac: Move interrupt request after everything is set up
-        commit: 731712403ddb39d1a76a11abf339a0615bc85de7
-[02/18] dmaengine: sh: rz-dmac: Fix incorrect NULL check for list_first_entry()
-        commit: 5fbf3a2a3b96ef5810e6e0fbc601f82067629bc5
-[03/18] dmaengine: sh: rz-dmac: Use list_first_entry_or_null()
-        commit: 89975baaa9ea2490b75d69842561a32ca888b7e5
-[04/18] dmaengine: sh: rz-dmac: Use rz_dmac_disable_hw()
-        commit: 38d4d021228386b8e3fbef2bca5f1e91eacd4fe6
-[05/18] dmaengine: sh: rz-dmac: Add helper to compute the lmdesc address
-        commit: 32a69f1487819766d2084ed32b1350b18f971c10
-[06/18] dmaengine: sh: rz-dmac: Save the start LM descriptor
-        commit: e21aa306e82067457f2297ae56af4c91db86c59a
-[07/18] dmaengine: sh: rz-dmac: Add helper to check if the channel is enabled
-        commit: 7a94c109a5def4f0f25705a82ed5870f794ff4ed
-[08/18] dmaengine: sh: rz-dmac: Add helper to check if the channel is paused
-        commit: 1dddc864dfa844efaf36345eb58b121b2cdffa5f
-[09/18] dmaengine: sh: rz-dmac: Use virt-dma APIs for channel descriptor processing
-        commit: daa6d4617bee722e83f7d8584416e83b709c958a
-[10/18] dmaengine: sh: rz-dmac: Refactor pause/resume code
-        commit: dc86e47ca9b1021e258c366a5a9aa15d71c814a5
-[11/18] dmaengine: sh: rz-dmac: Drop the update of channel->chctrl with CHCTRL_SETEN
-        commit: e8baee1d1cddc8e2be7bc362d6dc3fcb2021e873
-[12/18] dmaengine: sh: rz-dmac: Add cyclic DMA support
-        commit: 172bfb57481c65fcc94ebcae3a730f6df2f953d4
-[13/18] dmaengine: sh: rz-dmac: Adjust rz_dmac_chan_get_residue() to return error codes
-        commit: 16ba40151b1e6a52b28296a2173457bc6c31f022
-[14/18] dmaengine: sh: rz-dmac: Add runtime PM support
-        commit: 7c27a4d54d48d0774518390e4ce6cf3309aac141
-[15/18] dmaengine: sh: rz-dmac: Add suspend to RAM support
-        commit: c13ce43e70719dead7009e7e708971ba1c447568
-[16/18] ASoC: renesas: rz-ssi: Add pause support
-        commit: b4d34819a53964648bc53cabaa3ba9890d4fdf9c
-[17/18] ASoC: renesas: rz-ssi: Use generic PCM dmaengine APIs
-        commit: 9fcaec81ac56c9d2c5d779ffb5a76b622b4d0590
-[18/18] dmaengine: sh: rz-dmac: Set the Link End (LE) bit on the last descriptor
-        commit: cd2d36e8ae61832aaac3bddf5aafdab72821e6b9
-
-Best regards,
+diff --git a/drivers/i2c/busses/i2c-riic.c b/drivers/i2c/busses/i2c-riic.c
+index 9e3595b3623e..6d2ebf67dd62 100644
+--- a/drivers/i2c/busses/i2c-riic.c
++++ b/drivers/i2c/busses/i2c-riic.c
+@@ -725,8 +725,10 @@ static int riic_i2c_resume_noirq(struct device *dev)
+ 		return ret;
+ 
+ 	ret = pm_runtime_force_resume(dev);
+-	if (ret)
++	if (ret) {
++		reset_control_assert(riic->rstc);
+ 		return ret;
++	}
+ 
+ 	ret = riic_init_hw(riic);
+ 	if (ret) {
 -- 
-~Vinod
-
+2.34.1
 
 
