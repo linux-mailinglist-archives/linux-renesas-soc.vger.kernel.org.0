@@ -1,541 +1,224 @@
-Return-Path: <linux-renesas-soc+bounces-33709-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-33710-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id 4ZgBJ5okJ2pIsgIAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-33709-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 08 Jun 2026 22:22:50 +0200
+	id pakFGAUnJ2rCsgIAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-33710-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 08 Jun 2026 22:33:09 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11D0F65A662
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 08 Jun 2026 22:22:50 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id B15DD65A767
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 08 Jun 2026 22:33:08 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=RklmNhgk;
-	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-33709-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-33709-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=quarantine) header.from=kernel.org;
-	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
+	dkim=pass header.d=bp.renesas.com header.s=selector1 header.b=naxSkwD1;
+	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-33710-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-33710-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=renesas.com;
+	arc=reject ("cv is fail on i=2")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id CB8E630B7AFF
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Jun 2026 20:17:24 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 1146F30477EE
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Jun 2026 20:26:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 95C213ED100;
-	Mon,  8 Jun 2026 20:16:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 62AB439E6DE;
+	Mon,  8 Jun 2026 20:26:02 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from TYVP286CU001.outbound.protection.outlook.com (mail-japaneastazon11011049.outbound.protection.outlook.com [52.101.125.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56DAB3B14C6;
-	Mon,  8 Jun 2026 20:16:44 +0000 (UTC)
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780949806; cv=none; b=B0hB5woLq+WZ9Wr3CdZSai8gdsKHooMWYvr5KVrmFJmrPTtDoFUCOEyUFINkL0haLDvQB+vxAL7qkv8WvuvDou7JRfUTeMuX1BGPIPpvV7y9Z/Yd1G4m2SbSm3elAD7s2qF4krBrwPTjprs/WxbIzmITPTvRsm6KyIofjJj1A5c=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780949806; c=relaxed/simple;
-	bh=NMiF3Yhwlu6+sd9U6+CIvmhY6LQUZh6QVX+1yZEO5BM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Vyw7CQ4KwJDSlWdoV18gXEsYkQZWVlu9Zq3OYwsOvuHCK0eHAF4f4rMik3DYsDWlD6qm6j2nFnnskQ37W+5vlOqa60x7mdJd9mL2j7dj2B2BaqS1QENy2gvX5ThbBKG2py5pFWejin/rAw19dGXAf+pLNRk3Y0ObMcf1XiZTt6Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RklmNhgk; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7C93B1F00898;
-	Mon,  8 Jun 2026 20:16:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780949804;
-	bh=RHP6HS6b5+U/6cKljmDnmU3I12hOu6mdtrdpdlC9EDo=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=RklmNhgk0hda7262QggA9aE1BvmBXXEYSDqgiHg0kp2bzBqJ/qVGcg1lcrQrcZlY5
-	 fYib/eILYhNwrN8P/zm47+9X/Qew+pZujoyWAsRO/bjvnmUXh8cSccZv0ZWlkZL0ZN
-	 Ked/jVLIDv9VRjEhebWtSa8EaGo8Ho1L/DXdJFttJrzQ4506ElKO3wm5hwF3TyVezs
-	 cD+f7Spe36trvz6vbVgcHwsiIMiquAeCvWrpYB0Ldicr8t5whvGrd0deyZN9hcuHjb
-	 NlcqI4kxNubLLIBqu0w5u3wKpCuuHCJ6/QoYi0Zwfrenqe3oZXaSdjiH4BWTjk7Zp1
-	 kltOyI4tcccyg==
-From: Claudiu Beznea <claudiu.beznea@kernel.org>
-To: wsa+renesas@sang-engineering.com,
-	tommaso.merciai.xr@bp.renesas.com,
-	alexandre.belloni@bootlin.com,
-	Frank.Li@nxp.com,
-	p.zabel@pengutronix.de
-Cc: claudiu.beznea@kernel.org,
-	claudiu.beznea@tuxon.dev,
-	linux-i3c@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Subject: [PATCH v3 17/17] i3c: renesas: Add runtime PM support
-Date: Mon,  8 Jun 2026 23:15:43 +0300
-Message-ID: <20260608201543.804902-18-claudiu.beznea@kernel.org>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260608201543.804902-1-claudiu.beznea@kernel.org>
-References: <20260608201543.804902-1-claudiu.beznea@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9500D39AD55;
+	Mon,  8 Jun 2026 20:26:00 +0000 (UTC)
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780950362; cv=fail; b=TPanWEc+zhVdKEz5QeoOKEqbHnTRv4PnRUzZFwprDpj3pETa9s/SFykt4qxmJoSIR0is7T4I59j7ZrFiWkHphB0HAVwG75He8FCMKebToilA7w10h+jOugJBWWS12N18qIATfSD4Wwl5nhe1NtiimtN2O650J20ymVfMcHRtBJw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780950362; c=relaxed/simple;
+	bh=llpmJ2DUdlmoL+Yo+dqWQR9j//d+3nMxadix6HMNngQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=TtiCrY7u3gq9eW09UVZZDpkxuC+ACErlv+pm5Co70mxcxYbArTLs8aLqfuKL2AT45H9qRA4FfyqD2n5A8akBFuinkYvyvpStyF2w4T7JxNVigeJR7uLe554hVn3Y7uvgKY1pPpJtx4CokG4ZD6eBlNl4+3sexJD9p3EOzbOyf2Q=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=naxSkwD1; arc=fail smtp.client-ip=52.101.125.49
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=OkBxcsWhge5rM4LKNSVsGK0HwqNWaeLQZLBX93VKmfnfcaXmqSuLT7ii2wE+pMwIyaeP8JZB+bgDBXaYFLlCsbsZhodnSCmPxaYoSNEv7m+2kUVkyG5nwrI0Y/LRmSP2mMV0TjRNtcgZT0PYL/oC/NddDbKZFSgPouvuxzNetf2XZVJs24DmUUwGgb6XVNQVmOvY5ZUVIyvH94ZJvf5ResUPbxwbD+xQhn4OiflS5v/I0npvhmFmNesSHM2jsYnLaQ59LbjZzVlVK08UE6vXxrP46q7ycOtVVbm8FOGxjSBmiyGxnad8RyIbBqQNT9LX/B2LOVJBbv7t+0y2f7osAw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=FTV8u17S7m8awg8550YmVIqD7DE4dGuegPbDj67q7NQ=;
+ b=lbA9Zn6hatLjS26mvtK/U66VO2HMJb28APeAZqPNKraQFd8KpVKriM9jE1vZMZMf942Fu1OCNw7pbFYJwWwJpkcB3uDk44fd4NW9SNupJCWN/hzOj2uAahS83EVgCAObBFy8FvF34Ubjnm6Sg6Yi1tGiKU+HVGhyoBcMnyAZUh4LT8bowvoUcls/JyXRknkInQzRHbWZzu2hD/DUckF+qT11vIQW2H0lS9z8v45E+y8d1i05bgZf3Ju7ZX0+kkPDzmlfvD7OlPoRvMNKbkWrjaVuP2ttOhWa/4W0h8KGgmjCpOjJ+NDdj+Qga258nBPuHhWNUXIvK3r6Qc95CoreLw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=FTV8u17S7m8awg8550YmVIqD7DE4dGuegPbDj67q7NQ=;
+ b=naxSkwD1/EMqxyqvE4ms0DDtpqWeGHjUoEwayg2m4t8MMuTj5Zz3S/HzR6Ea9+SwBU9qM36k6kUWZUmf/sAjnZcDUn/6JUn3XP13Iy0r19x0F0FwDHz62DrX5+NPnnrJ+LNkqemZR+gejhXp6+epWuWF2M0OXimmU9ifOopk/F0=
+Received: from TY3PR01MB11948.jpnprd01.prod.outlook.com (2603:1096:400:409::5)
+ by OS7PR01MB12113.jpnprd01.prod.outlook.com (2603:1096:604:265::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.92.14; Mon, 8 Jun 2026
+ 20:25:57 +0000
+Received: from TY3PR01MB11948.jpnprd01.prod.outlook.com
+ ([fe80::b718:17d0:6c0f:1495]) by TY3PR01MB11948.jpnprd01.prod.outlook.com
+ ([fe80::b718:17d0:6c0f:1495%4]) with mapi id 15.21.0092.011; Mon, 8 Jun 2026
+ 20:25:56 +0000
+From: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+To: tomm.merciai@gmail.com
+Cc: linux-renesas-soc@vger.kernel.org,
+	biju.das.jz@bp.renesas.com,
+	Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Mark Brown <broonie@kernel.org>,
+	linux-spi@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] spi: rzv2h-rspi: Add suspend/resume support
+Date: Mon,  8 Jun 2026 22:25:08 +0200
+Message-ID: <20260608202509.3651345-1-tommaso.merciai.xr@bp.renesas.com>
+X-Mailer: git-send-email 2.54.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: FR4P281CA0103.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:cb::19) To TYCPR01MB11947.jpnprd01.prod.outlook.com
+ (2603:1096:400:3e1::6)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TY3PR01MB11948:EE_|OS7PR01MB12113:EE_
+X-MS-Office365-Filtering-Correlation-Id: 993420f7-7820-4744-eeef-08dec59c230f
+X-LD-Processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|52116014|376014|366016|1800799024|38350700014|18002099003|11063799006|56012099006;
+X-Microsoft-Antispam-Message-Info:
+	CJ+7pN9z2/F2L/AeOUV74Ob1mXYdCzcL0xGO5Ie5Zgv0eWNeC9xvYHbl7ItQf/zQjihGhtB28Bz5dD4g9kVp9hCGDUO/3N3rj3QQK6VPROwE2pzvzEsw0VeFIvO3tZaEgTRKxa5LuwDXWkVR2JcWzu0KV0yY31RNtwzuDlWlKQ96U57A6mJM7y7waemm+/xDnKWDn8zlDNrizCfHefhyZBMY090LH0+5P5LYCmxzqquk48BZE+NWrG4t4xwd4FuzWCYuYOjVWXg0vWe4yZ7r0gEDONUYxFTPfjS4/ScoctXmXGr+UMRnZGXftIwOy8qwPsRkJdRfc5a4HQv3BWkxS45mc/RBQyaZGZ9Oh4pFWz0q8TUMTS7Sekhmvw2BKNG5XVSuKw0UJiJd2CX846tePwNh352D8JRulxL4EguffitlgaH7Rw1CkhkFYp8HnHYi1OUip3p0navZGP6bUdF0tkdx6QBAApPGNYJmLCnb6GgmlcVDi/w6G7h99pBYV7V2KNlM1DDDTKlti5BWwVFwY2/7afOi3wyojdiEhPCMoCpqau4R+aNdX/JOrVoQ6R9l7R9rcYnq4NnRlQGCu99atHfzuoRhtR+obxs94oDM118KXzegBtDeez03SWLcBkMbES1hImuF5NjLQickh1/q3Ko7XxOAeFNTEZVnGCbmPejzsUKZVGQOx6NuKBWgxLOtqOttPMOS+XLMMo51agHGGcJGDLYhx0DAnF/yBlvqb/ldZNXjnfARIA/OKc0IO62W
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB11948.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(52116014)(376014)(366016)(1800799024)(38350700014)(18002099003)(11063799006)(56012099006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?PjBmlyKtRRhqxfeC3WKx4mcaFZn2qBdAN/J+jfBxzKqqpzJ1b2mEMxeLgM25?=
+ =?us-ascii?Q?hSj0oGnMRZ0abeZNXpSL3rLeQZUdC92JyIoUxWEbMu06w2w/HUNaUneUZbb0?=
+ =?us-ascii?Q?gLSwmYuViBFXHs0TSGvbET+c0B5br+Hc4zVOjRliKJsb3kHF1HmxsekChPvp?=
+ =?us-ascii?Q?c/kKz67Dt5EuT1PkYo7Qpk+DtZDcevbIRySOO9kQvF1ie2EU6z/oNcaAy/Hn?=
+ =?us-ascii?Q?JrU8Tcd99bSJ8M7bazOv7jFBivxpYIFoVQZ9VuKl3RuiSS8sPkazaXi/dxdv?=
+ =?us-ascii?Q?nk/gaiZp6K4EQ40J4exWlr3VowAs/QA+u/vIQvqkJXhFqTj/FIcBEpzYHfJQ?=
+ =?us-ascii?Q?gfh/CBkw7SEItDTEp0TXItYp+icCTXEjFfAGIxbUXe28A2hVCg0kihIN67BI?=
+ =?us-ascii?Q?q4/cQRbkIvJ/FXTMPitiRkAZ+BVO+633q7nV9s1ZLt8KgHHw3/uS5c+TqKqk?=
+ =?us-ascii?Q?/C3MTI4tO1GYmD06vKxoRoJG63oYxgay5J7KqPvzhj4JVk/dQEyzkkxDGfcd?=
+ =?us-ascii?Q?IZHa3CC26k0WKo7pUwp9++2sQMydcFMGkFFW8hDdF3dpzg6+TWQxli917+00?=
+ =?us-ascii?Q?S7nAQEL4VNqQRRtH2nr3tx8om8w2mOKK5vMLTEfn0L70arty/gHHAO6egzrB?=
+ =?us-ascii?Q?UnX+hjqKmXBZE79ZD1zgueBqR1y1g9wNyjdUNgaVrzz3L+hsK/WK4WVshDjj?=
+ =?us-ascii?Q?2U/7EwaVCpB1f0jq1kM4b+daLixnstdpHE7GFR3HuklLZWdEOXXc+Hf0sCaa?=
+ =?us-ascii?Q?6unVOT4lucMnCxjVxGONpv1dNO6/Ly0UrXX49uHNUNYWwtKvYNG55MpfSN9E?=
+ =?us-ascii?Q?Dq0clBYZj5flNgg59K8W2orEl0QI2ufQyMiUOw43py9Ze9AIeHV0ke2bJbXn?=
+ =?us-ascii?Q?QwzirkbIByz9dIoyUVuJhGAQNEvHk8/NqW/hVoj4ck8oZ39LBWp8aC5Tj065?=
+ =?us-ascii?Q?2JcfsOcOOvYLnNlYqAR7+M72QokEYdqYtRDwM5wO6aZg78xRAplwHFXWV5Pn?=
+ =?us-ascii?Q?fz3avjF0t4FnGlzwTMdFRRA5IxfjfhmWn3l4hpM4jsiKsy6ZIWkCCq+25+jD?=
+ =?us-ascii?Q?bHyJ9lAwXwjnFephhA5v0fBTaYTdQYacScd9VjG6TYEPZiFcG5KebZAhCYce?=
+ =?us-ascii?Q?uZejrtgfPZEVuV5Z9OEApGIgVv7dDjF/baFyGJSpVHoO4Hubzr05VfgKcqlu?=
+ =?us-ascii?Q?QgJUTSww1Xlgu9RK9bEAgpgcVbaInlzT8jnYqq/BwixupxUhyXtnNcUVeeoS?=
+ =?us-ascii?Q?91pCGJ14fpmehbUlGMYZCluorytYar92KCwDb/W/2ISzi/hIq0oWxfn8AH2P?=
+ =?us-ascii?Q?2CljdRN9pU18lOI66z7WIQ07x+Qt9Bs5HaNVzOI/MoMlWzsWusLfSMNALN0I?=
+ =?us-ascii?Q?BHCliPC/v+VDVtVhB/lappCtADGVxGM+2iUk4rUxQ9rzWyicjtTjuc/oeYhs?=
+ =?us-ascii?Q?UFAhoO5irPdNzb1txoEMX2SzOf7RCopokF/YuDIqv7bFV8WlzQO/t4QjcuMl?=
+ =?us-ascii?Q?458p0yR2H8h87tK6YD/HXf9A2H4IONNk86PGtrObEP6HT/d+F62VCoJGf8hl?=
+ =?us-ascii?Q?BgreSV4LB9FM6QFzeJb1PzndpTSKph6y0ImoFf86njaK/cbu2aftvfW9mLoY?=
+ =?us-ascii?Q?5e1shtSAFGANP80kjSn9iL7cvZOaUC24a5gBoBzkNmA/nI2fNsN59cKOqLJ3?=
+ =?us-ascii?Q?2PLEGrBXRfPz8WvdP6n4oj4P6n6gC5DRwgxRqtwUKllW+oaSDcyFMTTQblso?=
+ =?us-ascii?Q?g+jrNNK7suW5SB+e8n5AhqaPMFE6moeW/fJ2IJxoICzoFnD84P/3?=
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 993420f7-7820-4744-eeef-08dec59c230f
+X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB11947.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jun 2026 20:25:56.8281
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: rnMEKZ8JxDe3DhOMI2nLadUAQRE5hlfgjyMjbXsuhNhBEd4v9v7WFKqej73mhAaKh9BnO8aHD1kqJ8IO2DwMbcMItMlTK9BUWyfISE5T7/Ey+H1ydSjTis8KhKiJPilP
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS7PR01MB12113
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [0.84 / 15.00];
+X-Spamd-Result: default: False [2.84 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	ARC_REJECT(1.00)[cv is fail on i=2];
 	MID_CONTAINS_FROM(1.00)[];
 	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[renesas.com,none];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_DKIM_ALLOW(-0.20)[bp.renesas.com:s=selector1];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORWARDED(0.00)[lists@lfdr.de];
 	MIME_TRACE(0.00)[0:+];
-	RCVD_COUNT_THREE(0.00)[4];
-	TAGGED_FROM(0.00)[bounces-33709-lists,linux-renesas-soc=lfdr.de];
-	FORGED_SENDER(0.00)[claudiu.beznea@kernel.org,linux-renesas-soc@vger.kernel.org];
-	FORGED_RECIPIENTS(0.00)[m:wsa+renesas@sang-engineering.com,m:tommaso.merciai.xr@bp.renesas.com,m:alexandre.belloni@bootlin.com,m:Frank.Li@nxp.com,m:p.zabel@pengutronix.de,m:claudiu.beznea@kernel.org,m:claudiu.beznea@tuxon.dev,m:linux-i3c@lists.infradead.org,m:linux-kernel@vger.kernel.org,m:linux-renesas-soc@vger.kernel.org,m:claudiu.beznea.uj@bp.renesas.com,m:wsa@sang-engineering.com,s:lists@lfdr.de];
+	FORWARDED(0.00)[lists@lfdr.de];
+	FREEMAIL_TO(0.00)[gmail.com];
 	RCVD_TLS_LAST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	FORGED_SENDER(0.00)[tommaso.merciai.xr@bp.renesas.com,linux-renesas-soc@vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-33710-lists,linux-renesas-soc=lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:tomm.merciai@gmail.com,m:linux-renesas-soc@vger.kernel.org,m:biju.das.jz@bp.renesas.com,m:tommaso.merciai.xr@bp.renesas.com,m:fabrizio.castro.jz@renesas.com,m:broonie@kernel.org,m:linux-spi@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:tommmerciai@gmail.com,s:lists@lfdr.de];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[claudiu.beznea@kernel.org,linux-renesas-soc@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[tommaso.merciai.xr@bp.renesas.com,linux-renesas-soc@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
+	DKIM_TRACE(0.00)[bp.renesas.com:+];
+	RCVD_COUNT_FIVE(0.00)[5];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	ALIAS_RESOLVED(0.00)[];
+	TAGGED_RCPT(0.00)[linux-renesas-soc];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,vger.kernel.org:from_smtp,renesas.com:email]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,renesas.com:email,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 11D0F65A662
+X-Rspamd-Queue-Id: B15DD65A767
 
-From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Add suspend/resume support to the rzv2h-rspi driver by implementing
+suspend and resume callbacks that delegate to spi_controller_suspend()
+and spi_controller_resume() respectively.
 
-On the SoCs where the Renesas I3C driver is enabled (RZ/G3S and RZ/G3E),
-the clocks of the IP are managed through a clock PM domain. To keep the
-I3C code simpler, the explicit clock handling was dropped along with the
-addition of runtime PM support, in favor of the runtime PM APIs. Only the
-code for getting tclk was preserved, as it is necessary to compute the
-I3C clock rate.
-
-All the APIs provided to the I3C subsystem through struct
-i3c_master_controller_ops are guarded with runtime PM APIs to
-enable/disable the controller at runtime.
-
-As the Renesas I3C driver implements an asynchronous transmit model by
-preparing a transfer and waiting for its completion through the ISR,
-renesas_i3c_abort_xfer() was added to disable interrupts and clear any
-pending IRQ status bits when there is no completion in the defined
-timeout. Along with this, renesas_i3c_wait_xfer() return type was changed
-to unsigned long.
-
-Add runtime PM support for the Renesas I3C driver.
-
-Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
 ---
+ drivers/spi/spi-rzv2h-rspi.c | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
 
-Changes in v3:
-- dropped the RPM resume/suspend in renesas_i3c_suspend() to read the
-  DATBASn registers as the DATBASn register are not used on suspend/resume
-  path anymore in this version
-
-Changes in v2:
-- dropped the runtime suspend/resume functions as for now, there will be
-  no pinctrl sleep state described in DT
-- do not synchronize the IRQs in renesas_i3c_abort_xfer() as some handlers
-  may re-enable interrupts; instead just disable the interrupts and clean
-  any status bits that the IRQ handlers are touching; with this the
-  struct renesas_i3c::{irqs, num_irqs} and the associated code was removed
-- dropped the renesas_i3c_dont_use_autosuspend() along with the
-  devm_add_action_or_reset() call to set it since the same operation is
-  done by the devres cleanup helper of devm_pm_runtime_enable()
-- adjusted the renesas_i3c_suspend() with RPM calls to save the DATBAS
-  registers
-- use pm_runtime_resume_and_get() in renesas_i3c_resume() to avoid
-  mixing gotos with cleanup helpers
-- adjusted the patch description to reflect these changes
-
- drivers/i3c/master/renesas-i3c.c | 150 +++++++++++++++++++++++++------
- 1 file changed, 122 insertions(+), 28 deletions(-)
-
-diff --git a/drivers/i3c/master/renesas-i3c.c b/drivers/i3c/master/renesas-i3c.c
-index b6c282c53a54..d6121ca86990 100644
---- a/drivers/i3c/master/renesas-i3c.c
-+++ b/drivers/i3c/master/renesas-i3c.c
-@@ -22,6 +22,7 @@
- #include <linux/module.h>
- #include <linux/of.h>
- #include <linux/platform_device.h>
-+#include <linux/pm_runtime.h>
- #include <linux/reset.h>
- #include <linux/slab.h>
- #include "../internals.h"
-@@ -199,8 +200,6 @@
- #define RENESAS_I3C_MAX_DEVS	8
- #define I2C_INIT_MSG		-1
- 
--#define RENESAS_I3C_TCLK_IDX	1
--
- enum i3c_internal_state {
- 	I3C_INTERNAL_STATE_DISABLED,
- 	I3C_INTERNAL_STATE_CONTROLLER_IDLE,
-@@ -263,9 +262,10 @@ struct renesas_i3c_addr {
- 
- struct renesas_i3c {
- 	void __iomem *regs;
--	struct clk_bulk_data *clks;
-+	struct clk *tclk;
- 	struct reset_control *presetn;
- 	struct reset_control *tresetn;
-+	struct device *dev;
- 	struct renesas_i3c_xferqueue xferqueue;
- 	struct i3c_master_controller base;
- 	struct renesas_i3c_addr addrs[RENESAS_I3C_MAX_DEVS];
-@@ -278,7 +278,6 @@ struct renesas_i3c {
- 	u32 i3c_STDBR;
- 	u32 extbr;
- 	u16 maxdevs;
--	u8 num_clks;
- 	u8 refclk_div;
- };
- 
-@@ -443,7 +442,24 @@ static void renesas_i3c_enqueue_xfer(struct renesas_i3c *i3c, struct renesas_i3c
- 	}
- }
- 
--static void renesas_i3c_wait_xfer(struct renesas_i3c *i3c, struct renesas_i3c_xfer *xfer)
-+static void renesas_i3c_abort_xfer(struct renesas_i3c *i3c)
-+{
-+	guard(spinlock_irqsave)(&i3c->xferqueue.lock);
-+
-+	/* Disable all the interrupts */
-+	renesas_writel(i3c->regs, BIE, 0);
-+	renesas_writel(i3c->regs, NTIE, 0);
-+
-+	/* Clear normal transfer status flags. */
-+	renesas_clear_bit(i3c->regs, NTST, NTST_TDBEF0 | NTST_RDBFF0 | NTST_RSPQFF |
-+					   NTST_TEF | NTST_TABTF);
-+	/* Clear bus status flags. */
-+	renesas_clear_bit(i3c->regs, BST, BST_NACKDF | BST_TENDF | BST_SPCNDDF);
-+	/* Clear error flags. */
-+	renesas_clear_bit(i3c->regs, BCTL, BCTL_ABT);
-+}
-+
-+static unsigned long renesas_i3c_wait_xfer(struct renesas_i3c *i3c, struct renesas_i3c_xfer *xfer)
- {
- 	unsigned long time_left;
- 
-@@ -452,6 +468,8 @@ static void renesas_i3c_wait_xfer(struct renesas_i3c *i3c, struct renesas_i3c_xf
- 	time_left = wait_for_completion_timeout(&xfer->comp, msecs_to_jiffies(1000));
- 	if (!time_left)
- 		renesas_i3c_dequeue_xfer(i3c, xfer);
-+
-+	return time_left;
- }
- 
- static void renesas_i3c_set_prts(struct renesas_i3c *i3c, u32 val)
-@@ -485,6 +503,12 @@ static void renesas_i3c_bus_enable(struct i3c_master_controller *m, bool i3c_mod
- static int renesas_i3c_reset(struct renesas_i3c *i3c)
- {
- 	u32 val;
-+	int ret;
-+
-+	PM_RUNTIME_ACQUIRE_IF_ENABLED_AUTOSUSPEND(i3c->dev, pm);
-+	ret = PM_RUNTIME_ACQUIRE_ERR(&pm);
-+	if (ret)
-+		return ret;
- 
- 	renesas_writel(i3c->regs, BCTL, 0);
- 	renesas_set_bit(i3c->regs, RSTCTL, RSTCTL_RI3CRST);
-@@ -556,7 +580,7 @@ static int renesas_i3c_bus_init(struct i3c_master_controller *m)
- 	int od_high_ticks, od_low_ticks, i2c_total_ticks;
- 	int ret;
- 
--	i3c->rate = clk_get_rate(i3c->clks[RENESAS_I3C_TCLK_IDX].clk);
-+	i3c->rate = clk_get_rate(i3c->tclk);
- 	if (!i3c->rate)
- 		return -EINVAL;
- 
-@@ -627,6 +651,11 @@ static int renesas_i3c_bus_init(struct i3c_master_controller *m)
- 	if (ret)
- 		return ret;
- 
-+	PM_RUNTIME_ACQUIRE_IF_ENABLED_AUTOSUSPEND(i3c->dev, pm);
-+	ret = PM_RUNTIME_ACQUIRE_ERR(&pm);
-+	if (ret)
-+		return ret;
-+
- 	renesas_writel(i3c->regs, STDBR, i3c->i3c_STDBR);
- 	renesas_writel(i3c->regs, EXTBR, i3c->extbr);
- 	renesas_writel(i3c->regs, REFCKCTL, REFCKCTL_IREFCKS(cks));
-@@ -716,6 +745,7 @@ static int renesas_i3c_daa(struct i3c_master_controller *m)
- {
- 	struct renesas_i3c *i3c = to_renesas_i3c(m);
- 	struct renesas_i3c_cmd *cmd;
-+	unsigned long time_left;
- 	u32 olddevs, newdevs;
- 	u8 last_addr = 0, pos;
- 	u8 first_i3c_pos = 0;
-@@ -729,6 +759,11 @@ static int renesas_i3c_daa(struct i3c_master_controller *m)
- 	cmd = xfer->cmds;
- 	cmd->rx_count = 0;
- 
-+	PM_RUNTIME_ACQUIRE_IF_ENABLED_AUTOSUSPEND(i3c->dev, pm);
-+	ret = PM_RUNTIME_ACQUIRE_ERR(&pm);
-+	if (ret)
-+		return ret;
-+
- 	/* Enable I3C bus. */
- 	renesas_i3c_bus_enable(m, true);
- 
-@@ -777,7 +812,9 @@ static int renesas_i3c_daa(struct i3c_master_controller *m)
- 		    NCMDQP_CMD(I3C_CCC_ENTDAA) | NCMDQP_DEV_INDEX(ret) |
- 		    NCMDQP_DEV_COUNT(i3c->maxdevs - ret) | NCMDQP_TOC;
- 
--	renesas_i3c_wait_xfer(i3c, xfer);
-+	time_left = renesas_i3c_wait_xfer(i3c, xfer);
-+	if (!time_left)
-+		renesas_i3c_abort_xfer(i3c);
- 
- 	/* Skip attaching if there are failures on the xfer. */
- 	if (xfer->ret) {
-@@ -870,6 +907,7 @@ static int renesas_i3c_send_ccc_cmd(struct i3c_master_controller *m,
- {
- 	struct renesas_i3c *i3c = to_renesas_i3c(m);
- 	struct renesas_i3c_cmd *cmd;
-+	unsigned long time_left;
- 	int ret, pos = 0;
- 
- 	if (ccc->id & I3C_CCC_DIRECT) {
-@@ -887,6 +925,11 @@ static int renesas_i3c_send_ccc_cmd(struct i3c_master_controller *m,
- 	cmd->rnw = ccc->rnw;
- 	cmd->cmd0 = 0;
- 
-+	PM_RUNTIME_ACQUIRE_IF_ENABLED_AUTOSUSPEND(i3c->dev, pm);
-+	ret = PM_RUNTIME_ACQUIRE_ERR(&pm);
-+	if (ret)
-+		return ret;
-+
- 	renesas_i3c_bus_enable(m, true);
- 
- 	/* Calculate the command descriptor. */
-@@ -921,7 +964,9 @@ static int renesas_i3c_send_ccc_cmd(struct i3c_master_controller *m,
- 		}
- 	}
- 
--	renesas_i3c_wait_xfer(i3c, xfer);
-+	time_left = renesas_i3c_wait_xfer(i3c, xfer);
-+	if (!time_left)
-+		renesas_i3c_abort_xfer(i3c);
- 
- 	ret = xfer->ret;
- 	if (ret)
-@@ -936,7 +981,9 @@ static int renesas_i3c_i3c_xfers(struct i3c_dev_desc *dev, struct i3c_xfer *i3c_
- 	struct i3c_master_controller *m = i3c_dev_get_master(dev);
- 	struct renesas_i3c *i3c = to_renesas_i3c(m);
- 	struct renesas_i3c_i2c_dev_data *data = i3c_dev_get_master_data(dev);
--	int i;
-+	unsigned long time_left;
-+	bool abort_xfer = false;
-+	int i, ret;
- 
- 	struct renesas_i3c_xfer *xfer __free(kfree) = renesas_i3c_alloc_xfer(i3c, 1);
- 	if (!xfer)
-@@ -944,6 +991,11 @@ static int renesas_i3c_i3c_xfers(struct i3c_dev_desc *dev, struct i3c_xfer *i3c_
- 
- 	init_completion(&xfer->comp);
- 
-+	PM_RUNTIME_ACQUIRE_IF_ENABLED_AUTOSUSPEND(i3c->dev, pm);
-+	ret = PM_RUNTIME_ACQUIRE_ERR(&pm);
-+	if (ret)
-+		return ret;
-+
- 	/* Enable I3C bus. */
- 	renesas_i3c_bus_enable(m, true);
- 
-@@ -975,9 +1027,14 @@ static int renesas_i3c_i3c_xfers(struct i3c_dev_desc *dev, struct i3c_xfer *i3c_
- 				renesas_set_bit(i3c->regs, NTIE, NTIE_TDBEIE0);
- 		}
- 
--		renesas_i3c_wait_xfer(i3c, xfer);
-+		time_left = renesas_i3c_wait_xfer(i3c, xfer);
-+		if (!time_left)
-+			abort_xfer = true;
- 	}
- 
-+	if (abort_xfer)
-+		renesas_i3c_abort_xfer(i3c);
-+
- 	return 0;
- }
- 
-@@ -986,12 +1043,17 @@ static int renesas_i3c_attach_i3c_dev(struct i3c_dev_desc *dev)
- 	struct i3c_master_controller *m = i3c_dev_get_master(dev);
- 	struct renesas_i3c *i3c = to_renesas_i3c(m);
- 	struct renesas_i3c_i2c_dev_data *data;
--	int pos;
-+	int pos, ret;
- 
- 	pos = renesas_i3c_get_free_pos(i3c);
- 	if (pos < 0)
- 		return pos;
- 
-+	PM_RUNTIME_ACQUIRE_IF_ENABLED_AUTOSUSPEND(i3c->dev, pm);
-+	ret = PM_RUNTIME_ACQUIRE_ERR(&pm);
-+	if (ret)
-+		return ret;
-+
- 	data = kzalloc_obj(*data);
- 	if (!data)
- 		return -ENOMEM;
-@@ -1015,7 +1077,12 @@ static int renesas_i3c_reattach_i3c_dev(struct i3c_dev_desc *dev,
- 	struct renesas_i3c *i3c = to_renesas_i3c(m);
- 	struct renesas_i3c_i2c_dev_data *data = i3c_dev_get_master_data(dev);
- 	struct i3c_dev_desc *tmp_dev = i3c->addrs[data->index].i3c_dev;
--	int pos;
-+	int pos, ret;
-+
-+	PM_RUNTIME_ACQUIRE_IF_ENABLED_AUTOSUSPEND(i3c->dev, pm);
-+	ret = PM_RUNTIME_ACQUIRE_ERR(&pm);
-+	if (ret)
-+		return ret;
- 
- 	pos = renesas_i3c_get_free_pos(i3c);
- 
-@@ -1045,8 +1112,12 @@ static void renesas_i3c_detach_i3c_dev(struct i3c_dev_desc *dev)
- 	struct renesas_i3c_i2c_dev_data *data = i3c_dev_get_master_data(dev);
- 	struct i3c_master_controller *m = i3c_dev_get_master(dev);
- 	struct renesas_i3c *i3c = to_renesas_i3c(m);
-+	int ret;
- 
--	renesas_writel(i3c->regs, DATBAS(data->index), 0);
-+	PM_RUNTIME_ACQUIRE_IF_ENABLED_AUTOSUSPEND(i3c->dev, pm);
-+	ret = PM_RUNTIME_ACQUIRE_ERR(&pm);
-+	if (!ret)
-+		renesas_writel(i3c->regs, DATBAS(data->index), 0);
- 
- 	i3c_dev_set_master_data(dev, NULL);
- 	i3c->addrs[data->index].addr = 0;
-@@ -1063,7 +1134,9 @@ static int renesas_i3c_i2c_xfers(struct i2c_dev_desc *dev,
- 	struct renesas_i3c *i3c = to_renesas_i3c(m);
- 	struct renesas_i3c_cmd *cmd;
- 	u8 start_bit = CNDCTL_STCND;
--	int i;
-+	unsigned long time_left;
-+	bool abort_xfer = false;
-+	int i, ret;
- 
- 	if (!i2c_nxfers)
- 		return 0;
-@@ -1076,6 +1149,11 @@ static int renesas_i3c_i2c_xfers(struct i2c_dev_desc *dev,
- 	xfer->is_i2c_xfer = true;
- 	cmd = xfer->cmds;
- 
-+	PM_RUNTIME_ACQUIRE_IF_ENABLED_AUTOSUSPEND(i3c->dev, pm);
-+	ret = PM_RUNTIME_ACQUIRE_ERR(&pm);
-+	if (ret)
-+		return ret;
-+
- 	renesas_i3c_bus_enable(m, false);
- 
- 	if (!(renesas_readl(i3c->regs, BCST) & BCST_BFREF)) {
-@@ -1102,7 +1180,9 @@ static int renesas_i3c_i2c_xfers(struct i2c_dev_desc *dev,
- 
- 		renesas_set_bit(i3c->regs, NTSTE, NTSTE_TDBEE0);
- 
--		wait_for_completion_timeout(&xfer->comp, m->i2c.timeout);
-+		time_left = wait_for_completion_timeout(&xfer->comp, m->i2c.timeout);
-+		if (!time_left)
-+			abort_xfer = true;
- 
- 		if (cmd->err)
- 			break;
-@@ -1111,6 +1191,10 @@ static int renesas_i3c_i2c_xfers(struct i2c_dev_desc *dev,
- 	}
- 
- 	renesas_i3c_dequeue_xfer(i3c, xfer);
-+
-+	if (abort_xfer)
-+		renesas_i3c_abort_xfer(i3c);
-+
- 	return cmd->err;
- }
- 
-@@ -1511,12 +1595,16 @@ static int renesas_i3c_probe(struct platform_device *pdev)
- 	if (IS_ERR(i3c->regs))
- 		return PTR_ERR(i3c->regs);
- 
--	ret = devm_clk_bulk_get_all_enabled(&pdev->dev, &i3c->clks);
--	if (ret <= RENESAS_I3C_TCLK_IDX)
--		return dev_err_probe(&pdev->dev, ret < 0 ? ret : -EINVAL,
--				     "Failed to get clocks (need > %d, got %d)\n",
--				     RENESAS_I3C_TCLK_IDX, ret);
--	i3c->num_clks = ret;
-+	i3c->tclk = devm_clk_get(&pdev->dev, "tclk");
-+	if (IS_ERR(i3c->tclk))
-+		return dev_err_probe(&pdev->dev, PTR_ERR(i3c->tclk), "Failed to get tclk");
-+
-+	i3c->dev = &pdev->dev;
-+	pm_runtime_set_autosuspend_delay(&pdev->dev, 300);
-+	pm_runtime_use_autosuspend(&pdev->dev);
-+	ret = devm_pm_runtime_enable(&pdev->dev);
-+	if (ret)
-+		return ret;
- 
- 	i3c->tresetn = devm_reset_control_get_optional_exclusive_deasserted(&pdev->dev, "tresetn");
- 	if (IS_ERR(i3c->tresetn))
-@@ -1583,8 +1671,6 @@ static int renesas_i3c_suspend(struct device *dev)
- 	if (ret)
- 		goto err_mark_resumed;
- 
--	clk_bulk_disable(i3c->num_clks, i3c->clks);
--
- 	return 0;
- 
- err_mark_resumed:
-@@ -1606,13 +1692,13 @@ static int renesas_i3c_resume(struct device *dev)
- 	if (ret)
- 		return ret;
- 
--	ret = clk_bulk_enable(i3c->num_clks, i3c->clks);
-+	ret = renesas_i3c_reset(i3c);
- 	if (ret)
- 		goto err_resets_asserted;
- 
--	ret = renesas_i3c_reset(i3c);
-+	ret = pm_runtime_resume_and_get(dev);
- 	if (ret)
--		goto err_clks_disable;
-+		goto err_resets_asserted;
- 
- 	/* Re-store I3C registers value. */
- 	renesas_writel(i3c->regs, STDBR, i3c->i3c_STDBR);
-@@ -1635,15 +1721,23 @@ static int renesas_i3c_resume(struct device *dev)
- 
- 	i2c_mark_adapter_resumed(&i3c->base.i2c);
- 
-+	pm_runtime_put_autosuspend(dev);
-+
- 	/*
- 	 * I3C devices may have retained their dynamic address anyway. Do not
- 	 * fail the resume because of DAA error.
- 	 */
- 	return 0;
- 
--err_clks_disable:
--	clk_bulk_disable(i3c->num_clks, i3c->clks);
- err_resets_asserted:
-+	/*
-+	 * If this happens, there is no way to recover from this state without
-+	 * reloading the driver. We want to avoid keeping the reset line
-+	 * deasserted unnecessarily. The runtime paths will still work correctly
-+	 * even if the IP registers are accessed while reset is asserted (e.g.
-+	 * if a runtime path is triggered after a failed resume). Checked on
-+	 * RZ/G3S.
-+	 */
- 	reset_control_bulk_assert(ARRAY_SIZE(resets), resets);
+diff --git a/drivers/spi/spi-rzv2h-rspi.c b/drivers/spi/spi-rzv2h-rspi.c
+index 1655efda7d20..694e5305c638 100644
+--- a/drivers/spi/spi-rzv2h-rspi.c
++++ b/drivers/spi/spi-rzv2h-rspi.c
+@@ -802,6 +802,23 @@ static int rzv2h_rspi_probe(struct platform_device *pdev)
  	return ret;
  }
+ 
++static int rzv2h_rspi_suspend(struct device *dev)
++{
++	struct rzv2h_rspi_priv *rspi = dev_get_drvdata(dev);
++
++	return spi_controller_suspend(rspi->controller);
++}
++
++static int rzv2h_rspi_resume(struct device *dev)
++{
++	struct rzv2h_rspi_priv *rspi = dev_get_drvdata(dev);
++
++	return spi_controller_resume(rspi->controller);
++}
++
++static DEFINE_SIMPLE_DEV_PM_OPS(rzv2h_rspi_pm_ops, rzv2h_rspi_suspend,
++				rzv2h_rspi_resume);
++
+ static const struct rzv2h_rspi_info rzv2h_info = {
+ 	.find_tclk_rate = rzv2h_rspi_find_rate_fixed,
+ 	.tclk_name = "tclk",
+@@ -837,6 +854,7 @@ static struct platform_driver rzv2h_rspi_drv = {
+ 	.driver = {
+ 		.name = "rzv2h_rspi",
+ 		.of_match_table = rzv2h_rspi_match,
++		.pm = pm_sleep_ptr(&rzv2h_rspi_pm_ops),
+ 	},
+ };
+ module_platform_driver(rzv2h_rspi_drv);
 -- 
-2.43.0
+2.54.0
 
 
