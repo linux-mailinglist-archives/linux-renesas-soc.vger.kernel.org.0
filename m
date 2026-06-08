@@ -1,53 +1,53 @@
-Return-Path: <linux-renesas-soc+bounces-33657-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-33658-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id P0B/ICisJmrGawIAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-33657-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 08 Jun 2026 13:48:56 +0200
+	id A8F6LxCuJmpVbAIAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-33658-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 08 Jun 2026 13:57:04 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB1DC655D87
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 08 Jun 2026 13:48:55 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C18B655E61
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 08 Jun 2026 13:57:04 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=HDKLbUH7;
-	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-33657-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-33657-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=SWpg+Mlk;
+	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-33658-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-33658-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=quarantine) header.from=kernel.org;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 1B0C83030F57
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Jun 2026 11:46:52 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id B6B5A300421A
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Jun 2026 11:50:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 69ABF370AF2;
-	Mon,  8 Jun 2026 11:46:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0F4DB36D50D;
+	Mon,  8 Jun 2026 11:50:43 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CA33370AD9;
-	Mon,  8 Jun 2026 11:46:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E65DB337B87;
+	Mon,  8 Jun 2026 11:50:41 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780919202; cv=none; b=AyYNv+M1v38nZrvvJMFtST0f4Zm9TRh8UzVNi3X56ZZ7wyVif2ENWAq+KW3NM1qZFrjSJZRmsfOb30FFPx0v2Qu+dI/pnqSK54wkr3nrTzAQWXp59N8fCS0oE9s+W3tiZeO2Exro3/TTrr6DmhKmLYnE5grgYRai55xEmS3t6ls=
+	t=1780919442; cv=none; b=LCOoWMEYMhPw4UZAGbXv08hMFJ+j9LPS4TjfhjQGDs+NsUJWC/7xcrmKBgkZO2cyl83PjC5WV7P3uN7RazTpOGWdKrxpyfeO9HjkO/VzAqxycBfWmlIuEUPM7WXMT3PqK0K2S6PVDITCScZKStp0HOwq3K29/UhE2mCD6SOymLw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780919202; c=relaxed/simple;
-	bh=IeeNafBtVL4wg1ZxzaOcNCCCcfvtRuK19NFM8ZG/8us=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=UnvjnAL/AHz9FrHfZhJ140sCFgm73AlM5g1d5uNvDJo4urTPU3HqKynlFMKwFYQpSUFUZSKXTBopcypdVg/s4UHbbx8aWicPOybZNyX00DiLgKMhez+pVyyCOi6DHbbnlULWWS0tJ/FC3hIzw/Za+Z5o7unIi3kXZa4su4yjjNQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HDKLbUH7; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 20F921F00899;
-	Mon,  8 Jun 2026 11:46:36 +0000 (UTC)
+	s=arc-20240116; t=1780919442; c=relaxed/simple;
+	bh=PW46KWxiznbKfcUciXDxvBGmhz7/kHyTsyVJeeWLqXQ=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=VOtrgfOq49CnjNi/ZzLMn7Ld+r3AkuXj/nmGhSGoqZ/K7oIX0ZO3sdOqoW3lekRobHtiCYcVyvmykMAmW1fzFfVqByNjwqR+SoPhi2YiXjAiYgC3RHu61Hb8LtQXJTkWOaYKhkpyZRLP+pZHP9HvSVsBJEO3Mh0Ko3xEWqh31nM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SWpg+Mlk; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BD3231F00893;
+	Mon,  8 Jun 2026 11:50:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780919200;
-	bh=gC+UvcWJE8vffj4yb99SLhXbgF682IrB+3UO3I9FT8I=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=HDKLbUH7OaB1e0fuk1xXXxHLf/Pz/98dfFWeJT+AzE3FlTqkpKNF5WfDfEcTbgjuf
-	 gAKPNHql8BJqHdZ0pA8Qg4qtzNTo+P++YWtrjdrHFU2SS+Sy0jtl0KIo/iu5j7RqYL
-	 fo7p7Jc+D6YkEEilh3iuXT7HfLHuw3pOCcuWZVRdk3PEXolVD7ODKues7dN9wrYn29
-	 EdUoEHiG+ATQfF/XuAMsRCM+FMY3Smo/aSk/20K+IfHkFbTGZ8VDI8zDXZaRNfi12E
-	 YwxrB/lp7jSOiOWvRaK/72xheq/U/OzKOM8jGSCbpxA2kSF/unZ5qKHTgGnYcDWp0k
-	 mIOsFAURS1caA==
-Message-ID: <6960d660-2851-44e3-af89-b334ab6cecc0@kernel.org>
-Date: Mon, 8 Jun 2026 13:46:35 +0200
+	s=k20260515; t=1780919441;
+	bh=omxjQHGTvIZgymdUmYMZVSme4P4ErwqJYuWOeDyBKUU=;
+	h=Date:Subject:From:To:Cc:References:In-Reply-To;
+	b=SWpg+MlkJTvNqSJucABieZZIh37ifYXkEltcDUCDGtGH497I63JUq3/TcJ2WjWzhm
+	 ozrYdIymp/JM7Mxw09OOHzfu3Em0R8H+Llm8NE6YZd7DBTO8qYiywTaQaTbUSft25c
+	 V8Gml/VXfnr2bXVSxF9dOb4j7PINzTlv3sLYCG/f+BMI9RpDqjW9l2yUoIBTEhmGuu
+	 bq4HGzO7z87ietsg1iLQxy66ijT05WncaobiJ4CKOc5jqmDu5S3W8eysUFtTGUbyRt
+	 PSohtpsOjIVYAHysNNf7CSXiYync1Hnqe9A1s9rFXFufFFEHaGsTZx5ENpR5YLXYg2
+	 roP8dE1YLAOAQ==
+Message-ID: <d925ca52-6cd9-4aa7-b69b-8cb063cffdee@kernel.org>
+Date: Mon, 8 Jun 2026 13:50:35 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -57,6 +57,7 @@ MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH] dt-bindings: mfd: syscon: Make ranges required for
  renesas,r9a08g046-lvds-cmn
+From: Krzysztof Kozlowski <krzk@kernel.org>
 To: Biju Das <biju.das.jz@bp.renesas.com>, "biju.das.au"
  <biju.das.au@gmail.com>
 Cc: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>,
@@ -73,7 +74,7 @@ References: <20260602131331.90756-1-biju.das.jz@bp.renesas.com>
  <TY3PR01MB1134665BE4CE8FB734BCFAAAF861C2@TY3PR01MB11346.jpnprd01.prod.outlook.com>
  <f5e8719f-6d85-4edf-a645-5be9be7ec980@kernel.org>
  <TY3PR01MB113469E3AB101C3552E721E11861C2@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
+ <6960d660-2851-44e3-af89-b334ab6cecc0@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -118,7 +119,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  K9bCVaboTA2T77QYkRcRJYSsO1alGX0ome/hMLD1daXlkrNUp1HWa3K4iytLRXjCSIorWiGs
  n+q3krnpXu3TFkA8qtOFZMdnIiFuiq1yLT8hptsV5xh1TA2nsVvSYiaCr3q4s4BKjS/KrLDb
  qoxzw8ISjdUp4pA85vb6YLCmb39NgidD+7PmAr65lBNveIFynTgsja1rRQ4=
-In-Reply-To: <TY3PR01MB113469E3AB101C3552E721E11861C2@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+In-Reply-To: <6960d660-2851-44e3-af89-b334ab6cecc0@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Rspamd-Action: no action
@@ -126,13 +127,13 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
 	FORGED_RECIPIENTS(0.00)[m:biju.das.jz@bp.renesas.com,m:biju.das.au@gmail.com,m:lee@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:geert+renesas@glider.be,m:magnus.damm@gmail.com,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-renesas-soc@vger.kernel.org,m:prabhakar.mahadev-lad.rj@bp.renesas.com,m:bijudasau@gmail.com,m:krzk@kernel.org,m:conor@kernel.org,m:geert@glider.be,m:magnusdamm@gmail.com,s:lists@lfdr.de];
-	TAGGED_FROM(0.00)[bounces-33657-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-33658-lists,linux-renesas-soc=lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
 	FREEMAIL_TO(0.00)[bp.renesas.com,gmail.com];
 	TO_DN_EQ_ADDR_SOME(0.00)[];
@@ -151,90 +152,104 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	DKIM_TRACE(0.00)[kernel.org:+];
 	ALIAS_RESOLVED(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,vger.kernel.org:from_smtp,renesas.com:email]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,renesas.com:email]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: EB1DC655D87
+X-Rspamd-Queue-Id: 1C18B655E61
 
-On 08/06/2026 13:22, Biju Das wrote:
-> Hi Krzysztof Kozlowski,
-> 
->> -----Original Message-----
->> From: Krzysztof Kozlowski <krzk@kernel.org>
->> Sent: 08 June 2026 12:11
->> Subject: Re: [PATCH] dt-bindings: mfd: syscon: Make ranges required for renesas,r9a08g046-lvds-cmn
+On 08/06/2026 13:46, Krzysztof Kozlowski wrote:
+> On 08/06/2026 13:22, Biju Das wrote:
+>> Hi Krzysztof Kozlowski,
 >>
->> On 08/06/2026 12:26, Biju Das wrote:
->>> Hi Krzysztof Kozlowski,
+>>> -----Original Message-----
+>>> From: Krzysztof Kozlowski <krzk@kernel.org>
+>>> Sent: 08 June 2026 12:11
+>>> Subject: Re: [PATCH] dt-bindings: mfd: syscon: Make ranges required for renesas,r9a08g046-lvds-cmn
 >>>
->>> Thanks for the feedback.
->>>
->>>> -----Original Message-----
->>>> From: Krzysztof Kozlowski <krzk@kernel.org>
->>>> Sent: 08 June 2026 11:22
->>>> Subject: Re: [PATCH] dt-bindings: mfd: syscon: Make ranges required
->>>> for renesas,r9a08g046-lvds-cmn
+>>> On 08/06/2026 12:26, Biju Das wrote:
+>>>> Hi Krzysztof Kozlowski,
 >>>>
->>>> On 08/06/2026 12:20, Krzysztof Kozlowski wrote:
->>>>> On Tue, Jun 02, 2026 at 02:13:29PM +0100, Biju wrote:
->>>>>> From: Biju Das <biju.das.jz@bp.renesas.com>
->>>>>>
->>>>>> Add a conditional schema rule to the syscon bindings that requires
->>>>>> the ranges property when the compatible string contains
->>>>>> renesas,r9a08g046-lvds-cmn. This ensures the LVDS common control
->>>>>> block on the RZ/G3L SoC correctly declares its address translation,
->>>>>> as the device has child nodes that need a valid ranges mapping to
->>>>>> be described in the device tree.
->>>>>>
->>>>>> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
->>>>>> ---
->>>>>>  Documentation/devicetree/bindings/mfd/syscon.yaml | 14
->>>>>> ++++++++++++++
->>>>>>  1 file changed, 14 insertions(+)
->>>>>>
->>>>>> diff --git a/Documentation/devicetree/bindings/mfd/syscon.yaml
->>>>>> b/Documentation/devicetree/bindings/mfd/syscon.yaml
->>>>>> index 9c81010d5a74..cbf83a06ae25 100644
->>>>>> --- a/Documentation/devicetree/bindings/mfd/syscon.yaml
->>>>>> +++ b/Documentation/devicetree/bindings/mfd/syscon.yaml
->>>>>> @@ -269,6 +269,8 @@ properties:
->>>>>>    resets:
->>>>>>      maxItems: 1
->>>>>>
->>>>>> +  ranges: true
+>>>> Thanks for the feedback.
+>>>>
+>>>>> -----Original Message-----
+>>>>> From: Krzysztof Kozlowski <krzk@kernel.org>
+>>>>> Sent: 08 June 2026 11:22
+>>>>> Subject: Re: [PATCH] dt-bindings: mfd: syscon: Make ranges required
+>>>>> for renesas,r9a08g046-lvds-cmn
 >>>>>
->>>>> There are no children allowed, so ranges property is wrong.
+>>>>> On 08/06/2026 12:20, Krzysztof Kozlowski wrote:
+>>>>>> On Tue, Jun 02, 2026 at 02:13:29PM +0100, Biju wrote:
+>>>>>>> From: Biju Das <biju.das.jz@bp.renesas.com>
+>>>>>>>
+>>>>>>> Add a conditional schema rule to the syscon bindings that requires
+>>>>>>> the ranges property when the compatible string contains
+>>>>>>> renesas,r9a08g046-lvds-cmn. This ensures the LVDS common control
+>>>>>>> block on the RZ/G3L SoC correctly declares its address translation,
+>>>>>>> as the device has child nodes that need a valid ranges mapping to
+>>>>>>> be described in the device tree.
+>>>>>>>
+>>>>>>> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+>>>>>>> ---
+>>>>>>>  Documentation/devicetree/bindings/mfd/syscon.yaml | 14
+>>>>>>> ++++++++++++++
+>>>>>>>  1 file changed, 14 insertions(+)
+>>>>>>>
+>>>>>>> diff --git a/Documentation/devicetree/bindings/mfd/syscon.yaml
+>>>>>>> b/Documentation/devicetree/bindings/mfd/syscon.yaml
+>>>>>>> index 9c81010d5a74..cbf83a06ae25 100644
+>>>>>>> --- a/Documentation/devicetree/bindings/mfd/syscon.yaml
+>>>>>>> +++ b/Documentation/devicetree/bindings/mfd/syscon.yaml
+>>>>>>> @@ -269,6 +269,8 @@ properties:
+>>>>>>>    resets:
+>>>>>>>      maxItems: 1
+>>>>>>>
+>>>>>>> +  ranges: true
+>>>>>>
+>>>>>> There are no children allowed, so ranges property is wrong.
+>>>>>>
+>>>>>> You are changing binding which DOES NOT allow simple-mfd or any
+>>>>>> other children. Ranges is not a problem here.
 >>>>>
->>>>> You are changing binding which DOES NOT allow simple-mfd or any
->>>>> other children. Ranges is not a problem here.
+>>>>>
+>>>>> And if you tested it on your DTS, you would see this does not work...
 >>>>
+>>>> I don't see any warnings or error. I have done this change based on
+>>>> Rob's comment based on sashiko review [1].
 >>>>
->>>> And if you tested it on your DTS, you would see this does not work...
+>>>> If you agree, I can drop this patch.
+>>>>
+>>>> [1]
+>>>> https://lore.kernel.org/all/20260601022619.GA3961324-robh@kernel.org/
 >>>
->>> I don't see any warnings or error. I have done this change based on
->>> Rob's comment based on sashiko review [1].
+>>> Look:
+>>> https://lore.kernel.org/all/20260524194457.479681-2-biju.das.jz@bp.renesas.com/
+>>> What compatibles are here?
 >>>
->>> If you agree, I can drop this patch.
->>>
->>> [1]
->>> https://lore.kernel.org/all/20260601022619.GA3961324-robh@kernel.org/
+>>> Now open the binding - what compatibles are allowed for renesas,r9a08g046-lvds-cmn ?
 >>
->> Look:
->> https://lore.kernel.org/all/20260524194457.479681-2-biju.das.jz@bp.renesas.com/
->> What compatibles are here?
+>> OK, I am missing the fallbacks "simple-mfd", "syscon"; in the compatibles allowed
+>> for renesas,r9a08g046-lvds-cmn.
 >>
->> Now open the binding - what compatibles are allowed for renesas,r9a08g046-lvds-cmn ?
+>> OK, I will add those.
 > 
-> OK, I am missing the fallbacks "simple-mfd", "syscon"; in the compatibles allowed
-> for renesas,r9a08g046-lvds-cmn.
+> No, maybe, dunno... How anything here could have been tested? dtbs_check
+> clearly points errors on your DTS.
 > 
-> OK, I will add those.
 
-No, maybe, dunno... How anything here could have been tested? dtbs_check
-clearly points errors on your DTS.
+
+You should re-do the commit 51284d8b1dbcd7fa0220c49eeab29b14617e0d88
+because it is completely broken. This is schema for syscons, not devices
+with children.
+
+You added incomplete, incorrect binding having obvious dtbs_check
+failures which you would see if you validated DTS (never posted!!!).
+
+And you keep introducing more issues, by trying to fix non-existing
+issues while keeping the main problem - completely mismatched
+renesas,r9a08g046-lvds-cmn binding with reality unfixed.
 
 Best regards,
 Krzysztof
