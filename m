@@ -1,296 +1,167 @@
-Return-Path: <linux-renesas-soc+bounces-33644-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-33645-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id 6ItxMW4TJmohSAIAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-33644-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 08 Jun 2026 02:57:18 +0200
+	id cGz3N6dZJmoQVQIAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-33645-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 08 Jun 2026 07:56:55 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CE5B65209F
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 08 Jun 2026 02:57:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D699652FBE
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 08 Jun 2026 07:56:55 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=renesas.com header.s=selector1 header.b=T0aSFTDy;
-	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-33644-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-33644-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=renesas.com;
-	arc=reject ("cv is fail on i=2")
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=oTLEsb7E;
+	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-33645-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-33645-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=quarantine) header.from=kernel.org;
+	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id BAE43300A137
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Jun 2026 00:57:16 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id E9E57300EA8A
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Jun 2026 05:56:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3DFE12E6CAB;
-	Mon,  8 Jun 2026 00:57:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6C49A38238F;
+	Mon,  8 Jun 2026 05:56:07 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from TY3P286CU002.outbound.protection.outlook.com (mail-japaneastazon11010064.outbound.protection.outlook.com [52.101.229.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B39F282F00;
-	Mon,  8 Jun 2026 00:57:14 +0000 (UTC)
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780880236; cv=fail; b=Ay69+uwopN7WAiUAWNBFJnjeVi1eW7HWBiXJnmvmVqySChvX47wPW5OpxMnkwIEGACBPY27Cm8qLBWUffAlmByrR18sdh9OOp2IuNYGZf5Fq7+jgh9/iEQo0AcmbMr5peN4+Iyc/Z7k1V01zaVR6a4GyYjCMr1+HQMoqlI9dMLE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780880236; c=relaxed/simple;
-	bh=INxDlYs262wpYPZi9VS+9nHgn8DgRSpO0Q6cxgRmmj4=;
-	h=Message-ID:To:From:Subject:Content-Type:Date:MIME-Version; b=LZMT9t63ELpBiGeotte3xtg4Bq+mTsQxynTDFhw/5Ak9UxmtHjwnJllsxT65IeSwwdNmMnuRjTNWx2bCzU9Mbq8DMvpqotaz+pPMNgfMUV1a8qVgxTBuLIHCWO04yn+A5RO5LTjmAzr9o/lW4+q6DLbgwUh1ruY0xtCG8zIHPkw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=T0aSFTDy; arc=fail smtp.client-ip=52.101.229.64
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=OHe7pMKEFDOZI8KzT8rbhoIV5AWH356t7WaBE945uW6MJt2H74ZDfCoAdwI+C0E7+UEpS1ghesSxEXjvzvfGagvTxk2OrEd8ZwbMM4cXysD6JWK14RVfPjQZnGggAprxN8Jk1QnDtP98AARJe+myAuDEAR5FP4octhXGqamFwoUX5lhjIRd+wNuMIwIlmh1IOkOGqdeVIHYK1Kgi31IGunuEFF7CaUO8lzyYx3Bob+CjyH8q8AU138GI5vTOK8jwc8ap2ETrSoJvQbtAUuOQekWe5u8wQMm9xMBpdwHlA76QT5DiQ1DOC5LOxSQTlSSl0zu/1QBcj6+jVw7b8Zp/yg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=7w6AcJwVgXAU3VGqfu8BZQXo6FFE+cxeS03+m0TqhsM=;
- b=iu4ALWKAKZIxh/dbMQvr0rnj7OROBOZvEz9lTaxFSEa1PEvUz7yYwpsXNqM9qPfQ6nHV8yh+cfLtuSLBwWwaWPZ1G+VcGIg8yX5WdSpHWqIRBLWD+EvglxCjcRpCizO83plX8B0mcL4zkJ/9WTRQklLYvAUJLzI3YoiBr19j/LCIf8kefBmXd0mHYTr5MPXlnwIRgc/x6/94HeM+8+bf4xQ+wrAisZhRmsluqlpJyks98pB2baPjdHivKVbnKC5KRHRMHISYC8raNPKnY1MIqTv7eGRCH+07V7YU38SpNhXYAL8A7aPfjn0J9sW1jYFCMh4z0MAhCjmlrIT5QKR+4Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7w6AcJwVgXAU3VGqfu8BZQXo6FFE+cxeS03+m0TqhsM=;
- b=T0aSFTDySyLktI1ncnzUN5RRDqrfEwIDRlyQq7kpf9zavcKluZm/uJ9DAkhn6fIIncxzyBBKTAySnnpUw3fYASiE3RfVtNtvb/XQEcqf041WN4DiLi6IRy0jhbE3sNtBP5SehcorjqdwgaDj+H00vF1nL1NLHWmFJ4zZDZhLru8=
-Received: from TY3PR01MB11797.jpnprd01.prod.outlook.com (2603:1096:400:373::8)
- by TY4PR01MB13800.jpnprd01.prod.outlook.com (2603:1096:405:1fa::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.92.12; Mon, 8 Jun 2026
- 00:57:11 +0000
-Received: from TY3PR01MB11797.jpnprd01.prod.outlook.com
- ([fe80::1868:c915:c230:a383]) by TY3PR01MB11797.jpnprd01.prod.outlook.com
- ([fe80::1868:c915:c230:a383%5]) with mapi id 15.21.0092.011; Mon, 8 Jun 2026
- 00:57:10 +0000
-Message-ID: <87wlw9etne.wl-kuninori.morimoto.gx@renesas.com>
-To: Baojun Xu <baojun.xu@ti.com>, Geert Uytterhoeven
- <geert+renesas@glider.be>, Herve Codina <herve.codina@bootlin.com>,
- Jaroslav Kysela <perex@perex.cz>, Kevin Lu <kevin-lu@ti.com>, Liam Girdwood
- <lgirdwood@gmail.com>, linux-renesas-soc@vger.kernel.org,
- linux-sound@vger.kernel.org, Mark Brown <broonie@kernel.org>, Sen Wang
- <sen@ti.com>, Shenghao Ding <shenghao-ding@ti.com>, Support Opensource
- <support.opensource@diasemi.com>, Takashi Iwai <tiwai@suse.com>,
- =?ISO-8859-1?Q?=22Uwe_Kleine-K=F6nig_=28The_Capable_Hub=29=22?=
- <u.kleine-koenig@baylibre.com>
-From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Subject: [PATCH v2 0/9] ASoC: don't use array if single pattarn
-Content-Type: text/plain; charset=US-ASCII
-Date: Mon, 8 Jun 2026 00:57:10 +0000
-X-ClientProxiedBy: TY6P286CA0029.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:405:3b7::19) To TY3PR01MB11797.jpnprd01.prod.outlook.com
- (2603:1096:400:373::8)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65F473590A9;
+	Mon,  8 Jun 2026 05:56:06 +0000 (UTC)
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780898167; cv=none; b=E42eHYMiFtaynLurDFs9e1WpQpmrW1ROCVwdjwNRFsMHomRED3AP/PWOay9gfJOsgBrOaLa/uJek1/Ihkk7lWxbhJg5jxSTzaJdYWDsFSUj9xhP0fNsdgZTMEEefrVYjcFoFkslkXOnrl3V6tZN+gfoODGVhjSThKcySvD6MQ0M=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780898167; c=relaxed/simple;
+	bh=0MdKOXRySoGARuPpCuOczIDb+WVwxAcv6j9Yr+cjKRA=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=NcUBFLhCQNn7CRrT8uK9CIEerCLjWstwJUtc+PubI8Z8/5sYW/ZfNuVuz0hy0Fzs2mup4iD/ObDMxUwwaO0nFmbz1ptw/ER5jRM/MJhYGl2L9CcsCOFV9iBL6Z+DWCSFl5DK+00tVwGPbPKj9wIccdh1iXQ46qUOMpuZGwFwrLo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oTLEsb7E; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5CE061F00893;
+	Mon,  8 Jun 2026 05:56:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780898166;
+	bh=6tTBHhwnLy48LiDCb4fczQwpX7BSRsJ3hkvOsxaWUbQ=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=oTLEsb7EE3B35cg5dziOrLCNlD/+xoFSKHn9s4Yuvob0WV4BSru84skz6uIrcWEJv
+	 JrrFnHlRKlzT6GtkgDlhndHve9Nf6Um4HOqPNo430WbdGTVdMQKZ6V0A67Miqv4t7j
+	 idotGAKg4hE05FXigEK66u3PGMKTGoUgIe4ptQjVxvDM/9W75w4+qeDgT8+a4OqMXe
+	 RgNNyutar610xBq3koc+Lp/7G+ECGso8DkaydAyJDGjububoSkywBP1XJ7bB8MNc4e
+	 eYShytXK90umG1pBLzuESPmfBkSYCUlRbu0wqW2UL/FmxHHRfyxRmTRRWJYo2vpDFt
+	 rLAR+HvPCAN3g==
+From: Vinod Koul <vkoul@kernel.org>
+To: Frank.Li@kernel.org, lgirdwood@gmail.com, broonie@kernel.org, 
+ perex@perex.cz, tiwai@suse.com, biju.das.jz@bp.renesas.com, 
+ prabhakar.mahadev-lad.rj@bp.renesas.com, p.zabel@pengutronix.de, 
+ geert+renesas@glider.be, kuninori.morimoto.gx@renesas.com, 
+ long.luu.ur@renesas.com, Claudiu Beznea <claudiu.beznea@kernel.org>
+Cc: claudiu.beznea@tuxon.dev, dmaengine@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, 
+ linux-renesas-soc@vger.kernel.org, 
+ Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+In-Reply-To: <20260526084710.3491480-1-claudiu.beznea@kernel.org>
+References: <20260526084710.3491480-1-claudiu.beznea@kernel.org>
+Subject: Re: [PATCH v6 00/18] Renesas: dmaengine and ASoC fixes
+Message-Id: <178089816101.15844.5628352417869771177.b4-ty@kernel.org>
+Date: Mon, 08 Jun 2026 11:26:01 +0530
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TY3PR01MB11797:EE_|TY4PR01MB13800:EE_
-X-MS-Office365-Filtering-Correlation-Id: 696201b7-4233-4740-4f1e-08dec4f8decf
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|1800799024|52116014|7416014|376014|38350700014|921020|11063799006|56012099006|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	54Wv89i4msRC093uQPnOcyrXPNEdWKUp/bFP+aRkVyV0cHz4zOiXk3InB9Yu92Obwr0SoQpbN640t2y/LDkqsxHS9iHhfN0EIy80t/7hS6yaaxffIRlfzrvfg+DztVlujCJUpowupsuXKilW7aVgi8jmFQH/ZssRp0zHRmnnFWj8GuCHeFZqU6cGoDXbXUeE1OOWEnYLUvDYTky5DTxXGdHXGTE/TEezgkJS+LWqC6UmagxTNvcwIJUbqY7UYG4ae+E9xRSC+2EuzodPpdeyW6i0YKnzbRuCQAyYwwdD3Oq3Af/fTh4SLFHgmLuH2NaivjiXmr7q19gSlJfYUnPYaaDOUu+Chw8bTWy3W9k6EZvZBOpUBMyXqDAXsBhyo/Ub7puHL3Dek5UZIbenOTbCs2/BWVuFFqfi0sbUaIRrdRS/wS2giLFeEQ/1bkyf3k5+uYQO0oo5x15aqJUbGD+8KAxCGaOsLIh+frw3ImnCilTOlDJSVrxYBuHrygnNNUoyL7lCMSAonvTvnP5IbPO82FRW0T/sDOhqG7xTs5rUm500jFBI055eCzaueqyAlFfyccaqOF7P2+eU/p95ZvSWVp3gjYGM99UvQVuPstFDygs3wjrvEJBSn2ASfetVd1iIfFyW+hIIHzZDG+4TTsc2tx8yW4VBy82KL5H8jRDepubUZDcxD6FTWy84Q/yPs8aeohNgAoIO4za3yuro+/gC4AAN0V85G8UcsdKsW4U2Jnls61G+4QI1D4mux0pFP35cGnUrDNcbYLd3SS8JyThq/Q==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB11797.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(52116014)(7416014)(376014)(38350700014)(921020)(11063799006)(56012099006)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?OJfyEdiHQhXIdKLkSuhT7xfqQu7hsDUgNvgi0CZqUxKdB8OwOgXy3q3yTPcC?=
- =?us-ascii?Q?eRHTC7IoUFAHQKbicgcyr0oqEA038+bV274KBjs/VyXuXsvD2TBWy2PVlO7g?=
- =?us-ascii?Q?1RpjvzeIVRIJDxdNY2gX+dV6RPoIBdI5OqU5qdF//7wNVjedmewgzv3A8rLn?=
- =?us-ascii?Q?0BYimmKPAPB+wRCyLkNSxcaZ7/+MjbyWWQwy+fzjDCQoUvzsv7RlwBqwrP8h?=
- =?us-ascii?Q?ynZNJY5zUyg63teJD2iJW/+TURcqMKnWi150RRN299U41Hh0JSMwmMpTRcmo?=
- =?us-ascii?Q?UUrz7UzQZtpUnRyz9NGFDmr+Mu9zne/+UC+TyeKjID+zMpK8jyvoLH9CjsBm?=
- =?us-ascii?Q?Gual044mFStp6QOVYc2PE9CZzdzxyy7MfNcd0r7qasL4A9PJOpx0Fhzmi1lN?=
- =?us-ascii?Q?Nwk0eGcfAgfWaGve6EPEPPzkFngBmnsKFep7N77naCPjLhoXDWWqfTaql0fd?=
- =?us-ascii?Q?5aTqoKlEl8TAy6TKLMAgxxxCyko4dQ1aHOtRT2rzbRWuL7eNLdDO25hAFvJ6?=
- =?us-ascii?Q?Umnm5tegjkC4YKx1KC1rF2RLXCTxJ0NYj78bFAIL6oO5bThHGCociX85bDJr?=
- =?us-ascii?Q?gN7U4tSqdpQ2SwdLpj4GScCmAE9wqLvAIzIvwoToxEq1WYj86octb5uKPcUs?=
- =?us-ascii?Q?wOIIu0baoMT85EmoZ078FSbmB2fWuixio8Cs3BKz7RibDwMU6/XiwviDpeiz?=
- =?us-ascii?Q?eRXlTJa2RpMUcPOh2WzAmLLOD6T8PbxA3l+45fMD+TdGmaPiZulMGPMhe0dJ?=
- =?us-ascii?Q?MvEVPTWRZGxaPve7VUyqQEQU2c9hzKNHPkge7O2PSTbKwN90UvGrIrndB8MZ?=
- =?us-ascii?Q?K8y2jrsAEgHXWOvbhb72LWBhsuECeFjnvvm42zgCUD6VN6S4UTc5wVYz08fF?=
- =?us-ascii?Q?F/pFxDfem/8sCGdROvjcd52b6jZz/VwMo5LIzJmRHhm1IL79uHhm5/AzCwBa?=
- =?us-ascii?Q?zI/N44Sm6igF9vJRs4R9ZRTTn+jAdbu7wchmh9OEoj2K6K7r7UQ1vcAcf1/x?=
- =?us-ascii?Q?dr1TzCABpFGbwh+TAZbQeb+6lpO6Rz4H/pCjmBSk4a8pNHdv326IKttIsGvl?=
- =?us-ascii?Q?5+aX2pBIvFXvEQVSKQWYnb9475zrWOv2zKMHZq/kv4apvRQb6WXUBXH5XqUp?=
- =?us-ascii?Q?nqOYiabLjpZrg/WQIqSpTHvN+0IbBWPajsnhYnO9gwBPLGhRuXs8By41+e8C?=
- =?us-ascii?Q?b+OpEYGMMQ2tKeVJ1RsFqS/ZEESnQG6D+wSZp0cBcDxIF9iOS/PXt1ton+c6?=
- =?us-ascii?Q?XhuaV6Y+Elpqv3m8h/jmvdnYHu2nDDFjNyNRSm6VtYi3cbD6B2CsXbPw2ISG?=
- =?us-ascii?Q?+QrKEKGZFzecY4d8Kz5Ana5demlOcrZlwyxxt0u7xJmxmlaLpZsgvm7tjMOg?=
- =?us-ascii?Q?JSOo1/Hc3tZaUlgAkQPfgu3kOERWUV0m82AcWSDtWKu/VQpNTBc+2zMyv0aH?=
- =?us-ascii?Q?u3Ji2EnbJ1d0vQjiqPB8TFw96JI1YQ48HOD6e2q7+84VGGjfOhswpMAo8jIZ?=
- =?us-ascii?Q?8KyxikSzR0Fo9yPN411SLYpaezc6MhrHDx4e9er5M8Vk5qjmgrMzTBc7+9PG?=
- =?us-ascii?Q?VslSmgbVvlHRHtoGvbdqXz8XMU6n52qGP0kWbqQaZpsNZgucgs/zApcVpsKC?=
- =?us-ascii?Q?bC0svtEX2FChcY9AncstJmw6QPGdvi4i7duaoJLgO6kYMUU5Shq8oj5InhkK?=
- =?us-ascii?Q?kEaqFjg4RmQhiTJu5w0Il4D9+3fFXnhy0gwholzt0Mj9XgJtUk4WoxxjoKwW?=
- =?us-ascii?Q?5I7HXg6QJMo3+mTZFhtd7F36aovbdvg=3D?=
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 696201b7-4233-4740-4f1e-08dec4f8decf
-X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11797.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jun 2026 00:57:10.5109
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: IM44XyAP/u6qxeRt/T+mNwAkUByp2yWmDaFF9CoquPpXdNaVJEnYyPXmHlsK254cU/zOeZAz7yAg5tVtULuesYDFYYnEbU7dOoxerMC9/1aRwYqSe0uccZHXu1np47FM
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY4PR01MB13800
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.13.0
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [2.34 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_REJECT(1.00)[cv is fail on i=2];
-	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[renesas.com,none];
-	R_DKIM_ALLOW(-0.20)[renesas.com:s=selector1];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-33644-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-33645-lists,linux-renesas-soc=lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:Frank.Li@kernel.org,m:lgirdwood@gmail.com,m:broonie@kernel.org,m:perex@perex.cz,m:tiwai@suse.com,m:biju.das.jz@bp.renesas.com,m:prabhakar.mahadev-lad.rj@bp.renesas.com,m:p.zabel@pengutronix.de,m:geert+renesas@glider.be,m:kuninori.morimoto.gx@renesas.com,m:long.luu.ur@renesas.com,m:claudiu.beznea@kernel.org,m:claudiu.beznea@tuxon.dev,m:dmaengine@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-sound@vger.kernel.org,m:linux-renesas-soc@vger.kernel.org,m:claudiu.beznea.uj@bp.renesas.com,m:geert@glider.be,s:lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_TO(0.00)[ti.com,glider.be,bootlin.com,perex.cz,gmail.com,vger.kernel.org,kernel.org,diasemi.com,suse.com,baylibre.com];
-	FORGED_SENDER(0.00)[kuninori.morimoto.gx@renesas.com,linux-renesas-soc@vger.kernel.org];
-	RCPT_COUNT_TWELVE(0.00)[14];
-	FORGED_RECIPIENTS(0.00)[m:baojun.xu@ti.com,m:geert+renesas@glider.be,m:herve.codina@bootlin.com,m:perex@perex.cz,m:kevin-lu@ti.com,m:lgirdwood@gmail.com,m:linux-renesas-soc@vger.kernel.org,m:linux-sound@vger.kernel.org,m:broonie@kernel.org,m:sen@ti.com,m:shenghao-ding@ti.com,m:support.opensource@diasemi.com,m:tiwai@suse.com,m:u.kleine-koenig@baylibre.com,m:geert@glider.be,s:lists@lfdr.de];
+	FREEMAIL_TO(0.00)[kernel.org,gmail.com,perex.cz,suse.com,bp.renesas.com,pengutronix.de,glider.be,renesas.com];
+	FORGED_SENDER(0.00)[vkoul@kernel.org,linux-renesas-soc@vger.kernel.org];
+	RCPT_COUNT_TWELVE(0.00)[18];
+	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FORWARDED(0.00)[lists@lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[renesas.com:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[kuninori.morimoto.gx@renesas.com,linux-renesas-soc@vger.kernel.org];
 	TO_DN_SOME(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[vkoul@kernel.org,linux-renesas-soc@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	MID_RHS_MATCH_FROM(0.00)[];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	MISSING_XM_UA(0.00)[];
 	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 0CE5B65209F
+X-Rspamd-Queue-Id: 5D699652FBE
 
 
-Hi Mark, all
+On Tue, 26 May 2026 11:46:52 +0300, Claudiu Beznea wrote:
+> This series addresses issues identified in the DMA engine and RZ SSI
+> drivers.
+> 
+> As described in the patch "dmaengine: sh: rz-dmac: Set the Link End (LE)
+> bit on the last descriptor", stress testing on the Renesas RZ/G2L SoC
+> showed that starting all available DMA channels could cause the system
+> to stall after several hours of operation. This issue was resolved by
+> setting the Link End bit on the last descriptor of a DMA transfer.
+> 
+> [...]
 
-I have posted this patch-set as [RFC] and v1 before.
-This is v2.
+Applied, thanks!
 
-v1
-Link: https://lore.kernel.org/r/8733zfj5jj.wl-kuninori.morimoto.gx@renesas.com
+[01/18] dmaengine: sh: rz-dmac: Move interrupt request after everything is set up
+        commit: 731712403ddb39d1a76a11abf339a0615bc85de7
+[02/18] dmaengine: sh: rz-dmac: Fix incorrect NULL check for list_first_entry()
+        commit: 5fbf3a2a3b96ef5810e6e0fbc601f82067629bc5
+[03/18] dmaengine: sh: rz-dmac: Use list_first_entry_or_null()
+        commit: 89975baaa9ea2490b75d69842561a32ca888b7e5
+[04/18] dmaengine: sh: rz-dmac: Use rz_dmac_disable_hw()
+        commit: 38d4d021228386b8e3fbef2bca5f1e91eacd4fe6
+[05/18] dmaengine: sh: rz-dmac: Add helper to compute the lmdesc address
+        commit: 32a69f1487819766d2084ed32b1350b18f971c10
+[06/18] dmaengine: sh: rz-dmac: Save the start LM descriptor
+        commit: e21aa306e82067457f2297ae56af4c91db86c59a
+[07/18] dmaengine: sh: rz-dmac: Add helper to check if the channel is enabled
+        commit: 7a94c109a5def4f0f25705a82ed5870f794ff4ed
+[08/18] dmaengine: sh: rz-dmac: Add helper to check if the channel is paused
+        commit: 1dddc864dfa844efaf36345eb58b121b2cdffa5f
+[09/18] dmaengine: sh: rz-dmac: Use virt-dma APIs for channel descriptor processing
+        commit: daa6d4617bee722e83f7d8584416e83b709c958a
+[10/18] dmaengine: sh: rz-dmac: Refactor pause/resume code
+        commit: dc86e47ca9b1021e258c366a5a9aa15d71c814a5
+[11/18] dmaengine: sh: rz-dmac: Drop the update of channel->chctrl with CHCTRL_SETEN
+        commit: e8baee1d1cddc8e2be7bc362d6dc3fcb2021e873
+[12/18] dmaengine: sh: rz-dmac: Add cyclic DMA support
+        commit: 172bfb57481c65fcc94ebcae3a730f6df2f953d4
+[13/18] dmaengine: sh: rz-dmac: Adjust rz_dmac_chan_get_residue() to return error codes
+        commit: 16ba40151b1e6a52b28296a2173457bc6c31f022
+[14/18] dmaengine: sh: rz-dmac: Add runtime PM support
+        commit: 7c27a4d54d48d0774518390e4ce6cf3309aac141
+[15/18] dmaengine: sh: rz-dmac: Add suspend to RAM support
+        commit: c13ce43e70719dead7009e7e708971ba1c447568
+[16/18] ASoC: renesas: rz-ssi: Add pause support
+        commit: b4d34819a53964648bc53cabaa3ba9890d4fdf9c
+[17/18] ASoC: renesas: rz-ssi: Use generic PCM dmaengine APIs
+        commit: 9fcaec81ac56c9d2c5d779ffb5a76b622b4d0590
+[18/18] dmaengine: sh: rz-dmac: Set the Link End (LE) bit on the last descriptor
+        commit: cd2d36e8ae61832aaac3bddf5aafdab72821e6b9
 
-It was too huge patch-set, thus I have separated it into 3 part.
-(A)	- Update existing driver which is already using auto format
-	- Add auto format support to not-yet used driver
-(B)	 - Already got Reivewed-by / Acked-by
-(C)	 - No yet reviewed
-
-This is (A).
-
-------- 8< ------- 8< ------- 8< ------- 8< ------- 8< -------
-
-Current ASoC supports snd_soc_daifmt_parse_format() which can specify DAI
-format by "dai-format" property from DT.
-But strictly speaking, it is SW settings, so doesn't match to DT's policy.
-
-Current ASoC is supporting auto format select via
-snd_soc_dai_ops :: .auto_selectable_formats.
-But the user is very few today.
-
-DT doesn't need to specify the DAI format via "dai-format", if both CPU
-and Codec drivers were supporting .auto_selectable_formats. It will be
-automatically selected from .auto_selectable_formats.
-
-But, I noticed that current auto format select method can't handle all cases.
-For example, current .auto_selectable_formats is like below
-
-	static u64 xxx_auto_formats[] = {
-(A)		/* First Priority */
-		SND_SOC_POSSIBLE_DAIFMT_I2S	|
-		SND_SOC_POSSIBLE_DAIFMT_LEFT_J	|
-		SND_SOC_POSSIBLE_DAIFMT_NB_NF	|
-		SND_SOC_POSSIBLE_DAIFMT_NB_IF	|	(x)
-		SND_SOC_POSSIBLE_DAIFMT_IB_NF	|
-		SND_SOC_POSSIBLE_DAIFMT_IB_IF,		(x)
-
-		/* Second Priority */
-(B)		SND_SOC_POSSIBLE_DAIFMT_DSP_A	|	(y)
-		SND_SOC_POSSIBLE_DAIFMT_DSP_B,		(y)
-	};
-
-It try to find DAI format from (A) first, and next it will use (A | B).
-But it can't handle the format if some format were independent.
-For example, DSP_x (y) can't use with xB_IF (x), etc.
-
-So, I would like to update the method. New method doesn't use OR.
-It try to find DAI format from (a), next it will use (b).
-
-	static u64 xxx_auto_formats[] = {
-(a)		/* First Priority */
-		SND_SOC_POSSIBLE_DAIFMT_I2S	|
-		SND_SOC_POSSIBLE_DAIFMT_LEFT_J	|
-		SND_SOC_POSSIBLE_DAIFMT_NB_NF	|
-		SND_SOC_POSSIBLE_DAIFMT_NB_IF	|
-		SND_SOC_POSSIBLE_DAIFMT_IB_NF	|
-		SND_SOC_POSSIBLE_DAIFMT_IB_IF,
-
-		/* Second Priority */
-(b)		SND_SOC_POSSIBLE_DAIFMT_DSP_A	|
-		SND_SOC_POSSIBLE_DAIFMT_DSP_B	|
-		SND_SOC_POSSIBLE_DAIFMT_NB_NF	|
-		SND_SOC_POSSIBLE_DAIFMT_IB_NF,
-	};
-
-Switch old method to new method, Current auto select user need to update
-.auto_selectable_formats. Fortunately, current few users doesn't have
-above limitation. update (A)(B) to (a)(b) style is possible.
-
-	a = A
-	b = A | B
-
-I would like to update method, and add .auto_selectable_formats
-support on all drivers.
-
-One note is that auto select might not find best format on some CPU/Codec
-combination. So "dai-format" is necessary anyway.
-
-And, there haven't been any big problems on .auto_selectable_formats,
-because there were few users.
-But if all drivers try to use this, it cannot be denied that they may
-encounter unknown problems... In such case, "dai-format" can help, though.
-
-
-Kuninori Morimoto (9):
-  ASoC: remove SND_SOC_POSSIBLE_xBx_xFx
-  ASoC: codecs: framer-codec: don't use array if single pattarn
-  ASoC: codecs: idt821034: don't use array if single pattarn
-  ASoC: codecs: peb2466: don't use array if single pattarn
-  ASoC: codecs: ak4619: update auto select format
-  ASoC: codecs: pcm3168a: update auto select format
-  ASoC: renesas: rcar: update auto select format
-  ASoC: update auto format selection method
-  ASoC: audio-graph-card2: recommend to use auto select DAI format
-
- include/sound/soc-dai.h               |  15 +-
- sound/soc/codecs/ak4613.c             |   5 -
- sound/soc/codecs/ak4619.c             |   8 +-
- sound/soc/codecs/da7213.c             |   5 -
- sound/soc/codecs/framer-codec.c       |   8 +-
- sound/soc/codecs/idt821034.c          |   9 +-
- sound/soc/codecs/pcm3168a.c           |   8 +-
- sound/soc/codecs/peb2466.c            |   9 +-
- sound/soc/generic/audio-graph-card2.c |  12 ++
- sound/soc/generic/test-component.c    |   7 -
- sound/soc/renesas/fsi.c               |   5 -
- sound/soc/renesas/rcar/core.c         |  12 +-
- sound/soc/renesas/rcar/msiof.c        |   5 -
- sound/soc/soc-core.c                  | 160 +-------------------
- sound/soc/soc-dai.c                   | 207 ++++++++++++++++++++------
- sound/soc/soc-utils.c                 |   7 -
- 16 files changed, 201 insertions(+), 281 deletions(-)
-
+Best regards,
 -- 
-2.53.0
+~Vinod
+
 
 
