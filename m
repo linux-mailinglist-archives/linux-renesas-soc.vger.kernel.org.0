@@ -1,51 +1,51 @@
-Return-Path: <linux-renesas-soc+bounces-33701-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-33702-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id lG5/CT8jJ2rhsQIAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-33701-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 08 Jun 2026 22:17:03 +0200
+	id 1WaGD70kJ2pPsgIAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-33702-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 08 Jun 2026 22:23:25 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id B694A65A584
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 08 Jun 2026 22:17:02 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D40865A672
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 08 Jun 2026 22:23:24 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b="f/drdDhK";
-	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-33701-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 172.232.135.74 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-33701-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=Q+LAPTwQ;
+	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-33702-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-33702-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=quarantine) header.from=kernel.org;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id D14C23028177
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Jun 2026 20:16:28 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id BC20A3046527
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Jun 2026 20:16:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 939DB3E274E;
-	Mon,  8 Jun 2026 20:16:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A766A38A73C;
+	Mon,  8 Jun 2026 20:16:24 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BB9B38A73C;
-	Mon,  8 Jun 2026 20:16:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DD6938758E;
+	Mon,  8 Jun 2026 20:16:23 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780949781; cv=none; b=mnqxnrfF6TrhYGahdI8uBzEVshiptO/N4Z0F7NVaGf7vDeOYwBZLqpJ1oMNBUFmHBj0+X8Frd6mxTiVRQoS6ixSbHFWW+mJB595AAhHFk9cnwkoWm/4Yk2UTPsQVQMEPpfSk6WnKNxGzn9SgeHeI+9fnc+wX9FMFvGz0fYcMMLc=
+	t=1780949784; cv=none; b=TeeVG7brRFOtdXLy8eZy3ffeL9cJ61SlPtuEwvyzGJ5nLSX7ymZlUR0dMh+TjJZkyjXMpK3uzu8xeEIjD8SfPSLHcjK8ErsMzzA7O2I57TMWc+MqtyqQFIeLiPZDpezfmt0kOmw7fHX28mgGy7yKRocYz812d6+D1wvJsTqWP3U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780949781; c=relaxed/simple;
-	bh=ttva1gnbv3q4YeGCDlBaNWcun44L9AgUn8TKrtaCOAA=;
+	s=arc-20240116; t=1780949784; c=relaxed/simple;
+	bh=N1xqqku7uR8j4MmudmoE1QyakUwjPnmHOb7F+Ga9uy4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=O036yiktX3fZWGC/CWf++EhtTkV/vKbb2asorfXfrQBWc8jrFW2oMCfgAWj58k3bZAokyD0rJ8BkkfCTK206bS1oNCu1Z/CNUrhAB/WJ4QqohgiosTtADxkkg+8pc5hceUUk7i0NlkG+ObXwLrHnadqyibxZS1Ks93EmysI4icc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=f/drdDhK; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D16751F00898;
-	Mon,  8 Jun 2026 20:16:17 +0000 (UTC)
+	 MIME-Version; b=r+e5k+VOlIFRPaE/wuAt/s2hpk8lElhTqdmdm/9kk1AkDUB2uF6SYJgiJ4fG5qdobI43CJcegCuAnziaRyQfpYEalX305lNUWMiJKme/TKsvhMxA+grcyYMxaR8YtoowjYfVPLjPgUWyNHKm6oGFDszSeMjqpA4qjTFgeLF6v7I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Q+LAPTwQ; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D67971F00893;
+	Mon,  8 Jun 2026 20:16:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780949780;
-	bh=SzPZOTybytX0pqhXhEEdEjH/9xZCkYgPnJNx+q6d7+Q=;
+	s=k20260515; t=1780949783;
+	bh=wqM6/GnLxJaUFO8vrbASPnnDqBonjG78AYUFZyrjnZM=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=f/drdDhKVnzqt7Im2ahzEZ1l2Cysu5SKwUqZ1bigz3Cd0rT1Mwc7k0gL9eQix0Tim
-	 ckwhxQoQzi40xWHRTdDBYEtcrB5ZZVo7KAzoJK0FQbdf1ubrJGNvIc8Pfu6KXcSUFT
-	 J1vZ9rzLNzPqVbFtkv57l4cVvNnwKbEprfDQ397neWONCKeVsVmO3FOf117ekaJRjI
-	 Vk4F0keW9gPBwBgmWqdRymfpiUFaa0RuU/aZSn2OM62XLy8oAObvGS/HsrclSApjRz
-	 EF7yBRgQ36EFtwC4MgOJUUn4sQO/eMMNxwMG7eToHbOk0PNjoWZf/0w2aMYNvKo89z
-	 EZ0PkqavrM0kA==
+	b=Q+LAPTwQ+77UoECCCrrriYVtn04/cGnUMk1PzaSWWR3pZVYwJYkmUaWhLEjUPfSUA
+	 UVJL2T928DIGqSsefqKeMrAXMAELpLlruqyVb0E95pU9CnXDxUwZcj6pQuTWrAS0UY
+	 ulgWtpLcl3/0u8JvpDP167H4yTsmJmawrcOCZLIsUzwX4Dkg+57xtoxZ37IWU3JOIY
+	 gpqx07pwhL0n10kn/9/mFmOG5raCEGM0hjNWReogXQhDR5ZpAn87UWefF2LvQNbqjX
+	 1rBuSmQigah0x2EeCf9vVG9lBE5OLez3sxk+zJnDjG9LLWMeZh4yuadrqAu5ejm0Ug
+	 ogV8z2A6+zW7w==
 From: Claudiu Beznea <claudiu.beznea@kernel.org>
 To: wsa+renesas@sang-engineering.com,
 	tommaso.merciai.xr@bp.renesas.com,
@@ -58,9 +58,9 @@ Cc: claudiu.beznea@kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org,
 	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Subject: [PATCH v3 09/17] i3c: renesas: Use reset_control_bulk_{assert, deassert}()
-Date: Mon,  8 Jun 2026 23:15:35 +0300
-Message-ID: <20260608201543.804902-10-claudiu.beznea@kernel.org>
+Subject: [PATCH v3 10/17] i3c: renesas: Return immediately if there is no transfer
+Date: Mon,  8 Jun 2026 23:15:36 +0300
+Message-ID: <20260608201543.804902-11-claudiu.beznea@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260608201543.804902-1-claudiu.beznea@kernel.org>
 References: <20260608201543.804902-1-claudiu.beznea@kernel.org>
@@ -79,7 +79,7 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
@@ -87,11 +87,11 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	FORWARDED(0.00)[lists@lfdr.de];
 	MIME_TRACE(0.00)[0:+];
 	RCVD_COUNT_THREE(0.00)[4];
-	TAGGED_FROM(0.00)[bounces-33701-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-33702-lists,linux-renesas-soc=lfdr.de];
 	FORGED_SENDER(0.00)[claudiu.beznea@kernel.org,linux-renesas-soc@vger.kernel.org];
 	FORGED_RECIPIENTS(0.00)[m:wsa+renesas@sang-engineering.com,m:tommaso.merciai.xr@bp.renesas.com,m:alexandre.belloni@bootlin.com,m:Frank.Li@nxp.com,m:p.zabel@pengutronix.de,m:claudiu.beznea@kernel.org,m:claudiu.beznea@tuxon.dev,m:linux-i3c@lists.infradead.org,m:linux-kernel@vger.kernel.org,m:linux-renesas-soc@vger.kernel.org,m:claudiu.beznea.uj@bp.renesas.com,m:wsa@sang-engineering.com,s:lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
@@ -104,14 +104,14 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	RCPT_COUNT_SEVEN(0.00)[11];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[renesas.com:email,vger.kernel.org:from_smtp,sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[renesas.com:email,vger.kernel.org:from_smtp,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: B694A65A584
+X-Rspamd-Queue-Id: 7D40865A672
 
 From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 
-Use reset_control_bulk_assert() and reset_control_bulk_deassert() in the
-suspend and resume paths to simplify the code.
+There is no need to allocate a transfer structure when i2c_nxfers is zero.
+Return immediately instead of unnecessarily allocating memory.
 
 Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 ---
@@ -120,84 +120,32 @@ Changes in v3:
 - none
 
 Changes in v2:
-- none
+- updated patch title
 
- drivers/i3c/master/renesas-i3c.c | 30 +++++++++++++-----------------
- 1 file changed, 13 insertions(+), 17 deletions(-)
+ drivers/i3c/master/renesas-i3c.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/i3c/master/renesas-i3c.c b/drivers/i3c/master/renesas-i3c.c
-index 195c40956148..4a055c9f4ffe 100644
+index 4a055c9f4ffe..1fd39dd57847 100644
 --- a/drivers/i3c/master/renesas-i3c.c
 +++ b/drivers/i3c/master/renesas-i3c.c
-@@ -1565,24 +1565,22 @@ static void renesas_i3c_remove(struct platform_device *pdev)
- static int renesas_i3c_suspend(struct device *dev)
- {
- 	struct renesas_i3c *i3c = dev_get_drvdata(dev);
-+	struct reset_control_bulk_data resets[] = {
-+		{ .rstc = i3c->presetn },
-+		{ .rstc = i3c->tresetn },
-+	};
- 	int ret;
+@@ -1066,13 +1066,13 @@ static int renesas_i3c_i2c_xfers(struct i2c_dev_desc *dev,
+ 	u8 start_bit = CNDCTL_STCND;
+ 	int i;
  
- 	i2c_mark_adapter_suspended(&i3c->base.i2c);
++	if (!i2c_nxfers)
++		return 0;
++
+ 	struct renesas_i3c_xfer *xfer __free(kfree) = renesas_i3c_alloc_xfer(i3c, 1);
+ 	if (!xfer)
+ 		return -ENOMEM;
  
--	ret = reset_control_assert(i3c->presetn);
-+	ret = reset_control_bulk_assert(ARRAY_SIZE(resets), resets);
- 	if (ret)
- 		goto err_mark_resumed;
- 
--	ret = reset_control_assert(i3c->tresetn);
--	if (ret)
--		goto err_presetn;
+-	if (!i2c_nxfers)
+-		return 0;
 -
- 	clk_bulk_disable(i3c->num_clks, i3c->clks);
+ 	renesas_i3c_bus_enable(m, false);
  
- 	return 0;
- 
--err_presetn:
--	reset_control_deassert(i3c->presetn);
- err_mark_resumed:
- 	i2c_mark_adapter_resumed(&i3c->base.i2c);
- 
-@@ -1592,19 +1590,19 @@ static int renesas_i3c_suspend(struct device *dev)
- static int renesas_i3c_resume(struct device *dev)
- {
- 	struct renesas_i3c *i3c = dev_get_drvdata(dev);
-+	struct reset_control_bulk_data resets[] = {
-+		{ .rstc = i3c->presetn },
-+		{ .rstc = i3c->tresetn },
-+	};
- 	int ret;
- 
--	ret = reset_control_deassert(i3c->tresetn);
-+	ret = reset_control_bulk_deassert(ARRAY_SIZE(resets), resets);
- 	if (ret)
- 		return ret;
- 
--	ret = reset_control_deassert(i3c->presetn);
--	if (ret)
--		goto err_tresetn;
--
- 	ret = clk_bulk_enable(i3c->num_clks, i3c->clks);
- 	if (ret)
--		goto err_presetn;
-+		goto err_resets_asserted;
- 
- 	ret = renesas_i3c_reset(i3c);
- 	if (ret)
-@@ -1639,10 +1637,8 @@ static int renesas_i3c_resume(struct device *dev)
- 
- err_clks_disable:
- 	clk_bulk_disable(i3c->num_clks, i3c->clks);
--err_presetn:
--	reset_control_assert(i3c->presetn);
--err_tresetn:
--	reset_control_assert(i3c->tresetn);
-+err_resets_asserted:
-+	reset_control_bulk_assert(ARRAY_SIZE(resets), resets);
- 	return ret;
- }
- 
+ 	init_completion(&xfer->comp);
 -- 
 2.43.0
 
