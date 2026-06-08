@@ -1,223 +1,293 @@
-Return-Path: <linux-renesas-soc+bounces-33654-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-33655-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id SFU9K3GlJmrtaQIAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-33654-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 08 Jun 2026 13:20:17 +0200
+	id PYFxE2enJmqOagIAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-33655-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 08 Jun 2026 13:28:39 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11E866559CD
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 08 Jun 2026 13:20:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 973C2655B30
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 08 Jun 2026 13:28:38 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=aQQq6Jd6;
-	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-33654-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-33654-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=quarantine) header.from=kernel.org;
+	dkim=pass header.d=ew.tq-group.com header.s=default2602 header.b=aSaIYF+j;
+	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-33655-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-33655-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=quarantine) header.from=ew.tq-group.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 3B964305D5DD
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Jun 2026 11:11:17 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 748D73037BA8
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Jun 2026 11:22:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 59013345745;
-	Mon,  8 Jun 2026 11:11:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E93233624C3;
+	Mon,  8 Jun 2026 11:22:25 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from www537.your-server.de (www537.your-server.de [188.40.3.216])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47CC82EAB6F;
-	Mon,  8 Jun 2026 11:11:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7CD634B697;
+	Mon,  8 Jun 2026 11:22:23 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780917076; cv=none; b=VmDjhp6xzyoCLtA+A7g2Q0sBGkMgbs4ay+k68b4To3UacV80y7GMw1cfp3oygMwYhGu0C77pGTeZ/AEBd8aKL5bEaVcH4TSxMwcYQFkZUYBvBsF3IHUzgZrVkN11jy24npy2ARA7/ASlkgAVkhfMu0qF8q8Ilo6S1tGh2ZYOqN4=
+	t=1780917745; cv=none; b=lRpKsjJwGeSa4PKkUgw2SlGGqlgySvWVU1+OOOxO5hAYKHmoW65ZSBCId95gFKpdmi9yYcG8UxahD4qhStzsTGCr5DTezhm81/D0oTyWITGipHI95pdsnCIHm4YlF6GfywmjaCHyH+tQSn2QUxyfoE/2oVtiiKka7+ip7oDkteE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780917076; c=relaxed/simple;
-	bh=28DoExHgyvoDLtiSP67w3DikRgYo2tzOfpfdjNL0Nxw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=vAzfNSwcsPpka3N0Vh60Q8DkaRrLyEXd7oGY4H6UpTB5HqaHC8oodkD+N2xv5MzMyhogggiiDEV8IcXu4hXlUkGEruuTWCXoMABJYQo/fFiaReY/Vsnzvql4GbazVFR4pzGbPnoemVCIeVBcwO/ZOoofTCgmvzzbv3Wlmsxg4CE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aQQq6Jd6; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4D0C11F00893;
-	Mon,  8 Jun 2026 11:11:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780917074;
-	bh=9mMhhqavkFh5g2BKJ5b1tL29Bv070w0ile8H3LVTu4s=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=aQQq6Jd6ZKmZaJJUqtAXqJ1VcvnZs8uolvLIDHP0peuQatL9aKk5iMScXMRZ713S0
-	 1yj4wpqkqZYETghyxHpSN1a7fA2WWRQHxt+PLvTP6nlYnitN02VyscM4KhPa23pHke
-	 PAbvhnob3URKA8XJnY8pwd1UPTihmgk+veca2Y59q2a2LwliY3l7dGZieOTxYhbSXq
-	 e9+8VSo1IMsTJ9S6vXMa1queDHicHxQrugC3zO5tUSR0zwCp1KMPeh3tTUwcJIENQD
-	 6frlCiFK2vkEfH0rMOwqTlvQGqE1UTy1hS3am+QsCIw+Oz1QInhmWqosLzLGUXheZG
-	 HLOoQ04Rr/aow==
-Message-ID: <f5e8719f-6d85-4edf-a645-5be9be7ec980@kernel.org>
-Date: Mon, 8 Jun 2026 13:11:08 +0200
+	s=arc-20240116; t=1780917745; c=relaxed/simple;
+	bh=DgrOMY7tOjOQAsBnHupbRQF92Dgr7IP6xb3SYar9Q9w=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Q1yD12yk3sS/pfDqSHoIxEbiiX6oCiIP04yNrF/r1iSAirf1ewTlz59dHWK9cr0EVuUDa1X7UcSqVqp4qmeq93uemzWvT2hnM/b3ujGWd40Ia7cS3Rkh39qNHeO7WvElpB3sAHh9AyVYhvZ1I9nlsXYJ30jeldDUzR4Zu+OEtXM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ew.tq-group.com; spf=pass smtp.mailfrom=ew.tq-group.com; dkim=pass (2048-bit key) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b=aSaIYF+j; arc=none smtp.client-ip=188.40.3.216
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=ew.tq-group.com; s=default2602; h=Content-Type:Content-Transfer-Encoding:
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender
+	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID;
+	bh=Xe3m8aEMLZ/02vgwpqo5f7f9hIk8DfPm8JBqFu+ZRLY=; b=aSaIYF+jLzhpB2x34fAjS6W6zC
+	loVRKG/E/QhEiTlDPJMcEQvo5oD3KZHmM3qrRKPQX+s906GTCAgyDBmPoCKxSZ2qeCDinuRCnF7ta
+	4+EgcarogMFhI1xGe1gI9ewYCPWmyaMPvfUsDWW4LAm5JlddsX3QeRnEeLBNLgDnPLfj1LStca7Ap
+	6g1yvEkur6ogZdSTxcsP9CfxIp7cI8FQzjdhN4tLOxrDcRSyNxA6uCIiJSfrTUGD58D2XBycgNGAo
+	wnA5LMM5GzBuayQtbWmJubrV+Ao7MbEeRnpU1NirUVPPQgGN2L1MY5wmvP65Me+93YPSrts+0QxD8
+	G6cn+AyA==;
+Received: from sslproxy02.your-server.de ([78.47.166.47])
+	by www537.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.96.2)
+	(envelope-from <alexander.stein@ew.tq-group.com>)
+	id 1wWY3h-000EpY-0l;
+	Mon, 08 Jun 2026 13:22:21 +0200
+Received: from localhost ([127.0.0.1])
+	by sslproxy02.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <alexander.stein@ew.tq-group.com>)
+	id 1wWY3h-000HhD-0P;
+	Mon, 08 Jun 2026 13:22:20 +0200
+From: Alexander Stein <alexander.stein@ew.tq-group.com>
+To: Frank Li <Frank.li@nxp.com>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Magnus Damm <magnus.damm@gmail.com>, Shawn Guo <shawnguo@kernel.org>,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux@ew.tq-group.com, linux-renesas-soc@vger.kernel.org
+Subject:
+ Re: [PATCH v4 4/4] arm64: dts: freescale: Add dual-channel LVDS overlay for
+ TQMa8MPxS
+Date: Mon, 08 Jun 2026 13:22:19 +0200
+Message-ID: <6005215.DvuYhMxLoT@steina-w>
+Organization: TQ-Systems GmbH
+In-Reply-To: <aiL9i6IQzK3EHGpm@lizhi-Precision-Tower-5810>
+References:
+ <20260603093621.2504490-1-alexander.stein@ew.tq-group.com>
+ <20260603093621.2504490-4-alexander.stein@ew.tq-group.com>
+ <aiL9i6IQzK3EHGpm@lizhi-Precision-Tower-5810>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] dt-bindings: mfd: syscon: Make ranges required for
- renesas,r9a08g046-lvds-cmn
-To: Biju Das <biju.das.jz@bp.renesas.com>, "biju.das.au"
- <biju.das.au@gmail.com>
-Cc: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>,
- "magnus.damm" <magnus.damm@gmail.com>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
- Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20260602131331.90756-1-biju.das.jz@bp.renesas.com>
- <20260608-alluring-remarkable-echidna-d107ea@quoll>
- <d8cf5925-9c4e-4417-8fee-1d24c4cd303d@kernel.org>
- <TY3PR01MB1134665BE4CE8FB734BCFAAAF861C2@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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
-In-Reply-To: <TY3PR01MB1134665BE4CE8FB734BCFAAAF861C2@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
+X-Virus-Scanned: Clear (ClamAV 1.4.3/28025/Mon Jun  8 08:33:34 2026)
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Spamd-Result: default: False [-0.16 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[ew.tq-group.com,quarantine];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[ew.tq-group.com:s=default2602];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:biju.das.jz@bp.renesas.com,m:biju.das.au@gmail.com,m:lee@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:geert+renesas@glider.be,m:magnus.damm@gmail.com,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-renesas-soc@vger.kernel.org,m:prabhakar.mahadev-lad.rj@bp.renesas.com,m:bijudasau@gmail.com,m:krzk@kernel.org,m:conor@kernel.org,m:geert@glider.be,m:magnusdamm@gmail.com,s:lists@lfdr.de];
-	TAGGED_FROM(0.00)[bounces-33654-lists,linux-renesas-soc=lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	FREEMAIL_TO(0.00)[bp.renesas.com,gmail.com];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[12];
-	FREEMAIL_CC(0.00)[kernel.org,glider.be,gmail.com,vger.kernel.org,bp.renesas.com];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER(0.00)[krzk@kernel.org,linux-renesas-soc@vger.kernel.org];
+	RCPT_COUNT_TWELVE(0.00)[16];
+	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-33655-lists,linux-renesas-soc=lfdr.de];
 	FORWARDED(0.00)[lists@lfdr.de];
+	RECEIVED_HELO_LOCALHOST(0.00)[];
+	FORGED_SENDER(0.00)[alexander.stein@ew.tq-group.com,linux-renesas-soc@vger.kernel.org];
+	HAS_ORG_HEADER(0.00)[];
+	FREEMAIL_CC(0.00)[kernel.org,pengutronix.de,gmail.com,glider.be,vger.kernel.org,lists.linux.dev,lists.infradead.org,ew.tq-group.com];
+	FORGED_RECIPIENTS(0.00)[m:Frank.li@nxp.com,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:s.hauer@pengutronix.de,m:kernel@pengutronix.de,m:festevam@gmail.com,m:geert+renesas@glider.be,m:magnus.damm@gmail.com,m:shawnguo@kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:imx@lists.linux.dev,m:linux-arm-kernel@lists.infradead.org,m:linux@ew.tq-group.com,m:linux-renesas-soc@vger.kernel.org,m:krzk@kernel.org,m:conor@kernel.org,m:geert@glider.be,m:magnusdamm@gmail.com,s:lists@lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[krzk@kernel.org,linux-renesas-soc@vger.kernel.org];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
+	FROM_NEQ_ENVFROM(0.00)[alexander.stein@ew.tq-group.com,linux-renesas-soc@vger.kernel.org];
+	DKIM_TRACE(0.00)[ew.tq-group.com:+];
 	ALIAS_RESOLVED(0.00)[];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
+	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[renesas.com:email,vger.kernel.org:from_smtp,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,vger.kernel.org:from_smtp,steina-w:mid,ew.tq-group.com:from_mime,ew.tq-group.com:dkim]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 11E866559CD
+X-Rspamd-Queue-Id: 973C2655B30
 
-On 08/06/2026 12:26, Biju Das wrote:
-> Hi Krzysztof Kozlowski,
-> 
-> Thanks for the feedback.
-> 
->> -----Original Message-----
->> From: Krzysztof Kozlowski <krzk@kernel.org>
->> Sent: 08 June 2026 11:22
->> Subject: Re: [PATCH] dt-bindings: mfd: syscon: Make ranges required for renesas,r9a08g046-lvds-cmn
->>
->> On 08/06/2026 12:20, Krzysztof Kozlowski wrote:
->>> On Tue, Jun 02, 2026 at 02:13:29PM +0100, Biju wrote:
->>>> From: Biju Das <biju.das.jz@bp.renesas.com>
->>>>
->>>> Add a conditional schema rule to the syscon bindings that requires
->>>> the ranges property when the compatible string contains
->>>> renesas,r9a08g046-lvds-cmn. This ensures the LVDS common control
->>>> block on the RZ/G3L SoC correctly declares its address translation,
->>>> as the device has child nodes that need a valid ranges mapping to be
->>>> described in the device tree.
->>>>
->>>> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
->>>> ---
->>>>  Documentation/devicetree/bindings/mfd/syscon.yaml | 14
->>>> ++++++++++++++
->>>>  1 file changed, 14 insertions(+)
->>>>
->>>> diff --git a/Documentation/devicetree/bindings/mfd/syscon.yaml
->>>> b/Documentation/devicetree/bindings/mfd/syscon.yaml
->>>> index 9c81010d5a74..cbf83a06ae25 100644
->>>> --- a/Documentation/devicetree/bindings/mfd/syscon.yaml
->>>> +++ b/Documentation/devicetree/bindings/mfd/syscon.yaml
->>>> @@ -269,6 +269,8 @@ properties:
->>>>    resets:
->>>>      maxItems: 1
->>>>
->>>> +  ranges: true
->>>
->>> There are no children allowed, so ranges property is wrong.
->>>
->>> You are changing binding which DOES NOT allow simple-mfd or any other
->>> children. Ranges is not a problem here.
->>
->>
->> And if you tested it on your DTS, you would see this does not work...
-> 
-> I don't see any warnings or error. I have done this change based on Rob's comment
-> based on sashiko review [1].
-> 
-> If you agree, I can drop this patch.
-> 
-> [1]
-> https://lore.kernel.org/all/20260601022619.GA3961324-robh@kernel.org/
+Hi Frank,
 
-Look:
-https://lore.kernel.org/all/20260524194457.479681-2-biju.das.jz@bp.renesas.com/
-What compatibles are here?
+Am Freitag, 5. Juni 2026, 18:47:07 CEST schrieb Frank Li:
+> On Wed, Jun 03, 2026 at 11:36:09AM +0200, Alexander Stein wrote:
+> > This adds an overlay for the supported LVDS display AUO G133HAN01.
+> > Configure the video PLL frequency to exactly match typical pixel clock =
+of
+> > 141.200 MHz.
+> >
+> > Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+> > ---
+>=20
+> Can you fix W=3D1 dtb build warnings?
 
-Now open the binding - what compatibles are allowed for
-renesas,r9a08g046-lvds-cmn ?
+That would require to duplicate the setting from imx8mp.dtsi. Is this really
+intended?
 
-Best regards,
-Krzysztof
+imx8mp-tqma8mpqs-mb-smarc-2-lvds-g133han01.dtso:51.10-55.5: Warning (unit_a=
+ddress_vs_reg): /fragment@3/__overlay__/ports/port@1: node has a unit name,=
+ but no reg or ranges property
+imx8mp-tqma8mpqs-mb-smarc-2-lvds-g133han01.dtso:57.10-61.5: Warning (unit_a=
+ddress_vs_reg): /fragment@3/__overlay__/ports/port@2: node has a unit name,=
+ but no reg or ranges property
+
+IMHO this warning is not suitable for .dtbo, while it is for .dtb
+(with applied overlays). The .dtbo doesn't have all the information.
+
+Best reagrds
+Alexander
+
+> Frank
+>=20
+> > Changes in v4:
+> > * New to series v4
+> >
+> >  arch/arm64/boot/dts/freescale/Makefile        |  2 +
+> >  ...p-tqma8mpqs-mb-smarc-2-lvds-g133han01.dtso | 74 +++++++++++++++++++
+> >  2 files changed, 76 insertions(+)
+> >  create mode 100644 arch/arm64/boot/dts/freescale/imx8mp-tqma8mpqs-mb-s=
+marc-2-lvds-g133han01.dtso
+> >
+> > diff --git a/arch/arm64/boot/dts/freescale/Makefile b/arch/arm64/boot/d=
+ts/freescale/Makefile
+> > index dee2bea156740..3f466f102dc1d 100644
+> > --- a/arch/arm64/boot/dts/freescale/Makefile
+> > +++ b/arch/arm64/boot/dts/freescale/Makefile
+> > @@ -385,8 +385,10 @@ dtb-$(CONFIG_ARCH_MXC) +=3D imx8mp-tqma8mpql-mba8m=
+p-ras314-imx219.dtbo
+> >  dtb-$(CONFIG_ARCH_MXC) +=3D imx8mp-tqma8mpql-mba8mp-ras314-lvds-tm070j=
+vhg33.dtb
+> >  dtb-$(CONFIG_ARCH_MXC) +=3D imx8mp-tqma8mpql-mba8mp-ras314-lvds-tm070j=
+vhg33-imx219.dtb
+> >
+> > +imx8mp-tqma8mpqs-mb-smarc-2-lvds-g133han01-dtbs +=3D imx8mp-tqma8mpqs-=
+mb-smarc-2.dtb imx8mp-tqma8mpqs-mb-smarc-2-lvds-g133han01.dtbo
+> >  imx8mp-tqma8mpqs-mb-smarc-2-lvds0-tm070jvhg33-dtbs +=3D imx8mp-tqma8mp=
+qs-mb-smarc-2.dtb imx8mp-tqma8mpqs-mb-smarc-2-lvds0-tm070jvhg33.dtbo
+> >  imx8mp-tqma8mpqs-mb-smarc-2-lvds1-tm070jvhg33-dtbs +=3D imx8mp-tqma8mp=
+qs-mb-smarc-2.dtb imx8mp-tqma8mpqs-mb-smarc-2-lvds1-tm070jvhg33.dtbo
+> > +dtb-$(CONFIG_ARCH_MXC) +=3D imx8mp-tqma8mpqs-mb-smarc-2-lvds-g133han01=
+=2Edtb
+> >  dtb-$(CONFIG_ARCH_MXC) +=3D imx8mp-tqma8mpqs-mb-smarc-2-lvds0-tm070jvh=
+g33.dtb
+> >  dtb-$(CONFIG_ARCH_MXC) +=3D imx8mp-tqma8mpqs-mb-smarc-2-lvds1-tm070jvh=
+g33.dtb
+> >
+> > diff --git a/arch/arm64/boot/dts/freescale/imx8mp-tqma8mpqs-mb-smarc-2-=
+lvds-g133han01.dtso b/arch/arm64/boot/dts/freescale/imx8mp-tqma8mpqs-mb-sma=
+rc-2-lvds-g133han01.dtso
+> > new file mode 100644
+> > index 0000000000000..9595cf4d43cd0
+> > --- /dev/null
+> > +++ b/arch/arm64/boot/dts/freescale/imx8mp-tqma8mpqs-mb-smarc-2-lvds-g1=
+33han01.dtso
+> > @@ -0,0 +1,74 @@
+> > +// SPDX-License-Identifier: (GPL-2.0-or-later OR MIT)
+> > +/*
+> > + * Copyright (c) 2025-2026 TQ-Systems GmbH <linux@ew.tq-group.com>,
+> > + * D-82229 Seefeld, Germany.
+> > + * Author: Martin Schmiedel
+> > + */
+> > +
+> > +/dts-v1/;
+> > +/plugin/;
+> > +
+> > +&backlight_lvds0 {
+> > +	status =3D "okay";
+> > +};
+> > +
+> > +&panel_lvds0 {
+> > +	compatible =3D "auo,g133han01";
+> > +	status =3D "okay";
+> > +
+> > +	ports {
+> > +		#address-cells =3D <1>;
+> > +		#size-cells =3D <0>;
+> > +
+> > +		port@0 {
+> > +			reg =3D <0>;
+> > +			dual-lvds-odd-pixels;
+> > +
+> > +			panel_in_lvds0: endpoint {
+> > +				remote-endpoint =3D <&ldb_lvds_ch0>;
+> > +			};
+> > +		};
+> > +
+> > +		port@1 {
+> > +			reg =3D <1>;
+> > +			dual-lvds-even-pixels;
+> > +
+> > +			panel_in_lvds1: endpoint {
+> > +				remote-endpoint =3D <&ldb_lvds_ch1>;
+> > +			};
+> > +		};
+> > +	};
+> > +};
+> > +
+> > +&lcdif2 {
+> > +	status =3D "okay";
+> > +};
+> > +
+> > +&lvds_bridge {
+> > +	status =3D "okay";
+> > +
+> > +	ports {
+> > +		port@1 {
+> > +			ldb_lvds_ch0: endpoint {
+> > +				remote-endpoint =3D <&panel_in_lvds0>;
+> > +			};
+> > +		};
+> > +
+> > +		port@2 {
+> > +			ldb_lvds_ch1: endpoint {
+> > +				remote-endpoint =3D <&panel_in_lvds1>;
+> > +			};
+> > +		};
+> > +	};
+> > +};
+> > +
+> > +// Update VIDEO_PLL1 frequency
+> > +&media_blk_ctrl {
+> > +	assigned-clock-rates =3D <500000000>, <200000000>,
+> > +			       <0>, <0>, <500000000>,
+> > +			       <988400000>;
+> > +};
+> > +
+> > +&pwm3 {
+> > +	status =3D "okay";
+> > +};
+> > --
+> > 2.54.0
+> >
+>=20
+
+
+=2D-=20
+TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
+Amtsgericht M=FCnchen, HRB 105018
+Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
+http://www.tq-group.com/
+
+
 
