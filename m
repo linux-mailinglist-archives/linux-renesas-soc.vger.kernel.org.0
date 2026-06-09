@@ -1,211 +1,184 @@
-Return-Path: <linux-renesas-soc+bounces-33769-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-33770-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id ibiuBEchKGq9+QIAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-33769-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 09 Jun 2026 16:20:55 +0200
+	id XsJhJU4lKGon/AIAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-33770-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 09 Jun 2026 16:38:06 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CCAE660EFB
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 09 Jun 2026 16:20:54 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id F16CA661362
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 09 Jun 2026 16:38:05 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=gmail.com header.s=20251104 header.b=hVkDsuBl;
-	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-33769-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-33769-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=gmail.com;
-	arc=pass ("subspace.kernel.org:s=arc-20240116:i=2")
+	dkim=none;
+	dmarc=none;
+	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-33770-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-33770-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
+	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 266D43052FD4
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  9 Jun 2026 14:14:37 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id E4E76311863E
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  9 Jun 2026 14:29:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 05265329367;
-	Tue,  9 Jun 2026 14:14:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C07443438A5;
+	Tue,  9 Jun 2026 14:28:56 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
+Received: from mail-ua1-f41.google.com (mail-ua1-f41.google.com [209.85.222.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6BEC31353C
-	for <linux-renesas-soc@vger.kernel.org>; Tue,  9 Jun 2026 14:14:35 +0000 (UTC)
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781014476; cv=pass; b=RtwpW9CGTzr1mJAIS+nOcuqKUgNsYLDuYdplEwCQS/AlvoFftyYfsslnt7KyMboUV/IlQCR4zR7JbV5AQwNmefjhc0Y2xGTIB39xel7fUu0SwdWH0lQuw8//sUaKcRHXhgssm252Wy3Hj6XZ5cpk6JzOd/5/rdG1VHlZLQXGeGc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781014476; c=relaxed/simple;
-	bh=Wt9b0GDOzfbd/0ns8DJu7GyOrhJ4Z/5e5VGfsnNYW50=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85C2333E377
+	for <linux-renesas-soc@vger.kernel.org>; Tue,  9 Jun 2026 14:28:55 +0000 (UTC)
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781015336; cv=none; b=TSv0tmbQyLs4qKf3gDe9VITnfgqvZbgYdUh4mukknehix7e1FEAxQIg8S2iEEaiVYBEFWi2zUWsJgC5XQ7n1cci2OGdRO4Jpilt5ArLfPM9v4VrVNyEaAUGv4He9F1khT1UF4ceA3rV5aTg2OQnAZnnXQ6IY1M8BT4RKCtpRiiw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781015336; c=relaxed/simple;
+	bh=ogfDlnzBcc1OB6AZDDh1GpRPo9cWTVWur3OQA17OUCk=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=QGyGk0KZ4gxWajN2BkGc1RB0nP7I+RaoTB0OGD17yuTsqdDNt5wvHH1LWzFiLAL6R6zwY3fjtg68VZfg9us+fe80f+5KfgSXiv9NdroizWbiR4jIYIYNFMloqON14SCFFGLkTWZPeT2ZfKEZSOzd8yKSZzrrM+WFKhwKRc74vFs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hVkDsuBl; arc=pass smtp.client-ip=209.85.216.51
-Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-36d98b9aa9aso4965380a91.3
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 09 Jun 2026 07:14:35 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1781014475; cv=none;
-        d=google.com; s=arc-20240605;
-        b=Y0P1xMxtMYjzeiG1QHCDhql1YAIuA5gVbiXnSvo5byy9GN+pAAeJVhJeSNfM9zT9Pd
-         RvdlDCi6g1SNlalbCZkAeIxptHjBUkAfqBH6Oo7hfUGiGlBi5066wgMt5RNqwAfzdiGq
-         Lmzqi4vUv68X5XVEwFTszq2A7J8BlxweK64sZ/O6BbVmYEMD1m9WEkxnwcbdzUYjDuNK
-         9UmGyEL97bbSRKelEVev2Qzw8aVtzjZxXpox9lG5IL7kd0roDIMSQ6D8x/N86P4KCn7M
-         rO6d3NoVGvkvXWyrfGy0ZpjfOSTGEiklNqYCAMKAGHuoJj4c//dh9oCyUziZYjPpqiaP
-         mUYw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=YVCTP06+ReD7xAAc8z3Zxd2jt06xnT3/d3ueG+sZj3A=;
-        fh=3u6UO/Ikb+Xmck2LNZCF389m4AqJRrq0/ycELeGc/Ms=;
-        b=Gt/gRaSFivj9S9fuR19EIcquFcsWVgsIRJcGBSVagTgsZjmlMAyBZfziBLOH1Mhai6
-         MuzSgOUV/ZTtKklqnJJ6+oP6rBJVqtebB6XgxrMdJaDAzq/hNZRwdgAIgKQS0/SUFKRX
-         2+zxx21wssuNa39RPY2u0LysnF/ykUrGxCy7gZ84RZ8mtcJH+tZYZuYC1EolbZRWh1ET
-         uePP5us5A8ZM88fIUwJsHPKHzR5neyorpE6qtKdhJwEyP3Da0IpBEFDbxE0fsZltL9gu
-         R8Iszt+intuwBQOJKdRaubDhdoaYIxV2mbC4NtThCmwB/MCzcFS5mNTvB16gtQKFexSN
-         H4fw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781014475; x=1781619275; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=YVCTP06+ReD7xAAc8z3Zxd2jt06xnT3/d3ueG+sZj3A=;
-        b=hVkDsuBl01Ge5M5dAy+QxgOS9LQWkHB33ioPVqAlcCl+TdXELe99YQD//3QSxX/81g
-         eekSaO87B3uipPBc2pfixMYXSRZ2Air01xlT4t4PqbsKG7WjWI9JEWt5/T7IKEcgDmyQ
-         j/VX81B9OknFjzaKndLenwmrBcEHJX8BPK2Hsv/ShcDuGaKPIb8sBDEI0mTOTc3hvlt0
-         gwVJu4H/SYcUnPIyLO4ck5OaSKc9w6iNzDkisERqsweDZBrKwmHHkxWX/pDaD6E6mV2O
-         urAGTx66Fp/s02pXB+MLE8n10lLWHb3+xc4YXZXKFacpnr2iftzzZv08jbxmKwcGAIMo
-         Gdbg==
+	 To:Cc:Content-Type; b=WSNWRwZeEctq7haMu0N7k4Hd9/KD50gO/WEj2YpjuIhwp0uvmN3rLdK/t70wAsVcR565ZpH3C8H8DJVtEpq/hwOzAWOftXybGRC7mjeJtxYZ2wQX15h9HmdEkPA7Tl8yKKoAs40vyoX/RlNSLI6mv2q+k55KHlU4z6iHGNMP2pY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.41
+Received: by mail-ua1-f41.google.com with SMTP id a1e0cc1a2514c-963f63fe025so1588924241.0
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 09 Jun 2026 07:28:55 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781014475; x=1781619275;
+        d=1e100.net; s=20251104; t=1781015334; x=1781620134;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=YVCTP06+ReD7xAAc8z3Zxd2jt06xnT3/d3ueG+sZj3A=;
-        b=WoLCTWlG4tPVjMxONovdauU3dLVcRzBBsQaA8YAv4+4sr+bC+c9INFvrcgmZ08DQ9B
-         ReigYE+opoo+9ZqzqjKLUPgAGh/N1IgN/meNj/8nKMAM5hjeMpCVr/hpGzC01nd1tDZ4
-         /AdNHz3ScALqems+GPSTmmsT2buy2QJ3pczyU+J1hKyT6ugP2LD3jUBNSAW7s4cx6oK2
-         /CA47SlleYmortAQp5GaqGDb7VrLgoEOG8IHjqlYOD/r7XnGcXwME33Wl1SgDeG2z5Q9
-         yxSy2yvAi5rRWeEnqVKCfpi1YscNvwxtZbbIYegZHaY0uD3OnS0eE/LN0GB1E4A+OpK3
-         0MbA==
-X-Forwarded-Encrypted: i=1; AFNElJ+01+MtmBYVuuE2C//BExW+XMw1yG6bocdmZ4s6btms6hDr0oQLrxp1jL6fOCXYiku+vxwcfTDWvKnkD4RfCWMPfg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwJoO4f0NSP3/X+DhEkqdHqS4s39ReV0XvXXCdyk3EB1xcKSeqa
-	XFhjk8RqwjH8Osmuh9ge1CWQn5hAsDop+1W8+tkv8/JDZBjuIwk+SjbwBdiKwmfN9QkYEdDrelx
-	fn6uIJlmUAKrS9nSPmAqyyvqhMwknsgQ=
-X-Gm-Gg: Acq92OEJ5/UWDUYZ0cczkHCNkf6r85XrcmJX8gZ1sG1Z2JsEptVMlbBrqh0NW1zbFU+
-	NRZyObIrrCnInQthqDVE6ufMgqg2ehXjJXF3IbWDIorBqum7g30PAiC9lQcAFUaZtq08tKT5Wqv
-	fpzrGoVwstn7iNh6Vz2oCZKgD5JANPELWQrmqqvxYmPbe4kwLRTtwrGxU5nJ9M/tpKEt7gNkvC9
-	yhc4Id90x9Hk2Wjt/yQ3zMvDL+Sk94SQGPZ1yB5UsLbi6d7bJ3o4QUEnDZl4RSeIDk8ADS+XlpF
-	CVkgRLhEv8+SVgBJomzUSDNAOCapWaKG2TgiGPSDOoo45DDMAQ+4TRWrpMjdFX25280DpgWZLg=
-	=
-X-Received: by 2002:a17:90b:58e7:b0:36b:936e:73c8 with SMTP id
- 98e67ed59e1d1-370f0e4ad33mr24408813a91.19.1781014474736; Tue, 09 Jun 2026
- 07:14:34 -0700 (PDT)
+        bh=Ip5sH1agdDU+wNC7wtZTrjXnWLeSyW0k20W5HgSy420=;
+        b=XMP/Vpda5pRaXU4sleE2uwjLgZukhPSwaoinO/GL9lMytjvIovy7ovjsIjqLMnYFGG
+         YwGjAqaz72afTxvufklqhPvgGbFEF7DibY/rL2xsUj8ipzS3kKFjbeWDk+Nw0761bf1O
+         QrHMHXuRWeLeao5u6zx5tl1oWvX7y8+Dj5zHJ6WVoExkjfjT7dHLwJH4I6FCzRmXfVv5
+         VhOpTHnG77ur0qYMCM91Q2fqHiJQbL1M6MxEEFcIqn0y1ouMqnr+s+11SYcuIbc69cgO
+         l0QLaEKrXs5mFEKpu1DJS/gWMDz2adCuQRnIuIcKmm3dIjTsc+O9KTDqETaUa/ttW4O5
+         +t9A==
+X-Forwarded-Encrypted: i=1; AFNElJ9IR4ySfzl3spqFCGQYnFYvT07SPqplkXyKaQKlkv7wSx/mHFHh+++lIHpReaSkc/x8UGexfYxZVzq5z7zWFmZyQQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwjH1FTcnuxYd1CXjYngO3ysnPboFCX/qTqgls2jwOWSWQcAcwv
+	zoxXm9zOWVyDK6jW5eY0PJPsDQFdYk0N1nM1g2bn8dNjpR0IYBgR1DmgflpMXrv/Kdc=
+X-Gm-Gg: Acq92OFJCffUCMGIAILpNudTfQE+3IvNzD8eitiZRDjG7Kp2Sx/iWODmEITs2ZayZd3
+	dJQS+6x2Zzl3GUsjoCY7mSMPkn82dAbgwDxzVlXNMTaBO0Dbdm6KPJQlNl8W9sAN8B4wGHU6x0f
+	XRr4G1V3mEtbpCqGHv16Aw1U/03ls8s9fDWyz4VfOBzDw4jG/JDsGHDsy0/EBlIujQP5kpdYloG
+	FSIGw1hTfFVGr7bm+6YrWnd1FYG5uCH49PDVVFXCLEVHurzO0xUMpgfPCQ5Sc1CeL2Y5d1q/yDm
+	DtoLmSJClVTK+ZxP20qVgckOW9jtxoipPLigMo5rF7AsWdcne50yrOLyr5R+FtDXnSRolfVaDcb
+	0NmSbKX1ozzlxqTe3+06Sgfur9XCG9IvUnUiCQs+B92ltdBXOHsIydb0nKqqjWHzF99jsoPcjvC
+	n5krO+CgVq6JJuxnydKJAQPqK/gNBbEY38Szgz1rHfs3Fw/k/DCnsItIa8R82Cfzp3uefrq00=
+X-Received: by 2002:a05:6102:580f:b0:631:2dc6:2f5c with SMTP id ada2fe7eead31-6fedea4018cmr9144699137.0.1781015334441;
+        Tue, 09 Jun 2026 07:28:54 -0700 (PDT)
+Received: from mail-vs1-f44.google.com (mail-vs1-f44.google.com. [209.85.217.44])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-6eb649b710csm17107336137.7.2026.06.09.07.28.53
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 09 Jun 2026 07:28:53 -0700 (PDT)
+Received: by mail-vs1-f44.google.com with SMTP id ada2fe7eead31-6cfd17e9250so2395790137.1
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 09 Jun 2026 07:28:53 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ/Kvpk4PAmr+lxUZOdtZGDaxf6xc5yxKl+l5QpuaITzJPaiAKt2PohE/V16z7gBFiRB4xHRE+kakmO0KvRbnGJC4w==@vger.kernel.org
+X-Received: by 2002:a05:6102:4191:b0:634:a573:c097 with SMTP id
+ ada2fe7eead31-6fef36392d5mr8870898137.13.1781015333253; Tue, 09 Jun 2026
+ 07:28:53 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260605-rzv2h-rspi-v1-1-c1d5ed562249@gmail.com> <CAMuHMdVEYciUYq6savTuOqDUQp6AqHGkeP30s6Z7PoZ3q-Pqvg@mail.gmail.com>
-In-Reply-To: <CAMuHMdVEYciUYq6savTuOqDUQp6AqHGkeP30s6Z7PoZ3q-Pqvg@mail.gmail.com>
-From: Felix Gu <ustc.gu@gmail.com>
-Date: Tue, 9 Jun 2026 22:14:24 +0800
-X-Gm-Features: AVVi8CegqVqtWbCTnlD2kodnPbitaAU8L0BkslvTa0l9OTb7Eanw1TWxLeemMds
-Message-ID: <CAN4SLj0o+3Bjq0aBJUYbKU-YkXUeM9aPgRxiwmOHX_Fz-_Hq+A@mail.gmail.com>
+References: <20260605-rzv2h-rspi-v1-1-c1d5ed562249@gmail.com>
+ <CAMuHMdVEYciUYq6savTuOqDUQp6AqHGkeP30s6Z7PoZ3q-Pqvg@mail.gmail.com> <CAN4SLj0o+3Bjq0aBJUYbKU-YkXUeM9aPgRxiwmOHX_Fz-_Hq+A@mail.gmail.com>
+In-Reply-To: <CAN4SLj0o+3Bjq0aBJUYbKU-YkXUeM9aPgRxiwmOHX_Fz-_Hq+A@mail.gmail.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 9 Jun 2026 16:28:41 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVX4ZJkXe1if=iHu5dt=Xtka=C9y8hxKYKc_7=bysycog@mail.gmail.com>
+X-Gm-Features: AVVi8CfM28mVF7ANUyqKAdwxfMg6jnbRMy8l3EB3MFSG3wNg3msORlNrQsZGdzQ
+Message-ID: <CAMuHMdVX4ZJkXe1if=iHu5dt=Xtka=C9y8hxKYKc_7=bysycog@mail.gmail.com>
 Subject: Re: [PATCH] spi: rzv2h-rspi: fix incorrect readl() accessor for 8-bit
  RX path
-To: Geert Uytterhoeven <geert@linux-m68k.org>
+To: Felix Gu <ustc.gu@gmail.com>
 Cc: Fabrizio Castro <fabrizio.castro.jz@renesas.com>, Mark Brown <broonie@kernel.org>, 
 	linux-spi@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
 	linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-2.16 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+X-Spamd-Result: default: False [0.04 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_RECIPIENTS(0.00)[m:geert@linux-m68k.org,m:fabrizio.castro.jz@renesas.com,m:broonie@kernel.org,m:linux-spi@vger.kernel.org,m:linux-renesas-soc@vger.kernel.org,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-33769-lists,linux-renesas-soc=lfdr.de];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	FORGED_SENDER(0.00)[ustcgu@gmail.com,linux-renesas-soc@vger.kernel.org];
-	TO_DN_SOME(0.00)[];
-	FORWARDED(0.00)[lists@lfdr.de];
-	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	DMARC_NA(0.00)[linux-m68k.org];
+	TAGGED_FROM(0.00)[bounces-33770-lists,linux-renesas-soc=lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:ustc.gu@gmail.com,m:fabrizio.castro.jz@renesas.com,m:broonie@kernel.org,m:linux-spi@vger.kernel.org,m:linux-renesas-soc@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:ustcgu@gmail.com,s:lists@lfdr.de];
+	FREEMAIL_TO(0.00)[gmail.com];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FORGED_SENDER(0.00)[geert@linux-m68k.org,linux-renesas-soc@vger.kernel.org];
+	MIME_TRACE(0.00)[0:+];
+	FORWARDED(0.00)[lists@lfdr.de];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	MISSING_XM_UA(0.00)[];
 	RCPT_COUNT_FIVE(0.00)[6];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	ALIAS_RESOLVED(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[ustcgu@gmail.com,linux-renesas-soc@vger.kernel.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	TAGGED_RCPT(0.00)[linux-renesas-soc];
+	FROM_NEQ_ENVFROM(0.00)[geert@linux-m68k.org,linux-renesas-soc@vger.kernel.org];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,mail.gmail.com:mid,linux-m68k.org:email]
+	ALIAS_RESOLVED(0.00)[];
+	TAGGED_RCPT(0.00)[linux-renesas-soc];
+	R_DKIM_NA(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[linux-m68k.org:from_mime,linux-m68k.org:email,vger.kernel.org:from_smtp,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,mail.gmail.com:mid]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 8CCAE660EFB
+X-Rspamd-Queue-Id: F16CA661362
 
-Hi Geert,
+Hi Felix,
 
-On Mon, Jun 8, 2026 at 3:55=E2=80=AFPM Geert Uytterhoeven <geert@linux-m68k=
-.org> wrote:
->
-> Hi Felix,
->
-> On Fri, 5 Jun 2026 at 17:26, Felix Gu <ustc.gu@gmail.com> wrote:
+On Tue, 9 Jun 2026 at 16:14, Felix Gu <ustc.gu@gmail.com> wrote:
+ On Mon, Jun 8, 2026 at 3:55=E2=80=AFPM Geert Uytterhoeven <geert@linux-m68=
+k.org> wrote:
+> > On Fri, 5 Jun 2026 at 17:26, Felix Gu <ustc.gu@gmail.com> wrote:
+> > >
+> > > Fixes: 8b61c8919dff ("spi: Add driver for the RZ/V2H(P) RSPI IP")
+> > > Signed-off-by: Felix Gu <ustc.gu@gmail.com>
 > >
-> > Fixes: 8b61c8919dff ("spi: Add driver for the RZ/V2H(P) RSPI IP")
-> > Signed-off-by: Felix Gu <ustc.gu@gmail.com>
+> > According to Chapter 7.5 Serial Peripheral Interface (RSPI) Subsection
+> > 7.5.2.1 List of Registers, the SPI Data Register supports access sizes
+> > of 8, 16, and 32 bits.
+> >
+> > However, the "Access Size [bits]*1" column header has a foot note:
+> >
+> >     "Note 1.  The read access size is fixed at 32 bits."
+> >
+> > Hence that means the rzv2h_rspi_rx_u8() function as generated by the
+> > RZV2H_RSPI_RX() macro is correct, but rzv2h_rspi_rx_u16() is not?
+> >
+> > Also, readw() in rzv2h_rx_irq_handler() is wrong, too?
+> >
+> Thanks for the detailed explanation.
+> I didn't check the reference, just thought it's a little weird here.
 >
-> Thanks for your patch!
->
->
-> According to Chapter 7.5 Serial Peripheral Interface (RSPI) Subsection
-> 7.5.2.1 List of Registers, the SPI Data Register supports access sizes
-> of 8, 16, and 32 bits.
->
-> However, the "Access Size [bits]*1" column header has a foot note:
->
->     "Note 1.  The read access size is fixed at 32 bits."
->
-> Hence that means the rzv2h_rspi_rx_u8() function as generated by the
-> RZV2H_RSPI_RX() macro is correct, but rzv2h_rspi_rx_u16() is not?
->
-> Also, readw() in rzv2h_rx_irq_handler() is wrong, too?
->
-Thanks for the detailed explanation.
-I didn't check the reference, just thought it's a little weird here.
+> Although the column header has a footnote to indicate the access
+> size is fixed at 32bits.
+> But in 7.5.2.2 register description, it specifies that for registers like
+> SPDR, SPCR, SPSCR, SPCMD, SPDCR2, SPSSR, their access
+> size are fixed at 32bits, but for SPSR, there is no footnote to specify
+> the access size.
 
-Although the column header has a footnote to indicate the access
-size is fixed at 32bits.
-But in 7.5.2.2 register description, it specifies that for registers like
-SPDR, SPCR, SPSCR, SPCMD, SPDCR2, SPSSR, their access
-size are fixed at 32bits, but for SPSR, there is no footnote to specify
-the access size.
-And SPSR is 0x52, readl on the register cause alignment issue?
+True.
 
+> And SPSR is 0x52, readl on the register cause alignment issue?
 
-Best regards,
-Felix
+Good point. Let's wait for Fabrizio's response...
 
+Gr{oetje,eeting}s,
 
+                        Geert
 
-> Gr{oetje,eeting}s,
->
->                         Geert
->
-> --
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m6=
-8k.org
->
-> In personal conversations with technical people, I call myself a hacker. =
-But
-> when I'm talking to journalists I just say "programmer" or something like=
- that.
->                                 -- Linus Torvalds
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
