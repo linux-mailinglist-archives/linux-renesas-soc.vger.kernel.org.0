@@ -1,193 +1,169 @@
-Return-Path: <linux-renesas-soc+bounces-33728-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-33729-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id SbA8KlVuJ2pQwgIAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-33728-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 09 Jun 2026 03:37:25 +0200
+	id qAOnDRi5J2qV1AIAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-33729-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 09 Jun 2026 08:56:24 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 134C865BADD
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 09 Jun 2026 03:37:25 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E68765CFBB
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 09 Jun 2026 08:56:23 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=gmail.com header.s=20251104 header.b=h14k+c1M;
-	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-33728-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-33728-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=gmail.com;
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=XQ6LwpPN;
+	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-33729-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-33729-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=quarantine) header.from=kernel.org;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 3725C30D828B
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  9 Jun 2026 01:33:39 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 8FE463017243
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  9 Jun 2026 06:54:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 15714345CCA;
-	Tue,  9 Jun 2026 01:32:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 360F0383C77;
+	Tue,  9 Jun 2026 06:54:29 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E7163403FE
-	for <linux-renesas-soc@vger.kernel.org>; Tue,  9 Jun 2026 01:32:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3546F4D8CE;
+	Tue,  9 Jun 2026 06:54:27 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780968741; cv=none; b=OTfN+QWSvdSyJ/SqQU9FPFYTxzTYHZ3Dtp7QzR0dw1PQfn8QDymnamb2lMfzEqHExzIUXL0LTB0QbGg/4OYQj6C3zld9GizBjR5LEWCR2bZa1+7AxcYQYewyvjcRSs2SvQLUJZvXJUjGIiKbfp5/FJv/FEH5T0JEkQzn/KX4sAM=
+	t=1780988069; cv=none; b=Ia2R2LwWv1MO/06yFAR4TikLEw0UeQsuV03vRLEBPQLkZUbpghXVf2uOFS422pMZ1JIK5cWT+vCG/RqKWY7HBMtpl7Zl8rEElgyL+0k+VrnDmQdD5iBtJp724VdRLcBU398kqpP/8Ich7/TmXExI9fjZSoBYFLYtI1CkpFtVpd8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780968741; c=relaxed/simple;
-	bh=smVRpaCZIxDLyRWoZHXLUYpzGx3iLGVagavXEXO2aXM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=u1bM8PH3LMhVj+yt4YIH2vMk3ia1P8PT859FVKhgDlRApQLYEUoe/amlR0w6nAvSNTozZa+ghSWUfMe2KoOFXZSg7lOI6Bbhkjs/H5lN3FVeCILumuuOkTZriic2tCILpH/utvdMKeTYlVQUIdGk+VL1kmvtIFL6QKpmfcdg8yk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=h14k+c1M; arc=none smtp.client-ip=209.85.214.173
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2c0c2a68d01so33791595ad.1
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 08 Jun 2026 18:32:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780968739; x=1781573539; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=wLvmQCFNohOOsJ3JAW+RyfCTOssyDUr0gIAh//bmteA=;
-        b=h14k+c1MXvAZ2WZRWrtBlPOCRWwIr7PO1nVu94qUAd2CTEwzRESG0Frh2RUnZNFxvL
-         mCCv92hUsWypy1l9prDfunSdE4e7L59Rg6nIhMSaGbzgSwykOlQnYvrYh9u8m4dy06HE
-         9Ovk0eTfhBXGwgO0ROtejUMfcJEwqdog8JDG60ZvvtyTyt0b/Qk8R6KJioMOmACLfSXu
-         NdEAoFej5RREXiOzJpwepGouAoi3ibCpqFSYRGeXGymmuQJQ95XDcn+1u3CDkOoFlnQb
-         Rgad/DQ6bndY/6rpA9xELsGAunkjd0zcCkflzdjgJJNGD64ualDh0+n7OO3DkbTSJ7xj
-         V0OQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780968739; x=1781573539;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=wLvmQCFNohOOsJ3JAW+RyfCTOssyDUr0gIAh//bmteA=;
-        b=QfccIBnfVNZr0vnl1N2wz35rp9YXkk8Ih2aRV4cSSxjpQcgLwgrxNC4SvTLtd3xEKL
-         P2jWVISzw+HRtUEFFPG4SJdKP3hW32W/pylesrssArXTAptW2+uWLIfzMVcti7u0XH05
-         k8bnXKrbr2YdARmRlXmMbwjIdtldOpYzEYSLmlmaf/D6qVgNKfUFthZEZGLg6jSzOXPG
-         gKuVIn9SLbik2OJOsaa1k4WPO5ISgjKoZ8OMuqNP//RBbifeDXqQRB6XHoIIydnhgqUW
-         wPzT2crcNhRI3OUwbAqBD+lsuskumnwf6a4Ta5g4qN16+51k/Q2SsXqLfLa8yZ4P7bVL
-         Z+iw==
-X-Forwarded-Encrypted: i=1; AFNElJ9hICvE2hEiE3SQoHED1dO9q2YD1jq/HFSDtvygxx4Pz9x7Rrxdt4witFHFy58zcPaFU3wGZm047M0c5x/oVbjeVA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxN9mPAe6WFPI5D0tl9dfQpoopPuhy+tAxPsrPo259fb/Y3dku6
-	CagttI5iNVtunAu1smqOzhbX0ejw8+ucOrTQn3WZcCefGw+DoHTgeg6y
-X-Gm-Gg: Acq92OGiR0gGU0l5wqnYg05XvMFzCPeP/wRYaFcpKDWj0b3YEOTWciGPEgzlbUHMYIJ
-	Bfto++5yKNr9Bez9zU9lSSALmlYFy8/2oUREW3kHRvdCb/N0v96ASRAkHutedODSU/vxZ0BftQO
-	Jj/wKf0OvDguedxyu33io+NVPX8VsKvfXUygkXccWVj7An9ZGt42aOUU+Y7+ETP/lPXZ+2eR7iV
-	UEZS9k91ZIDCW+QthE5svWTRsGzBivHD4s2PuCb8YJNpA/ccbMO7Em4hxz8Tcpx/Aak+aSF3+fU
-	8OKV0utfjiTFN1V2AwRsn659FwIXmqYJ2hk4w6n4kQDkCLwElu0fq37Kn0Yh3IetlkyhICxTC/b
-	dqc3NDeJmMe/t98lMa47IKBENMh4LEXjtkHJkE3GNWQ43Xs2ZT1YE4xPRrfx9F5eI7ZlOsQUZ1e
-	X62wjcsFCe6sbipXRNDC9LiNldsDvwN00I/anT4mI+sLFB6TO/+DSaHQ4C9670KNTAvSfQN9XAs
-	Tb6ErE=
-X-Received: by 2002:a17:902:ced1:b0:2c0:fa4e:91f6 with SMTP id d9443c01a7336-2c1e7d41eabmr194574365ad.13.1780968738667;
-        Mon, 08 Jun 2026 18:32:18 -0700 (PDT)
-Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c16609e627sm198765335ad.52.2026.06.08.18.32.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 Jun 2026 18:32:18 -0700 (PDT)
-From: phucduc.bui@gmail.com
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	Mark Brown <broonie@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Liam Girdwood <lgirdwood@gmail.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH v5 11/11] ASoC: renesas: fsi: Add SPU clock control in hw_startup/shutdown
-Date: Tue,  9 Jun 2026 08:31:07 +0700
-Message-ID: <20260609013107.5995-12-phucduc.bui@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260609013107.5995-1-phucduc.bui@gmail.com>
+	s=arc-20240116; t=1780988069; c=relaxed/simple;
+	bh=gwl0mgD3YbSGd3bezJJHMAGJlyPDVqLlW3At5TV/kgU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HEqwLf4Yj0UZW64e1WUh9P7Bfds/dRSbg5Clc3Qg2ZnIv8pYtYduMF2FjYQ03f/gFS6/Eqg3cjg8pO6ePg+mw7pz1og9JJvcdX9TLeRIyc0NeeoKSJMHNFYGKuBBJGOYhJiPTN/2Bvod+kSyQsERZdp6WLWrs9RNqzEtG6yojYg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XQ6LwpPN; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A83581F00893;
+	Tue,  9 Jun 2026 06:54:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780988067;
+	bh=lVR+GGb9kcP9oVHsAkYfRgRyVIDL3Rps0ij5HnWQ+Go=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=XQ6LwpPN22zuO3eh9qTleCrY4IDdf9NkmmiNScJbRDWPhPin5c28GrqObiT/cheJk
+	 CxCJxXi1iTsy6AJjlpJ+rOnkJ37mjcOW1EDjlBm0enI3L+QS7EfYOlT2Nb71YTYPOr
+	 ByXFhCcCoVY8nT1Ri1ZNY6LtHKwpsQZfwdZBJaKlj1JaR8TywIvaLWXY1sksB1nn3T
+	 c10NwSI21yrTSRCZMB6M/1fZhPJMsN1SilOg17FnXquKPQQ7fplOhqZnKJltnkweA6
+	 MHUEn+KeC4xTpPrDjOAMPXC0MUxAkhJU6zo/YHqLWvRK2uYih7jv4MC9u9gj002KzX
+	 mR9+A4niw+t1A==
+Date: Tue, 9 Jun 2026 08:54:24 +0200
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: phucduc.bui@gmail.com
+Cc: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
+	Mark Brown <broonie@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Magnus Damm <magnus.damm@gmail.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	linux-sound@vger.kernel.org, linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5 01/11] ASoC: dt-bindings: renesas,fsi: add support
+ multiple clocks
+Message-ID: <20260609-nimble-guillemot-of-karma-bef5f1@quoll>
 References: <20260609013107.5995-1-phucduc.bui@gmail.com>
+ <20260609013107.5995-2-phucduc.bui@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260609013107.5995-2-phucduc.bui@gmail.com>
 X-Rspamd-Action: no action
 X-Spamd-Result: default: False [-0.16 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	RCVD_COUNT_THREE(0.00)[4];
 	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
+	FORGED_RECIPIENTS(0.00)[m:phucduc.bui@gmail.com,m:kuninori.morimoto.gx@renesas.com,m:broonie@kernel.org,m:geert+renesas@glider.be,m:lgirdwood@gmail.com,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:magnus.damm@gmail.com,m:perex@perex.cz,m:tiwai@suse.com,m:linux-sound@vger.kernel.org,m:linux-renesas-soc@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:phucducbui@gmail.com,m:geert@glider.be,m:krzk@kernel.org,m:conor@kernel.org,m:magnusdamm@gmail.com,s:lists@lfdr.de];
+	FREEMAIL_TO(0.00)[gmail.com];
+	FORGED_SENDER(0.00)[krzk@kernel.org,linux-renesas-soc@vger.kernel.org];
 	RCPT_COUNT_TWELVE(0.00)[15];
-	TAGGED_FROM(0.00)[bounces-33728-lists,linux-renesas-soc=lfdr.de];
-	FORWARDED(0.00)[lists@lfdr.de];
-	FORGED_RECIPIENTS(0.00)[m:kuninori.morimoto.gx@renesas.com,m:broonie@kernel.org,m:geert+renesas@glider.be,m:lgirdwood@gmail.com,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:magnus.damm@gmail.com,m:perex@perex.cz,m:tiwai@suse.com,m:linux-sound@vger.kernel.org,m:linux-renesas-soc@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:phucduc.bui@gmail.com,m:geert@glider.be,m:krzk@kernel.org,m:conor@kernel.org,m:magnusdamm@gmail.com,m:phucducbui@gmail.com,s:lists@lfdr.de];
+	TAGGED_FROM(0.00)[bounces-33729-lists,linux-renesas-soc=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[gmail.com,kernel.org,perex.cz,suse.com,vger.kernel.org];
-	FORGED_SENDER(0.00)[phucducbui@gmail.com,linux-renesas-soc@vger.kernel.org];
-	FROM_NO_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	ALIAS_RESOLVED(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[phucducbui@gmail.com,linux-renesas-soc@vger.kernel.org];
-	PRECEDENCE_BULK(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,dt];
+	FORWARDED(0.00)[lists@lfdr.de];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	TO_DN_SOME(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	ALIAS_RESOLVED(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[krzk@kernel.org,linux-renesas-soc@vger.kernel.org];
+	FREEMAIL_CC(0.00)[renesas.com,kernel.org,glider.be,gmail.com,perex.cz,suse.com,vger.kernel.org];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,renesas.com:email]
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,dt];
+	MISSING_XM_UA(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,vger.kernel.org:from_smtp,quoll:mid]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 134C865BADD
+X-Rspamd-Queue-Id: 8E68765CFBB
 
-From: bui duc phuc <phucduc.bui@gmail.com>
+On Tue, Jun 09, 2026 at 08:30:57AM +0700, phucduc.bui@gmail.com wrote:
+> +  clock-names:
+> +    minItems: 1
+> +    maxItems: 8
+> +    items:
+> +      enum:
+> +        - fck  # Main FSI module clock
+> +        - spu  # optional SPU bus/bridge clock
+> +        - icka # optional CPG DIV6 functional clocks for FSI port A
+> +        - ickb # optional CPG DIV6 functional clocks for FSI port B
+> +        - diva # optional FSI dividers for port A used for audio clock generation
+> +        - divb # optional FSI dividers for port B used for audio clock generation
+> +        - xcka # optional External clock inputs for FSI port A provided by the board
+> +        - xckb # optional External clock inputs for FSI port B provided by the board
+>  
+>    power-domains:
+>      maxItems: 1
+> @@ -69,6 +91,31 @@ required:
+>  
+>  unevaluatedProperties: false
+>  
+> +allOf:
+> +  - $ref: dai-common.yaml#
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            const: renesas,fsi2-r8a7740
+> +    then:
+> +      required:
+> +        - clock-names
+> +
+> +      properties:
+> +        clock-names:
+> +          minItems: 2
+> +          uniqueItems: true
 
-Enable and disable the SPU clock in fsi_hw_startup() and
-fsi_hw_shutdown() to ensure the clock is active while the
-driver accesses hardware registers.
+You don't need this, it's by default.
 
-Suggested-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
----
+> +          items:
+> +            - const: fck
+> +            - const: spu
+> +            - enum: [icka, ickb, diva, divb, xcka, xckb]
+> +            - enum: [icka, ickb, diva, divb, xcka, xckb]
+> +            - enum: [icka, ickb, diva, divb, xcka, xckb]
+> +            - enum: [icka, ickb, diva, divb, xcka, xckb]
+> +            - enum: [icka, ickb, diva, divb, xcka, xckb]
+> +            - enum: [icka, ickb, diva, divb, xcka, xckb]
 
-Changes in v5:
- - Drop spu_count and rely on the clk core for clock reference
-   counting.
+Are all optional in the board design? I cannot find answers to that in
+commit msg, but it is important - you need to explain WHY you are doing
+this and WHY such different way.
 
- sound/soc/renesas/fsi.c | 7 +++++++
- 1 file changed, 7 insertions(+)
 
-diff --git a/sound/soc/renesas/fsi.c b/sound/soc/renesas/fsi.c
-index 80e87b815c1b..a1c463d73756 100644
---- a/sound/soc/renesas/fsi.c
-+++ b/sound/soc/renesas/fsi.c
-@@ -1560,6 +1560,11 @@ static int fsi_hw_startup(struct fsi_priv *fsi,
- 			  struct device *dev)
- {
- 	u32 data = 0;
-+	int ret;
-+	/* enable spu bus bridge clock */
-+	ret = clk_enable(fsi->master->clk_spu);
-+	if (ret < 0)
-+		return ret;
- 
- 	/* clock setting */
- 	if (fsi_is_clk_master(fsi))
-@@ -1617,6 +1622,8 @@ static int fsi_hw_shutdown(struct fsi_priv *fsi,
- 	/* stop master clock */
- 	if (fsi_is_clk_master(fsi))
- 		return fsi_clk_disable(dev, fsi);
-+	/* stop spu bus bridge clock */
-+	clk_disable(fsi->master->clk_spu);
- 
- 	return 0;
- }
--- 
-2.43.0
+Best regards,
+Krzysztof
 
 
