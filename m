@@ -1,198 +1,191 @@
-Return-Path: <linux-renesas-soc+bounces-33733-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-33734-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id 9tEgDYfTJ2ro2wIAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-33733-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 09 Jun 2026 10:49:11 +0200
+	id bKB4IgHXJ2q43AIAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-33734-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 09 Jun 2026 11:04:01 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81A5565DF3E
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 09 Jun 2026 10:49:10 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3007E65E15B
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 09 Jun 2026 11:04:01 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=gmail.com header.s=20251104 header.b=TfVi4uv5;
-	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-33733-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-33733-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=gmail.com;
-	arc=pass ("subspace.kernel.org:s=arc-20240116:i=2")
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=WML4QAId;
+	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-33734-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-33734-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=quarantine) header.from=kernel.org;
+	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id E147D30D94D4
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  9 Jun 2026 08:43:01 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 7AA393113652
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  9 Jun 2026 08:54:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4C6D83DFC68;
-	Tue,  9 Jun 2026 08:42:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1B8B83DB996;
+	Tue,  9 Jun 2026 08:54:55 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21BE33890F0
-	for <linux-renesas-soc@vger.kernel.org>; Tue,  9 Jun 2026 08:42:27 +0000 (UTC)
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780994550; cv=pass; b=kAcw25TkvEMreyIJuc/QkAvJElyWp6pAQ8DOSuRnNXh+eWobr1JtSW+f2UmY5ns64ggBHz4Nbn4JwsHLnjbcrG9oF3ELq+UgJVhheAK31bLTjS49tzlqSByDlbIsNIIHySUnn+MprNC+xFKQHCr3z3Hz0UYySUj1/4E0eo84dy8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780994550; c=relaxed/simple;
-	bh=TjqNXTdYC+1KhYAgIl8HmOtUZ5YqrP5H9MzSQdXyhXA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=aUluWiUb8Mc1mTm12i+obug0v9/4evPEirv1/7NZ5GcAiyzugrCW4RJL3GB02WHbP43LeyEA7zDyDP4UUHJTlV8ttdpLrxCcsK/nFErRR/Bj3l6TaK9jQ+CmOnUgYWnI/Fqos5eKLVtRlUnspSOcTbXg3kJuuldGM/dcJcctEPw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TfVi4uv5; arc=pass smtp.client-ip=209.85.214.173
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2c0c1e0b0faso35888805ad.0
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 09 Jun 2026 01:42:27 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1780994547; cv=none;
-        d=google.com; s=arc-20240605;
-        b=CgWEMErXymtGE/k93ugk888m1T9g7mIkTTfL4iZLmFN1tNawRfbi6YlNgbPrFjvfKk
-         PE+FCj+W5vcWFmMkv2MQ8Wp01bL4sV1It0E6bpBMd2CaPPM1rMi8qDX10X5Lj5aRI8gW
-         CGOPI2owykuxb0SfarN3KQHj6cLY8BEpe1X6PClqx2Z7f2pdc9IvqMDnO5O2KlZchXlQ
-         j1CHreWjgbm/3Z246uJntXQC3utVQbw8tBBQk5krVPBs0C+ImtEYXksKCHQBFIIL0cjM
-         /1GOD2mqdUskk+v87/gfjhAmBChvdS5XmlDqSfE7j4AxQCHk9VUoMpMh4TEMSVUkMiSe
-         b+qQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=9qPqHTYj5+3o9CDqA1Aws4t/fATKUlA4bCQo4IUQbSA=;
-        fh=FOz9zUz6Pk+Mv4zfVNSyfGMb/7WKsg3z/sWGezB3K6g=;
-        b=Qx8eEtj4X0hTid5OUeBqFqDRu+1fXsfstBgFaiC2jQ0/KB9C4ESuc6d+OLMiaFmLDT
-         +SKmYV1k4eNRjlkL5wcm347wRJxGO93H1wUh/wZm5ZfH4LKGhDnYSOYyXMkNay+yvNHp
-         UgU2svxHZVTsZuhrcUg5FZhTsLeKRPkCOC3iE9jYioX7MPoOBXwEtgVpFAe3qSvyH/cD
-         iMyz40MTut/8ac6MMx3urXEvkaeuDOzX+LXeIKAdKNy/OMPWss4p2sp3OnhnjXihKIC1
-         SBhwe14832hJB1CN3+u9r1w1oUwdsKmy5CBfnEYo98lCc5VRsTIByJU496po7jgQqqfn
-         oyuA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780994547; x=1781599347; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=9qPqHTYj5+3o9CDqA1Aws4t/fATKUlA4bCQo4IUQbSA=;
-        b=TfVi4uv53H8yG2R98vcKA7AbOiAdZAaJhhL24N8bX+x82en6ezaakEsuUwPUjI3BNx
-         VSAWliDQ3+1GeC3FYAJLesknwOZjU+Kw/gl9B7fU+ZRY+Kx3SQDMGq5nJMk6O2zx70K1
-         JP5nHk9QbP+GOqQMnq00pk67dz+c9P7yBE7tsN2zfq9dKZr2B1s0Jhbn7ux5autJKQ2R
-         JX9yxUVoLeIPotjeHwdwTwe94VqAu9WBGf5KaOH/Tcg/LuoIygCpWACCvm0oLzMhF9cw
-         o09t7yNFVk7HY7WLNkmoKsIUvfqpuyEbnJRSH1qjuIa30HhSFyAGJH6Hk+i/Lf1ZSkFk
-         dhWQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780994547; x=1781599347;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=9qPqHTYj5+3o9CDqA1Aws4t/fATKUlA4bCQo4IUQbSA=;
-        b=bH+PUlrTIJh2D6cOzOSFnBvz34jrvihsHJRhTPX6//DdAEBZ1v1ZPYKslo9dLYPMQ4
-         2XY5eMimWbpFao30yNTJ2S9Js80kdI+MUDnmMMCI+tFsOSicme2Cd7gMvL7e6oREAL+M
-         gjO4Ego0hzQI/kYHVCwfgTWwxAb6ZDxnRGSd5j2y26qiGxHeOiWXrlgGx7KH8Dtt3t/1
-         4dbps2DwyCbn+O/e1WGftMOQ9ymHk1ltWMj2R+WFowoYC8SfIgSdT/yfqWcOlKt33BoN
-         CU8fQan+t7OCenYWsCCSWrjEM9hBnUCXfvjvO/6TXMDRoeBzg2ysOyTazgzLYccfiFm5
-         BhWw==
-X-Forwarded-Encrypted: i=1; AFNElJ+b3cxjqvCKa14iZg7T38jbGH30C46BrTc2Xqt8WKLLtAuVjFlTeAuwbPGh/rHrPfdN1RxW8cmnt53ScI+GjkiQBg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwK1dETBpyKbwmBz57+yTOlwki4SBlz3Gzn816sA0DajAoRckmt
-	0sZZw3sK8YyqSWDXWOqFAx2HTlYj1cnwRKUbNuU4p99hwYb9UinNPhJnikJWNqsgW5HzCZnXYmD
-	NSv76PFPVq2GCC9HUs9KXeqyv3HhSRew=
-X-Gm-Gg: Acq92OH33cVrx320aaWMSQG1iCZZO4/u0IfdX+5FIyi2AUQ+YfA7bUyv4sFlgVFqHov
-	ztTtSuLg/MICxPRtDYpr9JWFPMmFOgH5CfNyDMsKWVqiM7OI0oaAl5UNJR8GWplnSfoC5AMdvq1
-	oA0SpOA0M3BnXjncMNH2Iobfkbj/3hMEbuigqx0BEeeAVIg5WNADtdK1nb9xYnPpcKQ23hyPVdm
-	zrJciagBq/FpJkSwB20DWT1FCU5ApadTF171zDGWA+Ow77u+4wL1+HjY44m0CEHrCQ53exj7Hj5
-	majyyZqisJ8KxZpHjcxSSsoSAGHp88/SYYl/KvkGsK0VSXfJmlTH/IJSY9M=
-X-Received: by 2002:a17:903:1aed:b0:2c1:69cb:4423 with SMTP id
- d9443c01a7336-2c1e7e527bdmr221175875ad.14.1780994547276; Tue, 09 Jun 2026
- 01:42:27 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1ED4F346E68;
+	Tue,  9 Jun 2026 08:54:53 +0000 (UTC)
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780995295; cv=none; b=uX7F0IsCFxUv3tivTHx4Z+Wj1jplP0Yw2uqxZ/7VKp2IY58ekSwJtiS0K7DxbjwCGUigAqnO0Qqs+flaC1PHmo+86JxMrCvCzGSKs0pKo+hLkrK+2GeWFBMdKfKdb34PrJbBO9Wqh6lWnOzQUILPvO2qTWmgDJHWg9DOo7d2jPs=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780995295; c=relaxed/simple;
+	bh=7gevuIt1d7vK6egQdm7BiIeH/pvXuzvX6WCmGzIrgYo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=jcf/N3VPl0q1pV66Jc2DiOGu/CPpWHhPCQoSDZ5Zk0X9+AFlIwOF21ZP7kGvt7U/AwvsvNbZbuyV7y8TFUPlSmNXaiDhZjyEg61PLvujJwko+IIbbIV+gqaMWN5X2SOS+m9q0PsYSWx4oaYQpFZkvzbbc3Mlc+DvUIyMZrGawYc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WML4QAId; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4453D1F0089B;
+	Tue,  9 Jun 2026 08:54:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780995293;
+	bh=fHpV7RTa1i4tiic1ClAFWZtGoE18depjcPpRV8v5tFM=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=WML4QAIdWHUrlLxy9H/93R7Z/XzC6u4xzrWM3LiLW2hkkvIKvphZKVEcj23VbNXKL
+	 R0Iok1jLLNBbfvcy2rIEvn2e9hbgx5tGV3XN1GdqCyW0R8o/1u+xdYt/gN6wTF9KWk
+	 hfTMQ83JTgG3JmedZcsX4tp/uuXTmfpcp2NYYATlLFXi0pKiagua2489JKVix/J8Yk
+	 syqeu0dhAg/oMyjSHMyoGOn3hlu/Bx9FUqilh4ONAH2huDsGYzP593MG1KHgRRmOzL
+	 Lu1LvAUjE7Ykh8deoEf3wI0UJnBn4bhKaRnudkXwpccDaUlk3vNcXEXdqKBEIZaN1U
+	 xlm8blz24TPWg==
+Message-ID: <d610ea66-23b0-4691-a0d7-6a32e42dd902@kernel.org>
+Date: Tue, 9 Jun 2026 10:54:34 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260609013107.5995-1-phucduc.bui@gmail.com> <20260609013107.5995-2-phucduc.bui@gmail.com>
- <20260609-nimble-guillemot-of-karma-bef5f1@quoll> <CAABR9nF6uhEyCo-6cekhKwfm3zkqjXCpj2O8C8Xk=2Frw0arRg@mail.gmail.com>
- <6103e3fc-4b27-47b5-aee9-8b481759eb65@kernel.org>
-In-Reply-To: <6103e3fc-4b27-47b5-aee9-8b481759eb65@kernel.org>
-From: Bui Duc Phuc <phucduc.bui@gmail.com>
-Date: Tue, 9 Jun 2026 15:42:15 +0700
-X-Gm-Features: AVVi8CcPsj0hRF2MDcCHJjJml-KAPCz7cDMeJub82nt26AoPo4Fq3Pllieca8tM
-Message-ID: <CAABR9nHBA=sZsw54RWMCg_xdDCeo+stnSYg6yACfzuJoMNMyPg@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v5 01/11] ASoC: dt-bindings: renesas,fsi: add support
  multiple clocks
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, Mark Brown <broonie@kernel.org>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Liam Girdwood <lgirdwood@gmail.com>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Magnus Damm <magnus.damm@gmail.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	linux-sound@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+To: Bui Duc Phuc <phucduc.bui@gmail.com>
+Cc: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+ Mark Brown <broonie@kernel.org>, Geert Uytterhoeven
+ <geert+renesas@glider.be>, Liam Girdwood <lgirdwood@gmail.com>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Magnus Damm <magnus.damm@gmail.com>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ linux-sound@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260609013107.5995-1-phucduc.bui@gmail.com>
+ <20260609013107.5995-2-phucduc.bui@gmail.com>
+ <20260609-nimble-guillemot-of-karma-bef5f1@quoll>
+ <CAABR9nF6uhEyCo-6cekhKwfm3zkqjXCpj2O8C8Xk=2Frw0arRg@mail.gmail.com>
+ <6103e3fc-4b27-47b5-aee9-8b481759eb65@kernel.org>
+ <CAABR9nHBA=sZsw54RWMCg_xdDCeo+stnSYg6yACfzuJoMNMyPg@mail.gmail.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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
+In-Reply-To: <CAABR9nHBA=sZsw54RWMCg_xdDCeo+stnSYg6yACfzuJoMNMyPg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-Rspamd-Action: no action
 X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-33734-lists,linux-renesas-soc=lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:phucduc.bui@gmail.com,m:kuninori.morimoto.gx@renesas.com,m:broonie@kernel.org,m:geert+renesas@glider.be,m:lgirdwood@gmail.com,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:magnus.damm@gmail.com,m:perex@perex.cz,m:tiwai@suse.com,m:linux-sound@vger.kernel.org,m:linux-renesas-soc@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:phucducbui@gmail.com,m:geert@glider.be,m:krzk@kernel.org,m:conor@kernel.org,m:magnusdamm@gmail.com,s:lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-33733-lists,linux-renesas-soc=lfdr.de];
-	FORGED_RECIPIENTS(0.00)[m:krzk@kernel.org,m:kuninori.morimoto.gx@renesas.com,m:broonie@kernel.org,m:geert+renesas@glider.be,m:lgirdwood@gmail.com,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:magnus.damm@gmail.com,m:perex@perex.cz,m:tiwai@suse.com,m:linux-sound@vger.kernel.org,m:linux-renesas-soc@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:geert@glider.be,m:conor@kernel.org,m:magnusdamm@gmail.com,s:lists@lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	FORGED_SENDER(0.00)[krzk@kernel.org,linux-renesas-soc@vger.kernel.org];
 	RCPT_COUNT_TWELVE(0.00)[15];
-	FORGED_SENDER(0.00)[phucducbui@gmail.com,linux-renesas-soc@vger.kernel.org];
+	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FORWARDED(0.00)[lists@lfdr.de];
-	FREEMAIL_CC(0.00)[renesas.com,kernel.org,glider.be,gmail.com,perex.cz,suse.com,vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[phucducbui@gmail.com,linux-renesas-soc@vger.kernel.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	FROM_NEQ_ENVFROM(0.00)[krzk@kernel.org,linux-renesas-soc@vger.kernel.org];
+	FREEMAIL_CC(0.00)[renesas.com,kernel.org,glider.be,gmail.com,perex.cz,suse.com,vger.kernel.org];
+	MID_RHS_MATCH_FROM(0.00)[];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,dt];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	TO_DN_SOME(0.00)[]
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,vger.kernel.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 81A5565DF3E
+X-Rspamd-Queue-Id: 3007E65E15B
 
-Hi Krzysztof,
+On 09/06/2026 10:42, Bui Duc Phuc wrote:
+> Hi Krzysztof,
+> 
+> Thank you for clarifying.
+> 
+>>>>> +          uniqueItems: true
+>>>>
+>>>> You don't need this, it's by default.
+>>>>
+>>>
+>>> Could you clarify which part you are referring to?
+>>> Are you referring to the "uniqueItems: true" property or another
+>>> constraint in this block?
+>>
+>> The uniqueItems should not be needed.
+>>
+> 
+> From my testing, if "uniqueItems: true" is removed, the schema still
+> accepts duplicated clock names, for example:
+> clock-names = "fck", "spu", "icka", "icka", "xcka", "xckb";
+> Since duplicate clock names are not valid, I believe
+> "uniqueItems: true" is still needed here to reject such cases.
 
-Thank you for clarifying.
+Odd. clock-names are string-array which has uniqueItems by default.
 
-> >>> +          uniqueItems: true
-> >>
-> >> You don't need this, it's by default.
-> >>
-> >
-> > Could you clarify which part you are referring to?
-> > Are you referring to the "uniqueItems: true" property or another
-> > constraint in this block?
->
-> The uniqueItems should not be needed.
->
-
-From my testing, if "uniqueItems: true" is removed, the schema still
-accepts duplicated clock names, for example:
-clock-names = "fck", "spu", "icka", "icka", "xcka", "xckb";
-Since duplicate clock names are not valid, I believe
-"uniqueItems: true" is still needed here to reject such cases.
-
-
-> > The hardware supports several valid configurations, for example:
-> >  - FSIA/FSIB slave: only fck and spu are needed.
-> >  - FSI master using an internal clock: ickx and divx are used.
-> >  - FSI master using an external clock: ickx and xckx are used.
-> >
-> > Therefore, while fck and spu are mandatory on r8a7740, the other clocks
-> > depend on the selected master/slave configuration and clock source, so
-> > not all of them are expected to be present in every DT.
->
-> Explain that in the commit msg and be explicit that all these further
-> clocks are optional.
->
-
-Understood. I will update the commit message to clarify that
-icka/b, diva/b and xcka/b are optional and depend on the selected
-clock topology.
+That's the first need of usage it, so I think you should skip it even if
+it does not work correctly - the true fix should be in dtschema.
 
 Best regards,
-Phuc
+Krzysztof
 
