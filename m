@@ -1,184 +1,192 @@
-Return-Path: <linux-renesas-soc+bounces-33770-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-33771-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id XsJhJU4lKGon/AIAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-33770-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 09 Jun 2026 16:38:06 +0200
+	id b727D2srKGrn/QIAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-33771-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 09 Jun 2026 17:04:11 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id F16CA661362
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 09 Jun 2026 16:38:05 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id F3EBC6617EE
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 09 Jun 2026 17:04:09 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=none;
-	dmarc=none;
-	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-33770-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-33770-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=intel.com header.s=Intel header.b=ccKBbOOT;
+	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-33771-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 104.64.211.4 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-33771-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=intel.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id E4E76311863E
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  9 Jun 2026 14:29:04 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 6183431640D8
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  9 Jun 2026 14:47:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C07443438A5;
-	Tue,  9 Jun 2026 14:28:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 485CC3AC0C0;
+	Tue,  9 Jun 2026 14:43:59 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ua1-f41.google.com (mail-ua1-f41.google.com [209.85.222.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85C2333E377
-	for <linux-renesas-soc@vger.kernel.org>; Tue,  9 Jun 2026 14:28:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD6BF352C5B
+	for <linux-renesas-soc@vger.kernel.org>; Tue,  9 Jun 2026 14:43:55 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781015336; cv=none; b=TSv0tmbQyLs4qKf3gDe9VITnfgqvZbgYdUh4mukknehix7e1FEAxQIg8S2iEEaiVYBEFWi2zUWsJgC5XQ7n1cci2OGdRO4Jpilt5ArLfPM9v4VrVNyEaAUGv4He9F1khT1UF4ceA3rV5aTg2OQnAZnnXQ6IY1M8BT4RKCtpRiiw=
+	t=1781016239; cv=none; b=HpS/gl5iw24K4fwHjuTqyM5DOd0nl50vvrD+82Y/Oh/C8Cl+ChVwH9C3JSuYL4XgJAUQuaG/+dFlwpnNenwHMCb6Cs2vmc8G8GHarUPKpAs8oS4GFexQd1yw7tS+bhD+rrW+oiDLaddSZYju+avBZNyWaxYpLxwV1bvD2uXX3Kg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781015336; c=relaxed/simple;
-	bh=ogfDlnzBcc1OB6AZDDh1GpRPo9cWTVWur3OQA17OUCk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=WSNWRwZeEctq7haMu0N7k4Hd9/KD50gO/WEj2YpjuIhwp0uvmN3rLdK/t70wAsVcR565ZpH3C8H8DJVtEpq/hwOzAWOftXybGRC7mjeJtxYZ2wQX15h9HmdEkPA7Tl8yKKoAs40vyoX/RlNSLI6mv2q+k55KHlU4z6iHGNMP2pY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.41
-Received: by mail-ua1-f41.google.com with SMTP id a1e0cc1a2514c-963f63fe025so1588924241.0
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 09 Jun 2026 07:28:55 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781015334; x=1781620134;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=Ip5sH1agdDU+wNC7wtZTrjXnWLeSyW0k20W5HgSy420=;
-        b=XMP/Vpda5pRaXU4sleE2uwjLgZukhPSwaoinO/GL9lMytjvIovy7ovjsIjqLMnYFGG
-         YwGjAqaz72afTxvufklqhPvgGbFEF7DibY/rL2xsUj8ipzS3kKFjbeWDk+Nw0761bf1O
-         QrHMHXuRWeLeao5u6zx5tl1oWvX7y8+Dj5zHJ6WVoExkjfjT7dHLwJH4I6FCzRmXfVv5
-         VhOpTHnG77ur0qYMCM91Q2fqHiJQbL1M6MxEEFcIqn0y1ouMqnr+s+11SYcuIbc69cgO
-         l0QLaEKrXs5mFEKpu1DJS/gWMDz2adCuQRnIuIcKmm3dIjTsc+O9KTDqETaUa/ttW4O5
-         +t9A==
-X-Forwarded-Encrypted: i=1; AFNElJ9IR4ySfzl3spqFCGQYnFYvT07SPqplkXyKaQKlkv7wSx/mHFHh+++lIHpReaSkc/x8UGexfYxZVzq5z7zWFmZyQQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwjH1FTcnuxYd1CXjYngO3ysnPboFCX/qTqgls2jwOWSWQcAcwv
-	zoxXm9zOWVyDK6jW5eY0PJPsDQFdYk0N1nM1g2bn8dNjpR0IYBgR1DmgflpMXrv/Kdc=
-X-Gm-Gg: Acq92OFJCffUCMGIAILpNudTfQE+3IvNzD8eitiZRDjG7Kp2Sx/iWODmEITs2ZayZd3
-	dJQS+6x2Zzl3GUsjoCY7mSMPkn82dAbgwDxzVlXNMTaBO0Dbdm6KPJQlNl8W9sAN8B4wGHU6x0f
-	XRr4G1V3mEtbpCqGHv16Aw1U/03ls8s9fDWyz4VfOBzDw4jG/JDsGHDsy0/EBlIujQP5kpdYloG
-	FSIGw1hTfFVGr7bm+6YrWnd1FYG5uCH49PDVVFXCLEVHurzO0xUMpgfPCQ5Sc1CeL2Y5d1q/yDm
-	DtoLmSJClVTK+ZxP20qVgckOW9jtxoipPLigMo5rF7AsWdcne50yrOLyr5R+FtDXnSRolfVaDcb
-	0NmSbKX1ozzlxqTe3+06Sgfur9XCG9IvUnUiCQs+B92ltdBXOHsIydb0nKqqjWHzF99jsoPcjvC
-	n5krO+CgVq6JJuxnydKJAQPqK/gNBbEY38Szgz1rHfs3Fw/k/DCnsItIa8R82Cfzp3uefrq00=
-X-Received: by 2002:a05:6102:580f:b0:631:2dc6:2f5c with SMTP id ada2fe7eead31-6fedea4018cmr9144699137.0.1781015334441;
-        Tue, 09 Jun 2026 07:28:54 -0700 (PDT)
-Received: from mail-vs1-f44.google.com (mail-vs1-f44.google.com. [209.85.217.44])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-6eb649b710csm17107336137.7.2026.06.09.07.28.53
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 09 Jun 2026 07:28:53 -0700 (PDT)
-Received: by mail-vs1-f44.google.com with SMTP id ada2fe7eead31-6cfd17e9250so2395790137.1
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 09 Jun 2026 07:28:53 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ/Kvpk4PAmr+lxUZOdtZGDaxf6xc5yxKl+l5QpuaITzJPaiAKt2PohE/V16z7gBFiRB4xHRE+kakmO0KvRbnGJC4w==@vger.kernel.org
-X-Received: by 2002:a05:6102:4191:b0:634:a573:c097 with SMTP id
- ada2fe7eead31-6fef36392d5mr8870898137.13.1781015333253; Tue, 09 Jun 2026
- 07:28:53 -0700 (PDT)
+	s=arc-20240116; t=1781016239; c=relaxed/simple;
+	bh=JdPsIz5F+QFarI85AB2FSo8S+2UkDPV097Fy5PnBOLw=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=tj1SmSHT1ZfOLtd7SvZB7lKrz7mSDtA3YDMg/vupIsJPEfcI9wVoAHx1zdDcJEXshlaCUydPtEhAH7viLrHLnxP7lWNYnteAd5Kg1p+U33yJzSnz5nbmBL755WEBsFfkB3XEZJwZbVhaWgMzeDHk05o6N1RlOpHPX45je7TBKPA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ccKBbOOT; arc=none smtp.client-ip=198.175.65.20
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1781016236; x=1812552236;
+  h=date:from:to:cc:subject:message-id;
+  bh=JdPsIz5F+QFarI85AB2FSo8S+2UkDPV097Fy5PnBOLw=;
+  b=ccKBbOOTwpI6vhCc+QWUuA9V+QJL04u5YCpLA+e5v/5D/4Ejg25SUS0q
+   HdDCQf3EcEuhJ4zr9fgJnA9cq26A1fumNFWJwHJ4ROoWKdI47ugyPl/n7
+   U/Z4t/7+fSUTLN726no1JFjYvraGSsqo2TKEiFCHPjGGFaP+pjmf0SBH+
+   v4Hy8VKstgR0JotmBFSeD2CN+3STF3w6wBKJBXNfhD1NIJcSlfZXHei5W
+   3ogULXCimpD2wkDYkZ/lYy8xM4JemfRrx3ZdoCWgsY7hGRr05J8aewszN
+   FtnS37FTXFtwKDAtKQ39yjEYzhC183HH7M/S0uZTu9hJElCt2GnOVCboF
+   A==;
+X-CSE-ConnectionGUID: PQqz5BN3Tf2N+sNRBN6BHw==
+X-CSE-MsgGUID: OPqFP9SrS2SZj2T+spxPrQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11812"; a="81526389"
+X-IronPort-AV: E=Sophos;i="6.24,196,1774335600"; 
+   d="scan'208";a="81526389"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2026 07:43:56 -0700
+X-CSE-ConnectionGUID: 9c/8W+7fSFCAtAybBW51Nw==
+X-CSE-MsgGUID: +pQ2/vGGQvmb6+cbCzWWVw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,196,1774335600"; 
+   d="scan'208";a="242922707"
+Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
+  by fmviesa007.fm.intel.com with ESMTP; 09 Jun 2026 07:43:54 -0700
+Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wWxgF-00000000K7W-3Ixo;
+	Tue, 09 Jun 2026 14:43:51 +0000
+Date: Tue, 09 Jun 2026 22:43:49 +0800
+From: kernel test robot <lkp@intel.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: linux-renesas-soc@vger.kernel.org
+Subject: [geert-renesas-drivers:renesas-pinctrl] BUILD SUCCESS
+ 14270179806b876fecefcbf35905e512b56a5867
+Message-ID: <202606092241.msUEPA1q-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20260605-rzv2h-rspi-v1-1-c1d5ed562249@gmail.com>
- <CAMuHMdVEYciUYq6savTuOqDUQp6AqHGkeP30s6Z7PoZ3q-Pqvg@mail.gmail.com> <CAN4SLj0o+3Bjq0aBJUYbKU-YkXUeM9aPgRxiwmOHX_Fz-_Hq+A@mail.gmail.com>
-In-Reply-To: <CAN4SLj0o+3Bjq0aBJUYbKU-YkXUeM9aPgRxiwmOHX_Fz-_Hq+A@mail.gmail.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 9 Jun 2026 16:28:41 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVX4ZJkXe1if=iHu5dt=Xtka=C9y8hxKYKc_7=bysycog@mail.gmail.com>
-X-Gm-Features: AVVi8CfM28mVF7ANUyqKAdwxfMg6jnbRMy8l3EB3MFSG3wNg3msORlNrQsZGdzQ
-Message-ID: <CAMuHMdVX4ZJkXe1if=iHu5dt=Xtka=C9y8hxKYKc_7=bysycog@mail.gmail.com>
-Subject: Re: [PATCH] spi: rzv2h-rspi: fix incorrect readl() accessor for 8-bit
- RX path
-To: Felix Gu <ustc.gu@gmail.com>
-Cc: Fabrizio Castro <fabrizio.castro.jz@renesas.com>, Mark Brown <broonie@kernel.org>, 
-	linux-spi@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [0.04 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	DMARC_NA(0.00)[linux-m68k.org];
-	TAGGED_FROM(0.00)[bounces-33770-lists,linux-renesas-soc=lfdr.de];
-	FORGED_RECIPIENTS(0.00)[m:ustc.gu@gmail.com,m:fabrizio.castro.jz@renesas.com,m:broonie@kernel.org,m:linux-spi@vger.kernel.org,m:linux-renesas-soc@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:ustcgu@gmail.com,s:lists@lfdr.de];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FORGED_SENDER(0.00)[geert@linux-m68k.org,linux-renesas-soc@vger.kernel.org];
 	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-33771-lists,linux-renesas-soc=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_SENDER(0.00)[lkp@intel.com,linux-renesas-soc@vger.kernel.org];
 	FORWARDED(0.00)[lists@lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWO(0.00)[2];
+	FORGED_RECIPIENTS(0.00)[m:geert+renesas@glider.be,m:linux-renesas-soc@vger.kernel.org,m:geert@glider.be,s:lists@lfdr.de];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[geert@linux-m68k.org,linux-renesas-soc@vger.kernel.org];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[lkp@intel.com,linux-renesas-soc@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[intel.com:+];
+	RCVD_COUNT_FIVE(0.00)[6];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
-	TAGGED_RCPT(0.00)[linux-renesas-soc];
-	R_DKIM_NA(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[linux-m68k.org:from_mime,linux-m68k.org:email,vger.kernel.org:from_smtp,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,mail.gmail.com:mid]
+	TO_DN_SOME(0.00)[];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,intel.com:dkim,intel.com:mid,intel.com:from_mime,sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: F16CA661362
+X-Rspamd-Queue-Id: F3EBC6617EE
 
-Hi Felix,
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git renesas-pinctrl
+branch HEAD: 14270179806b876fecefcbf35905e512b56a5867  pinctrl: renesas: rzg2l: Use raw_spinlock_irqsave() on power source update
 
-On Tue, 9 Jun 2026 at 16:14, Felix Gu <ustc.gu@gmail.com> wrote:
- On Mon, Jun 8, 2026 at 3:55=E2=80=AFPM Geert Uytterhoeven <geert@linux-m68=
-k.org> wrote:
-> > On Fri, 5 Jun 2026 at 17:26, Felix Gu <ustc.gu@gmail.com> wrote:
-> > >
-> > > Fixes: 8b61c8919dff ("spi: Add driver for the RZ/V2H(P) RSPI IP")
-> > > Signed-off-by: Felix Gu <ustc.gu@gmail.com>
-> >
-> > According to Chapter 7.5 Serial Peripheral Interface (RSPI) Subsection
-> > 7.5.2.1 List of Registers, the SPI Data Register supports access sizes
-> > of 8, 16, and 32 bits.
-> >
-> > However, the "Access Size [bits]*1" column header has a foot note:
-> >
-> >     "Note 1.  The read access size is fixed at 32 bits."
-> >
-> > Hence that means the rzv2h_rspi_rx_u8() function as generated by the
-> > RZV2H_RSPI_RX() macro is correct, but rzv2h_rspi_rx_u16() is not?
-> >
-> > Also, readw() in rzv2h_rx_irq_handler() is wrong, too?
-> >
-> Thanks for the detailed explanation.
-> I didn't check the reference, just thought it's a little weird here.
->
-> Although the column header has a footnote to indicate the access
-> size is fixed at 32bits.
-> But in 7.5.2.2 register description, it specifies that for registers like
-> SPDR, SPCR, SPSCR, SPCMD, SPDCR2, SPSSR, their access
-> size are fixed at 32bits, but for SPSR, there is no footnote to specify
-> the access size.
+elapsed time: 5368m
 
-True.
+configs tested: 62
+configs skipped: 0
 
-> And SPSR is 0x52, readl on the register cause alignment issue?
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-Good point. Let's wait for Fabrizio's response...
+tested configs:
+alpha                   allnoconfig    gcc-16.1.0
+alpha                  allyesconfig    gcc-16.1.0
+arc                    allmodconfig    gcc-16.1.0
+arc                     allnoconfig    gcc-16.1.0
+arc                    allyesconfig    gcc-16.1.0
+arm                     allnoconfig    clang-23
+arm                     allnoconfig    gcc-16.1.0
+arm                    allyesconfig    gcc-16.1.0
+arm64                  allmodconfig    clang-23
+arm64                   allnoconfig    gcc-16.1.0
+csky                   allmodconfig    gcc-16.1.0
+csky                    allnoconfig    gcc-16.1.0
+hexagon                allmodconfig    clang-23
+hexagon                 allnoconfig    clang-23
+hexagon                 allnoconfig    gcc-16.1.0
+i386                   allmodconfig    gcc-14
+i386                    allnoconfig    gcc-14
+i386                    allnoconfig    gcc-16.1.0
+i386                   allyesconfig    gcc-14
+loongarch              allmodconfig    clang-19
+loongarch               allnoconfig    clang-20
+loongarch               allnoconfig    gcc-16.1.0
+loongarch   randconfig-001-20260609    clang-23
+loongarch   randconfig-002-20260609    clang-23
+m68k                   allmodconfig    gcc-16.1.0
+m68k                    allnoconfig    gcc-16.1.0
+m68k                   allyesconfig    gcc-16.1.0
+microblaze              allnoconfig    gcc-16.1.0
+microblaze             allyesconfig    gcc-16.1.0
+mips                   allmodconfig    gcc-16.1.0
+mips                    allnoconfig    gcc-16.1.0
+mips                   allyesconfig    gcc-16.1.0
+nios2                  allmodconfig    clang-20
+nios2                   allnoconfig    gcc-11.5.0
+openrisc               allmodconfig    clang-20
+openrisc               allmodconfig    gcc-16.1.0
+openrisc                allnoconfig    gcc-16.1.0
+parisc                 allmodconfig    gcc-16.1.0
+parisc                  allnoconfig    gcc-16.1.0
+parisc                 allyesconfig    gcc-16.1.0
+powerpc                allmodconfig    gcc-16.1.0
+powerpc                 allnoconfig    gcc-16.1.0
+riscv                  allmodconfig    clang-23
+riscv                   allnoconfig    gcc-16.1.0
+riscv                  allyesconfig    clang-23
+s390                   allmodconfig    clang-23
+s390                    allnoconfig    clang-23
+s390                   allyesconfig    gcc-16.1.0
+sh                     allmodconfig    gcc-16.1.0
+sh                      allnoconfig    gcc-16.1.0
+sh                     allyesconfig    gcc-16.1.0
+sparc                   allnoconfig    gcc-16.1.0
+sparc64                allmodconfig    clang-20
+um                     allmodconfig    clang-23
+um                      allnoconfig    clang-16
+um                     allyesconfig    gcc-14
+x86_64                 allmodconfig    clang-22
+x86_64                  allnoconfig    clang-22
+x86_64                 allyesconfig    clang-22
+x86_64                rhel-9.4-rust    clang-22
+xtensa                  allnoconfig    gcc-16.1.0
+xtensa                 allyesconfig    clang-20
 
-Gr{oetje,eeting}s,
-
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
