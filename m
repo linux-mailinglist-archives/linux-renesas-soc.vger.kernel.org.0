@@ -1,230 +1,153 @@
-Return-Path: <linux-renesas-soc+bounces-33848-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-33849-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id bJMtCpvqKWpQfgMAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-33848-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 Jun 2026 00:52:11 +0200
+	id r4zIMPDvKWprfwMAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-33849-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 Jun 2026 01:14:56 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7833666D433
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 Jun 2026 00:52:10 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id A6D8166D54D
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 Jun 2026 01:14:55 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=renesas.com header.s=selector1 header.b=TI4cJg94;
-	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-33848-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-33848-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=renesas.com;
-	arc=reject ("cv is fail on i=2")
+	dkim=pass header.d=ideasonboard.com header.s=mail header.b=YIUzjsVU;
+	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-33849-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 104.64.211.4 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-33849-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=ideasonboard.com;
+	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 4B216304D77C
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Jun 2026 22:52:09 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 91D2F3003BEE
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Jun 2026 23:14:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9FA5033CE8A;
-	Wed, 10 Jun 2026 22:52:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CF27E36D9EA;
+	Wed, 10 Jun 2026 23:14:50 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from OS0P286CU011.outbound.protection.outlook.com (mail-japanwestazon11010044.outbound.protection.outlook.com [52.101.228.44])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E37A40D592;
-	Wed, 10 Jun 2026 22:52:06 +0000 (UTC)
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781131928; cv=fail; b=BT2Q/38kiQrpZMXlIkbpAD9vgdCfCxztVL303PvmYBKM3Qw8YCvgwcnBMpw3ZYGJCYlRwh0vcmfeNz6P9h2huCB93c4gk5jX+i/fGqTGCm3ByU9XFOgqlq/QFMWKvrl+9Yf+1M7eE6s/p1GR7u6fEcAS3BbSVoMTGye4ViDqHII=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781131928; c=relaxed/simple;
-	bh=EewOueFGZQNPrPeGCObRkLrna1R6nsSGODhNxVtzhEA=;
-	h=Message-ID:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
-	 Date:MIME-Version; b=fSQb8UBVS34etGcw4nINXzuOtpHp8t2inm/wx/O7nEF4yrBQJa+YXCAi3KA+PNQP+XVZed1uWTGhYp2zY1hBgVYou1PEH1DamDcV7WhWjdxx0c7rDt8DXhqfiba3hmeGfEchDLnP+XnV/z67DhxLn+wkK9Frl5s+g5HeVUMABQ0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=TI4cJg94; arc=fail smtp.client-ip=52.101.228.44
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=fPR7WCbAxAUJ2JoI+dYjZiYqeaqgy08tDx6Lp7ZrH9lo334HjkVt8MgTVEKvwgMr41hObHqBK3K8VQO1sHyqwXrFAOhEV8kn3yOFtfz8RN91OuHb62NBYU90t7FYdLA0CEbvgiXQvg5Elr+AvAtbyRhW2szWpOEJD4D0cpEsSgvaicNwM2a2OSHt7E/iaZYeFDjEDi7/7V0blkYKogbUiwK0lJ+AlTXQM3gzZGieWb9jP5bU5kxeEG+WIWI2uuH8EgNBqH4iqKtrtL8dykc/WI/qszSQlJfa2QPvKj02kDx9+BQq+9Wx2sQ1zjwk3Zdlr+GSHiR5OtHiyBaAbHg3KQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=EDEMDDaqdj9pQ3OwoIuKc6Cse0pp48jNinFz3VV87wk=;
- b=rffDBnCrKEaD2BW3YeSx3rcg2+iRC0VBgvl0R37Xc+NwiNG4I6w5Shth3Xr2OAlhKjj6EGWu9S8EDSM7ZLS7k2nJaezYxbKScC8XVkoWL4UmwBYiEOR1WB67GlTsy7kZCg8ajYF9OJz9vmQfvFklog7N5Tn5wVvgQL1Tc1eFRi1xi6ZOVDIwV9KMpreMRmfPmFHFT1X8MPM8LTVLWLiSDQjqenZdVIy1u2yZ6yjvGaDkNwVDV52hM4xa0RigCfYbsSxiuQIxonlU2wsxlnSE44/pMEjGzLIqQqgKShfp+w42cEnMcamClQ/FnG1lyvoO8KmvdxbhywBAQHmXj5R5sw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=EDEMDDaqdj9pQ3OwoIuKc6Cse0pp48jNinFz3VV87wk=;
- b=TI4cJg94jTDYIh1MZDsyp1qma+DlncJPqL7GwUlbcWjYMazH3eTrIpD4AZhdrRaN6d21XhRy7QC+OoRD0kVmUPSU9PGdM4xHfBZwpkbxXvFUlck9dtL/Ci/hcTYB1KsMv5sUt7oa97M3olZEKAXLg+hCQouMpLfYlQ3JFrSILco=
-Received: from OSRPR01MB11811.jpnprd01.prod.outlook.com (2603:1096:604:235::9)
- by TY3PR01MB10942.jpnprd01.prod.outlook.com (2603:1096:400:3af::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.113.11; Wed, 10 Jun
- 2026 22:52:00 +0000
-Received: from OSRPR01MB11811.jpnprd01.prod.outlook.com
- ([fe80::a2c7:5e53:c133:d834]) by OSRPR01MB11811.jpnprd01.prod.outlook.com
- ([fe80::a2c7:5e53:c133:d834%3]) with mapi id 15.21.0113.011; Wed, 10 Jun 2026
- 22:51:58 +0000
-Message-ID: <87ldcmovp0.wl-kuninori.morimoto.gx@renesas.com>
-From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-To: John Madieu <john.madieu.xa@bp.renesas.com>
-Cc: lgirdwood@gmail.com,
-	broonie@kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com,
-	geert+renesas@glider.be,
-	magnus.damm@gmail.com,
-	linux-sound@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	john.madieu@gmail.com,
-	biju.das.jz@bp.renesas.com
-Subject: Re: [PATCH] ASoC: rsnd: adg: make rsnd_adg_clk_control() idempotent
-In-Reply-To: <20260610164704.2211321-1-john.madieu.xa@bp.renesas.com>
-References: <20260610164704.2211321-1-john.madieu.xa@bp.renesas.com>
-User-Agent: Wanderlust/2.15.9 Emacs/30.2 Mule/6.0
-Content-Type: text/plain; charset=US-ASCII
-Date: Wed, 10 Jun 2026 22:51:58 +0000
-X-ClientProxiedBy: TY4P286CA0114.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:405:37c::12) To OSRPR01MB11811.jpnprd01.prod.outlook.com
- (2603:1096:604:235::9)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 355441898FB;
+	Wed, 10 Jun 2026 23:14:49 +0000 (UTC)
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781133290; cv=none; b=kiij+yjPcavrTxnuz3K4Ieg/+F1vT2m7X1PGFOR4ZNgpSXQ+f/xjAop0uGrbDKOla9wr4vc0qg1XHnmrWdgUbvEnsfGmq/+wz8Fs0iw5DPLldbqGe8zYzBdEsVIY99ct/Bf0RsR+fc1wxWAB6T1hZSav6rkn+7bQBp8sNwHt/gQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781133290; c=relaxed/simple;
+	bh=qvRqUmsXGAiDCeG0M6um26A7WMTRPlrJmdZSfx/38rI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=X3ATjONNqOa3h7JUvl0xBz1/HzgCJ3+Uo49oFPf4ADph4aVuEq8T9aRby0izc1zdittZwk/6tGs6VD1yIcu2T+Uoz3/gJghvxYhh3e+cWz4aQgW16DgFOxZRD6BBpU/6mXH/1db4nnHV/kLHM8B/Dj33uVLYrVyCnMpftFJKAiU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=YIUzjsVU; arc=none smtp.client-ip=213.167.242.64
+Received: from killaraus.ideasonboard.com (2001-14ba-70f3-e800--a06.rev.dnainternet.fi [IPv6:2001:14ba:70f3:e800::a06])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 93A08228;
+	Thu, 11 Jun 2026 01:14:16 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1781133256;
+	bh=qvRqUmsXGAiDCeG0M6um26A7WMTRPlrJmdZSfx/38rI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=YIUzjsVUuTVsjBeaRQ6UDNmE5wjkRu6wotAeDPvLcf9dWwxUUSMN+myIgbzqcvMl8
+	 oJnsm1svgDU+7UZA8+B7pdMOAYynWGxIapk/LGljVBjRiPEy05zoNTWq46CnBemi2C
+	 GI+9s/SuBYtBiY1an0IDnFO37McHMckXzRSOWqfU=
+Date: Thu, 11 Jun 2026 02:14:44 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Andrzej Hajda <andrzej.hajda@intel.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Marek Vasut <marek.vasut+renesas@mailbox.org>,
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
+	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	devicetree@vger.kernel.org
+Subject: Re: [PATCH v3 1/7] clk: renesas: r8a779g0: Add DSC clock
+Message-ID: <20260610231444.GB1632628@killaraus.ideasonboard.com>
+References: <20260515-rcar-du-dsc-v3-0-164157820498@ideasonboard.com>
+ <20260515-rcar-du-dsc-v3-1-164157820498@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: OSRPR01MB11811:EE_|TY3PR01MB10942:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4ffdf00e-750c-463b-ad26-08dec742e085
-X-LD-Processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|23010399003|7416014|52116014|376014|366016|1800799024|56012099006|11063799006|22082099003|18002099003|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	rxwA68vwqUNP4fw2gdlev6zX3w9kFU1I+iG7OkUUQiMokYip64wqgNQtZjxeV5QHGPKXAEayYQkEg4K3FKGmGnu/vBO+PMqEXHV+hHcTMOf0mdAsMRTE6vGvTKckY4a5p0GIJbYsB+wIY9rPeu/z+4hcuiRpsgsN5JN8Wx26qxjsu6A1L1G0oKP2Czi1JAUSrzogk/G78gLccxkX7QF9FQ0FaIqqVddwcfb2cqNtZMrdM3LNK1ZxDkj9IpqTn+kriFE7VLh/yZK98eTUEiiYlUuxY2hzPvvMnbp4+cnsJUsf+Gg9kei4MFvAAu/XK584q7XZPtvlYJywsDcfBmx7ykWjd85/UUai8Osv++GHV5R3t+zA42umA5ef6qpPkcexFl6izXrDU3QbagzwpFQz421oz1XuEwXihL4BfiWcTeW6eAse9eKROhEN9r0bKp86Q6nWDpc9rP2jS4AvS9z38iad0RcLSNieTvDeJIAMf+kO2f4sjGsJoUGuDUgA8xiY2mo6g6P28VdIw58WD0w9d7SOVaxiy2etrN45bnxUifxj/sjYE2uCeZXG5DDdRRzv7IAPIreVG8rTU/6R6Wo+8Z8xl8W3ZoG+4hqA+zUbhKDHhQ2xB5XAieVrcEdEw2q5e8iTeERinWfYrQP0qGML2QkRt27XMw57037OpVZDP3FP4WoTa4VswUGj+Il2y6Blg/efmPjnFZq9SyWbv1Vz3tUveuSbI0xd2zBl+ru/kp9mNDlpqfZsgmCMjuWbNqV1
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OSRPR01MB11811.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(7416014)(52116014)(376014)(366016)(1800799024)(56012099006)(11063799006)(22082099003)(18002099003)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?w1p5PfIDnd0N/jaEvQHn4F5J7zgTclld7EjZV66h9pvW9cPBarrLQw24/jqa?=
- =?us-ascii?Q?RYioPeuFgoMJdL6pis29zuEumxBzF2AKq2wzZ6r0slso03uPl2/ObcR19xpB?=
- =?us-ascii?Q?L5HtpQg+oW93NiXwhpmDIAGqBHaRawOT+tvc3iAIsLLpg5p5lfUljB7KrUNr?=
- =?us-ascii?Q?RYU6C66ARzOAlbt7gP8/9lYMaQ23L6/wMpnhi3c/ZW843DA6eqN2FL5qj/+/?=
- =?us-ascii?Q?oexRKfLltSSYEejZZg+gXLxH7ohJoWeFtnbtj6y8u3KzS9DYVCcy8LVR3XRj?=
- =?us-ascii?Q?i/S3Zsd/NR5lwCPINSrm/ViCFRUjUMpasVYBKXNcPi9N0Q5yOfooO85qDbI1?=
- =?us-ascii?Q?PuS4W5i0D3qz56Zv+ttALzjxivRZihVysjCpzlKPfncyaVetwDA/ezMU058y?=
- =?us-ascii?Q?6kbhCzqQzSs387+1zpzHrsROpNT8Dg0DIgtxxUj8YzmfU3qlWetUH9UEAR9u?=
- =?us-ascii?Q?odcZCTyOzNoj0KydpiImvUGdDB9dZ4zEcTbJy7Ol6yjnaEet2qEHsoIUIFl7?=
- =?us-ascii?Q?5Dt3uSkPO8BFOnS9sbbZLIHYKPp2BHQc2S60xj9o+dsqWOUN0Na5CZXe62lM?=
- =?us-ascii?Q?AwY8hcKwj/zjM2N+oYjuTSGaI37E12eCYyaDWnMMPXgwJgon28g9AeCI+XQd?=
- =?us-ascii?Q?2bNr3CF6sq4ZFYa8t7Q4XGYeQ033SL6qI7rSybbaN3tXLbIJF8Vj3gZE+Qnf?=
- =?us-ascii?Q?OvggFWahcobvxCg/wU4WnQl4qcZVHf+Nv8C/AFwOEABpt2OFsNgWHMFVS1G1?=
- =?us-ascii?Q?0iHJouA8yVaOhOzUwXI2mtMM2IZIgUD3/obOnhQrLO6F8OtiX/Vsh8NT3sZT?=
- =?us-ascii?Q?9GEm/eBwXzsp1VGPmp01BC/jFbwwAxUtrCq0BpqNmcFQRQHMjPTR8yyqgfqU?=
- =?us-ascii?Q?S/AMevLdw8l/IKjf5kb4pPV/Mz6DpmgqrjKTO1tRHXXCrC9Q6wDLCdSc81Qm?=
- =?us-ascii?Q?3Kkl+vua/MHSWJqJnb9dzNcTj2jIWloHAbULAb+WlgVPHkIufZ9vzf3VCoSY?=
- =?us-ascii?Q?XjCBfwUz0qZ1qbHWeNlMPgV+yT6vLszzSXP61gaPOsnfp9jypcHNXn4YJkoF?=
- =?us-ascii?Q?HNeW4HeDH23bnTjiFINz6mifvlysWZLUX9Mlz+/TTCiTlX3ps6A7qNW8wpag?=
- =?us-ascii?Q?2qHBuX4Wt6qHoLfwq38EoBZE7WNycRTZM4DqQwpOCcV5I6wP9qtuApJgBWRK?=
- =?us-ascii?Q?DCcXadUelG5oAlSGL6bHres2rE2/XwZuS8m4G8wPxNF9vUHm+zdv5KyjYoWr?=
- =?us-ascii?Q?fkcfh04OfO3IpKWXsT3iiQcfHOV//gFM0BhkyZ/cSGtVls6zSCTW4ULo+57M?=
- =?us-ascii?Q?oWLuPtniBEogsauAfe3sHSVsDTFkDZYVyygcXGzBjhZHCItAyoscrBHx4oRK?=
- =?us-ascii?Q?NNtnknubjV1MiZWuz4chJMxYzTiF4BIVkwMxn4zMkrkZOkZcugcrA2aHjN2c?=
- =?us-ascii?Q?tEOFVTjzQCLVYp5zXSiD548XGTgKfmhF0KBWcLqlN3Zhx79ftPa0+VPgIbat?=
- =?us-ascii?Q?sLod6WWxjr+lHAdSBsFuTqq1+8Xbv/csMfr4rtt30h+sW0BQyTiOrhGl72kk?=
- =?us-ascii?Q?yndft4kSU1LhLhXIqLut1a271Qjb8RBvqLeSGJrnP40n/fVn+OdJvhxsSjKZ?=
- =?us-ascii?Q?iR/quXu6W9h0qIQ2om+t2HH9jI4Bf7mbTqRoQM+1iOZ9C0WY7MJ+c7M4GJwg?=
- =?us-ascii?Q?BReAaNpvdLsnMXBYNk18pLTriY/XJHzNMqegkKzVRokt4BxOBnAjXVFmWvLm?=
- =?us-ascii?Q?seMzhuNDxmr1jW2+QAaGsflDkFAw3X+0dimNtBet6NMf2lCLlW7r?=
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4ffdf00e-750c-463b-ad26-08dec742e085
-X-MS-Exchange-CrossTenant-AuthSource: OSRPR01MB11811.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Jun 2026 22:51:58.3315
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: TbbH8o84b4Yh3QeMjZizbSlVnB0+JhdphiGC/GuWi2nRs7sLyBcH40AaXn8t1vHC6BGFx6qSzUwD2TPgk/XpNItX9wtbXwyUu+rz46MjV0Dr8shMADe+DczF5s7iJ5N3
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY3PR01MB10942
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260515-rcar-du-dsc-v3-1-164157820498@ideasonboard.com>
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [2.34 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	MID_CONTAINS_FROM(1.00)[];
-	ARC_REJECT(1.00)[cv is fail on i=2];
-	DMARC_POLICY_ALLOW(-0.50)[renesas.com,none];
-	R_DKIM_ALLOW(-0.20)[renesas.com:s=selector1];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
+	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_TWELVE(0.00)[12];
-	TAGGED_FROM(0.00)[bounces-33848-lists,linux-renesas-soc=lfdr.de];
-	FORGED_SENDER(0.00)[kuninori.morimoto.gx@renesas.com,linux-renesas-soc@vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-33849-lists,linux-renesas-soc=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	FREEMAIL_CC(0.00)[glider.be,baylibre.com,kernel.org,intel.com,linaro.org,kwiboo.se,gmail.com,linux.intel.com,suse.de,ffwll.ch,mailbox.org,ideasonboard.com,pengutronix.de,vger.kernel.org,lists.freedesktop.org];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_RECIPIENTS(0.00)[m:tomi.valkeinen+renesas@ideasonboard.com,m:geert+renesas@glider.be,m:mturquette@baylibre.com,m:sboyd@kernel.org,m:andrzej.hajda@intel.com,m:neil.armstrong@linaro.org,m:rfoss@kernel.org,m:jonas@kwiboo.se,m:jernej.skrabec@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:magnus.damm@gmail.com,m:marek.vasut+renesas@mailbox.org,m:kieran.bingham+renesas@ideasonboard.com,m:p.zabel@pengutronix.de,m:linux-renesas-soc@vger.kernel.org,m:linux-clk@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:dri-devel@lists.freedesktop.org,m:devicetree@vger.kernel.org,m:tomi.valkeinen@ideasonboard.com,m:geert@glider.be,m:jernejskrabec@gmail.com,m:krzk@kernel.org,m:conor@kernel.org,m:magnusdamm@gmail.com,m:marek.vasut@mailbox.org,m:kieran.bingham@ideasonboard.com,s:lists@lfdr.de];
 	FORWARDED(0.00)[lists@lfdr.de];
-	FORGED_RECIPIENTS(0.00)[m:john.madieu.xa@bp.renesas.com,m:lgirdwood@gmail.com,m:broonie@kernel.org,m:perex@perex.cz,m:tiwai@suse.com,m:geert+renesas@glider.be,m:magnus.damm@gmail.com,m:linux-sound@vger.kernel.org,m:linux-renesas-soc@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:john.madieu@gmail.com,m:biju.das.jz@bp.renesas.com,m:geert@glider.be,m:magnusdamm@gmail.com,m:johnmadieu@gmail.com,s:lists@lfdr.de];
-	FREEMAIL_CC(0.00)[gmail.com,kernel.org,perex.cz,suse.com,glider.be,vger.kernel.org,bp.renesas.com];
+	FORGED_SENDER(0.00)[laurent.pinchart@ideasonboard.com,linux-renesas-soc@vger.kernel.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[renesas.com:+];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[kuninori.morimoto.gx@renesas.com,linux-renesas-soc@vger.kernel.org];
-	TO_DN_SOME(0.00)[];
-	ALIAS_RESOLVED(0.00)[];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
+	FORGED_SENDER_FORWARDING(0.00)[];
+	ALIAS_RESOLVED(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[laurent.pinchart@ideasonboard.com,linux-renesas-soc@vger.kernel.org];
+	DKIM_TRACE(0.00)[ideasonboard.com:+];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[26];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,dt];
+	MISSING_XM_UA(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	TO_DN_SOME(0.00)[]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 7833666D433
+X-Rspamd-Queue-Id: A6D8166D54D
 
+On Fri, May 15, 2026 at 12:09:26PM +0300, Tomi Valkeinen wrote:
+> From: Marek Vasut <marek.vasut+renesas@mailbox.org>
+> 
+> Add the DSC module clock for Renesas R-Car V4H (R8A779G0) SoC.
+> 
+> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 
-Hi John
+Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 
-> rsnd_adg_clk_control() is asymmetric on the disable path: the clkin
-> clocks are guarded by clkin_rate[], but the "adg" clock is disabled
-> unconditionally. If an enable attempt fails (for example a clkin
-> failing to turn on during resume), the error path correctly rolls
-> everything back, but rsnd_resume() ignores the return value, so the
-> following system suspend calls rsnd_adg_clk_disable() again and
-> underflows the "adg" clock enable count:
-> 
->   adg_0_clks1 already disabled
->   WARNING: drivers/clk/clk.c:1188 clk_core_disable+0xa4/0xac
->   Call trace:
->    clk_core_disable+0xa4/0xac (P)
->    clk_disable+0x30/0x4c
->    rsnd_adg_clk_control+0x9c/0x2cc
->    rsnd_suspend+0x20/0x74
->    device_suspend+0x140/0x3ec
->    dpm_suspend+0x168/0x270
-> 
-> Track the enable state explicitly and bail out of redundant
-> enable/disable calls, mirroring what is already done for the per-SSI
-> clock prepare state. A failed enable leaves the state as disabled, so
-> the next suspend becomes a no-op and the next resume retries cleanly.
-> 
-> Fixes: 47899d53f86f ("ASoC: rsnd: adg: Add per-SSI ADG and SSIF supply clock management")
-> Signed-off-by: John Madieu <john.madieu.xa@bp.renesas.com>
 > ---
->  sound/soc/renesas/rcar/adg.c | 29 ++++++++++++++++++++++++++++-
->  1 file changed, 28 insertions(+), 1 deletion(-)
+>  drivers/clk/renesas/r8a779g0-cpg-mssr.c | 1 +
+>  1 file changed, 1 insertion(+)
 > 
-> diff --git a/sound/soc/renesas/rcar/adg.c b/sound/soc/renesas/rcar/adg.c
-> index 5479cefb6dbe..53efd1be5139 100644
-> --- a/sound/soc/renesas/rcar/adg.c
-> +++ b/sound/soc/renesas/rcar/adg.c
-> @@ -45,6 +45,7 @@ struct rsnd_adg {
->  	struct rsnd_mod mod;
->  	int clkin_rate[CLKINMAX];
->  	bool ssi_clk_prepared;
-> +	bool clk_enabled;
+> diff --git a/drivers/clk/renesas/r8a779g0-cpg-mssr.c b/drivers/clk/renesas/r8a779g0-cpg-mssr.c
+> index 015b9773cc55..54ba76ff5ab0 100644
+> --- a/drivers/clk/renesas/r8a779g0-cpg-mssr.c
+> +++ b/drivers/clk/renesas/r8a779g0-cpg-mssr.c
+> @@ -245,6 +245,7 @@ static const struct mssr_mod_clk r8a779g0_mod_clks[] __initconst = {
+>  	DEF_MOD("fcpvx0",	1100,	R8A779G0_CLK_S0D1_VIO),
+>  	DEF_MOD("fcpvx1",	1101,	R8A779G0_CLK_S0D1_VIO),
+>  	DEF_MOD("tsn",		2723,	R8A779G0_CLK_S0D4_HSC),
+> +	DEF_MOD("dsc",		2819,	R8A779G0_CLK_VIOBUSD2),
+>  	DEF_MOD("ssiu",		2926,	R8A779G0_CLK_S0D6_PER),
+>  	DEF_MOD("ssi",		2927,	R8A779G0_CLK_S0D6_PER),
+>  };
+> 
 
-Can we use clk_is_enabled_when_prepared() instead ?
+-- 
+Regards,
 
-Thank you for your help !!
-
-Best regards
----
-Kuninori Morimoto
+Laurent Pinchart
 
