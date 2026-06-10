@@ -1,204 +1,129 @@
-Return-Path: <linux-renesas-soc+bounces-33840-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-33842-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id Q7I8EY+WKWrIaAMAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-33840-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Jun 2026 18:53:35 +0200
+	id DBWpJA3GKWpedAMAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-33842-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Jun 2026 22:16:13 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BE9B66BB54
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Jun 2026 18:53:34 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id EF1AC66CB96
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Jun 2026 22:16:12 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=ideasonboard.com header.s=mail header.b=bQRz6czt;
-	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-33840-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-33840-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=ideasonboard.com;
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=IdpK5zYk;
+	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-33842-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-33842-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=quarantine) header.from=kernel.org;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 8D4553294CBF
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Jun 2026 16:47:59 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 03EED303C7D1
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Jun 2026 20:16:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 60049329C60;
-	Wed, 10 Jun 2026 16:47:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 11F40478E52;
+	Wed, 10 Jun 2026 20:16:10 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E844D2E8B98;
-	Wed, 10 Jun 2026 16:47:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12EE65B1EB;
+	Wed, 10 Jun 2026 20:16:08 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781110076; cv=none; b=IQpM+z8a3D/w3TyWXj49Klw/1qXaDc8zi/fvUMgXjaLve/5usGGHMu0M/0JJQUXIlIWqCl9+PGnHqKza9Lg9O/ca64r1h286D1Ivj68CifWTmWHZGwlcELj8CgS+pyYLsKS5nUTmmdlvCHm+YIFd0oqxfmQo0fL0ESZ/Lc8BrVE=
+	t=1781122570; cv=none; b=Ms6gU5Yqel27OyFtUvdHrHINGBFmDZuQqePK0nRlaKjlYXLdq+rypeyFUu41qYEgw0ojdLV1oV6nabWWX38QqfR1srg2g/c1diT4Fd4xYeDy7NgjizI3MqVjwQFmd+Wv+5sVojRqtQhua4EegipV1TigmF5xUXoyLQoC5HygyDg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781110076; c=relaxed/simple;
-	bh=EPK3tsDP7MJ85z55tYMLTgK/U07/7rpBkB7b1Uy60oI=;
+	s=arc-20240116; t=1781122570; c=relaxed/simple;
+	bh=1n3bZS8I/VceVU3Bld5daiuU36dh1kTtX7dWM0RSfUI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bfaUvIvWP+P0Chu0fLClYWrRsvMQ4XZCFVSO+BJ/rbF8W837O9zJTpkq//z4mJ519TP5ymvxyvAGwpF18Ync279MDZXeQKc+O45006vLIR52CIYAl8JfGIoS9LKOpidXVraS/QV3P8Ont8SEDPaRySOx42NDwy1vu+kbLZNarjs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=bQRz6czt; arc=none smtp.client-ip=213.167.242.64
-Received: from ideasonboard.com (93-46-82-201.ip106.fastwebnet.it [93.46.82.201])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9FCDF517;
-	Wed, 10 Jun 2026 18:47:23 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1781110043;
-	bh=EPK3tsDP7MJ85z55tYMLTgK/U07/7rpBkB7b1Uy60oI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=bQRz6czt7COtbmKpgmfTE9daRxZwo1O3MtqNw5rc8cfNDcok/0yKa6dnYieTZgS1c
-	 p7X7kp9J2+LDNIB21IK913LRvgVtrS+qbrAHSbmOG6q29LItA8K2OyytjJa302ErQc
-	 88/Nz4AgyUcu5GF4AwwT+1RasYC7M3pOC4JB/dBo=
-Date: Wed, 10 Jun 2026 18:47:49 +0200
-From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To: Ricardo Ribalda <ribalda@chromium.org>
-Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
-	Dave Stevenson <dave.stevenson@raspberrypi.com>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Xiaolei Wang <xiaolei.wang@windriver.com>, 
-	Tarang Raval <tarang.raval@siliconsignals.io>, Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
-	Daniel Scally <dan.scally@ideasonboard.com>, Hans Verkuil <hverkuil+cisco@kernel.org>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, 
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 2/3] media: rzg2l-cru: Remove unused kerneldoc description
-Message-ID: <aimU6RyDK8gEjkeQ@zed>
-References: <20260610-media-ci-7-2-v1-0-3c61a482a44e@chromium.org>
- <20260610-media-ci-7-2-v1-2-3c61a482a44e@chromium.org>
- <aimQ3ln0y0jxMWT3@zed>
- <CANiDSCs=90QH5V8RHFbZUvZMGEN4wz-D9ODHTWgdvyJ7ZS8haA@mail.gmail.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=bPQ7ZIlLkswen9MV01kPGnelwKia8uFNxbEnWkvyYqsZM6/a4dX8sUxIDYnoU5/xuepeDh2NVSV2pr5XRGPhq5nWUE77v6mTRKyHxq5viAGKSAE0QIbl1TCQTqCE1s8yvLvqYqxOqz3rvDLXDSXxEG/LHrykfBpOKtP0IuIBWZk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IdpK5zYk; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 740131F00893;
+	Wed, 10 Jun 2026 20:16:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1781122568;
+	bh=so9DqOpbIr30UHFoCxEBiHg7QsGE3smYdeJydKVvvS0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=IdpK5zYkk+IyW2kCCxwDA2A7EX4v2QYUOHaHhMdBiJ4pekOBqmTg/4B3pXiwr/1vS
+	 V8QWIWSGADQmVCQIdFtMX1UyyKSgO3fqSGngcIecwIg+AQW66HLzhRoaVMBkfiBciR
+	 lBdL+7Tsp6VuhA4r3uxV5N8+qKdXdchKPMKCDvxFnO9LxIR7/pfAFg3ackZUy9q2Mc
+	 x6XUyaU9HjRZaemwOfp52LXeh3s6vsa8bdDyPeO7CiE3ZAkhvNRLMFjIHwIn9f4X5R
+	 WgHqTjsrDFI6WJHosOQZ+vnuZbHtKnwcf7BMu25Dr8++mmtRXCm1HE3j5EM3hke5ly
+	 qrWs3fkqcRjSg==
+Date: Wed, 10 Jun 2026 15:16:07 -0500
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>,
+	Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Thomas Gleixner <tglx@kernel.org>, linux-kernel@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org
+Subject: Re: [PATCH v2] dt-bindings: interrupt-controller:
+ renesas,r9a09g077-icu: Fix reg size in example
+Message-ID: <178112255975.731343.7950819042460717467.robh@kernel.org>
+References: <364ff570c8a1845fab24bd89557f06c9e406f8de.1781105007.git.geert+renesas@glider.be>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CANiDSCs=90QH5V8RHFbZUvZMGEN4wz-D9ODHTWgdvyJ7ZS8haA@mail.gmail.com>
+In-Reply-To: <364ff570c8a1845fab24bd89557f06c9e406f8de.1781105007.git.geert+renesas@glider.be>
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.16 / 15.00];
+X-Spamd-Result: default: False [-2.66 / 15.00];
+	WHITELIST_SPF_DKIM(-3.00)[kernel.org:d:+,kernel.org:s:+];
 	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	FREEMAIL_CC(0.00)[oss.qualcomm.com,renesas.com,kernel.org,gmail.com,vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-33842-lists,linux-renesas-soc=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-33840-lists,linux-renesas-soc=lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_RECIPIENTS(0.00)[m:ribalda@chromium.org,m:jacopo.mondi@ideasonboard.com,m:dave.stevenson@raspberrypi.com,m:sakari.ailus@linux.intel.com,m:mchehab@kernel.org,m:xiaolei.wang@windriver.com,m:tarang.raval@siliconsignals.io,m:prabhakar.mahadev-lad.rj@bp.renesas.com,m:dan.scally@ideasonboard.com,m:hverkuil+cisco@kernel.org,m:laurent.pinchart@ideasonboard.com,m:mchehab+huawei@kernel.org,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:jacopo.mondi+renesas@ideasonboard.com,m:linux-renesas-soc@vger.kernel.org,m:hverkuil@kernel.org,s:lists@lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[16];
-	FORGED_SENDER(0.00)[jacopo.mondi@ideasonboard.com,linux-renesas-soc@vger.kernel.org];
+	FORGED_RECIPIENTS(0.00)[m:geert+renesas@glider.be,m:krzysztof.kozlowski@oss.qualcomm.com,m:cosmin-gabriel.tanislav.xa@renesas.com,m:conor+dt@kernel.org,m:magnus.damm@gmail.com,m:krzk+dt@kernel.org,m:tglx@kernel.org,m:linux-kernel@vger.kernel.org,m:linux-renesas-soc@vger.kernel.org,m:devicetree@vger.kernel.org,m:geert@glider.be,m:conor@kernel.org,m:magnusdamm@gmail.com,m:krzk@kernel.org,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[robh@kernel.org,linux-renesas-soc@vger.kernel.org];
 	MIME_TRACE(0.00)[0:+];
+	RCVD_COUNT_THREE(0.00)[4];
 	FORWARDED(0.00)[lists@lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[jacopo.mondi@ideasonboard.com,linux-renesas-soc@vger.kernel.org];
-	DKIM_TRACE(0.00)[ideasonboard.com:+];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,cisco,huawei,renesas];
+	FROM_NEQ_ENVFROM(0.00)[robh@kernel.org,linux-renesas-soc@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	RCPT_COUNT_SEVEN(0.00)[10];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,dt];
 	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[zed:mid,ideasonboard.com:dkim,ideasonboard.com:email,ideasonboard.com:from_mime,vger.kernel.org:from_smtp,chromium.org:email,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:email,vger.kernel.org:from_smtp,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 9BE9B66BB54
+X-Rspamd-Queue-Id: EF1AC66CB96
 
-On Wed, Jun 10, 2026 at 06:35:36PM +0200, Ricardo Ribalda wrote:
-> Hi Jacopo
->
-> On Wed, 10 Jun 2026 at 18:30, Jacopo Mondi
-> <jacopo.mondi@ideasonboard.com> wrote:
-> >
-> > Hi Ricardo
-> >
-> > On Wed, Jun 10, 2026 at 04:20:07PM +0000, Ricardo Ribalda wrote:
-> > > The variable has been previously removed but not its kerneldoc.
-> > >
-> > > Also remove the leftover reference to state in the description of qlock.
-> > >
-> > > This patch fixes the following warning:
-> > >
-> > > Warning: drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h:164
-> > > Excess struct member 'state' description in 'rzg2l_cru_dev'
-> >
-> > upsie
-> >
-> > indeed!
-> >
-> > >
-> > > Fixes: 85d8820d4869 ("media: rzg2l-cru: Remove the 'state' variable")
-> >
-> > My only question is if this qualifies for stable or not...
-> > Honestly, I would drop the Fixes tag here
->
-> Yeah, I am not even sure myself
->
-> On one hand, it might help other CIs down there have cleaner logs, it
-> is very low risk, and I doubt that it will have any conflicts.
-> On the other, what real user will benefit from this backport?
->
-> I wrote in the cover that this can be dropped. I'd let more clever
-> people decide :P
->
 
-From Documentation/process/stable-kernel-rules.rst:
+On Wed, 10 Jun 2026 17:24:45 +0200, Geert Uytterhoeven wrote:
+> According to Figure 5.1 ("Unified memory map"), the safety register
+> block is 64 KiB large, just like the non-safety register block.
+> 
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+> ---
+> v2:
+>   - Drop Fixes tag,
+>   - Add Acked-by.
+> ---
+>  .../bindings/interrupt-controller/renesas,r9a09g077-icu.yaml    | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
 
-- It must either fix a real bug that bothers people or just add a device ID.
-  To elaborate on the former:
+Applied, thanks!
 
-  - It fixes a problem like an oops, a hang, data corruption, a real security
-    issue, a hardware quirk, a build error (but not for things marked
-    CONFIG_BROKEN), or some "oh, that's not good" issue.
-  - Serious issues as reported by a user of a distribution kernel may also
-    be considered if they fix a notable performance or interactivity issue.
-    As these fixes are not as obvious and have a higher risk of a subtle
-    regression they should only be submitted by a distribution kernel
-    maintainer and include an addendum linking to a bugzilla entry if it
-    exists and additional information on the user-visible impact.
-  - No "This could be a problem..." type of things like a "theoretical race
-    condition", unless an explanation of how the bug can be exploited is also
-    provided.
-  - No "trivial" fixes without benefit for users (spelling changes, whitespace
-    cleanups, etc).
-
-Are Documentation warnings considered "build errors" ?
-
-> >
-> > > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> >
-> > Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-> >
-> > > ---
-> > >  drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h | 2 --
-> > >  1 file changed, 2 deletions(-)
-> > >
-> > > diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h
-> > > index 5bf334e173d2..b426bc7898bf 100644
-> > > --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h
-> > > +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h
-> > > @@ -116,11 +116,9 @@ struct rzg2l_cru_info {
-> > >   * @scratch_phys:    physical address of the scratch buffer
-> > >   *
-> > >   * @qlock:           protects @queue_buf, @buf_list, @sequence
-> > > - *                   @state
-> > >   * @queue_buf:               Keeps track of buffers given to HW slot
-> > >   * @buf_list:                list of queued buffers
-> > >   * @sequence:                V4L2 buffers sequence number
-> > > - * @state:           keeps track of operation state
-> > >   *
-> > >   * @format:          active V4L2 pixel format
-> > >   */
-> > >
-> > > --
-> > > 2.54.0.1099.g489fc7bff1-goog
-> > >
->
->
->
-> --
-> Ricardo Ribalda
 
