@@ -1,68 +1,71 @@
-Return-Path: <linux-renesas-soc+bounces-33857-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-33859-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id 9yFFBKsIKmp/hgMAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-33857-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 Jun 2026 03:00:27 +0200
+	id rTibObYIKmqJhgMAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-33859-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 Jun 2026 03:00:38 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B45966D931
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 Jun 2026 03:00:26 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D76E66D949
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 Jun 2026 03:00:38 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=PjjQcqlN;
-	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=tyGggic0;
-	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-33857-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-33857-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=d3nxPABZ;
+	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b="A/gn0upq";
+	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-33859-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 2600:3c09:e001:a7::12fc:5321 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-33859-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=reject) header.from=mailbox.org;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 68A2E3019118
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 Jun 2026 01:00:25 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id B1D983010BD4
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 Jun 2026 01:00:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AAA6D17A2E8;
-	Thu, 11 Jun 2026 01:00:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3903F1C5F13;
+	Thu, 11 Jun 2026 01:00:35 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
+Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E16E2CCB9;
-	Thu, 11 Jun 2026 01:00:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 868231552FD;
+	Thu, 11 Jun 2026 01:00:33 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781139623; cv=none; b=kAYcj+9LhrcPblF4myDKj9CoyOY+2SUuvOiivJMdjmRJG55ZmpR3IlXOAqePmhXuhO2R8uRuY0aNbXnmKkrEm3zGvFIMDarmHC6DNByKQg0Z1dXTqe7hYZQUo1IVmpkgnj7MoLvVDlgUEUgN5VcJWlBHLqtyUXBKu+A9M+rQOdM=
+	t=1781139635; cv=none; b=NGLwBG8sQA9r36T5c6DJHqbOIX0pPjcOzphZ7glV60ITXb8qvwkmUZzxuVLMFm+7K04GUnmk0zLw/amhQP/dQcpaOkjRU8l+gvF7UXw1+AkFa042v+lgC0I28y6uEBxq0w5v4KDQfBDwSofo98DpiLmmFyovjK5QT3BFuhzomZc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781139623; c=relaxed/simple;
-	bh=ZnUwz3H4dXTqAYOyymU5Ir6/n+3SLqhJSc/8+xIbBtI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=BBJYuRFpqZ6eS+pgdp7s36lft6GM0sc2t2yQ9UD7fj3PIJLT23aZGxRWcd2z/94HZ+0BbDFGHGHfvGvBEtweKC7OSZKSy+k2Wm5+DGdflZ4GKdXcYxNduzvv8uTzog8d2WxsXVD7mjz6vur9Q7OJ/YtFMLOJmwFaeQbMdEgS6KI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=PjjQcqlN; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=tyGggic0; arc=none smtp.client-ip=80.241.56.152
+	s=arc-20240116; t=1781139635; c=relaxed/simple;
+	bh=7sl3DgJjEULgeWOBJXoYH622WuCnl3XArZmTjkCyPzI=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=HTfwF9+b6JgkARNrGMfZwreEROI9PmiMsAFVBGa43SpXK+jyyV4SJmUgzdgm5iZV3b+QgXRsS5Xnan6YfX1sy2veyRYUgMra5c2XDE/Rs5+KggG13ZUph9Mv0q6jUUEFE0i5UQAO5XqGwNeLqNg5NQuVnnWcf/h3TkjyF6jwbFc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=d3nxPABZ; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=A/gn0upq; arc=none smtp.client-ip=80.241.56.161
 Received: from smtp1.mailbox.org (smtp1.mailbox.org [IPv6:2001:67c:2050:b231:465::1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4gbPSz00VRz9vNd;
-	Thu, 11 Jun 2026 03:00:19 +0200 (CEST)
+	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4gbPT55M6yz9tm6;
+	Thu, 11 Jun 2026 03:00:25 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1781139619;
+	t=1781139625;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=1aX965CQukLCI1Qo1GktUQYfgY2SwoR7uedgK0lphqw=;
-	b=PjjQcqlNBL/NM4aa4Qnqov9PNKb2hAYKOq4vrwCrkzrdIOag4K9EbMKxNGlsZBFMfbx7z6
-	2mHxFK79hhBp0Uo1N7VTsUhPt+Pb4qiX2PkMg6MSD/cZB09ATS/KBv/A1Lex47hoBU2L+R
-	Du8m5/43WdPJgR55HWn/1/ogCOfaCkwD13gWBZ5vdVCkkuqSwA06I2Z2/9DvtCL1dPaBp1
-	LfqKCXoU/0CoRWYWBBBgVC3tjO1sKrrmVZDPl2yz2t4rClViVFFoL2Uc8dyYPJ/JKWQrhm
-	FZ3AtiGqoCtn4cU3XxHSaA29geHSqO+P7qIYgm96C5GvvFqFVMMYkaHu/uvD7Q==
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=sDqPGUp99kdvfGBqZPF1+5zVeTXmq1wN95svWlPadWw=;
+	b=d3nxPABZk6Q4MbTPemZVWnitupGqEfgw1OgIoIGc/lOM7bDSnPXaJ/WC71xlz3MgShRv1+
+	NKWy5JJZS09CJ0ZLxybYyEWM3Fc3RHnhR3ww4MOKvEdFccvDjMugu2ngfZ3gORnwGq0dhZ
+	REKqdlvt3u3fzH44R6RAOn01c/MO/MoZNOPj2yplx2UN4NO4+kdOWKbHADhh1hisnaOPmw
+	252gJeJhd9ZKz0AyxG5zwVJ4WsaV6epGpcxbvR5izGHblDxQOXXBT6ZhkLFQGkbJ49zCIp
+	MBUAHVkI7q/ho7EOCdkq9NCmTd3UlJbhsNwTKqjQ1elE+KBuzIvtqxNSVojh9A==
 From: Marek Vasut <marek.vasut+renesas@mailbox.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1781139617;
+	t=1781139623;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=1aX965CQukLCI1Qo1GktUQYfgY2SwoR7uedgK0lphqw=;
-	b=tyGggic0YnscO44Vj+ppbuM0zhnC3fz5NVGdsymk0TSpHVL710q93YGYBYTY3/EChkKwLi
-	0QlGu+g5tatVuoP0TyJv5ajScj+6S8yjyUvQhjDkFVBoby/dLFrSYlO+EEkEdHGoUt4YCR
-	/cebDBWASBXS7OjC+TwmVmD4dSiqw19AQttRxlbvYnTYxTlGlr2An4PzHH4yG31rE4THmW
-	CULd0db219ZCwmOeN3YIQDPVIEMEO7LXulsVnAIGvttV5UdSC61hBbo67TOvhZTsRrGatN
-	CKyW963cn8dAzemPkxcPBlu2mRubR978XFLvwAav5qZyBeBsIX+7AmpUyoI9lg==
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=sDqPGUp99kdvfGBqZPF1+5zVeTXmq1wN95svWlPadWw=;
+	b=A/gn0upq51JOgG9eNWbtPQ7uz9t0XVLyw1wKHC6pu8sKUpHoVGWMK0XhwophrBNiu/BKGF
+	VaZ+6F5l4GDqfnERFUOoZ3fpqgTZ3+/rB4ef8f4zHPB3CCEw26lFExRMOvgCCnkR8amr9c
+	H9LFvbvpw2g6GeJjwM5RPb9ou99VIPTMVTgu0InqBGQQP323oS3C0o28CeeTZajS8nT7Ct
+	s9MQswa5GEqqVgc/yX0N1x4DhTpjuCD5D45VIVY6EqxAVdBYs3HNxgCo9RhdlaptTGWyAc
+	MhutJIDhdrSdiIhp5nbuMWckUA6oQNBuSFeaMctCXV9P+RP1CgDxJmHb52bCSA==
 To: linux-arm-kernel@lists.infradead.org
 Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
 	Conor Dooley <conor+dt@kernel.org>,
@@ -81,9 +84,11 @@ Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
 	devicetree@vger.kernel.org,
 	dri-devel@lists.freedesktop.org,
 	linux-renesas-soc@vger.kernel.org
-Subject: [PATCH 1/3] arm64: dts: renesas: r8a77965-salvator-x: Enable GPU support
-Date: Thu, 11 Jun 2026 02:57:29 +0200
-Message-ID: <20260611005952.146825-1-marek.vasut+renesas@mailbox.org>
+Subject: [PATCH 2/3] arm64: dts: renesas: r8a77965-salvator-xs: Enable GPU support
+Date: Thu, 11 Jun 2026 02:57:30 +0200
+Message-ID: <20260611005952.146825-2-marek.vasut+renesas@mailbox.org>
+In-Reply-To: <20260611005952.146825-1-marek.vasut+renesas@mailbox.org>
+References: <20260611005952.146825-1-marek.vasut+renesas@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -92,19 +97,19 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-MBO-RS-META: 5umjyam7fxaw386rcihnthbewtayxad7
-X-MBO-RS-ID: 07aa668f81783f80a0d
+X-MBO-RS-ID: 55d97cd60b23676f93c
+X-MBO-RS-META: hqm5t4yprqfwp5pufsmmuaitd6durq7a
 X-Rspamd-Action: no action
 X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[mailbox.org,reject];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
 	R_DKIM_ALLOW(-0.20)[mailbox.org:s=mail20150812];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-33857-lists,linux-renesas-soc=lfdr.de,renesas];
+	TAGGED_FROM(0.00)[bounces-33859-lists,linux-renesas-soc=lfdr.de,renesas];
 	RCVD_TLS_LAST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
 	FREEMAIL_CC(0.00)[mailbox.org,kernel.org,gmail.com,imgtec.com,glider.be,linux.intel.com,ragnatech.se,ffwll.ch,suse.de,vger.kernel.org,lists.freedesktop.org];
@@ -125,12 +130,12 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,dt];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
 	TO_DN_SOME(0.00)[]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 6B45966D931
+X-Rspamd-Queue-Id: 6D76E66D949
 
-Enable GPU on Salvator-X with R-Car M3-N.
+Enable GPU on Salvator-X 2nd version with R-Car M3-N.
 
 Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
 ---
@@ -151,13 +156,13 @@ Cc: devicetree@vger.kernel.org
 Cc: dri-devel@lists.freedesktop.org
 Cc: linux-renesas-soc@vger.kernel.org
 ---
- arch/arm64/boot/dts/renesas/r8a77965-salvator-x.dts | 4 ++++
+ arch/arm64/boot/dts/renesas/r8a77965-salvator-xs.dts | 4 ++++
  1 file changed, 4 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/renesas/r8a77965-salvator-x.dts b/arch/arm64/boot/dts/renesas/r8a77965-salvator-x.dts
-index f84c64ed4df7b..af8cfdccd2103 100644
---- a/arch/arm64/boot/dts/renesas/r8a77965-salvator-x.dts
-+++ b/arch/arm64/boot/dts/renesas/r8a77965-salvator-x.dts
+diff --git a/arch/arm64/boot/dts/renesas/r8a77965-salvator-xs.dts b/arch/arm64/boot/dts/renesas/r8a77965-salvator-xs.dts
+index a1d3c8d531cfe..f0d9c0124f69c 100644
+--- a/arch/arm64/boot/dts/renesas/r8a77965-salvator-xs.dts
++++ b/arch/arm64/boot/dts/renesas/r8a77965-salvator-xs.dts
 @@ -30,3 +30,7 @@ &du {
  	clock-names = "du.0", "du.1", "du.3",
  		      "dclkin.0", "dclkin.1", "dclkin.3";
