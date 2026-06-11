@@ -1,41 +1,41 @@
-Return-Path: <linux-renesas-soc+bounces-33880-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-33881-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id V6NSBQCzKmqRvQMAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-33880-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 Jun 2026 15:07:12 +0200
+	id z1R6JHuyKmoJvQMAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-33881-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 Jun 2026 15:04:59 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F14F672317
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 Jun 2026 15:07:11 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 18FB4672288
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 Jun 2026 15:04:59 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
 	dkim=none;
 	dmarc=none;
-	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-33880-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-33880-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
+	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-33881-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 2600:3c09:e001:a7::12fc:5321 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-33881-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 694A730E2445
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 Jun 2026 13:03:35 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 311AB300F47B
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 Jun 2026 13:03:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 89ED5404BDF;
-	Thu, 11 Jun 2026 13:02:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2892E406824;
+	Thu, 11 Jun 2026 13:02:51 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CB8F403AEE;
-	Thu, 11 Jun 2026 13:02:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02C24405C57;
+	Thu, 11 Jun 2026 13:02:49 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781182967; cv=none; b=HqpBGTkMRHTWPRmiMwIelkPtvUAQu+yY8J4Rb16gnF1OWv4YX0TjYttvYTk/AtfeJ6lw8IS6/beylJNG4NH2rrtGW+ndt+/2UXb2ht0rRoz+svcVKd0Tj1iUxSLtw79UJAbcwu28nu+z5Rxs2DiEdoLTduJ+u+33EX40mgBweVs=
+	t=1781182970; cv=none; b=hwNd/Xhby3I5jSfiqOfceVVfSEc8otanfUoMRcbBbgXaL7Yn4Uv0oFyOeH3USyn9P5WiqlCyPNxv4xX4a5nc8ntoBF6LgKBITs8S9HRBmV7VLi0RmYDH4vaFfx7c6vWM0o3IdbspIgzJxyf+LsbaJrRVG89NFPOQ47Q+00UJxg0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781182967; c=relaxed/simple;
-	bh=BZYRUafz0PZfiuP8RjO86Iw2TkwMsiuvbgKc02CLGKE=;
+	s=arc-20240116; t=1781182970; c=relaxed/simple;
+	bh=qA7UuvWEc9wfI4VDg+VBSs9Ya4JVQdQQYm0544vMyrE=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=t836jEJ/j49hiTXMamZ+XsB06Msz6++Ei/aDlaxUwbvRTWcLrQeUZ5kcIZZNqdXIz+Gk2kVddyULKbmgdVC7VjMTjE7KEmtr+te5WwWRO9sZyWGBvyfjksYxboJeXhS58SuA4ovFwt1T4BJyHu6kPuqH4m88wdWgRm5xNSQ3ykg=
+	 MIME-Version; b=bPJyAF+7ly5qJEAkNFopZmvQZ0k4Ug5iuqmjTSINeogS17ZYIM5nC0mxHb5gDRGGj5DbXle/OZgu8j9C1qLYjVHY03BRaiR63FqmTVlrAgw6z43HdTRjsIYNjWs4KXratoO7de3bnoDiDnrHaaGPks8SZb1QqJHvySdz/XISY0U=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 40ADF1F00898;
-	Thu, 11 Jun 2026 13:02:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 344631F00893;
+	Thu, 11 Jun 2026 13:02:45 +0000 (UTC)
 From: Geert Uytterhoeven <geert+renesas@glider.be>
 To: Sudeep Holla <sudeep.holla@kernel.org>,
 	Cristian Marussi <cristian.marussi@arm.com>,
@@ -54,9 +54,9 @@ Cc: arm-scmi@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH/RFC 5/9] clk: scmi: Add scmi_clk_is_pm_clk()
-Date: Thu, 11 Jun 2026 15:02:09 +0200
-Message-ID: <af9666e8fb841606b42d865d42adcaf472099ce1.1781171705.git.geert+renesas@glider.be>
+Subject: [PATCH/RFC 6/9] dt-bindings: firmware: arm,scmi: Document arm,clock-domain
+Date: Thu, 11 Jun 2026 15:02:10 +0200
+Message-ID: <bb65a93531125757f3c4beb47cd7891a1a7492d9.1781171706.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1781171705.git.geert+renesas@glider.be>
 References: <cover.1781171705.git.geert+renesas@glider.be>
@@ -72,13 +72,13 @@ X-Spamd-Result: default: False [0.54 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
 	DMARC_NA(0.00)[glider.be];
-	TAGGED_FROM(0.00)[bounces-33880-lists,linux-renesas-soc=lfdr.de,renesas];
+	TAGGED_FROM(0.00)[bounces-33881-lists,linux-renesas-soc=lfdr.de,renesas];
 	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER(0.00)[geert@glider.be,linux-renesas-soc@vger.kernel.org];
 	RCPT_COUNT_TWELVE(0.00)[17];
@@ -87,7 +87,7 @@ X-Spamd-Result: default: False [0.54 / 15.00];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FORWARDED(0.00)[lists@lfdr.de];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
 	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
@@ -99,70 +99,41 @@ X-Spamd-Result: default: False [0.54 / 15.00];
 	R_DKIM_NA(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,glider.be:email,glider.be:mid,glider.be:from_mime,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo,glider.be:email,glider.be:mid,glider.be:from_mime,vger.kernel.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 6F14F672317
+X-Rspamd-Queue-Id: 18FB4672288
 
-Add a helper for querying if an SCMI clock can be used for
-power-management.
+Power management of on-SoC modules is typically handled through two
+methods: module power control and module clock gating.  The former is
+exposed as an SCMI power domain, the latter as an SCMI clock.
+
+Document the new arm,clock-domain property, to link the SCMI power domain
+provider to the clock domain provider that is responsible for module
+clock gating.
 
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
- drivers/clk/clk-scmi.c   |  9 +++++++++
- include/linux/clk/scmi.h | 17 +++++++++++++++++
- 2 files changed, 26 insertions(+)
- create mode 100644 include/linux/clk/scmi.h
+ Documentation/devicetree/bindings/firmware/arm,scmi.yaml | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/drivers/clk/clk-scmi.c b/drivers/clk/clk-scmi.c
-index 7c562559ad8bb47f..20e6da1859290b75 100644
---- a/drivers/clk/clk-scmi.c
-+++ b/drivers/clk/clk-scmi.c
-@@ -7,6 +7,7 @@
+diff --git a/Documentation/devicetree/bindings/firmware/arm,scmi.yaml b/Documentation/devicetree/bindings/firmware/arm,scmi.yaml
+index d06cca9273c483c0..18e4da3884c4c12e 100644
+--- a/Documentation/devicetree/bindings/firmware/arm,scmi.yaml
++++ b/Documentation/devicetree/bindings/firmware/arm,scmi.yaml
+@@ -174,6 +174,13 @@ properties:
+       '#power-domain-cells':
+         const: 1
  
- #include <linux/bits.h>
- #include <linux/clk-provider.h>
-+#include <linux/clk/scmi.h>
- #include <linux/device.h>
- #include <linux/err.h>
- #include <linux/of.h>
-@@ -364,6 +365,14 @@ scmi_clk_ops_select(struct scmi_clk *sclk, bool atomic_capable,
- 	return ops;
- }
++      arm,clock-domain:
++        $ref: /schemas/types.yaml#/definitions/phandle
++        description:
++          When PM domain consumer devices are also part of a clock domain, this
++          property should be a reference to the SCMI clock protocol node for
++          the power management clocks in the clock domain.
++
+     required:
+       - '#power-domain-cells'
  
-+bool scmi_clk_is_pm_clk(struct clk *clk)
-+{
-+	struct clk_hw *hw = __clk_get_hw(clk);
-+
-+	return hw && to_scmi_clk(hw)->info->pm_clk;
-+}
-+EXPORT_SYMBOL_GPL(scmi_clk_is_pm_clk);
-+
- static int scmi_clocks_probe(struct scmi_device *sdev)
- {
- 	int idx, count, err;
-diff --git a/include/linux/clk/scmi.h b/include/linux/clk/scmi.h
-new file mode 100644
-index 0000000000000000..12c338598d09296f
---- /dev/null
-+++ b/include/linux/clk/scmi.h
-@@ -0,0 +1,17 @@
-+/* SPDX-License-Identifier: GPL-2.0+
-+ */
-+
-+#ifndef __LINUX_CLK_SCMI_H_
-+#define __LINUX_CLK_SCMI_H_
-+
-+#include <linux/types.h>
-+
-+struct clk;
-+
-+#if IS_ENABLED(CONFIG_COMMON_CLK_SCMI)
-+bool scmi_clk_is_pm_clk(struct clk *clk);
-+#else
-+static inline bool scmi_clk_is_pm_clk(struct clk *clk) { return false; }
-+#endif
-+
-+#endif /* __LINUX_CLK_SCMI_H_ */
 -- 
 2.43.0
 
