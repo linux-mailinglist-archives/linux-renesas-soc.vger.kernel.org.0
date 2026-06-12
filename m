@@ -1,210 +1,207 @@
-Return-Path: <linux-renesas-soc+bounces-33945-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-33946-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id 7y+UOdU7LGp5OAQAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-33945-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Jun 2026 19:03:17 +0200
+	id PbemLQFHLGryOgQAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-33946-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Jun 2026 19:50:57 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B3FB67B2E0
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Jun 2026 19:03:17 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0264E67B72B
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Jun 2026 19:50:57 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=ideasonboard.com header.s=mail header.b=llm605R7;
-	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-33945-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-33945-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=ideasonboard.com;
+	dkim=pass header.d=gmail.com header.s=20251104 header.b=NO29Eynd;
+	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-33946-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-33946-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=gmail.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id BCAD2300E3E2
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Jun 2026 17:01:53 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id A4CF532F3D6C
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Jun 2026 17:49:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 19CA3403142;
-	Fri, 12 Jun 2026 17:01:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 85862358381;
+	Fri, 12 Jun 2026 17:49:58 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F53B3F1AAF;
-	Fri, 12 Jun 2026 17:01:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E36D03655F9
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 12 Jun 2026 17:49:56 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781283713; cv=none; b=XkrwBmW8G2v/EKV+vMFVn4YskLQhMNPatv96fsKg5TZUX0swFSs9KFZECfaq+TazZa74JTJ5ANPeMgyRXR+FCFYSEAA5wOooBAO5Fx+Ue6PgTI3D5VGTjHrtjriqzVH9Q2H6wgS4GvyNOxa6fCmfvK7U3JYVLbOGNsGFy5B7k5o=
+	t=1781286598; cv=none; b=XADs+ibveGWrUh71ET14jh/kyzKBR5adfOosoYq8tt1AQ1F4Wwr5vuQHBP6Fl8KGvvrh5gjPkVhvZ+d4a5wOaLleUcESL4+u1QRCrK9AdtyDECtiQtEmVjfsTJfbZEDaganUwZXrBcM0Fn7/1wky4g78TNvnGuoka5JCG51wU4U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781283713; c=relaxed/simple;
-	bh=KVbtAEEtprqp5yyIoAXBQcwpPK0XelSa5kEMMWYCbAI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nQ/EzgxMUhuLQBrw7mYKszxnBulazGoc77Z72ngipUyc1V+szNHVQuUhZvV9auBxvIEWzYud5/synh64OY9OzfVisZHuEwmxS9gbNZfY+zSmD1x/qA/w4NkG3vxz7qHX6rD80YNhn/iFQ90+H2khcDPvYPLtE/RYl0MJHFxJyLY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=llm605R7; arc=none smtp.client-ip=213.167.242.64
-Received: from killaraus.ideasonboard.com (2001-14ba-70f3-e800--a06.rev.dnainternet.fi [IPv6:2001:14ba:70f3:e800::a06])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6A615225;
-	Fri, 12 Jun 2026 19:01:17 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1781283677;
-	bh=KVbtAEEtprqp5yyIoAXBQcwpPK0XelSa5kEMMWYCbAI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=llm605R7ZrLc9err8IAkvdf4IzX4Spd6MKK7m6pw5EdHUOYoTigYq5B62jlv0yazg
-	 mbg/joeHg1oy1aTU96k+hDxZ+KHpvqentcezJiiytYRIT/SPXAZ6sC5Np6Zi7D7Han
-	 0pCNsBhLoieIxwIdVVc1UQ6I5cQalETck5BgagGw=
-Date: Fri, 12 Jun 2026 20:01:46 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Conor Dooley <conor@kernel.org>
-Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Andrzej Hajda <andrzej.hajda@intel.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Marek Vasut <marek.vasut+renesas@mailbox.org>,
-	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
-	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	devicetree@vger.kernel.org
-Subject: Re: [PATCH v2 2/5] dt-bindings: display: bridge: Document Renesas
- R-Car V4H DSC bindings
-Message-ID: <20260612170146.GA2094246@killaraus.ideasonboard.com>
-References: <20260515-rcar-du-dsc-v2-0-f6b9240a1240@ideasonboard.com>
- <20260515-rcar-du-dsc-v2-2-f6b9240a1240@ideasonboard.com>
- <20260515-fraying-trickle-7511a2eeaf44@spud>
- <81f89aa1-84d8-44e1-813b-2bbcafe3687e@ideasonboard.com>
- <20260612-landed-remedial-79582e900699@spud>
+	s=arc-20240116; t=1781286598; c=relaxed/simple;
+	bh=h115VTK6dungfQ4qIdCxA3kCKtoEZBfHb83D7Vo31gU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=gMyqML6Vb8F6YvxENOR3+YlLoiTWhZ9AlOtDfHFR7NeD9qRBXNZQpKZZHz71XwyzxyRgDcgnBgNF8TB63AwUq7ZbjSLDNod+nODM76hFvqk+3j/961IN2/iIhcADucEE8KCbq38VWxEOAKtJJfmc3R6dDbpSHOd0KsM0wmX7Ziw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NO29Eynd; arc=none smtp.client-ip=209.85.128.41
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-490bb83a3f6so10276785e9.0
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 12 Jun 2026 10:49:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1781286595; x=1781891395; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=C85wBIXdmOAkbGAX37TSwTaJxl8p7p/GigMbGhAuSmc=;
+        b=NO29EyndaZTP4L9bwqRYnxiwYwu3iC3bkQTJe8JVl/jCSqZDwSLYVhxRAxAAlsZnGq
+         z8ovA9kxiRPX3uNCAtCQQk/40+Vi6nSJYfNxnTHyn0BNUkMogapVhueSRGrJfmlWkluu
+         70Hv+BtE2YYQexNE03azSY4wCAmx8xs/khlZlG7yrX2zCOxYfp1PcbpXYhcH3pVxu8hE
+         1DBjU81toTHYhFse6lhVRyRKCjP4ZBwNZrmUtSNlAUItk9V8115ndCndbEM0uR8d0LFW
+         wom8KKabJYaS0GivkOV0K4ZgeDirCDMp4OqtqGEJSDg1kbnLQrYsMmpIhisaLIjwv5fU
+         hQRQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781286595; x=1781891395;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=C85wBIXdmOAkbGAX37TSwTaJxl8p7p/GigMbGhAuSmc=;
+        b=QOk0MnyDtOrWD5AAhalnJFJJhbtUi2O95eEvwKqZrNSiPxj9kTQ/oGsV+5ortMYh35
+         6q5zxWde9hEG+xfWFRS2DIEcohjUYaUh0ru1FGYCif01CVsv0DK3DhYRw6EgzTNeK0o7
+         +4gmG6qHrgthToarTrL/r0AxQ5KqFR+jN0vLPjI4jicYxUGyzWBDwVeQ3wn0yaj+F/Yl
+         ckRZZu6IMf/hoCbdKq6cbxIIkCgX+mP9In49+M8O+Mla1/U3XarhNeJ7apsJTOufsvPs
+         LcH5Z5r0BBJa1HD66J3yzqYaSSMOuHJTzJ1LqCyRS9hCxNxs1ADdCLDvGgdAjmwsU31M
+         AFrA==
+X-Forwarded-Encrypted: i=1; AFNElJ+bcSfF2ZJ5HAo61UQG3d3jHlZlwTfO3bPWi84PdBQVMslPqAjCeonA1R64XVxwbmVe+TdFGUl1XQ/QvLtco6IB2w==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzngiHdnsOupL0hMh5lPODYhDnHvqxbLF1A7oln2JwN9IhtZZiy
+	YAz0ZycwfwKdNqCUy/xSlUXBP4hiHpG/EuGltM9r44x/feqXpC7Tffvl
+X-Gm-Gg: Acq92OFk34Z+JyfqFABTBf2CgDscuNqndloRl6U2JtSgwKo32z2yh3/XKxc6d1DfWLd
+	72L3l/6x4BUTvpG26o3ZLyw5hxjx5rCm+ZGC3FCA6opasLOOLAPJ2Avkq9vFI6H3yBM1BFIzNis
+	8UpCTgP2BvCkILNVBZI3Zgl0pWxdwlmac4VSqGaP3d1GxT7MTk7KpX2f86DYIoVDM9MRcmqwZXQ
+	4LDbiZuV2m+SmOm+EAWhz+gpCBOVl0CB82lnYpLHj6GJ94L287ea6PDL4D3LdM8oJ76ZuxjARm/
+	P4LwX1U1BNoUu4GeNwexozhEcrFq7pqXtkseZJc05Lb8jF+5jOwHYIoInRahPRqmlrkZbZd5Fjj
+	qN1o/vBst7tECO3ZNuvjGKIKX81HAHOmEJ9Ji9l7/g8QYWzBfCQZMv0kI7+G9dLzy3Iodi/kS5u
+	ri+mM5K7duCphbBjK3l+HWflzjKPCQfvuoL6TGBEthfAhEPRYU/nd3qJtJoN8lv7lO2xHY5ZGgX
+	Gk=
+X-Received: by 2002:a05:600c:820c:b0:48e:5d91:cfe3 with SMTP id 5b1f17b1804b1-490ec4cd08fmr53203395e9.1.1781286595100;
+        Fri, 12 Jun 2026 10:49:55 -0700 (PDT)
+Received: from ?IPV6:2a00:1fa0:742:25a:e03e:6c9c:49d8:2fee? ([2a00:1fa0:742:25a:e03e:6c9c:49d8:2fee])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4606f26f3basm7395809f8f.12.2026.06.12.10.49.52
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 12 Jun 2026 10:49:54 -0700 (PDT)
+Message-ID: <31cb54ac-8cf7-45fe-9167-becc4cd2aea9@gmail.com>
+Date: Fri, 12 Jun 2026 20:49:51 +0300
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260612-landed-remedial-79582e900699@spud>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [net-next 3/9] net: ethernet: ravb: Simplify gPTP start and stop
+To: =?UTF-8?Q?Niklas_S=C3=B6derlund?=
+ <niklas.soderlund+renesas@ragnatech.se>, Paul Barker <paul@pbarker.dev>,
+ Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
+ <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Richard Cochran <richardcochran@gmail.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Magnus Damm <magnus.damm@gmail.com>, netdev@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20260610102432.3538432-1-niklas.soderlund+renesas@ragnatech.se>
+ <20260610102432.3538432-4-niklas.soderlund+renesas@ragnatech.se>
+Content-Language: en-US
+From: Sergey Shtylyov <sergei.shtylyov@gmail.com>
+In-Reply-To: <20260610102432.3538432-4-niklas.soderlund+renesas@ragnatech.se>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-Rspamd-Action: no action
 X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
-	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-33946-lists,linux-renesas-soc=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-33945-lists,linux-renesas-soc=lfdr.de];
-	FORGED_RECIPIENTS(0.00)[m:conor@kernel.org,m:tomi.valkeinen@ideasonboard.com,m:geert+renesas@glider.be,m:mturquette@baylibre.com,m:sboyd@kernel.org,m:andrzej.hajda@intel.com,m:neil.armstrong@linaro.org,m:rfoss@kernel.org,m:jonas@kwiboo.se,m:jernej.skrabec@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:magnus.damm@gmail.com,m:marek.vasut+renesas@mailbox.org,m:kieran.bingham+renesas@ideasonboard.com,m:p.zabel@pengutronix.de,m:linux-renesas-soc@vger.kernel.org,m:linux-clk@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:dri-devel@lists.freedesktop.org,m:devicetree@vger.kernel.org,m:geert@glider.be,m:jernejskrabec@gmail.com,m:krzk@kernel.org,m:magnusdamm@gmail.com,m:marek.vasut@mailbox.org,m:kieran.bingham@ideasonboard.com,s:lists@lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER(0.00)[laurent.pinchart@ideasonboard.com,linux-renesas-soc@vger.kernel.org];
-	RCPT_COUNT_TWELVE(0.00)[27];
-	FREEMAIL_CC(0.00)[ideasonboard.com,glider.be,baylibre.com,kernel.org,intel.com,linaro.org,kwiboo.se,gmail.com,linux.intel.com,suse.de,ffwll.ch,mailbox.org,pengutronix.de,vger.kernel.org,lists.freedesktop.org];
-	MIME_TRACE(0.00)[0:+];
+	FORGED_RECIPIENTS(0.00)[m:niklas.soderlund+renesas@ragnatech.se,m:paul@pbarker.dev,m:andrew+netdev@lunn.ch,m:davem@davemloft.net,m:edumazet@google.com,m:kuba@kernel.org,m:pabeni@redhat.com,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:richardcochran@gmail.com,m:geert+renesas@glider.be,m:magnus.damm@gmail.com,m:netdev@vger.kernel.org,m:linux-renesas-soc@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:niklas.soderlund@ragnatech.se,m:andrew@lunn.ch,m:krzk@kernel.org,m:conor@kernel.org,m:geert@glider.be,m:magnusdamm@gmail.com,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[sergeishtylyov@gmail.com,linux-renesas-soc@vger.kernel.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	FREEMAIL_TO(0.00)[ragnatech.se,pbarker.dev,lunn.ch,davemloft.net,google.com,kernel.org,redhat.com,gmail.com,glider.be,vger.kernel.org];
+	RCPT_COUNT_TWELVE(0.00)[17];
 	FORWARDED(0.00)[lists@lfdr.de];
+	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	ALIAS_RESOLVED(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[laurent.pinchart@ideasonboard.com,linux-renesas-soc@vger.kernel.org];
-	DKIM_TRACE(0.00)[ideasonboard.com:+];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[sergeishtylyov@gmail.com,linux-renesas-soc@vger.kernel.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	ALIAS_RESOLVED(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,dt];
-	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mailbox.org:email,vger.kernel.org:from_smtp,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,ideasonboard.com:dkim,ideasonboard.com:email,ideasonboard.com:from_mime,killaraus.ideasonboard.com:mid]
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,netdev,dt];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 5B3FB67B2E0
+X-Rspamd-Queue-Id: 0264E67B72B
 
-On Fri, Jun 12, 2026 at 05:09:48PM +0100, Conor Dooley wrote:
-> On Fri, Jun 12, 2026 at 01:43:44PM +0300, Tomi Valkeinen wrote:
-> > On 15/05/2026 20:32, Conor Dooley wrote:
-> > > On Fri, May 15, 2026 at 10:56:15AM +0300, Tomi Valkeinen wrote:
-> > > > From: Marek Vasut <marek.vasut+renesas@mailbox.org>
-> > > > 
-> > > > The Renesas DSC Display Stream Compression is a bridge embedded in the
-> > > > Renesas R-Car V4H SoC. The bridge performs VESA DSC encoding of up to
-> > > > 8k or 400 Mpixel/s .
-> > > > 
-> > > > Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
-> > > > [tomi.valkeinen: fix the example]
-> > > > Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-> > > > ---
-> > > >   .../bindings/display/bridge/renesas,dsc.yaml       | 96 ++++++++++++++++++++++
-> > > >   1 file changed, 96 insertions(+)
-> > > > 
-> > > > diff --git a/Documentation/devicetree/bindings/display/bridge/renesas,dsc.yaml b/Documentation/devicetree/bindings/display/bridge/renesas,dsc.yaml
-> > > > new file mode 100644
-> > > > index 000000000000..2918d592732b
-> > > > --- /dev/null
-> > > > +++ b/Documentation/devicetree/bindings/display/bridge/renesas,dsc.yaml
-> > > 
-> > > Filename matching the compatible please.
-> > 
-> > All the other Documentation/devicetree/bindings/display/bridge/renesas,*
-> > files follow the same style, where the file name is in a generic format, but
-> > the actual compat strings are per SoC (and no generic compat string).
+On 6/10/26 1:24 PM, Niklas Söderlund wrote:
+
+> For devices that do not support the gPTP clock in config mode the
+> somewhat oddly named flag gptp is set, compared to devices that do
+> support the gPTP clock in config and operation mode where the flag
+> ccc_gac is set instead. The two flags are mutually exclusive.
 > 
-> No idea why it's like that currently, but filename matching compatible
-> is the policy.
+> For the gptp-flag devices (Gen2) the clock is tied to the AVB-DMAC, when
+> it is stopped so is the gPTP clock. For ccc_gac-flag devices (Gen3) the
+> gPTP clock is available whenever the ndev is open.
+> 
+> Prepare to add Gen4 support which will add a third way by cleaning the
+> Gen2 and Gen3 cases up a bit.
+> 
+> Fold the gptp-flag start and stop calls into ravb_dmac_init() and
+> ravb_stop_dma(), which start and stops the AVB-DMAC. There are no
 
-I wonder if we should use
+   s/stops/stop/.
 
-  compatible:
-    items:
-      - enum:
-          - renesas,r8a779g0-dsc
-      - const: renesas,rcar-dsc
+> functional change as all call sites to the construct,
 
-to prepare for the other SoCs that include a DSC. It's of course hard to
-predict how compatible all new silicon will be, but we know there will
-be some compatible ones.
+   s/,/:/?
 
-This being said, looking for instance at renesas,du.yaml in the same
-directory, we have
+> 
+>     if (info->gptp)
+>         ravb_ptp_init(ndev, priv->pdev);
+> 
+> Are always just after a call to into ravb_dmac_init() and all call sites
 
-  compatible:
-    enum:
-      - renesas,du-r8a7742 # for RZ/G1H compatible DU
-      - renesas,du-r8a7743 # for RZ/G1M compatible DU
-      - renesas,du-r8a7744 # for RZ/G1N compatible DU
-      - renesas,du-r8a7745 # for RZ/G1E compatible DU
-      - renesas,du-r8a77470 # for RZ/G1C compatible DU
-      - renesas,du-r8a774a1 # for RZ/G2M compatible DU
-      - renesas,du-r8a774b1 # for RZ/G2N compatible DU
-      - renesas,du-r8a774c0 # for RZ/G2E compatible DU
-      - renesas,du-r8a774e1 # for RZ/G2H compatible DU
-      - renesas,du-r8a7779 # for R-Car H1 compatible DU
-      - renesas,du-r8a7790 # for R-Car H2 compatible DU
-      - renesas,du-r8a7791 # for R-Car M2-W compatible DU
-      - renesas,du-r8a7792 # for R-Car V2H compatible DU
-      - renesas,du-r8a7793 # for R-Car M2-N compatible DU
-      - renesas,du-r8a7794 # for R-Car E2 compatible DU
-      - renesas,du-r8a7795 # for R-Car H3 compatible DU
-      - renesas,du-r8a7796 # for R-Car M3-W compatible DU
-      - renesas,du-r8a77961 # for R-Car M3-W+ compatible DU
-      - renesas,du-r8a77965 # for R-Car M3-N compatible DU
-      - renesas,du-r8a77970 # for R-Car V3M compatible DU
-      - renesas,du-r8a77980 # for R-Car V3H compatible DU
-      - renesas,du-r8a77990 # for R-Car E3 compatible DU
-      - renesas,du-r8a77995 # for R-Car D3 compatible DU
-      - renesas,du-r8a779a0 # for R-Car V3U compatible DU
-      - renesas,du-r8a779g0 # for R-Car V4H compatible DU
-      - renesas,du-r8a779h0 # for R-Car V4M compatible DU
+   s/Are/are/.
 
-Could the file have been named renesas,du-r8a7790.yaml ? Sure. Would it
-be better for users than renesas,du.yaml ? I'm less sure.
+> to the to the construct,
 
--- 
-Regards,
+   "to the" repeated... And s/,/:/?
 
-Laurent Pinchart
+> 
+>     if (info->gptp)
+>         ravb_ptp_stop(ndev);
+> 
+> Are always directly followed by a call to ravb_stop_dma().
+
+   s/Are/are/.
+
+> 
+> There are two special cases where the calling construct covers both the
+> gptp-flag and info->ccc_gac devices, one for start and one for stop. The
+> condition that it is preceded by a call to ravb_dmac_init(), or followed
+> by a call to ravb_stop_dma() are however true for them too. Reworked the
+> two special cases to drop the check of info->gptp.
+> 
+> The end result is that the gPTP clock will be started or stopped for the
+> gptp-flag devices in tandem with the AVB-DMAC, while the info->ccc_gac
+> devices will be controlled, as before, when the ndev is opened or
+> closed.
+> 
+> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+[...]
+MBR, Sergey
+
 
