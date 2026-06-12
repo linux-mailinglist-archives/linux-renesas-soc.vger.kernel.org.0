@@ -1,256 +1,211 @@
-Return-Path: <linux-renesas-soc+bounces-33901-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-33902-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id 2TZ0ObyaK2roAAQAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-33901-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Jun 2026 07:35:56 +0200
+	id RFesCsa4K2oODAQAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-33902-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Jun 2026 09:44:06 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4842C676C7C
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Jun 2026 07:35:56 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 96DBC6775B9
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Jun 2026 09:44:05 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=intel.com header.s=Intel header.b=WBqI2uPT;
-	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-33901-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-33901-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=intel.com;
+	dkim=pass header.d=baylibre.com header.s=google header.b=jn4oyUUm;
+	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-33902-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 2600:3c09:e001:a7::12fc:5321 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-33902-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
+	dmarc=none;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id DE18C30B725F
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Jun 2026 05:35:37 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id DFCD53010BF5
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Jun 2026 07:44:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1C6B239478B;
-	Fri, 12 Jun 2026 05:35:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 097093DDDB2;
+	Fri, 12 Jun 2026 07:44:03 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 709D83939AE
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 12 Jun 2026 05:35:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDD3037CD52
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 12 Jun 2026 07:43:59 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781242537; cv=none; b=TR9yYAeUfPCAXfyDVedTJMx82QnWMPNWxwsEXEa4TsxZsR4F2zyqcznglt+h6QTdRLD/wV7iy92gqOd5Ix0W2xXxTj1CASktdcfdaMmhjOgqWP9Ceqz5qzwIHp3MSz0V5oGVM40nEp3ncuFAJy8+SLK6Fx+Qzsny4+PZj1ZSXAs=
+	t=1781250242; cv=none; b=M+/rfOyrUl49ayyhAz+EkugAh1gpdxQUWKDMTHS9x+RsCyFGVaqL1b3wPRvc8d57XbVggj7kI0ZHluR59ZxpxcEx5yOB4/MV/BeVmZ9WD9rrWdexyo4wUbxeH9ICMo0QcROUe9F+vtdW/MaJCe1Iz2yBHN686e/QSR2K1hkRxqg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781242537; c=relaxed/simple;
-	bh=aca66CjL3NMkyB5zcOqYIORxajYQpmaeI5PwZf2l17s=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=BT7DvcLDjYcD87GWbHze5DQrSdQF7XfFrncA4gSbXkHSlnDYzx7feQg/izfRqM9HbVxH/YjxeUm/vegi+M9GvEywcONrW3ZAqAiEBASeRWiVq5NCXi1DIbSnAFRGJWhIXmCrR0Fu+bfICbdTVcC6ncB6d5aSrNRj31HjI/kuf0I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WBqI2uPT; arc=none smtp.client-ip=198.175.65.15
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1781242535; x=1812778535;
-  h=date:from:to:cc:subject:message-id;
-  bh=aca66CjL3NMkyB5zcOqYIORxajYQpmaeI5PwZf2l17s=;
-  b=WBqI2uPT4aDG0SOdMBYoqcAWanhuiCNW813zTICnr8co4FoijM4f3pzH
-   aAiBnGVhM93BEIoOwFXHyHDhS0nnOzCaxTRcnBWsaE/gL++69luZVKFLo
-   l62oPm+odJZycoOOFTUAe1C14vPPFB9GpcXHciQsNWYiRRA22FP3UQvTl
-   U9SB6tbT8lDyIX150WkXe0vdV4iXlZwFcjz1yPdUNqfamKKouVt9ZSNAE
-   Q1qV18P2q697ytbhDu1pULUJomoVgvwvnNrdKFHOHtsFN9qKWufUMfkoo
-   Ni4CtJHNcOGhAkMwgIvKFFnJR9RY1KBsDytIivWJCRO2mQgLa9BOiD1QU
-   g==;
-X-CSE-ConnectionGUID: fMhAUkUoSuyJmbLPZ4+yEg==
-X-CSE-MsgGUID: Mq0gnJg+TZepjKJHE1bQSw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11813"; a="85699388"
-X-IronPort-AV: E=Sophos;i="6.24,200,1774335600"; 
-   d="scan'208";a="85699388"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2026 22:35:35 -0700
-X-CSE-ConnectionGUID: IYBwDBbTSqSsWhveGp6K8A==
-X-CSE-MsgGUID: PcH2ampnT3CpyVNch4Fp8w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,200,1774335600"; 
-   d="scan'208";a="242353750"
-Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 11 Jun 2026 22:35:33 -0700
-Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wXuYF-00000000OMv-1Ncp;
-	Fri, 12 Jun 2026 05:35:31 +0000
-Date: Fri, 12 Jun 2026 13:34:53 +0800
-From: kernel test robot <lkp@intel.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-drivers:topic/rcar-x5h-ironhide-pure-scmi-v1]
- BUILD SUCCESS e1b59958c61429f45dfa7d9387319ad462bece67
-Message-ID: <202606121344.MtaNDisw-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	s=arc-20240116; t=1781250242; c=relaxed/simple;
+	bh=xgLZ6ydEdxbm7XtxVmmjX5AJUpXge0zzzM7UHp0ej2Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JInEBvFNUp1OL+VOcVnYxrgmpWrcCuI7tsrLdaSfIYGy0VoQNWkDp1Rtv4ggH/xb+K07GALP5wkZXpRkXbcmjLHFQb2DSJdVMdd71WIk4jAPhmZyvYVV0G8u8yZNrAjkvkf4lI9Mk+xQMyBtehPL9K/GWDcJURd644C4NBzToW4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=jn4oyUUm; arc=none smtp.client-ip=209.85.128.42
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-490b613a17bso4908715e9.3
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 12 Jun 2026 00:43:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre.com; s=google; t=1781250238; x=1781855038; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=5Rxr3RDnrGDap9ET6pVXLfD4X7lIkVPiU/6HValFYlE=;
+        b=jn4oyUUmU8lFKGSp8oNixWQduVa9uqTC/hdb2bhX0boJZxKCDb0/eV+xtQZ4l6Nesf
+         W8cHOolrQsecZGM7VsEqIXPjkK1dfRymfFFz9625BqO0JQYOjWacLgz/vcLMPY1xsCpl
+         BfXdbTqtfZIEgCNoZhDnuBxd85tCgSPN9VC3KgkBxgZiDiDAIBOl6OuVQO4VxwnxPv3O
+         Dq4qaTd/LH90YPNQOfC6Vga52c2DiXF4TZk475KEWMu88PkhIWGukXXEH1F3r0FJbYeq
+         4QfEHB8gx/GA8C3rxokF4Or6OEb/LAhyU/uUn7NlId47MACyLYDcArYE/Szisgqxt5Y1
+         k65g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781250238; x=1781855038;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=5Rxr3RDnrGDap9ET6pVXLfD4X7lIkVPiU/6HValFYlE=;
+        b=YJ3k2piMg89tsofiCfndKuhfztosBMcx82Fb9Xa447sBkAidBs7g1fzUocFtPbA8gM
+         QCBlulSzn2lZLb+VVQeyXnZryVQcfYd7wflFrrB1dRmVxsMKtXWymRWFkUcz8i/FzBn3
+         4nUwA7+3GukGxlvud9SANvCjhY7bnmWgWQGMQnaqXZTCmY1lv/2N5Xqq2u4Ac8boL6so
+         Qye2xFfEFvqIhjaXjum7K6BCaYTzKX9oWencB84eljtTfhnjWuHPSLHUTJt9QSMZs1Fn
+         nSvEo4K9WsWT9uY5i5PmO2Zj1KojC82be7MQdwss2zJwqvWwoAYphzeDrtq/a9Rrz8cP
+         V0Vw==
+X-Forwarded-Encrypted: i=1; AFNElJ9ccNRhUeIkMzAlo6lwY/1+xHmsBMCUQpWHYddLtOO88CCK3BIPO3as4ZzOYm689Q29GsU0NtpYPwRseF6xPCHl1A==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzOgIrF4FbgPXDrXNSPoXoGhprh45obQ5KRgFoLKgCBjbOAX7KH
+	xEUV7dkIBk7rNvXhjaMZD3CkB9k2n0rxURRSfVxfu5/wbUy41LhCuFj0l8tRWtHjQ/rgUTXKMdb
+	eYApv
+X-Gm-Gg: Acq92OEVZSjagl309c8UvNRfB1WvInaalkHSChOCTLqzDvRZTy6DwfOX1Ai7hO+IeET
+	S/kjt2C0BNJWxf2Mfj3OX7O06KvS1sVM084Y3797271CH0Yxfh/4SLqs0GI53kbvFKW7dp8ern8
+	g2NmDnGSafJit5p7rFVXmBGaSqsC+Ekl8tgO61jcALAt9F13UyMJAkITGyk5KVV1kxMZaCAI2oF
+	sQmEak1FXPP+sZJL9uhO6bT0cSUcrWmTBUiCxoKSo+9iUbZwqAzwFJeyo5QfWngSup8y4oUBb4u
+	pCS0gaaDlfk8yYLGPtkzLemyqTYkqNcbfS2iMbvdbcPFNVh8DJvsaHYDuEUpiPCln3/64Ytq6XS
+	6XKu+P1WAP9/yBP10Goe3YCYsYFPXo2PxYCM8UUlzW18kC2DV+5IH2UVgJUE3qV0UKrAP+mVXWg
+	AHf6M34Lr/tSDIhtRBlNmHcZeFPIMfVLvWI6KMN9bk0ioImQ6ufIstsorbMejjrFNLA/oNTOpjc
+	x0oL2aYe80mRQ==
+X-Received: by 2002:a05:600c:820c:b0:48e:5d91:cfe3 with SMTP id 5b1f17b1804b1-490ec4cd08fmr20296955e9.1.1781250238091;
+        Fri, 12 Jun 2026 00:43:58 -0700 (PDT)
+Received: from localhost (p200300f65f47db040e4e5c1e98e7f0ff.dip0.t-ipconnect.de. [2003:f6:5f47:db04:e4e:5c1e:98e7:f0ff])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-490ea7c09bcsm44786175e9.2.2026.06.12.00.43.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 12 Jun 2026 00:43:57 -0700 (PDT)
+Date: Fri, 12 Jun 2026 09:43:56 +0200
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig_=28The_Capable_Hub=29?= <u.kleine-koenig@baylibre.com>
+To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>
+Cc: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 2/4] ASoC: renesas: fsi: Simplify driver_data handling
+Message-ID: <aiu4T1HgDW8xl2nC@monoceros>
+References: <cover.1779958164.git.u.kleine-koenig@baylibre.com>
+ <308c08c0fb309c190412f5ceb21b0027842b6294.1779958164.git.u.kleine-koenig@baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="33zssqxog3lq5pt6"
+Content-Disposition: inline
+In-Reply-To: <308c08c0fb309c190412f5ceb21b0027842b6294.1779958164.git.u.kleine-koenig@baylibre.com>
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-3.66 / 15.00];
-	WHITELIST_SPF_DKIM(-3.00)[intel.com:d:+,kernel.org:s:+];
-	MID_CONTAINS_FROM(1.00)[];
+X-Spamd-Result: default: False [-3.26 / 15.00];
+	SIGNED_PGP(-2.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[baylibre.com:s=google];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	MIME_GOOD(-0.20)[multipart/signed,text/plain];
 	MAILLIST(-0.15)[generic];
-	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-33901-lists,linux-renesas-soc=lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:geert+renesas@glider.be,m:linux-renesas-soc@vger.kernel.org,m:geert@glider.be,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[lkp@intel.com,linux-renesas-soc@vger.kernel.org];
-	FORWARDED(0.00)[lists@lfdr.de];
-	RCPT_COUNT_TWO(0.00)[2];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[lkp@intel.com,linux-renesas-soc@vger.kernel.org];
+	RECEIVED_HELO_LOCALHOST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:lgirdwood@gmail.com,m:broonie@kernel.org,m:kuninori.morimoto.gx@renesas.com,m:perex@perex.cz,m:tiwai@suse.com,m:linux-sound@vger.kernel.org,m:linux-renesas-soc@vger.kernel.org,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
+	DMARC_NA(0.00)[baylibre.com];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[intel.com:+];
-	RCVD_COUNT_FIVE(0.00)[6];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com,kernel.org];
+	MIME_TRACE(0.00)[0:+,1:+,2:~];
+	RCVD_TLS_LAST(0.00)[];
+	FORWARDED(0.00)[lists@lfdr.de];
+	FORGED_SENDER(0.00)[u.kleine-koenig@baylibre.com,linux-renesas-soc@vger.kernel.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-33902-lists,linux-renesas-soc=lfdr.de];
+	MISSING_XM_UA(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[u.kleine-koenig@baylibre.com,linux-renesas-soc@vger.kernel.org];
+	DKIM_TRACE(0.00)[baylibre.com:+];
 	ALIAS_RESOLVED(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:dkim,intel.com:mid,intel.com:from_mime,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,vger.kernel.org:from_smtp]
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	TAGGED_RCPT(0.00)[linux-renesas-soc];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo,baylibre.com:dkim,baylibre.com:email,baylibre.com:from_mime,vger.kernel.org:from_smtp,monoceros:mid]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 4842C676C7C
+X-Rspamd-Queue-Id: 96DBC6775B9
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git topic/rcar-x5h-ironhide-pure-scmi-v1
-branch HEAD: e1b59958c61429f45dfa7d9387319ad462bece67  arm64: dts: renesas: ironhide: Switch to pure SCMI
 
-elapsed time: 962m
+--33zssqxog3lq5pt6
+Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v1 2/4] ASoC: renesas: fsi: Simplify driver_data handling
+MIME-Version: 1.0
 
-configs tested: 125
-configs skipped: 3
+On Thu, May 28, 2026 at 11:06:01AM +0200, Uwe Kleine-K=F6nig (The Capable H=
+ub) wrote:
+> Instead of hiding the fsi_core struct for the only supported (non-of)
+> device behind an abstraction for multi-device support, hardcode the used
+> pointer which gets rid of (open-coded) platform_get_device_id() and two
+> casts.
+>=20
+> Signed-off-by: Uwe Kleine-K=F6nig (The Capable Hub) <u.kleine-koenig@bayl=
+ibre.com>
+> ---
+>  sound/soc/renesas/fsi.c | 8 +++-----
+>  1 file changed, 3 insertions(+), 5 deletions(-)
+>=20
+> diff --git a/sound/soc/renesas/fsi.c b/sound/soc/renesas/fsi.c
+> index 8cbd7acc26f4..efd1447eacb9 100644
+> --- a/sound/soc/renesas/fsi.c
+> +++ b/sound/soc/renesas/fsi.c
+> @@ -1905,8 +1905,8 @@ static const struct of_device_id fsi_of_match[] =3D=
+ {
+>  MODULE_DEVICE_TABLE(of, fsi_of_match);
+> =20
+>  static const struct platform_device_id fsi_id_table[] =3D {
+> -	{ "sh_fsi",	(kernel_ulong_t)&fsi1_core },
+> -	{},
+> +	{ .name =3D "sh_fsi" },
+> +	{ }
+>  };
+>  MODULE_DEVICE_TABLE(platform, fsi_id_table);
+> =20
+> @@ -1929,9 +1929,7 @@ static int fsi_probe(struct platform_device *pdev)
+>  		fsi_of_parse("fsia", np, &info.port_a, &pdev->dev);
+>  		fsi_of_parse("fsib", np, &info.port_b, &pdev->dev);
+>  	} else {
+> -		const struct platform_device_id	*id_entry =3D pdev->id_entry;
+> -		if (id_entry)
+> -			core =3D (struct fsi_core *)id_entry->driver_data;
+> +		core =3D &fsi1_core;
+> =20
+>  		if (pdev->dev.platform_data)
+>  			memcpy(&info, pdev->dev.platform_data, sizeof(info));
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+With commit 38d3273075d6 ("ASoC: renesas: fsi: remove platform data
+style support") this patch doesn't apply any more. I will wait till
+after the upcoming merge window and then respin this series. (But if you
+take the other patches until then, I won't be angry :-)
 
-tested configs:
-alpha                             allnoconfig    gcc-16.1.0
-alpha                            allyesconfig    gcc-16.1.0
-alpha                               defconfig    gcc-16.1.0
-arc                              allmodconfig    gcc-16.1.0
-arc                               allnoconfig    gcc-16.1.0
-arc                              allyesconfig    gcc-16.1.0
-arc                                 defconfig    gcc-16.1.0
-arc                   randconfig-001-20260612    gcc-13.4.0
-arc                   randconfig-002-20260612    gcc-15.2.0
-arm                               allnoconfig    clang-23
-arm                              allyesconfig    gcc-16.1.0
-arm                   randconfig-001-20260612    gcc-11.5.0
-arm                   randconfig-002-20260612    gcc-10.5.0
-arm                   randconfig-003-20260612    gcc-11.5.0
-arm                   randconfig-004-20260612    gcc-13.4.0
-arm64                            allmodconfig    clang-23
-arm64                             allnoconfig    gcc-16.1.0
-arm64                 randconfig-002-20260612    clang-23
-arm64                 randconfig-003-20260612    gcc-9.5.0
-arm64                 randconfig-004-20260612    gcc-11.5.0
-csky                             allmodconfig    gcc-16.1.0
-csky                              allnoconfig    gcc-16.1.0
-csky                  randconfig-001-20260612    gcc-11.5.0
-csky                  randconfig-002-20260612    gcc-13.4.0
-hexagon                          allmodconfig    clang-23
-hexagon                           allnoconfig    clang-23
-hexagon               randconfig-001-20260612    clang-23
-hexagon               randconfig-002-20260612    clang-23
-i386                             allmodconfig    gcc-14
-i386                              allnoconfig    gcc-14
-i386                             allyesconfig    gcc-14
-i386                  randconfig-011-20260612    clang-22
-i386                  randconfig-012-20260612    clang-22
-i386                  randconfig-013-20260612    clang-22
-i386                  randconfig-014-20260612    clang-22
-i386                  randconfig-015-20260612    gcc-14
-i386                  randconfig-016-20260612    gcc-14
-i386                  randconfig-017-20260612    clang-22
-loongarch                        allmodconfig    clang-19
-loongarch                         allnoconfig    clang-20
-loongarch                           defconfig    clang-23
-loongarch             randconfig-001-20260612    clang-23
-loongarch             randconfig-002-20260612    gcc-16.1.0
-m68k                             allmodconfig    gcc-16.1.0
-m68k                              allnoconfig    gcc-16.1.0
-m68k                             allyesconfig    gcc-16.1.0
-m68k                                defconfig    gcc-16.1.0
-microblaze                        allnoconfig    gcc-16.1.0
-microblaze                       allyesconfig    gcc-16.1.0
-microblaze                          defconfig    gcc-16.1.0
-mips                             allmodconfig    gcc-16.1.0
-mips                              allnoconfig    gcc-16.1.0
-mips                             allyesconfig    gcc-16.1.0
-nios2                            allmodconfig    gcc-11.5.0
-nios2                             allnoconfig    gcc-11.5.0
-nios2                               defconfig    gcc-11.5.0
-nios2                 randconfig-001-20260612    gcc-11.5.0
-nios2                 randconfig-002-20260612    gcc-11.5.0
-openrisc                         allmodconfig    gcc-16.1.0
-openrisc                          allnoconfig    gcc-16.1.0
-openrisc                            defconfig    gcc-16.1.0
-parisc                           allmodconfig    gcc-16.1.0
-parisc                            allnoconfig    gcc-16.1.0
-parisc                           allyesconfig    gcc-16.1.0
-parisc                              defconfig    gcc-16.1.0
-parisc                randconfig-001-20260612    gcc-12.5.0
-parisc                randconfig-002-20260612    gcc-14.3.0
-parisc64                            defconfig    gcc-16.1.0
-powerpc                          allmodconfig    gcc-16.1.0
-powerpc                           allnoconfig    gcc-16.1.0
-powerpc                   motionpro_defconfig    clang-23
-powerpc64             randconfig-001-20260612    gcc-8.5.0
-powerpc64             randconfig-002-20260612    gcc-11.5.0
-riscv                            allmodconfig    clang-23
-riscv                             allnoconfig    gcc-16.1.0
-riscv                            allyesconfig    clang-23
-riscv                               defconfig    clang-23
-riscv                          randconfig-001    gcc-13.4.0
-riscv                 randconfig-001-20260612    gcc-13.4.0
-riscv                          randconfig-002    clang-23
-riscv                 randconfig-002-20260612    clang-23
-s390                             allmodconfig    clang-23
-s390                              allnoconfig    clang-23
-s390                             allyesconfig    gcc-16.1.0
-s390                                defconfig    clang-18
-s390                           randconfig-001    gcc-15.2.0
-s390                  randconfig-001-20260612    clang-23
-s390                           randconfig-002    clang-18
-s390                  randconfig-002-20260612    gcc-8.5.0
-sh                               allmodconfig    gcc-16.1.0
-sh                                allnoconfig    gcc-16.1.0
-sh                               allyesconfig    gcc-16.1.0
-sh                                  defconfig    gcc-16.1.0
-sh                             randconfig-001    gcc-14.3.0
-sh                    randconfig-001-20260612    gcc-11.5.0
-sh                             randconfig-002    gcc-9.5.0
-sh                    randconfig-002-20260612    gcc-13.4.0
-sparc                             allnoconfig    gcc-16.1.0
-sparc                               defconfig    gcc-16.1.0
-sparc64                          allmodconfig    clang-20
-sparc64                             defconfig    clang-23
-um                               allmodconfig    clang-23
-um                                allnoconfig    clang-16
-um                               allyesconfig    gcc-14
-um                                  defconfig    clang-23
-um                             i386_defconfig    gcc-14
-um                           x86_64_defconfig    clang-23
-x86_64                           allmodconfig    clang-22
-x86_64                            allnoconfig    clang-22
-x86_64                           allyesconfig    clang-22
-x86_64      buildonly-randconfig-001-20260612    clang-22
-x86_64      buildonly-randconfig-002-20260612    gcc-14
-x86_64      buildonly-randconfig-003-20260612    clang-22
-x86_64      buildonly-randconfig-004-20260612    clang-22
-x86_64      buildonly-randconfig-005-20260612    clang-22
-x86_64      buildonly-randconfig-006-20260612    gcc-14
-x86_64                              defconfig    gcc-14
-x86_64                randconfig-071-20260612    gcc-14
-x86_64                randconfig-072-20260612    gcc-12
-x86_64                randconfig-073-20260612    clang-22
-x86_64                randconfig-074-20260612    clang-22
-x86_64                randconfig-075-20260612    clang-22
-x86_64                randconfig-076-20260612    clang-22
-x86_64                          rhel-9.4-rust    clang-22
-xtensa                            allnoconfig    gcc-16.1.0
+Best regards
+Uwe
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+--33zssqxog3lq5pt6
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmoruLkACgkQj4D7WH0S
+/k61EggAgll/pk23f8RfaCUiIfOyRHFxGAcldRRnRxxCMNzlPUzrpNxBfDyxg2y7
+DAMOlGiBXys0r4vCUHYvDH+ShS0qQifZV8oNXy3r/mRaRRP20Fw4xhopzGiQUYCQ
+aDsBs1NOQUaD0VraBA53JBkLQpL2I7osSlq62GgF9n1dkL0qIXgK1WNYaLc1QT5l
+oUzcBzyGVrldHnG5D8TMfZRAx206Kamj04Qki7zp6R7QG0IuiuIq4IMd2006FMES
+uBi/B7T1fctq8uLYMqkBwAbyy3mYsaWEpIfAYCi7GjJwpmPhnd6FiaQ24sWnRHvT
+sboWrBbS1d8HbAmFGsG+Ed4IB3xH3A==
+=3Yia
+-----END PGP SIGNATURE-----
+
+--33zssqxog3lq5pt6--
 
