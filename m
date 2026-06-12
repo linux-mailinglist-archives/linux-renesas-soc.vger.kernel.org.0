@@ -1,53 +1,56 @@
-Return-Path: <linux-renesas-soc+bounces-33941-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-33942-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id KgipGWYrLGrqMgQAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-33941-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Jun 2026 17:53:10 +0200
+	id kcY3Ck4wLGrzNAQAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-33942-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Jun 2026 18:14:06 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF73267AA17
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Jun 2026 17:53:09 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 03AF967AC5D
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Jun 2026 18:14:05 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=ideasonboard.com header.s=mail header.b=Z8S8P5jC;
-	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-33941-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-33941-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=ideasonboard.com;
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=H6k8mWy4;
+	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-33942-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 104.64.211.4 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-33942-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=quarantine) header.from=kernel.org;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 9FC113084333
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Jun 2026 15:53:08 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 1750D30074F1
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Jun 2026 16:10:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 47266390239;
-	Fri, 12 Jun 2026 15:53:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CBF10384CF6;
+	Fri, 12 Jun 2026 16:09:56 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BD7D346AD5;
-	Fri, 12 Jun 2026 15:53:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF01E322533;
+	Fri, 12 Jun 2026 16:09:55 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781279587; cv=none; b=kS+iK2EAYCWuu4g0YZRu9/Udb9RzTsQAOlnVSBUGF99rXlzTUojJ17N9oay/szMuR1DPUubKD4EtYmRGeHlVrDZ0a9FvMTERSt2jM7yGrfLRy3TXiEc4VeauGJzdkLCe3aeiusI2XgGVLkFXuU/piQoeHmSpYVi1x0AJfDcFnJ8=
+	t=1781280596; cv=none; b=QUcofu87RG9z1WHuJMj3jY4aZVh8mLeVVgAwH3XhJ8BReZxbzKFFyG7VCi9b6qkw5iob5XAvuYwRCi7xafQQiNO2hU+eegyX3VMo/i93qj5M3GidEtTrxvNxjH7lcGulLulvHHtUUQ50knHkLJyQ2rTt5SLOamAg0cId+JAkdXU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781279587; c=relaxed/simple;
-	bh=Xi4zr6K4kn0ZEMvzzLUuNwWw60sZlDm3SVBSJ/YtuQg=;
+	s=arc-20240116; t=1781280596; c=relaxed/simple;
+	bh=01l/O8R4HecZ8L0+V+LVdv+trjfBuwRmsZ2uxmVpcbI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Z4WPelPC+zaiw7v56z/s44mSJKgXKj5wA+9NXwfKLOgbeDMc9y4Prgty1eoA5rsIiF7FpjrR/dKj87Ph9ACLFUH4pMDArVibO0Hl1wFVbW1J2rq5CIBNPh8ty/zTkIfPzREGqVps4ci2r4I31Q+OnUsjlEHcqqild7zja1O62+g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Z8S8P5jC; arc=none smtp.client-ip=213.167.242.64
-Received: from killaraus.ideasonboard.com (2001-14ba-70f3-e800--a06.rev.dnainternet.fi [IPv6:2001:14ba:70f3:e800::a06])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7554F497;
-	Fri, 12 Jun 2026 17:52:32 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1781279552;
-	bh=Xi4zr6K4kn0ZEMvzzLUuNwWw60sZlDm3SVBSJ/YtuQg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Z8S8P5jCFyTJtycXMMjLt/8TwqBV+eybltV90qrojoPBmml1+uvKj11t9HxOnmrmX
-	 B0MOPpBIJsPGPWeh/6ZHZB9OWAvNXvY5ERFpaziK2fsszUVeqh8fdo+0W8uJoicdOL
-	 p3qRuinDJo5SSUZ6aAxCQrkyjnpPiJHBcc8erDIg=
-Date: Fri, 12 Jun 2026 18:53:01 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=Xawq2f84lBW9NHcoWEMtaUPtsJhCRx6qCBEj9DX47nvmbNFeMK6lnuydQaS5krU1bYnb7xDJGIhrjqZrR+UbaTFHOOf6bT62NKJcrIy2VFg+cd8mXOAVtWdALT4MlA8w6SvnpvWFV0MGZXt+N/dj+KkloZYXFC55qBaf/ztT6oM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=H6k8mWy4; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 730D61F000E9;
+	Fri, 12 Jun 2026 16:09:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1781280595;
+	bh=aq30D6zmaSTWmTNk1Ul9iMUE0E6w3wNjjVKpsq5EvFk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=H6k8mWy4TC8tyaXRV2lAwWRt+GtZq9P8UssA7HzpXGV7c59YQAA+QA7bFju+UCbhi
+	 hh7mT3ggZdykbP//wPq0+ISWJILWKaX86hFTCYKPiXrFSQKbOF+O2RlUpuwcJYf7gp
+	 8aITC0X04i0rN5jdZ/TLNFmGIWyaBn1NbnmE6vJM9Vsvx8g2cLbE0g9pkgp4ponSDi
+	 CjGdnhAgyqn49qYaVmTC79tvMqeLKmLTq7ns2VqYbTmduxZa3rnqFDm/dW1lkCU9qH
+	 1F6EERd3sztheY6UkJbXynr54DcZxqWMiyBIhkoTfHXR8GPdcb+m2VcR2f3N4EHN+H
+	 t/c78+cbb/tzg==
+Date: Fri, 12 Jun 2026 17:09:48 +0100
+From: Conor Dooley <conor@kernel.org>
 To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
+Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
 	Michael Turquette <mturquette@baylibre.com>,
 	Stephen Boyd <sboyd@kernel.org>,
 	Andrzej Hajda <andrzej.hajda@intel.com>,
@@ -63,158 +66,125 @@ Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
 	Conor Dooley <conor+dt@kernel.org>,
 	Magnus Damm <magnus.damm@gmail.com>,
 	Marek Vasut <marek.vasut+renesas@mailbox.org>,
+	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
 	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
 	Philipp Zabel <p.zabel@pengutronix.de>,
 	linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
 	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
 	devicetree@vger.kernel.org
-Subject: Re: [PATCH v3 4/7] drm/rcar-du: dsi: Support DSC in the pipeline
-Message-ID: <20260612155301.GC1982714@killaraus.ideasonboard.com>
-References: <20260515-rcar-du-dsc-v3-0-164157820498@ideasonboard.com>
- <20260515-rcar-du-dsc-v3-4-164157820498@ideasonboard.com>
- <20260611000324.GH1632628@killaraus.ideasonboard.com>
- <11f27d38-0224-4fce-a975-7c3f7d8d1d38@ideasonboard.com>
+Subject: Re: [PATCH v2 2/5] dt-bindings: display: bridge: Document Renesas
+ R-Car V4H DSC bindings
+Message-ID: <20260612-landed-remedial-79582e900699@spud>
+References: <20260515-rcar-du-dsc-v2-0-f6b9240a1240@ideasonboard.com>
+ <20260515-rcar-du-dsc-v2-2-f6b9240a1240@ideasonboard.com>
+ <20260515-fraying-trickle-7511a2eeaf44@spud>
+ <81f89aa1-84d8-44e1-813b-2bbcafe3687e@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="M3NyARh4jghnVALM"
 Content-Disposition: inline
-In-Reply-To: <11f27d38-0224-4fce-a975-7c3f7d8d1d38@ideasonboard.com>
+In-Reply-To: <81f89aa1-84d8-44e1-813b-2bbcafe3687e@ideasonboard.com>
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.66 / 15.00];
+X-Spamd-Result: default: False [-5.26 / 15.00];
+	WHITELIST_SPF_DKIM(-3.00)[kernel.org:d:+,kernel.org:s:+];
+	SIGNED_PGP(-2.00)[];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
-	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	MIME_GOOD(-0.20)[multipart/signed,text/plain];
 	MAILLIST(-0.15)[generic];
-	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-33941-lists,linux-renesas-soc=lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_RECIPIENTS(0.00)[m:tomi.valkeinen@ideasonboard.com,m:geert+renesas@glider.be,m:mturquette@baylibre.com,m:sboyd@kernel.org,m:andrzej.hajda@intel.com,m:neil.armstrong@linaro.org,m:rfoss@kernel.org,m:jonas@kwiboo.se,m:jernej.skrabec@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:magnus.damm@gmail.com,m:marek.vasut+renesas@mailbox.org,m:kieran.bingham+renesas@ideasonboard.com,m:p.zabel@pengutronix.de,m:linux-renesas-soc@vger.kernel.org,m:linux-clk@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:dri-devel@lists.freedesktop.org,m:devicetree@vger.kernel.org,m:geert@glider.be,m:jernejskrabec@gmail.com,m:krzk@kernel.org,m:conor@kernel.org,m:magnusdamm@gmail.com,m:marek.vasut@mailbox.org,m:kieran.bingham@ideasonboard.com,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[laurent.pinchart@ideasonboard.com,linux-renesas-soc@vger.kernel.org];
-	RCPT_COUNT_TWELVE(0.00)[26];
-	FREEMAIL_CC(0.00)[glider.be,baylibre.com,kernel.org,intel.com,linaro.org,kwiboo.se,gmail.com,linux.intel.com,suse.de,ffwll.ch,mailbox.org,ideasonboard.com,pengutronix.de,vger.kernel.org,lists.freedesktop.org];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
 	FORWARDED(0.00)[lists@lfdr.de];
+	MIME_TRACE(0.00)[0:+,1:+,2:~];
+	RCPT_COUNT_TWELVE(0.00)[28];
+	FORGED_RECIPIENTS(0.00)[m:tomi.valkeinen@ideasonboard.com,m:Laurent.pinchart@ideasonboard.com,m:geert+renesas@glider.be,m:mturquette@baylibre.com,m:sboyd@kernel.org,m:andrzej.hajda@intel.com,m:neil.armstrong@linaro.org,m:rfoss@kernel.org,m:jonas@kwiboo.se,m:jernej.skrabec@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:magnus.damm@gmail.com,m:marek.vasut+renesas@mailbox.org,m:laurent.pinchart+renesas@ideasonboard.com,m:kieran.bingham+renesas@ideasonboard.com,m:p.zabel@pengutronix.de,m:linux-renesas-soc@vger.kernel.org,m:linux-clk@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:dri-devel@lists.freedesktop.org,m:devicetree@vger.kernel.org,m:geert@glider.be,m:jernejskrabec@gmail.com,m:krzk@kernel.org,m:conor@kernel.org,m:magnusdamm@gmail.com,m:marek.vasut@mailbox.org,m:laurent.pinchart@ideasonboard.com,m:kieran.bingham@ideasonboard.com,s:lists@l
+ fdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-33942-lists,linux-renesas-soc=lfdr.de];
+	FORGED_SENDER(0.00)[conor@kernel.org,linux-renesas-soc@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[laurent.pinchart@ideasonboard.com,linux-renesas-soc@vger.kernel.org];
-	DKIM_TRACE(0.00)[ideasonboard.com:+];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[conor@kernel.org,linux-renesas-soc@vger.kernel.org];
+	FREEMAIL_CC(0.00)[ideasonboard.com,glider.be,baylibre.com,kernel.org,intel.com,linaro.org,kwiboo.se,gmail.com,linux.intel.com,suse.de,ffwll.ch,mailbox.org,pengutronix.de,vger.kernel.org,lists.freedesktop.org];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,dt];
 	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,vger.kernel.org:from_smtp]
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[spud:mid,vger.kernel.org:from_smtp,sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo,mailbox.org:email]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: CF73267AA17
+X-Rspamd-Queue-Id: 03AF967AC5D
 
-On Fri, Jun 12, 2026 at 02:56:11PM +0300, Tomi Valkeinen wrote:
-> On 11/06/2026 03:03, Laurent Pinchart wrote:
-> > On Fri, May 15, 2026 at 12:09:29PM +0300, Tomi Valkeinen wrote:
-> >> Enabling DSI clocks on rcar-du needs some tricks as the DU dot clock is
-> >> provided by the DSI. Thus, we call rcar_mipi_dsi_pclk_enable() from the
-> >> crtc, when enabling the crtc.
-> >>
-> >> With DSC (added in upcoming patch) in the pipeline, between the DU and
-> >> the DSI, the above call path is broken as the crtc tries to call
-> >> rcar_mipi_dsi_pclk_enable() on the DSC.
-> >>
-> >> Adjust the rcar_mipi_dsi_pclk_enable() so that it detects the DSC, and
-> >> in that case gets the next bridge from the DSC, which is the DSI.
-> >>
-> >> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-> >> ---
-> >>   drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c | 36 +++++++++++++++++++++++--
-> >>   1 file changed, 34 insertions(+), 2 deletions(-)
-> >>
-> >> diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c b/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c
-> >> index 4ef2e3c129ed..085e229bcb0b 100644
-> >> --- a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c
-> >> +++ b/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c
-> >> @@ -88,6 +88,8 @@ struct dsi_setup_info {
-> >>   	const struct dsi_clk_config *clkset;
-> >>   };
-> >>   
-> >> +static const struct drm_bridge_funcs rcar_mipi_dsi_bridge_ops;
-> >> +
-> >>   static inline struct rcar_mipi_dsi *
-> >>   bridge_to_rcar_mipi_dsi(struct drm_bridge *bridge)
-> >>   {
-> >> @@ -844,15 +846,39 @@ static void rcar_mipi_dsi_atomic_disable(struct drm_bridge *bridge,
-> >>   	rcar_mipi_dsi_stop_video(dsi);
-> >>   }
-> >>   
-> >> +/*
-> >> + * We need to skip the DSC bridge when we have DSC in between the DU and
-> >> + * the DSI. We detect the DSI bridge via bridge->funcs, and assume the
-> >> + * next_bridge is the DSI bridge. If this is not the case, the DT data
-> >> + * is wrong (so it shouldn't really happen).
-> >> + */
-> >> +static struct drm_bridge *
-> >> +rcar_mipi_dsi_resolve_bridge(struct drm_bridge *bridge)
-> >> +{
-> >> +	if (bridge->funcs != &rcar_mipi_dsi_bridge_ops)
-> >> +		bridge = bridge->next_bridge;
-> >> +
-> >> +	if (!bridge || bridge->funcs != &rcar_mipi_dsi_bridge_ops)
-> >> +		return NULL;
-> >> +
-> >> +	return bridge;
-> >> +}
-> > 
-> > Hmmmm... It's quite a bit of a hack. It would be nicer to do this in
-> > rcar_du_crtc.c instead, where we cache the dsi bridge pointer. The
-> 
-> It's actually cached in rcar_du_encoder.c, but used in rcar_du_crtc.c.
-> 
-> If I understand right, you'd like to do the DSC detection in 
-> rcar_du_crtc, and skip the DSC, if needed, before calling 
-> rcar_mipi_dsi_pclk_enable()?
 
-That would be the idea, yes. Knowledge that there's a DSC in the
-pipeline would be in the DU driver, not the DSI driver. I think it would
-be better, as the DU driver is the one that should have an overall view
-of the display pipeline.
+--M3NyARh4jghnVALM
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> > question is how to then identify the right bridge, as we won't have
-> > access to rcar_mipi_dsi_bridge_ops. Should this driver set the bridge
-> > type field to DRM_MODE_CONNECTOR_DSI ?
-> 
-> I'm not sure how that would help. Or, I can, as the dsi driver does not 
-> set the bridge type, so only DSC would set it. But isn't that even more 
-> hacky?
-> 
-> Or did you rather mean that the DSI driver would set the bridge type, 
-> and DSC would not? We can then do:
-> 
-> 		if (bridge->type != DRM_MODE_CONNECTOR_DSI)
-> 			bridge = bridge->next_bridge;
+On Fri, Jun 12, 2026 at 01:43:44PM +0300, Tomi Valkeinen wrote:
+> Hi,
+>=20
+> On 15/05/2026 20:32, Conor Dooley wrote:
+> > On Fri, May 15, 2026 at 10:56:15AM +0300, Tomi Valkeinen wrote:
+> > > From: Marek Vasut <marek.vasut+renesas@mailbox.org>
+> > >=20
+> > > The Renesas DSC Display Stream Compression is a bridge embedded in the
+> > > Renesas R-Car V4H SoC. The bridge performs VESA DSC encoding of up to
+> > > 8k or 400 Mpixel/s .
+> > >=20
+> > > Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+> > > [tomi.valkeinen: fix the example]
+> > > Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.co=
+m>
+> > > ---
+> > >   .../bindings/display/bridge/renesas,dsc.yaml       | 96 +++++++++++=
++++++++++++
+> > >   1 file changed, 96 insertions(+)
+> > >=20
+> > > diff --git a/Documentation/devicetree/bindings/display/bridge/renesas=
+,dsc.yaml b/Documentation/devicetree/bindings/display/bridge/renesas,dsc.ya=
+ml
+> > > new file mode 100644
+> > > index 000000000000..2918d592732b
+> > > --- /dev/null
+> > > +++ b/Documentation/devicetree/bindings/display/bridge/renesas,dsc.ya=
+ml
+> >=20
+> > Filename matching the compatible please.
+>=20
+> All the other Documentation/devicetree/bindings/display/bridge/renesas,*
+> files follow the same style, where the file name is in a generic format, =
+but
+> the actual compat strings are per SoC (and no generic compat string).
 
-Yes that's what I meant.
+No idea why it's like that currently, but filename matching compatible
+is the policy.
 
-> in the crtc driver. This works. It's still a bit hacky, but I think the 
-> chances of the code getting it wrong are quite low. If the output port 
-> is RCAR_DU_OUTPUT_DSIx, then the next bridge must be rcar-dsi or 
-> rcar-dsc, so it's all under our control. Also, it's less code than this 
-> patch, so I'll go with that.
+--M3NyARh4jghnVALM
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Thanks.
+-----BEGIN PGP SIGNATURE-----
 
--- 
-Regards,
+iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaiwvTAAKCRB4tDGHoIJi
+0qMpAP4jTzOgRW+PnemiZMAnA+L5VxOTwHJSxg1B/d89AGSqYQD9EtGaiGfY4js1
+HpJoegRSMqdIGa0omBue8WXQpiD9XQ8=
+=IqDA
+-----END PGP SIGNATURE-----
 
-Laurent Pinchart
+--M3NyARh4jghnVALM--
 
