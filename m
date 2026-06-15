@@ -1,78 +1,80 @@
-Return-Path: <linux-renesas-soc+bounces-34001-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-34002-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id PcBMNjvZL2qPHwUAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-34001-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Jun 2026 12:51:39 +0200
+	id JDtgOz3ZL2qQHwUAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-34002-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Jun 2026 12:51:41 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7282C6857B5
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Jun 2026 12:51:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6073A6857BA
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Jun 2026 12:51:41 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=gmail.com header.s=20251104 header.b=jbJQi97Z;
-	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-34001-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-34001-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=gmail.com header.s=20251104 header.b=G812gQOh;
+	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-34002-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-34002-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=none) header.from=gmail.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 8EE6D3061527
+	by sea.lore.kernel.org (Postfix) with ESMTP id B296C3062D45
 	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Jun 2026 10:48:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0680A309DB1;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3414F28725B;
 	Mon, 15 Jun 2026 10:48:53 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73E7528725B
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 15 Jun 2026 10:48:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75DC333AD9A
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 15 Jun 2026 10:48:51 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781520532; cv=none; b=iBPeH56veye4BAJ6fLrCN+/dW3uNJ5bK7Nr4/TLBrZ2ni3eIDYoIDaPRzv4S/6Px53ajiyNjgQfn94G8UTsb555deEBUfs8dBQEj1lcNOH/bPYy4nG7bItrGV324Ijqnm4zd/B7nWxPZ5qdvil1cSrGwI/c3goZX/A4msJ45ATk=
+	t=1781520533; cv=none; b=fX+q9KJNGcf1M6djpOqswLxoig3gScBjcZrcNNLEfrdcFWg4D54yldGXwiHz6DGOtr0UGik163OrSY1MzDWcHsnGpQe/DOdheJ179KvqsKxqAatHTv31SG66QvpbiBWxwr89MWeUpYdHqXqjmipr3JIoz2liEu0w3vZ1+EYajvw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781520532; c=relaxed/simple;
-	bh=7HEj4WEED0R5EEGbwYYG+JQUNMtKiAap8Cf8DhjhpFI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Nfbpm4CA0jaojgLQUvV5VTDSdhmHhpN6GMk5Oyih5Da3afWy3/LHd3sRW7B7PNShloJRXF5BK2WM9QZX8D05QBLL4i0OxDY/jkSNlVOFfI8zQNghx/aM07Uur4y1Nj6v4zR6VhOnHsQl9+NTWUbuBKvSCI8ddO1api6f9vMpj9E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jbJQi97Z; arc=none smtp.client-ip=209.85.128.43
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-490b1bbcf3aso23664685e9.1
+	s=arc-20240116; t=1781520533; c=relaxed/simple;
+	bh=+yugR+VkpeDU1YTmH2+IVHiaYwR9RbHN8mN26aejHOs=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=Lbm+AUG6NMMuXX3k+NWegQJU+G22a2L9ytEBCq67QU/i2ohLArQbYI4OWyIoB+DYpI/5bm2J93as3UuKKdIwQYAH+BDHg5V254eBZB9g5a9F7vb2ttDEC0EJi2w2PaNM/k79DeKnGkoPciLq+U/GFv+ktv17nbpj+IKXd5jhBtk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=G812gQOh; arc=none smtp.client-ip=209.85.221.47
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-45ee5cdbd28so2552553f8f.1
         for <linux-renesas-soc@vger.kernel.org>; Mon, 15 Jun 2026 03:48:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20251104; t=1781520529; x=1782125329; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=7w9hPguA1bshK09M+ZUaGXEUslA7wzRau8OxxMknDPw=;
-        b=jbJQi97Z/wF8cdoApZulzSOAU4gKSLTpGWYc1bShnxlsv5zvratsuz7CAYsJRjxkkR
-         aljX8iHBJGBAPov9ITFwn9UqJoMhvrlSkxY7pj7CZB7vusgwErt+UX3FJMCChUsXJyQ4
-         ISJbna554hm66Kp8ta/njguHbloYRfko2Ujz4t76lGlXVV+zLihIICNNeOE12+xzrs/N
-         mplDga3nhzPhkcbvbu2kfCVQbRGt8be8YTUS0LGfy6VvO0sfJWCb/BIed4zBedbYEvsD
-         HdjXkrICWxUxIzkSSX5uLT4xgIlXCK05dMYx6fU1hsfVNmJxwKQ0je9mRbzo1UVR0hZM
-         Ljxw==
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=3hGZ4SH9tCHny9E9iOba0SMLuDEJ7JVbxNU+JthER5Y=;
+        b=G812gQOhXXiX9CLdYj94wCGmVr2cAOmAFfgptXEvUjJqErsoKiXVwD9u+l4i4VLTt7
+         67NoMfYGq2bRzt0HF3Xlp286m1r4Y2SmfMfRcky6nbL19CjBW2v92FhJ5xyetPkB4oHP
+         vZ6mHYbVymgZ2gQ1Sx8vguYFRk340O8/9lv6Xda/ib63vlzfEcy5ABp6WfbSnY4Y9ZY4
+         wK9nMBjjO41ra1hwQnAD+HdgOiVMOy6HFLx+4CygxTxMWR5wBkR+Tm0cXKN0DDzEDkz2
+         CzDR8wiTwmCk6v0Fb1QkGOeyeH76mlYV/kTYG2QBpJJeokw7wVDfq6FFocORl5XI8wsH
+         TIwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20251104; t=1781520529; x=1782125329;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=7w9hPguA1bshK09M+ZUaGXEUslA7wzRau8OxxMknDPw=;
-        b=jxg8PK8S2fjrNUT7FmPyoBC7+RoX0DdjoSNslJfqajNZ6V6l6lTlhL9k2ZglmUvV3I
-         BWBZz62YgVkh3sA82i2yx6VmKCULPilNd/NGjBGpi7ZQoLN1lvnek+HKsdDhc2BiNU3Z
-         RHOVd3Hn4IMivvW+6FU/xFF23tGyAwrGFdi7zVJ/yfjul2/19PdQGiutXXJDjq9K4SpY
-         4jNCC0p7r7Bb3/ZMwTLO9EkZgQcFuYRgIq0UbI5Iqb3zJh4IYyWbmLWkK1ouHjnD3d8j
-         2ad6fP5umfLJJopHQGl7TtmbYIh60pD4mI6Xk0ERwlg3VXTWLh31EP+3ZUAP77xRI9Qe
-         cL5g==
-X-Forwarded-Encrypted: i=1; AFNElJ/z4UySWZe0SDc5TUnTdTgNssG2vFIB06Vs1K5Vnst66YDYxj4JFp5TWMXDay5ZXMCtmDlKjHCl0gN2G6b9Usi4PQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwGlPH7IYvrUJ/RpGqcpgEkgk2nP/UV/BClNwRnD9s2AWDqawIN
-	GiBHdc4NoNJUEDiAzB3NQ5KpbvJkF0612Jt5itHT6m1hC3wMG+k75IJq
-X-Gm-Gg: Acq92OHD+fTkHYrhGfpKnx5gQB5i9/PYvb7DFR5Ja6wz87v7gAH4a5jDsm2VsRCYLs4
-	SHcMaNsWiIpYb1h+e4yZQ9MV/0N+GEATxAFkQU6ydVo3rNPA54nHTiGAx//6SY2O4ODr4gWza+G
-	SsrTi58PGc5570E8EJaCdnzXs1tKabE+l8SYg4B+GSQProbwOsEiRfIj4AXyQLQgzGV5KVi9T2D
-	tU3zYLDS8yZSjvhdyrRzExikA2ESfz0GDWPBZwhcrvLQXMEMZYTLhFFt+XiYAQ1+vwpbH2A8C9e
-	VWTXcckXidy0iuOKw/9sdUk/R+mDcCQPFFaxGHx/oGILUR1w8IxQI3FoId9cZFwiONlPlL2nsQt
-	eYPHl735CfzzVcZZklwwBqGXgT7dFiSMqboPPyO5hA4RBUzm6TjEheVjd544CJpvoyuJltlD0K3
-	ySbmccyIEk+RmCaUKNF3Oam9V0ctR/GtG/7KldWOqDGY+K01ZXzdwm+nntzgWdPQ/TRk25aWB3K
-	xVWzbd+75cJo7+Aqrp1+ucuX9Q6/1RS/hIb71XiaeFcDuI=
-X-Received: by 2002:a05:600c:820c:b0:490:e913:6564 with SMTP id 5b1f17b1804b1-490ec4cc6d8mr177591485e9.3.1781520528560;
-        Mon, 15 Jun 2026 03:48:48 -0700 (PDT)
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=3hGZ4SH9tCHny9E9iOba0SMLuDEJ7JVbxNU+JthER5Y=;
+        b=DsGx7AfaLfHDx3Zn+Rvh2k7AZ9VQ0hO7dlNu9r59WBjcpKKl0cJSh5ZEe+Icx3/Uld
+         vU1YbyY50ZaVINmoGqiTygQY34UAxGZjZ8plsRdfSkxZKp0iRJQwfEp+if5Y+fsegG3G
+         B0UwBgsQT5+moc+STZx0xNT4yCt89gE9th34eEuRgJ1WlV78IKzv+i0guy8E2y6y6idX
+         SqCRJQACJzNrdWQH0JVfMacg1NUxNJxDE6iC3qYNaxrECJzLcZek9eAYHBJ/jIMzgkwd
+         hWA4Eg1TgcR9c81IiR9skU7V+BQcReFO76GRTtxj4q7PkKug/ZbsVTiy9dFEAp0nDCzw
+         wf7A==
+X-Forwarded-Encrypted: i=1; AFNElJ/G22g2tY4FPg2QASY0e6yj13vYbPqHgt8kq8sVmT15U1Pm8QUZLwFdIcKU7b+51ntUVg+YNaL8yn6buEhRPBK59Q==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzpEZ1k2wr/Mejba5L8EvrIcj4DrU1GHLq4AZvHtJI4pPG4wF3O
+	5kw3CkzYoGQjD7qhhZJm35QBSbhxHvp7tQ/rXX479UdNUeLhVp00zfwx
+X-Gm-Gg: Acq92OFqQxmnMCSrUyxAMKWL80yE2FI+cHtg17N9mDGglWXKiCCLrAeAxPKwV/gp0IS
+	ymMZBR9zPFflq0GUrfrUqOwCHuP0sjDSSpyEUlTMGtGDKUOEME4P6pAhq0BpQs8iSNlXPRmw06h
+	OtOblUREJuk06GDcHmbPdSUZZk+Tlo8Nzw+2ZGtaKOPzchXCmDOIJ+WWkPvowSPfgwou4sX1guc
+	utdJ/sRwFTTKHDrhF4moaBwt9rYN1DCXnLGuJVJmxsTwG9zLT/HKjf8owvJdMQD5lol8797NXLs
+	GYduVkHPk+2SoASlqC9fnAbYiEVnnr0oDwovot37V+3rL/YrVEx7bZxrzy3Rbw5BdQnJzsB1T+K
+	fVl67lkOG7A7YVPEwcua9Y74WHpDjMOTT0NEpp9EQWwrAzKt6fMUH1RGFi7FfgUCakBk8dqhyTT
+	LzB4CMuNX/uQRI2MpzFjayvstIo7k5m5KhVYwbwg4wM/9tcBV5T1IV3M4wUEOXmiEhsEGutKA5m
+	kVxoH/uWa4mueyviC6se7hrbqdZ4E6Vd5v+
+X-Received: by 2002:a05:6000:1788:b0:450:ad00:86aa with SMTP id ffacd0b85a97d-4606ce33976mr16781374f8f.15.1781520529439;
+        Mon, 15 Jun 2026 03:48:49 -0700 (PDT)
 Received: from iku.Home ([2a06:5906:61b:2d00:1e4:992f:3ad2:4f2b])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4606f26f1cdsm34812464f8f.11.2026.06.15.03.48.47
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4606f26f1cdsm34812464f8f.11.2026.06.15.03.48.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Mon, 15 Jun 2026 03:48:48 -0700 (PDT)
 From: Prabhakar <prabhakar.csengg@gmail.com>
@@ -93,10 +95,12 @@ Cc: linux-kernel@vger.kernel.org,
 	Biju Das <biju.das.jz@bp.renesas.com>,
 	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
 	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v3 0/5] Add PLL3 and LCDC_CLKD support for RZ/T2H and RZ/N2H
-Date: Mon, 15 Jun 2026 11:48:40 +0100
-Message-ID: <20260615104845.4122868-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH v3 1/5] clk: renesas: rzv2h-cpg: Use per-SoC PLL reference frequency for calculations
+Date: Mon, 15 Jun 2026 11:48:41 +0100
+Message-ID: <20260615104845.4122868-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
 X-Mailer: git-send-email 2.54.0
+In-Reply-To: <20260615104845.4122868-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20260615104845.4122868-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -110,7 +114,7 @@ X-Spamd-Result: default: False [-0.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
@@ -118,7 +122,7 @@ X-Spamd-Result: default: False [-0.16 / 15.00];
 	RCPT_COUNT_TWELVE(0.00)[16];
 	FREEMAIL_FROM(0.00)[gmail.com];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-34001-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-34002-lists,linux-renesas-soc=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_RECIPIENTS(0.00)[m:geert+renesas@glider.be,m:mturquette@baylibre.com,m:sboyd@kernel.org,m:bmasney@redhat.com,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:magnus.damm@gmail.com,m:linux-kernel@vger.kernel.org,m:linux-renesas-soc@vger.kernel.org,m:linux-clk@vger.kernel.org,m:devicetree@vger.kernel.org,m:prabhakar.csengg@gmail.com,m:biju.das.jz@bp.renesas.com,m:fabrizio.castro.jz@renesas.com,m:prabhakar.mahadev-lad.rj@bp.renesas.com,m:geert@glider.be,m:krzk@kernel.org,m:conor@kernel.org,m:magnusdamm@gmail.com,m:prabhakarcsengg@gmail.com,s:lists@lfdr.de];
 	FORGED_SENDER(0.00)[prabhakarcsengg@gmail.com,linux-renesas-soc@vger.kernel.org];
@@ -141,68 +145,103 @@ X-Spamd-Result: default: False [-0.16 / 15.00];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,dt];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,vger.kernel.org:from_smtp,renesas.com:email,bp.renesas.com:mid]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 7282C6857B5
+X-Rspamd-Queue-Id: 6073A6857BA
 
 From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Hi all,
+Introduce a per-SoC PLL reference input frequency parameter to avoid
+relying on a hardcoded 24MHz constant during PLL configuration math.
 
-This series adds support for the PLL3 and LCDC_CLKD clocks on Renesas
-RZ/T2H (R9A09G077) and RZ/N2H (R9A09G087) SoCs. These clocks are essential
-for the display pipeline, specifically feeding the LCD controller.
+Add an input_fref member to struct rzv2h_pll_limits. In the core
+calculation helper rzv2h_get_pll_pars(), derive the base input clock
+rate from limits->input_fref, utilizing the conditional ternary operator
+to fall back to 24MHz if the struct field is left uninitialized (0), and
+drop the obsolete macro RZ_V2H_OSC_CLK_IN_MEGA.
 
-Key Changes:
-  - PLL Reference Flexibility in  the RZ/V2H(P) CPG driver
-  - MSTP Dummy-Read Mechanism
-  - LCDC implementation in the RZ/T2H CPG driver.
+This abstraction permits the reuse of the common PLL divider logic on
+newer SoC platforms like the RZ/T2H, which feature a 48 MHz PLL reference
+clock input instead of the 24 MHz signal used by RZ/V2H(P), without
+disrupting existing platforms.
 
+Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+---
 v2->v3:
-- Added export.h include in rzv2h-cpg-lib.c.
-- In r9a09g077_cpg_lcdc_div_determine_rate() made use of 
-  clk_hw_get_parent_by_index() to ensure we retrieve pll3 as the parent.
+- No change
 
 v1->v2:
-https://lore.kernel.org/all/20260609105924.962573-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
 - Dropped RZ_V2H_OSC_CLK_IN_MEGA macro in favor of direct use of the
   input_fref field with a fallback.
 - Updated the doc to specify the default value of input_freq when it is 0.
-- Updated commit message for patch 1 and 2 to reflect the new approach.
-- Dropped using table based approach in favor of direct conditional checks
-  on the clock index.
-- Added Acked-by and Reviewed-by tags
-- Added new patch#4
-- Switched to use the new library
-- Kconfig now selects CLK_RZV2H_CPG_LIB
-- Renamed CPG_PLLEN to CPG_PLL_EN_EN
-- Renamed LCDCDIV to LCDC_CLKD
-- Changed ctr0/1 in r9a09g077_cpg_pll3_clk_recalc_rate() to use u32
+- Updated commit message
+---
+ drivers/clk/renesas/rzv2h-cpg.c | 8 ++++----
+ include/linux/clk/renesas.h     | 5 +++++
+ 2 files changed, 9 insertions(+), 4 deletions(-)
 
-v1: https://lore.kernel.org/all/20260511191910.1945705-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
-
-Cheers,
-Prabhakar
-Lad Prabhakar (5):
-  clk: renesas: rzv2h-cpg: Use per-SoC PLL reference frequency for
-    calculations
-  clk: renesas: cpg-mssr: Implement dedicated MSTP delay logic for
-    RZ/T2H LCDC and RTC
-  dt-bindings: clock: renesas,r9a09g077/87: Add LCDC_CLKD clock ID
-  clk: renesas: rzv2h-cpg: Extract PLL calculation math into a library
-  clk: renesas: r9a09g077: Add LCDC and PLL3 clock support for RZ/T2H
-    display pipeline
-
- drivers/clk/renesas/Kconfig                   |   6 +
- drivers/clk/renesas/Makefile                  |   1 +
- drivers/clk/renesas/r9a09g077-cpg.c           | 373 +++++++++++++++++-
- drivers/clk/renesas/renesas-cpg-mssr.c        |  20 +-
- drivers/clk/renesas/rzv2h-cpg-lib.c           | 217 ++++++++++
- drivers/clk/renesas/rzv2h-cpg.c               | 186 +--------
- .../clock/renesas,r9a09g077-cpg-mssr.h        |   1 +
- .../clock/renesas,r9a09g087-cpg-mssr.h        |   1 +
- include/linux/clk/renesas.h                   |  28 ++
- 9 files changed, 650 insertions(+), 183 deletions(-)
- create mode 100644 drivers/clk/renesas/rzv2h-cpg-lib.c
-
+diff --git a/drivers/clk/renesas/rzv2h-cpg.c b/drivers/clk/renesas/rzv2h-cpg.c
+index e271c04cee34..fff89f2bdc0b 100644
+--- a/drivers/clk/renesas/rzv2h-cpg.c
++++ b/drivers/clk/renesas/rzv2h-cpg.c
+@@ -218,7 +218,6 @@ struct rzv2h_plldsi_div_clk {
+ #define to_plldsi_div_clk(_hw) \
+ 	container_of(_hw, struct rzv2h_plldsi_div_clk, hw)
+ 
+-#define RZ_V2H_OSC_CLK_IN_MEGA		(24 * MEGA)
+ #define RZV2H_MAX_DIV_TABLES		(16)
+ 
+ /**
+@@ -242,6 +241,7 @@ struct rzv2h_plldsi_div_clk {
+ bool rzv2h_get_pll_pars(const struct rzv2h_pll_limits *limits,
+ 			struct rzv2h_pll_pars *pars, u64 freq_millihz)
+ {
++	unsigned long input_fref = limits->input_fref ?: (24 * MEGA);
+ 	u64 fout_min_millihz = mul_u32_u32(limits->fout.min, MILLI);
+ 	u64 fout_max_millihz = mul_u32_u32(limits->fout.max, MILLI);
+ 	struct rzv2h_pll_pars p, best;
+@@ -254,7 +254,7 @@ bool rzv2h_get_pll_pars(const struct rzv2h_pll_limits *limits,
+ 	best.error_millihz = S64_MAX;
+ 
+ 	for (p.p = limits->p.min; p.p <= limits->p.max; p.p++) {
+-		u32 fref = RZ_V2H_OSC_CLK_IN_MEGA / p.p;
++		u32 fref = input_fref / p.p;
+ 		u16 divider;
+ 
+ 		for (divider = 1 << limits->s.min, p.s = limits->s.min;
+@@ -335,9 +335,9 @@ bool rzv2h_get_pll_pars(const struct rzv2h_pll_limits *limits,
+ 					continue;
+ 
+ 				/* PLL_M component of (output * 65536 * PLL_P) */
+-				output = mul_u32_u32(p.m * 65536, RZ_V2H_OSC_CLK_IN_MEGA);
++				output = mul_u32_u32(p.m * 65536, input_fref);
+ 				/* PLL_K component of (output * 65536 * PLL_P) */
+-				output += p.k * RZ_V2H_OSC_CLK_IN_MEGA;
++				output += p.k * input_fref;
+ 				/* Make it in mHz */
+ 				output *= MILLI;
+ 				output = DIV_U64_ROUND_CLOSEST(output, 65536 * p.p * divider);
+diff --git a/include/linux/clk/renesas.h b/include/linux/clk/renesas.h
+index 0949400f44de..2aeff01150c3 100644
+--- a/include/linux/clk/renesas.h
++++ b/include/linux/clk/renesas.h
+@@ -53,6 +53,9 @@ static inline void rzg2l_cpg_dsi_div_set_divider(u8 divider, int target) { }
+  * various parameters used to configure a PLL. These limits ensure
+  * the PLL operates within valid and stable ranges.
+  *
++ * @input_fref: Reference input frequency to the PLL (in MHz). If set
++ * to 0, a default value of 24MHz is used.
++ *
+  * @fout: Output frequency range (in MHz)
+  * @fout.min: Minimum allowed output frequency
+  * @fout.max: Maximum allowed output frequency
+@@ -78,6 +81,8 @@ static inline void rzg2l_cpg_dsi_div_set_divider(u8 divider, int target) { }
+  * @k.max: Maximum delta-sigma value
+  */
+ struct rzv2h_pll_limits {
++	u32 input_fref;
++
+ 	struct {
+ 		u32 min;
+ 		u32 max;
 -- 
 2.54.0
 
