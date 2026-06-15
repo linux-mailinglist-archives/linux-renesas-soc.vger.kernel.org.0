@@ -1,52 +1,53 @@
-Return-Path: <linux-renesas-soc+bounces-34030-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-34031-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id jDbqH4P7L2qyLAUAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-34030-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Jun 2026 15:17:55 +0200
+	id ieVoNpX7L2q4LAUAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-34031-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Jun 2026 15:18:13 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CAAE686A04
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Jun 2026 15:17:54 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 03A96686A18
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Jun 2026 15:18:13 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=ideasonboard.com header.s=mail header.b=Jo7OHo5P;
-	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-34030-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 2600:3c15:e001:75::12fc:5321 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-34030-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=ideasonboard.com header.s=mail header.b=pPgiOaFJ;
+	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-34031-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 104.64.211.4 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-34031-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=none) header.from=ideasonboard.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id A70603026259
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Jun 2026 13:13:11 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 95F323028BA5
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Jun 2026 13:13:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 751363F660B;
-	Mon, 15 Jun 2026 13:12:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4B5753F7886;
+	Mon, 15 Jun 2026 13:12:43 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EE583F5BD6;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CED6D3F5BF4;
 	Mon, 15 Jun 2026 13:12:41 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781529162; cv=none; b=nA+8HK+72k/kOJPwHnF4ViYR7T9Q6y4FEB3L2WO889BDKJj4uvmeOhir9r8Q4fZyj63Iiz8lx329uCYGvaeoYgnl+KJnTjKXoWtfi+FJ/4w9A/QNbsa9p4nGu6+dm1MK9WqpXY3PC2RYQTeyRe7ytcBke34xR4ig2Bhk1F1pKQQ=
+	t=1781529163; cv=none; b=uQ9Dm7BjLsKUEknjnt1COD0r4PRl1l5ywmMLBMTVRkEHgYBXXZrVCqsG1mEIFAPUNRmeVB3mzLUfPmt2S5sdfb9wSNtpbTuWLWzqEQd02TWdK4CiLYc8yBR5fxSx27OSBV0lIVATNiJeCl1PdKDp1eR/hqGGzvMafopC3XrHxGs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781529162; c=relaxed/simple;
-	bh=l5RD9Vdj7iXvC/kpBTlrTOy4w8149gZc+eBf1cm7HGs=;
+	s=arc-20240116; t=1781529163; c=relaxed/simple;
+	bh=E4l62o+sxS+bPEPN3Rlb+RatxgF6zDPhb0MAy+QFUv8=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Ze0w9UjRAyrsU+S3AG+cm8ZcQB8MxdfspXDb/zt9fDLKoWk2YyJz/kjesWtcouGkkVvUIwWBJ+84emNYipFdsg+bd+ZRvkGCtEw4iHCDoO6izgCRYONkaLQnK3KyZAD8d28aVY0FFsgASFkldq7yIEhSY0Oh8uDKy8aYlrtprYA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Jo7OHo5P; arc=none smtp.client-ip=213.167.242.64
+	 In-Reply-To:To:Cc; b=JHZNpfPHDRSPgzSMHWNyKW2MMZXMlWU3HQjWekjqBu+HAWG1VVaO8CTXqfi74tj7MTDps38tNgw75BQxzBLEMlz/uPTkJRZD6btxiXk9JKHnGZgJIjp8NzztKEhJZDkNORihuf6kt5HVq5VaB5R81mKY9WYyTOvEO9OlDYFBK54=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=pPgiOaFJ; arc=none smtp.client-ip=213.167.242.64
 Received: from [127.0.1.1] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 296591E2B;
-	Mon, 15 Jun 2026 15:12:01 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id B442B2053;
+	Mon, 15 Jun 2026 15:12:02 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1781529122;
-	bh=l5RD9Vdj7iXvC/kpBTlrTOy4w8149gZc+eBf1cm7HGs=;
+	s=mail; t=1781529124;
+	bh=E4l62o+sxS+bPEPN3Rlb+RatxgF6zDPhb0MAy+QFUv8=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=Jo7OHo5P3L3awnSU+WVJslSCv1qS+qg57VI3T9JiLn7Tu3iQrzkAwFmlfNNcV+W2+
-	 ohvO69F4I+543x1wXGAS3TMwNT46YXYtzUEWC6MpiokthofhvuSLDl1dIUl5fi6via
-	 BMaJNTGhvB5X2hPIO9y4MN9mMN/6Zmknh4VlX2HA=
+	b=pPgiOaFJztmqm4q3kJwhqDBdKRxrcP9GKL+swZM+XalQtauv+3bG25rkPOH0uMo+3
+	 luh0/SDIufzXWdffFcVyVJbOiZO0X309dp8YgvLUdfMiFnn6YP0jzUFOHqdTVl05q+
+	 vllMgin5uU9gVSRkMUcn9355FDLfdAwNo9/oM4xg=
 From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-Date: Mon, 15 Jun 2026 16:11:58 +0300
-Subject: [PATCH v5 5/7] arm64: dts: renesas: r8a779g0: Add DSC
+Date: Mon, 15 Jun 2026 16:11:59 +0300
+Subject: [PATCH v5 6/7] arm64: dts: renesas: sparrow-hawk: Enable
+ DisplayPort by adding DSC
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -55,7 +56,7 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260615-rcar-du-dsc-v5-5-aed1a28610e4@ideasonboard.com>
+Message-Id: <20260615-rcar-du-dsc-v5-6-aed1a28610e4@ideasonboard.com>
 References: <20260615-rcar-du-dsc-v5-0-aed1a28610e4@ideasonboard.com>
 In-Reply-To: <20260615-rcar-du-dsc-v5-0-aed1a28610e4@ideasonboard.com>
 To: Geert Uytterhoeven <geert+renesas@glider.be>, 
@@ -78,21 +79,21 @@ Cc: linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
  devicetree@vger.kernel.org, 
  Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1926;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1310;
  i=tomi.valkeinen+renesas@ideasonboard.com; h=from:subject:message-id;
- bh=fT/Av+I3eAWJdkLOHuX7/shOGeszvUjo9mwWbRTaJWg=;
- b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBqL/o43gREQIzcyMigsby0MMvk9LfdBykqqdJ3I
- Hi//B6rIvmJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCai/6OAAKCRD6PaqMvJYe
- 9SicD/9UDcbwvQaaOlOudRgY0hMuojY2x2GoGdPi1SNy3ZVecNGc41tZPIg2NteI2mArO3IIuS4
- ewU2TIFjhMlh52Eg7WwpIc+QzSmjnuGrWL4ctKRrmy8qTge8pK2RiVT3LXxMbMBKW2KUd5v4qrX
- rsXTTlbZfcsl+yz0mH5aWAxm0QzX8g6O88QrjPtCk9fs0bgvE9TI/StCtm7U9MYcP0DYZ1tcjrp
- yCx7QBa0ApXEqQwk0AOfEwrbGEc76D/fEbtD1mqm9SY9+kr43FSb5AHqF6AMOI4B69QCOPwDr2E
- vtGfw6Bf9DoXxahIsNa5VyJE3081rmhP9ecPmMMzpOLChrT6ESBL62TuxCEIRevMNv6Gpe7GpNQ
- iQVw3BopJ9Dj3aEri5uLfkHg7e8PA0k8LFaJHCConwrvjRSjZUvh2JdCIFwlLouJlEFx34BW5yT
- GoHmhDXfQy517VIufzu2sIC1aTZFzn7hnvzRH8yHYfQx3T1frfnhxDGg09DNdz5eLtZshw4VwYy
- ouVH6TfWoSyQ8DoFyKudHvHRN+2m6hu8xPqm59ahxVkALVZkmdcseWpv9ZEdEN0gq8P6pd+hxia
- TkJwrtfPqksYMa06+5t9UYgGyL6gV5/qzvNxmRT9dskWJZu08kEdw04+3z1ruxNIxq/EcPu6t44
- qgMyzixkiLp5Xbw==
+ bh=spwA6S6xpukisy7pkedqiZJctKlACrqVu7cRL2eEc4Y=;
+ b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBqL/o49aYWCGx4tmAn4AR+SDjJjh8MPJEXr+n/K
+ eeuhc0zYhiJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCai/6OAAKCRD6PaqMvJYe
+ 9aJpD/4prsoLmTko1AsZGsTsDAMN0HKrblj+zq4V/kEHeecFC8bPESCC3V6jdRasFjHDohkLpF1
+ Y8EiqYzr8vicWhCfQoeN9FjRYP0IwD/3dYLkw0tcs7ZtiYwQ3dNPswtMnQ4XDLUbOLDMWxc9Fda
+ 6ovBdoRucFE8mj85RqLN5HoynGw02RAliGMuXpKU/OGSTRpasl9a32sXTGNKoB0XJSUfQ4GLhnE
+ x4YlAXUi95En6gpa2Qukmr60Swk6MFlYw2sFQcebCJkA3RNnnr0hBO+B3OexpEuUDlJRcPv16D5
+ xmy/w0Azlo1WsCGVZtHscmCyYZajnWr8eYcpdBdG0itMablOOI7e2e0doI0tLpeuv/0rhWD8Cl+
+ HWrKCRXN3yF6apbK69dNnoH4z8mE2+BAHEF1H7ce0QYtF9jdNRLvEh33t4x0cML1j12tX/FM30R
+ 8WLyeD3Oti9ZMZrI1AORv1ebokAKwQDgyHCr8lfh0fa88jaD2mBl+qtMEehi4FOFN7FYXDk2eJW
+ d6PZ9b+I1hBd3kZ9AsSHRx+Xus3MJMEfc1Z451FO0201Tv3nOEa/3UlKW2xpHzWu+EkJjjNwNNs
+ EzJfkBzHfQkAv918lUWBwhtjD912wGJnwj12UyF/HGGZWjsF/+MtA3CrD1uJlrsYiOcpqyoRD8L
+ Ja2x9Q+fFx72SmA==
 X-Developer-Key: i=tomi.valkeinen+renesas@ideasonboard.com; a=openpgp;
  fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
 X-Rspamd-Action: no action
@@ -101,11 +102,11 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
 	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-34030-lists,linux-renesas-soc=lfdr.de,renesas];
+	TAGGED_FROM(0.00)[bounces-34031-lists,linux-renesas-soc=lfdr.de,renesas];
 	FORGED_RECIPIENTS(0.00)[m:geert+renesas@glider.be,m:mturquette@baylibre.com,m:sboyd@kernel.org,m:andrzej.hajda@intel.com,m:neil.armstrong@linaro.org,m:rfoss@kernel.org,m:Laurent.pinchart@ideasonboard.com,m:jonas@kwiboo.se,m:jernej.skrabec@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:magnus.damm@gmail.com,m:marek.vasut+renesas@mailbox.org,m:laurent.pinchart+renesas@ideasonboard.com,m:kieran.bingham+renesas@ideasonboard.com,m:p.zabel@pengutronix.de,m:linux-renesas-soc@vger.kernel.org,m:linux-clk@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:dri-devel@lists.freedesktop.org,m:devicetree@vger.kernel.org,m:tomi.valkeinen+renesas@ideasonboard.com,m:geert@glider.be,m:jernejskrabec@gmail.com,m:krzk@kernel.org,m:conor@kernel.org,m:magnusdamm@gmail.com,m:marek.vasut@mailbox.org,m:laurent.pinchart@ideasonboard.com,m:kieran.bingham@ideasonboard.com,m
  :tomi.valkeinen@ideasonboard.com,s:lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
@@ -127,77 +128,47 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	MID_RHS_MATCH_FROM(0.00)[];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,dt];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[mailbox.org:email,ideasonboard.com:dkim,ideasonboard.com:email,ideasonboard.com:mid,ideasonboard.com:from_mime,vger.kernel.org:from_smtp,sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 7CAAE686A04
+X-Rspamd-Queue-Id: 03A96686A18
 
 From: Marek Vasut <marek.vasut+renesas@mailbox.org>
 
-The Renesas DSC Display Stream Compression is a bridge embedded in the
-Renesas R-Car V4H SoC. The bridge is placed between DU and DSI1 units.
+DisplayPort on the Sparrow Hawk board uses sn65dsi86 bridge, which in
+turn gets the video stream from the SoC's DSI1 port. DSI1 pipeline has a
+DSC block in between the DU and the DSI1. However, there was no DSC
+driver in Linux and also the DSC was not defined in the dts files, and
+thus the DisplayPort output did not work.
 
-The current dtsi file does not represent the DSC at all, and thus the
-pipeline for DSI1 has not been functional.
+Now that we have DSC defined in the SoC dts file (r8a779g0.dtsi), we can
+enable DSC for sparrowhawk.
 
 Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
-[tomi.valkeinen: separated the sparrowhawk changes]
-Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+[tomi.valkeinen: separated the sparrow hawk changes from the soc changes]
 Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 ---
- arch/arm64/boot/dts/renesas/r8a779g0.dtsi | 31 ++++++++++++++++++++++++++++++-
- 1 file changed, 30 insertions(+), 1 deletion(-)
+ arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk.dts | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/renesas/r8a779g0.dtsi b/arch/arm64/boot/dts/renesas/r8a779g0.dtsi
-index 82a7278836e5..717bd41807ec 100644
---- a/arch/arm64/boot/dts/renesas/r8a779g0.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a779g0.dtsi
-@@ -2298,6 +2298,35 @@ du_out_dsi0: endpoint {
- 				port@1 {
- 					reg = <1>;
- 					du_out_dsi1: endpoint {
-+						remote-endpoint = <&dsc_in_dsi1>;
-+					};
-+				};
-+			};
-+		};
-+
-+		dsc: bridge@feb8d000 {
-+			compatible = "renesas,r8a779g0-dsc";
-+			reg = <0 0xfeb8d000 0 0x400>;
-+			interrupts = <GIC_SPI 559 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&cpg CPG_MOD 2819>;
-+			power-domains = <&sysc R8A779G0_PD_ALWAYS_ON>;
-+			resets = <&cpg 2819>;
-+			status = "disabled";
-+
-+			ports {
-+				#address-cells = <1>;
-+				#size-cells = <0>;
-+
-+				port@0 {
-+					reg = <0>;
-+					dsc_in_dsi1: endpoint {
-+						remote-endpoint = <&du_out_dsi1>;
-+					};
-+				};
-+
-+				port@1 {
-+					reg = <1>;
-+					dsc_out_dsi1: endpoint {
- 						remote-endpoint = <&dsi1_in>;
- 					};
- 				};
-@@ -2534,7 +2563,7 @@ ports {
- 				port@0 {
- 					reg = <0>;
- 					dsi1_in: endpoint {
--						remote-endpoint = <&du_out_dsi1>;
-+						remote-endpoint = <&dsc_out_dsi1>;
- 					};
- 				};
+diff --git a/arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk.dts b/arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk.dts
+index af680290ce81..0a5ebe0460ca 100644
+--- a/arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk.dts
++++ b/arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk.dts
+@@ -288,6 +288,11 @@ channel4 {
+ 	};
+ };
  
++/* Page 27 / DSI to Display */
++&dsc {
++	status = "okay";
++};
++
+ /* Page 27 / DSI to Display */
+ &dsi1 {
+ 	status = "okay";
 
 -- 
 2.43.0
