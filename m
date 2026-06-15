@@ -1,260 +1,174 @@
-Return-Path: <linux-renesas-soc+bounces-34032-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-34033-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id BlgZCO/7L2riLAUAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-34032-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Jun 2026 15:19:43 +0200
+	id cY+tGssOMGqHMgUAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-34033-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Jun 2026 16:40:11 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 761D6686A8E
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Jun 2026 15:19:42 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 08ED0687431
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Jun 2026 16:40:10 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=ideasonboard.com header.s=mail header.b=GzLDy6Zz;
-	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-34032-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-34032-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=ideasonboard.com;
+	dkim=pass header.d=gmail.com header.s=20251104 header.b=DJvUK64C;
+	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-34033-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 2600:3c15:e001:75::12fc:5321 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-34033-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=gmail.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 1C1A1310ECF4
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Jun 2026 13:13:30 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 2EFAF300514D
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Jun 2026 14:40:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 332823F823A;
-	Mon, 15 Jun 2026 13:12:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 466703F88B8;
+	Mon, 15 Jun 2026 14:40:04 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D02733F661D;
-	Mon, 15 Jun 2026 13:12:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7D603F484A
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 15 Jun 2026 14:40:02 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781529165; cv=none; b=LKv9oF2earzcHzVS2YS6x9q3iXxoP9E7DD7249CmRngzJV1+Iy7RtVUAdwv3WE7gXg3tLuIqaKdNERG2Z7y0HM5WDeWgWXrLYIWMkmHgksO10OYL7Gs2mZPkCxXWfx5cDYRlH5YdiwZqSeZCaOvim+rDRHtd1YjAZxX2b8zjyOc=
+	t=1781534404; cv=none; b=PLRVk9uBAouf25hxGtwcNNl9/cbFgsHW6/YiUrjjVra6YCXE/wXiIgPb8WGXUA+JLoFxLKA9gI8lLf3tuMO/8kSQ6//sJiqxkF8dG6251dlYYIkWV8EsfPw420CCZbu4LYIL9L/Bw8oSbxntempzsLjqvOeAlkW3Epx3xLILEVc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781529165; c=relaxed/simple;
-	bh=r5QjrFAZtSkTFwOWAs/qFvVvo8FOH/iWvMtmoLDe4uU=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=uVY+zpBCByFMjfZkYSIeCweejZSoPLFIilpMQmbwd6/D0M/6UT7i3HO7FzZvniZwn14q/hGdC7KRnJ7ZeyJWtcpmSzJh4MRnM1pfCdHS0nI0YcqEGKMDIvtauTG0jf57ywtEiklTVxJP5WhgZ9BVh3VkElqaUCbPZsYVb4NeEV0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=GzLDy6Zz; arc=none smtp.client-ip=213.167.242.64
-Received: from [127.0.1.1] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4460120FD;
-	Mon, 15 Jun 2026 15:12:04 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1781529125;
-	bh=r5QjrFAZtSkTFwOWAs/qFvVvo8FOH/iWvMtmoLDe4uU=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=GzLDy6ZzISFKKaks6yAIxJ8f9VXTGQcDB/ho+7jhVS3aDT6K0KdxcfoIRFW+xTIaE
-	 zlOJ4dKVJFfUs8HHtSwjiaHwRBOuCZGsjX0hAe2CYfJe08JGEGTcBIGScNkTWKLTw1
-	 66G6ty1mZIO71CLpHWwvSIOn0giRHPjFPGvuHtew=
-From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-Date: Mon, 15 Jun 2026 16:12:00 +0300
-Subject: [PATCH v5 7/7] arm64: dts: renesas: white-hawk: Add second mini-DP
- output support
+	s=arc-20240116; t=1781534404; c=relaxed/simple;
+	bh=JXBb/DENU8GdVa8lZmTQYk1UttH8sfz6FuqA1SD1a0U=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=hGHUKFKheRuUGsWPVQJIh3CVBz5IsjHNe6qxiZNTrDt/HhXDAtILzxRcFPgbbD+l+fo9AH4YzDGY7yqPiO9bSdDkpRqt81366KKPdag5jRgHNsed9bmx2R76Jgzx4QdYn68uS6X2/UWMP97WzDodBRDXVTTV6HyRUBhoR4At4o4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DJvUK64C; arc=none smtp.client-ip=209.85.128.47
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-490b4a8e28bso24291615e9.1
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 15 Jun 2026 07:40:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1781534401; x=1782139201; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=NgHUqEX4YwadNzzP4twhRjf8gxLZ7z91CpvZQHdgg4A=;
+        b=DJvUK64Cl1g1OFjWsh9HOh5rN4q/FD73LFc5436a9jsEEg6Nrs+z7SOopKVFBS5JP2
+         nszbIbKUPdUuFm0VMNhcbEiXmeyEoGEasdtGyVVeeScsI/pAQEBBH/wqYX8nf8XmzgV7
+         riv+vyBs/OeTl+AP/1bj9sPbwAeJxvm6qt/jEy40/ssm/uyW/3L+LtfVz8mZg/YDyey4
+         SbsORcu722XjbkzhXS3ZATFqeVTPstcDzEF66Z4On9Z+ymrjhiF4qr/rndzEPyhMKnVH
+         z+Obfwsdve13hzKnl2E0kf4P93gK1k+soNEnmsyBNXG9s+Vme/MTWOP0fJfJR2yZB7O0
+         almg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781534401; x=1782139201;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=NgHUqEX4YwadNzzP4twhRjf8gxLZ7z91CpvZQHdgg4A=;
+        b=Al8hHoHP5xSM++BhG7o6FwnSukKvUVWfXkPvuGgmCEOpLsZQgIP4k2xhp1Cw6vY9Vz
+         GN4uGVCZWiRboRw1eB8e7Y9x4hyAuukqaszrsdcz0bH+bpfQOFB5tL4FkD9DqWuGpovQ
+         AxjY7BI2AExBkxVVrc7ZI5YbnS4zFm49INgoGLxqyGCuQ6xR00udY86Bl+7DrB+vfRxH
+         VvmH1S/7t1Ed3lwNlXpmywa3T6XSaP1dxhKPuZMes0+ivfb7SXYRZu/lnIW7mVxRQnDY
+         a/ox9UJMTEN2Zmqlx8+xVUBVSHfkYI4zSbZEeKHQhURk7KBwNp/qMH5bogJx4eQ8jPP5
+         FQMA==
+X-Forwarded-Encrypted: i=1; AFNElJ/afqIVt6JTX1Cs6tAgB0/3SW2B4z1KPgzsbeOHZAzQTUf7gjSQ7jdebPD774VWXmJtzjud2YlCjKrC2k/Oou2RBA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzHS9s9MAFMo30duyy6kDLDiJdpNTBOBXS2bCl5NXp4RueRW7dj
+	w4et80Y0SgL0f6dOGXyomsNmM5rFfY2x4VcnO7qxlp9+7lQfE4rb1IkX
+X-Gm-Gg: Acq92OG/LsukL7uDs7eA1U80b25c+o9dZtDcjN9Z2onj2eJ+sEYNo3vtr9qjK114O+D
+	9LDyUGLsfoKjrmG71ewFIwldh13LH5tkVm8e0HJGZ+t+wg3slFownU8Dx2dbLSwP3ucK5kQa6bs
+	S2nqKAOqeEBJBkvRgRonbV4uz6NvTz++PPG37aBS3skcsGhkOpiWgod2lsyBIsBBcmQLY2rRBn3
+	9l43M23ooA2QSms85hqePR4wo8W37YquvyVEb6Tg8+4XWD9lcJBk7S9SojQJwvLa/4oSeGf00tR
+	PssFKfpaDwU3jNcKygpf9V6RzGSI6loA5FRIhA/IE23UfC7/fKkZS79Q12usHgR5FolMPgFAHYc
+	BSB6XgqU8PAeLCAjIyqL9LsJBZfyQtA+eazskVsTFo0P5KBnsVnamNsT+bRWKaJbmmm6v63OVhX
+	+mskM1HuQZdv4mbG64hsuYTWNm1Zut9RnZyHAfBeib0baLpJrzAufHe51qolJEcScHeyv45qtA7
+	23dnDxXImSqGVcNxZdVv1EZa76hJhlp+XnI
+X-Received: by 2002:a05:600c:214b:b0:490:bd1d:472a with SMTP id 5b1f17b1804b1-490ec4d7879mr140056475e9.15.1781534400816;
+        Mon, 15 Jun 2026 07:40:00 -0700 (PDT)
+Received: from iku.Home ([2a06:5906:61b:2d00:1e4:992f:3ad2:4f2b])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-492203c05ebsm256627915e9.9.2026.06.15.07.39.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 15 Jun 2026 07:39:59 -0700 (PDT)
+From: Prabhakar <prabhakar.csengg@gmail.com>
+X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Brian Masney <bmasney@redhat.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Magnus Damm <magnus.damm@gmail.com>
+Cc: linux-kernel@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-clk@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	Prabhakar <prabhakar.csengg@gmail.com>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH 0/2] Add RTC clocks for R9A09G077/87
+Date: Mon, 15 Jun 2026 15:39:41 +0100
+Message-ID: <20260615143943.1610095-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260615-rcar-du-dsc-v5-7-aed1a28610e4@ideasonboard.com>
-References: <20260615-rcar-du-dsc-v5-0-aed1a28610e4@ideasonboard.com>
-In-Reply-To: <20260615-rcar-du-dsc-v5-0-aed1a28610e4@ideasonboard.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>, 
- Michael Turquette <mturquette@baylibre.com>, 
- Stephen Boyd <sboyd@kernel.org>, Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Magnus Damm <magnus.damm@gmail.com>, 
- Marek Vasut <marek.vasut+renesas@mailbox.org>, 
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
- Philipp Zabel <p.zabel@pengutronix.de>
-Cc: linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org, 
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- devicetree@vger.kernel.org, 
- Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2815;
- i=tomi.valkeinen+renesas@ideasonboard.com; h=from:subject:message-id;
- bh=wbg5CCdU/74bk2tdhUnSaOwNMuA62RxSenB5kl7Y1u8=;
- b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBqL/o4hO8Dv0u/g5eAegc3ZL8aE0Fox9FM2aYv8
- Mjjtgwkyg6JAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCai/6OAAKCRD6PaqMvJYe
- 9WUcD/9xr/HoWPyOJ1I7azh4/3qaRz/zftC5etteWeracQJZPcEk0IjT+iIioo4RdWPoncM3T54
- OaTr6jNI3KE8ioIHRx7rzYr1tSulAHOofCGOvqthGrVZ2XMejEkVb2JnKqE8GosTyrKiW8UKaYJ
- E09le1VY4fwC03w+62rMrR2bUuWMRcevpQtvZgry17/jloF8O10oeUju2T12g8TZbs/equxyl/I
- x3lNRKmlE5BbSFWrcyzrdWPsgFxsMIH5EZaJOJ8ycvKEWDJCjwLZW89GTIg6mp40edi3n6HJuW1
- /pIAHg7+ebB5FmT94UjylZuNF9+6HRa2GuxeGco/2H9IrdEvRsUPCZrV01WWEgHjbaOxHd+ac38
- 0XuDww4UmLnabdfGCNynWEYPH/JgG5JGdQWiuOe4XvV2/MQq6G4YtmS3LWyoWQmFuBgzhqNjicw
- b/5jTw0rXF5nD1WgrmmT9466pJVHyWdAgtSnXVM0moiTMC7+H4Wdf3pCu3RCg2YwgyYWKCNWgYI
- 1JYfnwnubejuiGBv380btPvQb8FrEBMgREtwGx+THiwbrCDfmd1T/qZ1k/zHdhMByMlCqqa0ztC
- JSYHt/KsixFoq2sK4BwAUBOp+ZzurkLkgY2ZmPLJyJko4KyzeWsSXLqc8w40Ugjc7nTSh90PoWH
- x9oU4qGk1jsnyiw==
-X-Developer-Key: i=tomi.valkeinen+renesas@ideasonboard.com; a=openpgp;
- fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
+Content-Transfer-Encoding: 8bit
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.66 / 15.00];
+X-Spamd-Result: default: False [-0.16 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
-	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-34032-lists,linux-renesas-soc=lfdr.de,renesas];
-	FORGED_RECIPIENTS(0.00)[m:geert+renesas@glider.be,m:mturquette@baylibre.com,m:sboyd@kernel.org,m:andrzej.hajda@intel.com,m:neil.armstrong@linaro.org,m:rfoss@kernel.org,m:Laurent.pinchart@ideasonboard.com,m:jonas@kwiboo.se,m:jernej.skrabec@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:magnus.damm@gmail.com,m:marek.vasut+renesas@mailbox.org,m:laurent.pinchart+renesas@ideasonboard.com,m:kieran.bingham+renesas@ideasonboard.com,m:p.zabel@pengutronix.de,m:linux-renesas-soc@vger.kernel.org,m:linux-clk@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:dri-devel@lists.freedesktop.org,m:devicetree@vger.kernel.org,m:tomi.valkeinen+renesas@ideasonboard.com,m:geert@glider.be,m:jernejskrabec@gmail.com,m:krzk@kernel.org,m:conor@kernel.org,m:magnusdamm@gmail.com,m:marek.vasut@mailbox.org,m:laurent.pinchart@ideasonboard.com,m:kieran.bingham@ideasonboard.com,m
- :tomi.valkeinen@ideasonboard.com,s:lists@lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[16];
+	FREEMAIL_FROM(0.00)[gmail.com];
 	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_TO(0.00)[glider.be,baylibre.com,kernel.org,intel.com,linaro.org,ideasonboard.com,kwiboo.se,gmail.com,linux.intel.com,suse.de,ffwll.ch,mailbox.org,pengutronix.de];
-	FORGED_SENDER(0.00)[tomi.valkeinen@ideasonboard.com,linux-renesas-soc@vger.kernel.org];
-	RCPT_COUNT_TWELVE(0.00)[28];
-	RCVD_COUNT_THREE(0.00)[4];
+	TAGGED_FROM(0.00)[bounces-34033-lists,linux-renesas-soc=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:geert+renesas@glider.be,m:mturquette@baylibre.com,m:sboyd@kernel.org,m:bmasney@redhat.com,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:magnus.damm@gmail.com,m:linux-kernel@vger.kernel.org,m:linux-renesas-soc@vger.kernel.org,m:linux-clk@vger.kernel.org,m:devicetree@vger.kernel.org,m:prabhakar.csengg@gmail.com,m:biju.das.jz@bp.renesas.com,m:fabrizio.castro.jz@renesas.com,m:prabhakar.mahadev-lad.rj@bp.renesas.com,m:geert@glider.be,m:krzk@kernel.org,m:conor@kernel.org,m:magnusdamm@gmail.com,m:prabhakarcsengg@gmail.com,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[prabhakarcsengg@gmail.com,linux-renesas-soc@vger.kernel.org];
 	FORWARDED(0.00)[lists@lfdr.de];
-	FROM_HAS_DN(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_TO(0.00)[glider.be,baylibre.com,kernel.org,redhat.com,gmail.com];
+	FREEMAIL_CC(0.00)[vger.kernel.org,gmail.com,bp.renesas.com,renesas.com];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	ALIAS_RESOLVED(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[tomi.valkeinen@ideasonboard.com,linux-renesas-soc@vger.kernel.org];
-	DKIM_TRACE(0.00)[ideasonboard.com:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,dt];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[prabhakarcsengg@gmail.com,linux-renesas-soc@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	RCVD_COUNT_FIVE(0.00)[5];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	ALIAS_RESOLVED(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[ideasonboard.com:dkim,ideasonboard.com:email,ideasonboard.com:mid,ideasonboard.com:from_mime,glider.be:email,vger.kernel.org:from_smtp,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,dt];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 761D6686A8E
+X-Rspamd-Queue-Id: 08ED0687431
 
-From: Geert Uytterhoeven <geert+renesas@glider.be>
+From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Add support for the mini-DisplayPort connector on the White Hawk
-BreakOut board. This connector is driven by a TI SN65DSI86 DSI to eDP
-bridge, which in turn gets the pixel data from the second DSI channel on
-the R-Car V4H SoC. Note that this port is not present on the White Hawk
-Single development board.
+Hi all,
 
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-[tomi.valkeinen: added status=okay for dsc]
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
----
- .../arm64/boot/dts/renesas/r8a779g0-white-hawk.dts | 94 ++++++++++++++++++++++
- 1 file changed, 94 insertions(+)
+This patch series adds RTC clocks for R9A09G077/87 SoCs. The first patch
+adds the PCLKRTC clock ID to the device tree bindings, and the second
+patch adds the RTC clocks to the Renesas R9A09G077 clock driver.
 
-diff --git a/arch/arm64/boot/dts/renesas/r8a779g0-white-hawk.dts b/arch/arm64/boot/dts/renesas/r8a779g0-white-hawk.dts
-index 784d4e8b204c..89d60b83ac4f 100644
---- a/arch/arm64/boot/dts/renesas/r8a779g0-white-hawk.dts
-+++ b/arch/arm64/boot/dts/renesas/r8a779g0-white-hawk.dts
-@@ -12,4 +12,98 @@
- / {
- 	model = "Renesas White Hawk CPU and Breakout boards based on r8a779g0";
- 	compatible = "renesas,white-hawk-breakout", "renesas,white-hawk-cpu", "renesas,r8a779g0";
-+
-+	sn65dsi86_refclk2: clk-x16 {
-+		compatible = "fixed-clock";
-+		#clock-cells = <0>;
-+		clock-frequency = <38400000>;
-+	};
-+
-+	mini-dp-con2 {
-+		compatible = "dp-connector";
-+		label = "CN15";
-+		type = "mini";
-+
-+		port {
-+			mini_dp_con_in2: endpoint {
-+				remote-endpoint = <&sn65dsi86_out2>;
-+			};
-+		};
-+	};
-+};
-+
-+&dsc {
-+	status = "okay";
-+};
-+
-+&dsi1 {
-+	status = "okay";
-+
-+	ports {
-+		port@1 {
-+			dsi1_out: endpoint {
-+				remote-endpoint = <&sn65dsi86_in2>;
-+				data-lanes = <1 2 3 4>;
-+			};
-+		};
-+	};
-+};
-+
-+&i2c4 {
-+	pinctrl-0 = <&i2c4_pins>;
-+	pinctrl-names = "default";
-+
-+	status = "okay";
-+	clock-frequency = <400000>;
-+
-+	bridge@2c {
-+		pinctrl-0 = <&irq1_pins>;
-+		pinctrl-names = "default";
-+
-+		compatible = "ti,sn65dsi86";
-+		reg = <0x2c>;
-+
-+		clocks = <&sn65dsi86_refclk2>;
-+		clock-names = "refclk";
-+
-+		interrupts-extended = <&intc_ex 1 IRQ_TYPE_LEVEL_HIGH>;
-+
-+		enable-gpios = <&gpio1 27 GPIO_ACTIVE_HIGH>;
-+
-+		vccio-supply = <&reg_1p8v>;
-+		vpll-supply = <&reg_1p8v>;
-+		vcca-supply = <&reg_1p2v>;
-+		vcc-supply = <&reg_1p2v>;
-+
-+		ports {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+
-+			port@0 {
-+				reg = <0>;
-+				sn65dsi86_in2: endpoint {
-+					remote-endpoint = <&dsi1_out>;
-+				};
-+			};
-+
-+			port@1 {
-+				reg = <1>;
-+				sn65dsi86_out2: endpoint {
-+					remote-endpoint = <&mini_dp_con_in2>;
-+				};
-+			};
-+		};
-+	};
-+};
-+
-+&pfc {
-+	i2c4_pins: i2c4 {
-+		groups = "i2c4";
-+		function = "i2c4";
-+	};
-+
-+	irq1_pins: irq1 {
-+		groups = "intc_ex_irq1_a";
-+		function = "intc_ex";
-+	};
- };
+Note this patch series applies on top of the patch series "Add PLL3 and
+LCDC_CLKD support for RZ/T2H and RZ/N2H" [0].
+
+[0] https://lore.kernel.org/all/20260615104845.4122868-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
+
+Cheers,
+Prabhakar
+
+Lad Prabhakar (2):
+  dt-bindings: clock: renesas,r9a09g077/87: Add PCLKRTC clock ID
+  clk: renesas: r9a09g077: Add RTC clocks
+
+ drivers/clk/renesas/r9a09g077-cpg.c                    | 4 +++-
+ include/dt-bindings/clock/renesas,r9a09g077-cpg-mssr.h | 1 +
+ include/dt-bindings/clock/renesas,r9a09g087-cpg-mssr.h | 1 +
+ 3 files changed, 5 insertions(+), 1 deletion(-)
 
 -- 
-2.43.0
+2.54.0
 
 
