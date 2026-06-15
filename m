@@ -1,80 +1,82 @@
-Return-Path: <linux-renesas-soc+bounces-34036-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-34037-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id 77iFI1YfMGoDOQUAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-34036-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Jun 2026 17:50:46 +0200
+	id F2jaK2EfMGoMOQUAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-34037-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Jun 2026 17:50:57 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDDC1687E50
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Jun 2026 17:50:45 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 10FC2687E5F
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Jun 2026 17:50:57 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=gmail.com header.s=20251104 header.b=dkSSk9kx;
-	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-34036-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-34036-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=gmail.com header.s=20251104 header.b=oya6tk5W;
+	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-34037-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-34037-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=none) header.from=gmail.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 800313073404
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Jun 2026 15:48:21 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 5BBE530DBE0A
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Jun 2026 15:48:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1E7084071D0;
-	Mon, 15 Jun 2026 15:48:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2410540758D;
+	Mon, 15 Jun 2026 15:48:22 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A15383D6CBA
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 15 Jun 2026 15:48:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 935A3404BC8
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 15 Jun 2026 15:48:20 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781538501; cv=none; b=ghGhMaFiteqBMc50iGncu3tXUmG0gqAzHyjGcYaCrmyKM7uyaNXHcNCpJoxnnnxcf9ae8IUmbaKXaut0uXE9DUtulqwkvKsb24iSNKSk5fENDjoYdxFLxcEHxOD4ef2irRM/4nkVxildfgjzIPpsEq90q20HyjM8ZdaMx0KW4Y8=
+	t=1781538502; cv=none; b=FKRPpgRch2gMpKpLgBkmocysdgu+XQ3ghpv6LulcL+L/ezKd/1InnFjDOlfSdAhgoEccGRvmufMjmvklRWPKpgZ87XkqYORXi24AvxHDRXsra/1+Q2GDe7hQm6JpLgyUqkTcxb1MB9XQxNTnwS/xUz1YiiDWVGABatqhmYEXWmc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781538501; c=relaxed/simple;
-	bh=9AQNjOJK5XErQabY8MlMHTqGBlzsAUQVv7/EoWhSEbU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ZybHmBsJdIELutRHnc7Lt5fG2eJqb178D3OkurcmKsuOAKDKKTvlQAMhe1ZgLUbDR70zQD+b8z1h26A3szT6GCMFLzHRFcqOsW4wKQcQqQc9+tjTK9TrMsOyto5heuhLlZZbUWwCbMCfzPYWDcLgmxG8QfGuiA3X8liTqVuxGqo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dkSSk9kx; arc=none smtp.client-ip=209.85.221.47
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-46066e640easo2037090f8f.1
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 15 Jun 2026 08:48:19 -0700 (PDT)
+	s=arc-20240116; t=1781538502; c=relaxed/simple;
+	bh=i0epigYQSf6nodYrIVmZxJadmqWcGELiZNYUZq0FVfc=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=X/MCWhXDtN9E776Xbz2RflYcQTY1EOQDliUozFb6QFgIedhKT9T96F8Xs0HlWb1/XOqIWoXpZzGd3UJqJg8BjdyAmGXusQjORk9AIHVvxN6u8kpF/ZsjYtlbunuebJ4V52p1J7Hp9DMPtc3d+xtum0cC+ZafaHRaSJ0azLQGJDk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=oya6tk5W; arc=none smtp.client-ip=209.85.128.42
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-490b3637b90so26901235e9.3
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 15 Jun 2026 08:48:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781538498; x=1782143298; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=GlvO2NvI7uJOjmN8ub/e+ys3p07eKm6QxwA5qBV3O6I=;
-        b=dkSSk9kxddAC94HcDJZX56QPB/0GDtEkqU+BWBivECIuJxe1xLnDBTx+GdRcvJnCT5
-         SLaC4+6Qej10BS9zzGie48MWvCKaRf1h0w+1a0AGQMtT4dLpwAmudfakKGrRX5ZNpqj6
-         8x604rDmcjAYPs8mw93RPahaBJKwhDy+QqiKZAQQ0KT3sEZMvL/AyQi0gJR2xnWl8jDL
-         98/RFRmcY64roC95zj0W6CTadpEVPNmVlKWmBVPA7Ovc3cOAksUbaM/aV+Ct9r1HnSgz
-         Pv/7htGKtmnKDrfnyJXDl5eZX5PUBYQR7l1/gB9MAi33PNIu3DK7kCxUEgh9ECQTS0JY
-         2UtQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781538498; x=1782143298;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1781538499; x=1782143299; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=GlvO2NvI7uJOjmN8ub/e+ys3p07eKm6QxwA5qBV3O6I=;
-        b=QbfntS+XYSoYOWk8TyIpaoPXlWz27AeyG4fcV3qgfNSqzmVu+/sXN8cgpVxYUl1q1w
-         /31EkRFTuVowFxfA15G9NPHr1+Vsmzkqt6grrk2DicVQRnrbzhfr5KS4tk8UxtI9JPXo
-         AkN+R3lAf+G/rkXZZwUk1ZyVpUqvsQIjLYF/8YJCH1WnY4j8/a+LxidIW/ZoGi5zSCG2
-         cDKY4AjkHSRpOF82eWUadm5EGXN8rpBxtArh8RyMobjmCtFh2dHk0pscz4V1kvDiwudJ
-         1xVD2zNvfVI3AA43O4egXhBDtS02fOkWoDFqpqvOzjaa4cXxYWYywo4014dd0dcSaZSF
-         7mIg==
-X-Forwarded-Encrypted: i=1; AFNElJ+JCSO46gbgCpy8m2CSsuuPflwZcBQ0Y6p2waXmDtsBbXT95pNg2YPqI+ceBm5+dOwkr+wtQmx6lYdhXmmYT0pmAw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw4x5OLRgRVDYTKgK3R6PeK0RlrHWBeMov7USxbJYR+65pdBQHl
-	wxoVhzrHgfFI/OhRNZW6YtJiOhOZj2JVC/97Aztx+dXuChiPMHJAZvds
-X-Gm-Gg: Acq92OEE69/2nh9Jg9zVWOj9hDW9l/B5W7/fdKVqv1vHeYLhsiEimf2Z/DW3PODGNzN
-	ybjGgIB5RAHvuBuwFwrHe4JU92eA+SxtAL5/PrIlB2t+1BttcJUfZr3BrBzYOtd0vEPbCYiq2mY
-	sWkknGgZEL2V968iluHSO1bY70Hg5DY/3P962nyUxFfAqvuHi3W495T4GxxTKjzNIgkCrGCFqgO
-	qQjfzb7GNGb+mxWv4c1h/Er3XQp+STt5ys41wkEzQNdTmaAbB3j2Mwl7art9GoJSFYCwVG33JLb
-	oRaObirjMwTO8FsjETLx7Jqtck3RBZkMUtjGhi9Vwb5QLmKW5MtF8SYLP6spQZ/DZthGeRJkhzv
-	6Wqr8IKHC7w+ubYvCJO/A311u6MoOpVpddLzysrrBsNbl6/JPutiaOzl5SZ0VsL3MuCsrPKX0CZ
-	FdkZfiUwJZH05YVxnyXbSziINrV3knKfwEe9e8wnYle2wzGn3zb7tBL86XM/Nr3gDWxKP/Kugdx
-	hU5eit3mSllJNA9P297CijWSMFf6gOCf7kW
-X-Received: by 2002:a05:6000:4284:b0:460:e00:121c with SMTP id ffacd0b85a97d-4606dbc6792mr20607488f8f.28.1781538497778;
-        Mon, 15 Jun 2026 08:48:17 -0700 (PDT)
+        bh=+6TqdYR7EjMTpHsjbl3Oaxm9i/7wwH40MmAvo6XkU6A=;
+        b=oya6tk5WPsFdMxBAzLZxTqF5CNPi25TxzEVJIPdXn1eGkjcz3LIdYSILyfV6mB8DCn
+         HqX6cX1R35+olDhoFLA+niKfwVQ8goyWH6C0s1fcbWaIlog1Si4WgaagFtLR/4PpYGu/
+         yC9O5aMx0OoXoOORnhnvM7qrDRh7DBr41jPnPGhMkI40VpKJ5sLz/c0bAHKjEjDMkpRY
+         V22YXEFYYd/z+D08CqQNpxUM1eA39H7lInADFBwwVTkGgImel6LMg/oYaesrWUIucWfL
+         iqIoUVkl6zyTgHmj4ppXpkMGTnFscrAU4FzPxMGpeRBe1jM3VnxBg5e76IyhBHjCjlkC
+         58fA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781538499; x=1782143299;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=+6TqdYR7EjMTpHsjbl3Oaxm9i/7wwH40MmAvo6XkU6A=;
+        b=EFIkkW3wzPpknPMReorrbk7/UFf6D027BkYK5atl6GTjDiBMs9t6/q0/7DmQ/L+MXb
+         bvDSQpdEeneTg9/CN9sOAf+ppB8Wr95fK/qv1OPdY5BaobsxusFLASpN9+EGg/5a0HvD
+         qek8gVTbH8ffjgLG5QvoDLdClVTNxXBEsjiAoHGcjKs4MkKuBIIi7xG3UZgn66uLhMoU
+         d0gAPVfth9qsBWK7XU22nltUyjZ9SfnU7YueZywezcMNzqCIQIxSnbvpAUMMiDORzmlN
+         vEvWZ1S6rHs8daKQTkLkzsrtNzXi0XPqnv777sWl/pcffZOc2EC4+dWJqRdBLwZcP/Tq
+         XoGg==
+X-Forwarded-Encrypted: i=1; AFNElJ/VUKBwmECsg/E73anUYuTie2AAofIpi0pmgOSLptare+0XIzSgTDU4IgA8nM1Fdn+Z5qbkjxcccVMFBESqsnsyNg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz8L61GB5rgNj7df2JIXp5pUyxwWdrT6SAq5UgQFo9F3VEDL8XD
+	kfz0GcqPukK5xtqZwjf2fDTPgMVVpKO7VwDKOGX7Oye/Sg6g+1atoXyU
+X-Gm-Gg: Acq92OETZZpsvl6ymmRqsI2QRablo1LgOGLpFIBqREsrDOsgmXv/i3O0MsHxiVMqelQ
+	TxukNtemp7LCk6Xu1E9ka/G3Gnq1DmqIA0Mvmb7EIQgfm7CRk2AQiphwLAtxng8JwuGV37egYi7
+	CNer6cfErLbvXneLax1llwBr9XAlfF/3K/ABqdfhZgBNANSsf+dQLs3FUXDSpQyoI3mKVDYd0Oz
+	qKIHWa/k0+ajJy0lPJ2AVMYuHGXb3dzv4Av+Z6eDfLGDoaU4KNpnbXPQBsTWDt1Lwa/kbfiuQ1d
+	uNRy2ge6W5Gla46WKnNiRVPNXm+Tcg8HsZAYmVAc0i0NVLI2fOnSiTAGSisIvLc8rrsqlykWjOd
+	JbV/CpW34u3rEhWuRXa8rswhHODZ5Jahzoe3qYRP7LZ2u71Jmj51k3cK9gsyZMxb7pDJD+V0iQ8
+	bJxRD4Ln0UuArb0c0Cr6gF2mUykv8PZxtS/Sm05Prp5+u/thH8rkRwQx0h00FrwJ90MC5ghSvVg
+	y2Cxo2N4Mg7LUVoZSMBj5b++fARMxJnrE7Q
+X-Received: by 2002:a05:600c:81c5:b0:490:ea88:9d4c with SMTP id 5b1f17b1804b1-4922016094fmr111312015e9.32.1781538498881;
+        Mon, 15 Jun 2026 08:48:18 -0700 (PDT)
 Received: from iku.Home ([2a06:5906:61b:2d00:1e4:992f:3ad2:4f2b])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4606f26434dsm36010995f8f.1.2026.06.15.08.48.17
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4606f26434dsm36010995f8f.1.2026.06.15.08.48.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Jun 2026 08:48:17 -0700 (PDT)
+        Mon, 15 Jun 2026 08:48:18 -0700 (PDT)
 From: Prabhakar <prabhakar.csengg@gmail.com>
 X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 To: Miquel Raynal <miquel.raynal@bootlin.com>,
@@ -93,10 +95,12 @@ Cc: linux-rtc@vger.kernel.org,
 	Biju Das <biju.das.jz@bp.renesas.com>,
 	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
 	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH 00/12] Add RTC support for Renesas RZ/T2H and RZ/N2H SoCs
-Date: Mon, 15 Jun 2026 16:47:53 +0100
-Message-ID: <20260615154805.1619693-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH 01/12] dt-bindings: rtc: renesas,rzn1-rtc: Add RZ/T2H and RZ/N2H support
+Date: Mon, 15 Jun 2026 16:47:54 +0100
+Message-ID: <20260615154805.1619693-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
 X-Mailer: git-send-email 2.54.0
+In-Reply-To: <20260615154805.1619693-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20260615154805.1619693-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -109,13 +113,13 @@ X-Spamd-Result: default: False [-1.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-34036-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-34037-lists,linux-renesas-soc=lfdr.de];
 	FREEMAIL_FROM(0.00)[gmail.com];
 	FORGED_RECIPIENTS(0.00)[m:miquel.raynal@bootlin.com,m:alexandre.belloni@bootlin.com,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:geert+renesas@glider.be,m:magnus.damm@gmail.com,m:wsa+renesas@sang-engineering.com,m:linux-rtc@vger.kernel.org,m:linux-renesas-soc@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:prabhakar.csengg@gmail.com,m:biju.das.jz@bp.renesas.com,m:fabrizio.castro.jz@renesas.com,m:prabhakar.mahadev-lad.rj@bp.renesas.com,m:krzk@kernel.org,m:conor@kernel.org,m:geert@glider.be,m:magnusdamm@gmail.com,m:wsa@sang-engineering.com,m:prabhakarcsengg@gmail.com,s:lists@lfdr.de];
 	FREEMAIL_TO(0.00)[bootlin.com,kernel.org,glider.be,gmail.com,sang-engineering.com];
@@ -134,64 +138,92 @@ X-Spamd-Result: default: False [-1.66 / 15.00];
 	DKIM_TRACE(0.00)[gmail.com:+];
 	RCVD_COUNT_FIVE(0.00)[5];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	ALIAS_RESOLVED(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[bp.renesas.com:mid,renesas.com:email,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,vger.kernel.org:from_smtp]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[bp.renesas.com:mid,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,renesas.com:email,vger.kernel.org:from_smtp,bootlin.com:email]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: DDDC1687E50
+X-Rspamd-Queue-Id: 10FC2687E5F
 
 From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Hi all,
+Add compatible strings for the RTC block found on the Renesas RZ/T2H
+(R9A09G077) and RZ/N2H (R9A09G087) SoCs.
 
-This series adds support for the RTC IP found on the Renesas RZ/T2H and
-RZ/N2H SoCs.
+These SoCs integrate a closely related variant of the RZ/N1 RTC IP.
+Unlike RZ/N1, they do not implement the RTCA0SUBU and RTCA0TCR
+registers. This is not a limitation for Linux support, as these
+registers are not used when the RTC operates in "scmp" clock mode, which
+is required on RZ/T2H and RZ/N2H due to their 195.3 kHz input clock.
 
-The RTC block is closely related to the RZ/N1 implementation and can
-reuse the existing driver infrastructure when operating in SCMP mode,
-which is required on these SoCs due to their 195.3 kHz RTC input clock.
-
-While the RZ/T2H and RZ/N2H variants do not implement the RTCA0SUBU and
-RTCA0TCR registers present on RZ/N1, those registers are not accessed by
-the driver in SCMP mode, allowing support to be added with minimal
-changes.
-
-The RZ/T2H RTC variant also supports a 1 Hz output signal on the
+The RZ/T2H RTC variant also supports a 1Hz output signal on the
 RTCAT1HZ pin, controlled by the RTCA0CTL1[RTCA01HZE] bit. This bit is
-marked as reserved in the RZ/N1 hardware manual, making RZ/T2H a
-distinct RTC variant despite its overall compatibility with the RZ/N1
-implementation.
+marked as reserved in the RZ/N1 hardware manual.
 
-The series consists of:
-dt-bindings updates to describe the RZ/T2H and RZ/N2H RTC variants,
-driver updates to recognize the new compatible string and enable
-support for these SoCs.
+Update the binding schema to require the additional clock inputs used by
+these SoCs.
 
-Cheers,
-Prabhakar
+Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+---
+ .../bindings/rtc/renesas,rzn1-rtc.yaml        | 35 +++++++++++++++----
+ 1 file changed, 28 insertions(+), 7 deletions(-)
 
-Lad Prabhakar (12):
-  dt-bindings: rtc: renesas,rzn1-rtc: Add RZ/T2H and RZ/N2H support
-  rtc: rzn1: Handle EPROBE_DEFER for optional pps interrupt
-  rtc: rzn1: Fix malformed MODULE_AUTHOR string
-  rtc: Kconfig: Broaden RTC_DRV_RZN1 dependency to ARCH_RENESAS
-  rtc: rzn1: Add system suspend/resume support and wakeup capability
-  rtc: rzn1: Sort headers alphabetically
-  rtc: rzn1: fix alarm range check truncation on 32-bit systems
-  rtc: rzn1: Dynamically calculate synchronization delay based on clock
-    rate
-  rtc: rzn1: Use temporary variable for struct device
-  rtc: rzn1: Consistently use dev_err_probe()
-  rtc: rzn1: use FIELD_PREP/FIELD_GET and GENMASK for register access
-  rtc: rzn1: Add support for Renesas RZ/T2H and RZ/N2H SoCs
-
- .../bindings/rtc/renesas,rzn1-rtc.yaml        |  35 +++-
- drivers/rtc/Kconfig                           |   5 +-
- drivers/rtc/rtc-rzn1.c                        | 182 ++++++++++++++----
- 3 files changed, 173 insertions(+), 49 deletions(-)
-
+diff --git a/Documentation/devicetree/bindings/rtc/renesas,rzn1-rtc.yaml b/Documentation/devicetree/bindings/rtc/renesas,rzn1-rtc.yaml
+index 1860f0e4c31a..ea7b039a91e7 100644
+--- a/Documentation/devicetree/bindings/rtc/renesas,rzn1-rtc.yaml
++++ b/Documentation/devicetree/bindings/rtc/renesas,rzn1-rtc.yaml
+@@ -9,15 +9,19 @@ title: Renesas RZ/N1 SoCs Real-Time Clock
+ maintainers:
+   - Miquel Raynal <miquel.raynal@bootlin.com>
+ 
+-allOf:
+-  - $ref: rtc.yaml#
+-
+ properties:
+   compatible:
+-    items:
+-      - enum:
+-          - renesas,r9a06g032-rtc
+-      - const: renesas,rzn1-rtc
++    oneOf:
++      - items:
++          - enum:
++              - renesas,r9a06g032-rtc
++          - const: renesas,rzn1-rtc
++
++      - const: renesas,r9a09g077-rtc
++
++      - items:
++          - const: renesas,r9a09g087-rtc
++          - const: renesas,r9a09g077-rtc
+ 
+   reg:
+     maxItems: 1
+@@ -54,6 +58,23 @@ required:
+   - clock-names
+   - power-domains
+ 
++allOf:
++  - $ref: rtc.yaml#
++
++  - if:
++      properties:
++        compatible:
++          contains:
++            enum:
++              - renesas,r9a09g077-rtc
++              - renesas,r9a09g087-rtc
++    then:
++      properties:
++        clocks:
++          minItems: 2
++        clock-names:
++          minItems: 2
++
+ unevaluatedProperties: false
+ 
+ examples:
 -- 
 2.54.0
 
