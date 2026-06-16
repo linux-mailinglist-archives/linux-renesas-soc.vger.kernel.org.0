@@ -1,203 +1,175 @@
-Return-Path: <linux-renesas-soc+bounces-34096-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-34097-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id LEjlJpCDMWpXlQUAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-34096-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Jun 2026 19:10:40 +0200
+	id TxM1OOSNMWo6mgUAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-34097-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Jun 2026 19:54:44 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34B57692D0B
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Jun 2026 19:10:40 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 50A186939FA
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Jun 2026 19:54:44 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=bp.renesas.com header.s=selector1 header.b="Y5TRM/rh";
-	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-34096-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 172.232.135.74 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-34096-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=renesas.com;
-	arc=reject ("cv is fail on i=2")
+	dkim=pass header.d=ragnatech.se header.s=fm3 header.b=GFSpkuGc;
+	dkim=pass header.d=messagingengine.com header.s=fm1 header.b=OxkAnLD7;
+	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-34097-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-34097-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=ragnatech.se;
+	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 0E4863055211
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Jun 2026 17:08:27 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id C4A92301467C
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Jun 2026 17:53:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9962747DFBC;
-	Tue, 16 Jun 2026 17:07:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 499AD477982;
+	Tue, 16 Jun 2026 17:53:09 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from TY3P286CU002.outbound.protection.outlook.com (mail-japaneastazon11010003.outbound.protection.outlook.com [52.101.229.3])
+Received: from fhigh-b7-smtp.messagingengine.com (fhigh-b7-smtp.messagingengine.com [202.12.124.158])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA77C47ECC4;
-	Tue, 16 Jun 2026 17:07:11 +0000 (UTC)
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781629633; cv=fail; b=hZOH3sr8ExhLNjWPZohaAaFDWtZnlWeHSfcZl9fKHdB/heeS9STJ99A+dnol1KuGMbJXwHlQ74IXVWNy9h4rttNTAAcLHTXTXFqHorxNbZqP14b0fkFnqmd6ZrCpvOdGBvNW435zlf8FXcLroMKv4n4MmjZ1biAwMFlvrgmvomA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781629633; c=relaxed/simple;
-	bh=Ki8b5VTEvo5Yy634VqfnaPd7mBgERLAigs5TKycfu4M=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=dNPx/eZvW7WtYZC07gpuy1UBRvRhR8MR4xwLDdGWycRzOs4+s56aJ0yQkJ2/gILW4JllyzlvfsA9E0o/9UnxAge1nVbmvNBDSJIlETqNMA2EGfNZzi/pulptqTJ9VzL3A2MhbM/MhWFgjzUSn+5QqTOP3A+lsrrNdbJPbY16dSM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=Y5TRM/rh; arc=fail smtp.client-ip=52.101.229.3
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=xPYv8fWHNmsiSfYlxXCXmG0FeHKXVOuDPXtTvRlsZW8xKe6mUH5tL9iEnXQKJOwNN5swzobNjS1rleCokw1nZvTWGMsOjttjPTPlxgF0j1rFnLN1xRDcXQqgtHVVe/nP3UkgM9b79PHhJwRmaAF8zWJIMer0ur9rLDczGZH+vTpeNgMJ3YDWsOC9kSqMQEzozuyEPSwHphX/wU1+cr8f/ZuSPcgqCUwFeHsRn9ytD4S7GKMYcH2kdVqW9O05D22RMg2CJfn60Gtq7ToyPBWwrWAC5aC7B+SWqtp6ImbqFw+Uc1uZiBQe+54UFkOWs8+1sqhlLsABdp4P5gkVTsOC9w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=EvFhM83ahg55SC9NE1Dgrwg1bwMk3146TIaS7A7dG4I=;
- b=Wt9EIA8ZKQPYfa3ESK5F/xa62PjluUmTEcDLpUzZ4UP2w0vQ0TJ7dNVXkUoDUyhGemzZMZAGLKQeZCCrXWK0Po6vTGAkOSu+pT9Sk0UPnHLYeR0kN8vaTLnK9HUlQFxjRLMAPBuxbX4Ho4vYMLo18JjjlNrLBmmB2pGJfzxXpvxARZeL5CVIHD9Zfw08CZu1ZYpKuJF0xWmCeQxwEIR2d0I4lYLauN3DQZEeZNyryZpqPSvicQ5G5HsxAXmCtvO2D6OnXJlTNyc9sowdNFDIAwEhYcqnwDoVe1nt0R9q6RwJ4labWiFsZ8jyFGZfZOne7XIq4jWErec4arM3wpvNTA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=EvFhM83ahg55SC9NE1Dgrwg1bwMk3146TIaS7A7dG4I=;
- b=Y5TRM/rhUre2MJlRP0VPY0QF+36Iegyckubard3ENKZVQT5kI3AEo654Vfb4gl7HXsKO6SuS83WYE0UlE+tW9E5YGk91hI88QHWQHqbMLdmqKTdc990eUgYbb98rPP0kIhlc8P456qwhwsEjRmSA/r9YDaUE0WYz/jXGKzxWYMw=
-Received: from TYCPR01MB11947.jpnprd01.prod.outlook.com (2603:1096:400:3e1::6)
- by OS3PR01MB9637.jpnprd01.prod.outlook.com (2603:1096:604:1cd::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.113.18; Tue, 16 Jun
- 2026 17:07:09 +0000
-Received: from TYCPR01MB11947.jpnprd01.prod.outlook.com
- ([fe80::33f1:f7cd:46be:e4d8]) by TYCPR01MB11947.jpnprd01.prod.outlook.com
- ([fe80::33f1:f7cd:46be:e4d8%5]) with mapi id 15.21.0113.015; Tue, 16 Jun 2026
- 17:07:09 +0000
-From: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
-To: tomm.merciai@gmail.com
-Cc: linux-renesas-soc@vger.kernel.org,
-	biju.das.jz@bp.renesas.com,
-	Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 9/9] media: i2c: ov5645: Add suspend/resume support
-Date: Tue, 16 Jun 2026 19:05:39 +0200
-Message-ID: <20260616170542.447804-10-tommaso.merciai.xr@bp.renesas.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 798BC3C76AF;
+	Tue, 16 Jun 2026 17:53:05 +0000 (UTC)
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781632389; cv=none; b=JH3Eg5SwgThYfccsjK/CmPXMtkyFy54cUzNG0Ar9ynYko51XlbmnfG4JoWA5v6wvRlCmYWVRB21C9WjBBA4K+cyL6WqeoJtI9kRg+0tBhukIgS0RAoObaqxvuGx/o4gEoQULSqUi477kDV1W7Ulspgoig8ylrFWQkk44DL/eMFA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781632389; c=relaxed/simple;
+	bh=Oy0RRk5QulwyIm+ZmmfOFXncoE5odDngKfJlDCAOesw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=hs2b2EEBzgzYJIWvrM8cQ+IILdqGf3xfnGq65cNlj25qZ3EpQBQbtOVf5OaQVAAAcY4xze5D8F+qlTxhdnrbeLmZWUX4K+gp6FzKk7hvzUfBJIEHplA+SV+LOv6OK20rGC37LvuiSXVz/LuDiqVQPHM/N1XcpKcBq9t8LbMZhg4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=GFSpkuGc; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=OxkAnLD7; arc=none smtp.client-ip=202.12.124.158
+Received: from phl-compute-09.internal (phl-compute-09.internal [10.202.2.49])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id 512D37A00D8;
+	Tue, 16 Jun 2026 13:53:04 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-09.internal (MEProxy); Tue, 16 Jun 2026 13:53:04 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:message-id:mime-version:reply-to
+	:subject:subject:to:to; s=fm3; t=1781632384; x=1781718784; bh=2s
+	ZyD20FMg/PCHT8+2P9zYIMVsHDFqtcWDSPeckFTvQ=; b=GFSpkuGc/Pe0VsyfNA
+	GWp2tqdzHISRw3EOGaodpLgyvbGb262dEOiODNmC48z1eOrVEFftXnv37BoLjm/4
+	64XXzxZp4xPCEA5i+stNXWfij1rqfyzQCYTQomb7Bd0uInG/4KIu12sDhKBCkRVC
+	uxAMnSaeky32kJ29P3LT4Khl8NtKwooDxF2B5gTZR77/g5ZvxfvgE2HZPWf9J0SV
+	PwudQGBQC1Fut6HMddBHZZ1uqvHW+JWTDoRQtmiQ+ltLQ/hYsfLzwWltE7WXpxVc
+	iOounrYzvLrxxvzfs56R0dYoXCH4lqqIi6HAJLRZNE6zu7SRjqKYFH82dnTtE/uW
+	aZ9Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
+	:subject:to:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm1; t=1781632384; x=1781718784; bh=2sZyD20FMg/PCHT8+2P9zYIMVsHD
+	FqtcWDSPeckFTvQ=; b=OxkAnLD7t8l36oVunpiSIS6gMUwtZqrh4X7JJrF/8IS8
+	MLYn9q+mO+6O1oEWKNs38m0PtJSYmkgnyfWvYPcoK+StxHKMJUs+5sT4e3LLGh5e
+	CNOV4n6W/Ed/j1kqnTWnNT3ZXApCQBIZTI8kjWSpq+rBXaLFcZJLWiQ/Rih7xbQk
+	JrEHr/AUlOWtztg+gOmtYIuosxWa9R2jZHNHodHobCKMtA4WGtV4eMCuZg1IZvPR
+	dZIag8qcgrRtIGvXd6CYHCb/VGKRXsWZBUJjTwuv9FHSu/MlhGsW6s/jFAUPEUj6
+	Wd2oSnRtG1tNk7WPorxk3N0eu0KCayBaUNYAZp3VrQ==
+X-ME-Sender: <xms:f40xaj0BjLsUwHRZ0If51hpwDLRaCgW4a2l1jthzX7NsLt5Fue6LTA>
+    <xme:f40xarbE4pHcY4A8-711tRpFN-IqApuGXKXokUrS-iPyAM9En6dUTQh-6pwOR2w0z
+    9Ee-AfV5ZGlBLe9xi7WDelOA5aNuvBIU-schn2JnfMRCgSAHueHKfE>
+X-ME-Received: <xmr:f40xarIUh2z01MVfwgb3qk9uEZm7DuzE1VP4ilHD1vSBHOcCntLFj0IE6wSmeqDyjZsTNnfBmoWFNNj5d1co8d3wfW63>
+X-ME-Proxy-Cause: dmFkZTGZTgHPcy+1uLKRgSbbX+eU8C/CaT+cP3r9EzK9Ri7Jzpcqequ0QD1lsYGSBKZh8p
+    UHCkWJe0J7az2+tVSLJLK8d9zGJJixlSyuWtuCe+UrgJmtkEz2gOHoGSY9MPbCOkKhIqSW
+    jw24GYx7r4vlZkOPUJdhwxAp+4kX/9rloKwQ1h8YYKpi9TQPbaWdA75Htd0+mM46H1akvH
+    QD8/ajRRfMKKuu7G1NEUFyXJcTZuB9HHCVPLUazKMKZikQ+n4dsnHgEOa5TCH8M2wrXfph
+    4WDYeNZaxkGd0GO3mcpGCyIzqkT8V7Q1ryD1nCSYC2R9IG8vnq2t4n2d4bS3+5f3MaSSVx
+    GYjfyYkXLJXrRChrZl5BGjg5PhwydErjCEuW7uemr3Newkd1rjTYoy3sv/l3otoo0Uxd4r
+    wlELcEwJcFIAr6YWdhkPf3TrLLnXfGahAPB9913n/HcGXSlIcuZyCI/N2Af5IKAgnMdTF8
+    OuevEIT4+oZDVsNgs47DRn+3sjejajQkm2Uxx3hGLO0mB+tjMQH6JTb5BInyEVoTOMQslA
+    0ne31EDLz4u0HDH9hcb6DFgU+KUENfLNMY1LZRjCCGeqd/POghHh8pNrCjxdP+G+AjqJn5
+    miXDe7ER7n8PvjhC6nPb47TZFQW3tAyEfZazjVNwr8rkUMeZ9Er4uicuyssw
+X-ME-Proxy: <xmx:f40xaqHaY5FUg444xFfYro1PftcN_uE4uGFiLXqvs0fOSu4pueAhug>
+    <xmx:f40xaiszZdZtcu2y90qTMcvpkth8DHqcpSVYvUbtCBnNXgTiTydx0A>
+    <xmx:f40xaptvgalIC1dEsoK71Qo2DRgkPnjGLYKvX3B61mEj3lufp6bsLg>
+    <xmx:f40xagCjia6glzXOR85wa1x6Odch49_1RjaRo20rrlG7wNNwWwqUEQ>
+    <xmx:gI0xaqQKbyMNOX5_yGcPq0OLE58k4bzBXkK7mjRCFAL4D8KXgw4BKZ4g>
+Feedback-ID: i80c9496c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 16 Jun 2026 13:53:03 -0400 (EDT)
+From: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+To: Geert Uytterhoeven <geert+renesas@glider.be>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	linux-renesas-soc@vger.kernel.org,
+	linux-clk@vger.kernel.org
+Cc: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH v2] clk: renesas: r8a77995: Add ZG and 3DGE support
+Date: Tue, 16 Jun 2026 19:52:47 +0200
+Message-ID: <20260616175247.2104891-1-niklas.soderlund+renesas@ragnatech.se>
 X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260616170542.447804-1-tommaso.merciai.xr@bp.renesas.com>
-References: <20260616170542.447804-1-tommaso.merciai.xr@bp.renesas.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: FR4P281CA0393.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:cf::18) To TYCPR01MB11947.jpnprd01.prod.outlook.com
- (2603:1096:400:3e1::6)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TYCPR01MB11947:EE_|OS3PR01MB9637:EE_
-X-MS-Office365-Filtering-Correlation-Id: 26d7e3a4-775c-4ab1-7909-08decbc9b354
-X-LD-Processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|23010399003|52116014|376014|1800799024|56012099006|11063799006|22082099003|18002099003|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	IAi0MQBByo5K9rXFGfIOSkQNovMOMVt85V49ECiZK8eJ+UO1YqRuepvI2el2hssh9iIpkxXbTL7mWI+kSg1hYngCoOfuvw8njZse9z6fFCRnjxDWdTcCEVbD8u3z4cizhXIL/P2Rfsu2ZvpGW22/e0toDSNMNmpcM//kO7+gZcUVl2OzbJy5vrCI+FkN1hFYqm1sm12Oc+sVm1hIIdRxMrYj1JLv58x2qGT4iF249sfRuVPHEdmpSx/AGDUay3LzHGB3oVOJ6LojOFfGEcuOilsr5B+AemO1BxLxOuL6ME7ColminLIm4KaAW4Mr4H/S24hiQSTC9zTLmYERG8e8ihQffbUAXD8q2Aw0DyXFBqkcIPvwUudS6F1QRvA56SxY3HGmRzwbedK6v6Bb8S4t/pb7jX22zdrj2/fMgua0gScrMpcwIr9m+mK5a1sntBW7JB6Vrnl4BE1h5JPdpvmAIP41IAu+z1uiVP5AQB/V0q2BnGku4Zwy1qVMncHwblX5YFjKg+xy2rcBGgWX2LiW4Mvw6AQG1yD6p6ZS7S6wMnnz1iYko/vCDFyVa5E+OQJt2M+jnZwiVgpLrMI7IJrolZZ5OE4Ykui+bJJkyo3MVq4sR51jZjKZ3Qd+jW6SZktDgRWRVd1FDhpccc/8ODX5nnXJc1Lv/HZcvP2N61bskOCm0wy0maI7NjEOTgFA79nqiJNPlwlNeDrL8kLIMGoYfrCrv8T8QQzX7Y8LJU/cCqUoIfhuWI/yn5FENDxRT+9v
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB11947.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(23010399003)(52116014)(376014)(1800799024)(56012099006)(11063799006)(22082099003)(18002099003)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?Q6XNBEp8eTYAXey5Iace6beJiQNhku1VT/y+F6NF4+ktKAqiV8QQZnyt6BfJ?=
- =?us-ascii?Q?f6r1GehO41PchNvYsBFpxLx1Vx3DoqB6/SmWdnUsGr4yAbPhJ2zLOyWRiPHT?=
- =?us-ascii?Q?1H8kxEdkReKnH9lo4LiI1xlywgjLVb1Xa+I6dmv6T+VA4SpXr7mTGf97Dv2E?=
- =?us-ascii?Q?DFa1mxVD70xhkiTzpQS0jYQBFfBC7/BrBOasA0fm2J0yro9NsDKZuSPlZ+KD?=
- =?us-ascii?Q?yeEMZA0CU9VDF4AvAk1DL42TxEQrZUneCWxkc8DVYk4aIGn6heh115hQqLt9?=
- =?us-ascii?Q?z2zGdFuXGBTwqWbEIqJNPPCfly7zNaApFfs+YULLBhh8ieZGyuHXVRSAaD99?=
- =?us-ascii?Q?A/KD/i6wbyxz3dYU5Efn1s5eW6+yAYxOemoXMHNAslCfA1sqk2Up7/HUG956?=
- =?us-ascii?Q?MEwQ/4SjWyY+2id7kGeK2OqT5xbVaeotMsUUZXB6p1PqGuy8dOQt1ID8rifh?=
- =?us-ascii?Q?8NbGgeDBwc8MwCqUurZhaxkyjFVGHB7gWK8rrq3TFedg0BoD/gzTTgyeeOMJ?=
- =?us-ascii?Q?1cDEyAnwgiigxzSWnQ4FCoPTmmTGEQxqRf4XIhDxo7BiXtDcLuuX57N+B0h7?=
- =?us-ascii?Q?FBKCOAeiWWoxGnuj+Qymg8aREdQwhMeBBvv8gZB/nhVuDAwON+4vjJuIS2aV?=
- =?us-ascii?Q?avryPiUZcDSVDA3PBhINvq+43JXqbGhGuxLvDlwsTKUxI6jmumn0lKypDeRk?=
- =?us-ascii?Q?eNjBIHkk6ipgp/H+Ekq/D+UpeVsQ361/2cqfqFtx7/szSRb4Mo96EeTuBLLg?=
- =?us-ascii?Q?Ep2TF/Cz80rGjpkxiJXWXg0dQAuveNleV+bGfj25/p/gEE4BfCePBLBUEm6k?=
- =?us-ascii?Q?RFP7mH18hR13yGvYwQI8NonkdX5DX0dZtdzN6yhMvc9gHt4ypj0XcCkTJMa2?=
- =?us-ascii?Q?B3lZXzJXirgxNz+VEug8JKgLt6DTro+ayl2vee1iWTmo9MOGXXAhVdypKv4h?=
- =?us-ascii?Q?ck9+RS5IOCA3dZ1zfw4go4gjHmrnY9fhAHJztO8hNQTTYDikmm8Vy9zZH2Tc?=
- =?us-ascii?Q?LFgxkKPrVjOAtvKM5+IaDBwRCstcQC0GJUzdEVuodmNZiU+u2YlFLlS0xiO9?=
- =?us-ascii?Q?V5TdrZeVwCDXpSRtFX8gdSD/VuB/Y+7ywxw0P3I+Xqi1L1NAYEOVlDLvvd82?=
- =?us-ascii?Q?OMPqanEkFiD/Hvr2Ppra8Cv7IWhidiej09PcnYTC1wBwAIGYkJVQDEzVQYEh?=
- =?us-ascii?Q?ktKaam0veOdeXrK9vhfGA9b7XH1LMG5dfH6ca50HfN11a9t0qff45JJ8ZYUz?=
- =?us-ascii?Q?xzSeHNDP870oO0/+qP4Z70yKwJVuKzPJWNe9GmmSfyxtemGNZ5FDhyhvaUQL?=
- =?us-ascii?Q?e2tTjNcATts4D4aBactNQ1qwubfxsA8J6qR6idX2PuDXnaOJOk4KQMrZoEQM?=
- =?us-ascii?Q?uawHby4VYQ/Xi2ggzlKP2qs4lmt2HTjw79Htm0M19QHEmlguE9xRwMXKWvoi?=
- =?us-ascii?Q?MKzbk/uVBpuTnVTSWkVo/yMxwM2AJEhJkeUVyIAyDUN7TQCsPw4J27hrmwQ9?=
- =?us-ascii?Q?5dl8TBt1DUhYwQV0fnlNflxZAYdSPLaZUZO1i6xtqj7pS9aQMaEjsZJ/U7Mr?=
- =?us-ascii?Q?SETF7qwScu7utyF/+YMUyPQue/wch0iSMCJ0T6ocQbvE/hLXZK9M1khRPGH7?=
- =?us-ascii?Q?MZEPleaQ0nbLG+yeGs1ka0vU6A6Jq+vbssCFqjhtwa5FntQqOzD6cgBGPShE?=
- =?us-ascii?Q?YncQ4l7+Akize5nr4W3o/F6KXvEgXinf4c7wf2ffvO3EKpJRqCxuv65YiJUJ?=
- =?us-ascii?Q?rSDcUOHQFhoT5m4ph3Ec7Pkb8Ji55yJY1Z0kVxNjU8rQhnCKyoAI?=
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 26d7e3a4-775c-4ab1-7909-08decbc9b354
-X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB11947.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jun 2026 17:07:09.4308
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: u/tRfNygEnOM44bMm0C/taEnNeZejt+leUSanhE4bnKjle534pfpqPB/J1BtFFfmBb3OSmg419qrKT8ZBCBzXLMS4ihfQ6LAFCoW6fymobLmw18eJVf1QZNmObLO+jf3
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS3PR01MB9637
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [2.84 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_REJECT(1.00)[cv is fail on i=2];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[renesas.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
-	R_DKIM_ALLOW(-0.20)[bp.renesas.com:s=selector1];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[ragnatech.se,none];
+	R_DKIM_ALLOW(-0.20)[ragnatech.se:s=fm3,messagingengine.com:s=fm1];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	FORWARDED(0.00)[lists@lfdr.de];
-	FREEMAIL_TO(0.00)[gmail.com];
+	TAGGED_FROM(0.00)[bounces-34097-lists,linux-renesas-soc=lfdr.de,renesas];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER(0.00)[tommaso.merciai.xr@bp.renesas.com,linux-renesas-soc@vger.kernel.org];
-	TAGGED_FROM(0.00)[bounces-34096-lists,linux-renesas-soc=lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:tomm.merciai@gmail.com,m:linux-renesas-soc@vger.kernel.org,m:biju.das.jz@bp.renesas.com,m:tommaso.merciai.xr@bp.renesas.com,m:sakari.ailus@linux.intel.com,m:mchehab@kernel.org,m:prabhakar.mahadev-lad.rj@bp.renesas.com,m:jacopo.mondi@ideasonboard.com,m:p.zabel@pengutronix.de,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:tommmerciai@gmail.com,s:lists@lfdr.de];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[tommaso.merciai.xr@bp.renesas.com,linux-renesas-soc@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[bp.renesas.com:+];
-	RCVD_COUNT_FIVE(0.00)[5];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	FORGED_SENDER(0.00)[niklas.soderlund@ragnatech.se,linux-renesas-soc@vger.kernel.org];
+	TO_DN_SOME(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:geert+renesas@glider.be,m:mturquette@baylibre.com,m:sboyd@kernel.org,m:linux-renesas-soc@vger.kernel.org,m:linux-clk@vger.kernel.org,m:niklas.soderlund+renesas@ragnatech.se,m:geert@glider.be,m:niklas.soderlund@ragnatech.se,s:lists@lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORWARDED(0.00)[lists@lfdr.de];
+	DKIM_TRACE(0.00)[ragnatech.se:+,messagingengine.com:+];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	RCPT_COUNT_FIVE(0.00)[6];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[niklas.soderlund@ragnatech.se,linux-renesas-soc@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
-	TAGGED_RCPT(0.00)[linux-renesas-soc];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[bp.renesas.com:dkim,bp.renesas.com:mid,bp.renesas.com:from_mime,sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo,renesas.com:email,vger.kernel.org:from_smtp]
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,ragnatech.se:dkim,ragnatech.se:email,ragnatech.se:mid,ragnatech.se:from_mime,messagingengine.com:dkim]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 34B57692D0B
+X-Rspamd-Queue-Id: 50A186939FA
 
-Add suspend/resume support to the ov5645 driver.
+Describe the ZG and 3DGE clocks needed to operate the PowerVR GPU.
 
-Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 ---
- drivers/media/i2c/ov5645.c | 1 +
- 1 file changed, 1 insertion(+)
+* Changes since v1
+- Fix the ZG parent and clock divider are not fixed, but configurable
+  through the FRQCRB.ZGFC register bit field
+---
+ drivers/clk/renesas/r8a77995-cpg-mssr.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/media/i2c/ov5645.c b/drivers/media/i2c/ov5645.c
-index 14692d128571..ac64936bef09 100644
---- a/drivers/media/i2c/ov5645.c
-+++ b/drivers/media/i2c/ov5645.c
-@@ -1232,6 +1232,7 @@ MODULE_DEVICE_TABLE(of, ov5645_of_match);
- 
- static const struct dev_pm_ops ov5645_pm_ops = {
- 	RUNTIME_PM_OPS(ov5645_set_power_off, ov5645_set_power_on, NULL)
-+	SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend, pm_runtime_force_resume)
+diff --git a/drivers/clk/renesas/r8a77995-cpg-mssr.c b/drivers/clk/renesas/r8a77995-cpg-mssr.c
+index 162fa86c81ff..315f0cb026ad 100644
+--- a/drivers/clk/renesas/r8a77995-cpg-mssr.c
++++ b/drivers/clk/renesas/r8a77995-cpg-mssr.c
+@@ -80,6 +80,7 @@ static const struct cpg_core_clk r8a77995_core_clks[] __initconst = {
+ 	/* Core Clock Outputs */
+ 	DEF_FIXED("za2",       R8A77995_CLK_ZA2,   CLK_PLL0D3,     2, 1),
+ 	DEF_FIXED("z2",        R8A77995_CLK_Z2,    CLK_PLL0D3,     1, 1),
++	DEF_GEN3_Z("zg",       R8A77995_CLK_ZG,    CLK_TYPE_GEN3_ZG, CLK_PLL0D3, 1, 24),
+ 	DEF_FIXED("ztr",       R8A77995_CLK_ZTR,   CLK_PLL1,       6, 1),
+ 	DEF_FIXED("zt",        R8A77995_CLK_ZT,    CLK_PLL1,       4, 1),
+ 	DEF_FIXED("zx",        R8A77995_CLK_ZX,    CLK_PLL1,       3, 1),
+@@ -119,6 +120,7 @@ static const struct cpg_core_clk r8a77995_core_clks[] __initconst = {
  };
  
- static struct i2c_driver ov5645_i2c_driver = {
+ static const struct mssr_mod_clk r8a77995_mod_clks[] __initconst = {
++	DEF_MOD("3dge",			 112,	R8A77995_CLK_ZG),
+ 	DEF_MOD("tmu4",			 121,	R8A77995_CLK_S1D4C),
+ 	DEF_MOD("tmu3",			 122,	R8A77995_CLK_S3D2C),
+ 	DEF_MOD("tmu2",			 123,	R8A77995_CLK_S3D2C),
 -- 
 2.54.0
 
