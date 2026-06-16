@@ -1,89 +1,91 @@
-Return-Path: <linux-renesas-soc+bounces-34098-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-34099-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id aDFiLSePMWrSmgUAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-34098-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Jun 2026 20:00:07 +0200
+	id X+9NKx+PMWrBmgUAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-34099-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Jun 2026 19:59:59 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59B74693B64
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Jun 2026 20:00:07 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A57E693B36
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Jun 2026 19:59:59 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=ragnatech.se header.s=fm3 header.b=2brQOGfK;
-	dkim=pass header.d=messagingengine.com header.s=fm1 header.b=FUAUFrRd;
-	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-34098-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-34098-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=ragnatech.se header.s=fm3 header.b="Rj7PX/5F";
+	dkim=pass header.d=messagingengine.com header.s=fm1 header.b="H Au0orq";
+	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-34099-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 172.232.135.74 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-34099-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=none) header.from=ragnatech.se;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 3681C3088139
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Jun 2026 17:59:55 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id AB8FA30310E8
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Jun 2026 17:59:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 60B8447A0C4;
-	Tue, 16 Jun 2026 17:59:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2731347B406;
+	Tue, 16 Jun 2026 17:59:56 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from fout-b6-smtp.messagingengine.com (fout-b6-smtp.messagingengine.com [202.12.124.149])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B25BE356766;
-	Tue, 16 Jun 2026 17:59:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6179047CC64;
+	Tue, 16 Jun 2026 17:59:54 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781632793; cv=none; b=USE/AwJdCHeZeJiSj8Bz5RdNj7N6vqJ10HEOGOtufR64kP1fv/24LXmRwdh8Dy5ap2iCuJHW32qTam24N23Rske1WphQ/OTH0KKhrM9MlI/Nb3HFAKrfPrIRkYd4x8jVUXifPxf1ScgoFFgHnGODlLCmiWOFQY0mwN5f8wKFZbI=
+	t=1781632796; cv=none; b=IKY9Qz1ZhY2ZmqfJcEopz8FVx22lSo4qpfjPG3X+9LGgxpZ0nymPEs8cnCEuv8ufiTMXxVCTpZWnV5i/SSLrQxgic6f7k0pPPv78Iq3pFW97YHRhK+MpRAeeYQwdwl11bPY3ZzNp/B13i8Ma/BUpkUIlmvzSpRlG2Md4Vx+bKe8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781632793; c=relaxed/simple;
-	bh=oDAJ6BkBLht2O3ozAZLw/7x6RyjFOVByMdZ86HloKGg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=ubUGvkh1ggcBV32E6BG+2LsxukFJZYjvTSpqGc3vkHPdv/PrmvgpgJAQtCsPvg8EOUI9ZNQ9nsWHQJ601kMBs6dQiRTbClbNZ/wBIauYbkEmjDBxz3XvtrEbgPuq2G1nHiE6Brl2a8oHVVZ5hIsMQivE/CpGU13iztDj5k/IUOg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=2brQOGfK; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=FUAUFrRd; arc=none smtp.client-ip=202.12.124.149
-Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
-	by mailfout.stl.internal (Postfix) with ESMTP id 927631D00047;
-	Tue, 16 Jun 2026 13:59:50 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-02.internal (MEProxy); Tue, 16 Jun 2026 13:59:51 -0400
+	s=arc-20240116; t=1781632796; c=relaxed/simple;
+	bh=rwt7fpLfIZOPJzT6GS5LZThdPk3JNj4NICbsz53SbDU=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=AZJdp7CRGgb0qEp7Dm3vEeoKMDDAR8wLBnD+zbatkQgqk8ZsByK0tPcAgm7yOBvB01cg75S8pN8Kdrg83EwB0EZ2OKskiAbCeBklAk8Ai+PxG+CezfvydVRKmhEPnbkOUCyhUx0CLwDQ/tMw5yfgpWszeshgq5T6fkkuDIPT1Zo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=Rj7PX/5F; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=HAu0orq1; arc=none smtp.client-ip=202.12.124.149
+Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
+	by mailfout.stl.internal (Postfix) with ESMTP id 73C451D000B5;
+	Tue, 16 Jun 2026 13:59:53 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-06.internal (MEProxy); Tue, 16 Jun 2026 13:59:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
 	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:message-id:mime-version:reply-to
-	:subject:subject:to:to; s=fm3; t=1781632790; x=1781719190; bh=2K
-	HqdAQvS6LYGq9BigDCPJUQFQ0+SZhsyyRYGHPKzOs=; b=2brQOGfKVLiD3sGEhd
-	vKnJ4l7KqAvkKyO3MOFb2QXZ8xk0QVFLlEm+fDhOs7LbTXwGxxQ5DG9zraFAjcxA
-	JJA6nUOf7tT1XO2spcUAuHkFXMmLlPe4LCZSrGHuj7uyM3CjPF5eZkffNQcvvUKY
-	ZVWAmFwj8hwmFD6CHyXTGPO8prfx4MErwI+SqFpLHm3r1d2QLQ6ePIgWIUjoN14U
-	T84Y9+LBNsCqrFYeEftqj+UpjPpu8kq7B0bDs1yUXqYh3pOqimuzguPniTMd9WUe
-	HfXGiLTT3xK92CYLamkOipbazg6OUn5HSianHvGhmIbgPcCiXy/9yOJYmLqvPhLr
-	WMhA==
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1781632793;
+	 x=1781719193; bh=cBOa7dhN12n/BNdfOTNpiMuXzZmTPcGyOfDVS6bKqbs=; b=
+	Rj7PX/5FDu1EMJOp92D4dk2/LIfGwZEd7Il4XQezn19so69RvJy7GToMN7dRKB5S
+	ys1y0anhy3XlIYOEdmCrJwmtuIOFsvlYIZtAAwWbjeSTlpl/FolZEyCzsAQRw3On
+	FGQxlnZIIYRzj/DkGtHqHxxmfGN8WwLXtzHyTJebbpS4CBVTku7Ns47fP/Zo/M51
+	i/wylAfgM/GttS6Inbdn2R2obuDESOoqC+8zU3T3JPVbS297d3GZd8AsS1bdPPor
+	KD3tEB7/avtNtnHvZnVoFoXBFEvWsZiT5xrtj9taorE3ntLBVtJ7KqNOVnXllSFT
+	s15cpoFOIF3iloZTpWNhxg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
-	:subject:to:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm1; t=1781632790; x=1781719190; bh=2KHqdAQvS6LYGq9BigDCPJUQFQ0+
-	SZhsyyRYGHPKzOs=; b=FUAUFrRdw0df3ehoPtkWKF3HsqJMu6wO5Gx7zU2Ozm66
-	0ppiJ74MUkz3xb1W23EfkUwop55cikaZCcsNNSGiSWQCrEX1Q36Flie77+cdAxEL
-	nb995MqFHIr9hOT1WK6gcpqGv7pHg7VnrqjbloyA3sDBeRszi8Lai6pPkFotQb2G
-	8QfHDI6nICXndz2jG1rSk+JNt9+8155etn8gydpsonMwTXFxuce5VUnqd0/+Xa/c
-	lUOyJ7keoFfvaD6YEwIuLcDmuEavUTfbuTLVD9oDPhJuNbLqCLYWwbTuaAEEC/xQ
-	1gDB4hAf8zljg6mCn1u5a278zx1JHrUdISOeByAOZQ==
-X-ME-Sender: <xms:FY8xasdjQFturD8kGbWS1alJ_Xgjm3B1BOMNf527q-aeHoKJjNCaag>
-    <xme:FY8xaqgPBe9amh7xJaz8bqCWAYsnVKsL5sasgCpXh5loN2TuFRheVv_XPZA2PmluI
-    RFVcCwfHuMdsSyyRBvjYXEzIQOmlQZdtiUsrjm7suRHX-_O2ivTyg>
-X-ME-Received: <xmr:FY8xavI8Dipt10N9OtJ5Ci-1ZNX_CnBXkDV1blQy7WRgW7l7F85vbTS1AXMAnkU5ytM0QjMh6l0WDV53uMwCq7_xtVIa>
-X-ME-Proxy-Cause: dmFkZTFZzyQWraOnST6FuDBlHu3xHOEH2q3xdoju3GmHJ9O+ktDvIl7h/6KkwZA+sIw1K6
-    tX+BvuEZo0yWeRvKtd1fUdkREWavinalVe9+ePjYvGL63Fz0KKTVFBCe47T8ru2qH5Uf74
-    AEfJmsTCJS66cT/v46iyiovOmg/KjHn9wwBXq07BGa0ITIClrTYrDXVni51h3b4GYiLAtC
-    wxaAZ/b0hHorrpP51lEQfpyd6FjzzYAyJRTm5wr2syUFR6Nyesl4p2mFxDz/+9BEgh0IID
-    WOCd96YyJmBe3X4nW265gJBJpVvOjYom2yIcMhTBEPOtSnK26tM0F/TUJsIn7gO7BUBBTe
-    TtA64UEAmph0guL9fnWq2kxZ1Z+OoOSegkGWd21PFa7RG7iXF1k6OmD+YQR9Tv5mCcZEre
-    NTZk7GmvvkSNmQuUtrqt0Vy0A76O9E0DyuSra0TTtMeYqUUy7S9E3TcbE6ToEGk9v2Sq2f
-    DkdO3HQiRwtSl7vhmrMrVgiV3Tt/yuw7bhYogqjsJJ7AoTQ0NbQfd7vfe6JzqYkGqhEXfb
-    TyTJ4m2AhndT36/nLgwLR786nMoY1wIiQWglXjEY3geXQFM/SmfAeoFiKnAU6gKyoyonL2
-    uNnINl4DrEJQF8xkI699Pev2P7LQw8m6rTuBaw4td6cELSlvNWy17WcAxPhg
-X-ME-Proxy: <xmx:FY8xavEdLgccP0tQo3c23--KblonfH0GspMq_4om0I2hsdR8bql09Q>
-    <xmx:FY8xat3hltiaP0yBysvLR7qoFZIVtVMnpRU3YC0h71C9JAB-1tckAw>
-    <xmx:FY8xauyRjMfCk5Dwqm_0VJmX__YltLM2Q1siPLp7_2CRWLEnQkOJkw>
-    <xmx:FY8xakjcQ3xj4ENwTFO1XrYuHjpEr7JuPdNq9lDP0Pec04q1lvlDGw>
-    <xmx:Fo8xaroGMPGGJwMBuDMcsNBcm9L_KEqDsS6G_bWOrXTp6YwXPnbTMv4Q>
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1781632793; x=
+	1781719193; bh=cBOa7dhN12n/BNdfOTNpiMuXzZmTPcGyOfDVS6bKqbs=; b=H
+	Au0orq1q9tjQEgbosONzuDkr7jzCYFEFLwgWdxEI06IHI7XjkOpTJbZJd53P88rM
+	GcKBbXyMV2HMhobAY4St38+9Cp6IjTHQjUxsSMZIKyCpx0dZUx6r4l1NtHpmpjHg
+	R6v7UlklxAovnQ8N0hTNhzLVmiMMpU6Q7LJIrQsameSo9mE2XcX8Soce2n4N6yWx
+	Lo/d47/CdWz5gMLXBRQFvpO1rdlZdG3Nt6gSFs+78HO8MQ9S1aqIMkVLjgpHTCJQ
+	oLE3vIraTH6qfi39jy2g0g7lXlz1eBH18SjbVoj6Kn2Y5oMYGAGG7xvW0+CU4u22
+	Ad9EIKPLJwJFpY9KvGYBQ==
+X-ME-Sender: <xms:GI8xajvU19qhlTto7KKG5AKqmY97RZtz3F7Qx23OyhIpFoZE05a5ag>
+    <xme:GI8xagwpeJQp7ybEFgyhNPd6T3YkemzvWvQyiaYrnejXK717ptmU5HAM2gfg3EsC8
+    MVcHTTv7IO45vo9XNmdlQCsh055rQqcoxPdhztlYoinc91dQaYJkIc>
+X-ME-Received: <xmr:GI8xaobkDyWafninAjU4Io-bjQvo60emCLXdsozDpJIfnfWcOTBU9oJ0OSmqgNXfJAYt8rWODvgE5pJtpp3Bnm-cdNIz>
+X-ME-Proxy-Cause: dmFkZTFzMoEVwJ23/63BROQGNT0ZS7cXR47HqO+CDSdbwtxHNmnrRpTLZYdoYwpdUpZHYj
+    WU0KyMLp10RzWf3fGNyDiytarS8coUyAbaVJ854ZzfbbNXzExBiFXYdhxw/Ksaoa+hrCIx
+    EDRhErfzw8A2jkir0CHck11DpMFn3TyLDsxdzSFBiyYcfZQLs9s3JpvsMupXLgDfFBYWEJ
+    XqylP9jwLhP7kCi9W17W5QBv+Ns3OCGUfhOM2MbeWkNc/DrXRJEyuiflezdKW4QwnpE4Mh
+    HXsrrpRLWtjcij2rIfI942nASQZ65knyAakhCDAfsNu9FN4D1mwCJyvaGubQyYaFSQebop
+    mTFJklVQ7lvtN6P6iyPN6eX+PhkXBhzqME+Bf9us9h3ejVsA7NuNyfIcJ+j2lPOtQ/4q6C
+    Vk30FdhJRMjuzyQsQeX2RyHKEnmKfmZ0rphowooAPPhXUUN7Gf96m3XQhEHWKFbPqgnkKp
+    V4cZa1ENW8sMgFMnDztYO2qBwoCGxOvM+XIRXIpDVTur/CAvDy727jy6zfyDg+2XjJXnEU
+    NVJmwks6RcrY3zaV1n5z8y5Uzr2MiCscZTvOU6DrVGenhKaPvYpbEW/b+sZJFDdbHhAeX7
+    MAQeI1jhZU+oiT7YQBqz7S4dYVuRNPrnr5oMl4Gx4+CLPTv9WXVCjwgVMmzA
+X-ME-Proxy: <xmx:GI8xavVv4TfG2_bHiHDlOTo74e6GHcMW1tTAPp6eOSlUvC4hUwMgvw>
+    <xmx:GY8xapFlUMQgJ1VlBo5625kG6xMCKcTkQyTGBgnWiW5oodubSDzY0A>
+    <xmx:GY8xapBdzVMqpS-DsH3Vw8_LQ80iwsxO5T0gkfJrCMCR4Iz2zgXpBA>
+    <xmx:GY8xahzp_11qoVwFxXNhvfE-4taJZnGma625citjA1NLZaGk7fzdFA>
+    <xmx:GY8xajBVlhmz9Y9cGXMc69BAnykeqw0LDyS8dEobkLjC_2f7nowlAGoa>
 Feedback-ID: i80c9496c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 16 Jun 2026 13:59:49 -0400 (EDT)
+ 16 Jun 2026 13:59:52 -0400 (EDT)
 From: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
 To: Marek Vasut <marek.vasut+renesas@mailbox.org>,
 	Geert Uytterhoeven <geert+renesas@glider.be>,
@@ -102,10 +104,12 @@ To: Marek Vasut <marek.vasut+renesas@mailbox.org>,
 	dri-devel@lists.freedesktop.org,
 	linux-renesas-soc@vger.kernel.org
 Cc: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Subject: [PATCH v2 0/2] arm64: dts: renesas: Describe GPU on D3
-Date: Tue, 16 Jun 2026 19:58:33 +0200
-Message-ID: <20260616175835.2109336-1-niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH v2 1/2] dt-bindings: gpu: img,powervr-rogue: Document GE8300 GPU in Renesas R-Car D3
+Date: Tue, 16 Jun 2026 19:58:34 +0200
+Message-ID: <20260616175835.2109336-2-niklas.soderlund+renesas@ragnatech.se>
 X-Mailer: git-send-email 2.54.0
+In-Reply-To: <20260616175835.2109336-1-niklas.soderlund+renesas@ragnatech.se>
+References: <20260616175835.2109336-1-niklas.soderlund+renesas@ragnatech.se>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -120,12 +124,12 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[ragnatech.se,none];
 	R_DKIM_ALLOW(-0.20)[ragnatech.se:s=fm3,messagingengine.com:s=fm1];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-34098-lists,linux-renesas-soc=lfdr.de,renesas];
+	TAGGED_FROM(0.00)[bounces-34099-lists,linux-renesas-soc=lfdr.de,renesas];
 	RCVD_TLS_LAST(0.00)[];
 	RCPT_COUNT_TWELVE(0.00)[17];
 	FORWARDED(0.00)[lists@lfdr.de];
@@ -134,7 +138,7 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	FORGED_SENDER(0.00)[niklas.soderlund@ragnatech.se,linux-renesas-soc@vger.kernel.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[6];
@@ -147,111 +151,71 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,dt];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,gitlab.freedesktop.org:url,messagingengine.com:dkim,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,ragnatech.se:dkim,ragnatech.se:mid,ragnatech.se:from_mime]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo,ragnatech.se:dkim,ragnatech.se:email,ragnatech.se:mid,ragnatech.se:from_mime,messagingengine.com:dkim,glider.be:email]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 59B74693B64
+X-Rspamd-Queue-Id: 4A57E693B36
 
-Hello,
+Document Imagination Technologies PowerVR Rogue GE8300 BNVC 22.67.54.30
+present in Renesas R-Car R8A77995 D3 SoCs.
 
-This series adds the needed bindings to operate the PowerVR GPU on R-Car
-D3 SoC.
+Compared to other R-Car Gen3 SoCs the D3 only have one power domain and
+it is always on. Extend the list of special cases for this to also cover
+R8A77995 and update the description of it.
 
-Together with the D3 clock changes [1] and a still OOT patch for the PVR
-driver [2], I'm able to load firmware.
+Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+* Changes since v1
+- Sort img,img-ge8300 after img,img-ge7800.
+- Fold special case for power domain into an existing one and update the
+  description.
+---
+ .../devicetree/bindings/gpu/img,powervr-rogue.yaml | 14 ++++++++++----
+ 1 file changed, 10 insertions(+), 4 deletions(-)
 
-    powervr fd000000.gpu: [drm] loaded firmware powervr/rogue_22.67.54.30_v1.fw
-    powervr fd000000.gpu: [drm] FW version v1.0 (build 6889268 OS)
-    powervr fd000000.gpu: [drm] Unsupported quirks in firmware image
-    powervr fd000000.gpu: [drm] Unsupported enhancements in firmware image
-    powervr fd000000.gpu: [drm] Unsupported features in firmware image
-    [drm] Initialized powervr 1.0.0 for fd000000.gpu on minor 1
-
-I can run vulkaninfo from mesa (need to add the driver to
-pvr_drm_configs):
-
-    $ PVR_I_WANT_A_BROKEN_VULKAN_DRIVER=1 meson devenv -C builddir vulkaninfo --summary
-    WARNING: powervr is not a conformant Vulkan implementation, testing use only.
-    MESA: warning: Warning: The available RAM is below the minimum required by the Vulkan specification!
-    MESA: warning: ../src/imagination/vulkan/pvr_border.c:117: FINISHME: Devices without tpu_border_colour_enhanced require entries for compressed formats to be stored in the table pre-compressed.
-    ==========
-    VULKANINFO
-    ==========
-
-    Vulkan Instance Version: 1.4.335
-
-
-    Instance Extensions: count = 20
-    -------------------------------
-    VK_EXT_debug_report                    : extension revision 10
-    VK_EXT_debug_utils                     : extension revision 2
-    VK_EXT_headless_surface                : extension revision 1
-    VK_EXT_surface_maintenance1            : extension revision 1
-    VK_EXT_swapchain_colorspace            : extension revision 5
-    VK_KHR_device_group_creation           : extension revision 1
-    VK_KHR_display                         : extension revision 23
-    VK_KHR_external_fence_capabilities     : extension revision 1
-    VK_KHR_external_memory_capabilities    : extension revision 1
-    VK_KHR_external_semaphore_capabilities : extension revision 1
-    VK_KHR_get_display_properties2         : extension revision 1
-    VK_KHR_get_physical_device_properties2 : extension revision 2
-    VK_KHR_get_surface_capabilities2       : extension revision 1
-    VK_KHR_portability_enumeration         : extension revision 1
-    VK_KHR_surface                         : extension revision 25
-    VK_KHR_surface_protected_capabilities  : extension revision 1
-    VK_KHR_wayland_surface                 : extension revision 6
-    VK_KHR_xcb_surface                     : extension revision 6
-    VK_KHR_xlib_surface                    : extension revision 6
-    VK_LUNARG_direct_driver_loading        : extension revision 1
-
-    Instance Layers:
-    ----------------
-
-    Devices:
-    ========
-    GPU0:
-	    apiVersion         = 1.2.330
-	    driverVersion      = 25.99.99
-	    vendorID           = 0x1010
-	    deviceID           = 0x22054030
-	    deviceType         = PHYSICAL_DEVICE_TYPE_INTEGRATED_GPU
-	    deviceName         = PowerVR Rogue GE8300
-	    driverID           = DRIVER_ID_IMAGINATION_OPEN_SOURCE_MESA
-	    driverName         = Imagination open-source Mesa driver
-	    driverInfo         = Mesa 26.0.0-devel (git-8fb0621f2d)
-	    conformanceVersion = 1.3.8.4
-	    deviceUUID         = 19031a08-e22f-9565-d78b-ddda8240380a
-	    driverUUID         = 48685174-7bd0-6840-5716-9d00003566aa
-    GPU1:
-	    apiVersion         = 1.4.330
-	    driverVersion      = 25.99.99
-	    vendorID           = 0x10005
-	    deviceID           = 0x0000
-	    deviceType         = PHYSICAL_DEVICE_TYPE_CPU
-	    deviceName         = llvmpipe (LLVM 21.1.4, 128 bits)
-	    driverID           = DRIVER_ID_MESA_LLVMPIPE
-	    driverName         = llvmpipe
-	    driverInfo         = Mesa 26.0.0-devel (git-8fb0621f2d) (LLVM 21.1.4)
-	    conformanceVersion = 1.3.1.1
-	    deviceUUID         = 6d657361-3236-2e30-2e30-2d6465766500
-	    driverUUID         = 6c6c766d-7069-7065-5555-494400000000
-
-I can't run test Vulkan applications such as gears as the PVR driver do
-not support all features need for GE8300, for example
-simple_internal_parameter_format_v1, see [3].
-
-1. https://lore.kernel.org/linux-renesas-soc/20260616175247.2104891-1-niklas.soderlund+renesas@ragnatech.se
-2. https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/38211#note_3177232
-3. https://gitlab.freedesktop.org/imagination/mesa/-/issues/13
-
-Niklas Söderlund (2):
-  dt-bindings: gpu: img,powervr-rogue: Document GE8300 GPU in Renesas
-    R-Car D3
-  arm64: dts: renesas: r8a77995: Add GE8300 GPU node
-
- .../bindings/gpu/img,powervr-rogue.yaml           | 14 ++++++++++----
- arch/arm64/boot/dts/renesas/r8a77995.dtsi         | 15 +++++++++++++++
- 2 files changed, 25 insertions(+), 4 deletions(-)
-
+diff --git a/Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml b/Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml
+index a1f54dbae3f3..b93f49f1fa0a 100644
+--- a/Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml
++++ b/Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml
+@@ -25,6 +25,11 @@ properties:
+               - renesas,r8a779a0-gpu
+           - const: img,img-ge7800
+           - const: img,img-rogue
++      - items:
++          - enum:
++              - renesas,r8a77995-gpu
++          - const: img,img-ge8300
++          - const: img,img-rogue
+       - items:
+           - enum:
+               - ti,am62-gpu
+@@ -114,6 +119,7 @@ allOf:
+           contains:
+             enum:
+               - img,img-ge7800
++              - img,img-ge8300
+               - img,img-gx6250
+               - thead,th1520-gpu
+     then:
+@@ -159,14 +165,14 @@ allOf:
+   - if:
+       properties:
+         compatible:
+-          contains:
+-            const: thead,th1520-gpu
++          enum:
++            - renesas,r8a77995-gpu
++            - thead,th1520-gpu
+     then:
+       properties:
+         power-domains:
+           items:
+-            - description: The single, unified power domain for the GPU on the
+-                TH1520 SoC, integrating all internal IP power domains.
++            - description: The single, unified power domain for the GPU.
+         power-domain-names: false
+       required:
+         - power-domains
 -- 
 2.54.0
 
