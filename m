@@ -1,244 +1,251 @@
-Return-Path: <linux-renesas-soc+bounces-34071-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-34072-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id jA72MAwqMWoGdAUAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-34071-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Jun 2026 12:48:44 +0200
+	id hNI2BVIyMWpWdwUAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-34072-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Jun 2026 13:24:02 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2588868E758
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Jun 2026 12:48:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 652AE68EC29
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Jun 2026 13:24:01 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=gmail.com header.s=20251104 header.b=Grgn7EaE;
-	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-34071-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-34071-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=gmail.com;
+	dkim=pass header.d=ideasonboard.com header.s=mail header.b="b9/fAujP";
+	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-34072-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-34072-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=ideasonboard.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 59DC0319C041
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Jun 2026 10:45:21 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id E059D304398B
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Jun 2026 11:20:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 46C2343C04D;
-	Tue, 16 Jun 2026 10:45:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BF450351C14;
+	Tue, 16 Jun 2026 11:20:21 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE89E43C07E
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 16 Jun 2026 10:45:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D70C2D8DD0;
+	Tue, 16 Jun 2026 11:20:18 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781606719; cv=none; b=KulznWEnlmYDvyUvRwzH7WVel7s7GWZgB47zAcwzG+/EEH/8yRow6kO3TYQ6unamctUmAUF+AON67sWVJ4ykPWEfwN9qCj3LGet8PAX9Dp5OiGhdi8GG4cP/xsicX1QMlgEsQYMy8Ij15rti4jm0T/R/VviVvN2tFN3TT2e2h2o=
+	t=1781608821; cv=none; b=kCXgrJMuJSVxSSzCO69IqHY1Z7Y5nPdIWD/kuE9DgmAUcLdmUp/1sNDyu/0GzBCyEQvbtAl7Z7jKQBdeXFXzRS62NkAL8OySKf4B+2dMUoE4hAHHp0PgvUk/s3bioXzia47GnR7KVkoGRA/ZP3XuhEQRiv74WqeJfjDxbX/T074=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781606719; c=relaxed/simple;
-	bh=/+QxgrEtVCoAJlH780G3C4bNU8LpijH2gKwosk8/UB8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=m55U29AmWbAHYQ60ABP/pPtVE+XlcStC/tdwDkmYsDbx7Rkh4wZE2v/HN9Yq7oeIGy/KbfWjqYOxpEh8+RNK14QWID54S8baGVg3WFjzhY7+C2JQxxkgrbs+9iiRYWh1dbJZw2cHS/eOcNdv4MJ6c4V1yANKwUxygXhIG0HJBRI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Grgn7EaE; arc=none smtp.client-ip=209.85.128.48
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-490ae94a89eso38910575e9.1
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 16 Jun 2026 03:45:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781606712; x=1782211512; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ghDcckMrsxIgI0PwQD8NgJiWjxevvvKKfOn6FTfcfKY=;
-        b=Grgn7EaE+yxMAQH0aOry+yPAb94dpWVHMdYLo3d9FEjDv7f5JBu1HiIWUNTEA3BQfQ
-         jiPhn2c72O2PrCCLZbr8cnRiZFN2tlyRoKsWo/Kw0Bm+Kq8DjJOFddyB2VJ1wy8/WrWV
-         gJyR5gJSq/m5t93GfED68wASsbV/zV748VmfzxYDhPoHRL5xskuBFpXJCeZXEMGlUVhS
-         sLAckfWXG/b8L7cgICmeZ1ejG3+QAFfyC35FmmeChkcx3tDSzi3Od/Vm5Po7ESXHrizl
-         y1pG+gVcJ5qiF/Z3d1xY1020dtsPFhgbRTaqBewtlovApMgVj/dmaHzxaVwIWBdJqvdX
-         js4g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781606712; x=1782211512;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=ghDcckMrsxIgI0PwQD8NgJiWjxevvvKKfOn6FTfcfKY=;
-        b=PzvzT+Uxz8v9O3g8zAEJei3Xrpfzvony6B+nAucA/CNBkPhrrjalY2wzrNm7P0ISsd
-         RNKKKLfK0qwnne/SBQpdvgjylJaRKiI63+oQqukafBVGBT5bUwOnDvVpE56x/JHzvROA
-         EHY0bXINiGvufL0NlBheTRtdbgf2Cd2wvfUU45RkbMa4T0chJ/68PjJbnNYTytypNJw9
-         6Q2S7tLm1pjOjf/NZ1E2g6u3sE6FqoMvLlS7AATD+vwbmrHs1aIPunxH/1ZNG0gay0m1
-         UhdZT7Mamh55seAan9MJnXkT7RUvG3emAbxd91Y6aFouwXFUcbZIf4HWYlM7PQpIsy+z
-         2Feg==
-X-Forwarded-Encrypted: i=1; AFNElJ9eXLujDnwlhgXziMrgHRaBxnMVWuH9hM3dr8xpommk9M82CSfNR6dbo2L1wAUzDOK3L8cU7+wTQrfosd+KEagpmw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwjfWwRTjSBDqsPw2VxRrSvPdptC1EUjgu6F3t1uz0sfh5KqtxZ
-	XNA7h9Wfiheo9y13+Y0qsO21XNilnoYJVvPZWUPHjbDi9oZQ7O8QLTIE
-X-Gm-Gg: Acq92OHwOBwEeGC90hcQLO6ie6aArEPOQIY7StxrhwwpL1s75XwrM3csRFCFaBAzw/8
-	Ocqhhp8vt9ROghfiBuuurucZgG8GyT5mY3wxzXunYanIqofWFdoxGITEQiuM1Z8dTH8gL72QLiJ
-	Gk5ojiXjCkK4kpge62VmTQi1At7LruKebRXCUoLhJWFxW4jKuN7ZnQy+lra9CmQNc5xjgzAp0Nx
-	3Ke6dmcxHUDGNAsGO1S/wEF5VIGb51l9uNWVNcsLilQCHqKdiwBZmYQCwT6w+0RmXs/0DbTuKto
-	8TC/baGem9gcmuygSlFL+uT/TjoukOakR4cr8c3YRSocL9554xGHNcoKXWEMeNnxbmLc0MjXXA/
-	6zd4aFeDHd8qMKkxIFXJu5PO/MMI5THVfKZPpet+PY73AMp4FTLbLc18bkofJFe0Ocw6yAYXkmv
-	AeGmex/1A3wHgSIyQ8HWFIRO1AnSvgCr0naDpOURVm7DLEA+iz
-X-Received: by 2002:a05:600c:154c:b0:48f:e249:4094 with SMTP id 5b1f17b1804b1-492200c01dbmr209666135e9.18.1781606711871;
-        Tue, 16 Jun 2026 03:45:11 -0700 (PDT)
-Received: from localhost.localdomain ([2a00:23c4:a700:7301:7499:34c3:598b:e20c])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4922fa47da9sm82458485e9.5.2026.06.16.03.45.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 16 Jun 2026 03:45:11 -0700 (PDT)
-From: Biju <biju.das.au@gmail.com>
-X-Google-Original-From: Biju <biju.das.jz@bp.renesas.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>
-Cc: Biju Das <biju.das.jz@bp.renesas.com>,
-	linux-renesas-soc@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Biju Das <biju.das.au@gmail.com>
-Subject: [PATCH v2 10/10] arm64: dts: renesas: r9a08g046l48-smarc: Add USB2.0 support
-Date: Tue, 16 Jun 2026 11:44:52 +0100
-Message-ID: <20260616104459.410743-11-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260616104459.410743-1-biju.das.jz@bp.renesas.com>
-References: <20260616104459.410743-1-biju.das.jz@bp.renesas.com>
+	s=arc-20240116; t=1781608821; c=relaxed/simple;
+	bh=a3OTobzVHLfzK/TYKvKxjWVhIp1VrswRkLtD5l2pFuo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=aFax9YnIqN83ll1A/iBkUv+hNU630/JXhMRIVLyvopLoJBNoGlETPzy6lQBh7wyhF9wxHjZPhevqJuyv1FbOXzEEs1tnYFn43uaiPboK70OFr7nmxA/bMzwDkt9IPxltwvFB1R+CoqSW6PsFxZ+4PvE0LMmXllGhOfGhOWgpP84=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=b9/fAujP; arc=none smtp.client-ip=213.167.242.64
+Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 47A398FA;
+	Tue, 16 Jun 2026 13:19:36 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1781608776;
+	bh=a3OTobzVHLfzK/TYKvKxjWVhIp1VrswRkLtD5l2pFuo=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=b9/fAujPxJcNFcNF6xkzXx/cE4wGPDFRJqtoc6N7Q60tfJpLfgGEAI5rXdi0XrakT
+	 pyM0C1OSefafA+Ot7tzWvHdBf5nMYFXZbUYwFc2YHV7jvFXfuTqGIhgwMD6L/iegTC
+	 Rjtsx8nh1D8SaAIhzSHTjxegKGLMiclxvWzcVzb8=
+Message-ID: <e0ad4d15-2cf9-45a5-9312-fac297119ad4@ideasonboard.com>
+Date: Tue, 16 Jun 2026 14:20:06 +0300
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 03/10] media: rcar-csi2: Move
+ {enable|disable}_streams() calls
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
+ Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+ Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+References: <20260311-rcar-streams-v5-0-3e6c957d7567@ideasonboard.com>
+ <20260311-rcar-streams-v5-3-3e6c957d7567@ideasonboard.com>
+ <20260318205435.GG716464@killaraus.ideasonboard.com>
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Content-Language: en-US
+In-Reply-To: <20260318205435.GG716464@killaraus.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-1.66 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
+	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-34071-lists,linux-renesas-soc=lfdr.de];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
-	FREEMAIL_CC(0.00)[bp.renesas.com,vger.kernel.org,gmail.com];
-	FORGED_SENDER(0.00)[bijudasau@gmail.com,linux-renesas-soc@vger.kernel.org];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:geert+renesas@glider.be,m:magnus.damm@gmail.com,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:biju.das.jz@bp.renesas.com,m:linux-renesas-soc@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:prabhakar.mahadev-lad.rj@bp.renesas.com,m:biju.das.au@gmail.com,m:geert@glider.be,m:magnusdamm@gmail.com,m:krzk@kernel.org,m:conor@kernel.org,m:bijudasau@gmail.com,s:lists@lfdr.de];
-	FORWARDED(0.00)[lists@lfdr.de];
-	FREEMAIL_TO(0.00)[glider.be,gmail.com,kernel.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	PRECEDENCE_BULK(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[bijudasau@gmail.com,linux-renesas-soc@vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-34072-lists,linux-renesas-soc=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ALIAS_RESOLVED(0.00)[];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,dt];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_SENDER(0.00)[tomi.valkeinen@ideasonboard.com,linux-renesas-soc@vger.kernel.org];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_RECIPIENTS(0.00)[m:laurent.pinchart@ideasonboard.com,m:niklas.soderlund@ragnatech.se,m:mchehab@kernel.org,m:sakari.ailus@linux.intel.com,m:linux-media@vger.kernel.org,m:linux-renesas-soc@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:niklas.soderlund+renesas@ragnatech.se,m:mchehab+huawei@kernel.org,m:jacopo.mondi@ideasonboard.com,s:lists@lfdr.de];
+	FORWARDED(0.00)[lists@lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[ideasonboard.com:+];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,renesas.com:email,bp.renesas.com:mid,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
+	TO_DN_SOME(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	ALIAS_RESOLVED(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[tomi.valkeinen@ideasonboard.com,linux-renesas-soc@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[10];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,huawei];
+	MID_RHS_MATCH_FROM(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,vger.kernel.org:from_smtp,ideasonboard.com:dkim,ideasonboard.com:email,ideasonboard.com:mid,ideasonboard.com:from_mime]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 2588868E758
+X-Rspamd-Queue-Id: 652AE68EC29
 
-From: Biju Das <biju.das.jz@bp.renesas.com>
+Hi,
 
-Enable USB2.0 on the RZ/G3L SMARC board (r9a08g046l48-smarc).
+On 18/03/2026 22:54, Laurent Pinchart wrote:
+> On Wed, Mar 11, 2026 at 03:53:16PM +0200, Tomi Valkeinen wrote:
+>> With multiple streams the operation to enable the CSI-2 hardware and to
+>> call {enable|disable}_streams() on upstream subdev will need to be
+>> handled separately.
+>>
+>> Prepare for that by moving {enable|disable}_streams() calls out from
+>> rcsi2_start() and rcsi2_stop().
+>>
+>> On Gen3, a side effect of this change is that if the sink side devices
+>> call .enable_streams() on rcar-csi2 multiple times, the second call will
+>> fail. This is because we always use stream ID 0, so the second call
+>> would attempt to enable the same stream again, leading to an error. In
+>> other words, a normal single-stream setup continues to work, but trying
+>> to use the current driver's custom VC based routing will fail.
+> 
+> I assume this gets addressed later in the series.
 
-Port 0 (ehci0, ohci0, usb2_phy0) is configured as OTG with
-usb0_pins pinmux (USB20_OVRCUR, USB20_VBUSEN) and usb0_vbus_otg
-as the VBUS supply. Port 1 (ehci1, ohci1, usb2_phy1) is configured
-as host-only with usb1_pins pinmux (USB21_OVRCUR, USB21_VBUSEN),
-usb1_vbus_otg as the VBUS supply, and renesas,no-otg-pins set to
-indicate no OTG pin routing. The phyrst USB PHY reset controller is
-also enabled.
+Yes and no.
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
-v1->v2:
- * Updated commit description.
----
- .../boot/dts/renesas/r9a08g046l48-smarc.dts   | 49 +++++++++++++++++++
- 1 file changed, 49 insertions(+)
+The previous patch does the same for rcar-isp, which affects the gen4 
+custom VC based routing the same was this does for gen3.
 
-diff --git a/arch/arm64/boot/dts/renesas/r9a08g046l48-smarc.dts b/arch/arm64/boot/dts/renesas/r9a08g046l48-smarc.dts
-index 96cc7ee46a6a..b189ae8e808d 100644
---- a/arch/arm64/boot/dts/renesas/r9a08g046l48-smarc.dts
-+++ b/arch/arm64/boot/dts/renesas/r9a08g046l48-smarc.dts
-@@ -87,6 +87,16 @@ vqmmc_sd1_pvdd: regulator-vqmmc-sd1-pvdd {
- #endif
- };
- 
-+&ehci0 {
-+	dr_mode = "otg";
-+	status = "okay";
-+};
-+
-+&ehci1 {
-+	dr_mode = "host";
-+	status = "okay";
-+};
-+
- &i2c2 {
- 	pinctrl-0 = <&i2c2_pins>;
- 	pinctrl-names = "default";
-@@ -138,6 +148,20 @@ &keys {
- #endif
- };
- 
-+&ohci0 {
-+	dr_mode = "otg";
-+	status = "okay";
-+};
-+
-+&ohci1 {
-+	dr_mode = "host";
-+	status = "okay";
-+};
-+
-+&phyrst {
-+	status = "okay";
-+};
-+
- &pinctrl {
- 	audio_clk_pins: audio-clock {
- 		pinmux = <RZG3L_PORT_PINMUX(H, 4, 6)>, /* AUDIO_CLK_B */
-@@ -259,6 +283,16 @@ ssi0_pins: ssi0 {
- 			 <RZG3L_PORT_PINMUX(H, 2, 9)>, /* SSIF0_RCK */
- 			 <RZG3L_PORT_PINMUX(H, 3, 9)>; /* SSIF0_TXD */
- 	};
-+
-+	usb0_pins: usb0 {
-+		pinmux = <RZG3L_PORT_PINMUX(3, 0, 12)>, /* USB20_OVRCUR */
-+			 <RZG3L_PORT_PINMUX(3, 1, 12)>; /* USB20_VBUSEN */
-+	};
-+
-+	usb1_pins: usb1 {
-+		pinmux = <RZG3L_PORT_PINMUX(3, 4, 12)>, /* USB21_OVRCUR */
-+			 <RZG3L_PORT_PINMUX(3, 5, 12)>; /* USB21_VBUSEN */
-+	};
- };
- 
- #if SW_SER0_PMOD
-@@ -330,3 +364,18 @@ &ssi0 {
- 	status = "okay";
- };
- #endif
-+
-+&usb2_phy0 {
-+	pinctrl-0 = <&usb0_pins>;
-+	pinctrl-names = "default";
-+	vbus-supply = <&usb0_vbus_otg>;
-+	status = "okay";
-+};
-+
-+&usb2_phy1 {
-+	pinctrl-0 = <&usb1_pins>;
-+	pinctrl-names = "default";
-+	vbus-supply = <&usb1_vbus_otg>;
-+	renesas,no-otg-pins;
-+	status = "okay";
-+};
--- 
-2.43.0
+At the end of the series we support full multi-stream with the upstream 
+API. The custom VC based routing is no longer supported, and will 
+continue to fail.
+
+>>
+>> On Gen4, this doesn't matter as the rcar-isp behaves in a similar way as
+>> described above, and thus rcar-csi2 will only get a single
+>> .enable_streams() call.
+>>
+>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+>> ---
+>>   drivers/media/platform/renesas/rcar-csi2.c | 25 +++++++++++++++----------
+>>   1 file changed, 15 insertions(+), 10 deletions(-)
+>>
+>> diff --git a/drivers/media/platform/renesas/rcar-csi2.c b/drivers/media/platform/renesas/rcar-csi2.c
+>> index 7305cc4a04cb..158fa447e668 100644
+>> --- a/drivers/media/platform/renesas/rcar-csi2.c
+>> +++ b/drivers/media/platform/renesas/rcar-csi2.c
+>> @@ -1822,20 +1822,12 @@ static int rcsi2_start(struct rcar_csi2 *priv, struct v4l2_subdev_state *state)
+>>   		return ret;
+>>   	}
+>>   
+>> -	ret = v4l2_subdev_enable_streams(priv->remote, priv->remote_pad,
+>> -					 BIT_ULL(0));
+>> -	if (ret) {
+>> -		rcsi2_enter_standby(priv);
+>> -		return ret;
+>> -	}
+>> -
+>>   	return 0;
+>>   }
+>>   
+>>   static void rcsi2_stop(struct rcar_csi2 *priv)
+>>   {
+>>   	rcsi2_enter_standby(priv);
+>> -	v4l2_subdev_disable_streams(priv->remote, priv->remote_pad, BIT_ULL(0));
+>>   }
+>>   
+>>   static int rcsi2_enable_streams(struct v4l2_subdev *sd,
+>> @@ -1857,6 +1849,14 @@ static int rcsi2_enable_streams(struct v4l2_subdev *sd,
+>>   			return ret;
+>>   	}
+>>   
+>> +	ret = v4l2_subdev_enable_streams(priv->remote, priv->remote_pad,
+>> +					 BIT_ULL(0));
+>> +	if (ret) {
+>> +		if (priv->stream_count == 0)
+>> +			rcsi2_stop(priv);
+>> +		return ret;
+>> +	}
+>> +
+>>   	priv->stream_count += 1;
+>>   
+>>   	return ret;
+>> @@ -1867,7 +1867,7 @@ static int rcsi2_disable_streams(struct v4l2_subdev *sd,
+>>   				 u32 source_pad, u64 source_streams_mask)
+>>   {
+>>   	struct rcar_csi2 *priv = sd_to_csi2(sd);
+>> -	int ret = 0;
+>> +	int ret;
+>>   
+>>   	if (source_streams_mask != 1)
+>>   		return -EINVAL;
+>> @@ -1878,9 +1878,14 @@ static int rcsi2_disable_streams(struct v4l2_subdev *sd,
+>>   	if (priv->stream_count == 1)
+>>   		rcsi2_stop(priv);
+>>   
+>> +	ret = v4l2_subdev_disable_streams(priv->remote, priv->remote_pad,
+>> +					  BIT_ULL(0));
+>> +	if (ret)
+>> +		return ret;
+>> +
+>>   	priv->stream_count -= 1;
+>>   
+>> -	return ret;
+>> +	return 0;
+>>   }
+> 
+> rcsi2_irq_thread() also calls rcsi2_stop(), followed by rcsi2_start().
+> This is to handle errors reported by the AFIFO_OF, ERRSOTHS and
+> ERRSOTSYNCHS interrupts. If the source isn't restarted, such an attempt
+> to recover from errors will likely fail. On the other hand, restarting
+> the source will likely not lead to great results either.
+
+Indeed. I think for single-stream use cases the behavior should still be 
+the same, but for multi-stream use, any enabled stream will keep the 
+csi2 enabled.
+
+This kind of error handling sounds a bit fragile. If a restart helps, 
+don't we need to restart the whole pipeline, not just from csi2-rx 
+upwards? Or is it guaranteed that the ISP/CS and VIN will continue working?
+
+Did this work earlier with the custom VC based routing?
+
+  Tomi
+
+> Error handling was introduced in
+> 
+> commit 4ab44ff0841b9a825f9875623d24809d29e37a10
+> Author: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> Date:   Thu Apr 11 16:30:58 2019 -0400
+> 
+>      media: rcar-csi2: restart CSI-2 link if error is detected
+> 
+>      Restart the CSI-2 link if the CSI-2 receiver detects an error during
+>      reception. The driver did nothing when a link error happened and the
+>      data flow simply stopped without the user knowing why.
+> 
+>      Change the driver to try and recover from errors by restarting the link
+>      and informing the user that something is not right. For obvious reasons
+>      it's not possible to recover from all errors (video source disconnected
+>      for example) but in such cases the user is at least informed of the
+>      error and the same behavior of the stopped data flow is retained.
+> 
+> Niklas, do you recall anything about the errors you saw ?
 
 
