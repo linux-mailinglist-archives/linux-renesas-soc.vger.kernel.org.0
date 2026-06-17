@@ -1,209 +1,229 @@
-Return-Path: <linux-renesas-soc+bounces-34161-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-34162-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id z6AVL52VMmrY2QUAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-34161-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Jun 2026 14:39:57 +0200
+	id VumhL0+VMmrK2QUAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-34162-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Jun 2026 14:38:39 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21BE8699CBF
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Jun 2026 14:39:57 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 77A29699C9C
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Jun 2026 14:38:39 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=sang-engineering.com header.s=k1 header.b="ae/6khS8";
-	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-34161-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-34161-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
-	dmarc=none;
+	dkim=pass header.d=qualcomm.com header.s=qcppdkim1 header.b=IkB4l1Ud;
+	dkim=pass header.d=oss.qualcomm.com header.s=google header.b="ZmHlera/";
+	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-34162-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-34162-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=reject) header.from=qualcomm.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id BAA8B300C929
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Jun 2026 12:35:53 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id D392330471DD
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Jun 2026 12:37:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9C50C3F1AB2;
-	Wed, 17 Jun 2026 12:35:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1F4523BFAD7;
+	Wed, 17 Jun 2026 12:37:06 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE26D3F58EA
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 17 Jun 2026 12:35:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DFB13F0ABC
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 17 Jun 2026 12:37:04 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781699752; cv=none; b=mh6hRVBrI62haf/2Iqhiy5+PPSQ4wyfGFWlIP8PENQnambQPvdI/VouYtLSwQnvp1bnS4B3k691UUOR5vj1T2J8ojAyM+57zPfW+pBRpmtxsn+YYLeuwbo9oIFSgrXhZH7UpoDqJf7KAO32GixB1jIkVU5JacZq8XGRoWO7b4kc=
+	t=1781699826; cv=none; b=Gvv/DdG2D/hcvIkHoDYn/WYSVpO9wIUxX/pVYAjXdPQDzNGLE8wTHcWQ336Pn0kBe9pfseuVTkmIOhmTdnzLby30TfW3XOY+QsrcVnrPfiAJDg1TUnTwl5NHEiVT+UkYKFU9bYO11E5UVMkD6Mh4g/VRoost62VEPPjxXP8pWTs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781699752; c=relaxed/simple;
-	bh=KC+ZXjDxPZVDDLH76UG2iit2I5xfbD2dPJeQblzuMzY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fUMovun4oic5/oyARqqkHveepAIPaGe/GnnCjWNlCjSZ0AHdSCdyfLn4c+VxBCX1mwYwXIBMitmLmcc4lyVb3bLS/7vrgljFQUiEBK12VqztWtMieAjwVpJI7CEYImwOFW3IB4ZurUol63JlsM2P9h6HTDzojMA6vx2FUTGdeyk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=ae/6khS8; arc=none smtp.client-ip=194.117.254.33
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=KFZ2
-	yxL3BFsZUdUfuDksN6EzE0vGtrKj9GOXVWnTgAQ=; b=ae/6khS8QjY2U7vQdp+u
-	b6oR4Vw1pBstNY6z85lzSN2ewUJcujLjiJRcP9OH7Ohvn0dQQFQmR+mVLoCjmpKX
-	L3YS15MFbgIUx9vI0XiwEVsIjJmnk/T2iM5d8N76O9R7WK9w8C5pAZv2d3OOHSDK
-	nOe8AsOpQQmSa+T5UB1xsPswr6tpWVckUdxqVUKbKiZSG5rOLuiOC+jY9SdKbGwS
-	P/wFW1XiXh/4JfHUPTeySddphhQzM/ztwem75571WeO9Vi79mps8lVQKC/DeS2W+
-	a6qBWlIo7OASy22EkBWIrQil3HCO3huVHl80pQsTRU5gw54TqNlwj8cwq8mC0lWN
-	gQ==
-Received: (qmail 165056 invoked from network); 17 Jun 2026 14:35:48 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 17 Jun 2026 14:35:48 +0200
-X-UD-Smtp-Session: l3s3148p1@ufmdTHJUUKkujnvI
-Date: Wed, 17 Jun 2026 14:35:48 +0200
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Biju <biju.das.au@gmail.com>
-Cc: Ulf Hansson <ulfh@kernel.org>, Biju Das <biju.das.jz@bp.renesas.com>,
-	linux-mmc@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH v17 06/17] mmc: renesas_sdhi: Introduce
- renesas_sdhi_hw_info to abstract clock mask
-Message-ID: <ajKUpOHCaufy42NH@shikoro>
-References: <20260603065731.93243-1-biju.das.jz@bp.renesas.com>
- <20260603065731.93243-7-biju.das.jz@bp.renesas.com>
+	s=arc-20240116; t=1781699826; c=relaxed/simple;
+	bh=v82ZYuwMb2xVyLg5/0OZvOZP5AwSn0n8+YZ1fAkQCy0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=RGf8GyTUorYPpWlAcUjd8fSfODvFHHrNub/adU4ccOssu9Hd/itugjJfqxhmbI/rY4I0Frj/K874qqmRTGUJzrEMxlr6mhiuGGaVSyZZnuzfYlnBhy4LRTvZj9Ck4JD/DhUEP8CwNH2/MkNVwGVapIbpn12VO6XBXy26ySHv9Yk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=IkB4l1Ud; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=ZmHlera/; arc=none smtp.client-ip=205.220.180.131
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 65H8VqDq2192032
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 17 Jun 2026 12:37:02 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	Mi+7F6MOp31T+TaUgs/GJmAsdi52R6SY4Bwom4Oq8sY=; b=IkB4l1UdITnYKWaC
+	wL45X9ePJuiiK5gOyRHxSwiI+n4rPPt0FTr2+odBJjodQ6iGXkDBzrWlecwLIfud
+	XSCwrQnEbir1I52dqBiOb6pRZEpGlRoivLT3KFSyV8/R1HkKe5OZyxdOKMD8tZmy
+	K3frueGKPYQ97r8q5anE2eMV4RmNAVCa28mKTo3Cljo6jUsnkjsd/eh5GUIScTBL
+	gji/iq6STVXRqj/LTODJUkpSw2UBHyST7xObm3FNN14BTCkBCuox+lKavGzgHEIl
+	nywgczybJ464SJYenBiwSIz+tX+P/8pR40kDrr2aARBoyVRuav3vZ91caBfKAilw
+	xsq83w==
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com [209.85.222.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4eueesk58b-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 17 Jun 2026 12:37:02 +0000 (GMT)
+Received: by mail-qk1-f199.google.com with SMTP id af79cd13be357-9158ecbfbc2so45075385a.0
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 17 Jun 2026 05:37:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1781699822; x=1782304622; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Mi+7F6MOp31T+TaUgs/GJmAsdi52R6SY4Bwom4Oq8sY=;
+        b=ZmHlera/RQySWCJfthUgq1crDkrNCR3DdYaZX2DiNWUInCqN0esv3SStIxXa2Mek9d
+         taccGkP18cdJCClUYLklzZSzWBVUAVrif34VXJcIm+7xF1VnN1fGCnPkmIa4zOhIrTiU
+         z4Z5dBqgo+/iwFbvm+m3Seb2lOQ6305QzFZ+4fSrJS0yXC9XG2DJx9h4tIZwB+oo5jMk
+         3q+tmunFHqdD2qfHw1lt+w3WB41vTXe3B2KfNhI45ULagmy8XMPMD7ygh5LlxcEOJbH0
+         S/fyVwI2c73XU3BYbg239sq+YcuoDTsBvcKF3gnMwXCzx00IM6HrUQvz6YDUWo7N3OJL
+         yTxA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781699822; x=1782304622;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Mi+7F6MOp31T+TaUgs/GJmAsdi52R6SY4Bwom4Oq8sY=;
+        b=S3nAAc5EnBdwMJQeYKWGn/sJd6MUzWg9SRJkixdBYqnbAr8Z+qFnQKShBF2iz1anME
+         mUxQuA9MkBJdmYFbX61dUPyzg21dFDpliKGjGU5SeaBY9h4UzJBVRGlGmAKSrLUkWipj
+         B9V9IQHRCA12Gmvs/0JNmcv4LCv+KmwlHOV3zfOlHmPjc0dhXtXo4JUEPO5KQkk5D713
+         nvV560ev9Eoa2Q9kQ0rYYfc3toUcddyrubDf1EedYutYi7zJ8q5CvwZigEiGTyoeGfd0
+         nm0TFFQyb0T5B+Q8ll7zJut5HYr8ZcA5kJYkRlAB7xbbBcTbX3b87wuQY6G2xq9FC721
+         Xjfg==
+X-Forwarded-Encrypted: i=1; AFNElJ9XBOW876WyLnozNJtfp2xny4GqXq72/PyH9IhPCtlzkkgXqmdhQjHV4iq3rtT41gdKxfXIybWVGoZTU47GY8QJ/Q==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzlgcXGvyrklSu/J4576P/rUvcHzuVE2GleEuuyquqUcdOlqP8L
+	kVuFAaR0CAsquYBjrPvf2l5v4iR9fGny57XzsclEkqf8m6UOv5m6fUkK9hFkq3TuwFOHPt8hNW2
+	+U0TZu3eHQ7vC3rMagr0BkrHwDaChaM9+NLzVxdEqwayhYBmpjR9CKllptu2edjpWVGqgDuXYdg
+	==
+X-Gm-Gg: Acq92OE1rBgv5uQ541Oltek5H9o1ENzPO0M8CyvkStBchfk57+X11oaCmBE5vvk5pog
+	M+P21oSR1WEi1S+LH/x9hf9VvSxwrozpPrE3E9eS8cx3tGJ2HQ2w8KkZpPwHBinvSTa9CtMKma4
+	yFzum3L/meSvZWI973Oaz8A6nQ6H11ZkqrNMhOUO5udztOowCJYCacql4vZ1KJnDLuu82BOpgdq
+	jnXotbiS0zDgyVA93xhQnmZRZOtMvZLukiqElFKbxrF11pAfqOLTqPHcYUqco2O17JfNr5BXoDb
+	RjMu/seBb4gpD6RXKPS1FD3pAjT4Cr4s4CiC2KRHwY0r5sB7c2cmuAHPWFSNd3vfjvi3SfdxLiO
+	FCs8WlRFaiU44EHUyHu0OaMGfoEcGE5dGr4g=
+X-Received: by 2002:a05:620a:1a17:b0:91c:9d38:30ac with SMTP id af79cd13be357-91d8cba7875mr374528685a.4.1781699822046;
+        Wed, 17 Jun 2026 05:37:02 -0700 (PDT)
+X-Received: by 2002:a05:620a:1a17:b0:91c:9d38:30ac with SMTP id af79cd13be357-91d8cba7875mr374525485a.4.1781699821571;
+        Wed, 17 Jun 2026 05:37:01 -0700 (PDT)
+Received: from [192.168.120.170] ([178.235.128.140])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-bfdb44208c9sm808828966b.13.2026.06.17.05.36.59
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 17 Jun 2026 05:37:00 -0700 (PDT)
+Message-ID: <d3b7b468-7314-4ad8-85fb-2f9e3e1a923e@oss.qualcomm.com>
+Date: Wed, 17 Jun 2026 14:36:58 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="/uvNf059UeDEhJ6G"
-Content-Disposition: inline
-In-Reply-To: <20260603065731.93243-7-biju.das.jz@bp.renesas.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] arm64: dts: qcom: sm8650-ayaneo-pocket-s2: add display
+ nodes
+To: Neil Armstrong <neil.armstrong@linaro.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley
+ <conor+dt@kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>
+Cc: linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        KancyJoe <kancy2333@outlook.com>
+References: <20260522-topic-sm8650-ayaneo-pocket-s2-display-dt-v2-1-cdd4b70e5a16@linaro.org>
+Content-Language: en-US
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <20260522-topic-sm8650-ayaneo-pocket-s2-display-dt-v2-1-cdd4b70e5a16@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjE3MDEyMCBTYWx0ZWRfXzGsRxKc+oSdN
+ 4xxLhifIy5J2IT5ovphlVC6M3ouJkFxhzUEdyswQ1GqUV81NAMyHKeOhqLWu2+7pmFdTBKaBYOa
+ p8H55637OAGA4wDnTGsGf/7Zqk8dW9Ypl4e5792vGNfBouj3L3/qfPR4ENMtWhKDY9HU56Xem3V
+ 1a1IKUmH667mDdMQnJRh1bDatXrtVlSP22GBzqZuJyJZZGQpXBhUdGUSKRk60sOSLZxFdaB/0gz
+ I6KYQ/bVnflIsxl8Lp0U+9EJYUwY2Nu7859oPb/Urs/xccsVjqzvsoYLbtce1E20SEVuEmabYiJ
+ pFmcCM/ccmXtCG2OLM6L2ntotAdmTlPIkrfJ2qEFfEk4eZ52+TIlB+c4YfqOfW3cTabwq5IcjZV
+ zSVWS3WlLcWG8bQEGb3mXvyKvjz1OBkUH8BrGrLkEWqGqFSWpC4/QBEcjOR46d5Hu9eP/WRbJMN
+ 7Zx38UZTF32TW/9tMAQ==
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNjE3MDEyMCBTYWx0ZWRfXyLt02v84b/Pc
+ TnV7GI5BoVtYVpjfp5qla0MLGdvDcv9US2DxQTMgnlkbdM15qAhzynyJbQe3FpMu5OosCc0HmCs
+ m78U/fblgm/DSbrmm0tNq2X3Ks9/Gyc=
+X-Proofpoint-ORIG-GUID: ua-19tbykvVQpdaN_yKMjImT35Pxpf20
+X-Proofpoint-GUID: ua-19tbykvVQpdaN_yKMjImT35Pxpf20
+X-Authority-Analysis: v=2.4 cv=ePojSnp1 c=1 sm=1 tr=0 ts=6a3294ee cx=c_pps
+ a=HLyN3IcIa5EE8TELMZ618Q==:117 a=PRfkaYvzSr8QmIIGAkY2Sg==:17
+ a=IkcTkHD0fZMA:10 a=FelO9ux0wxsA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=3WHJM1ZQz_JShphwDgj5:22
+ a=UqCG9HQmAAAA:8 a=KKAkSRfTAAAA:8 a=EUspDBNiAAAA:8 a=8gp52aLBMaF4WGxJS50A:9
+ a=QEXdDO2ut3YA:10 a=bTQJ7kPSJx9SKPbeHEYW:22 a=cvBusfyB2V15izCimMoJ:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
+ definitions=2026-06-17_01,2026-06-16_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 spamscore=0 adultscore=0 priorityscore=1501 lowpriorityscore=0
+ malwarescore=0 bulkscore=0 clxscore=1011 impostorscore=0 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2606170120
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-3.26 / 15.00];
-	SIGNED_PGP(-2.00)[];
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[sang-engineering.com:s=k1];
-	MIME_GOOD(-0.20)[multipart/signed,text/plain];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
+	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:biju.das.au@gmail.com,m:ulfh@kernel.org,m:biju.das.jz@bp.renesas.com,m:linux-mmc@vger.kernel.org,m:linux-renesas-soc@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:geert+renesas@glider.be,m:prabhakar.mahadev-lad.rj@bp.renesas.com,m:bijudasau@gmail.com,m:geert@glider.be,s:lists@lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	FREEMAIL_TO(0.00)[gmail.com];
+	TAGGED_FROM(0.00)[bounces-34162-lists,linux-renesas-soc=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	MIME_TRACE(0.00)[0:+,1:+,2:~];
-	DMARC_NA(0.00)[sang-engineering.com];
-	FORWARDED(0.00)[lists@lfdr.de];
-	FORGED_SENDER(0.00)[wsa@sang-engineering.com,linux-renesas-soc@vger.kernel.org];
+	FORGED_RECIPIENTS(0.00)[m:neil.armstrong@linaro.org,m:andersson@kernel.org,m:konradybcio@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:geert+renesas@glider.be,m:magnus.damm@gmail.com,m:linux-arm-msm@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-renesas-soc@vger.kernel.org,m:kancy2333@outlook.com,m:krzk@kernel.org,m:conor@kernel.org,m:geert@glider.be,m:magnusdamm@gmail.com,s:lists@lfdr.de];
+	FREEMAIL_TO(0.00)[linaro.org,kernel.org,glider.be,gmail.com];
+	FORGED_SENDER(0.00)[konrad.dybcio@oss.qualcomm.com,linux-renesas-soc@vger.kernel.org];
+	RCPT_COUNT_TWELVE(0.00)[13];
+	FREEMAIL_CC(0.00)[vger.kernel.org,outlook.com];
+	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-34161-lists,linux-renesas-soc=lfdr.de,renesas];
-	MISSING_XM_UA(0.00)[];
+	FORWARDED(0.00)[lists@lfdr.de];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,vger.kernel.org:from_smtp,qualcomm.com:dkim,qualcomm.com:email,oss.qualcomm.com:dkim,oss.qualcomm.com:mid,oss.qualcomm.com:from_mime,linaro.org:email,outlook.com:email];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	ALIAS_RESOLVED(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[wsa@sang-engineering.com,linux-renesas-soc@vger.kernel.org];
-	DKIM_TRACE(0.00)[sang-engineering.com:+];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
 	TO_DN_SOME(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[konrad.dybcio@oss.qualcomm.com,linux-renesas-soc@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
+	ALIAS_RESOLVED(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sang-engineering.com:dkim,sang-engineering.com:from_mime,vger.kernel.org:from_smtp,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,renesas.com:email,shikoro:mid]
+	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
+	RCVD_COUNT_SEVEN(0.00)[7]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 21BE8699CBF
+X-Rspamd-Queue-Id: 77A29699C9C
 
-
---/uvNf059UeDEhJ6G
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Wed, Jun 03, 2026 at 07:57:06AM +0100, Biju wrote:
-> From: Biju Das <biju.das.jz@bp.renesas.com>
->=20
-> The RZ/G3L SoC has 11 divider bits and requires a different clock mask in
-> renesas_sdhi_set_clock().
->=20
-> Add a new renesas_sdhi_hw_info struct to hold hardware-specific
-> parameters, starting with clk_mask. This replaces the hardcoded constant
-> in renesas_sdhi_set_clock() with a value sourced from the per-device
-> hw_info, and widens the clk variable from u32 to u64 accordingly, as
-> clk_mask for RZ/G3L exceeds 32 bits.
->=20
-> Wire hw_info through renesas_sdhi_of_data_with_quirks (internalDMAC path)
-> and a new renesas_sdhi_of_data_with_info wrapper (sysDMAC path), and plumb
-> it into renesas_sdhi_probe() so it is stored in the per-instance
-> renesas_sdhi struct.
->=20
-> All existing users are assigned sdhi_hw_info_generic, preserving current
-> behaviour. No functional change.
->=20
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+On 5/22/26 3:15 PM, Neil Armstrong wrote:
+> From: KancyJoe <kancy2333@outlook.com>
+> 
+> Add nodes for the dual DSI panel, the SGM3804 regulator, the
+> SY7758 backlight controller, the touch controller, and enable
+> the GPU to enable full display support.
+> 
+> Signed-off-by: KancyJoe <kancy2333@outlook.com>
+> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
 > ---
-> v1->v2:
->  * No change.
-> ---
->  drivers/mmc/host/renesas_sdhi.h               | 12 ++++
->  drivers/mmc/host/renesas_sdhi_core.c          |  7 +-
->  drivers/mmc/host/renesas_sdhi_internal_dmac.c | 16 ++++-
->  drivers/mmc/host/renesas_sdhi_sys_dmac.c      | 66 ++++++++++++++-----
->  4 files changed, 81 insertions(+), 20 deletions(-)
->=20
-> diff --git a/drivers/mmc/host/renesas_sdhi.h b/drivers/mmc/host/renesas_s=
-dhi.h
-> index 09bf9b24a8c3..a7fc525b7218 100644
-> --- a/drivers/mmc/host/renesas_sdhi.h
-> +++ b/drivers/mmc/host/renesas_sdhi.h
-> @@ -41,6 +41,15 @@ struct renesas_sdhi_of_data {
-> =20
->  #define SDHI_CALIB_TABLE_MAX 32
-> =20
-> +struct renesas_sdhi_hw_info {
-> +	u64 clk_mask;
-> +};
+
+[...]
+
+> +	/* Backlight */
+> +	sy7758_backlight: sy7758@2e {
+
+If it's the only one, 'backlight:' is good for the label. The node name
+must definitely be backlight@, as those are supposed to be generic
+
+> +		compatible = "silergy,sy7758";
+> +		reg = <0x2e>;
 > +
-> +struct renesas_sdhi_of_data_with_info {
-> +	const struct renesas_sdhi_of_data *of_data;
-> +	const struct renesas_sdhi_hw_info *info;
-> +};
+> +		pinctrl-names = "default";
+> +		pinctrl-0 = <&sy7758_default>;
 
-? Why don't you put it in renesas_sdhi_of_data and tmio_mmc_data
-instead?
+Please use this order, everywhere:
 
-You wouldn't even need to put the default value in all other of_data by
-using:
+property-n
+property-names
 
-In the 'if (of_data)' block of probe():
+otherwise:
 
-	mmc_data->clk_mask =3D of_data->clk_mask
+Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
 
-and outside of this block:
-
-	if (!mmc_data->clk_mask) mmc_data->clk_mask =3D <default>;
-
-or something similar.
-
-The main thing is that we don't need a hw_info struct IMO. It should be
-already all there...
-
-Same for everything which gets added later to hw_info.
-
-
---/uvNf059UeDEhJ6G
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmoylKQACgkQFA3kzBSg
-KbbQGA/+K4DFfGUrP0eZsG1su+fQ6V40Th+vxpM8U2EfrAKSPkj9ae4ZH6Ckf7qd
-dpjkGAOSzpK/fy5aFqViEFZf004NX33r0ZNRs2WQ+wlvKfMkMR3o21BhqY/raZK3
-dtBzq/uy1JHA5kJPKOXldQOyF5tIydfKjHpIxPPwkdU1CilXPVpytLhqISylRYQN
-OOl8wBBiFfDP9IkCQRhI/leXt4Y1YeP2h/N6rDRDUTIp0COPd7PeIN0rGuciJgPw
-pGVO9M/k3cIpv0Vath3Pt02tOd7TuedEZC0cLviJUHq/E9QAqSHdRsrMYUsyPOYM
-c6U1yH9ly5f8evR53fTJ+mSCV8TaveqaTrbCE7U5B/PUr4FJiRUlhRojz4cJKPx8
-95VUFa5dB3kowQwK1QxQfP8v8/uxs/+f2PB/m9z9Baq9RsvTihKdw/BAD9ya2kjT
-S/DKfRx/QQb9Vv4gL5ZjuirLTduFLQzcSo//08znAP78x1YpVs6j76c0SFALtjra
-7il8rL1UxUtFDc3+rD2tC5Ct/7w/e+AzEOm66eVmsKRBSEmB47dTsQepxrkZQVzp
-S/bVZIobuE6/gw7geLPssZdGnzfrtl9vkuuzmDM4KkH316kwonai4N7+dsVAF5Iu
-khCj0wNuymOxK+x/QZXyRB5ZG9FXaUNPUcvB3nOjzGwHT7L1oa8=
-=7dhg
------END PGP SIGNATURE-----
-
---/uvNf059UeDEhJ6G--
+Konrad
 
