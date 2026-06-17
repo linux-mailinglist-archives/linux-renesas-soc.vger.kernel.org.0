@@ -1,155 +1,325 @@
-Return-Path: <linux-renesas-soc+bounces-34114-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-34115-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id pJ4ALNNLMmo3yQUAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-34114-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Jun 2026 09:25:07 +0200
+	id TK4ODclLMmouyQUAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-34115-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Jun 2026 09:24:57 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2165C697296
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Jun 2026 09:25:07 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id C8892697289
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Jun 2026 09:24:56 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=none;
-	dmarc=none;
-	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-34114-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-34114-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=HGDyUQDh;
+	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-34115-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-34115-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=quarantine) header.from=kernel.org;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 6062A305B2BE
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Jun 2026 07:24:19 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 32356303A130
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Jun 2026 07:24:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3552D3BC68A;
-	Wed, 17 Jun 2026 07:24:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 790793BB673;
+	Wed, 17 Jun 2026 07:24:53 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vs1-f50.google.com (mail-vs1-f50.google.com [209.85.217.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF6AC3BADB1
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 17 Jun 2026 07:24:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D84F3B9DAC;
+	Wed, 17 Jun 2026 07:24:51 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781681056; cv=none; b=e2Xfsr6Qea0JOs2PLPi6scsOY8z4+yPGOzIZBeIKJRIK1O9LfX3T2+fyFe7iRdPqkJzStu8srko1NbJmn6sJ/Opo+AMgDRD/jOTD8lh3IvbNHjQNcq0QImRK7iLHP8o/MzP/SsciSqvp8DeW5xqL5+25vkd4VzQ+murO4F68VZ4=
+	t=1781681093; cv=none; b=Y41278/Ov7KpdBVacmg21cQ/dyzLs6ZSJqOkFz3nXrKIz2M/VRjzmtKml+J8uBUeuXAMPQ9n6NYo9aokVvAnbfQfIDP3X4IH2n1d1H+fRhac0+zoUZby37E/SdAqF2V85tjt0hAE7cRws8MPuER/VqxrCU4PcjqiGV40w/VsUWI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781681056; c=relaxed/simple;
-	bh=uR7TIRBR3yg8tAIyxRV/d8RKl0ocy3CufGlcD3SG8n4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=gEylD7q1eItxFgLGx8Z7k+rmPRr0eNQd66gCKjh7qJbj9JggZuSez8YiS3dK0yi4PZDZGJ5fND/UThjND8wXAWTL5qczXD5ganv57RyUx9WyTyp323BDplwEiA+Y3ev608a4ecPEjyvkWoVLYiHrKOR4MMN+wiHSbMwM4GXcUHY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.50
-Received: by mail-vs1-f50.google.com with SMTP id ada2fe7eead31-6cd01f6c11aso1822945137.3
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 17 Jun 2026 00:24:14 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781681054; x=1782285854;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ahs58FQh15JfUVstnf1wGngv+BPi4LTDqfDVl/aFn10=;
-        b=rcw1ysbkI2XsMV42AyJsWJPnhkKkNstlYgKh/KffStWEvyr9p7BGR+W818x6D3cukM
-         GC1lZXaOIY17WylOeYksBnJfm841HKd/735S/Vmw4ONZLT7U8YEbd5fkfmrW/vokhmYC
-         YL1MeeotAS6+dTgCVXF8H2RTCt2+AOAFD/LJxhQQtm2OSXuYMxBGZeJPznqPVIQRxtEG
-         TcD9ZlhNkWS5vtI8v3htNuTRlvSBbE0L9XTvJ23YHUJfsE4okUqoDJylAtFYONcHMTM5
-         V5m7LW8Ah6126Yzf3UxGRAVY7egVE8gk4PP/2bbENeGeK4WZ1A5E1nF4HtnElR4kFXUO
-         aIww==
-X-Forwarded-Encrypted: i=1; AFNElJ9YrmJrtpDNe9qg9MvnDGYIrRMVeEC81c7WX1gkbbNlbZE4fEN7pDHnB0EsYXsI015kZoGeLOAqety5ixemo7+ZaQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywli7jHt8R2EcsAYcBQGvLMYs1vZo13Dl7rOl6wUx72nwfv1x4U
-	6CplJxvvRAIemqXSzDUnEl8TqaHLgP56KJrdpic8MdW/jKHXCpbHOciqC+i+HQyX
-X-Gm-Gg: Acq92OF544M3T6ejwmi2yPYuIT3gPUNYMyIsdTgWgbpIX3n4oYjHRLgfX2F7r9wRoFN
-	Qjqb7NQS49levMT8dTw4K/k6+ZbRj7CJ4gC42Z+0dxbuvq3sgPD+Gq6gPBU26rsOYubmb/H+0TS
-	u6QQTsDC7nh9DboZsjQOXPOIMlZorgl94UQ4kSw4+hs4Zz9JyFZnISLsvEdS7Mtv3hvVsVR289x
-	aPpIrIs7dvjU/fJA7WTdz9W2qOcVs4xtvm/2HCZfhQvAMQqmJqGA5R38qA5IB7vaZ+Xb1yNDEfs
-	7v3MgoEcKRV/IVvw3CUvHbcIL3Ktv7T6y/RTfQUjTZ3PD/QDTiXJmTtT6NJUWKmhYXdZt2U0mK0
-	27O4q0zNyC2db4b0gCxDxEL6YNIPxc/MRsFIogvEA152fxApB6/t2uPFUhyBxJ9s6N7D2S4eC9X
-	QDBu9f5hstFCBX7EMfHDTxlsu5AulZW/OIowmq0+mgLjFlvzSmLQ==
-X-Received: by 2002:a05:6102:c03:b0:631:4580:6a3f with SMTP id ada2fe7eead31-7245d540c35mr1455698137.7.1781681053434;
-        Wed, 17 Jun 2026 00:24:13 -0700 (PDT)
-Received: from mail-ua1-f44.google.com (mail-ua1-f44.google.com. [209.85.222.44])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-720878866dbsm6608216137.11.2026.06.17.00.24.12
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 17 Jun 2026 00:24:13 -0700 (PDT)
-Received: by mail-ua1-f44.google.com with SMTP id a1e0cc1a2514c-961556c15ceso1582499241.3
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 17 Jun 2026 00:24:12 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ/z9fMqluRACvi10JtnKECpmASYGx59tUyuHnJGREGcRZUE6WuvjnMqObW4m3lOzftrYHRLbWntZN+24MsLahTNWA==@vger.kernel.org
-X-Received: by 2002:a05:6102:548c:b0:6ca:32f1:f06a with SMTP id
- ada2fe7eead31-7246c88cf25mr1325601137.15.1781681052567; Wed, 17 Jun 2026
- 00:24:12 -0700 (PDT)
+	s=arc-20240116; t=1781681093; c=relaxed/simple;
+	bh=+WhFvVS+vcC6PQnZ3lAB2A+Q19f1UD0uekBNMfGkxAY=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=VIpZfOdgPKUoPh/gg7FBg33mHuOsHHd1KMcTELUTM0sMf9BELVhDPj4QZHCtWi1j3Hi5hssQrkrWMtpY1gaGhxZcuAhICeRm+w1BMHS4Hkm0VUkPIekBwX06A/ViHXmRQuDX3ajUYtDy8UUo3oAiauJGcRwdM0BmHqMGp8F0ukE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HGDyUQDh; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C84A1F00A3D;
+	Wed, 17 Jun 2026 07:24:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1781681091;
+	bh=JYgA4r+iMvN9v+KvAsaOKYP1T3sIeJZ4mxJT+xgfLbU=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=HGDyUQDh3t+aV2B7rWzcTrOtt8o66v8zDf7qbV3Ab7Jye4Q7ltUKNppxgXSX0Vi9B
+	 kD/aZioiQMRuEHAhHIP4ZUR1sYQNBpCi2pfOLX5pvo+IKMm4p/2S3ez4P+75Gg3jpS
+	 3mbzuiu0cuWPfk4lskEYenAJrCoUZrfHxikwvXEdX6dgtQJrAGx0t5fdvDkcHaNSDW
+	 xfe0bxl4sT4Tm/ER4qdDD+vMa10j4FFhXGu5iHEnZ1SQ5YfDiV/AyeEAUsKDoYt62c
+	 NrxkVr2AxjIWBYEdkZFNDEBkf47x+j3eigd2Ov1COJARgI1XWTYl8A7IgXdtIGf+3D
+	 LZzrGpJWW3MxA==
+Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
+	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.98.2)
+	(envelope-from <maz@kernel.org>)
+	id 1wZkdl-0000000Da9B-0HQw;
+	Wed, 17 Jun 2026 07:24:49 +0000
+Date: Wed, 17 Jun 2026 08:24:48 +0100
+Message-ID: <864ij1tyrj.wl-maz@kernel.org>
+From: Marc Zyngier <maz@kernel.org>
+To: Marek Vasut <marek.vasut+renesas@mailbox.org>
+Cc: linux-pci@vger.kernel.org,	Yoshihiro Shimoda
+ <yoshihiro.shimoda.uh@renesas.com>,	Krzysztof =?UTF-8?B?V2lsY3p5xYRza2k=?=
+ <kwilczynski@kernel.org>,	Bjorn Helgaas <bhelgaas@google.com>,	Catalin
+ Marinas <catalin.marinas@arm.com>,	Conor Dooley <conor+dt@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,	Krzysztof Kozlowski
+ <krzk+dt@kernel.org>,	Lorenzo Pieralisi <lpieralisi@kernel.org>,	Manivannan
+ Sadhasivam <mani@kernel.org>,	Rob Herring <robh@kernel.org>,
+	devicetree@vger.kernel.org,	linux-arm-kernel@lists.infradead.org,
+	linux-doc@vger.kernel.org,	linux-kernel@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH 2/3] irqchip/gic-v3: Add Renesas R-Car Gen4 erratum workaround
+In-Reply-To: <20260617030008.154449-2-marek.vasut+renesas@mailbox.org>
+References: <20260617030008.154449-1-marek.vasut+renesas@mailbox.org>
+	<20260617030008.154449-2-marek.vasut+renesas@mailbox.org>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/30.1
+ (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20260615154805.1619693-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20260615154805.1619693-11-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20260615154805.1619693-11-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 17 Jun 2026 09:24:01 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdW769Sk4FMJWNyCK5jzc5oVZL_4L5wt0w5uyL93wrYF9Q@mail.gmail.com>
-X-Gm-Features: AVVi8Cct3Yj3PdPpYaOL4UBKNGskw3sUCzooWr22FhgciKRmjYjt1bOLgA7r9iE
-Message-ID: <CAMuHMdW769Sk4FMJWNyCK5jzc5oVZL_4L5wt0w5uyL93wrYF9Q@mail.gmail.com>
-Subject: Re: [PATCH 10/12] rtc: rzn1: Consistently use dev_err_probe()
-To: Prabhakar <prabhakar.csengg@gmail.com>
-Cc: Miquel Raynal <miquel.raynal@bootlin.com>, 
-	Alexandre Belloni <alexandre.belloni@bootlin.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Magnus Damm <magnus.damm@gmail.com>, Wolfram Sang <wsa+renesas@sang-engineering.com>, 
-	linux-rtc@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Biju Das <biju.das.jz@bp.renesas.com>, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: marek.vasut+renesas@mailbox.org, linux-pci@vger.kernel.org, yoshihiro.shimoda.uh@renesas.com, kwilczynski@kernel.org, bhelgaas@google.com, catalin.marinas@arm.com, conor+dt@kernel.org, geert+renesas@glider.be, krzk+dt@kernel.org, lpieralisi@kernel.org, mani@kernel.org, robh@kernel.org, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-1.46 / 15.00];
+X-Spamd-Result: default: False [-2.66 / 15.00];
+	WHITELIST_SPF_DKIM(-3.00)[kernel.org:d:+,kernel.org:s:+];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	DMARC_NA(0.00)[linux-m68k.org];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:prabhakar.csengg@gmail.com,m:miquel.raynal@bootlin.com,m:alexandre.belloni@bootlin.com,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:magnus.damm@gmail.com,m:wsa+renesas@sang-engineering.com,m:linux-rtc@vger.kernel.org,m:linux-renesas-soc@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:biju.das.jz@bp.renesas.com,m:fabrizio.castro.jz@renesas.com,m:prabhakar.mahadev-lad.rj@bp.renesas.com,m:prabhakarcsengg@gmail.com,m:krzk@kernel.org,m:conor@kernel.org,m:magnusdamm@gmail.com,m:wsa@sang-engineering.com,s:lists@lfdr.de];
-	TAGGED_FROM(0.00)[bounces-34114-lists,linux-renesas-soc=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FORGED_SENDER(0.00)[geert@linux-m68k.org,linux-renesas-soc@vger.kernel.org];
-	RCPT_COUNT_TWELVE(0.00)[15];
-	FREEMAIL_CC(0.00)[bootlin.com,kernel.org,gmail.com,sang-engineering.com,vger.kernel.org,bp.renesas.com,renesas.com];
+	TAGGED_FROM(0.00)[bounces-34115-lists,linux-renesas-soc=lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[17];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:marek.vasut+renesas@mailbox.org,m:linux-pci@vger.kernel.org,m:yoshihiro.shimoda.uh@renesas.com,m:kwilczynski@kernel.org,m:bhelgaas@google.com,m:catalin.marinas@arm.com,m:conor+dt@kernel.org,m:geert+renesas@glider.be,m:krzk+dt@kernel.org,m:lpieralisi@kernel.org,m:mani@kernel.org,m:robh@kernel.org,m:devicetree@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-doc@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-renesas-soc@vger.kernel.org,m:marek.vasut@mailbox.org,m:conor@kernel.org,m:geert@glider.be,m:krzk@kernel.org,s:lists@lfdr.de];
 	FORWARDED(0.00)[lists@lfdr.de];
+	FORGED_SENDER(0.00)[maz@kernel.org,linux-renesas-soc@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MISSING_XM_UA(0.00)[];
 	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
+	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[geert@linux-m68k.org,linux-renesas-soc@vger.kernel.org];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[maz@kernel.org,linux-renesas-soc@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	ALIAS_RESOLVED(0.00)[];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
-	R_DKIM_NA(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,dt];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[renesas.com:email,glider.be:email,linux-m68k.org:from_mime,linux-m68k.org:email,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,vger.kernel.org:from_smtp,mail.gmail.com:mid]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[renesas.com:email,glider.be:email,vger.kernel.org:from_smtp,arm.com:email,infradead.org:email,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 2165C697296
+X-Rspamd-Queue-Id: C8892697289
 
-On Mon, 15 Jun 2026 at 17:48, Prabhakar <prabhakar.csengg@gmail.com> wrote:
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->
-> Use dev_err_probe() in the IRQ request error path to make error handling
-> consistent with the rest of rzn1_rtc_probe().
->
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+On Wed, 17 Jun 2026 03:59:45 +0100,
+Marek Vasut <marek.vasut+renesas@mailbox.org> wrote:
+>=20
+> Renesas R-Car S4/V4H/V4M GIC600 integration has address width for AXI
+> or APB interface configured to 32 bit, it can therefore access only
+> the first 4 GiB of physical address space. This information comes from
+> R-Car V4H Interface Specification sheet, there is currently no technical
+> update number assigned to this limitation. Further input from hardware
+> engineer indicates that this limitation also applies to R-Car S4 and V4M.
+> Name the limitation GEN4GICITS1, and add a driver quirk to mitigate this
+> limitation.
+>=20
+> Note that the 0x0201743b GIC600 ID is not Renesas-specific, it is
+> common for many ARM GICv3 implementations. Therefore, add an extra
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Not quite. It designates GIC600 unambiguously. It is just that GIC600
+is integrated in zillions of SoCs, most of which don't have this
+problem (the machine I'm typing this from has a GIC600 *and* 96GB of
+RAM).
 
-Gr{oetje,eeting}s,
+> of_machine_is_compatible() check.
+>=20
+> The GIC600 implementation in R-Car S4/V4H/V4M is r1p6.
 
-                        Geert
+Is this relevant?
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+>=20
+> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+> ---
+> NOTE: This would not be possible without prior work from Shimoda-san
+>       https://lore.kernel.org/all/20240214052050.1966439-1-yoshihiro.shim=
+oda.uh@renesas.com/
+> ---
+> Cc: "Krzysztof Wilczy=C5=84ski" <kwilczynski@kernel.org>
+> Cc: Bjorn Helgaas <bhelgaas@google.com>
+> Cc: Catalin Marinas <catalin.marinas@arm.com>
+> Cc: Conor Dooley <conor+dt@kernel.org>
+> Cc: Geert Uytterhoeven <geert+renesas@glider.be>
+> Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
+> Cc: Lorenzo Pieralisi <lpieralisi@kernel.org>
+> Cc: Manivannan Sadhasivam <mani@kernel.org>
+> Cc: Marc Zyngier <maz@kernel.org>
+> Cc: Rob Herring <robh@kernel.org>
+> Cc: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+> Cc: devicetree@vger.kernel.org
+> Cc: linux-arm-kernel@lists.infradead.org
+> Cc: linux-doc@vger.kernel.org
+> Cc: linux-kernel@vger.kernel.org
+> Cc: linux-pci@vger.kernel.org
+> Cc: linux-renesas-soc@vger.kernel.org
+> ---
+>  Documentation/arch/arm64/silicon-errata.rst |  1 +
+>  arch/arm64/Kconfig                          |  9 +++++++++
+>  drivers/irqchip/irq-gic-v3-its.c            | 20 ++++++++++++++++++++
+>  3 files changed, 30 insertions(+)
+>=20
+> diff --git a/Documentation/arch/arm64/silicon-errata.rst b/Documentation/=
+arch/arm64/silicon-errata.rst
+> index 014aa1c215a16..b0c68b64f5ac2 100644
+> --- a/Documentation/arch/arm64/silicon-errata.rst
+> +++ b/Documentation/arch/arm64/silicon-errata.rst
+> @@ -352,6 +352,7 @@ stable kernels.
+>  +----------------+-----------------+-----------------+------------------=
+-----------+
+>  | Qualcomm Tech. | Kryo4xx Gold    | N/A             | ARM64_ERRATUM_128=
+6807       |
+>  +----------------+-----------------+-----------------+------------------=
+-----------+
+> +| Renesas        | S4/V4H/V4M      | N/A             | RENESAS_ERRATUM_G=
+EN4GICITS1 |
+>  +----------------+-----------------+-----------------+------------------=
+-----------+
+>  | Rockchip       | RK3588          | #3588001        | ROCKCHIP_ERRATUM_=
+3588001    |
+>  +----------------+-----------------+-----------------+------------------=
+-----------+
+> diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
+> index b3afe0688919b..b9e17ce475e61 100644
+> --- a/arch/arm64/Kconfig
+> +++ b/arch/arm64/Kconfig
+> @@ -1382,6 +1382,15 @@ config NVIDIA_CARMEL_CNP_ERRATUM
+> =20
+>  	  If unsure, say Y.
+> =20
+> +config RENESAS_ERRATUM_GEN4GICITS1
+> +	bool "Renesas R-Car Gen4: GIC600 can not access physical addresses abov=
+e 4 GiB"
+> +	default y
+> +	help
+> +	  The Renesas R-Car Gen4 S4/V4H/V4M GIC600 SoC integrations have AXI
+> +	  addressing limited to the first 32-bit of physical address space.
+> +
+> +	  If unsure, say Y.
+> +
+>  config ROCKCHIP_ERRATUM_3568002
+>  	bool "Rockchip 3568002: GIC600 can not access physical addresses higher=
+ than 4GB"
+>  	default y
+> diff --git a/drivers/irqchip/irq-gic-v3-its.c b/drivers/irqchip/irq-gic-v=
+3-its.c
+> index b57d81ad33a0a..ec3756f29cf1a 100644
+> --- a/drivers/irqchip/irq-gic-v3-its.c
+> +++ b/drivers/irqchip/irq-gic-v3-its.c
+> @@ -4901,6 +4901,18 @@ static bool __maybe_unused its_enable_rk3568002(vo=
+id *data)
+>  	return true;
+>  }
+> =20
+> +static bool __maybe_unused its_enable_renesas_gen4(void *data)
+> +{
+> +	if (!of_machine_is_compatible("renesas,r8a779f0") &&
+> +	    !of_machine_is_compatible("renesas,r8a779g0") &&
+> +	    !of_machine_is_compatible("renesas,r8a779h0"))
+> +		return false;
+> +
+> +	gfp_flags_quirk |=3D GFP_DMA32;
+> +
+> +	return true;
+> +}
+> +
+>  static const struct gic_quirk its_quirks[] =3D {
+>  #ifdef CONFIG_CAVIUM_ERRATUM_22375
+>  	{
+> @@ -4975,6 +4987,14 @@ static const struct gic_quirk its_quirks[] =3D {
+>  		.mask   =3D 0xffffffff,
+>  		.init   =3D its_enable_rk3568002,
+>  	},
+> +#endif
+> +#ifdef CONFIG_RENESAS_ERRATUM_GEN4GICITS1
+> +	{
+> +		.desc   =3D "ITS: Renesas R-Car Gen4 GIC600 32-bit limit",
+> +		.iidr   =3D 0x0201743b,
+> +		.mask   =3D 0xffffffff,
+> +		.init   =3D its_enable_renesas_gen4,
+> +	},
+>  #endif
+>  	{
+>  	}
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+
+Honestly, that's a bit too much copy-paste for my taste. Just refactor
+the erratum handling to be more generic, something like this:
+
+diff --git a/drivers/irqchip/irq-gic-v3-its.c b/drivers/irqchip/irq-gic-v3-=
+its.c
+index 291d7668cc8da..380c4758647d2 100644
+--- a/drivers/irqchip/irq-gic-v3-its.c
++++ b/drivers/irqchip/irq-gic-v3-its.c
+@@ -4894,10 +4894,17 @@ static bool __maybe_unused its_enable_quirk_hip09_1=
+62100801(void *data)
+ 	return true;
+ }
+=20
+-static bool __maybe_unused its_enable_rk3568002(void *data)
++static const char * const dma_impaired_platforms[] =3D {
++#ifdef CONFIG_ROCKCHIP_ERRATUM_3568002
++	"rockchip,rk3566",
++	"rockchip,rk3568",
++#endif
++	NULL,
++};
++
++static bool __maybe_unused its_enable_dma32(void *data)
+ {
+-	if (!of_machine_is_compatible("rockchip,rk3566") &&
+-	    !of_machine_is_compatible("rockchip,rk3568"))
++	if (!of_machine_compatible_match(dma_impaired_platforms))
+ 		return false;
+=20
+ 	gfp_flags_quirk |=3D GFP_DMA32;
+@@ -4972,14 +4979,12 @@ static const struct gic_quirk its_quirks[] =3D {
+ 		.property =3D "dma-noncoherent",
+ 		.init   =3D its_set_non_coherent,
+ 	},
+-#ifdef CONFIG_ROCKCHIP_ERRATUM_3568002
+ 	{
+-		.desc   =3D "ITS: Rockchip erratum RK3568002",
++		.desc   =3D "ITS: Broken GIC600 integration limited to 32bit PA",
+ 		.iidr   =3D 0x0201743b,
+ 		.mask   =3D 0xffffffff,
+-		.init   =3D its_enable_rk3568002,
++		.init   =3D its_enable_dma32,
+ 	},
+-#endif
+ 	{
+ 	}
+ };
+
+Then add the two lines you need in a separate patch.
+
+In the future, please provide a cover letter when you have more than a
+single patch (git will happily generate one for you).
+
+Thanks,
+
+	M.
+
+--=20
+Without deviation from the norm, progress is not possible.
 
