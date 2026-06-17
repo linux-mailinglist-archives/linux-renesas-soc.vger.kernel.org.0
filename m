@@ -1,53 +1,53 @@
-Return-Path: <linux-renesas-soc+bounces-34144-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-34145-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id vnW8NCyGMmrn1QUAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-34144-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Jun 2026 13:34:04 +0200
+	id SW9UMHKGMmr11QUAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-34145-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Jun 2026 13:35:14 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93E506991D3
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Jun 2026 13:34:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E634E6991FB
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Jun 2026 13:35:12 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=sang-engineering.com header.s=k1 header.b=KCnPNYAJ;
-	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-34144-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 2600:3c15:e001:75::12fc:5321 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-34144-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=sang-engineering.com header.s=k1 header.b=cz3cZLCm;
+	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-34145-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 2600:3c15:e001:75::12fc:5321 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-34145-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
 	dmarc=none;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 242993079C1F
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Jun 2026 11:10:40 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id A64AB3035EB7
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Jun 2026 11:12:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D227A38A700;
-	Wed, 17 Jun 2026 11:10:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 100E038E10C;
+	Wed, 17 Jun 2026 11:12:11 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4012E33F394
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 17 Jun 2026 11:10:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7ED663806C2
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 17 Jun 2026 11:12:09 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781694638; cv=none; b=ZoEwmpFRNHGunRNifT9IWYeK8yJdgcEPh2hr5AxfRT+3pvFdnZBhsFclyWIQLC5DHM2lO5hEqZYa2X4CH8Qd7bfPptWqQ8tjP0Kjugg4TeYhyeg6i1Zq435Jq4SDOsw3TdX5qSsw/QZBNfib7oeZfOF68MormwJdM8vgyhpLuck=
+	t=1781694730; cv=none; b=uCMup16kWuWxZh+imvsDLqIddmF8clBW3Q3DahsrU/c/q6yj9p/RB6Wnf6Wh22UWdyUaNEtmFF1YOFiORM71T98fb8d+7cTlSTHKPcrNUNwffqSsG/KbPxGDTP75uTqVM130eGGtpTrE8duuHkQXBmM0E2CNoAGpCz13CZH25uU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781694638; c=relaxed/simple;
-	bh=jrnjpfjWAj2gCwYMXgtp+HmbJSErYJxq9mIT1gb3HQs=;
+	s=arc-20240116; t=1781694730; c=relaxed/simple;
+	bh=pqfx1Kz9Wn12PIFaf55ovBxOXez+eh0VV23VISnLVBk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GabHOHGXOEczQFku69e1OyVRZM4usX7wP0CO9jezVqHOTQPIoFLr99P/oYI834TWauka5tNKZKiSJXraJO7kxDCWEZTUU+oO+SDr4ihl5b+fHLQk2m9bGD3FpbhThX0Q4TUa6hDO2oXRrhqC+nxjwKNvJXdVfCSdwql3+xM+LdI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=KCnPNYAJ; arc=none smtp.client-ip=194.117.254.33
+	 Content-Type:Content-Disposition:In-Reply-To; b=QNpV/+6SA9+juVymNTiyNmKTpEU6Gk5WDcEjLnvusn86ipMNoJ+SpFnnp77JY31SGYqbxwdn+w2xXeIRMANC9XIaZDTQ7ihyc9HkUX1DKGWgwMN1ahzqqUSfM0uUmftCXNXET/UqMCfodg6iCM+X+vD+vqSmbpm564QAAba7Gss=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=cz3cZLCm; arc=none smtp.client-ip=194.117.254.33
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=FuAl
-	Trj2AiO+4ixzIlxrsr0EN8qN3zNP8tpsHRx8xww=; b=KCnPNYAJ5bJhBofWStP2
-	8GQ1leVhShAIemfP9olqqRlNKbBKI2jsqQrKvtGip/ABaa5KNOoyzjND2YwOVGZb
-	YhrcbSSOYLMNHL7Gqv16J8MfMd1j2+e7GVN3Q+cDbBOCrxxjmLUEE4GEmy6fjdER
-	XE/4DfibCA5FeNL2CCPGXakJ3t2kcwPUPhCGOqJE77nqjiURK9J2TzT+oDiskZcZ
-	a2ve2D9oY3LuSQ87LRcGMq60Xauj9oQST8qSUd82/T0DBgN22DOQ6G7a2bm/DQXs
-	fjRd9IXPfdIZ+pbgS33BP7JGJXCLcHM5r/CDo7CELZolU53xiKnYfW0RBul/5d2O
-	WA==
-Received: (qmail 136960 invoked from network); 17 Jun 2026 13:10:35 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 17 Jun 2026 13:10:35 +0200
-X-UD-Smtp-Session: l3s3148p1@jh7NG3FUKrAujnvI
-Date: Wed, 17 Jun 2026 13:10:34 +0200
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=pqfx
+	1Kz9Wn12PIFaf55ovBxOXez+eh0VV23VISnLVBk=; b=cz3cZLCmGhaN3okhv6ue
+	V3XbwjDFla4dDy7biZbA4wJgzOovjXx4knrA1smyakh242lT/dN9PUduIQTFjX7V
+	YM5nWFR01cxHP8iS0TSa+aL09mhVuUz8NNYLS0R6cOxaa3WHVx+Oj06llfVf5TV9
+	rotjUcHC1wxH40KSebI+oERV8Q0z2zAKfg+y3TTjwlCHp/+t8noQUemOiNoQ06l8
+	dxVwqyNT9SFX/BsWgErSLiG7x6pvbYwXHo637CQCpL2lzvhBFZrsZpWjHvSvu5xu
+	bczW2yS6n0WR8yDpUy3IKHWi/pqUSAGaqI07TacbVFkGcUJqbNC85oPyASi8mC8P
+	2A==
+Received: (qmail 137433 invoked from network); 17 Jun 2026 13:12:07 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 17 Jun 2026 13:12:07 +0200
+X-UD-Smtp-Session: l3s3148p1@Dk9OIXFUBM0ujnvI
+Date: Wed, 17 Jun 2026 13:12:06 +0200
 From: Wolfram Sang <wsa+renesas@sang-engineering.com>
 To: Prabhakar <prabhakar.csengg@gmail.com>
 Cc: Miquel Raynal <miquel.raynal@bootlin.com>,
@@ -61,11 +61,10 @@ Cc: Miquel Raynal <miquel.raynal@bootlin.com>,
 	linux-kernel@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>,
 	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
 	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH 12/12] rtc: rzn1: Add support for Renesas RZ/T2H and
- RZ/N2H SoCs
-Message-ID: <ajKAqn1F074JJazF@shikoro>
+Subject: Re: [PATCH 00/12] Add RTC support for Renesas RZ/T2H and RZ/N2H SoCs
+Message-ID: <ajKBBqJZssGk79dV@shikoro>
 References: <20260615154805.1619693-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20260615154805.1619693-13-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <ajJmacl9ZJtkoLyf@shikoro>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -73,9 +72,9 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="It5r3rNYSomVnrZg"
+	protocol="application/pgp-signature"; boundary="QZhgB7Djq8Hxo8mR"
 Content-Disposition: inline
-In-Reply-To: <20260615154805.1619693-13-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <ajJmacl9ZJtkoLyf@shikoro>
 X-Rspamd-Action: no action
 X-Spamd-Result: default: False [-3.26 / 15.00];
 	SIGNED_PGP(-2.00)[];
@@ -97,7 +96,7 @@ X-Spamd-Result: default: False [-3.26 / 15.00];
 	MIME_TRACE(0.00)[0:+,1:+,2:~];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FORWARDED(0.00)[lists@lfdr.de];
-	TAGGED_FROM(0.00)[bounces-34144-lists,linux-renesas-soc=lfdr.de,renesas];
+	TAGGED_FROM(0.00)[bounces-34145-lists,linux-renesas-soc=lfdr.de,renesas];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	DKIM_TRACE(0.00)[sang-engineering.com:+];
 	FORGED_SENDER_FORWARDING(0.00)[];
@@ -111,63 +110,41 @@ X-Spamd-Result: default: False [-3.26 / 15.00];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
 	MISSING_XM_UA(0.00)[];
 	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[shikoro:mid,renesas.com:email,vger.kernel.org:from_smtp,sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo,sang-engineering.com:dkim,sang-engineering.com:email,sang-engineering.com:from_mime]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[shikoro:mid,vger.kernel.org:from_smtp,sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 93E506991D3
+X-Rspamd-Queue-Id: E634E6991FB
 
 
---It5r3rNYSomVnrZg
+--QZhgB7Djq8Hxo8mR
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Mon, Jun 15, 2026 at 04:48:05PM +0100, Prabhakar wrote:
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->=20
-> Add a new compatible string "renesas,r9a09g077-rtc" to the OF match table
-> to support the RTC IP variant found on the RZ/T2H and RZ/N2H SoCs.
->=20
-> These newer SoCs integrate a closely related variant of the RZ/N1 RTC IP.
-> The RZ/T2H and RZ/N2H variants lack the RTCA0SUBU and RTCA0TCR  registers,
-
-The RTCA0TCR is also not on RZ/N1.
-
-> those registers are not accessed or used when operating under the
-> rzn1_rtc_ops_scmp configurations, making the current infrastructure
-> compatible.
->=20
-> The RZ/T2H RTC variant also supports a 1 Hz output signal on the
-> RTCAT1HZ pin, controlled by the RTCA0CTL1[RTCA01HZE] bit. This bit is
-> marked as reserved in the RZ/N1 hardware manual, making RZ/T2H a
-> distinct RTC variant despite its overall compatibility with the RZ/N1
-> implementation.
->=20
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-
-With that fixed:
-
-Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
 
---It5r3rNYSomVnrZg
+> I will review and test in on my N1D-board today.
+
+Except for the strange alarm-boundary behaviour, the tests went well.
+Will do further tests, it is probably not related to this series.
+
+
+--QZhgB7Djq8Hxo8mR
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmoygKoACgkQFA3kzBSg
-Kbbs8xAAmX10HSwI/vLKRU9rI0perg+e+xnS5czN/LRlwyNmXDwpegfH2kjyclO3
-lbdUwwN1WI7LAZtaWIW5Vhq3pJ5xiC3xP7i+pmYdBefXukLEtwjIQjKUnhmsoTWD
-8FZj9O8x+4oMbAJ69mAvt3bDU+8OIrcdhfMO/+1TTXhF0wrjPVGUCwvaLfuBnshm
-TtLDFWe8Wdq18C+yRe+DwoPODSAyZlXqxMYJFsBekJd4QvXWXy2IyMBUcR/Y+u9k
-7asdbBQrEC0V100NgvHFMINGZAaz8PjU6TxKjKmoCWZtlPoCjg0MmqIDPLs7F/4O
-ibPcdmkmg4Dat/WsWAc3aR7qZIPUcUQ8LDfXBLAdLmvv1jNLo3KvobDAJAI9XrqJ
-y73e/Djo3aX8GEKT2OOc95kfvmBVzJVeh92Ug+DktLEfWfo35Jia0pdtWRAroAxb
-IRBJXNRXYlwfXo2nseW4P+qURuyD3lgrc0jEeHFz0mnvWM71F/z60OaAPrI5KNVo
-Ne7qYH/ygWzNn/H/kth2K1d30ssiMfdtxeyXffwG5P8/g2LwtbTzJRjphtR/0HLF
-c7AIkKy2ji3paOXB0OmbiIT2yIKF424mC7U4J7piM0URhb1aEl1W//MaT5nqRXN4
-pv0NPzQnyCZJAzcnf96Z8IrjtW5lkTUt0UyMm4PsOKVY2kUs208=
-=pT8T
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmoygQYACgkQFA3kzBSg
+KbaDbw/9GG7nh3Fgh5SM6xw0smJjzDmMORq2jOlkPvZVFyypPhumd8th2/tMAjbi
+8dqhmiUQMhutMWhFRn0SPCHU3hqbVxuzIp47VaJKOPzYF8CFHsNEm7y/gcdVegJG
+s9rQ5fcWAkP8Jyr2Mi//3tNYXe0+soZqdREkV9m4Z7d724AZmuapm/QZtr0FaQ1w
+fzpSzTKN9auZ+egqW8Gt8iUknwG1mLucr8zkVsH7AdslJwlQc7nnHN+1hg+qr98/
+0F/mbTnr8lACF6U7VgIMKY82Y+UgS3KPe9/LvOVJIS+nyPmvhlTzao8ndSSZkpzt
++PY2D3bCYgSNhCq+LgpxoRbK3BKt+4h3DxOuYi7dA6sRjR+LzPB0QELbXRblOigE
+NilH4dNe6AUQm05C1giTLcIB9bwH1gzCwbmWJVDYEqUNpOGvH+ILmDTVlqoRfW5c
+1U3ZovEGW8whpRvHBYD3VtlBuYCictRaZeA9183xRWY1vhR14VQikVWxRd6zoRoc
+f+dG65WJeCoY90r3yvju7Aiaa67HpSywjlxIRgyA+/txIXdBNO8J862qKZDeL7FF
+Sk2uU1C1dYAxE+4R7aqKaEIKVSHceSW/2A3ydEMamKvdSfz6ry4sKmwZOoRX/Nmt
+c+KlT+nGh3m8Hi22O4EU+V/2x0F7Tmivenb9NWFCWmuCk8WWtOU=
+=Q3Hz
 -----END PGP SIGNATURE-----
 
---It5r3rNYSomVnrZg--
+--QZhgB7Djq8Hxo8mR--
 
