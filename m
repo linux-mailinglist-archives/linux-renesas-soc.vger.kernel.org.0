@@ -1,79 +1,81 @@
-Return-Path: <linux-renesas-soc+bounces-34181-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-34182-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id w4jkD9RdM2o8/wUAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-34181-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Jun 2026 04:54:12 +0200
+	id tjlGMOldM2pE/wUAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-34182-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Jun 2026 04:54:33 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id D53FB69D2C4
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Jun 2026 04:54:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 421AA69D2D9
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Jun 2026 04:54:33 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=gnXJqtxG;
-	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=KQl+HXcW;
-	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-34181-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-34181-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=DnyO2zxF;
+	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=lHMu8ryT;
+	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-34182-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-34182-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=reject) header.from=mailbox.org;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 21E0B302D087
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Jun 2026 02:54:09 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 79ECF3046500
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Jun 2026 02:54:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 609E130BF5C;
-	Thu, 18 Jun 2026 02:54:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E44D12FDC5E;
+	Thu, 18 Jun 2026 02:54:09 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 391401E0E14;
-	Thu, 18 Jun 2026 02:54:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F633296BCB;
+	Thu, 18 Jun 2026 02:54:07 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781751248; cv=none; b=TLS3oA5izM8y92l+BnutZj0goA4mJG27dCVR8f9dUo39Pv0AsLkePr1eRzoF/3ORpmrTwBqVtnl4EEzhXLxv08UGlUXTAgnnoxVDKmoODgNxTpVb0x9GZj3urVKFYJKVfeyemcm8NGFa3W/uFOIo63lZVyklReKcrkSAE/K4S4o=
+	t=1781751249; cv=none; b=bckx0xkXLusfNwyBIhXpQP9WOn/YEock5WzLrpA2tuQ2Zr1mdyFJRnL4J5vT8MCqH4rUrv7yxnijYTNes9WLgfwnPqr4/aGyWo9lGf4+KddnL9URbQntfnLKLsWSthBcb6PKNhiq7gkIwFQgltmr6xvFlQ2xP67gcy+bdb0aQ5g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781751248; c=relaxed/simple;
-	bh=KRNEfSiOrtv3K+wBdDhPC/qXTIjTcNylYx7yvhT7U0k=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=jOgcldKi66h3mMZxkZrT4NrgI9QQNTqs2j8MytjAGyWIQZkPldVY55vebfVY8+snVykDweiIT2dnhwyeT+UMOlICzlklux97l/q21YQPXcHwj+f1WtJHMio9hyci0QS+Ku9RYn7tVceFBoiwXFnCMvynoJ3Tmp5V8F2nZRxHU00=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=gnXJqtxG; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=KQl+HXcW; arc=none smtp.client-ip=80.241.56.172
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
+	s=arc-20240116; t=1781751249; c=relaxed/simple;
+	bh=HAr2iq8Shkt5x1RGNaseiIkTcHwdORNa3jfcC8nPI2A=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=MZmNCNFCHkzBBq+ooOeFh8M9CXdorWsKB55AbqtQ7w7+6VTqffsg0z0Vg2ZSsztyKQi/0v5FuIVgJvrKGKbs2UZuGj8sUuyxkH3pcy3hoUSJsGODtHaX0DqvmQl0vV4UvRu10nVEGaREiBM5Faoba5Qd+vPUtnDg7d1/DlSpUPE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=DnyO2zxF; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=lHMu8ryT; arc=none smtp.client-ip=80.241.56.172
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [IPv6:2001:67c:2050:b231:465::2])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4gglfs69zlz9twp;
-	Thu, 18 Jun 2026 04:53:57 +0200 (CEST)
+	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4gglfw0nP7z9v2W;
+	Thu, 18 Jun 2026 04:54:00 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1781751237;
+	t=1781751240;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=u7s2zD+ufnu+hSSQ37cUfttPzkItvf1fkn4axYyChhg=;
-	b=gnXJqtxGokv87Uhwtq92Zpy7pf35EC6WWb4Xh24xgtrM6c+MQcPYWVJfU87dRBHvJuPFXi
-	CNKT6hrg1YiA2/nKGV3VWzPPbVX+2/aZzw9DdSHX52vbL+GUh+2qJxjH/iF9wWdj4VX1Uv
-	LOHJE7rS344wILbf0UMt+o8nRsnHeJZw/2W0xuQSIJif/5uzxEqevnY+R1WKoQPmuo/kyP
-	YuPIzDGQPe5mmuGx0cICfoLbNpwbutTR4HR/3sG5oT7qvWYq/OoM2qyXrIMSTU4KWuJ+1O
-	A7WTNS7R9616tOYdgxpQuRD0R2rOd3TYzLQ7/HEg4boqNrs9jpci0jQEf0OiXg==
-Message-ID: <9fb93f5f-51dc-47aa-aa8e-53cceaef876e@mailbox.org>
+	bh=8xXDiAxEFwyAProbdrm+uUTrK71kU+kKOZY+CjZ1YNI=;
+	b=DnyO2zxFhkzhydI3TxPM7sUiLIlggbgInwByWW6FoKV3DabwHZXW8CPuub0zGUULodGpcf
+	RnIrZbSOuh87N1jJcmi3ArJFct5sKoaBimaDxsfJHk32NLGd3bJy3EofjupIZ9e90M8fke
+	ay8ULx7feekJ2kuCE5IZDctdtYroJVxwkUTQHcJA4QJSA5nrJceky32gJaAMYatlGlM/9H
+	werau6XyUjZwu/bFDAEF86IXGIFQoHqvWAs8fEFWdl67NNOmCvkn/gFDI9apdGPXl82zQu
+	jwUACTmNZ1Jptt73STom0ec60B8mB2Cft0i111iTHwml5eh6Qxr3BvkLQDg4gw==
+Message-ID: <3fb1433d-604b-4598-9f6a-ae130c613d07@mailbox.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1781751235;
+	t=1781751238;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=u7s2zD+ufnu+hSSQ37cUfttPzkItvf1fkn4axYyChhg=;
-	b=KQl+HXcW1qn+mTDayQd6nmoQpiQz7FCo8dJr9SWmAyrrm0LF8RzesrwZw32pF6Hif0e8eq
-	pt1WszUJSTttOqxM11XC0gsh4mI7aJ2fBAtnrD6EC6vrpsiCfWlPyiW3LRLZH0DPcf91cY
-	wQ49rCzAyCeQV16aXDSvD5AvdtbKnEGB2N/52a+tX2SyJ4gpN0GnvggciosRNmdphBzbnN
-	lWC2V/kgBCd4HifSY7gY/L/oFZQmXtau0osytDHPsxX3Nr2sdbK6ygFa0ItqrMKDLf9Vbi
-	h2kqTmCnMQHgaQDXrTBq/yq7CCulnZ6c03Ixno0h96AcSjR4YX+76ydguImldQ==
-Date: Thu, 18 Jun 2026 04:21:54 +0200
+	bh=8xXDiAxEFwyAProbdrm+uUTrK71kU+kKOZY+CjZ1YNI=;
+	b=lHMu8ryTAHld6UQ7P6HwAwwVqnAf7abS6Oy9wMJeAQF2oKHwG5JOjoDV5lTUsBAcVRpn4D
+	v2PJqXuieWuP3yD7krRBKH7ZHcSSIewDa++7SLQvIILOQqvCkC+phedR9u28pwp3/xJ7Gc
+	XQaw2J9Ab3Y7epZ5ccUpSqp3qipQVHsWTKpjQgQCjFg1Mf9NulDUeJdIcMspG0WuumitAq
+	tIaxSRaWC5mFbXa88zlu7RdNGBLLytgox72L2opQd8cNc84JION2qpGzVQf7a/8K/184Er
+	TMUFoxBJUPCCwYQ0V70BuPbUlDKD6BfLtq+h8he9R4kOH+34UsPA1tDy4Ox1Hg==
+Date: Thu, 18 Jun 2026 04:38:00 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH 1/3] PCI: rcar-gen4: Configure AXIINTC if iMSI-RX not used
+From: Marek Vasut <marek.vasut@mailbox.org>
+Subject: Re: [PATCH 2/3] irqchip/gic-v3: Add Renesas R-Car Gen4 erratum
+ workaround
 To: Geert Uytterhoeven <geert@linux-m68k.org>,
  Marek Vasut <marek.vasut+renesas@mailbox.org>
 Cc: linux-pci@vger.kernel.org,
@@ -89,14 +91,14 @@ Cc: linux-pci@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org
 References: <20260617030008.154449-1-marek.vasut+renesas@mailbox.org>
- <CAMuHMdU0SJ0q2hcpu+qZCH3eZ5eFDyo8Z964h9DhuSaQ7QdHSg@mail.gmail.com>
+ <20260617030008.154449-2-marek.vasut+renesas@mailbox.org>
+ <CAMuHMdX7XuHQDSsX4P7NZ46_OnCX2o25szuALwSs2z+PHq+JNg@mail.gmail.com>
 Content-Language: en-US
-From: Marek Vasut <marek.vasut@mailbox.org>
-In-Reply-To: <CAMuHMdU0SJ0q2hcpu+qZCH3eZ5eFDyo8Z964h9DhuSaQ7QdHSg@mail.gmail.com>
+In-Reply-To: <CAMuHMdX7XuHQDSsX4P7NZ46_OnCX2o25szuALwSs2z+PHq+JNg@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-MBO-RS-ID: 11c23285409aedd437f
-X-MBO-RS-META: ono3swuaqbfmkf7fudm8y53ztzrp6bp5
+X-MBO-RS-ID: 5fc08f1b7a6d7969849
+X-MBO-RS-META: 1imfw9c1rkfizt9npf5dc3bznq391u1a
 X-Rspamd-Action: no action
 X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
@@ -107,7 +109,7 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-34181-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-34182-lists,linux-renesas-soc=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER(0.00)[marek.vasut@mailbox.org,linux-renesas-soc@vger.kernel.org];
@@ -130,56 +132,26 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	TO_DN_SOME(0.00)[]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: D53FB69D2C4
+X-Rspamd-Queue-Id: 421AA69D2D9
 
-On 6/17/26 10:26 AM, Geert Uytterhoeven wrote:
+On 6/17/26 9:09 AM, Geert Uytterhoeven wrote:
 
 Hello Geert,
 
->> +static void rcar_gen4_pcie_host_msi_init(struct dw_pcie_rp *pp)
+>> --- a/drivers/irqchip/irq-gic-v3-its.c
+>> +++ b/drivers/irqchip/irq-gic-v3-its.c
+>> @@ -4901,6 +4901,18 @@ static bool __maybe_unused its_enable_rk3568002(void *data)
+>>          return true;
+>>   }
+>>
+>> +static bool __maybe_unused its_enable_renesas_gen4(void *data)
 >> +{
->> +       struct dw_pcie *dw = to_dw_pcie_from_pp(pp);
->> +       struct rcar_gen4_pcie *rcar = to_rcar_gen4_pcie(dw);
->> +       u32 val;
->> +
->> +       /* Make sure MSICAP0 MSIE is configured. */
->> +       val = dw_pcie_readl_dbi(dw, MSICAP0);
->> +       if (pci_msi_enabled())
->> +               val |= MSICAP0_MSIE;
->> +       else
->> +               val &= ~MSICAP0_MSIE;
->> +       dw_pcie_writel_dbi(dw, MSICAP0, val);
->> +
->> +       if (!pci_msi_enabled() || pp->use_imsi_rx) {
->> +               /* Clear AXIINTC mapping. */
->> +               writel(0, rcar->base + AXIINTCADDR);
->> +               writel(0, rcar->base + AXIINTCCONT);
->> +       } else {
->> +               /* Point AXIINTC to GIC ITS and enable. */
->> +               writel(AXIINTCADDR_VAL, rcar->base + AXIINTCADDR);
->> +               writel(INTC_EN | INTC_MASK, rcar->base + AXIINTCCONT);
->> +       }
->> +
->> +       /* Configure MSI interrupt signal */
->> +       val = readl(rcar->base + PCIEINTSTS0EN);
->> +       if (pci_msi_enabled())
->> +               val |= MSI_CTRL_INT;
->> +       else
->> +               val &= ~MSI_CTRL_INT;
->> +       writel(val, rcar->base + PCIEINTSTS0EN);
->> +}
->> +
->>   static int rcar_gen4_pcie_enable_device(struct pci_host_bridge *bridge,
+>> +       if (!of_machine_is_compatible("renesas,r8a779f0") &&
+>> +           !of_machine_is_compatible("renesas,r8a779g0") &&
+>> +           !of_machine_is_compatible("renesas,r8a779h0"))
 > 
-> FTR, this has a contextual dependency on "[PATCH v2] PCI: rcar-gen4:
-> Limit Max_Read_Request_Size and Max_Payload_Size to 256 Bytes"
-> (https://lore.kernel.org/all/20260519195219.189323-1-marek.vasut+renesas@mailbox.org).
-It is not an explicit dependency, I only had these patches in my tree 
-and clearly that was an interaction. I'll rebase this dependency out for V2.
+> of_machine_compatible_match() with an array of strings might generate
+> smaller code (I didn't check if 3 entries is enough to trip the balance).
 
-Thanks!
-
--- 
-Best regards,
-Marek Vasut
+Let me handle that as part of suggestion from Marc.
 
