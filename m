@@ -1,99 +1,99 @@
-Return-Path: <linux-renesas-soc+bounces-34190-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-34191-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id 5WgaF4XGM2qGGAYAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-34190-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Jun 2026 12:20:53 +0200
+	id 4PKRJTPIM2raGAYAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-34191-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Jun 2026 12:28:03 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8F3C69F3E4
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Jun 2026 12:20:52 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id EF35469F4ED
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Jun 2026 12:28:02 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=gmail.com header.s=20251104 header.b="ID4/kqZ8";
-	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-34190-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-34190-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=gmail.com header.s=20251104 header.b=JrO5TUnt;
+	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-34191-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-34191-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=none) header.from=gmail.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=2")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 6B596302A6AC
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Jun 2026 10:18:07 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 4156B30861E2
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Jun 2026 10:25:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D2F5B3E8352;
-	Thu, 18 Jun 2026 10:18:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 162D13ECBDA;
+	Thu, 18 Jun 2026 10:25:15 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 804AE3C5DD4
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 18 Jun 2026 10:18:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E7013E9C21
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 18 Jun 2026 10:25:08 +0000 (UTC)
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781777886; cv=pass; b=AeDgQ/DnB4labsidMia8DhicyHJDywEGexPV9R32drMFk7mvcxMJ06UTB5C8Kuk2yqsmjWD0WC8bLt8Cd/WCiPdSNTF/smoGthK6t7HuAoDT+SCp89dYGs/p23CB4gLXtdpnoGbx1kaJ69qNTLXpnA98+JLW3MVUcNla6ZqORd4=
+	t=1781778314; cv=pass; b=W27UZ/i+SkaeIPb9G2tkp2zY7JGYkcrs4RfFMRddEu01EijcjH5a1DN5CQpc4fh5hyy7WGKjB/Xu1kbD3yOUg7C//kX9IAyfvYl9lw3IDEcep9yj87eo60Q0bJMZeEaxIW+RnfKVNa4Vb0lbqBSzXaSZ28nuFkypuIgosdtZbzs=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781777886; c=relaxed/simple;
-	bh=d3UI51xhDccu7qrMqr31ZRLTAiml8TgixkPl2atEXVM=;
+	s=arc-20240116; t=1781778314; c=relaxed/simple;
+	bh=qlvDSZEkUaxQbRERSQ1J1/mogsG43R0u3lE8oe1oEOI=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=UBqsJ001wKsGXUa3DiV84gFOylDM4MFGuJ7np6OZgS03yNX8glV8IM747fR3xMaP9I/nj1I9THlqFhfknDSQU5tF0wplua7HUo93GB55IOboWYD3vh/l00dZUvBaRpoq6MJt4Sj4x7oro3/j4RbDhmaVR/HzSoDBJ+svjIkMsDE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ID4/kqZ8; arc=pass smtp.client-ip=209.85.221.50
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-462bb734793so608509f8f.1
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 18 Jun 2026 03:18:05 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1781777884; cv=none;
+	 To:Cc:Content-Type; b=IInya9yrrGMcjYv3ffseUXFVgCaVd+y2eeF39FNTWw8r6K3Hc/fKSTUTS/JYMYK5vkBwNk+MyUeKBU+28EgKC6a/Pz6tDQM2ZOo23LJmk6+9nUvFSfJPOgfHVkZ7GBmf/HT0PlyPv2Qob920UxQyVDkW9hVwP6mhvep44E3vRxM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JrO5TUnt; arc=pass smtp.client-ip=209.85.128.41
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-490c1915793so5717525e9.2
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 18 Jun 2026 03:25:08 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1781778306; cv=none;
         d=google.com; s=arc-20240605;
-        b=hhWz1zvCXAXHqLoOKqvNNDvnLRFTE6jKShRxIfF5ka78YfdwUTG1b/rMDTxyDK3SNH
-         zPS4uVGigNP3LJdfmPaoFoCM8+zEiciI6Oy/Hs9FUiNSCqkLLlPW+ElLRBDeSU9ZMx+H
-         XbuZjmmuBmPjmtTfhblz5hgLdYwCzn0bRJb0KslnnC5/xq4cg1yTXCyXxXAgAkOWWo+A
-         oaQqJSUqqFUvcGnsVXjGSnMjqmLsP2gToFLn5zpDfTayUzfY6NvE142/mYYu2MG/kLwP
-         q6NO/ZI+AQ2VBKubnphe0ZbFhweAPHgnNBrZrilLWm6h+ZtlEH85/F8Rz4v5DYusRoCp
-         Htow==
+        b=Jv/NpADPqgXwZ0NgroBEVSCJu6hwcx6IJs8VX9YwczXX/nUCskEQt0kD4aLcakKSDB
+         kH1gO0JtmgcDqJWlBAPeMLCim9Kg0VDLl7j3RFkWxpf5noPkSR52dmqTfCnTxoiWbFtj
+         7IgQQl96I8d2dz0AUMqvYBHRhHAKKFhEuuhv7TG2VW2vqHxFywzuXhnL/PVpJwI7JKyX
+         304l1K+yHORdW+Pgc2GQ/UnL8afs/VelsAtzbCun5iC/fn4NNJquRjOX+xJdvMNYfzls
+         J3BRnm7rbb5RHT1qBxrSrOV3TbGf/coZoGVVR7Iifj8UPlWae1R4ZkJ7xjrDGuIJk3px
+         df6w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=gmshtDYoyJi3az2OMgVxmco1OYRSd0HgGniKLz30q/M=;
-        fh=BVDbA6rf/Jb3XMv6llFl6P8dovdlrW5YiGXmZ8z09wQ=;
-        b=BCTRYhR3lQ/cg9YYWuMVYTUqA3rDBs+3A2SB0X97TTmrdOdNTC7hiBi9OVK8vI4rPL
-         Fwh7lVOBRy3vVL/1NxLtmKFj++3OeK4Rays/hn97aVkY3M+wKQBIFxC7/kLIww/AtBHR
-         1isNGF5/ItzqAydAW9sh2S5gBZtDiY8YBUZTwcEGYYolZ46YsSn2iTsnWmBMvTA+9ORO
-         c2cEEQNw1V/Ra7DHo9vd+ZcG7XddxmTYOOKlSlB88hivM+yKhAHL4B77plRd0J3Hwss6
-         RQJq/oMoC66V0eVYxNWEsTxvI3MPUspsXulRRxLG0CCu78NdOMvWnyz/Yflkbkx6cFPd
-         wq9A==;
+        bh=qlvDSZEkUaxQbRERSQ1J1/mogsG43R0u3lE8oe1oEOI=;
+        fh=P3LIa1Eq8afvLbWGTasf4xz3mgC3dbiZon21+nKtXfY=;
+        b=ilqG2V8AJJmGxqguwZjThiYP9Nz2E92MNuNZjWxKIPnhch9Zd9C9I77BqPqCPzN0bX
+         8W+2hvKABWKLvDthUpVgmvHSbJPATbZUO4UlboLKsHjbXrwHxihxIXU1cUy1ub+OsWao
+         5NMp7RzY8pu1/Lmbeu32kv8d3xYOnkfgOPL+rDZqt5hhAJX7A/n7w09X6xgVimnJU8gP
+         OFk2z0GjiX1nSWK+jLTQvPyDd7BxzR4FyzcmBL3um4569lm2zzIOAZhAnLtHjyz6iq3/
+         t3DzcR0RCbxpx5kfOQSTrh6yYx/ao9NSQcEqGQN62CHbHQSI8vvSs8JVGao0zP3811Fr
+         ob2A==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781777884; x=1782382684; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1781778306; x=1782383106; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=gmshtDYoyJi3az2OMgVxmco1OYRSd0HgGniKLz30q/M=;
-        b=ID4/kqZ8vADaM1lJqaiaYShy3/fKugrn9Q7rHcWSf43WT00yhafJZMc5Ckhd9OMnQW
-         VMa5O9snDlmfgAa2HFIE3h6R08cgFcNDz0x0PifG+Rby2aBimayCp9qbbqd0Eg0aLygp
-         CYSTu2kVBNriIpIBn2mm6HkOA24sskW3nwQ2XAEXWl7BdcOm+SmqP9mW8nKAVIH9iA5V
-         wD6pkZvwj7v9ixyEziF4Kg6ipISsHu5QOd6JAdWJ7SSaQre4mq+pNqIrZ1r8O1ErR4Jp
-         MZVWxBpzUJTm0/3h/v12FRgwTPTG0FONamTFanoSCPES+CZBUxY8R/D6omDJqiblGqWn
-         sIdQ==
+        bh=qlvDSZEkUaxQbRERSQ1J1/mogsG43R0u3lE8oe1oEOI=;
+        b=JrO5TUntxG44+akEv+ys39/1vOLyjc/hJRYPeYu35hkT/Q1x4ewokDZyrQ7WFYFYHX
+         pvR++tOqATJM8FKDZTRB5JXXbIcQxprX4ZSJ4SPoaS7uCuL1Ludh6MkIgWXsQdn3cx1s
+         17wkY3V+pjqTK42of1TriBl81hMF3gwiA926SekONyVeuiwbW0X+zjeElG3ikVYbDsL9
+         t3JY6CE6FOxGama3M0Af7E8Xfg7AjU+JxVP6QfCSV6+4u6AJUerHGLIRHt3VC/Vl9QmI
+         yt57Jd8oiPK4ztigwFE+/ZXLCfISesdPS8tKaeT7g98kG1HNrqN67MvkBT1cqO8I5+rL
+         UWZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781777884; x=1782382684;
+        d=1e100.net; s=20251104; t=1781778306; x=1782383106;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=gmshtDYoyJi3az2OMgVxmco1OYRSd0HgGniKLz30q/M=;
-        b=INcKKdq4Pi5CyitCz4fNi4Zit5L2p64mi//VwfrdgPx+QA5Dr2Bx3TNpbq0c97LdSz
-         PHb3VjMW7f3MRMRDfSSqywAR3DQMQmfK6l7vhnFTMpfklJVj8EoehcZ4wtAxbjSUXMiQ
-         IQA9fFzAaC6//nZIw0TItW0JPfeLDjqvA6p1je/tqS71rA+ICFzajhln3NCo10BLP/ga
-         psSNb+cV4+gV0npnJwx/zJ8uH5t6bwvnXiccPuB7Tlq9B5q5Qfu8MzvEU6hDmuLwleY9
-         Nwf9sTH/HncQNY8ahrO0R7szbDez2IhZ4+ebXWQHAy87sa8U+2kA56Uof/nJWIdxQ34F
-         T1ww==
-X-Forwarded-Encrypted: i=1; AFNElJ9ZjfxoOHGB2B8sfBSpRDQB7EEmu0NfyR9I1wDMGH25CfTckmqLb4+LTy+f+AIZ9qGWLz16+JN94CmdMmSxd4vhyg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzvQXTVFmWsN9cWR7um/7GeXzNlWLGbM3H3e6wSdYMU71KB6O66
-	ilXsv01DEjcBfA737JlMp9NfwW909nYXOGfjSLluug9FRJTke5lS8e7crAFu/OviRenZ9mbYkA9
-	VryGdB+BYngBHZaW6Ii9WqV7tHBN0sVU=
-X-Gm-Gg: AfdE7cmGozsZ+QhOIcHcYA5VmlEEscsFm372gWTf5SUbv6vdsTzSYJxMyq2EgP052sc
-	kGvV8Tqo7V4Zt5gdGY7QYgEQPG/3QCaWqAffWXw5gyvZPIyJdHVAHy4Z0bhfQlGtgtpOs7apJeH
-	53NOLbyxWmsbXIvET+qjWx/x0EkS96xsNojQn9B1jsUUYqiJxq9bJiykGR3vGuYMpEv8X1NA3mk
-	2xvPzcVu5yYpCuFsaeEjNMB9yLQQPcvytmANowWz3hDfnqj5g82I+2mVUoWs5ilGBvdisbFfYWH
-	ru1ZtEEkhEA7SiKRCYr/H1eS6n/0re1IqEIyoyrdL8tNaabkvPfPpXN/aJxXrKFMvz7U6xVGI8r
-	pRuxoDAIoFVWv28IvfsuKRrt9UA==
-X-Received: by 2002:a05:600c:1395:b0:490:e5c1:b8b9 with SMTP id
- 5b1f17b1804b1-4923a8c402emr24573155e9.0.1781777883721; Thu, 18 Jun 2026
- 03:18:03 -0700 (PDT)
+        bh=qlvDSZEkUaxQbRERSQ1J1/mogsG43R0u3lE8oe1oEOI=;
+        b=WhBIaTGdKRqjRLyDYuGhnUjArz6NfYBoo/8FZyb5XywXth6j8Pd1cd5SSWIahJsOd/
+         OtoMRfTpiUDfAiNx65aM7Df/F2ukR70ZWQnFIacL5stWxHSpXfnOSsKQl8oMoQf9uZBu
+         ntd0pBvbKzWJoHoznGPFCSNFxcddJJBWbfXe7Sd1LOHO4eGm+dxxxC5tLlPKlxBe2Irn
+         YTzgGLxCnthqzl/tOKy3jruB7skGkAisU3otsqI461R4JDRBVbExnWRlG388njpQ9TXZ
+         dU8Xh4EEGZoAwRU1GGWvRFUkbIpLwysdclLMnJf6VXvjgbVGbfwyDmGJlBXQ1ZgxQHvh
+         Zotw==
+X-Forwarded-Encrypted: i=1; AFNElJ9QHlp4+CF1xaWVT7U2kikHijPVTX3e+1vKacY6S4S1mEXtyZVemcs10kDnG/67+5gLSldsM+E1rNxCqqWKpTlwyA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxJeCgJG2zgQozxqZLFZItzyUE+r/60z+lFVLyFZkHZnu3imC4W
+	J6nO28M3aq910x0UHbHYVXhAiI9wuUk3/U9rOL2i5+UjnIVPF9lmaSYckocPO6YA/sr13apHEc+
+	bfEd6im3Igo+JIRRw+S2zfka0z6upcUM=
+X-Gm-Gg: AfdE7cm1UMi1ADgSJc0BM2LG10nxtzJQZRnkL3YQdDDuJL8sz7E60MaSMTvP+hQ9mzn
+	vl/He1lE2LRHYcVa51Q91Xv9NrK4I9hzIJFYR17z0vvLT1hALOfnJQ7LAkHzGSLU1iAjwQKjEtk
+	8rocwfsYSbssR2CwZAbvxBZ0PGSbukwfyCv1c0lFjrVUfPk085ThI6Ys+JhX/+N1rTIwEsIuSIj
+	XHmxkMcnm0FVawthNw7AKBQ/t1K+mK1vFBYrcWFk6DMKCpnDGe+eprpZta62guZGUnbBHotb5/+
+	PXUHYiGyxQvplYkKA4USraHEC8bN3V6ub5gqgP5NQX1jX0/lpcRTg+DowvTcvxs/9w63dUIhimv
+	clVYzOtxVlyJb6l4=
+X-Received: by 2002:a05:600c:5644:b0:490:adb6:7957 with SMTP id
+ 5b1f17b1804b1-49234141d98mr81843365e9.33.1781778306310; Thu, 18 Jun 2026
+ 03:25:06 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -101,13 +101,14 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 References: <20260615154805.1619693-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20260615154805.1619693-5-prabhakar.mahadev-lad.rj@bp.renesas.com> <ajJvn2YkaspTYx9M@shikoro>
-In-Reply-To: <ajJvn2YkaspTYx9M@shikoro>
+ <20260615154805.1619693-6-prabhakar.mahadev-lad.rj@bp.renesas.com> <ajJwqDt2jUfhSD1x@shikoro>
+In-Reply-To: <ajJwqDt2jUfhSD1x@shikoro>
 From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Thu, 18 Jun 2026 11:17:37 +0100
-X-Gm-Features: AVVi8CejmAUnxV28-Nv-iRPPqNanTzOmym7-UH_9-4KCncFioQAXLRdjmh4wMqM
-Message-ID: <CA+V-a8uKW6QSOjhW0NW3pp4d0+mVh19rYUKKexqCjdD-WThNDQ@mail.gmail.com>
-Subject: Re: [PATCH 04/12] rtc: Kconfig: Broaden RTC_DRV_RZN1 dependency to ARCH_RENESAS
+Date: Thu, 18 Jun 2026 11:24:39 +0100
+X-Gm-Features: AVVi8CeKp76ZYhBRPcDvdhbfVkObzMomSw3gP3ldqFUf5h9HH7P4rMMrIdx25Ww
+Message-ID: <CA+V-a8uo9sr3m9F_MQYbHVD5wa3LT3n6MWrVpiNiPDumnVHMYQ@mail.gmail.com>
+Subject: Re: [PATCH 05/12] rtc: rzn1: Add system suspend/resume support and
+ wakeup capability
 To: Wolfram Sang <wsa+renesas@sang-engineering.com>
 Cc: Miquel Raynal <miquel.raynal@bootlin.com>, 
 	Alexandre Belloni <alexandre.belloni@bootlin.com>, Rob Herring <robh@kernel.org>, 
@@ -125,11 +126,11 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-34190-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-34191-lists,linux-renesas-soc=lfdr.de];
 	FORGED_RECIPIENTS(0.00)[m:wsa+renesas@sang-engineering.com,m:miquel.raynal@bootlin.com,m:alexandre.belloni@bootlin.com,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:geert+renesas@glider.be,m:magnus.damm@gmail.com,m:linux-rtc@vger.kernel.org,m:linux-renesas-soc@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:biju.das.jz@bp.renesas.com,m:fabrizio.castro.jz@renesas.com,m:prabhakar.mahadev-lad.rj@bp.renesas.com,m:wsa@sang-engineering.com,m:krzk@kernel.org,m:conor@kernel.org,m:geert@glider.be,m:magnusdamm@gmail.com,s:lists@lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
 	RCVD_TLS_LAST(0.00)[];
@@ -149,36 +150,31 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	FROM_NEQ_ENVFROM(0.00)[prabhakarcsengg@gmail.com,linux-renesas-soc@vger.kernel.org];
 	DKIM_TRACE(0.00)[gmail.com:+];
 	MID_RHS_MATCH_FROMTLD(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,dt];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,mail.gmail.com:mid,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sang-engineering.com:email,mail.gmail.com:mid,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: D8F3C69F3E4
+X-Rspamd-Queue-Id: EF35469F4ED
 
 Hi Wolfram,
 
-Thank you for the review.
-
-On Wed, Jun 17, 2026 at 10:57=E2=80=AFAM Wolfram Sang
+On Wed, Jun 17, 2026 at 11:02=E2=80=AFAM Wolfram Sang
 <wsa+renesas@sang-engineering.com> wrote:
 >
 >
-> > -     depends on ARCH_RZN1 || COMPILE_TEST
-> > +     depends on ARCH_RENESAS || COMPILE_TEST
+> > Add system-wide power management support along with wakeup capability t=
+o
+> > the rtc-rzn1 driver.
 >
-> Yes, this helps X5H also :)
+> Do you have an actual use case for the wakeup functionality? If it is so
+> limited, then we should maybe not support the weak abilities until
+> someone has a real use case? For which then, a proper solution has been
+> developed and tested?
 >
-> > -       If you say yes here you get support for the Renesas RZ/N1 RTC.
-> > +       If you say yes here you get support for the RTC found on Renesa=
-s RZ/N1,
-> > +       RZ/N2H, and RZ/T2H SoCs.
->
-> Such lists are easy to get stale IMHO. What about "initially found on
-> Renesas RZ/N1 SoCs."?
->
-Ok, I will update it as above.
+For running s2idle cases with rtcwake > 60sec this feature would be
+helpful. What do you think?
 
 Cheers,
 Prabhakar
