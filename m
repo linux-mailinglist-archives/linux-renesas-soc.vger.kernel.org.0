@@ -1,81 +1,80 @@
-Return-Path: <linux-renesas-soc+bounces-34183-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-34184-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id /QQ5OtxdM2pA/wUAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-34183-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Jun 2026 04:54:20 +0200
+	id bbOmKUdkM2poAAYAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-34184-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Jun 2026 05:21:43 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id F01DE69D2D3
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Jun 2026 04:54:19 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C20969D4D2
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Jun 2026 05:21:43 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=bpQfephE;
-	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=PYYu9Nfo;
-	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-34183-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 2600:3c15:e001:75::12fc:5321 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-34183-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=VlxnlGk5;
+	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=A0eftJRE;
+	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-34184-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-34184-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=reject) header.from=mailbox.org;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id A28FF3010F3A
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Jun 2026 02:54:15 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 22BCD303ADC2
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Jun 2026 03:21:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D1F6730BF5C;
-	Thu, 18 Jun 2026 02:54:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A5AB4347503;
+	Thu, 18 Jun 2026 03:21:36 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45B543161BA;
-	Thu, 18 Jun 2026 02:54:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D3912FDC5E;
+	Thu, 18 Jun 2026 03:21:33 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781751253; cv=none; b=btCoA/lIHNeZJMkTdtYbs1AywzJXh62d1EOoITMuHErHt615/4BYYNSYwYDlK4i7cgyTBdjor79lZSrIXl/KX9liL+GTfL15UU/Hf4czgBsSBEo3FGRP8JDFkt/0Gk3PZEkZd6mmCKskaiCRAeK3JgiE6qqpAC6zoLpS1zGykyc=
+	t=1781752896; cv=none; b=lg1WsU8VdBcbYugJaqy4VKDL4xjfn5rLjxmjMEsm6dYGMV86dANRpgLmw0hLJcVTDy8ba12hVgybF8tHYKkzuod9sDuCcToXlPbooYZUk6K7KU6OPAd+8es2ZtBDKWxuseQtv5RFPB/Kedkt4D2XfiSUQp0vrEnKlonix4zzvSY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781751253; c=relaxed/simple;
-	bh=oqEgF5BTWpU6/7DGsfy48AIAmjs1Jhrgpbt3XEKNXeE=;
+	s=arc-20240116; t=1781752896; c=relaxed/simple;
+	bh=SUBSCbGJkuZg2PsaHnBhjtOcFX+j8191A7fjrLfseiU=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=F+5uCAsrFJ0wzXtKulzE4dbCgQjlZzqFfLkV/Aomd785S0FzjQGcNck4VDregkam3W5SwgP7iVeDGazP/iWJe540EE8LAo9rhdBY//C4oc8lz74mVQG0CO2nSWKmZ9HGNXj+EjTMEOmoCU7De3F6RWUnTKSFYHIf5yDZoBv/r9c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=bpQfephE; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=PYYu9Nfo; arc=none smtp.client-ip=80.241.56.172
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [IPv6:2001:67c:2050:b231:465::2])
+	 In-Reply-To:Content-Type; b=BWF2sE3ns6FYekiv8Q1/pWE/1Alk50GUc7rQOvQuzx1rTiyNi8qwOPaiHVDgA6HA2PHD5J0Xi1iKrBXLKDNzbfBzuDti8FTt1ayjb+l29Nmw5gSFAAtxLvYOiy3fhB2pynRClvE0twg2jf3wYSXosv2IOUUDOa/1Gn+LczMNpZY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=VlxnlGk5; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=A0eftJRE; arc=none smtp.client-ip=80.241.56.152
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4gglfz1VQXz9sqP;
-	Thu, 18 Jun 2026 04:54:03 +0200 (CEST)
+	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4ggmGg0dq8z9vDJ;
+	Thu, 18 Jun 2026 05:21:31 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1781751243;
+	t=1781752891;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=CTzc2XaLs1ayXYi9fOKXdA8l/VSZMq+FU1Cy1d7jE+E=;
-	b=bpQfephE601H9ixHI6bk9OdkPQ1y3Yf0QbWWLCbZ5bIQP1OzX1uI535gcDIMihS2rXSmxa
-	XdeGsYNUas3glXlKlVrzN/4NuyadHg/kjA0KwGeEIK1QbwFVkbK2yEi66vIHjV3QYyfWx7
-	SxdTYBskQf3SSkmtgkdeLeq6O3Botmwt1xTdeOtx+vokSmZ7S91SeA8R+vIb0gzeGBwsR5
-	HrSlzbHg/Jra2D8N0mGCaxys1Yeo+WBJ9JbQJP+fO3aAzrxRsjxvOzgg8MWczLU45TWl7k
-	hyBIslFC8yEzrUn+y9s50V6jqGi/uGzPGBkFiL7mRRq8x0FVYBGPSod7syZi2A==
-Message-ID: <0935eb67-83d2-49ea-89ab-0d0aa51ead8a@mailbox.org>
+	bh=yaummfnzPtyabIhQrawAEZGn0WmOzI9XiKr6uYhqAdM=;
+	b=VlxnlGk5x98IFPAPb+Uxk7JXYgFvupUY7xvz5F5ucOm5LM0Dvp5fQxiM/lYTOk0QWbeP3u
+	Vx3rrQwQBCOM2+81sLTZx5yQRLyz+X6q2PdqxZoOsW3fy6PlaDHzdQpATyevYz8xAKfpgA
+	M2JUj+f52aORUcJ7j6P2JiGNFXTOYlBq+YF+eLpDR0CfXJh9FgyfyfPv1xJssw4wdK4Zwj
+	ltiTzPf3hHvfU9aaEU13HJnBhOUHwFuvd9waUkyAiIP/8XoUgUBN9JCxfSVVd9BW/kp/Sp
+	rL4iGZn3jqne16CobF1XNqm8mDRphLLCrSVPjxoi1ledW/RE0pSD+EYNRDa33Q==
+Message-ID: <eef933e9-7e14-4885-9179-4bfa500a22e4@mailbox.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1781751242;
+	t=1781752889;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=CTzc2XaLs1ayXYi9fOKXdA8l/VSZMq+FU1Cy1d7jE+E=;
-	b=PYYu9NfowJZvmdIJYqOGKcCdg0fsttqcG5kLsW6DZu1e1qQH7DZuCwurCDJfCekdj0wEuV
-	xKJTc7zwWGl3won6j7z8Y/YqT+GZr+ejFDUS2BtGyuSeYuhEohKalm+vlbB8atSh5FSkBd
-	/7uVgbVv47eevrAt0hVoHoSpFh9RDdulHZjFm2JxBI5v6jfs/JN1XZxpKfq0x9e3XXvrNC
-	kEESgCMyCGJJl7an2PingR020k2mLeIgJnNFZeH6YEo5sJN8q4HwbMNRHe+fFG8a/Nm1lo
-	dxjaXNyoubKlvzQk9AH/r8E7+Gpmgis809oYbrQOIO+ugp8aZtOEzeRV6Bif+Q==
-Date: Thu, 18 Jun 2026 04:50:29 +0200
+	bh=yaummfnzPtyabIhQrawAEZGn0WmOzI9XiKr6uYhqAdM=;
+	b=A0eftJREloi7497i69ik2WjlGnYuWTpsYSeRMoAGCA6+ljZbaefGEOW8V53t3mQX0wotvG
+	FevspN8s8r51fogSI9tMALw2cCD5TMHxBAliegQHFiMc5Fx7rU3RmFrvXfwmesTDwVU7dj
+	sP7QulEJE4e2HNAc/2rklIs5NBlI/fiYYATo3kPcY/a7887cDHQFmun4YRpvpsu2bwwaOH
+	rap45L7gIWe0UlOfN+A5pcs+6dsVJ4HV4eQ03wt7lnxIPamsZRRh2ckAWKN/JoYeGMzb9y
+	Er0B4Todz74yEKqoSYzL4E5sBWEBUjBpltpwmXBVlOa8owNesmMOeOLQSo7c1A==
+Date: Thu, 18 Jun 2026 05:21:25 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH 2/3] irqchip/gic-v3: Add Renesas R-Car Gen4 erratum
- workaround
-To: Marc Zyngier <maz@kernel.org>,
+Subject: Re: [PATCH 1/3] PCI: rcar-gen4: Configure AXIINTC if iMSI-RX not used
+To: Manivannan Sadhasivam <mani@kernel.org>,
  Marek Vasut <marek.vasut+renesas@mailbox.org>
 Cc: linux-pci@vger.kernel.org,
  Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
@@ -84,42 +83,41 @@ Cc: linux-pci@vger.kernel.org,
  Catalin Marinas <catalin.marinas@arm.com>, Conor Dooley
  <conor+dt@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>,
  Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Lorenzo Pieralisi <lpieralisi@kernel.org>,
- Manivannan Sadhasivam <mani@kernel.org>, Rob Herring <robh@kernel.org>,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org
+ Lorenzo Pieralisi <lpieralisi@kernel.org>, Marc Zyngier <maz@kernel.org>,
+ Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org
 References: <20260617030008.154449-1-marek.vasut+renesas@mailbox.org>
- <20260617030008.154449-2-marek.vasut+renesas@mailbox.org>
- <864ij1tyrj.wl-maz@kernel.org>
+ <lstafqaogzunb2azyqwvtt3swrk42nu3n5zyct2la5fqxomaqg@wyrz3qolhist>
 Content-Language: en-US
 From: Marek Vasut <marek.vasut@mailbox.org>
-In-Reply-To: <864ij1tyrj.wl-maz@kernel.org>
+In-Reply-To: <lstafqaogzunb2azyqwvtt3swrk42nu3n5zyct2la5fqxomaqg@wyrz3qolhist>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-MBO-RS-META: 9cmpjqt5o4muagzsg5hbdb75p7upd1q9
-X-MBO-RS-ID: f72b41f21a98a9f46ed
+X-MBO-RS-META: 4sd38nnow6od9mw6adg44nq3ip514b31
+X-MBO-RS-ID: b17926727949ac9f6e5
 X-Rspamd-Action: no action
 X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[mailbox.org,reject];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
 	R_DKIM_ALLOW(-0.20)[mailbox.org:s=mail20150812];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-34183-lists,linux-renesas-soc=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
+	TAGGED_FROM(0.00)[bounces-34184-lists,linux-renesas-soc=lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:mani@kernel.org,m:marek.vasut+renesas@mailbox.org,m:linux-pci@vger.kernel.org,m:yoshihiro.shimoda.uh@renesas.com,m:kwilczynski@kernel.org,m:bhelgaas@google.com,m:catalin.marinas@arm.com,m:conor+dt@kernel.org,m:geert+renesas@glider.be,m:krzk+dt@kernel.org,m:lpieralisi@kernel.org,m:maz@kernel.org,m:robh@kernel.org,m:devicetree@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-doc@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-renesas-soc@vger.kernel.org,m:marek.vasut@mailbox.org,m:conor@kernel.org,m:geert@glider.be,m:krzk@kernel.org,s:lists@lfdr.de];
 	FORGED_SENDER(0.00)[marek.vasut@mailbox.org,linux-renesas-soc@vger.kernel.org];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS(0.00)[m:maz@kernel.org,m:marek.vasut+renesas@mailbox.org,m:linux-pci@vger.kernel.org,m:yoshihiro.shimoda.uh@renesas.com,m:kwilczynski@kernel.org,m:bhelgaas@google.com,m:catalin.marinas@arm.com,m:conor+dt@kernel.org,m:geert+renesas@glider.be,m:krzk+dt@kernel.org,m:lpieralisi@kernel.org,m:mani@kernel.org,m:robh@kernel.org,m:devicetree@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-doc@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-renesas-soc@vger.kernel.org,m:marek.vasut@mailbox.org,m:conor@kernel.org,m:geert@glider.be,m:krzk@kernel.org,s:lists@lfdr.de];
-	FORWARDED(0.00)[lists@lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[18];
+	RCVD_COUNT_THREE(0.00)[4];
+	MIME_TRACE(0.00)[0:+];
+	FORWARDED(0.00)[lists@lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
@@ -128,125 +126,61 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	MID_RHS_MATCH_FROM(0.00)[];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,dt];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[18];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
-	TO_DN_SOME(0.00)[]
+	MISSING_XM_UA(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mailbox.org:dkim,mailbox.org:mid,mailbox.org:from_mime,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,vger.kernel.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: F01DE69D2D3
+X-Rspamd-Queue-Id: 4C20969D4D2
 
-On 6/17/26 9:24 AM, Marc Zyngier wrote:
+On 6/17/26 12:33 PM, Manivannan Sadhasivam wrote:
 
-Hello Marc,
-
->> Renesas R-Car S4/V4H/V4M GIC600 integration has address width for AXI
->> or APB interface configured to 32 bit, it can therefore access only
->> the first 4 GiB of physical address space. This information comes from
->> R-Car V4H Interface Specification sheet, there is currently no technical
->> update number assigned to this limitation. Further input from hardware
->> engineer indicates that this limitation also applies to R-Car S4 and V4M.
->> Name the limitation GEN4GICITS1, and add a driver quirk to mitigate this
->> limitation.
-
-My concern is this ^ , I do not have an erratum number, because there 
-isn't one. I am in touch with the hardware engineer and I did get a 
-glimpse at internal details of the three SoC, which confirm the 
-limitations. Is this sufficient ?
-
->> Note that the 0x0201743b GIC600 ID is not Renesas-specific, it is
->> common for many ARM GICv3 implementations. Therefore, add an extra
-> 
-> Not quite. It designates GIC600 unambiguously.
-
-What I am trying to communicate is, that the 0x0201743b ID is not ID of 
-the Renesas GIC implementation, but it is a generic ARM GIC600 ID. That 
-is why we cannot match the quirk on the ID (it is generic ARM GIC600 
-ID), and instead we have to match the quirk on the [ ID combined with 
-of_machine_is_compatible("renesas,...") ].
-
-> It is just that GIC600
-> is integrated in zillions of SoCs, most of which don't have this
-> problem (the machine I'm typing this from has a GIC600 *and* 96GB of
-> RAM).
-
-Right.
-
-Shall I reword this paragraph somehow to make it clearer ?
-
->> of_machine_is_compatible() check.
->>
->> The GIC600 implementation in R-Car S4/V4H/V4M is r1p6.
-> 
-> Is this relevant?
-
-I included it for the sake of completeness and to provide all relevant 
-information, based on previous discussions about similar limitations 
-that I could find on lore.k.o
+Hello Manivannan,
 
 [...]
 
->> +#ifdef CONFIG_RENESAS_ERRATUM_GEN4GICITS1
->> +	{
->> +		.desc   = "ITS: Renesas R-Car Gen4 GIC600 32-bit limit",
->> +		.iidr   = 0x0201743b,
->> +		.mask   = 0xffffffff,
->> +		.init   = its_enable_renesas_gen4,
->> +	},
->>   #endif
->>   	{
->>   	}
+>> +/* INTC address */
+>> +#define AXIINTCADDR		0x0a00
+>> +/* GITS GIC ITS translation register */
+>> +#define AXIINTCADDR_VAL		0xf1050000
 > 
-> 
-> Honestly, that's a bit too much copy-paste for my taste. Just refactor
-> the erratum handling to be more generic, something like this:
-> 
-> diff --git a/drivers/irqchip/irq-gic-v3-its.c b/drivers/irqchip/irq-gic-v3-its.c
-> index 291d7668cc8da..380c4758647d2 100644
-> --- a/drivers/irqchip/irq-gic-v3-its.c
-> +++ b/drivers/irqchip/irq-gic-v3-its.c
-> @@ -4894,10 +4894,17 @@ static bool __maybe_unused its_enable_quirk_hip09_162100801(void *data)
->   	return true;
->   }
->   
-> -static bool __maybe_unused its_enable_rk3568002(void *data)
-> +static const char * const dma_impaired_platforms[] = {
-> +#ifdef CONFIG_ROCKCHIP_ERRATUM_3568002
-> +	"rockchip,rk3566",
-> +	"rockchip,rk3568",
-> +#endif
-> +	NULL,
-> +};
-> +
-> +static bool __maybe_unused its_enable_dma32(void *data)
->   {
-> -	if (!of_machine_is_compatible("rockchip,rk3566") &&
-> -	    !of_machine_is_compatible("rockchip,rk3568"))
-> +	if (!of_machine_compatible_match(dma_impaired_platforms))
->   		return false;
->   
->   	gfp_flags_quirk |= GFP_DMA32;
-> @@ -4972,14 +4979,12 @@ static const struct gic_quirk its_quirks[] = {
->   		.property = "dma-noncoherent",
->   		.init   = its_set_non_coherent,
->   	},
-> -#ifdef CONFIG_ROCKCHIP_ERRATUM_3568002
->   	{
-> -		.desc   = "ITS: Rockchip erratum RK3568002",
-> +		.desc   = "ITS: Broken GIC600 integration limited to 32bit PA",
->   		.iidr   = 0x0201743b,
->   		.mask   = 0xffffffff,
-> -		.init   = its_enable_rk3568002,
-> +		.init   = its_enable_dma32,
->   	},
-> -#endif
->   	{
->   	}
->   };
-> 
-> Then add the two lines you need in a separate patch.
+> As Marc pointed out, this address should be fetched from DT, not hardcoded in
+> the driver.
 
-Will do in V2.
+I will reply to Marc when I have this ready for V2.
 
-> In the future, please provide a cover letter when you have more than a
-> single patch (git will happily generate one for you).
-OK
+>> +
+>> +/* INTC control & mask */
+>> +#define AXIINTCCONT		0x0a04
+>> +#define INTC_EN			BIT(31)
+>> +#define INTC_MASK		GENMASK(11, 2)
+>> +
+>>   /* PCIe Power Management Control */
+>>   #define PCIEPWRMNGCTRL		0x0070
+>>   #define APP_CLK_REQ_N		BIT(11)
+>> @@ -305,6 +319,39 @@ static struct rcar_gen4_pcie *rcar_gen4_pcie_alloc(struct platform_device *pdev)
+>>   	return rcar;
+>>   }
+>>   
+>> +static void rcar_gen4_pcie_host_msi_init(struct dw_pcie_rp *pp)
+>> +{
+>> +	struct dw_pcie *dw = to_dw_pcie_from_pp(pp);
+>> +	struct rcar_gen4_pcie *rcar = to_rcar_gen4_pcie(dw);
+>> +	u32 val;
+>> +
+>> +	/* Make sure MSICAP0 MSIE is configured. */
+>> +	val = dw_pcie_readl_dbi(dw, MSICAP0);
+>> +	if (pci_msi_enabled())
+>> +		val |= MSICAP0_MSIE;
+>> +	else
+>> +		val &= ~MSICAP0_MSIE;
+>> +	dw_pcie_writel_dbi(dw, MSICAP0, val);
+>> +
+>> +	if (!pci_msi_enabled() || pp->use_imsi_rx) {
+> 
+> If MSI is not enabled, then what's the point in clearing these registers (also
+> above)? I see it as a redundant code. Is there a necessity to clear them?
+AXIINTCCONT INTC_EN should not be set if MSI is disabled, this code 
+makes sure it is not set, even if it might have been left set e.g. by 
+prior stage. So no, this is not redundant code, this makes sure the 
+controller is correctly configured.
 
