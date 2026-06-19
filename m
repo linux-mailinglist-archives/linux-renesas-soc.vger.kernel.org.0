@@ -1,161 +1,178 @@
-Return-Path: <linux-renesas-soc+bounces-34247-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-34248-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id 1/6UL8w1NWqRowYAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-34247-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Jun 2026 14:27:56 +0200
+	id PCAdJqRHNWpurAYAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-34248-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Jun 2026 15:44:04 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD6916A5BF0
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Jun 2026 14:27:55 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 156816A6289
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Jun 2026 15:44:04 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=bLf873Jj;
-	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-34247-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 104.64.211.4 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-34247-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=quarantine) header.from=kernel.org;
+	dkim=pass header.d=bootlin.com header.s=dkim header.b=2OHXR1Qw;
+	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-34248-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-34248-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=reject) header.from=bootlin.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id CAAC2300682A
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Jun 2026 12:27:39 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 54E6A30358AF
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Jun 2026 13:43:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2041D364933;
-	Fri, 19 Jun 2026 12:27:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 212C929B8E1;
+	Fri, 19 Jun 2026 13:43:05 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FB103750CF
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 19 Jun 2026 12:27:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D1912BE034
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 19 Jun 2026 13:43:02 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781872058; cv=none; b=MZHoalYSeGy2kBxKEC10dl993o78diTdZwhjakFw/4EKMTLgvbo4AvMp9seasj94YF15IsBpxwgUeIHvboWp9nPjfActpaDb96D6H6kfgdofVWSe1uxL3f5Y32dwNpcgQILqPrJE/mAh616y8IxBrc1l+3apQpyHKc32+TDEqt8=
+	t=1781876585; cv=none; b=aQNVr7LNm11lpPZdGWUTOnAzOaIiGuDebbHelZfvViGBk44RRImiahtJv/bmGZsU9r/wvl38NXIKsj19v62VDv45wx8aeBiWeqCQyNSOPl01oR9JyMidg02sbSUYB5ABQTBirszuEuUFEB0jSiB7oqhSpjf+4Fi5yWizLJoZJGU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781872058; c=relaxed/simple;
-	bh=N9yT3eaanfcxDK/32pwzJdj8G2/y2JvVCMh79697FIU=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Fz654HTA3L69/laDO7igZJ0R/SfPFc49n/U+q1vbyL7bXddzYAPobkk/PczbnyqymSpNxBGb9gSaaTT3PAhbTcQGmK8zwQ2njJZvxdVpur3o0e7ebWKeDdFdm8EDIsAjc95InYzNTB6KNvwMwcy3RCJWO9MEfPGXZDu863J3WZY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bLf873Jj; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 345081F000E9;
-	Fri, 19 Jun 2026 12:27:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781872056;
-	bh=vKyxJHu4SsVp5IuEu+y6My5r3LEZYQdkx/cd9sremcs=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=bLf873JjJNZlD2HT6JnWCZVGG+389IwlsMWA0aWxII8PDwDoriIBpfKHdaEr7xjIy
-	 prd+OjjEp9HYTLzr7voYaWu30uURzjGRcrkx1kI0oaYNqel8eMMg8I8kON1TLYaRfs
-	 khE/JMu5cr7/vvZCYSnCTHCWLOCd06I8erlhTDw11kVV4fmGEmO/hpd3PQV5OBGxor
-	 /FfAIpKlVC1z05iWqnvj57zQX8y0qTOI/dqNFYzSgiG6e9zawyF3nQRCcYYsX9dhq4
-	 1yHubghwyQ4qxmVgf0L0TCndcrLEkeeR/5NPQ1eP2KCoAh5JRmGdnz7dMp/zmK4XQu
-	 GOVY/NZ5yOcbQ==
-From: Maxime Ripard <mripard@kernel.org>
-Date: Fri, 19 Jun 2026 14:25:08 +0200
-Subject: [PATCH v3 63/78] drm/renesas: rz-du: mipi_dsi: Switch to
- atomic_create_state
+	s=arc-20240116; t=1781876585; c=relaxed/simple;
+	bh=17i6oa0M6UmVrMWmDG7cWGhbnxl14z0/BIWH4Fd9A3Y=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
+	 References:In-Reply-To; b=F2jaBanhd1UwNe7xTxii1CgfGABrbsTUx2a/wkieMXRFl4F41rXnHugV6/Z6mYKETNdbYw8EUCbBp9gEwqtX+RCHa7VvgtKHHpdiBzkJMeS2JRJJlVU+bUJHnH6Rq5mro5Zd4cr7HXlOyDk9Gd5g3w/uHap8mXsMaA1M9uxJgbo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=2OHXR1Qw; arc=none smtp.client-ip=185.246.84.56
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-02.galae.net (Postfix) with ESMTPS id D26511A3A17;
+	Fri, 19 Jun 2026 13:42:54 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id A0BA6601AD;
+	Fri, 19 Jun 2026 13:42:54 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id E9861106C88A8;
+	Fri, 19 Jun 2026 15:42:31 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1781876571; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=17i6oa0M6UmVrMWmDG7cWGhbnxl14z0/BIWH4Fd9A3Y=;
+	b=2OHXR1QwtCE+m9KORcKStlkcA6ag+ntrhh38YC8FuWi4Ivanof2kMKZSiDIi8KDy/rJyOy
+	d9n5jfH4IyN51n8RfW5VcLV8ajZhRXvgOa5R+0d6jYOJlGpRQ8Ei+7ncYisPtX154p/itA
+	+FVS4408GK6t2mbJW4PGkgW8pjPtp0vASGX+Kfy16/0IwPEQZfEFJaECutzX09avkZUJFd
+	QP6TokojrSOrCy+kB+ysimzb7jkt7bgeZJOi91eLy/pgdjhtdRh6ocFi/X0UOYZD7EK78Z
+	Hch7VJW8YQWSdBwSR/Bp3d6ZAidfHERZnrYDFVzmEH+M4z5scGH6fREi9mAoVw==
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260619-drm-no-more-bridge-reset-v3-63-ff399263111b@kernel.org>
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 19 Jun 2026 15:42:30 +0200
+Message-Id: <DJD2IQSFENH4.337VSFOU7OJ29@bootlin.com>
+Subject: Re: [PATCH v3 00/78] drm/bridge: Convert all reset users to
+ create_state
+Cc: "Dmitry Baryshkov" <lumag@kernel.org>,
+ <dri-devel@lists.freedesktop.org>, "Laurent Pinchart"
+ <laurent.pinchart+renesas@ideasonboard.com>, "Jagan Teki"
+ <jagan@amarulasolutions.com>, "Liu Ying" <victor.liu@nxp.com>, "Frank Li"
+ <Frank.Li@nxp.com>, "Sascha Hauer" <s.hauer@pengutronix.de>, "Pengutronix
+ Kernel Team" <kernel@pengutronix.de>, "Fabio Estevam" <festevam@gmail.com>,
+ <imx@lists.linux.dev>, <linux-arm-kernel@lists.infradead.org>, "Andy Yan"
+ <andy.yan@rock-chips.com>, "Phong LE" <ple@baylibre.com>, "Douglas
+ Anderson" <dianders@chromium.org>, "Inki Dae" <inki.dae@samsung.com>,
+ "Marek Szyprowski" <m.szyprowski@samsung.com>, "Philipp Zabel"
+ <p.zabel@pengutronix.de>, "Paul Cercueil" <paul@crapouillou.net>,
+ <linux-mips@vger.kernel.org>, "AngeloGioacchino Del Regno"
+ <angelogioacchino.delregno@collabora.com>, "Chun-Kuang Hu"
+ <chunkuang.hu@kernel.org>, "Matthias Brugger" <matthias.bgg@gmail.com>,
+ <linux-mediatek@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+ "Kevin Hilman" <khilman@baylibre.com>, "Jerome Brunet"
+ <jbrunet@baylibre.com>, "Martin Blumenstingl"
+ <martin.blumenstingl@googlemail.com>, <linux-amlogic@lists.infradead.org>,
+ "Tomi Valkeinen" <tomi.valkeinen+renesas@ideasonboard.com>, "Geert
+ Uytterhoeven" <geert+renesas@glider.be>, "Magnus Damm"
+ <magnus.damm@gmail.com>, "Kieran Bingham"
+ <kieran.bingham+renesas@ideasonboard.com>,
+ <linux-renesas-soc@vger.kernel.org>, "Biju Das"
+ <biju.das.jz@bp.renesas.com>, "Heiko Stuebner" <heiko@sntech.de>, "Sandy
+ Huang" <hjc@rock-chips.com>, <linux-rockchip@lists.infradead.org>, "Yannick
+ Fertre" <yannick.fertre@foss.st.com>, "Raphael Gallais-Pou"
+ <raphael.gallais-pou@foss.st.com>, "Philippe Cornu"
+ <philippe.cornu@foss.st.com>, "Maxime Coquelin"
+ <mcoquelin.stm32@gmail.com>, "Alexandre Torgue"
+ <alexandre.torgue@foss.st.com>, <linux-stm32@st-md-mailman.stormreply.com>,
+ "Jyri Sarha" <jyri.sarha@iki.fi>, "Tomi Valkeinen"
+ <tomi.valkeinen@ideasonboard.com>, "Dave Stevenson"
+ <dave.stevenson@raspberrypi.com>, =?utf-8?q?Ma=C3=ADra_Canal?=
+ <mcanal@igalia.com>, "Raspberry Pi Kernel Maintenance"
+ <kernel-list@raspberrypi.com>, "Icenowy Zheng" <zhengxingda@iscas.ac.cn>,
+ "Laurent Pinchart" <laurent.pinchart@ideasonboard.com>, "Michal Simek"
+ <michal.simek@amd.com>
+To: "Maxime Ripard" <mripard@kernel.org>, "Andrzej Hajda"
+ <andrzej.hajda@intel.com>, "Neil Armstrong" <neil.armstrong@linaro.org>,
+ "Robert Foss" <rfoss@kernel.org>, "Laurent Pinchart"
+ <Laurent.pinchart@ideasonboard.com>, "Jonas Karlman" <jonas@kwiboo.se>,
+ "Jernej Skrabec" <jernej.skrabec@gmail.com>, "Luca Ceresoli"
+ <luca.ceresoli@bootlin.com>, "Maarten Lankhorst"
+ <maarten.lankhorst@linux.intel.com>, "Thomas Zimmermann"
+ <tzimmermann@suse.de>, "David Airlie" <airlied@gmail.com>, "Simona Vetter"
+ <simona@ffwll.ch>
+From: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
+X-Mailer: aerc 0.21.0
 References: <20260619-drm-no-more-bridge-reset-v3-0-ff399263111b@kernel.org>
 In-Reply-To: <20260619-drm-no-more-bridge-reset-v3-0-ff399263111b@kernel.org>
-To: Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Luca Ceresoli <luca.ceresoli@bootlin.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>
-Cc: Dmitry Baryshkov <lumag@kernel.org>, dri-devel@lists.freedesktop.org, 
- Maxime Ripard <mripard@kernel.org>, Biju Das <biju.das.jz@bp.renesas.com>, 
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
- linux-renesas-soc@vger.kernel.org
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1680; i=mripard@kernel.org;
- h=from:subject:message-id; bh=N9yT3eaanfcxDK/32pwzJdj8G2/y2JvVCMh79697FIU=;
- b=owGbwMvMwCmsHn9OcpHtvjLG02pJDFmmpqyXeOZqT5bar3fg/7wjUmmrU9IXdzYp2IsURJ6fY
- 945q8apYyoLgzAng6yYIssTmbDTy9sXVznYr/wBM4eVCWQIAxenAExEfhNjfdXnGZmP9W9MCZye
- xHVGYNHZe93165t2WklpyfPFXpnrfuzCyxCh7BsBhRozT7Onh7CcYKyvnMeb5fbN+dxs7fx2+Us
- mjIHp15/OzRT+Ix6ob5C5XjC4ZHqJbEeO+/czTr9u7f74uhgA
-X-Developer-Key: i=mripard@kernel.org; a=openpgp;
- fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
+X-Last-TLS-Session-Version: TLSv1.3
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-3.66 / 15.00];
-	WHITELIST_SPF_DKIM(-3.00)[kernel.org:d:+,kernel.org:s:+];
+X-Spamd-Result: default: False [-0.16 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
+	DMARC_POLICY_ALLOW(-0.50)[bootlin.com,reject];
+	MV_CASE(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_DKIM_ALLOW(-0.20)[bootlin.com:s=dkim];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-34247-lists,linux-renesas-soc=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:andrzej.hajda@intel.com,m:neil.armstrong@linaro.org,m:rfoss@kernel.org,m:Laurent.pinchart@ideasonboard.com,m:jonas@kwiboo.se,m:jernej.skrabec@gmail.com,m:luca.ceresoli@bootlin.com,m:maarten.lankhorst@linux.intel.com,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:lumag@kernel.org,m:dri-devel@lists.freedesktop.org,m:mripard@kernel.org,m:biju.das.jz@bp.renesas.com,m:laurent.pinchart+renesas@ideasonboard.com,m:linux-renesas-soc@vger.kernel.org,m:jernejskrabec@gmail.com,m:laurent.pinchart@ideasonboard.com,s:lists@lfdr.de];
-	FREEMAIL_TO(0.00)[intel.com,linaro.org,kernel.org,ideasonboard.com,kwiboo.se,gmail.com,bootlin.com,linux.intel.com,suse.de,ffwll.ch];
-	FORGED_SENDER(0.00)[mripard@kernel.org,linux-renesas-soc@vger.kernel.org];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_SENDER(0.00)[luca.ceresoli@bootlin.com,linux-renesas-soc@vger.kernel.org];
 	FORWARDED(0.00)[lists@lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-34248-lists,linux-renesas-soc=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	RECEIVED_HELO_LOCALHOST(0.00)[];
+	FREEMAIL_CC(0.00)[kernel.org,lists.freedesktop.org,ideasonboard.com,amarulasolutions.com,nxp.com,pengutronix.de,gmail.com,lists.linux.dev,lists.infradead.org,rock-chips.com,baylibre.com,chromium.org,samsung.com,crapouillou.net,vger.kernel.org,collabora.com,googlemail.com,glider.be,bp.renesas.com,sntech.de,foss.st.com,st-md-mailman.stormreply.com,iki.fi,raspberrypi.com,igalia.com,iscas.ac.cn,amd.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_TO(0.00)[kernel.org,intel.com,linaro.org,ideasonboard.com,kwiboo.se,gmail.com,bootlin.com,linux.intel.com,suse.de,ffwll.ch];
+	FORGED_RECIPIENTS(0.00)[m:lumag@kernel.org,m:dri-devel@lists.freedesktop.org,m:laurent.pinchart+renesas@ideasonboard.com,m:jagan@amarulasolutions.com,m:victor.liu@nxp.com,m:Frank.Li@nxp.com,m:s.hauer@pengutronix.de,m:kernel@pengutronix.de,m:festevam@gmail.com,m:imx@lists.linux.dev,m:linux-arm-kernel@lists.infradead.org,m:andy.yan@rock-chips.com,m:ple@baylibre.com,m:dianders@chromium.org,m:inki.dae@samsung.com,m:m.szyprowski@samsung.com,m:p.zabel@pengutronix.de,m:paul@crapouillou.net,m:linux-mips@vger.kernel.org,m:angelogioacchino.delregno@collabora.com,m:chunkuang.hu@kernel.org,m:matthias.bgg@gmail.com,m:linux-mediatek@lists.infradead.org,m:linux-kernel@vger.kernel.org,m:khilman@baylibre.com,m:jbrunet@baylibre.com,m:martin.blumenstingl@googlemail.com,m:linux-amlogic@lists.infradead.org,m:tomi.valkeinen+renesas@ideasonboard.com,m:geert+renesas@glider.be,m:magnus.damm@gmail.com,m:kieran.bingham+renesas@ideasonboard.com,m:linux-renesas-soc@vger.kernel.org,m:biju.das.jz@bp.renesas.com,m
+ :heiko@sntech.de,m:hjc@rock-chips.com,m:linux-rockchip@lists.infradead.org,m:yannick.fertre@foss.st.com,m:raphael.gallais-pou@foss.st.com,m:philippe.cornu@foss.st.com,m:mcoquelin.stm32@gmail.com,m:alexandre.torgue@foss.st.com,m:linux-stm32@st-md-mailman.stormreply.com,m:jyri.sarha@iki.fi,m:tomi.valkeinen@ideasonboard.com,m:dave.stevenson@raspberrypi.com,m:mcanal@igalia.com,m:kernel-list@raspberrypi.com,m:zhengxingda@iscas.ac.cn,m:laurent.pinchart@ideasonboard.com,m:michal.simek@amd.com,m:mripard@kernel.org,m:andrzej.hajda@intel.com,m:neil.armstrong@linaro.org,m:rfoss@kernel.org,m:Laurent.pinchart@ideasonboard.com,m:jonas@kwiboo.se,m:jernej.skrabec@gmail.com,m:luca.ceresoli@bootlin.com,m:maarten.lankhorst@linux.intel.com,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:matthiasbgg@gmail.com,m:martinblumenstingl@gmail.com,m:geert@glider.be,m:magnusdamm@gmail.com,m:kieran.bingham@ideasonboard.com,s:lists@lfdr.de];
 	FROM_HAS_DN(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[17];
+	RCVD_COUNT_FIVE(0.00)[6];
+	RCPT_COUNT_GT_50(0.00)[63];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	ALIAS_RESOLVED(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[luca.ceresoli@bootlin.com,linux-renesas-soc@vger.kernel.org];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[mripard@kernel.org,linux-renesas-soc@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
+	DKIM_TRACE(0.00)[bootlin.com:+];
+	ALIAS_RESOLVED(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	TO_DN_SOME(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[]
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,vger.kernel.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: CD6916A5BF0
+X-Rspamd-Queue-Id: 156816A6289
 
-The drm_bridge_funcs.atomic_reset callback and its
-drm_atomic_helper_bridge_reset() helper are deprecated.
+On Fri Jun 19, 2026 at 2:24 PM CEST, Maxime Ripard wrote:
+> Hi,
+>
+> All the bridges use reset to create a blank state only and don't use it
+> to reset the hardware at all. This is what the new atomic_create_state
+> is exactly supposed to be doing, so we can convert all existing bridge
+> users to it, and remove the reset hook and helpers.
+>
+> Let me know what you think,
+> Maxime
+>
+> Signed-off-by: Maxime Ripard <mripard@kernel.org>
 
-Switch to the atomic_create_state callback and its
-drm_atomic_helper_bridge_create_state() counterpart.
+Whole series:
+Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 
-Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
-Signed-off-by: Maxime Ripard <mripard@kernel.org>
----
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: dri-devel@lists.freedesktop.org
-Cc: linux-renesas-soc@vger.kernel.org
----
- drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
-index a2c864860075..0590ade96b91 100644
---- a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
-+++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
-@@ -1107,11 +1107,11 @@ rzg2l_mipi_dsi_bridge_mode_valid(struct drm_bridge *bridge,
- 
- static const struct drm_bridge_funcs rzg2l_mipi_dsi_bridge_ops = {
- 	.attach = rzg2l_mipi_dsi_attach,
- 	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
- 	.atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
--	.atomic_reset = drm_atomic_helper_bridge_reset,
-+	.atomic_create_state = drm_atomic_helper_bridge_create_state,
- 	.atomic_pre_enable = rzg2l_mipi_dsi_atomic_pre_enable,
- 	.atomic_enable = rzg2l_mipi_dsi_atomic_enable,
- 	.atomic_disable = rzg2l_mipi_dsi_atomic_disable,
- 	.atomic_post_disable = rzg2l_mipi_dsi_atomic_post_disable,
- 	.mode_valid = rzg2l_mipi_dsi_bridge_mode_valid,
-
--- 
-2.54.0
-
+--
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
