@@ -1,62 +1,62 @@
-Return-Path: <linux-renesas-soc+bounces-34224-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-34225-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id UneOLGTONGrbhQYAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-34224-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Jun 2026 07:06:44 +0200
+	id JSJcBHzYNGqiiQYAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-34225-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Jun 2026 07:49:48 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E0B56A3E8C
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Jun 2026 07:06:44 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AD376A3FC2
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Jun 2026 07:49:47 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=sang-engineering.com header.s=k1 header.b=iOt01Cuq;
-	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-34224-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-34224-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=sang-engineering.com header.s=k1 header.b=O+NeMksp;
+	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-34225-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 172.232.135.74 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-34225-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
 	dmarc=none;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id BE9C7303B4EB
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Jun 2026 05:06:42 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 162E53017ED1
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Jun 2026 05:49:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5C89131B833;
-	Fri, 19 Jun 2026 05:06:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4F5512F0673;
+	Fri, 19 Jun 2026 05:49:45 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B57D8F49
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 19 Jun 2026 05:06:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CC2440D599
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 19 Jun 2026 05:49:43 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781845602; cv=none; b=ubRK3CAW2zb0uUFFec0vUcEU3RYun4QvWF0Q8ThaHzGynbxnI/GTPTgwrDRSo3Cux0JmmQFTNBVrp+03y8HRen0G+vPfcPrfkVd/wNnVC/vuIujkkm519lQuQKH5Kzni3QZ+MeCgMZmhynku55Xhv6XFFpD05GYAeArUPXJzlTM=
+	t=1781848185; cv=none; b=GN9kVHg7iDGE/zN4QzxBokXdcyaW53ojGkLupXmgji8ZFTVaCegWTclfJBkOW0VGNB0OSLsbM1vjwQpH3rJT7XtfzXDxD8LORAYaFM8t2FkjlbAuGS2loNc/TbK8JijlIMj0nqbc07hhaVj1f9xnqQWODZ5Q6ZzFOFbVs+7wWCI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781845602; c=relaxed/simple;
-	bh=i6WD8sG8BxHB9HFPWtd4YBGmmZ9gTCRtRhYGrpB2SrY=;
+	s=arc-20240116; t=1781848185; c=relaxed/simple;
+	bh=E98+5Qr+KeoM106Hq211PFBNKdVPjU/jBJb/aEB0bTs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VCiapc9evRN5c1/d92qYphKAqK+8DrOD56FYXwDAJpuKhyALROWdIKXkwuRYzeT+59mmYgaGWdvTUe1McgNl0rxWv3OuL90NZbPe3FhEmx0GtGZR+LFatSFRphoxvg94+XWJxQZ8nquhVtQg2b45dPlsWRVA9m7yzOIxaNL+ia4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=iOt01Cuq; arc=none smtp.client-ip=194.117.254.33
+	 Content-Type:Content-Disposition:In-Reply-To; b=LOFOQP9dLxwjyna2uVN4kXZ89L54Ds3ytGXVqEOmaw3bud54yB3twh89GKUKQnvXZ1pT2+7pQVw0WlEaDnAU+4rWyhmkP8hPUUvCOe0wxqyBYtkrZIN9wkndn/yIYSSS19qW1Uy+k/kexYSri9HCLvKNwv29pcpOh3opDJyw1fA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=O+NeMksp; arc=none smtp.client-ip=194.117.254.33
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=8NRl
-	Tq8xnE9dQ4eFA6zBAm7QC/b5xEW5cy+ypmxdVoA=; b=iOt01Cuq/tPmrJFbzjfq
-	A2tPIFbIOSr1jd3ifOWnmHNI2vDxey9Qn3RFpQZdlCp5JWjXCaK+aAs2jRH3W09i
-	I71YruBumdPNO2sjZ4FUYF//d6RW+bvZdlbCwKOCNrGRTTPG6A+iGs8Vptq9Wp+V
-	JrQvhIGrSQegktbiiYYmbcuqwCkz7BhW5WxgpWO2/ocMSE+YndlHsHDEmikGgWsA
-	I53YgpsGvHMQdZbc4dWrKDCTbHjitxvXCkXGPkG7NqP4XOYyzlKRM26RxAyZ8/jO
-	jjPml31YWUXXc9vmWqztRK7JeSEjNoMnkBs5DlEnxvFpcil1PLRhUEIRn+xjXOrP
-	1A==
-Received: (qmail 820705 invoked from network); 19 Jun 2026 07:06:35 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 19 Jun 2026 07:06:35 +0200
-X-UD-Smtp-Session: l3s3148p1@dyW6QZRU5Ikujnu2
-Date: Fri, 19 Jun 2026 07:06:34 +0200
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=hvCd
+	6IgJSBTTy+itIz+xJJHE4KvsXRtxZLHnP9GcgNw=; b=O+NeMkspMnHO2uyVGQUX
+	v+FVrgK0xX1j+Z0Dh4isavvR32ojDEj+l9lAwx8NURwi7yeJ98NfDUymBm87dpkc
+	nGQVwkCeAgrfI2UgZ+cvV210i/cf7/7rAaIcukGBUjeRVUEi0oEjXwK00q434fpD
+	4a9qFACfky8Dw0EdH8AIyuIIXC8xLGYjYFAin6r5xQJWAZ2JOmcw7I24bhxIfn6E
+	vb2Kqn9Ajq2qlwYYQ4W1VXfeVqpNzSnezAw7VoQ+plhikbHzrc4wikq0L45ubiUK
+	WmzYUuhIXdcvmaXDmPXIAJE0WNuwIretiYunl+QzSyiEVVDgKwTiQmjf4kCl6sXi
+	Zw==
+Received: (qmail 829568 invoked from network); 19 Jun 2026 07:49:41 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 19 Jun 2026 07:49:41 +0200
+X-UD-Smtp-Session: l3s3148p1@g/fl25RUoJ4ujnu2
+Date: Fri, 19 Jun 2026 07:49:40 +0200
 From: Wolfram Sang <wsa+renesas@sang-engineering.com>
 To: linux-renesas-soc@vger.kernel.org
 Cc: linux-kernel@vger.kernel.org, Bjorn Andersson <andersson@kernel.org>,
 	Baolin Wang <baolin.wang@linux.alibaba.com>,
 	linux-remoteproc@vger.kernel.org
-Subject: Re: [PATCH 1/2] hwspinlock: reverse logic for used channels
-Message-ID: <ajTOWqp38ZtTZGgD@shikoro>
+Subject: Re: [PATCH 2/2] hwspinlock: add summary in debugfs
+Message-ID: <ajTYdE3Lu2YKL-O9@shikoro>
 References: <20260618163422.17604-1-wsa+renesas@sang-engineering.com>
- <20260618163422.17604-2-wsa+renesas@sang-engineering.com>
+ <20260618163422.17604-3-wsa+renesas@sang-engineering.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -64,16 +64,16 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="ww3S/YEmt8LYNPqH"
+	protocol="application/pgp-signature"; boundary="PhMJloWiTm1k9Dpg"
 Content-Disposition: inline
-In-Reply-To: <20260618163422.17604-2-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20260618163422.17604-3-wsa+renesas@sang-engineering.com>
 X-Rspamd-Action: no action
 X-Spamd-Result: default: False [-3.26 / 15.00];
 	SIGNED_PGP(-2.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	MID_RHS_NOT_FQDN(0.50)[];
 	MIME_GOOD(-0.20)[multipart/signed,text/plain];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
 	R_DKIM_ALLOW(-0.20)[sang-engineering.com:s=k1];
 	MAILLIST(-0.15)[generic];
 	HAS_LIST_UNSUB(-0.01)[];
@@ -87,7 +87,7 @@ X-Spamd-Result: default: False [-3.26 / 15.00];
 	MIME_TRACE(0.00)[0:+,1:+,2:~];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FORWARDED(0.00)[lists@lfdr.de];
-	TAGGED_FROM(0.00)[bounces-34224-lists,linux-renesas-soc=lfdr.de,renesas];
+	TAGGED_FROM(0.00)[bounces-34225-lists,linux-renesas-soc=lfdr.de,renesas];
 	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
@@ -99,122 +99,149 @@ X-Spamd-Result: default: False [-3.26 / 15.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-renesas-soc];
 	RCPT_COUNT_FIVE(0.00)[5];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo,vger.kernel.org:from_smtp,shikoro:mid]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 0E0B56A3E8C
+X-Rspamd-Queue-Id: 9AD376A3FC2
 
 
---ww3S/YEmt8LYNPqH
+--PhMJloWiTm1k9Dpg
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-
-> > @@ -42,8 +42,8 @@
-> >   * used as the ID's of the hwspinlock instances).
-> >   *
-> >   * The radix tree API supports tagging items in the tree, which this
-> > - * framework uses to mark unused hwspinlock instances (see the
-> > - * HWSPINLOCK_UNUSED tag above). As a result, the process of querying =
-the
-> > + * framework uses to mark used hwspinlock instances (see the
-> > + * HWSPINLOCK_USED tag above). As a result, the process of querying the
-> >   * tree, looking for an unused hwspinlock instance, is now reduced to a
-> >   * single radix tree API call.
-> >   */
->=20
-> [Severity: Low]
-> Is the documentation internally contradictory here? Because the tag is now
-> exclusively applied to USED locks, it seems impossible to query for an
-> UNUSED lock with a single tag-based API call.
-
-Can reword to "getting the hwspinlock state". The core doesn't offer to
-look for just some unused hwlock. Only specific locks are looked for and
-their state is queried.
-
-> [Severity: High]
-> This isn't a bug introduced by this patch, but does
-
-Ignored.
-
-> > @@ -482,9 +482,9 @@ static struct hwspinlock *hwspin_lock_unregister_si=
-ngle(unsigned int id)
-> > =20
-> >  	mutex_lock(&hwspinlock_tree_lock);
-> > =20
-> > -	/* make sure the hwspinlock is not in use (tag is set) */
-> > -	ret =3D radix_tree_tag_get(&hwspinlock_tree, id, HWSPINLOCK_UNUSED);
-> > -	if (ret =3D=3D 0) {
-> > +	/* make sure the hwspinlock is not in use */
-> > +	ret =3D radix_tree_tag_get(&hwspinlock_tree, id, HWSPINLOCK_USED);
-> > +	if (ret) {
-> >  		pr_err("hwspinlock %d still in use (or not present)\n", id);
-> >  		goto out;
-> >  	}
->=20
-> [Severity: Low]
-> Is the "(or not present)" portion of this error message unreachable?
-
-Can reword.
-
-> > @@ -798,8 +798,8 @@ int hwspin_lock_free(struct hwspinlock *hwlock)
-> >  	pm_runtime_put(dev);
-> > =20
-> >  	/* mark this hwspinlock as available */
-> > -	tmp =3D radix_tree_tag_set(&hwspinlock_tree, hwlock_to_id(hwlock),
-> > -							HWSPINLOCK_UNUSED);
-> > +	tmp =3D radix_tree_tag_clear(&hwspinlock_tree, hwlock_to_id(hwlock),
-> > +				   HWSPINLOCK_USED);
-> > =20
-> >  	/* sanity check (this shouldn't happen) */
-> >  	WARN_ON(tmp !=3D hwlock);
+> > +static void *hwspinlock_seq_start(struct seq_file *s, loff_t *ppos)
+> > +{
+> > +	struct hwspinlock_seq_iterator *hwsp_seq_iter =3D kzalloc(sizeof(*hws=
+p_seq_iter), GFP_KERNEL);
+> > +
+> > +	seq_puts(s, "id\tstatus\tdevice\n");
 >=20
 > [Severity: Medium]
-> Does hwspin_lock_free() now incorrectly return 1 instead of 0 on success?
+> Will this unconditionally print the table header on every chunked read?
+>=20
+> Because the seq_file framework calls start() at the beginning of every re=
+ad()
+> syscall or when reallocating an internal buffer, this header might be
+> redundantly injected into the middle of the output.
+>=20
+> Should it be printed only when *ppos =3D=3D 0, or handled in show() using
+> SEQ_START_TOKEN?
 
-The quoted code is the wrong block, but the issue is correct. Will fix.
+Yes, I will do the latter.
 
-> [Severity: Critical]
-> This is a pre-existing issue, but does accessing hwlock->bank->num_locks
+> > +
+> > +	if (!hwsp_seq_iter)
+> > +		return NULL;
+>=20
+> [Severity: Medium]
+> Should this return ERR_PTR(-ENOMEM) instead of NULL?
 
-Ignored.
+Yes.
 
 > [Severity: High]
-> This is a pre-existing issue, but does hwspin_lock_unregister() fail to
-> rollback on an error?
+> Can this early return cause an unbalanced mutex unlock?
 
-=2E..
+Yes.
 
-> [Severity: Critical]
-> This is a pre-existing issue, but does devm_hwspin_lock_unreg() ignore the
-> -EBUSY return value from hwspin_lock_unregister()?
+> > +static void *hwspinlock_seq_next(struct seq_file *s, void *v, loff_t *=
+ppos)
+> > +{
+> > +	struct hwspinlock_seq_iterator *hwsp_seq_iter =3D v;
+> > +
+> > +	++*ppos;
+>=20
+> [Severity: High]
+> Does sequentially incrementing *ppos cause infinite loops or duplicate en=
+tries
+> on chunked reads?
+>=20
+> In hwspinlock_seq_start(), *ppos is passed to radix_tree_iter_init() to
+> search the sparse radix tree. However, *ppos is incremented sequentially
+> here.
+>=20
+> Because registered hwspinlock IDs (the radix tree keys) are often sparse,
+> *ppos quickly desynchronizes from the actual keys. If a read() operation
+> resumes, seq_start() might search the radix tree starting from a sequenti=
+al
+> *ppos value much smaller than the actual next key, re-printing already ou=
+tput
+> keys.
 
-Unregistering has _many_ problems. This will be addressed in a seperate
-patch series.
+Probably true, will test.
 
-   Wolfram
+>=20
+> > +
+> > +	hwsp_seq_iter->slot =3D radix_tree_next_slot(hwsp_seq_iter->slot, &hw=
+sp_seq_iter->iter, 0);
+> > +	if (!hwsp_seq_iter->slot)
+> > +		hwsp_seq_iter->slot =3D radix_tree_next_chunk(&hwspinlock_tree, &hws=
+p_seq_iter->iter, 0);
+> > +
+> > +	return hwsp_seq_iter->slot ? hwsp_seq_iter : NULL;
+>=20
+> [Severity: High]
+> Does returning NULL here cause a memory leak of the sequence iterator?
+>=20
+> When iteration reaches the end of the radix tree, hwspinlock_seq_next()
+> returns NULL to signal EOF.
+>=20
+> The seq_file framework then updates its internal iterator pointer to NULL=
+ and
+> calls hwspinlock_seq_stop() with v=3DNULL. Since stop() expects to free t=
+he
+> iterator, calling kfree(NULL) means the originally allocated iterator is =
+lost
+> and never freed.
+
+Uh, yes, overlooked that.
+
+> > +}
+> > +
+> > +static void hwspinlock_seq_stop(struct seq_file *s, void *v)
+> > +{
+> > +	kfree(v);
+> > +	mutex_unlock(&hwspinlock_tree_lock);
+> > +}
+> > +
+> > +static int hwspinlock_seq_show(struct seq_file *s, void *v)
+> > +{
+> > +	struct hwspinlock_seq_iterator *hwsp_seq_iter =3D v;
+> > +	unsigned long id =3D hwsp_seq_iter->iter.index;
+> > +	struct hwspinlock *hwlock;
+> > +	int used;
+> > +
+> > +	used =3D radix_tree_tag_get(&hwspinlock_tree, id, HWSPINLOCK_USED);
+> > +	hwlock =3D radix_tree_deref_slot(hwsp_seq_iter->slot);
+>=20
+> [Severity: High]
+> Does calling radix_tree_deref_slot() without an active RCU read lock trig=
+ger
+> a lockdep warning?
+
+True. For such cases, radix_tree_deref_slot_protected() exists. But it
+only targets spinlocks not mutexes. Will think about it.
 
 
---ww3S/YEmt8LYNPqH
+--PhMJloWiTm1k9Dpg
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmo0zlYACgkQFA3kzBSg
-Kbbg9Q/+K5SEcy6iRHeVaFcC2D0wh29n6NHjB4Fynakm5cVAuH4scQh0uBYZQUZP
-/ucE6bf9Y/Yrw/KlhCprtWuaVpHPZSJmXR2ruuG1HRBWH0dY/x3uVCyDrYs3t08F
-LgvcQidTwuGS3OquMYOfr9unFKoA0CRLcLrMhfeS6TVlhbnuvd45OElNiTKtaMOB
-LOArdlslW7hxmIkEGxVH5kizOE6J2pCkybukJC7i1H7e+Sz/+uYzEsox8FFWU5+s
-D8F1srZjCQRDaUNoJ9RtZtuHEuY686S4EGjZfYoB6d45xzr/dlOT1sK3lRtmlJ3R
-POd0tFFT03NaRhK4iWR9w6ToGLCYO5AHYUC5U/2Eb+0wAIWImgVRogc2zVynvLL1
-lI4GzW8Mnom0HwvRQAfVkIcZ4QLQm6mwPpiPqRMQUCfdVkt65azk43cSfkcwOzbQ
-QTFEpYETzAEccw72ZY9z3LDBayGZYsfn2VAi95TFHuC9aWEIysddPQwzg6rpiUs/
-saub2gnFJCfk/FV8Dd7GiKmmLcY/TW+u8ozEYZeEiMN9HLumJ30DjO4fD/yAh2AZ
-9RGKhHkd55Oe9VOpnMkqVJuZiiUr9ZH5dMC+IN0OIHgdPKlhCjNG2IMvSLvHpVyH
-xjDSUjpM1UprglE4aI6/ynLUTShdj/6N9gq0R21JTZca1GPbsIE=
-=UYfl
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmo02G8ACgkQFA3kzBSg
+KbZ23w/9GMaapxQZsHc0RzE4SGX3nVkUTvTa7VcB+WDLEGXiS+Ykg3zch2U/pyBj
+PBAzH3r73h/5iPylFH3yQjG2xFBdM9TxXGyAC4/ruSuvEp93IMhjv5HwbZluoDlV
+unhyYN+8s6mBhMhUI9eqTNRaQrxx1pLyk8dkHwXoVb+c2UUKTcEEPUyIQpzi+JCX
+xhM0BDno0myVcwk/KZe+hoRaLCnbsiZ3KKp7yCkR9aFl9nlL1FAjWgXA8NgcMYDr
+/K8ik1/JCSnkpHvOcAaxHX9Jpub6YriJjxzY+phtm3Bsyb0GSPsWg8ugHmNZtAKa
+FR0wpnNZncgl9eAvToUHq0e+54m60nWYWWQCHqkXfEykoJaWfSRFIm5sXEyis/2D
+yhrrsbZ4oukuIbOo97jILZ4Mp1Gih/X+ZK2alnobwAlayyOb5CVLE4Xeq2zch30F
+CSCjrGTaXIHtMzKUmIRn1mzTaJYHUaFORleuJlNpy8vBv3GubrLNbDIZGCtaVepg
+xj6FuNKmUOVf8qz/qkoCts62NWinWtdVI+WWUmc0f+4UsnOKOvpv+UnnGw+M28e6
+xvKtGIz24yc7sW3pL1DvyI3lRWijX2eO3hAmILjsBKiRJvbvQdaWV7idkLer2xNd
+saD7N7DGETl5/Vmp1u4wycfUAKO4BjNXDZC17DUs3gU2mH1vjEY=
+=3m0Q
 -----END PGP SIGNATURE-----
 
---ww3S/YEmt8LYNPqH--
+--PhMJloWiTm1k9Dpg--
 
