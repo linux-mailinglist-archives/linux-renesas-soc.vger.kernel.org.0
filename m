@@ -1,71 +1,71 @@
-Return-Path: <linux-renesas-soc+bounces-34269-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-34270-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id cpClOM5RN2oTMgcAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-34269-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 21 Jun 2026 04:51:58 +0200
+	id d5CsFEJSN2ouMgcAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-34270-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 21 Jun 2026 04:53:54 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7F2F6AA095
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 21 Jun 2026 04:51:58 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id AD2956AA0D4
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 21 Jun 2026 04:53:53 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=TnKTaEF9;
-	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=MKsbY6T5;
-	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-34269-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 2600:3c09:e001:a7::12fc:5321 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-34269-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=yd6QlJTa;
+	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=bPEMMCdO;
+	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-34270-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-34270-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=reject) header.from=mailbox.org;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 62A1F300A482
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 21 Jun 2026 02:51:42 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id D8324303E2B2
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 21 Jun 2026 02:51:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1F440285CBA;
-	Sun, 21 Jun 2026 02:51:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CC0F72D5941;
+	Sun, 21 Jun 2026 02:51:20 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C16B29DB6C;
-	Sun, 21 Jun 2026 02:51:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B9BC2D1303;
+	Sun, 21 Jun 2026 02:51:19 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782010279; cv=none; b=GrZ+C+vlBzcmozbL5BfEiawncnsXBCUUWZgPnmYEku2luRDZ0fJElDayNHo7JaW4iHwhepEkGdfyQkm+LVHZE/EtWmssd5aRa0Hpd89P3l/mikeZev27GZTqeKQA5XIOzLEzRIPWTY59x0YGtVqG5Dl6hNlTvVwq+IoH379WUDw=
+	t=1782010280; cv=none; b=MtswEAeiH2O0hOjcER9mLwkL9chs32lRdBUTGokGEk5+TiyQo0OhPITKWlH2xiS10zUINsLrVRlc5Se1yRuVFjXAohAxhCAjBCl4iucl6kNV9AT8DPK5cGPpcaZiKKECi9YwZhw+1v/Ih1MsgMhjRheBYgqa2jDXS1JXf278GHU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782010279; c=relaxed/simple;
-	bh=Ow9fSFEXjIMCyHnrysLPturg+h7cVKNX66/yZO+Y69g=;
+	s=arc-20240116; t=1782010280; c=relaxed/simple;
+	bh=bLzG/1amA14w/IxHQ0447nzuUqOUg+glas4F3GFI6OQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=gZHoENm3NOQZYJWLwjoMnSxPN90oZkfv/5I9Hu8w5SzITYGUrHk2bsnl+ZzxrJDKJgP6TPhRDdTY9vSF7pGfKNSYPS2rSx3gYeEno+tI+9Ou8EahCZYR0yvLs8qtW/FqSQukAepbVNQb2Rl+F1tgKNrSn2k36tauqWPLfM1ULGQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=TnKTaEF9; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=MKsbY6T5; arc=none smtp.client-ip=80.241.56.171
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [IPv6:2001:67c:2050:b231:465::2])
+	 MIME-Version; b=rt/bfTV7UlepVSV39nSUJKtnhspaddEpvRXlVMPN4pgjZ9E465bMht3zIYMhU2rpgf4J2bWHF7kYDOuNl/ibrYgE+JkgxntXdeAjIFRG1G7KFJK545lq/GHu/5813Runk2UG8583rXzH6kjLv/GHl4X2ZMX2gC9Jgvg6eAaOBKc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=yd6QlJTa; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=bPEMMCdO; arc=none smtp.client-ip=80.241.56.171
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4gjbSM5ZQ7z9th9;
-	Sun, 21 Jun 2026 04:51:15 +0200 (CEST)
+	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4gjbSP6HRNz9ty9;
+	Sun, 21 Jun 2026 04:51:17 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1782010275;
+	t=1782010277;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=HKuXq8RbfvkC0lW0DYT2gTn2jf/chp20OOtUVaN4ri4=;
-	b=TnKTaEF9OqqwCHw25oSNGzTlhw/esnIR49BuSg/RIYIUtQAw2ak0TkHWhMYE5c01JsXOYF
-	jk2DQFclaKeUSS6uxnB4mvUoUHJKMnoR/lFc1hrEAFlvxuTaQTWMckiSQvgwej0EpdnFX+
-	ykb7+AzQItubBzGyV1DVHJnoO7u9cEyZyc3Eu107QeB6yPDXozbYLcEUvKW4jngt71dCM7
-	+vFsJSZtN8ahoItL9DBni+/yU1V5xyKnpC5CBHYWBV3U+c5CmI/n4gURvt5fZ5sAVhqGaI
-	qxDIDuXEXkduF+Khp29xOGFR2vhRG3Y5w/8y0MIp7ZTr7J493psUdseOXlNZJg==
+	bh=cwm+MXScOQYnctLBwyL1CzuVFN6zERU+XCvjLpdQOgA=;
+	b=yd6QlJTaw2Ca8T+DBj5AIlo+/P1YAifatdblwos8D0SDFERUupFKf9E28u8i33aZuuIeSd
+	6NxSsrJsTKKQMbt6rmtuUlpaQZLgRhdOcjVaKf1RvALScRfLgADCt2EhCzM7EHyXcO2RkO
+	EBiqX/wxrhSwMfO4r7jzWJf8lG+Xb6d80sYk+KUd9epuzE94Ll2MVAQYvzLmKu79P4PgHp
+	7S4HRC64ZHorq1Y+15ZU43zdlDJ/zdwUPwKK6Uyf60WaznzoW+FqiqDNSNICR3ZcerfXh+
+	2328dtCI5XH/Aqk03o5LhjrwXPZ4dMhogblTeCJ/Vh8bqr5BJYCsMwoz/RDrVg==
 From: Marek Vasut <marek.vasut+renesas@mailbox.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1782010274;
+	t=1782010276;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=HKuXq8RbfvkC0lW0DYT2gTn2jf/chp20OOtUVaN4ri4=;
-	b=MKsbY6T5YjFqb/pVSBs5P5jQPYkdH/CTgaC88kL2kf9yg41EyXR4kazYPxuMFSDEXJKwgH
-	dV6U6pAWlo+hqzropgG5iHJaWWF9PqTDTye1Eqsbp4y6iOvugNZyJTYh2J9FwK8tbHqDKJ
-	syTa7M/8L5Lmiu+EvtzqwJSYS7c50o6JMPs3PwbnZqINMiUtThVD64HTmWDw8EsqTrKCjB
-	vQuAPw8Coz1whdg6G0jtSclQdjtFoQ4LTlfthOTVqEZdy/Uuw2KzQhncr5PsmxBSMGnLVV
-	NeyPoXxw81uNeEt5WaQLXhcT5lxglO8M2gpZvvMH2dX6ycHDB+5eSC1rdJuUyQ==
+	bh=cwm+MXScOQYnctLBwyL1CzuVFN6zERU+XCvjLpdQOgA=;
+	b=bPEMMCdOrciDHvwYBfgBrOszoFvfEQpA/IpfQtsumHpioa9d+cfDVJ7WJnJdFXEVcuuuXH
+	AyU/A6H4Jcf0un2hG8txAYfbAhHPyNP5uW0ao1IY/tr5/qlxfBswJs0uaBCajr3DIHx4kS
+	9YXJJ/Xm5mEJ4o5JdU4fAf8x927yNG4idz22DT+UWvsNu1kuPwG3XcIm78BT5IIq4u0eF1
+	7eBU7HyWiAZS30DIBx3ApA618XVV8gppuG/qFlJmP0+2+jvExIEA6TJQG3w9o76So9wSuN
+	WDtJg+MlmvBVh+ciDVIT09+ZGZUKHxWPTcO+ai5kjxMfSs9yrz+C8QsOfcS2lQ==
 To: linux-arm-kernel@lists.infradead.org
 Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
 	Conor Dooley <conor+dt@kernel.org>,
@@ -75,9 +75,9 @@ Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
 	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org
-Subject: [PATCH 8/9] arm64: dts: renesas: r8a77980: Add soc: label to soc node
-Date: Sun, 21 Jun 2026 04:50:28 +0200
-Message-ID: <20260621025052.406507-8-marek.vasut+renesas@mailbox.org>
+Subject: [PATCH 9/9] arm64: dts: renesas: r8a77995: Add soc: label to soc node
+Date: Sun, 21 Jun 2026 04:50:29 +0200
+Message-ID: <20260621025052.406507-9-marek.vasut+renesas@mailbox.org>
 In-Reply-To: <20260621025052.406507-1-marek.vasut+renesas@mailbox.org>
 References: <20260621025052.406507-1-marek.vasut+renesas@mailbox.org>
 Precedence: bulk
@@ -87,19 +87,19 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-MBO-RS-ID: a51831f5e06d2c34085
-X-MBO-RS-META: hbxon1izeimnesuum9jbd455zegf171b
+X-MBO-RS-META: 3dsxrsw5txqre8wsqoktfo4tfuo6ukpr
+X-MBO-RS-ID: 62e3300bd24bf859acd
 X-Rspamd-Action: no action
 X-Spamd-Result: default: False [-1.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[mailbox.org,reject];
 	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	R_DKIM_ALLOW(-0.20)[mailbox.org:s=mail20150812];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-34269-lists,linux-renesas-soc=lfdr.de,renesas];
+	TAGGED_FROM(0.00)[bounces-34270-lists,linux-renesas-soc=lfdr.de,renesas];
 	RCVD_TLS_LAST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER(0.00)[marek.vasut@mailbox.org,linux-renesas-soc@vger.kernel.org];
@@ -119,10 +119,10 @@ X-Spamd-Result: default: False [-1.66 / 15.00];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,dt];
 	MID_RHS_MATCH_FROM(0.00)[];
 	TO_DN_SOME(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
 	FROM_HAS_DN(0.00)[]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: B7F2F6AA095
+X-Rspamd-Queue-Id: AD2956AA0D4
 
 Add soc: label to the /soc {} node to align the DT with r8a77951.dtsi
 which already has that soc: label. The soc: label is useful in U-Boot
@@ -138,14 +138,14 @@ Cc: devicetree@vger.kernel.org
 Cc: linux-kernel@vger.kernel.org
 Cc: linux-renesas-soc@vger.kernel.org
 ---
- arch/arm64/boot/dts/renesas/r8a77980.dtsi | 2 +-
+ arch/arm64/boot/dts/renesas/r8a77995.dtsi | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/arch/arm64/boot/dts/renesas/r8a77980.dtsi b/arch/arm64/boot/dts/renesas/r8a77980.dtsi
-index 86b7792d68fac..514dafe344786 100644
---- a/arch/arm64/boot/dts/renesas/r8a77980.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a77980.dtsi
-@@ -120,7 +120,7 @@ scif_clk: scif {
+diff --git a/arch/arm64/boot/dts/renesas/r8a77995.dtsi b/arch/arm64/boot/dts/renesas/r8a77995.dtsi
+index 5f3fcef7560cb..522a49db02587 100644
+--- a/arch/arm64/boot/dts/renesas/r8a77995.dtsi
++++ b/arch/arm64/boot/dts/renesas/r8a77995.dtsi
+@@ -85,7 +85,7 @@ scif_clk: scif {
  		clock-frequency = <0>;
  	};
  
