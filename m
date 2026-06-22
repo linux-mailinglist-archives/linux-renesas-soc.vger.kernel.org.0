@@ -1,181 +1,209 @@
-Return-Path: <linux-renesas-soc+bounces-34282-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-34283-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id B1mEAlIEOWrolQcAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-34282-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Jun 2026 11:45:54 +0200
+	id nPAKEwYGOWpAlgcAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-34283-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Jun 2026 11:53:10 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 794C96AE613
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Jun 2026 11:45:53 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 69E556AE6FE
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Jun 2026 11:53:09 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=ApxzB7CQ;
-	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-34282-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-34282-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=quarantine) header.from=kernel.org;
+	dkim=none;
+	dmarc=none;
+	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-34283-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-34283-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 1E43130578AF
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Jun 2026 09:32:17 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 34B543006973
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Jun 2026 09:53:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AAED61D9A66;
-	Mon, 22 Jun 2026 09:32:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DA80E3A2E2B;
+	Mon, 22 Jun 2026 09:53:06 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f171.google.com (mail-vk1-f171.google.com [209.85.221.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE96F39B972;
-	Mon, 22 Jun 2026 09:32:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58F7D39A058
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 22 Jun 2026 09:53:03 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782120736; cv=none; b=q0dnVYzTuq3LQy1495BTi/R0wcYkRealsfzLDQBInjPJU73NlkNPgelt7sUKw0IdXf2cdN/Mh15xNku/O8oEYUWvbHFMyKmhqj6RWZERg2tCQ2UPc7l2a1LVZcCiu/qR6lkmq/iinPyml7ATN6ZYIrzFoQ0cR9zflz1bOAIxj34=
+	t=1782121986; cv=none; b=nLjPW02C3ESnLBNkH/h/RsLTMxvtHKHiDDh4NFJCkim+Zam9NmoIgVQcKzKQo4pmim3dWXYtBlFrQ2IeKsB3oKB5oz8qkBt2vYxfONDb1YVYkc7LFlz60mZKSAA4uYGRtXX2B1K+cHzO+M3gsKjjd3XlAb+EP2yXQSb7L7DtuMM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782120736; c=relaxed/simple;
-	bh=fHDAGh07JzB6IeRckBTfh3f4qflKw3M2BBpi5tcq9oM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=gvazEb4VkIa6ORU3jIzrcXm7xU4RVRK8z/NuIwuJfob0tGQLnAWuubn2A3EweusdVcPNoeYIBbG9kDITt7F6RTBuddf/MEC75R8/pYxV713gXwQNomM3MEXYf4AXCYAKZo6Qx0ezSDrWa2UoTyP/utswEODct6IU4UUdBz6M+ec=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ApxzB7CQ; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F03291F000E9;
-	Mon, 22 Jun 2026 09:32:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782120735;
-	bh=OjnQqx9lVjDZn9U2JChR5sHB41aObP/M6xjkucf75vg=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=ApxzB7CQjt2Xqf3nCQt/J3NxrquiCG6Zue6KX9PMhWvInDLEgf9HrutmfGV+I4OZ7
-	 zqtwEmdv+d7ZUnSxgXUf7wQ/yfKPlsiluNm8NN8XRoE2IOvsi5/jT41VryYw1ihtZF
-	 kPBG2lzTF/KcN2ULGQgfha3q+Z9+hEBV2Vq3mjFX2altZoyUvtbkUgSLq6h4e9Ji/r
-	 l9gSXRTlctoiIyMG62c8568RoGjele/qh6tU4+nZa3nZbYEvkeMelJsv1anaF/VS6+
-	 tIwmmOBQrWGzho4Puta2c9AWjZVwme1jxFKiWokjuwuxfO9ve5v1qPEqaFd0Mxue7d
-	 27zhi66H4STrA==
-From: Maxime Ripard <mripard@kernel.org>
-To: Andrzej Hajda <andrzej.hajda@intel.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Robert Foss <rfoss@kernel.org>,
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-	Jonas Karlman <jonas@kwiboo.se>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Luca Ceresoli <luca.ceresoli@bootlin.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Maxime Ripard <mripard@kernel.org>
-Cc: Dmitry Baryshkov <lumag@kernel.org>,
-	dri-devel@lists.freedesktop.org,
-	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-	Jagan Teki <jagan@amarulasolutions.com>,
-	Liu Ying <victor.liu@nxp.com>,
-	Frank Li <Frank.Li@nxp.com>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	Andy Yan <andy.yan@rock-chips.com>,
-	Phong LE <ple@baylibre.com>,
-	Douglas Anderson <dianders@chromium.org>,
-	Inki Dae <inki.dae@samsung.com>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Paul Cercueil <paul@crapouillou.net>,
-	linux-mips@vger.kernel.org,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Chun-Kuang Hu <chunkuang.hu@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	linux-mediatek@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	Kevin Hilman <khilman@baylibre.com>,
-	Jerome Brunet <jbrunet@baylibre.com>,
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-	linux-amlogic@lists.infradead.org,
-	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-	linux-renesas-soc@vger.kernel.org,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Sandy Huang <hjc@rock-chips.com>,
-	linux-rockchip@lists.infradead.org,
-	Yannick Fertre <yannick.fertre@foss.st.com>,
-	Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>,
-	Philippe Cornu <philippe.cornu@foss.st.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	linux-stm32@st-md-mailman.stormreply.com,
-	Jyri Sarha <jyri.sarha@iki.fi>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	=?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
-	Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
-	Icenowy Zheng <zhengxingda@iscas.ac.cn>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Michal Simek <michal.simek@amd.com>
-Subject: Re: [PATCH v3 00/78] drm/bridge: Convert all reset users to create_state
-Date: Mon, 22 Jun 2026 11:32:11 +0200
-Message-ID: <178212072827.575553.11508273640952121243.b4-ty@kernel.org>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260619-drm-no-more-bridge-reset-v3-0-ff399263111b@kernel.org>
-References: <20260619-drm-no-more-bridge-reset-v3-0-ff399263111b@kernel.org>
+	s=arc-20240116; t=1782121986; c=relaxed/simple;
+	bh=MnAXpId2QrsxBwStKm73em8Wh8kEZ3EOPZC5i6ugnWE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=oVR6ANtPCqRkiy3TeOVJ8aUbqCJhkrzYUuoRXpYz/eQF3SBrFvnEAFWjJJQWHy+yOhHW0grRHpts1JNnOKQvdKpQ4vOiNubPXAQdBPMJkt8/Uj/+8k3tafP+uQdRnsnvSTfn1Ckf4MWwr2eGn5+zkCfUyWSVNPOOM0E07uUw6zQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.171
+Received: by mail-vk1-f171.google.com with SMTP id 71dfb90a1353d-5bc22d9977cso181871e0c.0
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 22 Jun 2026 02:53:03 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782121982; x=1782726782;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=LTo0C41gBRbYARs5bY4lNZzY8eziG+D7rVsU/ecROJ0=;
+        b=RjLaA4HlPQnwAm8RHMjElFxBFTMFozIsIkdzv57kUY9U/HJ5LX+Ffz/F3yWWJBC3GS
+         yxa6CfevT6VBlcz2QNViM/xVYGUIfaDH3vnZJGNPfWTyjaxnIdlzj+KSHot3nejCjVBV
+         K1pZyhy6wZgswpRLfczIjsQjdGylERA2gLnsVnURFn6teCSqk+fTuC0sJlTYH/DxcPku
+         nH08wIhzvu87ZOuiwAUB7R/oAnSlGPUXa89hxjbSQ4VT1kiTlohT4nFq7g7b8wTqWnN1
+         eoaf6nrhIYmsDKIBSWwDZUZlZo+dihnEUYez+Bcjzo7ScQwOJ1yFUk4JcRvetO0KjBFj
+         4o2g==
+X-Forwarded-Encrypted: i=1; AFNElJ9x70/JenKWAqVhkADi6BWc+MVv4damkj1LgGne8VOBEeuY8zXxzLQmF6ipPQtS2P8Nf+JR43iice32FZbae8hb5g==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx8vhkaK+K24eduEqtUn0bulQVACEeR5/grhf6A+0HNuYc+99rB
+	+CqvqamdxNdXEHOzneRKPZeACoDzS9ltTc45HdnAiN15XBa5Lvy3rIxwzLA7KBE8
+X-Gm-Gg: AfdE7cmMMcqV5s8yU3MchPVvDUZKm9PzvMjJg10S7bVCIFymb5PhE+lKbRHQGfSwwMK
+	Cq7FoW2H062jmOJC30w9Gh+idjFK13XVOCzdnzN8OBvj/cyMbvEroaB/mv3lhe9Y5mfE3ypGfTX
+	GggZNffsd+klnmK/8hUE+UAOFylzHuTKkNHHbdExow43qCUKwznrBzKbzKTpwHvCiUNyKGoyilt
+	zYmwovX6r11yAd2XSwsdO08UjlFOoAEj8Dt7nTY3dyWY0fLP8rbEsCKadChsLER4/yybFDDX8ZK
+	NWfqmRaPunMM78slA5bfEVdie7VRb9IA4GShIu44wU3hQkFQwD0RhzE8ocM19l4LGFzXszXokjd
+	veMkq9mqXSlZJsGOrrXvIHROK+JyUmykepUvFf+onHqvLhsG8QCwT3dsWWKthHj5C6CdvX77lNu
+	+EkFGK86qrn9twPNBRnf8J1HdfBs33yDDSW2mBeev1giX75UWp/g==
+X-Received: by 2002:a05:6122:458b:b0:5a5:4166:67c5 with SMTP id 71dfb90a1353d-5bbeb9d208fmr5929075e0c.3.1782121982290;
+        Mon, 22 Jun 2026 02:53:02 -0700 (PDT)
+Received: from mail-ua1-f43.google.com (mail-ua1-f43.google.com. [209.85.222.43])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5bbfb89a95dsm6773164e0c.8.2026.06.22.02.53.01
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 22 Jun 2026 02:53:01 -0700 (PDT)
+Received: by mail-ua1-f43.google.com with SMTP id a1e0cc1a2514c-96392241154so3197388241.1
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 22 Jun 2026 02:53:01 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ/0QEWDLo+22S9vzB2whu2pH2rcE/ZzyUEctGoI99glqMSmnqvDT3obXWtSYIndLT65zhiOvYaVsK60naVM5HcnBw==@vger.kernel.org
+X-Received: by 2002:a05:6102:c03:b0:729:affa:70fd with SMTP id
+ ada2fe7eead31-72a1d8282d2mr7518654137.8.1782121981650; Mon, 22 Jun 2026
+ 02:53:01 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+References: <20260618220427.14325-1-marek.vasut+renesas@mailbox.org> <20260618220427.14325-3-marek.vasut+renesas@mailbox.org>
+In-Reply-To: <20260618220427.14325-3-marek.vasut+renesas@mailbox.org>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 22 Jun 2026 11:52:50 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUxT87M1oQvPP_h4YX4vXFaVbbG+LCG8EdmuLTuHNtybQ@mail.gmail.com>
+X-Gm-Features: AVVi8CeD0QzByTLrjVPd1X2DDUj0G8mjwUUWpPVDpYqqWicL4mNi4MB1Xhj4X1I
+Message-ID: <CAMuHMdUxT87M1oQvPP_h4YX4vXFaVbbG+LCG8EdmuLTuHNtybQ@mail.gmail.com>
+Subject: Re: [PATCH v2 2/4] irqchip/gic-v3: Refactor GIC600 limited to 32bit
+ PA erratum handling
+To: Marek Vasut <marek.vasut+renesas@mailbox.org>
+Cc: linux-pci@vger.kernel.org, Marc Zyngier <maz@kernel.org>, 
+	=?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
+	Bjorn Helgaas <bhelgaas@google.com>, Catalin Marinas <catalin.marinas@arm.com>, 
+	Conor Dooley <conor+dt@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Lorenzo Pieralisi <lpieralisi@kernel.org>, 
+	Manivannan Sadhasivam <mani@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, devicetree@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-3.66 / 15.00];
-	WHITELIST_SPF_DKIM(-3.00)[kernel.org:d:+,kernel.org:s:+];
+X-Spamd-Result: default: False [0.04 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-34282-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-34283-lists,linux-renesas-soc=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FREEMAIL_CC(0.00)[kernel.org,lists.freedesktop.org,ideasonboard.com,amarulasolutions.com,nxp.com,pengutronix.de,gmail.com,lists.linux.dev,lists.infradead.org,rock-chips.com,baylibre.com,chromium.org,samsung.com,crapouillou.net,vger.kernel.org,collabora.com,googlemail.com,glider.be,bp.renesas.com,sntech.de,foss.st.com,st-md-mailman.stormreply.com,iki.fi,raspberrypi.com,igalia.com,iscas.ac.cn,amd.com];
-	FORWARDED(0.00)[lists@lfdr.de];
-	FORGED_RECIPIENTS(0.00)[m:andrzej.hajda@intel.com,m:neil.armstrong@linaro.org,m:rfoss@kernel.org,m:Laurent.pinchart@ideasonboard.com,m:jonas@kwiboo.se,m:jernej.skrabec@gmail.com,m:luca.ceresoli@bootlin.com,m:maarten.lankhorst@linux.intel.com,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:mripard@kernel.org,m:lumag@kernel.org,m:dri-devel@lists.freedesktop.org,m:laurent.pinchart+renesas@ideasonboard.com,m:jagan@amarulasolutions.com,m:victor.liu@nxp.com,m:Frank.Li@nxp.com,m:s.hauer@pengutronix.de,m:kernel@pengutronix.de,m:festevam@gmail.com,m:imx@lists.linux.dev,m:linux-arm-kernel@lists.infradead.org,m:andy.yan@rock-chips.com,m:ple@baylibre.com,m:dianders@chromium.org,m:inki.dae@samsung.com,m:m.szyprowski@samsung.com,m:p.zabel@pengutronix.de,m:paul@crapouillou.net,m:linux-mips@vger.kernel.org,m:angelogioacchino.delregno@collabora.com,m:chunkuang.hu@kernel.org,m:matthias.bgg@gmail.com,m:linux-mediatek@lists.infradead.org,m:linux-kernel@vger.kernel.org,m:khilman@baylibre.c
- om,m:jbrunet@baylibre.com,m:martin.blumenstingl@googlemail.com,m:linux-amlogic@lists.infradead.org,m:tomi.valkeinen+renesas@ideasonboard.com,m:geert+renesas@glider.be,m:magnus.damm@gmail.com,m:kieran.bingham+renesas@ideasonboard.com,m:linux-renesas-soc@vger.kernel.org,m:biju.das.jz@bp.renesas.com,m:heiko@sntech.de,m:hjc@rock-chips.com,m:linux-rockchip@lists.infradead.org,m:yannick.fertre@foss.st.com,m:raphael.gallais-pou@foss.st.com,m:philippe.cornu@foss.st.com,m:mcoquelin.stm32@gmail.com,m:alexandre.torgue@foss.st.com,m:linux-stm32@st-md-mailman.stormreply.com,m:jyri.sarha@iki.fi,m:tomi.valkeinen@ideasonboard.com,m:dave.stevenson@raspberrypi.com,m:mcanal@igalia.com,m:kernel-list@raspberrypi.com,m:zhengxingda@iscas.ac.cn,m:laurent.pinchart@ideasonboard.com,m:michal.simek@amd.com,m:jernejskrabec@gmail.com,m:matthiasbgg@gmail.com,s:lists@lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_TO(0.00)[intel.com,linaro.org,kernel.org,ideasonboard.com,kwiboo.se,gmail.com,bootlin.com,linux.intel.com,suse.de,ffwll.ch];
-	FORGED_SENDER(0.00)[mripard@kernel.org,linux-renesas-soc@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DMARC_NA(0.00)[linux-m68k.org];
+	FORGED_RECIPIENTS(0.00)[m:marek.vasut+renesas@mailbox.org,m:linux-pci@vger.kernel.org,m:maz@kernel.org,m:kwilczynski@kernel.org,m:bhelgaas@google.com,m:catalin.marinas@arm.com,m:conor+dt@kernel.org,m:geert+renesas@glider.be,m:krzk+dt@kernel.org,m:lpieralisi@kernel.org,m:mani@kernel.org,m:robh@kernel.org,m:yoshihiro.shimoda.uh@renesas.com,m:devicetree@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-doc@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-renesas-soc@vger.kernel.org,m:marek.vasut@mailbox.org,m:conor@kernel.org,m:geert@glider.be,m:krzk@kernel.org,s:lists@lfdr.de];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCPT_COUNT_GT_50(0.00)[63];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[mripard@kernel.org,linux-renesas-soc@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	ALIAS_RESOLVED(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORWARDED(0.00)[lists@lfdr.de];
+	FORGED_SENDER(0.00)[geert@linux-m68k.org,linux-renesas-soc@vger.kernel.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	MID_RHS_MATCH_FROM(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	RCPT_COUNT_TWELVE(0.00)[18];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[geert@linux-m68k.org,linux-renesas-soc@vger.kernel.org];
+	MISSING_XM_UA(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
+	R_DKIM_NA(0.00)[];
+	ALIAS_RESOLVED(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,dt];
 	TO_DN_SOME(0.00)[]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 794C96AE613
+X-Rspamd-Queue-Id: 69E556AE6FE
 
-On Fri, 19 Jun 2026 14:24:05 +0200, Maxime Ripard wrote:
-> All the bridges use reset to create a blank state only and don't use it
-> to reset the hardware at all. This is what the new atomic_create_state
-> is exactly supposed to be doing, so we can convert all existing bridge
-> users to it, and remove the reset hook and helpers.
-> 
-> Let me know what you think,
-> Maxime
-> 
-> [...]
+Hi Marek,
 
-Applied to misc/kernel.git (drm-misc-next).
+On Fri, 19 Jun 2026 at 00:04, Marek Vasut
+<marek.vasut+renesas@mailbox.org> wrote:
+> The GIC600 implementation is now known to be used on multiple 64-bit
+> SoCs, where it has address width for AXI or APB interface configured
+> to 32 bit, and it can access only the first 4GiB of physical address
+> space.
+>
+> Rework the handling of the quirk to work around this limitation such
+> that new entries can be added purely as new compatible strings, with
+> no need to add additional functions or new its_quirk array entries.
+>
+> Suggested-by: Marc Zyngier <maz@kernel.org>
+> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
 
-Thanks!
-Maxime
+Thanks for your patch!
+
+> --- a/drivers/irqchip/irq-gic-v3-its.c
+> +++ b/drivers/irqchip/irq-gic-v3-its.c
+> @@ -4890,10 +4890,17 @@ static bool __maybe_unused its_enable_quirk_hip09_162100801(void *data)
+>         return true;
+>  }
+>
+> -static bool __maybe_unused its_enable_rk3568002(void *data)
+> +static const char * const dma_32bit_impaired_platforms[] = {
+> +#ifdef CONFIG_ROCKCHIP_ERRATUM_3568002
+> +       "rockchip,rk3566",
+> +       "rockchip,rk3568",
+> +#endif
+> +       NULL,
+> +};
+> +
+> +static bool __maybe_unused its_enable_dma32(void *data)
+
+__maybe_unused can be dropped...
+
+>  {
+> -       if (!of_machine_is_compatible("rockchip,rk3566") &&
+> -           !of_machine_is_compatible("rockchip,rk3568"))
+> +       if (!of_machine_compatible_match(dma_32bit_impaired_platforms))
+>                 return false;
+>
+>         gfp_flags_quirk |= GFP_DMA32;
+> @@ -4968,14 +4975,12 @@ static const struct gic_quirk its_quirks[] = {
+>                 .property = "dma-noncoherent",
+>                 .init   = its_set_non_coherent,
+>         },
+> -#ifdef CONFIG_ROCKCHIP_ERRATUM_3568002
+
+... as the #ifdef is removed.
+
+>         {
+> -               .desc   = "ITS: Rockchip erratum RK3568002",
+> +               .desc   = "ITS: Broken GIC600 integration limited to 32bit PA",
+>                 .iidr   = 0x0201743b,
+>                 .mask   = 0xffffffff,
+> -               .init   = its_enable_rk3568002,
+> +               .init   = its_enable_dma32,
+>         },
+> -#endif
+>         {
+>         }
+>  };
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
