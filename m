@@ -1,68 +1,69 @@
-Return-Path: <linux-renesas-soc+bounces-34297-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-34298-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id CiTiHYQcOWoOnAcAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-34297-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Jun 2026 13:29:08 +0200
+	id knGqFQwdOWoxnAcAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-34298-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Jun 2026 13:31:24 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87F046AF11D
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Jun 2026 13:29:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EFCF6AF16B
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Jun 2026 13:31:23 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=bootlin.com header.s=dkim header.b=yggJZnTi;
-	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-34297-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 2600:3c15:e001:75::12fc:5321 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-34297-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=bootlin.com header.s=dkim header.b=OJkhbBAF;
+	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-34298-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 2600:3c15:e001:75::12fc:5321 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-34298-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=reject) header.from=bootlin.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id B70753009F06
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Jun 2026 11:28:54 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 2E0083010D0B
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Jun 2026 11:30:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B08D939AD34;
-	Mon, 22 Jun 2026 11:28:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 672E853E0B;
+	Mon, 22 Jun 2026 11:30:36 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E19A5378D71;
-	Mon, 22 Jun 2026 11:28:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56270175A72
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 22 Jun 2026 11:30:33 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782127732; cv=none; b=kHxzYWkSAJZrEN+Y0Sp5QnSRWPDg0d3hEYtvE48H49uOhuFyPMF1OhMPcX6Z/ZnoHLfxct5J7AEMx7SSTm+qo0fTpYVxofzLXL/oKpPnw0gbc1SUPqPv15RHLNUMJ4DX6PEnSTpmd/P5Gt+YXMfbAOL061H7OuMR+1Jbl+U6rLY=
+	t=1782127836; cv=none; b=U+DNmvWq115DmhBgP5yR58FIZXCtm7t5ettQ40TcshrGukpYbqdvzNyoyi9/nNh7GUA7v3GFI1sfR/5NTXPpYlGBXYZESgiAevSjrj2XpEod7F9+QNFootkX1QR7DiHwwlOL6CjA+iatNvxBn6csP9T76H/iX5+pB7Z1mtHfoYI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782127732; c=relaxed/simple;
-	bh=EBh7bwyim66ARNUOxeZ/fLln601VKjx46wurIjTp5Gs=;
+	s=arc-20240116; t=1782127836; c=relaxed/simple;
+	bh=KbOH+YbHhiAqOPz09vFQBONBH7tEBUKxYJ9HhEqJqwQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=s7s6Yvx2dxLYBtrId4FPLPcmKxf3aiUOzzG3Sbvr1udfFg42YgS40FUIE6jWgLjt5LWmYltKWeOlANRaqcUp4ZEW6P353X7BUzgyGYPKoAj4ujqzqNitA9j4VcCxrhMKTYukRn36xDlVGByyzkTY9iKRiRH3CA8/vEx/Me58fAo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=yggJZnTi; arc=none smtp.client-ip=185.246.85.4
+	 MIME-Version:Content-Type; b=Kc+JIYJlusXYc/GOh4QBi4CCB7bP82VKGvYtsjAbusDpPTQLOgstmTKJeigj53lv2RyvK/JtiPHMdyHqJHLQL78qVySqG4+IXNzSAhvX4Bm2Ci3qSAIt4eXYPneWjar7DqnlA+l3G8pbPJYfG8NylcqBXj6HOd1br/gYcvzNob8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=OJkhbBAF; arc=none smtp.client-ip=185.246.84.56
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id 485034E405F3;
-	Mon, 22 Jun 2026 11:28:47 +0000 (UTC)
+	by smtpout-02.galae.net (Postfix) with ESMTPS id CBA2F1A07B7;
+	Mon, 22 Jun 2026 11:30:31 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 1BEF1601BB;
-	Mon, 22 Jun 2026 11:28:47 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 7CB8E106C8962;
-	Mon, 22 Jun 2026 13:28:44 +0200 (CEST)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 94AF0601BB;
+	Mon, 22 Jun 2026 11:30:31 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 81F81106C8983;
+	Mon, 22 Jun 2026 13:30:28 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1782127726; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	t=1782127830; h=from:subject:date:message-id:to:cc:mime-version:content-type:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=3ceLgsjECHaqRclrgpilz1IwveLzJRp6r0PWZEkPwj0=;
-	b=yggJZnTibE0Ondxf/kuPwl8hrx3OFPOavEJUuTw2etj7kHfFUgWRie+WCLTAt1lb+oZ7Pu
-	xWqZ5oF0ne5FBOwdEQ0IwLb4D2APVdfWSk5nkYrg/jbOg5dV/Pnv8naFpDGGZv6tFhbm93
-	imvNYGRciHw28mNad2u1lRo4F5sXeYXoL1blKl/jNjqLZatpuGmrAyvpBkllKBFbKuXmk2
-	K2cxBCmSF2MDIpFjiUsvYfBInGW6A8FE33JoTSWZzB1U4+gF4FRhOaRiL4JnF9yBiEMI7E
-	qYAS3PubdDiZJR3sYp9slRO3UPZ0bjsfbRHU4u0iZkku++pCRbuG1bewEkQZog==
-Date: Mon, 22 Jun 2026 13:28:42 +0200
+	bh=W3P5Ln/MO3wnNZa2MTIfoS3nlo80bvMZJcsuLPYyqhg=;
+	b=OJkhbBAF6NTnDXf9iKWv5KkCKvzrPNVaWuuI0WqkD/5fWJurJ3efS76+0Rr36QA7H6TPgk
+	yyUe5i/RJbbM0TGZmhMD1XcsJ0yfPPunsSIZTqvtKrurL3lMZZosA95AlbyQ1se8wrAHCh
+	OuImNr9WluWpjLKyps2ZyBW3DLARPxANEHop35NjcSUmpwIBAE2L8Wzx9gG5XM7VTtmvgF
+	7FmZXjD4A6Sl9krnHzcLQ3heDvENJqQiNrl3H1z+IVR0bNs6lgAsCztjua4by+rNM0c26O
+	2lPcMqa8l+PmS8wVgGoqLl1DIVDsgaCgs1Gc3z2hi//gnIlXFtUgEliAF29M9w==
+Date: Mon, 22 Jun 2026 13:30:27 +0200
 From: Herve Codina <herve.codina@bootlin.com>
 To: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: linux-renesas-soc@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
- devicetree@vger.kernel.org, Geert Uytterhoeven <geert+renesas@glider.be>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Magnus Damm
- <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH v2 0/2] ARM: dts: renesas: r9a06g032-rzn1d400-eb: Enable
- SPI and FRAM
-Message-ID: <20260622132842.7e0d772c@bootlin.com>
-In-Reply-To: <20260615125355.116027-1-wsa+renesas@sang-engineering.com>
+Cc: linux-renesas-soc@vger.kernel.org, Geert Uytterhoeven
+ <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, Rob Herring
+ <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, devicetree@vger.kernel.org
+Subject: Re: [PATCH v2 1/2] ARM: dts: renesas: r9a06g032: Describe SPI
+ controllers
+Message-ID: <20260622133027.03106308@bootlin.com>
+In-Reply-To: <20260615125355.116027-2-wsa+renesas@sang-engineering.com>
 References: <20260615125355.116027-1-wsa+renesas@sang-engineering.com>
+	<20260615125355.116027-2-wsa+renesas@sang-engineering.com>
 Organization: Bootlin
 X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-redhat-linux-gnu)
 Precedence: bulk
@@ -83,14 +84,14 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-34297-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-34298-lists,linux-renesas-soc=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,kernel.org,glider.be,gmail.com];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
+	FREEMAIL_CC(0.00)[vger.kernel.org,glider.be,gmail.com,kernel.org];
 	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:wsa+renesas@sang-engineering.com,m:linux-renesas-soc@vger.kernel.org,m:geert+renesas@glider.be,m:magnus.damm@gmail.com,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:devicetree@vger.kernel.org,m:wsa@sang-engineering.com,m:geert@glider.be,m:magnusdamm@gmail.com,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
 	FORGED_SENDER(0.00)[herve.codina@bootlin.com,linux-renesas-soc@vger.kernel.org];
 	TO_DN_SOME(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:wsa+renesas@sang-engineering.com,m:linux-renesas-soc@vger.kernel.org,m:conor+dt@kernel.org,m:devicetree@vger.kernel.org,m:geert+renesas@glider.be,m:krzk+dt@kernel.org,m:magnus.damm@gmail.com,m:robh@kernel.org,m:wsa@sang-engineering.com,m:conor@kernel.org,m:geert@glider.be,m:krzk@kernel.org,m:magnusdamm@gmail.com,s:lists@lfdr.de];
+	RECEIVED_HELO_LOCALHOST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	HAS_ORG_HEADER(0.00)[];
 	FORWARDED(0.00)[lists@lfdr.de];
@@ -108,37 +109,36 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	RCPT_COUNT_SEVEN(0.00)[8];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,dt];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo,vger.kernel.org:from_smtp,sang-engineering.com:email,bootlin.com:dkim,bootlin.com:mid,bootlin.com:from_mime]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sang-engineering.com:email,sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo,bootlin.com:dkim,bootlin.com:email,bootlin.com:mid,bootlin.com:from_mime]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 87F046AF11D
+X-Rspamd-Queue-Id: 4EFCF6AF16B
 
 Hi Wolfram,
 
-On Mon, 15 Jun 2026 14:53:52 +0200
+On Mon, 15 Jun 2026 14:53:53 +0200
 Wolfram Sang <wsa+renesas@sang-engineering.com> wrote:
 
-> Here are the patches to enable the SPI-FRAM with FIFO (no DMA yet, needs
-> more work) on the RZ/N1D Extension board.
+> Add nodes for the 6 SPI controllers of the Renesas RZ/N1D SoC. The first
+> 4 can only be controllers, the latter 2 can only be targets. DMA nodes
+> are not added yet because DMA needs some extra code in the drivers and
+> cannot be tested yet. Basic FIFO mode works reliably, though.
 > 
-> Changes since v1 in the individual patches.
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> ---
 > 
-> Wolfram Sang (2):
->   ARM: dts: renesas: r9a06g032: Describe SPI controllers
->   ARM: dts: renesas: r9a06g032-rzn1d400-eb: Enable SPI-FRAM
+> Changes since v1:
+> * dropped spi-max-freq because it is a board property (Thanks, Geert!)
+> * use 'spi-slave' and 'addr-cells' = 0 and dropped 'num-cs' for targets
+>   (Thanks, Geert!)
+> * moved 'status' to last position in the node
 > 
->  .../dts/renesas/r9a06g032-rzn1d400-eb.dts     | 25 ++++++
->  arch/arm/boot/dts/renesas/r9a06g032.dtsi      | 84 +++++++++++++++++++
->  2 files changed, 109 insertions(+)
+>  arch/arm/boot/dts/renesas/r9a06g032.dtsi | 84 ++++++++++++++++++++++++
+>  1 file changed, 84 insertions(+)
 > 
 
-The 'make CHECK_DTBS=1 renesas/r9a06g032-rzn1d400-eb.dtb' command reports
-the following:
-   spi@50005000 (renesas,r9a06g032-spi): Unevaluated properties are not allowed ('power-domains' was unexpected)
-      from schema $id: http://devicetree.org/schemas/spi/snps,dw-apb-ssi.yaml
+Tested ok on my custom RZ/N1 board.
 
-IMHO, 'power-domains' property has to be added in the snps,dw-apb-ssi.yaml binding.
-
-Other than that, your modification works on my custom RZN1 board.
+Tested-by: Herve Codina <herve.codina@bootlin.com>
 
 Best regards,
 Hervé
