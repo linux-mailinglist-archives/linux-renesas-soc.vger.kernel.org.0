@@ -1,50 +1,50 @@
-Return-Path: <linux-renesas-soc+bounces-34407-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-34408-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id 3GcZLf4vPGp0lAgAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-34407-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Jun 2026 21:29:02 +0200
+	id r0E0MMU1PGo7lQgAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-34408-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Jun 2026 21:53:41 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 093E36C10B4
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Jun 2026 21:29:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 166CA6C11B9
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Jun 2026 21:53:41 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=ideasonboard.com header.s=mail header.b=QyXSMeFc;
-	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-34407-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-34407-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=ideasonboard.com header.s=mail header.b=GRe4TZ8N;
+	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-34408-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-34408-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=none) header.from=ideasonboard.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id BAE36302FABA
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Jun 2026 19:29:00 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id CBB25302C5F3
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Jun 2026 19:53:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4C41336A34F;
-	Wed, 24 Jun 2026 19:29:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2FA143C09E4;
+	Wed, 24 Jun 2026 19:53:39 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0FF1331EDF;
-	Wed, 24 Jun 2026 19:28:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC434305E28;
+	Wed, 24 Jun 2026 19:53:37 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782329340; cv=none; b=bwPJAG/O/Vuc00B+Siw/44SEOuoTU5JzKXbyUuzajQEXqs6OyO29VTWuggu1e7yzR/LLca1GMwWT+MAfZIbNguxVzKc7cV0VA6fovDERS2RluWfILmO2068vhTtdn9U/DU5QmakMe1eqeN4yYwPDbe7/zapTMklwgNdSqEMZodQ=
+	t=1782330819; cv=none; b=TVynh0wg6tlWLqLCyBUuJyRNwKs8WUBAO0ZhIlFYXBVy72oe+iP87D/jNILkPUjhAG37WFTGpmrK5uewmWjTMyE7hqpUwVPpADZcRiTyfK7xe7YiHuUzkjnBnr+llB2+x82RJ4UxQaqu6iuFA8RD5w2fAXcubiG5YOEgVGVNk/I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782329340; c=relaxed/simple;
-	bh=ua8sudOg1IsopvDkiliKid2FdpGt3mrB3i+U4AE1GtY=;
+	s=arc-20240116; t=1782330819; c=relaxed/simple;
+	bh=cxbUUaDcYce+Sy/JjrFoeYU+Tta5D7rxoHkkJ3rlVXk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qb0SefWNWqn1WFn5CvkBo1EiZSYEZiigEstOSNGgh+WeK6o2snksqTqehsiDoHiB78BUrPJ7+LgKc7RkRgVdH+GNAKZOaByBC6VVXpQRZRqosIvjx0T89dm4cp5ZJGXSfQ0UW43IBZSdNt/zCE2uZh0bL611kDCNF1OsHN2dAbA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=QyXSMeFc; arc=none smtp.client-ip=213.167.242.64
+	 Content-Type:Content-Disposition:In-Reply-To; b=mHEFbuxNbn44zBCLZQv+P25aq3uuLCzL+02DrxKBTbeyVRcjypY825zwjnKnFPkbCdJlsXkGfInwMMgXGpS49hlsWvV3/eKxM3wWMoeh+bMh4IprWMLInxQcBWrIUHLB258NgTI2pYcW0vm6NrPCgFWYuU0O4aDrFZ7xAeIO19Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=GRe4TZ8N; arc=none smtp.client-ip=213.167.242.64
 Received: from killaraus.ideasonboard.com (2001-14ba-70f3-e800--a06.rev.dnainternet.fi [IPv6:2001:14ba:70f3:e800::a06])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 37D54FC7;
-	Wed, 24 Jun 2026 21:28:17 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5144B227;
+	Wed, 24 Jun 2026 21:52:56 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1782329297;
-	bh=ua8sudOg1IsopvDkiliKid2FdpGt3mrB3i+U4AE1GtY=;
+	s=mail; t=1782330776;
+	bh=cxbUUaDcYce+Sy/JjrFoeYU+Tta5D7rxoHkkJ3rlVXk=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=QyXSMeFckfqSMm1//8oSPKspc2aLHTE2SmyxDS53RrWuicvprMC4IQdAp59w8G9OS
-	 DFCT1Pn6BpsaTGt5uMslhZVXUHAVMnEzDlBDztYYI6lCMN42ZOa6MXCjnClnQjHkVT
-	 X3RWmjwj+fdVXX0f1j+wBtBiije3KRSCY5wI6t2g=
-Date: Wed, 24 Jun 2026 22:28:55 +0300
+	b=GRe4TZ8NlgAWIR5zdg/kF+3tOzHLFtfhjiMqjdKSStbc0ngG7gYGIb8tri2xSZ/Rc
+	 XA/+tg1EjWG9GPr5pCMyVEca6BPTN6plwWkCiFitX9oCwpVys6FdQP0doLya613kV5
+	 cdHGGA38zMMkEO0drfEk5h2PkaJDBGmtEEs4p8uU=
+Date: Wed, 24 Jun 2026 22:53:34 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
 Cc: tomm.merciai@gmail.com, linux-renesas-soc@vger.kernel.org,
@@ -60,11 +60,11 @@ Cc: tomm.merciai@gmail.com, linux-renesas-soc@vger.kernel.org,
 	Isaac Scott <isaac.scott@ideasonboard.com>,
 	Daniel Scally <dan.scally+renesas@ideasonboard.com>,
 	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/2] media: v4l2-common: add v4l2_fill_pixfmt_aligned()
- helper
-Message-ID: <20260624192855.GH851255@killaraus.ideasonboard.com>
+Subject: Re: [PATCH 2/2] media: rzg2l-cru: Align bytesperline to hardware DMA
+ stride requirement
+Message-ID: <20260624195334.GI851255@killaraus.ideasonboard.com>
 References: <20260624104153.798953-1-tommaso.merciai.xr@bp.renesas.com>
- <20260624104153.798953-2-tommaso.merciai.xr@bp.renesas.com>
+ <20260624104153.798953-3-tommaso.merciai.xr@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -73,7 +73,7 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260624104153.798953-2-tommaso.merciai.xr@bp.renesas.com>
+In-Reply-To: <20260624104153.798953-3-tommaso.merciai.xr@bp.renesas.com>
 X-Rspamd-Action: no action
 X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
@@ -85,7 +85,7 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-34407-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-34408-lists,linux-renesas-soc=lfdr.de];
 	FORGED_RECIPIENTS(0.00)[m:tommaso.merciai.xr@bp.renesas.com,m:tomm.merciai@gmail.com,m:linux-renesas-soc@vger.kernel.org,m:biju.das.jz@bp.renesas.com,m:jacopo.mondi@ideasonboard.com,m:prabhakar.mahadev-lad.rj@bp.renesas.com,m:mchehab@kernel.org,m:hverkuil+cisco@kernel.org,m:nicolas.dufresne@collabora.com,m:sakari.ailus@linux.intel.com,m:s.pueschel@pengutronix.de,m:mehdi.djait@linux.intel.com,m:paul@crapouillou.net,m:isaac.scott@ideasonboard.com,m:dan.scally+renesas@ideasonboard.com,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:tommmerciai@gmail.com,m:hverkuil@kernel.org,m:dan.scally@ideasonboard.com,s:lists@lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER(0.00)[laurent.pinchart@ideasonboard.com,linux-renesas-soc@vger.kernel.org];
@@ -108,98 +108,57 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,cisco,renesas];
 	MISSING_XM_UA(0.00)[];
 	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,vger.kernel.org:from_smtp,killaraus.ideasonboard.com:mid,ideasonboard.com:dkim,ideasonboard.com:from_mime,renesas.com:email]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,renesas.com:email]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 093E36C10B4
+X-Rspamd-Queue-Id: 166CA6C11B9
 
-Hi Tommaso,
+On Wed, Jun 24, 2026 at 12:41:31PM +0200, Tommaso Merciai wrote:
+> The RZ/G3E CRU programs the line stride via the AMnIS register, whose
+> IS field encodes the value in units of 128 bytes. If bytesperline is
+> not a multiple of 128, the division truncates and the hardware uses a
+> wrong stride, causing horizontal banding.
+> 
+> commit ace92ccef0c9 ("media: platform: rzg2l-cru: Use v4l2_fill_pixfmt()")
 
-Thank you for the patch.
+s/commit/Commit/
 
-On Wed, Jun 24, 2026 at 12:41:30PM +0200, Tommaso Merciai wrote:
-> Add v4l2_fill_pixfmt_aligned(), a variant of v4l2_fill_pixfmt()
-> that accepts a stride_alignment parameter, mirroring the existing
-> v4l2_fill_pixfmt_mp() / v4l2_fill_pixfmt_mp_aligned() pair.
+> replaced the open-coded aligned calculation with v4l2_fill_pixfmt(),
+> which sets no alignment, reintroducing the issue.
+
+I wonder how I missed that. Sorry.
+
+> Switch to v4l2_fill_pixfmt_aligned() with RZG2L_CRU_STRIDE_ALIGN when
+> info->has_stride is set. RZ/G2L has no AMnIS register and keeps using
+> v4l2_fill_pixfmt() unchanged.
 > 
-> v4l2_fill_pixfmt() is refactored to call v4l2_fill_pixfmt_aligned()
-> with stride_alignment=1, preserving its existing behaviour.
-> 
-> The new helper is needed by drivers whose DMA engine requires the
-> line stride to be a multiple of a specific value, such as the
-> Renesas RZ/G3E CRU which requires 128-byte alignment.
-> 
+> Fixes: ace92ccef0c9 ("media: platform: rzg2l-cru: Use v4l2_fill_pixfmt()")
 > Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
 > ---
->  drivers/media/v4l2-core/v4l2-common.c | 17 +++++++++++++----
->  include/media/v4l2-common.h           |  3 +++
->  2 files changed, 16 insertions(+), 4 deletions(-)
+>  drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
 > 
-> diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-core/v4l2-common.c
-> index 65db7340ad38..1de246acc7ab 100644
-> --- a/drivers/media/v4l2-core/v4l2-common.c
-> +++ b/drivers/media/v4l2-core/v4l2-common.c
-> @@ -545,8 +545,8 @@ int v4l2_fill_pixfmt_mp(struct v4l2_pix_format_mplane *pixfmt,
->  }
->  EXPORT_SYMBOL_GPL(v4l2_fill_pixfmt_mp);
+> diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
+> index 69346a585f9f..478264f26466 100644
+> --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
+> +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
+> @@ -860,7 +860,8 @@ static void rzg2l_cru_format_align(struct rzg2l_cru_dev *cru,
+>  	v4l_bound_align_image(&pix->width, 320, info->max_width, 1,
+>  			      &pix->height, 240, info->max_height, 0, 0);
 >  
-> -int v4l2_fill_pixfmt(struct v4l2_pix_format *pixfmt, u32 pixelformat,
-> -		     u32 width, u32 height)
-> +int v4l2_fill_pixfmt_aligned(struct v4l2_pix_format *pixfmt, u32 pixelformat,
-> +			     u32 width, u32 height, u8 stride_alignment)
->  {
->  	const struct v4l2_format_info *info;
->  	int i;
-> @@ -562,14 +562,23 @@ int v4l2_fill_pixfmt(struct v4l2_pix_format *pixfmt, u32 pixelformat,
->  	pixfmt->width = width;
->  	pixfmt->height = height;
->  	pixfmt->pixelformat = pixelformat;
-> -	pixfmt->bytesperline = v4l2_format_plane_stride(info, 0, width, 1);
-> +	pixfmt->bytesperline = v4l2_format_plane_stride(info, 0, width,
-> +							stride_alignment);
->  	pixfmt->sizeimage = 0;
+> -	v4l2_fill_pixfmt(pix, pix->pixelformat, pix->width, pix->height);
+> +	v4l2_fill_pixfmt_aligned(pix, pix->pixelformat, pix->width, pix->height,
+> +				 info->has_stride ? RZG2L_CRU_STRIDE_ALIGN : 1);
+
+The documentation states that, for RGB888, the stride has to be a
+multiple of 384 (3*128). Shouldn't you take that into account here ?
+
+Also, for semi-planar YUV 4:2:0, the hardware seems to use a stride
+equal to AMnIS*2, which leaves blank lines after every U/V line. That's
+something userspace doesn't expect.
+
 >  
->  	for (i = 0; i < info->comp_planes; i++)
->  		pixfmt->sizeimage +=
-> -			v4l2_format_plane_size(info, i, width, height, 1);
-> +			v4l2_format_plane_size(info, i, width, height,
-> +					       stride_alignment);
->  	return 0;
->  }
-> +EXPORT_SYMBOL_GPL(v4l2_fill_pixfmt_aligned);
-> +
-> +int v4l2_fill_pixfmt(struct v4l2_pix_format *pixfmt, u32 pixelformat,
-> +		     u32 width, u32 height)
-> +{
-> +	return v4l2_fill_pixfmt_aligned(pixfmt, pixelformat, width, height, 1);
-> +}
-
-This could be an inline wrapper in include/media/v4l2-common.h, it would
-be more efficient.
-
->  EXPORT_SYMBOL_GPL(v4l2_fill_pixfmt);
->  
->  #ifdef CONFIG_MEDIA_CONTROLLER
-> diff --git a/include/media/v4l2-common.h b/include/media/v4l2-common.h
-> index edd416178c33..718a0f47f36b 100644
-> --- a/include/media/v4l2-common.h
-> +++ b/include/media/v4l2-common.h
-> @@ -556,6 +556,9 @@ void v4l2_apply_frmsize_constraints(u32 *width, u32 *height,
->  				    const struct v4l2_frmsize_stepwise *frmsize);
->  int v4l2_fill_pixfmt(struct v4l2_pix_format *pixfmt, u32 pixelformat,
->  		     u32 width, u32 height);
-> +/* @stride_alignment is a power of 2 value in bytes */
-> +int v4l2_fill_pixfmt_aligned(struct v4l2_pix_format *pixfmt, u32 pixelformat,
-> +			     u32 width, u32 height, u8 stride_alignment);
-
-I know the existing functions lack documentation, but it's not a reason
-to continue with that bad habit :-)
-
-One point that needs to be clearly documented is how the stride
-alignment is handled for different planes.
-
->  int v4l2_fill_pixfmt_mp(struct v4l2_pix_format_mplane *pixfmt, u32 pixelformat,
->  			u32 width, u32 height);
->  /* @stride_alignment is a power of 2 value in bytes */
+>  	dev_dbg(cru->dev, "Format %ux%u bpl: %u size: %u\n",
+>  		pix->width, pix->height, pix->bytesperline, pix->sizeimage);
 
 -- 
 Regards,
