@@ -1,167 +1,150 @@
-Return-Path: <linux-renesas-soc+bounces-34408-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-34409-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id r0E0MMU1PGo7lQgAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-34408-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Jun 2026 21:53:41 +0200
+	id mKhqAThJPGq8mAgAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-34409-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Jun 2026 23:16:40 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 166CA6C11B9
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Jun 2026 21:53:41 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 06B406C166D
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Jun 2026 23:16:39 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=ideasonboard.com header.s=mail header.b=GRe4TZ8N;
-	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-34408-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-34408-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=ideasonboard.com;
+	dkim=pass header.d=bootlin.com header.s=dkim header.b=ogqr69aO;
+	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-34409-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 104.64.211.4 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-34409-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=reject) header.from=bootlin.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id CBB25302C5F3
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Jun 2026 19:53:39 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id C7E663006905
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Jun 2026 21:16:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2FA143C09E4;
-	Wed, 24 Jun 2026 19:53:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DBD2E3E5A3B;
+	Wed, 24 Jun 2026 21:16:09 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC434305E28;
-	Wed, 24 Jun 2026 19:53:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95D7E3E5A2F;
+	Wed, 24 Jun 2026 21:16:08 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782330819; cv=none; b=TVynh0wg6tlWLqLCyBUuJyRNwKs8WUBAO0ZhIlFYXBVy72oe+iP87D/jNILkPUjhAG37WFTGpmrK5uewmWjTMyE7hqpUwVPpADZcRiTyfK7xe7YiHuUzkjnBnr+llB2+x82RJ4UxQaqu6iuFA8RD5w2fAXcubiG5YOEgVGVNk/I=
+	t=1782335769; cv=none; b=mX89uENkCPwkkyP3NQnoDcvp1W+ySrDPzOrOvlx3khN2suLbZC0ZHVU6CEt1qIMfN37H0Odrvb1TEoN4SkQYbsun8dDz4/gkk0EJitTfUPvQ+zb2EQ0iXVlegSVLRXuD+oRcffEoBZgOorH7/mp5fg7sBcfZbIC0jUWBKopWmUg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782330819; c=relaxed/simple;
-	bh=cxbUUaDcYce+Sy/JjrFoeYU+Tta5D7rxoHkkJ3rlVXk=;
+	s=arc-20240116; t=1782335769; c=relaxed/simple;
+	bh=CpDh3jVLvozEA5RyGrt3ugXB1cZs3JKi/bYsPDELKFs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mHEFbuxNbn44zBCLZQv+P25aq3uuLCzL+02DrxKBTbeyVRcjypY825zwjnKnFPkbCdJlsXkGfInwMMgXGpS49hlsWvV3/eKxM3wWMoeh+bMh4IprWMLInxQcBWrIUHLB258NgTI2pYcW0vm6NrPCgFWYuU0O4aDrFZ7xAeIO19Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=GRe4TZ8N; arc=none smtp.client-ip=213.167.242.64
-Received: from killaraus.ideasonboard.com (2001-14ba-70f3-e800--a06.rev.dnainternet.fi [IPv6:2001:14ba:70f3:e800::a06])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5144B227;
-	Wed, 24 Jun 2026 21:52:56 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1782330776;
-	bh=cxbUUaDcYce+Sy/JjrFoeYU+Tta5D7rxoHkkJ3rlVXk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=GRe4TZ8NlgAWIR5zdg/kF+3tOzHLFtfhjiMqjdKSStbc0ngG7gYGIb8tri2xSZ/Rc
-	 XA/+tg1EjWG9GPr5pCMyVEca6BPTN6plwWkCiFitX9oCwpVys6FdQP0doLya613kV5
-	 cdHGGA38zMMkEO0drfEk5h2PkaJDBGmtEEs4p8uU=
-Date: Wed, 24 Jun 2026 22:53:34 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
-Cc: tomm.merciai@gmail.com, linux-renesas-soc@vger.kernel.org,
-	biju.das.jz@bp.renesas.com, jacopo.mondi@ideasonboard.com,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil+cisco@kernel.org>,
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Sven =?utf-8?Q?P=C3=BCschel?= <s.pueschel@pengutronix.de>,
-	Mehdi Djait <mehdi.djait@linux.intel.com>,
-	Paul Cercueil <paul@crapouillou.net>,
-	Isaac Scott <isaac.scott@ideasonboard.com>,
-	Daniel Scally <dan.scally+renesas@ideasonboard.com>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] media: rzg2l-cru: Align bytesperline to hardware DMA
- stride requirement
-Message-ID: <20260624195334.GI851255@killaraus.ideasonboard.com>
-References: <20260624104153.798953-1-tommaso.merciai.xr@bp.renesas.com>
- <20260624104153.798953-3-tommaso.merciai.xr@bp.renesas.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=R0gvrT3IGtJ2VhYW7K7pLlBpemuJ1RgY+MgvhStqKiXipKuEjvbZ474TdjoJyd1F+3u/ya8hVQXIDlfxa6pxnXfx+Eu1G1S1mqwAcvjF2JNroC8mETQFyzUC1fc5r/qNNKocjuVJeQuI9oojOguQTG2ktG5hPltdT6OWZbHZPTQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=ogqr69aO; arc=none smtp.client-ip=185.171.202.116
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-04.galae.net (Postfix) with ESMTPS id 6AA7EC6B3BA;
+	Wed, 24 Jun 2026 21:16:15 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 51535601C5;
+	Wed, 24 Jun 2026 21:16:07 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 3E992106C8468;
+	Wed, 24 Jun 2026 23:16:05 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1782335766; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 in-reply-to:references; bh=wraPUdLmVqtTkNdtQ5IedrZ/juHLC6UWUxYbYgjV4pU=;
+	b=ogqr69aOM+wZnVAD1MhmYkQ3DfOusUIHQ9PER7dBpnYQcO4OO42El0q0HhN06W4rFTx9Wr
+	sNHetlqkNnT6Sr7zglMEciDZho+UamjMtMde34hQgQ+rGrSWZR0ofs7w6K39L7cIrCImv7
+	JFWSt4rysOaXnxGp84JLrFF8rsOMf9fygsJXgDfkuyBhj2+XHR90stg/bfzKbKsdNV6QvX
+	RcJOWRFObE6mZzTKumxwOUBPn8r97fS/ntgHJ2m0BlEiHUAKwWZNItmGe7vdA9Onx2KapL
+	Yifw6k7Xd8Cgt3YQSfYuwLHoPdxfQoTZEkwn4mIvBxzoAcIdg6zeIIp/lM/6xA==
+Date: Wed, 24 Jun 2026 23:16:04 +0200
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	linux-rtc@vger.kernel.org, Prabhakar <prabhakar.csengg@gmail.com>
+Cc: linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH v2 0/5] rtc: renesas-rtca3: Various fixes and improvements
+Message-ID: <178233558788.1517260.4788362549360273691.b4-ty@b4>
+References: <20260602192559.1791344-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260624104153.798953-3-tommaso.merciai.xr@bp.renesas.com>
+In-Reply-To: <20260602192559.1791344-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Last-TLS-Session-Version: TLSv1.3
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-1.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
-	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[bootlin.com,reject];
+	R_DKIM_ALLOW(-0.20)[bootlin.com:s=dkim];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-34409-lists,linux-renesas-soc=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-34408-lists,linux-renesas-soc=lfdr.de];
-	FORGED_RECIPIENTS(0.00)[m:tommaso.merciai.xr@bp.renesas.com,m:tomm.merciai@gmail.com,m:linux-renesas-soc@vger.kernel.org,m:biju.das.jz@bp.renesas.com,m:jacopo.mondi@ideasonboard.com,m:prabhakar.mahadev-lad.rj@bp.renesas.com,m:mchehab@kernel.org,m:hverkuil+cisco@kernel.org,m:nicolas.dufresne@collabora.com,m:sakari.ailus@linux.intel.com,m:s.pueschel@pengutronix.de,m:mehdi.djait@linux.intel.com,m:paul@crapouillou.net,m:isaac.scott@ideasonboard.com,m:dan.scally+renesas@ideasonboard.com,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:tommmerciai@gmail.com,m:hverkuil@kernel.org,m:dan.scally@ideasonboard.com,s:lists@lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER(0.00)[laurent.pinchart@ideasonboard.com,linux-renesas-soc@vger.kernel.org];
-	RCPT_COUNT_TWELVE(0.00)[17];
-	FREEMAIL_CC(0.00)[gmail.com,vger.kernel.org,bp.renesas.com,ideasonboard.com,kernel.org,collabora.com,linux.intel.com,pengutronix.de,crapouillou.net];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORWARDED(0.00)[lists@lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:claudiu.beznea.uj@bp.renesas.com,m:geert+renesas@glider.be,m:linux-rtc@vger.kernel.org,m:prabhakar.csengg@gmail.com,m:linux-renesas-soc@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:biju.das.jz@bp.renesas.com,m:fabrizio.castro.jz@renesas.com,m:prabhakar.mahadev-lad.rj@bp.renesas.com,m:geert@glider.be,m:prabhakarcsengg@gmail.com,s:lists@lfdr.de];
+	FREEMAIL_TO(0.00)[bp.renesas.com,glider.be,vger.kernel.org,gmail.com];
+	MIME_TRACE(0.00)[0:+];
+	RECEIVED_HELO_LOCALHOST(0.00)[];
+	FORWARDED(0.00)[lists@lfdr.de];
+	FORGED_SENDER(0.00)[alexandre.belloni@bootlin.com,linux-renesas-soc@vger.kernel.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[bootlin.com:+];
+	MISSING_XM_UA(0.00)[];
 	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	ALIAS_RESOLVED(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[laurent.pinchart@ideasonboard.com,linux-renesas-soc@vger.kernel.org];
-	DKIM_TRACE(0.00)[ideasonboard.com:+];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[alexandre.belloni@bootlin.com,linux-renesas-soc@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	ALIAS_RESOLVED(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,cisco,renesas];
-	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,renesas.com:email]
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo,renesas.com:email,bootlin.com:dkim,bootlin.com:url,bootlin.com:from_mime,vger.kernel.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 166CA6C11B9
+X-Rspamd-Queue-Id: 06B406C166D
 
-On Wed, Jun 24, 2026 at 12:41:31PM +0200, Tommaso Merciai wrote:
-> The RZ/G3E CRU programs the line stride via the AMnIS register, whose
-> IS field encodes the value in units of 128 bytes. If bytesperline is
-> not a multiple of 128, the division truncates and the hardware uses a
-> wrong stride, causing horizontal banding.
+On Tue, 02 Jun 2026 20:25:54 +0100, Prabhakar wrote:
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > 
-> commit ace92ccef0c9 ("media: platform: rzg2l-cru: Use v4l2_fill_pixfmt()")
-
-s/commit/Commit/
-
-> replaced the open-coded aligned calculation with v4l2_fill_pixfmt(),
-> which sets no alignment, reintroducing the issue.
-
-I wonder how I missed that. Sorry.
-
-> Switch to v4l2_fill_pixfmt_aligned() with RZG2L_CRU_STRIDE_ALIGN when
-> info->has_stride is set. RZ/G2L has no AMnIS register and keeps using
-> v4l2_fill_pixfmt() unchanged.
+> Hi all,
 > 
-> Fixes: ace92ccef0c9 ("media: platform: rzg2l-cru: Use v4l2_fill_pixfmt()")
-> Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
-> ---
->  drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
+> This patch series includes various fixes and improvements for the
+> Renesas RTCA-3 RTC driver, including:
+> - Fixing the polling condition when clearing the PIE bit during alarm
+>   setup error handling.
+> - Checking the result of the RADJ polling during initial setup and
+>   propagating errors.
+> - Correcting an error message related to reset control.
+> - Fixing a typo in the documentation for the rtca3_ppb_per_cycle struct.
+> - Refactoring year decoding logic into a helper function for better
+>   readability.
 > 
-> diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-> index 69346a585f9f..478264f26466 100644
-> --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-> +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-> @@ -860,7 +860,8 @@ static void rzg2l_cru_format_align(struct rzg2l_cru_dev *cru,
->  	v4l_bound_align_image(&pix->width, 320, info->max_width, 1,
->  			      &pix->height, 240, info->max_height, 0, 0);
->  
-> -	v4l2_fill_pixfmt(pix, pix->pixelformat, pix->width, pix->height);
-> +	v4l2_fill_pixfmt_aligned(pix, pix->pixelformat, pix->width, pix->height,
-> +				 info->has_stride ? RZG2L_CRU_STRIDE_ALIGN : 1);
+> [...]
 
-The documentation states that, for RGB888, the stride has to be a
-multiple of 384 (3*128). Shouldn't you take that into account here ?
+Applied, thanks!
 
-Also, for semi-planar YUV 4:2:0, the hardware seems to use a stride
-equal to AMnIS*2, which leaves blank lines after every U/V line. That's
-something userspace doesn't expect.
+[1/5] rtc: renesas-rtca3: Fix PIE clear polling condition in alarm setup error path
+      https://git.kernel.org/abelloni/c/7e342d87aa8e
+[2/5] rtc: renesas-rtca3: Check RADJ poll result during initial setup
+      https://git.kernel.org/abelloni/c/fafb016d0812
+[3/5] rtc: renesas-rtca3: Fix incorrect error message for reset assert
+      https://git.kernel.org/abelloni/c/09939630aad9
+[4/5] rtc: renesas-rtca3: Fix typo in rtca3_ppb_per_cycle documentation
+      https://git.kernel.org/abelloni/c/9fb12656a7a5
+[5/5] rtc: renesas-rtca3: Factor out year decoding helper
+      https://git.kernel.org/abelloni/c/2098bb8ac5f5
 
->  
->  	dev_dbg(cru->dev, "Format %ux%u bpl: %u size: %u\n",
->  		pix->width, pix->height, pix->bytesperline, pix->sizeimage);
+Best regards,
 
 -- 
-Regards,
-
-Laurent Pinchart
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
