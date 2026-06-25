@@ -1,98 +1,147 @@
-Return-Path: <linux-renesas-soc+bounces-34415-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-34416-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id 00/tC1/sPGrduQgAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-34415-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 25 Jun 2026 10:52:47 +0200
+	id 7eqLFu/0PGrruwgAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-34416-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 25 Jun 2026 11:29:19 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id A337B6C3FA4
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 25 Jun 2026 10:52:46 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id EA3986C439E
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 25 Jun 2026 11:29:18 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=ideasonboard.com header.s=mail header.b=uXFPAEyg;
-	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-34415-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-34415-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=ideasonboard.com;
+	dkim=pass header.d=linaro.org header.s=google header.b=uNft3tnY;
+	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-34416-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 2600:3c09:e001:a7::12fc:5321 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-34416-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=linaro.org;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id F11BF30022B4
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 25 Jun 2026 08:52:06 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id D980B30332DD
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 25 Jun 2026 09:29:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 18741386562;
-	Thu, 25 Jun 2026 08:52:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3D273385D89;
+	Thu, 25 Jun 2026 09:29:14 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E863038550E;
-	Thu, 25 Jun 2026 08:52:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABC7738654F
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 25 Jun 2026 09:29:12 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782377525; cv=none; b=tmw5xWh/K+gOhjwUifPqhrOHYujcPL8AscdvzfMSWetzorB4Ju1QAgVtZuQZSPGC/Yai+hT1RadzQrt82N2iwLCeZHyz/8XFKuqg1ZjUb9N7qjbrfNNu384HG4K6HiEx/VWK2l6ENyhkDwqDdhHI+IqqhPXLxruN1vkCOYCattQ=
+	t=1782379754; cv=none; b=fo6YyFU7nhzoxO88+Sh3j6qMQoygKy6m3INcUpemgbuU0xNlleyH5bE2b2XwDOvTQ6H1+ox6q8eVYJ3/Cvn7Tf+MCk8k8QpHoClxDjN+wLhVduSPXfRLlwuHtNfdd2Y60VL7JHy62skcNN+miEYdsrNRFscDat916vAyS1F++gk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782377525; c=relaxed/simple;
-	bh=A+HoPmcn/s5mApgSVAt0cwt1dN5Car6vPmvn2IX+Qok=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=k9dhTUvIOqnKopeo+9BIuXQ+ENmGvTlmXrLZeacfxdUYEHG6cWSd+2808dSnvc42PdXZUmSO0anTAGxMkYOfya9CD/8mykaP7P9i6NjXVu82/4AfbgDDW7J4DRAj/VIZxQHt7CBmJWukFsAQl/lz1JcT6QGnyouvlHb/n687ZJw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=uXFPAEyg; arc=none smtp.client-ip=213.167.242.64
-Received: from killaraus.ideasonboard.com (2001-14ba-70f3-e800--a06.rev.dnainternet.fi [IPv6:2001:14ba:70f3:e800::a06])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id A106312F;
-	Thu, 25 Jun 2026 10:51:20 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1782377480;
-	bh=A+HoPmcn/s5mApgSVAt0cwt1dN5Car6vPmvn2IX+Qok=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=uXFPAEygz20nRi7Hm4/Dy1fC2ZwFm8iP1/vEuMm+SeaQIjHwH/bQWGbYeei9oCO5c
-	 BMJl8ggtrsjhXIHMOJ1Ht3tfXtNQT7MJlZ2Uu7SjLITJLvvf9RBNDPlFczD4Y8gHh9
-	 3kd1y5IRzoEuO8PDTfpeDsuUGGWsdnYi/jg+GSPg=
-Date: Thu, 25 Jun 2026 11:51:59 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
-Cc: tomm.merciai@gmail.com, linux-renesas-soc@vger.kernel.org,
-	biju.das.jz@bp.renesas.com, jacopo.mondi@ideasonboard.com,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil+cisco@kernel.org>,
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Sven =?utf-8?Q?P=C3=BCschel?= <s.pueschel@pengutronix.de>,
-	Mehdi Djait <mehdi.djait@linux.intel.com>,
-	Paul Cercueil <paul@crapouillou.net>,
-	Isaac Scott <isaac.scott@ideasonboard.com>,
-	Daniel Scally <dan.scally+renesas@ideasonboard.com>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/2] media: v4l2-common: add v4l2_fill_pixfmt_aligned()
- helper
-Message-ID: <20260625085159.GP851255@killaraus.ideasonboard.com>
-References: <20260624104153.798953-1-tommaso.merciai.xr@bp.renesas.com>
- <20260624104153.798953-2-tommaso.merciai.xr@bp.renesas.com>
- <20260624192855.GH851255@killaraus.ideasonboard.com>
- <ajzjAVM8F8ZPMWcy@tom-desktop>
+	s=arc-20240116; t=1782379754; c=relaxed/simple;
+	bh=JZ6x+4HXQCf0qklTwQbSEog/fEcbxqfwTfTEQH/gfao=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=A1DE3SWTC0hRDQRO+diEIg34EzOGCVpKscVTDn6ByoW3I17kkaWoHcALf2TtrtcGbIsg6Mb57Cjzxa7KdTgVV+BpcpYoi9fmm+qJSgKTVWMKj1Ow/HZVTi1c9saZqnh/qoBM6GeqoSAob2JgXeti0Z98+CCF2jOcA0SpzaYYDbs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=uNft3tnY; arc=none smtp.client-ip=209.85.128.44
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4921eed3fa2so14321725e9.0
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 25 Jun 2026 02:29:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1782379751; x=1782984551; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=1qmqlBS+NOvUVwDO1d/d5gRMpOTlf6GDJuFG270RH6Y=;
+        b=uNft3tnYw3aY47amy7tKi4aTTGB/Y8XazZ4w3BpCxLgScriZAk35TlzkOqXh2FR+aT
+         wvx8/BJaYD5BNxDHTA9g3y+VZg5vEmkOfyZcB6Hgt074RQIz64j4ZTYEkmBCwyw4/0dM
+         7Zbb9G4aTH6/H6dZt258q608/OI5H3XdnlAYBjU/7D5D1kDKlQCfPjnghPy/Yh2VXhMj
+         IS9BSpsIn2Sh0Yv82NjqYYzillwVXJe90EObqUEFeCAOj30h67t+revsZ9czI4w8wJQs
+         J8c57W29vVTCKUnCrVcnNRBgMo391xEEdjRkkU+bIxs7fnmv2l71qPhwoDnYisJWp4J+
+         B4ug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782379751; x=1782984551;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=1qmqlBS+NOvUVwDO1d/d5gRMpOTlf6GDJuFG270RH6Y=;
+        b=HoO8Ro7p9HpFoPPA06h9Wg8oqrNJfl0uo9xYdcRZWW+y782M0Pr9F86c4AJU8y/4Lp
+         gw/NffXdEbG3cxM9jSuTs/xJ6ytvKIOwMm6xIa5s7a5kuos9+b8hE5vI60JU9xcW7rbg
+         Xi06uh9vcihZKV3ks3ByCGfrVV7ykbxxMYhPizQXyAYA1LO13mNB38OL4JZIYj4BHZut
+         fa1sIiQSOJQ9EhvSt5hVMiU4lI8veAXyvwdowrO63pw3tatVZElF9Fhw6ZHlgWgjq7w7
+         wUlxV9alouzUFu3FDzQTkBXwVocUIaz0lzmJAxXYYzZVq8buDgZZTsShi+JS5aldcAih
+         96PA==
+X-Forwarded-Encrypted: i=1; AFNElJ8urCaYQIR+S/VhQdC1Ms0AkROJzt9lOKgdSQ3GjV/35ENTu5+SjBpzPWDmUoEO2OlSz6eF+HB24Sn1LyBp0CJy3Q==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyTraTV4A1FVAhj+MxXL4Jg3lTJcWv7hee9g9f1vqQ6RACuAP1g
+	lKVOVlozCaSKl+wVlVrq+SRKP1HhtfFfgvDgf2IFJTk51LtNpWOud5JtzIEPi4z7Yas=
+X-Gm-Gg: AfdE7cl4t1qkB1mIwpVOMtYuJcJ095OMO/ES1cfN1AAtGsa3xx1WuI5vLbWni8FlxlK
+	IMH7TNKWZ5Crpa5eEev1Nc8sZry4FJu7yAs1YTizygXeGcSlb/FGySeqsoXBh7RXfiMxWM2+KzK
+	gHMkT7lNIVgfpdYoK2kH1PnglwyFQ9HMjiNHUZ9JsPsl8T2Qd1672sZKBCUBK13VA0eg7H5n75E
+	1eYQYsX5blepOcFPhDgeLljgR6rvDGMKIfII+PKOvoEY8lyAPXl19AsxpIthtjGHfjK1FKtntDt
+	TV5NTaUCCvxrg9mjBusvzXc0iRZUq3oTqJSiekRuih7i6hZpVS6QQcCtHxNRzVDLPW44rf/aH8+
+	xPC2G8mbReZgaeImyvNbvnC+WSgQOZsbHpmCH5XIHHIz/eJg1egGb7tiO+mMJnAzT2AkuXIhs7y
+	Pj4Mr7e98ao7tSulszrkVypXXN0W2WiRZNsQ==
+X-Received: by 2002:a05:600c:e557:20b0:490:a1dc:e542 with SMTP id 5b1f17b1804b1-49266862d71mr14954775e9.6.1782379751095;
+        Thu, 25 Jun 2026 02:29:11 -0700 (PDT)
+Received: from arrakeen.starnux.net ([2a01:e0a:106d:1080:8261:5fff:fe11:bdda])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4926544dfaesm33846195e9.2.2026.06.25.02.29.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 25 Jun 2026 02:29:10 -0700 (PDT)
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Subject: [PATCH v8 0/2] drm: panel: support the R63419 based dual-DSI video
+ mode Display Panels
+Date: Thu, 25 Jun 2026 11:29:06 +0200
+Message-Id: <20260625-topic-sm8650-ayaneo-pocket-s2-r63419-v8-0-8570e692143e@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <ajzjAVM8F8ZPMWcy@tom-desktop>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAOL0PGoC/5XQS27DIBAG4KtErEsFw8Omq96j6gLDkNCHscC1G
+ kW+e3G6iCtn4SI2I818/2gupGCOWMjT4UIyTrHE1NeifTgQd7L9EWn0tSbAQDMJLR3TEB0tn61
+ WjNqz7THRIbl3HGkBmrWQ3FBsQOoGwXcskEoNGUP8vsa8vP7W5at7Qzcu9tJximVM+XzdY+JL3
+ z8jJ04ZNS3HTtn6FX/+iL3N6THlI1kyJ1ipgu1UYVG5dZxJJTxzG1XcVMXkTlUsatDcBZAWu7B
+ R5UqtA/tUWdWuNWBsUGjuXECtVOA7VVVV71XDGBgjDNuoeq3CTlVXlWv09Vlzb9fmplZ3p9pcL
+ yA77W0rwYg/6jzPP1dCtSPvAgAA
+X-Change-ID: 20260428-topic-sm8650-ayaneo-pocket-s2-r63419-e72467e2db0f
+To: Jessica Zhang <jesszhan0024@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Geert Uytterhoeven <geert+renesas@glider.be>, 
+ Magnus Damm <magnus.damm@gmail.com>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
+ Doug Anderson <dianders@chromium.org>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Conor Dooley <conor.dooley@microchip.com>, KancyJoe <kancy2333@outlook.com>
+X-Mailer: b4 0.15.1
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3109;
+ i=neil.armstrong@linaro.org; h=from:subject:message-id;
+ bh=JZ6x+4HXQCf0qklTwQbSEog/fEcbxqfwTfTEQH/gfao=;
+ b=owEBbQKS/ZANAwAKAXfc29rIyEnRAcsmYgBqPPTkU0lwl9mndInTTxFKj3+RDBDu6m+62iBo+2Vt
+ hlUQGriJAjMEAAEKAB0WIQQ9U8YmyFYF/h30LIt33NvayMhJ0QUCajz05AAKCRB33NvayMhJ0d+KEA
+ DNc7WttevYyJv35sE13rnt1FLMVAaXNcwOD6iRizL406fRZlqAw/PMLkxO1cNCzpqbE5zDQ2B+MAiB
+ D2c5fT8KFdlfX2F6djJ9lu7UooNnfu+PFHlavPwdowmB8sk+q/LNOHg7QsInGdfdWBkUsyXVaqEBkU
+ 98qC1EZybMaQSxiqL7F5fmhuMt9GOO1vbtK87qQ8D/5PL3qyEswP2gaBHYbo+bvfw/68Rer8erU5qf
+ b/E27zRNAmdYOkmXgaq13OJ+gb5n3/rqOtNMvYNtN6xKoxsrBCpdK7jh4ENvj/fu86NehhUKLfl12P
+ TMkPBAjGmtxF7FTJwRwfTPYXY0wi95w1ONgtLrYAF9JYi7H7/KUTxsibp3Q1Sdm2ZjfbcKjkDCxZQi
+ E0jdsQIjFRM0PoPobzpPUbOgA/C9s67nBBwo2IMdcFgNx6782jXkBfnro/6iRA/CgCaQsCYIQCy2bU
+ zY0EWYTykKCiQ9OYB0BD1qkD8tZ9KydQGHyZs/ag0DPTKxZbkQ3TuEp3ixXA3NOB/dLI6XiQ0S+pRa
+ q0F4LG1aLGvtS62uC1gDhqR8Z+FV8GoNbd3gNTkB9ppsPUHbv14NTwibSxcbtpsHEEN75ZvWgSVcl7
+ y9SpnMGYL0AkSZOWZViH4j/PkSavgA2UJYlNBDrleAp5AYz8Co2CUUWYSk+A==
+X-Developer-Key: i=neil.armstrong@linaro.org; a=openpgp;
+ fpr=89EC3D058446217450F22848169AB7B1A4CFF8AE
 X-Rspamd-Action: no action
 X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
-	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	DMARC_POLICY_ALLOW(-0.50)[linaro.org,none];
+	R_DKIM_ALLOW(-0.20)[linaro.org:s=google];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-34416-lists,linux-renesas-soc=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-34415-lists,linux-renesas-soc=lfdr.de];
-	FORGED_RECIPIENTS(0.00)[m:tommaso.merciai.xr@bp.renesas.com,m:tomm.merciai@gmail.com,m:linux-renesas-soc@vger.kernel.org,m:biju.das.jz@bp.renesas.com,m:jacopo.mondi@ideasonboard.com,m:prabhakar.mahadev-lad.rj@bp.renesas.com,m:mchehab@kernel.org,m:hverkuil+cisco@kernel.org,m:nicolas.dufresne@collabora.com,m:sakari.ailus@linux.intel.com,m:s.pueschel@pengutronix.de,m:mehdi.djait@linux.intel.com,m:paul@crapouillou.net,m:isaac.scott@ideasonboard.com,m:dan.scally+renesas@ideasonboard.com,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:tommmerciai@gmail.com,m:hverkuil@kernel.org,m:dan.scally@ideasonboard.com,s:lists@lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER(0.00)[laurent.pinchart@ideasonboard.com,linux-renesas-soc@vger.kernel.org];
-	RCPT_COUNT_TWELVE(0.00)[17];
-	FREEMAIL_CC(0.00)[gmail.com,vger.kernel.org,bp.renesas.com,ideasonboard.com,kernel.org,collabora.com,linux.intel.com,pengutronix.de,crapouillou.net];
+	FORGED_RECIPIENTS(0.00)[m:jesszhan0024@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:geert+renesas@glider.be,m:magnus.damm@gmail.com,m:dri-devel@lists.freedesktop.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-renesas-soc@vger.kernel.org,m:dmitry.baryshkov@oss.qualcomm.com,m:dianders@chromium.org,m:neil.armstrong@linaro.org,m:conor.dooley@microchip.com,m:kancy2333@outlook.com,m:krzk@kernel.org,m:conor@kernel.org,m:geert@glider.be,m:magnusdamm@gmail.com,s:lists@lfdr.de];
+	FREEMAIL_TO(0.00)[gmail.com,linux.intel.com,kernel.org,suse.de,ffwll.ch,glider.be];
+	FORGED_SENDER(0.00)[neil.armstrong@linaro.org,linux-renesas-soc@vger.kernel.org];
+	RCPT_COUNT_TWELVE(0.00)[20];
+	FREEMAIL_CC(0.00)[lists.freedesktop.org,vger.kernel.org,oss.qualcomm.com,chromium.org,linaro.org,microchip.com,outlook.com];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FORWARDED(0.00)[lists@lfdr.de];
@@ -100,125 +149,89 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	ALIAS_RESOLVED(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[laurent.pinchart@ideasonboard.com,linux-renesas-soc@vger.kernel.org];
-	DKIM_TRACE(0.00)[ideasonboard.com:+];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[neil.armstrong@linaro.org,linux-renesas-soc@vger.kernel.org];
+	DKIM_TRACE(0.00)[linaro.org:+];
+	ALIAS_RESOLVED(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,cisco,renesas];
-	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,vger.kernel.org:from_smtp,ideasonboard.com:dkim,ideasonboard.com:from_mime,renesas.com:email]
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,msgid.link:url]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: A337B6C3FA4
+X-Rspamd-Queue-Id: EA3986C439E
 
-On Thu, Jun 25, 2026 at 10:12:49AM +0200, Tommaso Merciai wrote:
-> Hi Laurent,
-> Thanks for your review.
-> 
-> On Wed, Jun 24, 2026 at 10:28:55PM +0300, Laurent Pinchart wrote:
-> > Hi Tommaso,
-> > 
-> > Thank you for the patch.
-> > 
-> > On Wed, Jun 24, 2026 at 12:41:30PM +0200, Tommaso Merciai wrote:
-> > > Add v4l2_fill_pixfmt_aligned(), a variant of v4l2_fill_pixfmt()
-> > > that accepts a stride_alignment parameter, mirroring the existing
-> > > v4l2_fill_pixfmt_mp() / v4l2_fill_pixfmt_mp_aligned() pair.
-> > > 
-> > > v4l2_fill_pixfmt() is refactored to call v4l2_fill_pixfmt_aligned()
-> > > with stride_alignment=1, preserving its existing behaviour.
-> > > 
-> > > The new helper is needed by drivers whose DMA engine requires the
-> > > line stride to be a multiple of a specific value, such as the
-> > > Renesas RZ/G3E CRU which requires 128-byte alignment.
-> > > 
-> > > Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
-> > > ---
-> > >  drivers/media/v4l2-core/v4l2-common.c | 17 +++++++++++++----
-> > >  include/media/v4l2-common.h           |  3 +++
-> > >  2 files changed, 16 insertions(+), 4 deletions(-)
-> > > 
-> > > diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-core/v4l2-common.c
-> > > index 65db7340ad38..1de246acc7ab 100644
-> > > --- a/drivers/media/v4l2-core/v4l2-common.c
-> > > +++ b/drivers/media/v4l2-core/v4l2-common.c
-> > > @@ -545,8 +545,8 @@ int v4l2_fill_pixfmt_mp(struct v4l2_pix_format_mplane *pixfmt,
-> > >  }
-> > >  EXPORT_SYMBOL_GPL(v4l2_fill_pixfmt_mp);
-> > >  
-> > > -int v4l2_fill_pixfmt(struct v4l2_pix_format *pixfmt, u32 pixelformat,
-> > > -		     u32 width, u32 height)
-> > > +int v4l2_fill_pixfmt_aligned(struct v4l2_pix_format *pixfmt, u32 pixelformat,
-> > > +			     u32 width, u32 height, u8 stride_alignment)
-> > >  {
-> > >  	const struct v4l2_format_info *info;
-> > >  	int i;
-> > > @@ -562,14 +562,23 @@ int v4l2_fill_pixfmt(struct v4l2_pix_format *pixfmt, u32 pixelformat,
-> > >  	pixfmt->width = width;
-> > >  	pixfmt->height = height;
-> > >  	pixfmt->pixelformat = pixelformat;
-> > > -	pixfmt->bytesperline = v4l2_format_plane_stride(info, 0, width, 1);
-> > > +	pixfmt->bytesperline = v4l2_format_plane_stride(info, 0, width,
-> > > +							stride_alignment);
-> > >  	pixfmt->sizeimage = 0;
-> > >  
-> > >  	for (i = 0; i < info->comp_planes; i++)
-> > >  		pixfmt->sizeimage +=
-> > > -			v4l2_format_plane_size(info, i, width, height, 1);
-> > > +			v4l2_format_plane_size(info, i, width, height,
-> > > +					       stride_alignment);
-> > >  	return 0;
-> > >  }
-> > > +EXPORT_SYMBOL_GPL(v4l2_fill_pixfmt_aligned);
-> > > +
-> > > +int v4l2_fill_pixfmt(struct v4l2_pix_format *pixfmt, u32 pixelformat,
-> > > +		     u32 width, u32 height)
-> > > +{
-> > > +	return v4l2_fill_pixfmt_aligned(pixfmt, pixelformat, width, height, 1);
-> > > +}
-> > 
-> > This could be an inline wrapper in include/media/v4l2-common.h, it would
-> > be more efficient.
-> 
-> Ok, thanks.
-> I guess we want the same for v4l2_fill_pixfmt_mp() ?
+Add support for the Renesas 63419 based dual-DSI video mode
+Display Panels found in the Ayaneo gaming handled devices.
 
-That would be nice, as a separate patch, if you have time.
+Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
+---
+Changes in v8:
+- Use mipi_dsi_dual instead of helper
+- Revert to recommended prepare sequence from DDIC spec
+- Disable VCC after gpio up
+- Remove drm_connector_set_panel_orientation
+- Use 2 params strscpy and make sure mipi_dsi_device_info is cleared
+- Link to v7: https://patch.msgid.link/20260605-topic-sm8650-ayaneo-pocket-s2-r63419-v7-0-b84b6da84293@linaro.org
 
-> > >  EXPORT_SYMBOL_GPL(v4l2_fill_pixfmt);
-> > >  
-> > >  #ifdef CONFIG_MEDIA_CONTROLLER
-> > > diff --git a/include/media/v4l2-common.h b/include/media/v4l2-common.h
-> > > index edd416178c33..718a0f47f36b 100644
-> > > --- a/include/media/v4l2-common.h
-> > > +++ b/include/media/v4l2-common.h
-> > > @@ -556,6 +556,9 @@ void v4l2_apply_frmsize_constraints(u32 *width, u32 *height,
-> > >  				    const struct v4l2_frmsize_stepwise *frmsize);
-> > >  int v4l2_fill_pixfmt(struct v4l2_pix_format *pixfmt, u32 pixelformat,
-> > >  		     u32 width, u32 height);
-> > > +/* @stride_alignment is a power of 2 value in bytes */
-> > > +int v4l2_fill_pixfmt_aligned(struct v4l2_pix_format *pixfmt, u32 pixelformat,
-> > > +			     u32 width, u32 height, u8 stride_alignment);
-> > 
-> > I know the existing functions lack documentation, but it's not a reason
-> > to continue with that bad habit :-)
-> 
-> Ouch :)
-> 
-> > One point that needs to be clearly documented is how the stride
-> > alignment is handled for different planes.
-> 
-> Thanks, I will add documentation in v2.
-> 
-> > >  int v4l2_fill_pixfmt_mp(struct v4l2_pix_format_mplane *pixfmt, u32 pixelformat,
-> > >  			u32 width, u32 height);
-> > >  /* @stride_alignment is a power of 2 value in bytes */
+Changes in v7:
+- Reverse "on" command order
+- Rebase on drm-misc-next
+- Link to v6: https://patch.msgid.link/20260522-topic-sm8650-ayaneo-pocket-s2-r63419-v6-0-16edddda9951@linaro.org
 
--- 
-Regards,
+Changes in v6:
+- Get new dt bindings review from Conor
+- Properly init dsi_ctx
+- Link to v5: https://patch.msgid.link/20260521-topic-sm8650-ayaneo-pocket-s2-r63419-v5-0-dd5700299390@linaro.org
 
-Laurent Pinchart
+Changes in v5:
+- Import panel-common-dual.yaml in bindings
+- Set reg as required
+- fix bindings example typo
+- Add helper to switch link in order to use single dsi_ctx to properly handle errors
+- Disable vdd supplies if vcc supplied fail to enable
+- Precise the power off sequence is recommended by the vendor spec
+- Drop passing of node to second dsi to avoid re-probing the driver twice
+- Link to v4: https://patch.msgid.link/20260519-topic-sm8650-ayaneo-pocket-s2-r63419-v4-0-b8929af5e951@linaro.org
+
+Changes in v4:
+- Moved height/width in the drm_mode, duplicated modes to use drm_connector_helper_get_modes_fixed
+- Create dsi_info on the stack with proper OF node and name passed
+- Switched to devm_drm_panel_add/devm_mipi_dsi_attach & dropped remove
+- Link to v3: https://patch.msgid.link/20260504-topic-sm8650-ayaneo-pocket-s2-r63419-v3-0-9f61cf24aebf@linaro.org
+
+Changes in v3:
+- Added DDIC compatible as fallback
+- Added rotation in bindings example
+- Fixed bindings subject
+- Added second MODULE_AUTHOR entry and re-ordered signed-off-by order
+- Link to v2: https://patch.msgid.link/20260430-topic-sm8650-ayaneo-pocket-s2-r63419-v2-0-91ac10453d0c@linaro.org
+
+Changes in v2:
+- Add missing rotation property into bindings
+- Fix commit message & subject typos
+- Link to v1: https://patch.msgid.link/20260428-topic-sm8650-ayaneo-pocket-s2-r63419-v1-0-981eb5ab5a51@linaro.org
+
+---
+KancyJoe (1):
+      drm: panel: add support for the Renesas R63419 based dual-DSI video mode Display Panels
+
+Neil Armstrong (1):
+      dt-bindings: display: panel: document the Renesas R63419 based dual-DSI video mode Display Panels
+
+ .../bindings/display/panel/renesas,r63419.yaml     |  98 ++++++
+ drivers/gpu/drm/panel/Kconfig                      |  12 +
+ drivers/gpu/drm/panel/Makefile                     |   1 +
+ drivers/gpu/drm/panel/panel-renesas-r63419.c       | 350 +++++++++++++++++++++
+ 4 files changed, 461 insertions(+)
+---
+base-commit: cdeb2ccd993ed8647adbbda2c3b103aa717fd6f7
+change-id: 20260428-topic-sm8650-ayaneo-pocket-s2-r63419-e72467e2db0f
+
+Best regards,
+--  
+Neil Armstrong <neil.armstrong@linaro.org>
+
 
