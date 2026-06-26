@@ -1,233 +1,264 @@
-Return-Path: <linux-renesas-soc+bounces-34433-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-34434-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id duwEAHtfPmoDEwkAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-34433-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Jun 2026 13:16:11 +0200
+	id wNg0DfpqPmr6FgkAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-34434-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Jun 2026 14:05:14 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 098BF6CC53F
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Jun 2026 13:16:10 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id B02966CCC6A
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Jun 2026 14:05:13 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=ragnatech.se header.s=fm3 header.b=0k67a980;
-	dkim=pass header.d=messagingengine.com header.s=fm1 header.b="k Da5RLB";
-	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-34433-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-34433-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=ragnatech.se;
+	dkim=pass header.d=redhat.com header.s=mimecast20190719 header.b="D/iIUzHo";
+	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-34434-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-34434-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=quarantine) header.from=redhat.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id AFE38301F1A3
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Jun 2026 11:13:41 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id CC66F3024528
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Jun 2026 12:04:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0011137D124;
-	Fri, 26 Jun 2026 11:13:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C15EA3F410A;
+	Fri, 26 Jun 2026 12:03:59 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from fhigh-a1-smtp.messagingengine.com (fhigh-a1-smtp.messagingengine.com [103.168.172.152])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90EFF249E5;
-	Fri, 26 Jun 2026 11:13:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FB263F39F3
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 26 Jun 2026 12:03:57 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782472420; cv=none; b=ayuXGsG7oC1ObMMZhODb9PYeOumDu2B4eBRlzyuVjMrmBtHvEEzWSddgOhQwDikRKUh00DR+vSz7vashi25IY35Cpkl7qVn8JJVh+YTNGYHdI3Dtqt6jdzG0z+g9iRv4JEIxAC5CedIglqAD5c5Bwg11C39M7OmuUnddqSCId1o=
+	t=1782475439; cv=none; b=F8IoLfJ6AGYCsDP9dh7oYhijNPg4nx7MJQGfWfaYj2SFgZz/aBDM7GFM+5UAkuDoE/iHdTWsi9G9pw04l46gZmX1eTBbosV1upuYfH5GVArdPEi4+jOo3aKZNzXFbci/Xc6tDmIjaYFwX7998Zt6ElM1ueaIkyOi4UZhiqPbQtk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782472420; c=relaxed/simple;
-	bh=jYzUyNg2BzCyHCyljmNgyoGO/ZTdxbKiDL8aakP5lfk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aMBlwNe1ZXY6rnB2vnky5yU8upcfh2LAbdKnK6bjOh8NU6mn3OJzzO355v5q7jg9HVv37bsLfcofmdiFOppcE6WiIcnag3zy4Oy63GNIiD+gsbSxoCgdB6Y7f4+LGv4u4BGpDacJHs+hf9hIVrDWx9GTK6wAWcTkTgnkEJW0TMA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=0k67a980; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=kDa5RLBJ; arc=none smtp.client-ip=103.168.172.152
-Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id B8937140007F;
-	Fri, 26 Jun 2026 07:13:37 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-02.internal (MEProxy); Fri, 26 Jun 2026 07:13:37 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1782472417;
-	 x=1782558817; bh=DkIe6IIzIUkERQp92F7R/s+OmVtx8U2AcTyMiuEsWgU=; b=
-	0k67a980kWftSOcF7jfkk1zO4cQ3IAv7isyRla7/0kKaAzli+CHbtlvLLNk3/2lB
-	2F19i/kE/JwhdvyUW/xlQs4EAAtecznwywpm/18CF/i2IzzV369aB5O/cka2RIRF
-	aRrojHOnT3/XfP0n4TSZGwtGs6Fk+l5yuEch93oETdoB1TfJImHhiyQQwI7D8QF9
-	kzr3u8eY1+kofldTK89iADcssIshMb5trx8ChES2dJzwauRANxBOvTrJmk179N6z
-	xm9i6BjxbqzVsZqZxQgyNp6E7LTY5cZAOwhuGWe2ecWEQcp9tI3Zajxa+549izfU
-	Q51cViciQfLs0WejqKZZkw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1782472417; x=
-	1782558817; bh=DkIe6IIzIUkERQp92F7R/s+OmVtx8U2AcTyMiuEsWgU=; b=k
-	Da5RLBJ30pp3SCtYuJlm6WTd/m735dc9CI7N86GMMw4zA+HxnL28b17cgoUVGfkn
-	JJZK50DXxHhZlPFQliRWsNR2kYKgiXQHpbod/eBGNlnlJ3/BQQeMPKNSn2l7hVb0
-	2Cun0WDG+Y/nMIEqePUdVXoLZ8433aLbWaco+fXlKtIoMgS473nMkmuk5/Crh8V8
-	IL/vte491PULcDAbs+J0FJ7EzUlp550nEFy3x2PBqof/y4yim1vxzPFJrQU+MOBH
-	ueuKrbU9UhmaCNTPzrUi9XNIpHCKJBoWj7e0cLpxm5uDWQRGKZeqtBuZiD8dmjiW
-	/BLJgLkFj3smmVXKGsJvw==
-X-ME-Sender: <xms:4V4-aminitDdt67_kalg3Ns6470fTFqB2XFwz_3sRHV1-YXgnUYLBg>
-    <xme:4V4-ai0igp4BO5UuA0BSrcp-Ixu4Fac2Aoe5bDdw7dA-FHUqimEkgYvVPH8rRB0oP
-    eJbC8DjnOdFKirFyvmTAw7dIuJNkYyh38VQtSwr4wvwO5vnCb2AUcc>
-X-ME-Received: <xmr:4V4-apc06rdRtg4oYIEd-qyNg0BY2ZRml0NtO33Yo_GP8sKHHADC2_O1UFEQLQ_s5W9W9scdBYZ8cEpeNewjAZzKXY2W17A>
-X-ME-Proxy-Cause: dmFkZTEOMnDGdv4SKZybQRnJFhQ2b2puCOF8Gi4tPKLS+dShR42im2dB84oOC6xbbUbZIR
-    EAsYI8B5frFZG2t2qhVZwlQJDMXLUiMZ+xxTO+ccsNzthSaLskYxfqb3iqNDQ74A1CYiiG
-    AH7fqyXm0RXCv0VqwR33BNKqbcw4h0x9SCj2zKGiVjqQoO3bVSFG76CZrsf/zintw+aZNV
-    b//WFjv+zsA3Uq9veav1RNTVAi92O5ul+fAdZntY0/l7qH3ej+dz66hjOOsGa/NlAqPNT3
-    BW18REP4l61fxjXhBOav/dJR8DYSKqmz+Mz+zFyxpYtpGkJD3srV6tr7YWQ6pDtaxL4DHd
-    0z0ow+ItPg+G2OCRG8gbDlINeoMDUnFBJYCg4e3jrklP1B/6v55AHfplVFm4HZIp+GyBfZ
-    jjoCIm2jYmOfjcv+omWbwKx8rLjeQm7Lj4ZlhnOs3sGLYyONk3YQ++3DAH4t/ZSPBkN299
-    goAOjB61iJuRSrUGa8fbo4/heWNfoteQb7JHGGHZwpCiDJSf44kOcL7W0V+XLLFEBn/17G
-    USrkhUXVN0PGlGaJhySn50EwDrxLF2xXVbM+lAhvyY6oXG0dqqf1Xuo2K6HRunzHuImvKQ
-    aSam3BYBtDrLspoD+nB61OzU9dRaO7IuDXFHnvhXuWBS8BCrkgKOSKoQGjJA
-X-ME-Proxy: <xmx:4V4-aoxL2lnT0Weexu0o7yWyvTN8RJULMLGjBjVr2mvvSX60UKeMww>
-    <xmx:4V4-ahyJbLWG-oCU0S51_Ys_sggBq6x-slo4hEaQnxv2XNjQon7fVA>
-    <xmx:4V4-apZaNJv0ttRLLRnIWa3VRhYVHR1AzD4IxPqU12yjIXOscMnpvA>
-    <xmx:4V4-aq1jjn5lfDK-YetlQ7Yto80wZIIiYliwh4auzcee5LmfHPU6ew>
-    <xmx:4V4-avpRDZOWQO_lki_qF8JPsBMTHWIXT8vTHcjQCu3bR_AGxwjo7PN0>
-Feedback-ID: i80c9496c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 26 Jun 2026 07:13:36 -0400 (EDT)
-Date: Fri, 26 Jun 2026 13:13:34 +0200
-From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
-To: Dan Carpenter <error27@gmail.com>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>,
-	Daniel Lezcano <daniel.lezcano@kernel.org>,
-	Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	linux-renesas-soc@vger.kernel.org, linux-pm@vger.kernel.org,
-	linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
-Subject: Re: [PATCH v3] thermal/drivers/rcar: fix error checking in probe()
-Message-ID: <20260626111334.GB1325538@ragnatech.se>
-References: <aj5WnseULiwgmlWv@stanley.mountain>
+	s=arc-20240116; t=1782475439; c=relaxed/simple;
+	bh=3BTWjIQGw6v603+MK6ywCULt+2ytc2OqbIhP38SSlXQ=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=lRh4tLpXUXkSaFtr5B33vT4W6iIiaXVPQNtyFH/bQh0VUejyP0FoejHhLjCLIVNp/d2coqyJzjqj4Rbb38R8d0aMxYiXpGMfcsFawgJBoOE18c3qPgD0zmbvKcTLKeuMhk6/sqtzWcwlHQaUZlEqi3NiZ5fHGBzrKxfTdL6rlBA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=D/iIUzHo; arc=none smtp.client-ip=170.10.133.124
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1782475436;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=LfhkIZ+POWtPSh2+rwXD0iwa5BFBBS0Sxs/FAHKJy0U=;
+	b=D/iIUzHod4xe4KNGcCj2Qp7yNnvMZg45GKylQn5AkpB+huIIVbfERx6M8J4UUy8/JmJq3F
+	+OtUoHf9YYfyKPooY6iJGbIj2P843K7WRevlVXQmwZ1dTAVczqP+2QyJgxHqCLRHBgnnX9
+	A+82KQjs9DafH/zTpIz4Hqf2OMyV0nk=
+Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-54-xWLmiDgrOviGl4k2RVffeg-1; Fri,
+ 26 Jun 2026 08:03:53 -0400
+X-MC-Unique: xWLmiDgrOviGl4k2RVffeg-1
+X-Mimecast-MFC-AGG-ID: xWLmiDgrOviGl4k2RVffeg_1782475431
+Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 95CC018004D4;
+	Fri, 26 Jun 2026 12:03:49 +0000 (UTC)
+Received: from [192.168.1.153] (headnet04.pony-001.prod.iad2.dc.redhat.com [10.2.32.116])
+	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id C2A7518005B1;
+	Fri, 26 Jun 2026 12:03:30 +0000 (UTC)
+From: Albert Esteve <aesteve@redhat.com>
+Subject: [PATCH 0/5] drm/panel: refcounting panel lookups and references
+Date: Fri, 26 Jun 2026 14:03:22 +0200
+Message-Id: <20260626-drm_refcount_wiring-v1-0-cca1a7b3bdef@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <aj5WnseULiwgmlWv@stanley.mountain>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/x2MWwqAIBAAryL7naCVSV0lIsK22o801l4Q3T3pc
+ 2BmHojIhBEa8QDjSZGCT6AzAW4Z/IySxsSQq7xSRhdy5LVnnFw4/N5fxORnWaJBayzWqrSQyi0
+ JdP/XtnvfD+CBweFlAAAA
+X-Change-ID: 20260513-drm_refcount_wiring-4e5e757e9047
+To: Neil Armstrong <neil.armstrong@linaro.org>, 
+ Jessica Zhang <jesszhan0024@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Luca Ceresoli <luca.ceresoli@bootlin.com>, Inki Dae <inki.dae@samsung.com>, 
+ Jagan Teki <jagan@amarulasolutions.com>, 
+ Marek Szyprowski <m.szyprowski@samsung.com>, 
+ Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>, 
+ Lucas Stach <l.stach@pengutronix.de>, Frank Li <Frank.Li@nxp.com>, 
+ Sascha Hauer <s.hauer@pengutronix.de>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Fabio Estevam <festevam@gmail.com>, Paul Cercueil <paul@crapouillou.net>, 
+ Linus Walleij <linusw@kernel.org>, Marek Vasut <marex@denx.de>, 
+ Stefan Agner <stefan@agner.ch>, 
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
+ Geert Uytterhoeven <geert+renesas@glider.be>, 
+ Magnus Damm <magnus.damm@gmail.com>, Biju Das <biju.das.jz@bp.renesas.com>, 
+ Sandy Huang <hjc@rock-chips.com>, 
+ =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
+ Andy Yan <andy.yan@rock-chips.com>, 
+ Yannick Fertre <yannick.fertre@foss.st.com>, 
+ Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>, 
+ Philippe Cornu <philippe.cornu@foss.st.com>, 
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+ Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+ Chen-Yu Tsai <wens@kernel.org>, Samuel Holland <samuel@sholland.org>, 
+ Jyri Sarha <jyri.sarha@iki.fi>, Jingoo Han <jingoohan1@gmail.com>, 
+ Seung-Woo Kim <sw0312.kim@samsung.com>, 
+ Kyungmin Park <kyungmin.park@samsung.com>, 
+ Krzysztof Kozlowski <krzk@kernel.org>, 
+ Peter Griffin <peter.griffin@linaro.org>, 
+ Alim Akhtar <alim.akhtar@samsung.com>, Alison Wang <alison.wang@nxp.com>, 
+ Paul Kocialkowski <paulk@sys-base.io>, 
+ Alain Volmat <alain.volmat@foss.st.com>, 
+ Raphael Gallais-Pou <rgallaispou@gmail.com>, 
+ Thierry Reding <thierry.reding@kernel.org>, 
+ Mikko Perttunen <mperttunen@nvidia.com>, 
+ Jonathan Hunter <jonathanh@nvidia.com>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+ linux-mips@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+ linux-rockchip@lists.infradead.org, 
+ linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev, 
+ linux-samsung-soc@vger.kernel.org, linux-tegra@vger.kernel.org, 
+ Albert Esteve <aesteve@redhat.com>
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1782475410; l=4786;
+ i=aesteve@redhat.com; s=20260303; h=from:subject:message-id;
+ bh=3BTWjIQGw6v603+MK6ywCULt+2ytc2OqbIhP38SSlXQ=;
+ b=vLL8Ben9S7G7GBfAV5/dY7850AeH1O/rgqMk5FTgeHqnK1BhJ7ibVh3+QUe2vagwJMCyn90Tw
+ qkWv9Fv/F5lBvW13X7zWOmhYBwLKK2ZIdvy06sPHln5E/gzS8WLH1Bj
+X-Developer-Key: i=aesteve@redhat.com; a=ed25519;
+ pk=YSFz6sOHd2L45+Fr8DIvHTi6lSIjhLZ5T+rkxspJt1s=
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
 X-Rspamd-Action: no action
 X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[ragnatech.se,none];
-	R_DKIM_ALLOW(-0.20)[ragnatech.se:s=fm3,messagingengine.com:s=fm1];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	DMARC_POLICY_ALLOW(-0.50)[redhat.com,quarantine];
+	R_DKIM_ALLOW(-0.20)[redhat.com:s=mimecast20190719];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[kernel.org,intel.com,arm.com,glider.be,gmail.com,vger.kernel.org];
-	TAGGED_FROM(0.00)[bounces-34433-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-34434-lists,linux-renesas-soc=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:error27@gmail.com,m:rafael@kernel.org,m:daniel.lezcano@kernel.org,m:rui.zhang@intel.com,m:lukasz.luba@arm.com,m:geert+renesas@glider.be,m:magnus.damm@gmail.com,m:linux-renesas-soc@vger.kernel.org,m:linux-pm@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:kernel-janitors@vger.kernel.org,m:geert@glider.be,m:magnusdamm@gmail.com,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[niklas.soderlund@ragnatech.se,linux-renesas-soc@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:neil.armstrong@linaro.org,m:jesszhan0024@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:andrzej.hajda@intel.com,m:rfoss@kernel.org,m:Laurent.pinchart@ideasonboard.com,m:jonas@kwiboo.se,m:jernej.skrabec@gmail.com,m:luca.ceresoli@bootlin.com,m:inki.dae@samsung.com,m:jagan@amarulasolutions.com,m:m.szyprowski@samsung.com,m:laurentiu.palcu@oss.nxp.com,m:l.stach@pengutronix.de,m:Frank.Li@nxp.com,m:s.hauer@pengutronix.de,m:kernel@pengutronix.de,m:festevam@gmail.com,m:paul@crapouillou.net,m:linusw@kernel.org,m:marex@denx.de,m:stefan@agner.ch,m:tomi.valkeinen@ideasonboard.com,m:laurent.pinchart+renesas@ideasonboard.com,m:kieran.bingham+renesas@ideasonboard.com,m:geert+renesas@glider.be,m:magnus.damm@gmail.com,m:biju.das.jz@bp.renesas.com,m:hjc@rock-chips.com,m:heiko@sntech.de,m:andy.yan@rock-chips.com,m:yannick.fertre@foss.st.com,m:raphael.gallais-pou@foss.st.com,m:philippe.cornu@foss.
+ st.com,m:mcoquelin.stm32@gmail.com,m:alexandre.torgue@foss.st.com,m:wens@kernel.org,m:samuel@sholland.org,m:jyri.sarha@iki.fi,m:jingoohan1@gmail.com,m:sw0312.kim@samsung.com,m:kyungmin.park@samsung.com,m:krzk@kernel.org,m:peter.griffin@linaro.org,m:alim.akhtar@samsung.com,m:alison.wang@nxp.com,m:paulk@sys-base.io,m:alain.volmat@foss.st.com,m:rgallaispou@gmail.com,m:thierry.reding@kernel.org,m:mperttunen@nvidia.com,m:jonathanh@nvidia.com,m:dri-devel@lists.freedesktop.org,m:linux-kernel@vger.kernel.org,m:imx@lists.linux.dev,m:linux-arm-kernel@lists.infradead.org,m:linux-mips@vger.kernel.org,m:linux-renesas-soc@vger.kernel.org,m:linux-rockchip@lists.infradead.org,m:linux-stm32@st-md-mailman.stormreply.com,m:linux-sunxi@lists.linux.dev,m:linux-samsung-soc@vger.kernel.org,m:linux-tegra@vger.kernel.org,m:aesteve@redhat.com,m:jernejskrabec@gmail.com,m:laurent.pinchart@ideasonboard.com,m:kieran.bingham@ideasonboard.com,m:geert@glider.be,m:magnusdamm@gmail.com,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[aesteve@redhat.com,linux-renesas-soc@vger.kernel.org];
 	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_TO(0.00)[gmail.com];
+	FREEMAIL_TO(0.00)[linaro.org,gmail.com,linux.intel.com,kernel.org,suse.de,ffwll.ch,intel.com,ideasonboard.com,kwiboo.se,bootlin.com,samsung.com,amarulasolutions.com,oss.nxp.com,pengutronix.de,nxp.com,crapouillou.net,denx.de,agner.ch,glider.be,bp.renesas.com,rock-chips.com,sntech.de,foss.st.com,sholland.org,iki.fi,sys-base.io,nvidia.com];
 	FORWARDED(0.00)[lists@lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[ragnatech.se:+,messagingengine.com:+];
+	DKIM_TRACE(0.00)[redhat.com:+];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	MISSING_XM_UA(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	ALIAS_RESOLVED(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[niklas.soderlund@ragnatech.se,linux-renesas-soc@vger.kernel.org];
+	RCVD_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[aesteve@redhat.com,linux-renesas-soc@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
-	TO_DN_SOME(0.00)[];
+	RCPT_COUNT_GT_50(0.00)[68];
 	MID_RHS_MATCH_FROM(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,messagingengine.com:dkim,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,glider.be:email,ragnatech.se:dkim,ragnatech.se:email,ragnatech.se:mid,ragnatech.se:from_mime]
+	TO_DN_SOME(0.00)[];
+	ALIAS_RESOLVED(0.00)[];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 098BF6CC53F
+X-Rspamd-Queue-Id: B02966CCC6A
 
-Hi Dan,
+The drm_panel subsystem provides kref-based reference counting [1]
+(drm_panel_get/put) but almost nothing in the tree actually uses it.
+This results in a systemic use-after-free pattern throughout the codebase.
 
-Thanks for your work.
+This series aims to close all those issues.
 
-On 2026-06-26 13:38:22 +0300, Dan Carpenter wrote:
-> This code accidentally calls thermal_zone_device_enable() before checking
-> whether thermal_zone_device_register_with_trips() failed.  Move the call
-> until later to avoid an error pointer dereference of "priv->zone".
-> 
-> The driver works differently depending on if we are using OF thermal or
-> not.  We use thermal_add_hwmon_sysfs() if we are using OF thermal and
-> call thermal_zone_device_enable() if not.  We can share same error check
-> for if either of these fail.
-> 
-> Moving the thermal_zone_device_enable() call is a bit cleaner as well.
-> The original code used a three step process to cleanup:
-> 1. Call thermal_zone_device_unregister() to cleanup.
-> 2. Set priv->zone to an error pointer to preserve the error code.
-> 3. Set priv->zone to NULL to avoid a second call to
->    thermal_zone_device_unregister() in the rcar_thermal_remove()
->    function.
-> 
-> Now we can just do a direct goto error_unregister and rcar_thermal_remove()
-> handles the cleanup properly.
-> 
-> Fixes: bbcf90c0646a ("thermal: Explicitly enable non-changing thermal zone devices")
-> Signed-off-by: Dan Carpenter <error27@gmail.com>
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Patches 1-2: fix the infrastructure. drm_panel_add/remove now keep
+a counted reference for the list entry. drm_panel_bridge_add_typed()
+now holds a counted reference for the lifetime of the panel_bridge.
 
-Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+Patch 3: change the semantics of of_drm_find_panel() and
+find_panel_by_fwnode(). They now acquire a reference before returning,
+under panel_lock. Callers are responsible for calling drm_panel_put()
+when they no longer need the pointer.
 
-> ---
-> v2: Use the correct fixes tag and re-write the check in a cleaner way.
-> v3: Share the same error checking as a further cleanup.  The
->     thermal_add_hwmon_sysfs() and thermal_zone_device_enable() functions
->     really do serve the same purpose even though their names are
->     different.
-> 
->  drivers/thermal/renesas/rcar_thermal.c | 15 +++++----------
->  1 file changed, 5 insertions(+), 10 deletions(-)
-> 
-> diff --git a/drivers/thermal/renesas/rcar_thermal.c b/drivers/thermal/renesas/rcar_thermal.c
-> index 6e5dcac5d47a..fd686da9252e 100644
-> --- a/drivers/thermal/renesas/rcar_thermal.c
-> +++ b/drivers/thermal/renesas/rcar_thermal.c
-> @@ -492,12 +492,6 @@ static int rcar_thermal_probe(struct platform_device *pdev)
->  				"rcar_thermal", trips, ARRAY_SIZE(trips), priv,
->  						&rcar_thermal_zone_ops, NULL, 0,
->  						idle);
-> -
-> -			ret = thermal_zone_device_enable(priv->zone);
-> -			if (ret) {
-> -				thermal_zone_device_unregister(priv->zone);
-> -				priv->zone = ERR_PTR(ret);
-> -			}
->  		}
->  		if (IS_ERR(priv->zone)) {
->  			dev_err(dev, "can't register thermal zone\n");
-> @@ -506,11 +500,12 @@ static int rcar_thermal_probe(struct platform_device *pdev)
->  			goto error_unregister;
->  		}
->  
-> -		if (chip->use_of_thermal) {
-> +		if (chip->use_of_thermal)
->  			ret = thermal_add_hwmon_sysfs(priv->zone);
-> -			if (ret)
-> -				goto error_unregister;
-> -		}
-> +		else
-> +			ret = thermal_zone_device_enable(priv->zone);
-> +		if (ret)
-> +			goto error_unregister;
->  
->  		rcar_thermal_irq_enable(priv);
->  
-> -- 
-> 2.53.0
-> 
+Patches 4-5: update all in-tree callers of of_drm_find_panel() and
+drm_of_find_panel_or_bridge() to release the reference at the
+appropriate point. Two patterns are repeated in these fixes:
 
+- Bridge-wrapping: the panel is passed to devm_drm_panel_bridge_add()
+  or equivalent, which acquires its own reference. The caller (including
+  devm_drm_of_get_bridge() and drmm_of_get_bridge()) releases its lookup
+  reference immediately after.
+- Store-and-use: the panel pointer is kept in a driver struct and
+  used directly for the device lifetime. The reference is released in the
+  remove/unbind path, or via devm_add_action_or_reset() where no explicit
+  teardown function exists.
+
+In order to catch all places in the tree that required releasing the
+reference, the search was assisted by an AI model. Specifically, a
+Coccinelle script was designed to address the trivial changes (not
+included in the series). Although a few required manual fixes, with goto
+labels or bracket additions. Additionally, the model helped to discern implicit
+teardown paths that were addressed with devm_add_action_or_reset() calls.
+Thus, these commits have the Assisted-by label following the project guidelines.
+
+No functional change is intended for any driver. The reference
+counting only affects object lifetime; panel operations are unaffected.
+
+[1] https://lore.kernel.org/all/20250331-b4-panel-refcounting-v4-0-dad50c60c6c9@redhat.com/
+
+Signed-off-by: Albert Esteve <aesteve@redhat.com>
+---
+Albert Esteve (5):
+      drm/panel: have drm_panel_add/remove manage a list reference
+      drm/bridge/panel: hold a reference to the wrapped panel
+      drm/panel: make *find_panel*() return a counted reference
+      drm/bridge: release panel reference on all lookup exit paths
+      drm: release panel reference after panel bridge creation
+
+ drivers/gpu/drm/bridge/analogix/analogix-anx6345.c |  3 +++
+ drivers/gpu/drm/bridge/panel.c                     | 18 ++++++++++++----
+ drivers/gpu/drm/drm_panel.c                        | 24 +++++++++++++++++-----
+ drivers/gpu/drm/exynos/exynos_dp.c                 | 10 +++++++++
+ drivers/gpu/drm/exynos/exynos_drm_dpi.c            |  3 +++
+ drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_rgb.c          | 18 ++++++++++++++++
+ drivers/gpu/drm/imx/dcss/dcss-kms.c                |  3 +++
+ drivers/gpu/drm/ingenic/ingenic-drm-drv.c          |  4 +++-
+ drivers/gpu/drm/logicvc/logicvc_interface.c        | 12 +++++++++++
+ drivers/gpu/drm/mcde/mcde_drv.c                    |  1 +
+ drivers/gpu/drm/mcde/mcde_dsi.c                    |  1 +
+ drivers/gpu/drm/mxsfb/mxsfb_drv.c                  |  1 +
+ drivers/gpu/drm/omapdrm/dss/output.c               |  1 +
+ drivers/gpu/drm/pl111/pl111_drv.c                  |  1 +
+ drivers/gpu/drm/renesas/rcar-du/rcar_du_encoder.c  |  1 +
+ drivers/gpu/drm/renesas/rcar-du/rcar_lvds.c        |  1 +
+ drivers/gpu/drm/renesas/rz-du/rzg2l_du_encoder.c   |  1 +
+ drivers/gpu/drm/rockchip/analogix_dp-rockchip.c    | 11 ++++++++++
+ drivers/gpu/drm/rockchip/rockchip_lvds.c           |  1 +
+ drivers/gpu/drm/rockchip/rockchip_rgb.c            |  1 +
+ drivers/gpu/drm/sti/sti_dvo.c                      |  3 +++
+ drivers/gpu/drm/stm/ltdc.c                         |  1 +
+ drivers/gpu/drm/stm/lvds.c                         |  3 +++
+ drivers/gpu/drm/sun4i/sun4i_lvds.c                 | 13 ++++++++++++
+ drivers/gpu/drm/sun4i/sun4i_rgb.c                  | 13 ++++++++++++
+ drivers/gpu/drm/sun4i/sun4i_tcon.c                 |  2 ++
+ drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c             |  2 ++
+ drivers/gpu/drm/tegra/dsi.c                        |  1 +
+ drivers/gpu/drm/tegra/output.c                     |  3 +++
+ drivers/gpu/drm/tidss/tidss_kms.c                  | 16 ++++++++++-----
+ drivers/gpu/drm/tve200/tve200_drv.c                |  1 +
+ 31 files changed, 159 insertions(+), 15 deletions(-)
+---
+base-commit: 502d801f0ab03e4f32f9a33d203154ce84887921
+change-id: 20260513-drm_refcount_wiring-4e5e757e9047
+
+Best regards,
 -- 
-Kind Regards,
-Niklas Söderlund
+Albert Esteve <aesteve@redhat.com>
+
 
