@@ -1,273 +1,177 @@
-Return-Path: <linux-renesas-soc+bounces-34447-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-34449-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id QobvFzltPmq5FwkAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-34447-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Jun 2026 14:14:49 +0200
+	id AT8WNflwPmqsGAkAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-34449-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Jun 2026 14:30:49 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBF0F6CCE5E
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Jun 2026 14:14:48 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 292066CD004
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Jun 2026 14:30:49 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=ideasonboard.com header.s=mail header.b=LCDzIxew;
-	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-34447-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-34447-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=ideasonboard.com;
+	dkim=none;
+	dmarc=none;
+	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-34449-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 104.64.211.4 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-34449-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 4D8FE3103994
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Jun 2026 12:09:07 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 951623008637
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Jun 2026 12:30:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 38D053F6600;
-	Fri, 26 Jun 2026 12:08:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B39EA3F23D5;
+	Fri, 26 Jun 2026 12:30:40 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f182.google.com (mail-vk1-f182.google.com [209.85.221.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B8643F54B0;
-	Fri, 26 Jun 2026 12:08:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F6F31F8AC5
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 26 Jun 2026 12:30:39 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782475704; cv=none; b=dlrKtFwyYL91fxRD+HWrFiTyAsZ/bqE/IyReM6LBUP8A3rDWJu529p6qBgUdXFNXOLLgoXF7zfkKbEEE+pl1hisIhh/T/IJcHpVHrcJopZzqY0xi4QMyXupHbwZdFLBT1sgRvub5geGNZOAGrzdsdqqyQNjnrHVyNc4/SBaHt+U=
+	t=1782477040; cv=none; b=dxa/o2ulTu/P9zfY+DisP4jV54X4fmi1sYgbKR91po/ERtJuIhhu4luLKVhsRLC9PGLrifI8ynjH+DBrZGmV8PAF1ztRrEwkJtQAVmLDCc0IVT2rog2RMCr5v+KuQufkrH9sREXBhgqOqfC+pXRqAd9jb9kTcXN4qPPy91j0x3I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782475704; c=relaxed/simple;
-	bh=T+bk6X7PjXELUpGRmYAEEvu14aEYiMcd7gjkzn+fFzQ=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=CPMO4CfI+Udfn7cqPtlVlT8Zqdtx2+AmkudLrwrFuIJQ26WTzuXwaAj4pt+ugZd3oy17ergmUF7dIxwFgmbDaUxCmOP9mQbJeVmINRPe4jOKXR54X4kJy9/K67sRzJkBkcnhM7Ejxqns7tC9RP8JY9d1vUeX9/xNgr5TFX7XwKo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=LCDzIxew; arc=none smtp.client-ip=213.167.242.64
-Received: from ping.linuxembedded.co.uk (cpc89244-aztw30-2-0-cust6594.18-1.cable.virginm.net [86.31.185.195])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2976D1D00;
-	Fri, 26 Jun 2026 14:07:30 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1782475651;
-	bh=T+bk6X7PjXELUpGRmYAEEvu14aEYiMcd7gjkzn+fFzQ=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=LCDzIxewP6m70wnPz4jkPuvRudnSQgd1RxRWeYS91MZCwvM3c49ssA3DceGGeeS+d
-	 g5rYkIaTljzz4boNXriiMQ1Cf+A9pHv05rAjFtVKbTXb0ftXyVNoff538FH2xENAjK
-	 cBJm+r59NQ+FpJ/tLwg9YDjIBirnjZzfWv99eLKg=
-From: Kieran Bingham <kieran.bingham@ideasonboard.com>
-Date: Fri, 26 Jun 2026 13:08:00 +0100
-Subject: [PATCH v2 8/8] arm64: dts: rockchip: Convert to new media
- orientation definitions
+	s=arc-20240116; t=1782477040; c=relaxed/simple;
+	bh=L8m+v9Mumd9PBrIoKCr6p8n/MbxpHP4z26Qvy7erVnI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=V1kPgr8Njb1t8oSjtOcci7FUgOdw+st7gCj9UXmUbTchExBvAUgDCrO+c8C3iO69HXIfbLTic1wbaTkqPEqZrH+SHEKLEoadqFFEfK1k/CMOc3NWzC9T1jHgljLZvmwHQQppqAV/Ic7OksQju0/o76uv8IkWhGuUxU99KrgsuD0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.182
+Received: by mail-vk1-f182.google.com with SMTP id 71dfb90a1353d-5bbf01bcfb9so624856e0c.2
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 26 Jun 2026 05:30:39 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782477038; x=1783081838;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=3Qc4TavqegVrav+S2qpl9+8s6wcCSKt3nqOoGSJ8Fvk=;
+        b=FSCojNMvGzSOpPRBkcAIL+m5tEHUx5jhXAYBy3skzK6OxJIGa44rgb0+ZKvOoxJqhh
+         di66FEFeremZGrazC3OJiwiiWgkI4ZQrF4e1x3sSdy/d0s64LuS03Js2pZQlOMIMOyAW
+         4tWjfKujmnSyp/Z4eeTnZBSHP30mn4xdavvirf90bOdFNBN18ugYF+C8QsQPU21il84A
+         gA26E2LLKvbKu9oZ4Hv5o/qOIU5rQ60rpCRtqwXOnb4Ke0QJ9CjxytWe5b/swWaALqco
+         HgY3XVQ1VcA5ukENDpzOE18jH/rb+EU8RKVoW9jbHenotdZz0PzWnFEEj2zEe8wQ2KlQ
+         OpKw==
+X-Forwarded-Encrypted: i=1; AHgh+Roh3CDsIA4+XzeCCDG0kqdAXRFx/+cbjG+XbHOxe1JH+kedLtQmQOhDsgi+Z0YuAZr9SOeEqrWMgQgyO70/5B3kug==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yytg9v71MqBnPqnwonJr/aDWk5gM1GpeFxnLHmjScPjdjpKBfDt
+	Lqw/WAco5sMaVW0F6NMRY8b01zaKozEVLyG+hqBYC6Z0vw5bBaWoR4CuyeO1zh+y
+X-Gm-Gg: AfdE7ckS/XBxEVy0j+2cbxe7beScMXlWBv+mULTEnxs8jrPiZmgU3tTSkXXDepVaEzE
+	oMEEh0L7u2fonqFTCqIbTTFMqGS87p3GpV8x+8+zuig+cr3W5d4uQB5sufE8PPm1dW98kLTbvGq
+	+B9BPzGbnE8GMLYHj/gaaM++8zFd/szRrhy4v52yIiZowsUXMHn8n2cX3O6nmrbwAClH8XHXkbC
+	RFMg+qwbJxM9MzaDEcnZky4A12eS1yoBMJYXILjP/zFH5RmREeCkbBVMmAcpz2zoXBEdqBY04kU
+	QQZYCJPoKxmzEhCmIkX+LU3q3eCty3C3zS0w4roa5MWpqAiuns7xf3jITuYEoSVZggJIYGoTcMn
+	No+5q/M5YGvs7yEe9pzW1GUB+PTTzqs+negO7+67aliyqNt9qZjXCoeatJarAG4IJU+TnJNym47
+	nOSkQ2gm5SrNoCihNhqACsS6t71Q0mIROb/WdoYDL9vIHAOrRjeA==
+X-Received: by 2002:a05:6122:d87:b0:56e:f1d2:c3ca with SMTP id 71dfb90a1353d-5bd69c31db8mr3293004e0c.2.1782477038410;
+        Fri, 26 Jun 2026 05:30:38 -0700 (PDT)
+Received: from mail-ua1-f54.google.com (mail-ua1-f54.google.com. [209.85.222.54])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5bd7908a3d1sm969264e0c.12.2026.06.26.05.30.37
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 26 Jun 2026 05:30:37 -0700 (PDT)
+Received: by mail-ua1-f54.google.com with SMTP id a1e0cc1a2514c-966e7380109so664564241.3
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 26 Jun 2026 05:30:37 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AHgh+Ro9yken7Y8K4kP6zGhowud8QUjog9R2qNOplty+ZdT3rY2qkp1NqBTy3krZq0Sc0mSTDwksbl3kdi789cQC4RByEg==@vger.kernel.org
+X-Received: by 2002:a05:6102:5491:b0:631:4580:6a46 with SMTP id
+ ada2fe7eead31-73435b90f5fmr3476500137.17.1782477036873; Fri, 26 Jun 2026
+ 05:30:36 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260626-kbingham-orientation-v2-8-47178be927b4@ideasonboard.com>
-References: <20260626-kbingham-orientation-v2-0-47178be927b4@ideasonboard.com>
-In-Reply-To: <20260626-kbingham-orientation-v2-0-47178be927b4@ideasonboard.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Jacopo Mondi <jacopo@jmondi.org>, 
- Sakari Ailus <sakari.ailus@linux.intel.com>, Jimmy Su <jimmy.su@intel.com>, 
- Matthias Fend <matthias.fend@emfend.at>, 
- Mikhail Rudenko <mike.rudenko@gmail.com>, 
- Daniel Scally <dan.scally@ideasonboard.com>, 
- Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
- Michael Riesch <michael.riesch@collabora.com>, 
- Benjamin Mugnier <benjamin.mugnier@foss.st.com>, 
- Sylvain Petinot <sylvain.petinot@foss.st.com>, 
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Paul Elder <paul.elder@ideasonboard.com>, 
- Martin Kepplinger <martin.kepplinger@puri.sm>, 
- Quentin Schulz <quentin.schulz@theobroma-systems.com>, 
- Tommaso Merciai <tomm.merciai@gmail.com>, 
- Svyatoslav Ryhel <clamor95@gmail.com>, 
- Richard Acayan <mailingradian@gmail.com>, 
- Thierry Reding <thierry.reding@kernel.org>, 
- Jonathan Hunter <jonathanh@nvidia.com>, Frank Li <Frank.Li@nxp.com>, 
- Sascha Hauer <s.hauer@pengutronix.de>, 
- Pengutronix Kernel Team <kernel@pengutronix.de>, 
- Fabio Estevam <festevam@gmail.com>, Bjorn Andersson <andersson@kernel.org>, 
- Konrad Dybcio <konradybcio@kernel.org>, 
- Geert Uytterhoeven <geert+renesas@glider.be>, 
- Magnus Damm <magnus.damm@gmail.com>, Heiko Stuebner <heiko@sntech.de>
-Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-tegra@vger.kernel.org, 
- linux@ew.tq-group.com, imx@lists.linux.dev, 
- linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org, 
- linux-renesas-soc@vger.kernel.org, linux-rockchip@lists.infradead.org, 
- Kieran Bingham <kieran.bingham@ideasonboard.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1782475679; l=5672;
- i=kieran.bingham@ideasonboard.com; s=20260207; h=from:subject:message-id;
- bh=T+bk6X7PjXELUpGRmYAEEvu14aEYiMcd7gjkzn+fFzQ=;
- b=CThnb9TbLp72dj9+5u29C1IeRBmoPbrqc7WJHYknkNZdBokSv0q+4h5AX3hu020QE9wtTd7BT
- XL7Y8E09zvSBYSxKCdY1+RaID33ky2E4DRmJCSP4aP8Sozq1SANCDmI
-X-Developer-Key: i=kieran.bingham@ideasonboard.com; a=ed25519;
- pk=FVXKN7YuwHc6UtbRUeTMAmranfsQomA+vnilfglWdaY=
+References: <20260626-kbingham-orientation-v2-0-47178be927b4@ideasonboard.com> <20260626-kbingham-orientation-v2-7-47178be927b4@ideasonboard.com>
+In-Reply-To: <20260626-kbingham-orientation-v2-7-47178be927b4@ideasonboard.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 26 Jun 2026 14:30:24 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdV+BDLjuhVo5fyHxSEibW8E4opXbaDrgsmTgygXXJoATA@mail.gmail.com>
+X-Gm-Features: AVVi8Cc1rFvCNNORSHDtFmL_tkYQ91oxJ5vGSfmmYwanPmDM2yIyJwQSJ-fX378
+Message-ID: <CAMuHMdV+BDLjuhVo5fyHxSEibW8E4opXbaDrgsmTgygXXJoATA@mail.gmail.com>
+Subject: Re: [PATCH v2 7/8] arm64: dts: renesas: Convert to new media
+ orientation definitions
+To: Kieran Bingham <kieran.bingham@ideasonboard.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Jacopo Mondi <jacopo@jmondi.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Jimmy Su <jimmy.su@intel.com>, Matthias Fend <matthias.fend@emfend.at>, 
+	Mikhail Rudenko <mike.rudenko@gmail.com>, Daniel Scally <dan.scally@ideasonboard.com>, 
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
+	Michael Riesch <michael.riesch@collabora.com>, 
+	Benjamin Mugnier <benjamin.mugnier@foss.st.com>, 
+	Sylvain Petinot <sylvain.petinot@foss.st.com>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	Paul Elder <paul.elder@ideasonboard.com>, Martin Kepplinger <martin.kepplinger@puri.sm>, 
+	Quentin Schulz <quentin.schulz@theobroma-systems.com>, 
+	Tommaso Merciai <tomm.merciai@gmail.com>, Svyatoslav Ryhel <clamor95@gmail.com>, 
+	Richard Acayan <mailingradian@gmail.com>, Thierry Reding <thierry.reding@kernel.org>, 
+	Jonathan Hunter <jonathanh@nvidia.com>, Frank Li <Frank.Li@nxp.com>, 
+	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
+	Fabio Estevam <festevam@gmail.com>, Bjorn Andersson <andersson@kernel.org>, 
+	Konrad Dybcio <konradybcio@kernel.org>, Magnus Damm <magnus.damm@gmail.com>, 
+	Heiko Stuebner <heiko@sntech.de>, linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-tegra@vger.kernel.org, 
+	linux@ew.tq-group.com, imx@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, linux-rockchip@lists.infradead.org, 
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.66 / 15.00];
+X-Spamd-Result: default: False [0.04 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
-	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-34447-lists,linux-renesas-soc=lfdr.de];
-	FORGED_RECIPIENTS(0.00)[m:mchehab@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:jacopo@jmondi.org,m:sakari.ailus@linux.intel.com,m:jimmy.su@intel.com,m:matthias.fend@emfend.at,m:mike.rudenko@gmail.com,m:dan.scally@ideasonboard.com,m:jacopo.mondi@ideasonboard.com,m:michael.riesch@collabora.com,m:benjamin.mugnier@foss.st.com,m:sylvain.petinot@foss.st.com,m:laurent.pinchart@ideasonboard.com,m:paul.elder@ideasonboard.com,m:martin.kepplinger@puri.sm,m:quentin.schulz@theobroma-systems.com,m:tomm.merciai@gmail.com,m:clamor95@gmail.com,m:mailingradian@gmail.com,m:thierry.reding@kernel.org,m:jonathanh@nvidia.com,m:Frank.Li@nxp.com,m:s.hauer@pengutronix.de,m:kernel@pengutronix.de,m:festevam@gmail.com,m:andersson@kernel.org,m:konradybcio@kernel.org,m:geert+renesas@glider.be,m:magnus.damm@gmail.com,m:heiko@sntech.de,m:linux-kernel@vger.kernel.org,m:linux-media@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-tegra@vger.kernel.org,m:linux@ew.tq-group.com,m:imx@lis
- ts.linux.dev,m:linux-arm-kernel@lists.infradead.org,m:linux-arm-msm@vger.kernel.org,m:linux-renesas-soc@vger.kernel.org,m:linux-rockchip@lists.infradead.org,m:kieran.bingham@ideasonboard.com,m:krzk@kernel.org,m:conor@kernel.org,m:mikerudenko@gmail.com,m:tommmerciai@gmail.com,m:geert@glider.be,m:magnusdamm@gmail.com,s:lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_TO(0.00)[kernel.org,jmondi.org,linux.intel.com,intel.com,emfend.at,gmail.com,ideasonboard.com,collabora.com,foss.st.com,puri.sm,theobroma-systems.com,nvidia.com,nxp.com,pengutronix.de,glider.be,sntech.de];
-	FORGED_SENDER(0.00)[kieran.bingham@ideasonboard.com,linux-renesas-soc@vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-34449-lists,linux-renesas-soc=lfdr.de];
+	DMARC_NA(0.00)[linux-m68k.org];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:kieran.bingham@ideasonboard.com,m:mchehab@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:jacopo@jmondi.org,m:sakari.ailus@linux.intel.com,m:jimmy.su@intel.com,m:matthias.fend@emfend.at,m:mike.rudenko@gmail.com,m:dan.scally@ideasonboard.com,m:jacopo.mondi@ideasonboard.com,m:michael.riesch@collabora.com,m:benjamin.mugnier@foss.st.com,m:sylvain.petinot@foss.st.com,m:laurent.pinchart@ideasonboard.com,m:paul.elder@ideasonboard.com,m:martin.kepplinger@puri.sm,m:quentin.schulz@theobroma-systems.com,m:tomm.merciai@gmail.com,m:clamor95@gmail.com,m:mailingradian@gmail.com,m:thierry.reding@kernel.org,m:jonathanh@nvidia.com,m:Frank.Li@nxp.com,m:s.hauer@pengutronix.de,m:kernel@pengutronix.de,m:festevam@gmail.com,m:andersson@kernel.org,m:konradybcio@kernel.org,m:magnus.damm@gmail.com,m:heiko@sntech.de,m:linux-kernel@vger.kernel.org,m:linux-media@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-tegra@vger.kernel.org,m:linux@ew.tq-group.com,m
+ :imx@lists.linux.dev,m:linux-arm-kernel@lists.infradead.org,m:linux-arm-msm@vger.kernel.org,m:linux-renesas-soc@vger.kernel.org,m:linux-rockchip@lists.infradead.org,m:kieran.bingham+renesas@ideasonboard.com,m:krzk@kernel.org,m:conor@kernel.org,m:mikerudenko@gmail.com,m:tommmerciai@gmail.com,m:magnusdamm@gmail.com,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[geert@linux-m68k.org,linux-renesas-soc@vger.kernel.org];
 	RCPT_COUNT_TWELVE(0.00)[43];
-	RCVD_COUNT_THREE(0.00)[4];
+	FREEMAIL_CC(0.00)[kernel.org,jmondi.org,linux.intel.com,intel.com,emfend.at,gmail.com,ideasonboard.com,collabora.com,foss.st.com,puri.sm,theobroma-systems.com,nvidia.com,nxp.com,pengutronix.de,sntech.de,vger.kernel.org,ew.tq-group.com,lists.linux.dev,lists.infradead.org];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FORWARDED(0.00)[lists@lfdr.de];
-	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	MISSING_XM_UA(0.00)[];
 	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	ALIAS_RESOLVED(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[kieran.bingham@ideasonboard.com,linux-renesas-soc@vger.kernel.org];
-	DKIM_TRACE(0.00)[ideasonboard.com:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
+	FROM_NEQ_ENVFROM(0.00)[geert@linux-m68k.org,linux-renesas-soc@vger.kernel.org];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	ALIAS_RESOLVED(0.00)[];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
+	R_DKIM_NA(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[ideasonboard.com:dkim,ideasonboard.com:email,ideasonboard.com:mid,ideasonboard.com:from_mime,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,vger.kernel.org:from_smtp]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[ideasonboard.com:email,linux-m68k.org:from_mime,linux-m68k.org:email,mail.gmail.com:mid,vger.kernel.org:from_smtp,sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: BBF0F6CCE5E
+X-Rspamd-Queue-Id: 292066CD004
 
-The orientation property for video interface devices now has definitions
-to prevent hardcoded integer values for the enum options.
+On Fri, 26 Jun 2026 at 14:08, Kieran Bingham
+<kieran.bingham@ideasonboard.com> wrote:
+> From: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+>
+> The orientation property for video interface devices now has definitions
+> to prevent hardcoded integer values for the enum options.
+>
+> Update the users throughout the renesas device trees to use the new
+> definitions.
+>
+> Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 
-Update the users throughout the rockchip device trees to use the new
-definitions.
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-Signed-off-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
----
- arch/arm64/boot/dts/rockchip/px30-pp1516.dtsi                        | 3 ++-
- arch/arm64/boot/dts/rockchip/px30-ringneck-haikou-video-demo.dtso    | 3 ++-
- arch/arm64/boot/dts/rockchip/rk3399-pinephone-pro.dts                | 5 +++--
- .../boot/dts/rockchip/rk3588-rock-5b-plus-radxa-cam4k-cam0.dtso      | 3 ++-
- .../boot/dts/rockchip/rk3588-rock-5b-plus-radxa-cam4k-cam1.dtso      | 3 ++-
- 5 files changed, 11 insertions(+), 6 deletions(-)
+Gr{oetje,eeting}s,
 
-diff --git a/arch/arm64/boot/dts/rockchip/px30-pp1516.dtsi b/arch/arm64/boot/dts/rockchip/px30-pp1516.dtsi
-index 192791993f05..d58d6ee6241e 100644
---- a/arch/arm64/boot/dts/rockchip/px30-pp1516.dtsi
-+++ b/arch/arm64/boot/dts/rockchip/px30-pp1516.dtsi
-@@ -6,6 +6,7 @@
- /dts-v1/;
- #include <dt-bindings/gpio/gpio.h>
- #include <dt-bindings/input/input.h>
-+#include <dt-bindings/media/video-interface-devices.h>
- #include <dt-bindings/pinctrl/rockchip.h>
- #include "px30.dtsi"
- 
-@@ -413,7 +414,7 @@ camera@36 {
- 		dvdd-supply = <&vcc_cam_dvdd>;
- 		dovdd-supply = <&vcc_cam_dovdd>;
- 		lens-focus = <&focus>;
--		orientation = <0>;
-+		orientation = <MEDIA_ORIENTATION_FRONT>;
- 		pinctrl-names = "default";
- 		pinctrl-0 = <&cif_clkout_m0 &cam_pwdn>;
- 		reset-gpios = <&gpio2 RK_PB0 GPIO_ACTIVE_LOW>;
-diff --git a/arch/arm64/boot/dts/rockchip/px30-ringneck-haikou-video-demo.dtso b/arch/arm64/boot/dts/rockchip/px30-ringneck-haikou-video-demo.dtso
-index 760d5139f95d..2168db9168a5 100644
---- a/arch/arm64/boot/dts/rockchip/px30-ringneck-haikou-video-demo.dtso
-+++ b/arch/arm64/boot/dts/rockchip/px30-ringneck-haikou-video-demo.dtso
-@@ -16,6 +16,7 @@
- #include <dt-bindings/gpio/gpio.h>
- #include <dt-bindings/interrupt-controller/irq.h>
- #include <dt-bindings/leds/common.h>
-+#include <dt-bindings/media/video-interface-devices.h>
- #include <dt-bindings/pinctrl/rockchip.h>
- 
- &{/} {
-@@ -185,7 +186,7 @@ camera@36 {
- 		dvdd-supply = <&cam_dvdd_1v2>;
- 		dovdd-supply = <&cam_dovdd_1v8>;
- 		lens-focus = <&focus>;
--		orientation = <0>;
-+		orientation = <MEDIA_ORIENTATION_FRONT>;
- 		pinctrl-names = "default";
- 		pinctrl-0 = <&cif_clkout_m0>;
- 		reset-gpios = <&pca9670 6 GPIO_ACTIVE_LOW>;
-diff --git a/arch/arm64/boot/dts/rockchip/rk3399-pinephone-pro.dts b/arch/arm64/boot/dts/rockchip/rk3399-pinephone-pro.dts
-index 8d26bd9b7500..6608c777f185 100644
---- a/arch/arm64/boot/dts/rockchip/rk3399-pinephone-pro.dts
-+++ b/arch/arm64/boot/dts/rockchip/rk3399-pinephone-pro.dts
-@@ -13,6 +13,7 @@
- #include <dt-bindings/input/gpio-keys.h>
- #include <dt-bindings/input/linux-event-codes.h>
- #include <dt-bindings/leds/common.h>
-+#include <dt-bindings/media/video-interface-devices.h>
- #include "rk3399-s.dtsi"
- 
- / {
-@@ -455,7 +456,7 @@ wcam: camera@1a {
- 		reg = <0x1a>;
- 		clocks = <&cru SCLK_CIF_OUT>; /* MIPI_MCLK0, derived from CIF_CLKO */
- 		lens-focus = <&wcam_lens>;
--		orientation = <1>; /* V4L2_CAMERA_ORIENTATION_BACK */
-+		orientation = <MEDIA_ORIENTATION_BACK>;
- 		pinctrl-names = "default";
- 		pinctrl-0 = <&camera_rst_l>;
- 		reset-gpios = <&gpio1 RK_PA0 GPIO_ACTIVE_LOW>;
-@@ -487,7 +488,7 @@ ucam: camera@36 {
- 		clocks = <&cru SCLK_CIF_OUT>; /* MIPI_MCLK1, derived from CIF_CLK0 */
- 		clock-names = "xvclk";
- 		dovdd-supply = <&vcc1v8_dvp>;
--		orientation = <0>; /* V4L2_CAMERA_ORIENTATION_FRONT */
-+		orientation = <MEDIA_ORIENTATION_FRONT>;
- 		pinctrl-names = "default";
- 		pinctrl-0 = <&camera2_rst_l &dvp_pdn0_h>;
- 		powerdown-gpios = <&gpio2 RK_PB4 GPIO_ACTIVE_LOW>;
-diff --git a/arch/arm64/boot/dts/rockchip/rk3588-rock-5b-plus-radxa-cam4k-cam0.dtso b/arch/arm64/boot/dts/rockchip/rk3588-rock-5b-plus-radxa-cam4k-cam0.dtso
-index ee9ecf68a886..8c9a4a1181e4 100644
---- a/arch/arm64/boot/dts/rockchip/rk3588-rock-5b-plus-radxa-cam4k-cam0.dtso
-+++ b/arch/arm64/boot/dts/rockchip/rk3588-rock-5b-plus-radxa-cam4k-cam0.dtso
-@@ -9,6 +9,7 @@
- 
- #include <dt-bindings/clock/rockchip,rk3588-cru.h>
- #include <dt-bindings/gpio/gpio.h>
-+#include <dt-bindings/media/video-interface-devices.h>
- #include <dt-bindings/pinctrl/rockchip.h>
- 
- &{/} {
-@@ -50,7 +51,7 @@ imx415: camera-sensor@1a {
- 		avdd-supply = <&savdd_cam0>;
- 		clocks = <&cru CLK_MIPI_CAMARAOUT_M3>;
- 		dvdd-supply = <&sdvdd_cam0>;
--		orientation = <2>; /* External */
-+		orientation = <MEDIA_ORIENTATION_EXTERNAL>;
- 		ovdd-supply = <&siovdd_cam0>;
- 		pinctrl-names = "default";
- 		pinctrl-0 = <&cam0_rstn &mipim0_camera3_clk>;
-diff --git a/arch/arm64/boot/dts/rockchip/rk3588-rock-5b-plus-radxa-cam4k-cam1.dtso b/arch/arm64/boot/dts/rockchip/rk3588-rock-5b-plus-radxa-cam4k-cam1.dtso
-index 8a4cf3fdbf8e..0cc3d6a34cef 100644
---- a/arch/arm64/boot/dts/rockchip/rk3588-rock-5b-plus-radxa-cam4k-cam1.dtso
-+++ b/arch/arm64/boot/dts/rockchip/rk3588-rock-5b-plus-radxa-cam4k-cam1.dtso
-@@ -9,6 +9,7 @@
- 
- #include <dt-bindings/clock/rockchip,rk3588-cru.h>
- #include <dt-bindings/gpio/gpio.h>
-+#include <dt-bindings/media/video-interface-devices.h>
- #include <dt-bindings/pinctrl/rockchip.h>
- 
- &{/} {
-@@ -50,7 +51,7 @@ cam1_imx415: camera-sensor@1a {
- 		avdd-supply = <&savdd_cam1>;
- 		clocks = <&cru CLK_MIPI_CAMARAOUT_M4>;
- 		dvdd-supply = <&sdvdd_cam1>;
--		orientation = <2>; /* External */
-+		orientation = <MEDIA_ORIENTATION_EXTERNAL>;
- 		ovdd-supply = <&siovdd_cam1>;
- 		pinctrl-names = "default";
- 		pinctrl-0 = <&cam1_rstn &mipim0_camera4_clk>;
+                        Geert
 
--- 
-2.52.0
 
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
