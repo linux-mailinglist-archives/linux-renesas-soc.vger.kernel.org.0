@@ -1,69 +1,52 @@
-Return-Path: <linux-renesas-soc+bounces-34439-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-34440-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id pxWTHbZrPmpHFwkAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-34439-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Jun 2026 14:08:22 +0200
+	id W+diMHhsPmp+FwkAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-34440-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Jun 2026 14:11:36 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id C27C26CCD2A
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Jun 2026 14:08:21 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 363236CCDC0
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Jun 2026 14:11:36 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=redhat.com header.s=mimecast20190719 header.b=PvXy44Qx;
-	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-34439-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-34439-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=quarantine) header.from=redhat.com;
+	dkim=pass header.d=ideasonboard.com header.s=mail header.b=ohNctst3;
+	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-34440-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-34440-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=ideasonboard.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 4CD7730933F0
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Jun 2026 12:05:37 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 89BA5300A744
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Jun 2026 12:08:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 033DE3F4122;
-	Fri, 26 Jun 2026 12:05:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5CA313F44C8;
+	Fri, 26 Jun 2026 12:08:09 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EDEB3F4113
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 26 Jun 2026 12:05:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F9953E8678;
+	Fri, 26 Jun 2026 12:08:07 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782475535; cv=none; b=c67j9PDygjT4TvueDcEL/NquFDg0n7gHfQh2aAqOG1fquoN26A7canuaPGvKxv3TgVu0sypneY+yB2JlenEAsFhRKRQh3++gt6IDBHrzaeIrx4s8c9qcj3IUrJd3LO4b6dh5quhvACI4b5MiZ7TI3kbLMWnPUafyIG5X8AZbmFA=
+	t=1782475689; cv=none; b=cxM8AIY56scHC2HxrrorMrJnOkHyM3mF1OmM7ZVgBwRKFieltRmCsI5LMeXfbbikiWej2ZtAn4mrgyb9fSTBGXEJcbNvEl7mbKelajAU0I0jDCCq+7LgJB9ARodz2l+r7v8Ol61RRUtmbBovl+Tpl/RNTS/4cetdD9xccbUYrrM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782475535; c=relaxed/simple;
-	bh=6scmZ9j9U+06YnLSoU4k9QKFgpBcPiAlEhennC2B8y4=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=nqvK2hrpWFuH3/99IyKveuWYRAXTKLkmjuT/qLs6GwwhdZtp+UvgizyO2Oi5WAG4FMY3/d7/Q59Udv+IYO/i32HITIzTGD1HfjLIgomUJufbPx0UhdUKtTfZN0OdLMLeJE9/S7wieIWjfGN+c5f2nzezco9T/e/Nm+y8dALG+DM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=PvXy44Qx; arc=none smtp.client-ip=170.10.133.124
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1782475533;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=tehUNq5ZbEdzZ2UahFaG3rRNIzcYgu6EZCbPtchbl9k=;
-	b=PvXy44QxCQbZjBWC+DGxToKxKLQq1yEmmn04cTo17TxNHFJR68R4UBCj7nxeH5aWFH22UU
-	V0fsfEFxQOlIkme9G0zollwihU4U8RwjfvtspIVih0b61HFMxicusXCEHxFyTsMuDJHXIL
-	IAxe146cJenHNen8KKW27Eef3UfDwHU=
-Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-152-P_Un-TFCNvSdJDMNQbSOtw-1; Fri,
- 26 Jun 2026 08:05:28 -0400
-X-MC-Unique: P_Un-TFCNvSdJDMNQbSOtw-1
-X-Mimecast-MFC-AGG-ID: P_Un-TFCNvSdJDMNQbSOtw_1782475525
-Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 974511955D48;
-	Fri, 26 Jun 2026 12:05:25 +0000 (UTC)
-Received: from [192.168.1.153] (headnet04.pony-001.prod.iad2.dc.redhat.com [10.2.32.116])
-	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id CC4A818005B1;
-	Fri, 26 Jun 2026 12:05:06 +0000 (UTC)
-From: Albert Esteve <aesteve@redhat.com>
-Date: Fri, 26 Jun 2026 14:03:27 +0200
-Subject: [PATCH 5/5] drm: release panel reference after panel bridge
- creation
+	s=arc-20240116; t=1782475689; c=relaxed/simple;
+	bh=TY+1ymCIy0OL3hNWFQ2bJgQFUJArnwOKKwXeXghWFkg=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=qfJWY3D+NfpYdhp60yUXYhzJvTxf53PLW4r5CpkRMsDQnZFK4BjcyI3k4nejdmQRfn1V98zkQWaryYPFBRFSwfVpi+j6snp/+O+7daRbUxMd4zEsJvhUo9K95EWXbKMjKZd28wZT2yX6Q0zBcafEEDQzuDzQezFCbQLqRHC4Jfc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=ohNctst3; arc=none smtp.client-ip=213.167.242.64
+Received: from ping.linuxembedded.co.uk (cpc89244-aztw30-2-0-cust6594.18-1.cable.virginm.net [86.31.185.195])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id A7A0DE2C;
+	Fri, 26 Jun 2026 14:07:18 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1782475640;
+	bh=TY+1ymCIy0OL3hNWFQ2bJgQFUJArnwOKKwXeXghWFkg=;
+	h=From:Subject:Date:To:Cc:From;
+	b=ohNctst3EMLEWPJDcYOvDTpN4WWOwqlp+76uVbE2bm6A2xgsAbqwF4EwjrQxlrh2j
+	 zwpFt5ZFrIrYTC+nfkp17JfIE8+lGCsS2mQVms/Y7xsQ4BP8HXTNfHgt1tlhpdPK1R
+	 y5NMU0risbye5JFHZvUxPX1gt2hobdBrz8YNi3Dw=
+From: Kieran Bingham <kieran.bingham@ideasonboard.com>
+Subject: [PATCH v2 0/8] dt-bindings: Orientation defines
+Date: Fri, 26 Jun 2026 13:07:52 +0100
+Message-Id: <20260626-kbingham-orientation-v2-0-47178be927b4@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -72,372 +55,151 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260626-drm_refcount_wiring-v1-5-cca1a7b3bdef@redhat.com>
-References: <20260626-drm_refcount_wiring-v1-0-cca1a7b3bdef@redhat.com>
-In-Reply-To: <20260626-drm_refcount_wiring-v1-0-cca1a7b3bdef@redhat.com>
-To: Neil Armstrong <neil.armstrong@linaro.org>, 
- Jessica Zhang <jesszhan0024@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Andrzej Hajda <andrzej.hajda@intel.com>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Luca Ceresoli <luca.ceresoli@bootlin.com>, Inki Dae <inki.dae@samsung.com>, 
- Jagan Teki <jagan@amarulasolutions.com>, 
- Marek Szyprowski <m.szyprowski@samsung.com>, 
- Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>, 
- Lucas Stach <l.stach@pengutronix.de>, Frank Li <Frank.Li@nxp.com>, 
+X-B4-Tracking: v=1; b=H4sIAJhrPmoC/x3MTQqAIBBA4avErBMGIfu5SrQwG3OILDQikO7e0
+ PItvlcgU2LKMFQFEt2c+YgSuq7ABRtXUrxIg0Zt0GCntpnjGuyuDnHxspcApdF6h342fdOC0DO
+ R5+ffjtP7fhp1xghmAAAA
+X-Change-ID: 20260608-kbingham-orientation-20afc0fb6957
+To: Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Jacopo Mondi <jacopo@jmondi.org>, 
+ Sakari Ailus <sakari.ailus@linux.intel.com>, Jimmy Su <jimmy.su@intel.com>, 
+ Matthias Fend <matthias.fend@emfend.at>, 
+ Mikhail Rudenko <mike.rudenko@gmail.com>, 
+ Daniel Scally <dan.scally@ideasonboard.com>, 
+ Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
+ Michael Riesch <michael.riesch@collabora.com>, 
+ Benjamin Mugnier <benjamin.mugnier@foss.st.com>, 
+ Sylvain Petinot <sylvain.petinot@foss.st.com>, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Paul Elder <paul.elder@ideasonboard.com>, 
+ Martin Kepplinger <martin.kepplinger@puri.sm>, 
+ Quentin Schulz <quentin.schulz@theobroma-systems.com>, 
+ Tommaso Merciai <tomm.merciai@gmail.com>, 
+ Svyatoslav Ryhel <clamor95@gmail.com>, 
+ Richard Acayan <mailingradian@gmail.com>, 
+ Thierry Reding <thierry.reding@kernel.org>, 
+ Jonathan Hunter <jonathanh@nvidia.com>, Frank Li <Frank.Li@nxp.com>, 
  Sascha Hauer <s.hauer@pengutronix.de>, 
  Pengutronix Kernel Team <kernel@pengutronix.de>, 
- Fabio Estevam <festevam@gmail.com>, Paul Cercueil <paul@crapouillou.net>, 
- Linus Walleij <linusw@kernel.org>, Marek Vasut <marex@denx.de>, 
- Stefan Agner <stefan@agner.ch>, 
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
+ Fabio Estevam <festevam@gmail.com>, Bjorn Andersson <andersson@kernel.org>, 
+ Konrad Dybcio <konradybcio@kernel.org>, 
  Geert Uytterhoeven <geert+renesas@glider.be>, 
- Magnus Damm <magnus.damm@gmail.com>, Biju Das <biju.das.jz@bp.renesas.com>, 
- Sandy Huang <hjc@rock-chips.com>, 
- =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
- Andy Yan <andy.yan@rock-chips.com>, 
- Yannick Fertre <yannick.fertre@foss.st.com>, 
- Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>, 
- Philippe Cornu <philippe.cornu@foss.st.com>, 
- Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
- Alexandre Torgue <alexandre.torgue@foss.st.com>, 
- Chen-Yu Tsai <wens@kernel.org>, Samuel Holland <samuel@sholland.org>, 
- Jyri Sarha <jyri.sarha@iki.fi>, Jingoo Han <jingoohan1@gmail.com>, 
- Seung-Woo Kim <sw0312.kim@samsung.com>, 
- Kyungmin Park <kyungmin.park@samsung.com>, 
- Krzysztof Kozlowski <krzk@kernel.org>, 
- Peter Griffin <peter.griffin@linaro.org>, 
- Alim Akhtar <alim.akhtar@samsung.com>, Alison Wang <alison.wang@nxp.com>, 
- Paul Kocialkowski <paulk@sys-base.io>, 
- Alain Volmat <alain.volmat@foss.st.com>, 
- Raphael Gallais-Pou <rgallaispou@gmail.com>, 
- Thierry Reding <thierry.reding@kernel.org>, 
- Mikko Perttunen <mperttunen@nvidia.com>, 
- Jonathan Hunter <jonathanh@nvidia.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
- linux-mips@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
- linux-rockchip@lists.infradead.org, 
- linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev, 
- linux-samsung-soc@vger.kernel.org, linux-tegra@vger.kernel.org, 
- Albert Esteve <aesteve@redhat.com>
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1782475410; l=10677;
- i=aesteve@redhat.com; s=20260303; h=from:subject:message-id;
- bh=6scmZ9j9U+06YnLSoU4k9QKFgpBcPiAlEhennC2B8y4=;
- b=sOpCxY2bLeUvPfxPkMPeicSMFpDUufT1NOftgzzbt/ErhfsmdnBFxDM/qyWZSlWt8I7unXXV1
- srGJDpgn5lzDcN6gpXD74BF+ukFCknmX8wtL/CayeGDImWSy31GYzqD
-X-Developer-Key: i=aesteve@redhat.com; a=ed25519;
- pk=YSFz6sOHd2L45+Fr8DIvHTi6lSIjhLZ5T+rkxspJt1s=
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
+ Magnus Damm <magnus.damm@gmail.com>, Heiko Stuebner <heiko@sntech.de>
+Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-tegra@vger.kernel.org, 
+ linux@ew.tq-group.com, imx@lists.linux.dev, 
+ linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org, 
+ linux-renesas-soc@vger.kernel.org, linux-rockchip@lists.infradead.org, 
+ Conor Dooley <conor.dooley@microchip.com>, 
+ Kieran Bingham <kieran.bingham@ideasonboard.com>, 
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1782475679; l=3406;
+ i=kieran.bingham@ideasonboard.com; s=20260207; h=from:subject:message-id;
+ bh=TY+1ymCIy0OL3hNWFQ2bJgQFUJArnwOKKwXeXghWFkg=;
+ b=GChpd7SRw8H3NOWttl2n42YKdV+fRjG4b2xqrTjq2JpcgAvXgegIEh82R4+H3z+BsVxd9R7+2
+ 665tA5KbM5ICMI7mhUpFIwKceo94j6XQjGzudqSHRdNXXmXWGeJ8HFS
+X-Developer-Key: i=kieran.bingham@ideasonboard.com; a=ed25519;
+ pk=FVXKN7YuwHc6UtbRUeTMAmranfsQomA+vnilfglWdaY=
 X-Rspamd-Action: no action
 X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[redhat.com,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[redhat.com:s=mimecast20190719];
+	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
+	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-34439-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-34440-lists,linux-renesas-soc=lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:mchehab@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:jacopo@jmondi.org,m:sakari.ailus@linux.intel.com,m:jimmy.su@intel.com,m:matthias.fend@emfend.at,m:mike.rudenko@gmail.com,m:dan.scally@ideasonboard.com,m:jacopo.mondi@ideasonboard.com,m:michael.riesch@collabora.com,m:benjamin.mugnier@foss.st.com,m:sylvain.petinot@foss.st.com,m:laurent.pinchart@ideasonboard.com,m:paul.elder@ideasonboard.com,m:martin.kepplinger@puri.sm,m:quentin.schulz@theobroma-systems.com,m:tomm.merciai@gmail.com,m:clamor95@gmail.com,m:mailingradian@gmail.com,m:thierry.reding@kernel.org,m:jonathanh@nvidia.com,m:Frank.Li@nxp.com,m:s.hauer@pengutronix.de,m:kernel@pengutronix.de,m:festevam@gmail.com,m:andersson@kernel.org,m:konradybcio@kernel.org,m:geert+renesas@glider.be,m:magnus.damm@gmail.com,m:heiko@sntech.de,m:linux-kernel@vger.kernel.org,m:linux-media@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-tegra@vger.kernel.org,m:linux@ew.tq-group.com,m:imx@lis
+ ts.linux.dev,m:linux-arm-kernel@lists.infradead.org,m:linux-arm-msm@vger.kernel.org,m:linux-renesas-soc@vger.kernel.org,m:linux-rockchip@lists.infradead.org,m:conor.dooley@microchip.com,m:kieran.bingham@ideasonboard.com,m:kieran.bingham+renesas@ideasonboard.com,m:krzk@kernel.org,m:conor@kernel.org,m:mikerudenko@gmail.com,m:tommmerciai@gmail.com,m:geert@glider.be,m:magnusdamm@gmail.com,s:lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:neil.armstrong@linaro.org,m:jesszhan0024@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:andrzej.hajda@intel.com,m:rfoss@kernel.org,m:Laurent.pinchart@ideasonboard.com,m:jonas@kwiboo.se,m:jernej.skrabec@gmail.com,m:luca.ceresoli@bootlin.com,m:inki.dae@samsung.com,m:jagan@amarulasolutions.com,m:m.szyprowski@samsung.com,m:laurentiu.palcu@oss.nxp.com,m:l.stach@pengutronix.de,m:Frank.Li@nxp.com,m:s.hauer@pengutronix.de,m:kernel@pengutronix.de,m:festevam@gmail.com,m:paul@crapouillou.net,m:linusw@kernel.org,m:marex@denx.de,m:stefan@agner.ch,m:tomi.valkeinen@ideasonboard.com,m:laurent.pinchart+renesas@ideasonboard.com,m:kieran.bingham+renesas@ideasonboard.com,m:geert+renesas@glider.be,m:magnus.damm@gmail.com,m:biju.das.jz@bp.renesas.com,m:hjc@rock-chips.com,m:heiko@sntech.de,m:andy.yan@rock-chips.com,m:yannick.fertre@foss.st.com,m:raphael.gallais-pou@foss.st.com,m:philippe.cornu@foss.
- st.com,m:mcoquelin.stm32@gmail.com,m:alexandre.torgue@foss.st.com,m:wens@kernel.org,m:samuel@sholland.org,m:jyri.sarha@iki.fi,m:jingoohan1@gmail.com,m:sw0312.kim@samsung.com,m:kyungmin.park@samsung.com,m:krzk@kernel.org,m:peter.griffin@linaro.org,m:alim.akhtar@samsung.com,m:alison.wang@nxp.com,m:paulk@sys-base.io,m:alain.volmat@foss.st.com,m:rgallaispou@gmail.com,m:thierry.reding@kernel.org,m:mperttunen@nvidia.com,m:jonathanh@nvidia.com,m:dri-devel@lists.freedesktop.org,m:linux-kernel@vger.kernel.org,m:imx@lists.linux.dev,m:linux-arm-kernel@lists.infradead.org,m:linux-mips@vger.kernel.org,m:linux-renesas-soc@vger.kernel.org,m:linux-rockchip@lists.infradead.org,m:linux-stm32@st-md-mailman.stormreply.com,m:linux-sunxi@lists.linux.dev,m:linux-samsung-soc@vger.kernel.org,m:linux-tegra@vger.kernel.org,m:aesteve@redhat.com,m:jernejskrabec@gmail.com,m:laurent.pinchart@ideasonboard.com,m:kieran.bingham@ideasonboard.com,m:geert@glider.be,m:magnusdamm@gmail.com,s:lists@lfdr.de];
-	FORWARDED(0.00)[lists@lfdr.de];
-	DKIM_TRACE(0.00)[redhat.com:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_TO(0.00)[linaro.org,gmail.com,linux.intel.com,kernel.org,suse.de,ffwll.ch,intel.com,ideasonboard.com,kwiboo.se,bootlin.com,samsung.com,amarulasolutions.com,oss.nxp.com,pengutronix.de,nxp.com,crapouillou.net,denx.de,agner.ch,glider.be,bp.renesas.com,rock-chips.com,sntech.de,foss.st.com,sholland.org,iki.fi,sys-base.io,nvidia.com];
-	FORGED_SENDER(0.00)[aesteve@redhat.com,linux-renesas-soc@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	FREEMAIL_TO(0.00)[kernel.org,jmondi.org,linux.intel.com,intel.com,emfend.at,gmail.com,ideasonboard.com,collabora.com,foss.st.com,puri.sm,theobroma-systems.com,nvidia.com,nxp.com,pengutronix.de,glider.be,sntech.de];
+	FORGED_SENDER(0.00)[kieran.bingham@ideasonboard.com,linux-renesas-soc@vger.kernel.org];
+	RCPT_COUNT_TWELVE(0.00)[45];
+	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORWARDED(0.00)[lists@lfdr.de];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[aesteve@redhat.com,linux-renesas-soc@vger.kernel.org];
-	MISSING_XM_UA(0.00)[];
-	RCPT_COUNT_GT_50(0.00)[68];
-	MID_RHS_MATCH_FROM(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[kieran.bingham@ideasonboard.com,linux-renesas-soc@vger.kernel.org];
+	DKIM_TRACE(0.00)[ideasonboard.com:+];
+	MID_RHS_MATCH_FROM(0.00)[];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	TO_DN_SOME(0.00)[]
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[ideasonboard.com:dkim,ideasonboard.com:mid,ideasonboard.com:from_mime,vger.kernel.org:from_smtp,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: C27C26CCD2A
+X-Rspamd-Queue-Id: 363236CCDC0
 
-of_drm_find_panel() and drm_of_find_panel_or_bridge() now return a
-counted reference. In drivers that immediately wrap the panel in a
-bridge via devm_drm_panel_bridge_add() or equivalent, the bridge
-acquires its own reference, so the caller's lookup reference must be
-released right afterwards.
+Add a new dt-bindings/media/video-interface-devices.h header that
+initially supports the Orientation types and convert existing users
+throughout the code base.
 
-Also handle the cases where a panel is found but cannot be used,
-dropping the reference immediately in those paths.
+v2:
+ - Now expands from the original v1 "dt-bindings: media: Add macros for
+   video interface devices" to update
+   Documentation/devicetree/bindings/media/video-interface-devices.yaml
+   and extend to actually change all users to the new types.
 
-Assisted-by: Claude:claude-opus-4-6
-Signed-off-by: Albert Esteve <aesteve@redhat.com>
 ---
- drivers/gpu/drm/imx/dcss/dcss-kms.c               |  3 +++
- drivers/gpu/drm/ingenic/ingenic-drm-drv.c         |  4 +++-
- drivers/gpu/drm/mcde/mcde_drv.c                   |  1 +
- drivers/gpu/drm/mcde/mcde_dsi.c                   |  1 +
- drivers/gpu/drm/mxsfb/mxsfb_drv.c                 |  1 +
- drivers/gpu/drm/omapdrm/dss/output.c              |  1 +
- drivers/gpu/drm/pl111/pl111_drv.c                 |  1 +
- drivers/gpu/drm/renesas/rcar-du/rcar_du_encoder.c |  1 +
- drivers/gpu/drm/renesas/rcar-du/rcar_lvds.c       |  1 +
- drivers/gpu/drm/renesas/rz-du/rzg2l_du_encoder.c  |  1 +
- drivers/gpu/drm/rockchip/rockchip_lvds.c          |  1 +
- drivers/gpu/drm/rockchip/rockchip_rgb.c           |  1 +
- drivers/gpu/drm/stm/ltdc.c                        |  1 +
- drivers/gpu/drm/sun4i/sun4i_tcon.c                |  2 ++
- drivers/gpu/drm/tidss/tidss_kms.c                 | 16 +++++++++++-----
- drivers/gpu/drm/tve200/tve200_drv.c               |  1 +
- 16 files changed, 31 insertions(+), 6 deletions(-)
+Kieran Bingham (8):
+      dt-bindings: media: Add macros for video interface devices
+      media: dt-bindings: video-interface-devices: add video-interface-devices.h references
+      dt-bindings: media: i2c: Utilise video-interface-devices enums
+      ARM: tegra: Convert to new media orientation definitions
+      arm64: dts: freescale: Convert to new media orientation definitions
+      arm64: dts: qcom: Convert to new media orientation definitions
+      arm64: dts: renesas: Convert to new media orientation definitions
+      arm64: dts: rockchip: Convert to new media orientation definitions
 
-diff --git a/drivers/gpu/drm/imx/dcss/dcss-kms.c b/drivers/gpu/drm/imx/dcss/dcss-kms.c
-index 50bd7f36d36dd..01e0c10b6ea1a 100644
---- a/drivers/gpu/drm/imx/dcss/dcss-kms.c
-+++ b/drivers/gpu/drm/imx/dcss/dcss-kms.c
-@@ -77,6 +77,9 @@ static int dcss_kms_bridge_connector_init(struct dcss_kms_dev *kms)
- 	if (ret)
- 		return ret;
- 
-+	if (panel)
-+		drm_panel_put(panel);
-+
- 	if (!bridge) {
- 		dev_err(ddev->dev, "No bridge found %d.\n", ret);
- 		return -ENODEV;
-diff --git a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-index 42c86f195c66b..1887e01d29701 100644
---- a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-+++ b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-@@ -1297,9 +1297,11 @@ static int ingenic_drm_bind(struct device *dev, bool has_components)
- 			goto err_drvdata;
- 		}
- 
--		if (panel)
-+		if (panel) {
- 			bridge = devm_drm_panel_bridge_add_typed(dev, panel,
- 								 DRM_MODE_CONNECTOR_DPI);
-+			drm_panel_put(panel);
-+		}
- 
- 		ib = drmm_encoder_alloc(drm, struct ingenic_drm_bridge, encoder,
- 					NULL, DRM_MODE_ENCODER_DPI, NULL);
-diff --git a/drivers/gpu/drm/mcde/mcde_drv.c b/drivers/gpu/drm/mcde/mcde_drv.c
-index 5f2c462bad7e1..53275b575f0cb 100644
---- a/drivers/gpu/drm/mcde/mcde_drv.c
-+++ b/drivers/gpu/drm/mcde/mcde_drv.c
-@@ -153,6 +153,7 @@ static int mcde_modeset_init(struct drm_device *drm)
- 		if (panel) {
- 			bridge = drm_panel_bridge_add_typed(panel,
- 					DRM_MODE_CONNECTOR_DPI);
-+			drm_panel_put(panel);
- 			if (IS_ERR(bridge)) {
- 				dev_err(drm->dev,
- 					"Could not connect panel bridge\n");
-diff --git a/drivers/gpu/drm/mcde/mcde_dsi.c b/drivers/gpu/drm/mcde/mcde_dsi.c
-index 47d45897ed069..d9a454f226f79 100644
---- a/drivers/gpu/drm/mcde/mcde_dsi.c
-+++ b/drivers/gpu/drm/mcde/mcde_dsi.c
-@@ -1124,6 +1124,7 @@ static int mcde_dsi_bind(struct device *dev, struct device *master,
- 	if (panel) {
- 		bridge = drm_panel_bridge_add_typed(panel,
- 						    DRM_MODE_CONNECTOR_DSI);
-+		drm_panel_put(panel);
- 		if (IS_ERR(bridge)) {
- 			dev_err(dev, "error adding panel bridge\n");
- 			return PTR_ERR(bridge);
-diff --git a/drivers/gpu/drm/mxsfb/mxsfb_drv.c b/drivers/gpu/drm/mxsfb/mxsfb_drv.c
-index 0b756da2fec22..bfcdc0c237ee1 100644
---- a/drivers/gpu/drm/mxsfb/mxsfb_drv.c
-+++ b/drivers/gpu/drm/mxsfb/mxsfb_drv.c
-@@ -128,6 +128,7 @@ static int mxsfb_attach_bridge(struct mxsfb_drm_private *mxsfb)
- 	if (panel) {
- 		bridge = devm_drm_panel_bridge_add_typed(drm->dev, panel,
- 							 DRM_MODE_CONNECTOR_DPI);
-+		drm_panel_put(panel);
- 		if (IS_ERR(bridge))
- 			return PTR_ERR(bridge);
- 	}
-diff --git a/drivers/gpu/drm/omapdrm/dss/output.c b/drivers/gpu/drm/omapdrm/dss/output.c
-index ca891aba38209..6e9bc605ee22f 100644
---- a/drivers/gpu/drm/omapdrm/dss/output.c
-+++ b/drivers/gpu/drm/omapdrm/dss/output.c
-@@ -43,6 +43,7 @@ int omapdss_device_init_output(struct omap_dss_device *out,
- 		struct drm_bridge *bridge;
- 
- 		bridge = drm_panel_bridge_add(out->panel);
-+		drm_panel_put(out->panel);
- 		if (IS_ERR(bridge)) {
- 			dev_err(out->dev,
- 				"unable to create panel bridge (%ld)\n",
-diff --git a/drivers/gpu/drm/pl111/pl111_drv.c b/drivers/gpu/drm/pl111/pl111_drv.c
-index ac7b1d12a0f59..8ec659b3c08eb 100644
---- a/drivers/gpu/drm/pl111/pl111_drv.c
-+++ b/drivers/gpu/drm/pl111/pl111_drv.c
-@@ -145,6 +145,7 @@ static int pl111_modeset_init(struct drm_device *dev)
- 	if (panel) {
- 		bridge = drm_panel_bridge_add_typed(panel,
- 						    DRM_MODE_CONNECTOR_Unknown);
-+		drm_panel_put(panel);
- 		if (IS_ERR(bridge)) {
- 			ret = PTR_ERR(bridge);
- 			goto finish;
-diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_du_encoder.c b/drivers/gpu/drm/renesas/rcar-du/rcar_du_encoder.c
-index db2088529b480..d8e7e9877ba86 100644
---- a/drivers/gpu/drm/renesas/rcar-du/rcar_du_encoder.c
-+++ b/drivers/gpu/drm/renesas/rcar-du/rcar_du_encoder.c
-@@ -69,6 +69,7 @@ int rcar_du_encoder_init(struct rcar_du_device *rcdu,
- 
- 		bridge = devm_drm_panel_bridge_add_typed(rcdu->dev, panel,
- 							 DRM_MODE_CONNECTOR_DPI);
-+		drm_panel_put(panel);
- 		if (IS_ERR(bridge))
- 			return PTR_ERR(no_free_ptr(bridge));
- 
-diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_lvds.c b/drivers/gpu/drm/renesas/rcar-du/rcar_lvds.c
-index 154410745a74b..cc2996f044721 100644
---- a/drivers/gpu/drm/renesas/rcar-du/rcar_lvds.c
-+++ b/drivers/gpu/drm/renesas/rcar-du/rcar_lvds.c
-@@ -791,6 +791,7 @@ static int rcar_lvds_parse_dt(struct rcar_lvds *lvds)
- 	if (lvds->panel) {
- 		lvds->next_bridge = devm_drm_panel_bridge_add(lvds->dev,
- 							      lvds->panel);
-+		drm_panel_put(lvds->panel);
- 		if (IS_ERR_OR_NULL(lvds->next_bridge)) {
- 			ret = -EINVAL;
- 			goto done;
-diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_encoder.c b/drivers/gpu/drm/renesas/rz-du/rzg2l_du_encoder.c
-index f50d166b764f5..3d0999e4fcfdf 100644
---- a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_encoder.c
-+++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_du_encoder.c
-@@ -90,6 +90,7 @@ int rzg2l_du_encoder_init(struct rzg2l_du_device  *rcdu,
- 
- 		bridge = devm_drm_panel_bridge_add_typed(rcdu->dev, panel,
- 							 DRM_MODE_CONNECTOR_DPI);
-+		drm_panel_put(panel);
- 		if (IS_ERR(bridge))
- 			return PTR_ERR(no_free_ptr(bridge));
- 
-diff --git a/drivers/gpu/drm/rockchip/rockchip_lvds.c b/drivers/gpu/drm/rockchip/rockchip_lvds.c
-index 7a0c4fa29f2f0..f754445d2631b 100644
---- a/drivers/gpu/drm/rockchip/rockchip_lvds.c
-+++ b/drivers/gpu/drm/rockchip/rockchip_lvds.c
-@@ -605,6 +605,7 @@ static int rockchip_lvds_bind(struct device *dev, struct device *master,
- 
- 	if (lvds->panel) {
- 		lvds->bridge = drm_panel_bridge_add_typed(lvds->panel, DRM_MODE_CONNECTOR_LVDS);
-+		drm_panel_put(lvds->panel);
- 		if (IS_ERR(lvds->bridge)) {
- 			ret = PTR_ERR(lvds->bridge);
- 			goto err_free_encoder;
-diff --git a/drivers/gpu/drm/rockchip/rockchip_rgb.c b/drivers/gpu/drm/rockchip/rockchip_rgb.c
-index add3123e5ce70..ea66c70013787 100644
---- a/drivers/gpu/drm/rockchip/rockchip_rgb.c
-+++ b/drivers/gpu/drm/rockchip/rockchip_rgb.c
-@@ -139,6 +139,7 @@ struct rockchip_rgb *rockchip_rgb_init(struct device *dev,
- 	if (panel) {
- 		bridge = drm_panel_bridge_add_typed(panel,
- 						    DRM_MODE_CONNECTOR_LVDS);
-+		drm_panel_put(panel);
- 		if (IS_ERR(bridge))
- 			return ERR_CAST(bridge);
- 	}
-diff --git a/drivers/gpu/drm/stm/ltdc.c b/drivers/gpu/drm/stm/ltdc.c
-index 95fcfa48d8be3..daf198edb42f5 100644
---- a/drivers/gpu/drm/stm/ltdc.c
-+++ b/drivers/gpu/drm/stm/ltdc.c
-@@ -1982,6 +1982,7 @@ int ltdc_load(struct drm_device *ddev)
- 
- 		if (panel) {
- 			bridge = drmm_panel_bridge_add(ddev, panel);
-+			drm_panel_put(panel);
- 			if (IS_ERR(bridge)) {
- 				drm_err(ddev, "panel-bridge endpoint %d\n", i);
- 				ret = PTR_ERR(bridge);
-diff --git a/drivers/gpu/drm/sun4i/sun4i_tcon.c b/drivers/gpu/drm/sun4i/sun4i_tcon.c
-index 960e83c8291da..d4c1723c5e3d8 100644
---- a/drivers/gpu/drm/sun4i/sun4i_tcon.c
-+++ b/drivers/gpu/drm/sun4i/sun4i_tcon.c
-@@ -1326,6 +1326,8 @@ static int sun4i_tcon_probe(struct platform_device *pdev)
- 		ret = drm_of_find_panel_or_bridge(node, 1, 0, &panel, &bridge);
- 		if (ret == -EPROBE_DEFER)
- 			return ret;
-+		if (panel)
-+			drm_panel_put(panel);
- 	}
- 
- 	return component_add(&pdev->dev, &sun4i_tcon_ops);
-diff --git a/drivers/gpu/drm/tidss/tidss_kms.c b/drivers/gpu/drm/tidss/tidss_kms.c
-index 1512ee2574b66..70c14c3be10d5 100644
---- a/drivers/gpu/drm/tidss/tidss_kms.c
-+++ b/drivers/gpu/drm/tidss/tidss_kms.c
-@@ -162,6 +162,7 @@ static int tidss_dispc_modeset_init(struct tidss_device *tidss)
- 
- 		if (panel) {
- 			u32 conn_type;
-+			int ret;
- 
- 			dev_dbg(dev, "Setting up panel for port %d\n", i);
- 
-@@ -176,7 +177,8 @@ static int tidss_dispc_modeset_init(struct tidss_device *tidss)
- 				break;
- 			default:
- 				WARN_ON(1);
--				return -EINVAL;
-+				ret = -EINVAL;
-+				goto put_panel;
- 			}
- 
- 			if (panel->connector_type != conn_type) {
-@@ -184,16 +186,20 @@ static int tidss_dispc_modeset_init(struct tidss_device *tidss)
- 					"%s: Panel %s has incompatible connector type for vp%d (%d != %d)\n",
- 					 __func__, dev_name(panel->dev), i,
- 					 panel->connector_type, conn_type);
--				return -EINVAL;
-+				ret = -EINVAL;
-+				goto put_panel;
- 			}
- 
- 			bridge = devm_drm_panel_bridge_add(dev, panel);
--			if (IS_ERR(bridge)) {
-+			ret = PTR_ERR_OR_ZERO(bridge);
-+			if (ret)
- 				dev_err(dev,
- 					"failed to set up panel bridge for port %d\n",
- 					i);
--				return PTR_ERR(bridge);
--			}
-+put_panel:
-+			drm_panel_put(panel);
-+			if (ret)
-+				return ret;
- 		}
- 
- 		pipes[num_pipes].hw_videoport = i;
-diff --git a/drivers/gpu/drm/tve200/tve200_drv.c b/drivers/gpu/drm/tve200/tve200_drv.c
-index 562f3f11812a3..f858c58ccb994 100644
---- a/drivers/gpu/drm/tve200/tve200_drv.c
-+++ b/drivers/gpu/drm/tve200/tve200_drv.c
-@@ -84,6 +84,7 @@ static int tve200_modeset_init(struct drm_device *dev)
- 	if (panel) {
- 		bridge = drm_panel_bridge_add_typed(panel,
- 						    DRM_MODE_CONNECTOR_Unknown);
-+		drm_panel_put(panel);
- 		if (IS_ERR(bridge)) {
- 			ret = PTR_ERR(bridge);
- 			goto out_bridge;
+ .../devicetree/bindings/media/i2c/hynix,hi846.yaml      |  3 ++-
+ .../devicetree/bindings/media/i2c/ovti,ov08d10.yaml     |  3 ++-
+ .../devicetree/bindings/media/i2c/ovti,ov4689.yaml      |  3 ++-
+ .../devicetree/bindings/media/i2c/ovti,ov5675.yaml      |  3 ++-
+ .../devicetree/bindings/media/i2c/ovti,ov5693.yaml      |  3 ++-
+ .../devicetree/bindings/media/i2c/ovti,ov64a40.yaml     |  3 ++-
+ .../devicetree/bindings/media/i2c/sony,imx111.yaml      |  3 ++-
+ .../devicetree/bindings/media/i2c/sony,imx355.yaml      |  3 ++-
+ .../devicetree/bindings/media/i2c/sony,imx415.yaml      |  3 ++-
+ .../devicetree/bindings/media/i2c/st,vd55g1.yaml        |  3 ++-
+ .../devicetree/bindings/media/i2c/st,vd56g3.yaml        |  3 ++-
+ .../devicetree/bindings/media/i2c/thine,thp7312.yaml    |  3 ++-
+ .../bindings/media/video-interface-devices.yaml         | 17 +++++++++++------
+ .../dts/nvidia/tegra30-asus-nexus7-grouper-common.dtsi  |  3 ++-
+ .../dts/nvidia/tegra30-asus-transformer-common.dtsi     |  3 ++-
+ arch/arm/boot/dts/nvidia/tegra30-lg-p895.dts            |  4 +++-
+ arch/arm/boot/dts/nvidia/tegra30-lg-x3.dtsi             |  3 ++-
+ .../imx8mp-tqma8mpql-mba8mp-ras314-imx219.dtso          |  3 ++-
+ arch/arm64/boot/dts/freescale/imx8mq-librem5.dtsi       |  3 ++-
+ arch/arm64/boot/dts/qcom/qcm6490-fairphone-fp5.dts      |  3 ++-
+ .../boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dts     |  3 ++-
+ arch/arm64/boot/dts/qcom/sdm670-google-common.dtsi      |  3 ++-
+ .../renesas/r8a779g3-sparrow-hawk-camera-j1-imx219.dtso |  3 ++-
+ .../renesas/r8a779g3-sparrow-hawk-camera-j1-imx462.dtso |  3 ++-
+ .../renesas/r8a779g3-sparrow-hawk-camera-j2-imx219.dtso |  3 ++-
+ .../renesas/r8a779g3-sparrow-hawk-camera-j2-imx462.dtso |  3 ++-
+ arch/arm64/boot/dts/rockchip/px30-pp1516.dtsi           |  3 ++-
+ .../dts/rockchip/px30-ringneck-haikou-video-demo.dtso   |  3 ++-
+ arch/arm64/boot/dts/rockchip/rk3399-pinephone-pro.dts   |  5 +++--
+ .../rockchip/rk3588-rock-5b-plus-radxa-cam4k-cam0.dtso  |  3 ++-
+ .../rockchip/rk3588-rock-5b-plus-radxa-cam4k-cam1.dtso  |  3 ++-
+ include/dt-bindings/media/video-interface-devices.h     | 13 +++++++++++++
+ 32 files changed, 86 insertions(+), 37 deletions(-)
+---
+base-commit: 30ffa8de54e5cc80d93fd211ca134d1764a7011f
+change-id: 20260608-kbingham-orientation-20afc0fb6957
 
+Best regards,
 -- 
-2.54.0
+--
+Kieran
 
 
