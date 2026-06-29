@@ -1,507 +1,508 @@
-Return-Path: <linux-renesas-soc+bounces-34542-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-34543-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id cikvAjbtQmqYIgoAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-34542-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Jun 2026 00:09:58 +0200
+	id QFbzNlvuQmpGIwoAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-34543-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Jun 2026 00:14:51 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6CA36DEFDC
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Jun 2026 00:09:57 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2620A6DF027
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Jun 2026 00:14:51 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=gmail.com header.s=20251104 header.b=FdF7GlFy;
-	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-34542-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-34542-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=gmail.com header.s=20251104 header.b="O/vQFahF";
+	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-34543-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-34543-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=none) header.from=gmail.com;
-	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
+	arc=pass ("subspace.kernel.org:s=arc-20240116:i=2")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id A8D08302305A
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 29 Jun 2026 22:09:45 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id CF1DA3004630
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 29 Jun 2026 22:14:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 69F143CA4A0;
-	Mon, 29 Jun 2026 22:09:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9A9D13101A7;
+	Mon, 29 Jun 2026 22:14:48 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 168203CBE89
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 29 Jun 2026 22:09:38 +0000 (UTC)
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782770981; cv=none; b=GP/KbvZmtLJ2yjIrhX4WjP4Ql7o6SE2jogXPR6F/6j2x0BxvjP0wLD/pbBL9PaS4m96NOw8Dtw2cA3v3wMTRtXH/9gqxls61WS5LONFsZ9/8GW+63JCBXzwBH24jmz/PbfA9CiNuTct5N4nNYWsTEM07qRJI/8vkrIXcl+UURbk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782770981; c=relaxed/simple;
-	bh=AO3pjUA02fuoluztAxfQlLBXwNp5s8TbF9D/Elkj8Mc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=oZ00aujf9Vz9CKwWaLW5iZAGLaz9L3/PTPZqSVDFxRDqDUChVIKIE5McByEBXqx5G3mQZKNh0cxyoQN8T/8iTc7aEft9aqTiLbRU9JaMFqTe3HpLOT5b5tjYzV7k5CzvuQeOg8qUrgsbK0rlJKP6TRycH13RVR0AQLtoXPNqE6M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FdF7GlFy; arc=none smtp.client-ip=209.85.221.42
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-473ba028d46so1466860f8f.1
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 29 Jun 2026 15:09:38 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB18D287268
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 29 Jun 2026 22:14:46 +0000 (UTC)
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782771288; cv=pass; b=YQgpKk7ZN6GuAePnnnxGF40DfP5pPC0TGwH468YQmh1dU/d3O/p5bb7DHuR5xqfVx5JPRoMYI6yM209asTQPYsnsWmXiWwDBL433b/65PjHPUYdoVrgb3BePzYosSq+/ShjiniUbVgu/IeRvrIM0Nao0CxLyKjd/8C/FVakFyoU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782771288; c=relaxed/simple;
+	bh=tNvS4wghLkR96YsPte35jchdPfnLW5rRrRAxwT1/quM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=H8WWFdFAffT8MKQ6s0W/HHd8DTWqw3LeOgt2qbd2uG0NBoEdceZohiLQG+uIxqDkyRikL9tYTz7i/wYiD1L8tV/wG9Y+zRGEj0G0sPJ1hKq7ZebQmgrMvw5QVr521VEhUCVpUd3XSCRN19f5RcPy+y+iyrcw8YZX6dsibUpF+9U=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=O/vQFahF; arc=pass smtp.client-ip=209.85.221.50
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-4758bd3731bso9644f8f.0
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 29 Jun 2026 15:14:46 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1782771285; cv=none;
+        d=google.com; s=arc-20260327;
+        b=Wo+2bQFNYwoRvLTSzSMR3+QDyN/woY4oEDUQBdorrA1suvtRsGHvWatpdYpU+3OYgD
+         HXd3WWOoUleqYj4NmhiLwA2p7BoD/UlYSD1BdyGmpJuwHE+KoPfyUu0UAw6onqyoPZW/
+         OrthGRcnRD4PTZKIhOdUD6x1q58of0G25OXWFYVkc5NmUxD8xB70d8MjDqVyS4UIm3zZ
+         mYwPb+MKmoBriiyVYdo3dWihOz3CHixtr+RhEQg/TymQlIjM7/05hlWOCjfcBY6jonOS
+         K1Nvs2LlsvkQbia5NpqnWba1GlH2gF3IMb9cjw3y7bgMTDfC3cGtJHdqZmy6AEJDBYHn
+         Sfvg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=DOmPUxVNWzft3lpJ4savxUgwWUsm8gSvOvyvp3FlK78=;
+        fh=YbwUu8gbQQaH7lClGqj/qhHQRUlw+vXiEPBTxUfSxY4=;
+        b=eoYsD//ZaxhyqeLwdDYvRH4I4tTRhndJA9DkZ64a06df0OF2O4R2x9kJQuKraW7sHj
+         1mMwec6Z52w/Yjl5JAsRrPOcpI22J/QpAnraB60KrEe4uSoQ2oFx7hYoxFLjxoC8GiJm
+         KydkSee8G3FqpPLTK/JRYMb8OnfxgzgnnSzUPWl7150732DHZ6CvqYtmcC6VHSRPczdy
+         dR2hL+2hoJRNe3Jogu+T1wJVt3wPAxa94R0p9iKt5TGUs47br0KDEO3oSKuIGlySJhCW
+         /wnKXcna83rzwPEBrbfJH1PE2n7sHitnvFY2U2pFr7xluapd/v6op8t6j82zmWLB52rP
+         rDvQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782770977; x=1783375777; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1782771285; x=1783376085; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Ux8a3tK86qwLdPR6FBd7m6/mXK+YbhT+gnE1wZLRZfg=;
-        b=FdF7GlFySbp4pMTEhMSoCMOiI79el0fbqPvBr+5jEa6VAN4dvOyf+gs+MvNPGS8MVn
-         ZBrEa8+vN2jvQl4aNFZTO9cEyN54AtnFi9eh4WYO4Cujm3pTjylMAK4pDMo7+CXd4/4f
-         mUTZcYVXDsdva8i+MJ0KpFlPgUpqJHFDm1iXWWeGtGfX86Q049HNp/nNMJT0LlV5LClz
-         clFFEwC87NVEhKcPqvYZt2pG6dyL0CUxTHMXxULN2YB4KlPklGPNuLe5lLWW8KYqXy+p
-         +uvOS1yRaFiSYXS/ljWMfguQf+u7f/Rz3M28OnnCCPmT8kXpnp0fbwnb13acu7oUgXB0
-         a+Sw==
+        bh=DOmPUxVNWzft3lpJ4savxUgwWUsm8gSvOvyvp3FlK78=;
+        b=O/vQFahF7aiKXQAUC8B2ZHVjQfpnmutnKfkvfNR/MMLtiGls4LZ5M42KtTjJtJiBgL
+         34Au+vFjB8RhK86DghmNjN5GRgqKzKOaev2y9cjEtGlP1HK5mdyNkcCJvcvOI191Qz6Q
+         wojaNAotYqRTgGogU5r2N3Ywq0BpNLdJDMzFxyxh1qnZbtHbCTBgwlt+K83rkZGj6n6m
+         z6qlIO5/40ImrZUI/B93Q7d8im955IVmyGCwxSDljjRTLSFcxwMQFJNwovQZsqmvcfsc
+         MjJaNqKY6nuQDPTHFll6NI5Rtrk57Sw629tabCsCa0l5OK0TJTbruUGSc8OLkcnfBTn5
+         l0Ig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782770977; x=1783375777;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+        d=1e100.net; s=20251104; t=1782771285; x=1783376085;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=Ux8a3tK86qwLdPR6FBd7m6/mXK+YbhT+gnE1wZLRZfg=;
-        b=n4bnAQnbn7DBNPEj3EB5wkzk9+eKnX4CGZdhlMx0XQqHMDmyFjao+h/gAV3hJDnKEb
-         YjgwIsLynYDRj4WbA5F03aHKumNemsoOaNi/osa+XpLTVDFwK21uqr3HKsuNjfXXxBOU
-         9n93vr4hJhYNaYpJQX4hMFZjrJ2+DPg55Kawzfl0uwIVYEbRYmlAidoTvp/Dih1PMWxU
-         D82cqW8QemCSPZmkCkekqpsjg7R+uV2Z/ow6u5D2LTQsNc5JAsHqEn7LNKATd+R/2unq
-         E485Du//OfeF72i774akAe8Y9Ix5rjzWBxiXf0u/SGpW5GgjMvDiegS/XVtJxohOnOMh
-         WDGA==
-X-Gm-Message-State: AOJu0YxJg0sTOf28pkZBOM/1C/xqflRB+1QKNLgc+x81/EIFClxSga4c
-	hnUBAfLaszIS9C+z9cqFyPPmgZIvNcXebolz5Q+cbmX2kyeMWT/brkvo
-X-Gm-Gg: AfdE7cnVe+tRjlD/X9ya/fWFCPnbPPKtdNUsoNrV7ZJ2bGe+WesmtnkwCzB515UTE2h
-	qEtYlpa8wK7cXiKv6b4USkZpsccGtWLFCduDfuVAdj7/bpZpsVLxONDObA0mh+WFALZY3qW6qxf
-	wZ4Q1p+953wP2Ci1d2VHWdPRGPa71JnFL1O1g0Nvfpku8MGvsNlJg1SPDW/jKP+EEX3GvWwAFuQ
-	nFNcUzF+AK7qKIGC0ls8TNtrTQarKEO5IvivWqQEZlzJCsuKutFAQAiE0ZJzxgUgqR/69Fym//8
-	xRpeHEectNBDtOPPAEGxzaN4u+u51m77h3klzOgknf1sMNG+f2x+krGj8ieasj3tY2qD6tnuEH0
-	Y5UW+ZREA7UGTrFvh3LD3qWt1Wr2ueWWvId1ndkv8rjDeVtpbvcgibkrjaHNnJI7Cne50ZQngMp
-	14B52K14gq112WLBpkT746p53JpSPUv/09jjx9GVhPCD7hjudw+4AwnyjF25I+nA73TyhDjzzCS
-	Xt7ECxWLL1Dos0Rxi5l5ydz/fQ=
-X-Received: by 2002:a05:6000:2893:b0:472:edc7:b4c9 with SMTP id ffacd0b85a97d-475524a7e38mr1293244f8f.38.1782770977381;
-        Mon, 29 Jun 2026 15:09:37 -0700 (PDT)
-Received: from iku.Home ([2a06:5906:61b:2d00:dfcc:acfa:dec0:e556])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47563d195b3sm1644670f8f.8.2026.06.29.15.09.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Jun 2026 15:09:36 -0700 (PDT)
-From: Prabhakar <prabhakar.csengg@gmail.com>
-X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To: Manivannan Sadhasivam <mani@kernel.org>,
-	=?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
-	Rob Herring <robh@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	linux-pci@vger.kernel.org
-Cc: linux-renesas-soc@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Prabhakar <prabhakar.csengg+renesas@gmail.com>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v5 4/4] PCI: rzg3s-host: Add support for RZ/V2H(P) SoC
-Date: Mon, 29 Jun 2026 23:09:32 +0100
-Message-ID: <20260629220932.861445-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260629220932.861445-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20260629220932.861445-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        bh=DOmPUxVNWzft3lpJ4savxUgwWUsm8gSvOvyvp3FlK78=;
+        b=KwvCHaozjsJn+OcWhW7ITLhF9VTCAyJXSH7ULJUrZUbiHJ3RHwWROsR8tgAW7BReKz
+         2IcdP0zASxnV7LZwHeZ51YbaLKBdxmA8qw5xFpetSMHslgN1PqDX800lCtFMeTQIaDmt
+         Q0KjrRV+cthQBb7QsVJPC/Uar+A6pVW5xD84l0qMtVE65ldDQlHKJ2OEoQk7hRSfvGAV
+         MwIibAwF01Bi3T1NveSOB/WyhYv5kRwnDRjALWRkOFKjdAW/zgWJeKC5dinK6B1F94lc
+         xTj898IxiCzyMsATxwKbuhhkyb/ulNKCrgyyU94E8gLGQSAD9Y+vJaZWA6NY6S/ADIhd
+         bEBQ==
+X-Forwarded-Encrypted: i=1; AHgh+Rp7xFjE8G8LaPsPD9zw54Cs/xW9vTkHKe8d3v0lmg8D6rGgwYI8NM3akbsLLp8acXmzlC3TyAJs6AA5eATTYEo6ew==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwvnQTW7LsRdsJrjfxWxuA7kg/CmEqUIbJQvtGAa/ux/MXcfeRP
+	tyo/vyIVJIL0Q9JXTs2SJkowKLugRXduyvW3FKQg6FVXG2Ik6LncybaYsWnIJDfCf2SLQ8fjsRP
+	LNQHS9BwWtCNrCtGBiDSyLRt54qMSBCU=
+X-Gm-Gg: AfdE7cndHxEl2E7TKlUkWztSgelHqYxuJhUt2xrJGAWCJGWUxE3WDxxmMwi1fo48UWY
+	N1hMrKrfrLEXJsuc6uZGW+PA96dCFyzUW2EGJkcDJROTcQ7XiMRgEtkTEhAmn+C+B88iK/UGYYP
+	J66nIYe7vhSM6VjsjVcf1Rt95TIxh2dvoYhlGdR5PTcEd6S5Xlx4dY530ljUI4kzuutz9rvj1vc
+	gFKZ3EdF5Qo0kIjpn/b+aABhaJ0Yi1BGjZRS/ysEJ/7rTCC2NqvVkW3Lu4n4PHOwKdQQbHWkMxr
+	wRTgnHSqyLfWaIltcv4fnoa33+0Ax1foYmINwwXvTCgY7oK6OXvLrH0e4Tceg2MNgtJgivA/eCS
+	dJoUpTnxKPiNu/DJSwTMyHJja6w==
+X-Received: by 2002:a05:6000:2913:b0:461:a15f:7aa5 with SMTP id
+ ffacd0b85a97d-4754c0d809amr1345932f8f.21.1782771285182; Mon, 29 Jun 2026
+ 15:14:45 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260618190935.3018531-1-john.madieu.xa@bp.renesas.com>
+In-Reply-To: <20260618190935.3018531-1-john.madieu.xa@bp.renesas.com>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Mon, 29 Jun 2026 23:14:19 +0100
+X-Gm-Features: AVVi8CdaMSXeyogdv3RhR5uRIo8Wq3v2AVlnVJFCp8Ln9yJUGKp95yjP6ekEIOw
+Message-ID: <CA+V-a8tCcGtV9Fiz8ByZ+-EXJjyR0+S_g3HnVabtPSx5_s1q4w@mail.gmail.com>
+Subject: Re: [PATCH] PCI: rzg3s-host: Re-enumerate the bus on PCIe link-state changes
+To: John Madieu <john.madieu.xa@bp.renesas.com>
+Cc: claudiu.beznea.uj@bp.renesas.com, lpieralisi@kernel.org, 
+	kwilczynski@kernel.org, mani@kernel.org, bhelgaas@google.com, robh@kernel.org, 
+	linux-pci@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, john.madieu@gmail.com, 
+	biju.das.jz@bp.renesas.com, geert+renesas@glider.be
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.16 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_MISSING_CHARSET(0.50)[];
+X-Spamd-Result: default: False [-2.16 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCPT_COUNT_TWELVE(0.00)[19];
-	FREEMAIL_FROM(0.00)[gmail.com];
+	TAGGED_FROM(0.00)[bounces-34543-lists,linux-renesas-soc=lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_RECIPIENTS(0.00)[m:john.madieu.xa@bp.renesas.com,m:claudiu.beznea.uj@bp.renesas.com,m:lpieralisi@kernel.org,m:kwilczynski@kernel.org,m:mani@kernel.org,m:bhelgaas@google.com,m:robh@kernel.org,m:linux-pci@vger.kernel.org,m:linux-renesas-soc@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:john.madieu@gmail.com,m:biju.das.jz@bp.renesas.com,m:geert+renesas@glider.be,m:johnmadieu@gmail.com,m:geert@glider.be,s:lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-34542-lists,linux-renesas-soc=lfdr.de];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS(0.00)[m:mani@kernel.org,m:kwilczynski@kernel.org,m:lpieralisi@kernel.org,m:claudiu.beznea.uj@bp.renesas.com,m:robh@kernel.org,m:bhelgaas@google.com,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:p.zabel@pengutronix.de,m:geert+renesas@glider.be,m:magnus.damm@gmail.com,m:linux-pci@vger.kernel.org,m:linux-renesas-soc@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:prabhakar.csengg+renesas@gmail.com,m:biju.das.jz@bp.renesas.com,m:fabrizio.castro.jz@renesas.com,m:prabhakar.mahadev-lad.rj@bp.renesas.com,m:krzk@kernel.org,m:conor@kernel.org,m:geert@glider.be,m:magnusdamm@gmail.com,m:prabhakarcsengg@gmail.com,s:lists@lfdr.de];
+	FROM_HAS_DN(0.00)[];
 	FORGED_SENDER(0.00)[prabhakarcsengg@gmail.com,linux-renesas-soc@vger.kernel.org];
 	FORWARDED(0.00)[lists@lfdr.de];
+	FREEMAIL_FROM(0.00)[gmail.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_TO(0.00)[kernel.org,bp.renesas.com,google.com,pengutronix.de,glider.be,gmail.com,vger.kernel.org];
-	FREEMAIL_CC(0.00)[vger.kernel.org,gmail.com,bp.renesas.com,renesas.com];
+	RCPT_COUNT_TWELVE(0.00)[13];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[bp.renesas.com,kernel.org,google.com,vger.kernel.org,gmail.com,glider.be];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[prabhakarcsengg@gmail.com,linux-renesas-soc@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	RCVD_COUNT_FIVE(0.00)[5];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
 	ALIAS_RESOLVED(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,renesas.com:email,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo]
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[prabhakarcsengg@gmail.com,linux-renesas-soc@vger.kernel.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[renesas.com:email,vger.kernel.org:from_smtp,mail.gmail.com:mid,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: A6CA36DEFDC
+X-Rspamd-Queue-Id: 2620A6DF027
 
-From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Hi John,
 
-Add support for the RZ/V2H(P) SoC PCIe controllers to the rzg3s-host
-driver.
+Thank you for the patch.
 
-The RZ/V2H(P) SoC features two independent PCIe controllers that share
-four physical lanes. The hardware supports two configuration modes:
-single x4 mode where the first controller uses all four lanes, or dual
-x2 mode where both controllers use two lanes each.
+On Thu, Jun 18, 2026 at 8:10=E2=80=AFPM John Madieu
+<john.madieu.xa@bp.renesas.com> wrote:
+>
+> The RZ/G3E PCIe controller does not expose the standard PCIe Slot
+> Capability registers, so the generic pciehp driver cannot be used. The
+> only link-state signal the hardware provides is the DL_UpDown bit in the
+> PEIS0 event status register, which is raised on every Data Link layer
+> up/down transition.
+>
+> Enable DL_UpDown in PEIE0 and hook up an interrupt handler so the driver
+> can react to link-state changes: a device that trains after boot gets
+> enumerated, and a device that disappears on link loss is removed. This
+> provides hotplug-like behaviour without the PCI hotplug core, which is
+> unavailable for the reason above.
+>
+> On a DL_UpDown event the handler acks the W1C status bit and schedules a
+> worker that inspects PCSTAT1.DL_DOWN_STS:
+>
+>   - link up: re-run max link speed negotiation, wait for the link to
+>     settle and pci_rescan_bus() the root bus;
+>   - link down: walk the bus in reverse and
+>     pci_stop_and_remove_bus_device() each child.
+>
+> Both paths take pci_lock_rescan_remove() to serialise against the PCI
+> core.
+>
+> Link events are only acted upon once the controller is fully
+> initialised. A DL_UpDown latched while the registers are not configured,
+> for example when the event IRQ is used as a system wakeup source during
+> resume, is acknowledged but does not schedule a rescan. The
+> hw_initialized flag, set at the end of controller setup and cleared on
+> suspend, gates this.
+>
+> While at it, make probe tolerant of an absent device. Previously, if the
+> link failed to come up during rzg3s_pcie_host_init(), probe tore the
+> controller back down and failed. Distinguish this case with -ENODEV,
+> leave the controller and refclk running, and let the link-up path
+> enumerate the device once it appears.
+>
+> Signed-off-by: John Madieu <john.madieu.xa@bp.renesas.com>
+> ---
+>  drivers/pci/controller/pcie-rzg3s-host.c | 153 +++++++++++++++++++++--
+>  1 file changed, 143 insertions(+), 10 deletions(-)
+>
+There are patches already inflight for this driver [0] (which should
+be the last series). This patch doesn't apply on top of it. Please
+rebase on top of this series and send a v2 mentioning the dependency.
 
-Introduce a setup_lanes() function pointer to configure the PCIe lanes
-based on the hardware instance. Implement rzv2h_pcie_setup_lanes() to
-detect the configuration at boot time and program the lane mode via the
-system controller.
+[0] https://lore.kernel.org/all/20260629220932.861445-1-prabhakar.mahadev-l=
+ad.rj@bp.renesas.com/
 
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Reviewed-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Tested-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
----
-v4->v5:
-- No change
+Cheers,
+Prabhakar
 
-v3->v4:
-- In rzv2h_pcie_setup_lanes() returned early in case of error
-- Added RB/TB tags
-
-v2->v3:
-- Parsed controller-id from the "renesas,sysc" property instead of
-  using linux,pci-domain.
-
-v1->v2:
-- Updated commit message.
-- Added locks to protect shared lane configuration state and
-  prevent concurrent access issues during probe.
-- Added cleanup action to release lanes on driver removal.
-- Reconfigured RZG3S_SYSC_FUNC_ID_LINK_MASTER in resume path.
-- Renamed num_channels to num_pcie_controllers for clarity.
----
- drivers/pci/controller/pcie-rzg3s-host.c | 181 +++++++++++++++++++++++
- 1 file changed, 181 insertions(+)
-
-diff --git a/drivers/pci/controller/pcie-rzg3s-host.c b/drivers/pci/controller/pcie-rzg3s-host.c
-index 03d79e98c9c9..a1a78bdb7af1 100644
---- a/drivers/pci/controller/pcie-rzg3s-host.c
-+++ b/drivers/pci/controller/pcie-rzg3s-host.c
-@@ -180,6 +180,16 @@
- /* Timeouts experimentally determined */
- #define RZG3S_REQ_ISSUE_TIMEOUT_US		2500
- 
-+/**
-+ * enum rzg3s_sysc_link_mode - PCIe link configuration modes
-+ * @RZG3S_SYSC_LINK_MODE_SINGLE_X4: Single port with x4 lanes
-+ * @RZG3S_SYSC_LINK_MODE_DUAL_X2: Dual ports with x2 lanes each
-+ */
-+enum rzg3s_sysc_link_mode {
-+	RZG3S_SYSC_LINK_MODE_SINGLE_X4 = 1,
-+	RZG3S_SYSC_LINK_MODE_DUAL_X2 = 3,
-+};
-+
- /**
-  * struct rzg3s_sysc_function - System Controller function descriptor
-  * @offset: Register offset from the System Controller base address
-@@ -195,12 +205,14 @@ struct rzg3s_sysc_function {
-  * @RZG3S_SYSC_FUNC_ID_RST_RSM_B: RST_RSM_B SYSC function ID
-  * @RZG3S_SYSC_FUNC_ID_L1_ALLOW: L1 allow SYSC function ID
-  * @RZG3S_SYSC_FUNC_ID_MODE: Mode SYSC function ID
-+ * @RZG3S_SYSC_FUNC_ID_LINK_MASTER: Link master SYSC function ID
-  * @RZG3S_SYSC_FUNC_ID_MAX: Max SYSC function ID
-  */
- enum rzg3s_sysc_func_id {
- 	RZG3S_SYSC_FUNC_ID_RST_RSM_B,
- 	RZG3S_SYSC_FUNC_ID_L1_ALLOW,
- 	RZG3S_SYSC_FUNC_ID_MODE,
-+	RZG3S_SYSC_FUNC_ID_LINK_MASTER,
- 	RZG3S_SYSC_FUNC_ID_MAX,
- };
- 
-@@ -262,6 +274,7 @@ struct rzg3s_pcie_host;
-  * @config_pre_init: Optional callback for SoC-specific pre-configuration
-  * @config_post_init: Callback for SoC-specific post-configuration
-  * @config_deinit: Callback for SoC-specific de-initialization
-+ * @setup_lanes: Callback for setting up the number of lanes
-  * @power_resets: array with the resets that need to be de-asserted after
-  *                power-on
-  * @cfg_resets: array with the resets that need to be de-asserted after
-@@ -269,17 +282,20 @@ struct rzg3s_pcie_host;
-  * @sysc_info: System Controller info for each controller
-  * @num_power_resets: number of power resets
-  * @num_cfg_resets: number of configuration resets
-+ * @num_pcie_controllers: number of PCIe controllers
-  */
- struct rzg3s_pcie_soc_data {
- 	int (*init_phy)(struct rzg3s_pcie_host *host);
- 	void (*config_pre_init)(struct rzg3s_pcie_host *host);
- 	int (*config_post_init)(struct rzg3s_pcie_host *host);
- 	int (*config_deinit)(struct rzg3s_pcie_host *host);
-+	int (*setup_lanes)(struct rzg3s_pcie_host *host);
- 	const char * const *power_resets;
- 	const char * const *cfg_resets;
- 	struct rzg3s_sysc_info sysc_info[RZG3S_PCIE_CONTROLLER_ID_MAX];
- 	u8 num_power_resets;
- 	u8 num_cfg_resets;
-+	u8 num_pcie_controllers;
- };
- 
- /**
-@@ -310,6 +326,7 @@ struct rzg3s_pcie_port {
-  * @intx_irqs: INTx interrupts
-  * @max_link_speed: maximum supported link speed
-  * @controller_id: PCIe controller identifier, used for System Controller access
-+ * @num_lanes: The number of lanes
-  */
- struct rzg3s_pcie_host {
- 	void __iomem *axi;
-@@ -326,10 +343,23 @@ struct rzg3s_pcie_host {
- 	int intx_irqs[PCI_NUM_INTX];
- 	int max_link_speed;
- 	enum rzg3s_pcie_controller_id controller_id;
-+	u8 num_lanes;
- };
- 
- #define rzg3s_msi_to_host(_msi)	container_of(_msi, struct rzg3s_pcie_host, msi)
- 
-+/*
-+ * RZ/V2H(P) supports a total of 4 lanes shared across two controllers.
-+ * rzv2h_lane_lock serialises both the counter update and the SYSC
-+ * register write so that concurrent async probes cannot race on the
-+ * shared LINK_MASTER register (offset 0x1060).
-+ * rzv2h_num_total_lanes tracks global lane usage to prevent
-+ * over-allocation or invalid bifurcation modes.
-+ */
-+#define RZV2H_PCIE_MAX_LANES		4
-+static DEFINE_SPINLOCK(rzv2h_lane_lock);
-+static u8 rzv2h_num_total_lanes;
-+
- static int rzg3s_sysc_config_func(struct rzg3s_sysc *sysc,
- 				  enum rzg3s_sysc_func_id fid, u32 val)
- {
-@@ -1156,6 +1186,13 @@ static int rzg3s_pcie_config_init(struct rzg3s_pcie_host *host)
- 	rzg3s_pcie_update_bits(host->pcie, PCI_CLASS_REVISION, mask,
- 			       field_prep(mask, PCI_CLASS_BRIDGE_PCI_NORMAL));
- 
-+	if (host->num_lanes) {
-+		rzg3s_pcie_update_bits(host->pcie + RZG3S_PCI_CFG_PCIEC,
-+				       PCI_EXP_LNKCAP, PCI_EXP_LNKCAP_MLW,
-+				       FIELD_PREP(PCI_EXP_LNKCAP_MLW,
-+						  host->num_lanes));
-+	}
-+
- 	/* Disable access control to the CFGU */
- 	writel_relaxed(0, host->axi + RZG3S_PCI_PERM);
- 
-@@ -1688,6 +1725,76 @@ rzg3s_pcie_host_setup(struct rzg3s_pcie_host *host,
- 	return ret;
- }
- 
-+static int rzg3s_pcie_get_controller_id(struct rzg3s_pcie_host *host)
-+{
-+	struct device_node *np = host->dev->of_node;
-+	struct of_phandle_args sysc_args;
-+	int ret;
-+
-+	if (host->data->num_pcie_controllers == 1)
-+		return 0;
-+
-+	ret = of_parse_phandle_with_fixed_args(np, "renesas,sysc", 1, 0, &sysc_args);
-+	if (ret)
-+		return ret;
-+
-+	of_node_put(sysc_args.np);
-+
-+	if (sysc_args.args[0] >= host->data->num_pcie_controllers ||
-+	    sysc_args.args[0] >= RZG3S_PCIE_CONTROLLER_ID_MAX)
-+		return -EINVAL;
-+
-+	host->controller_id = sysc_args.args[0];
-+
-+	return 0;
-+}
-+
-+static int rzv2h_pcie_setup_lanes(struct rzg3s_pcie_host *host)
-+{
-+	struct device_node *np = host->dev->of_node;
-+	u32 num_lanes;
-+	int ret;
-+
-+	ret = of_property_read_u32(np, "num-lanes", &num_lanes);
-+	if (ret)
-+		return ret;
-+
-+	/*
-+	 * RZ/V2H(P) supports up to 4 lanes, but only in single x4 mode
-+	 * for the first controller. Dual x2 mode is supported with 2
-+	 * lanes for both controllers.
-+	 */
-+	if (num_lanes != 4 && num_lanes != 2)
-+		return -EINVAL;
-+
-+	if (host->controller_id == RZG3S_PCIE_CONTROLLER_ID_1 && num_lanes > 2)
-+		return -EINVAL;
-+
-+	guard(spinlock)(&rzv2h_lane_lock);
-+	if (rzv2h_num_total_lanes + num_lanes > RZV2H_PCIE_MAX_LANES)
-+		return -EINVAL;
-+
-+	ret = rzg3s_sysc_config_func(host->sysc, RZG3S_SYSC_FUNC_ID_LINK_MASTER,
-+				     num_lanes == 2 ?
-+				     RZG3S_SYSC_LINK_MODE_DUAL_X2 :
-+				     RZG3S_SYSC_LINK_MODE_SINGLE_X4);
-+	if (ret)
-+		return ret;
-+
-+	rzv2h_num_total_lanes += num_lanes;
-+	host->num_lanes = num_lanes;
-+
-+	return 0;
-+}
-+
-+static void rzv2h_pcie_release_lanes(void *data)
-+{
-+	struct rzg3s_pcie_host *host = data;
-+
-+	guard(spinlock)(&rzv2h_lane_lock);
-+	rzv2h_num_total_lanes -= host->num_lanes;
-+}
-+
- static int rzg3s_pcie_probe(struct platform_device *pdev)
- {
- 	struct pci_host_bridge *bridge;
-@@ -1712,6 +1819,10 @@ static int rzg3s_pcie_probe(struct platform_device *pdev)
- 	if (!host->sysc)
- 		return -ENOMEM;
- 
-+	ret = rzg3s_pcie_get_controller_id(host);
-+	if (ret)
-+		return ret;
-+
- 	sysc = host->sysc;
- 	sysc->info = &host->data->sysc_info[host->controller_id];
- 
-@@ -1741,6 +1852,16 @@ static int rzg3s_pcie_probe(struct platform_device *pdev)
- 	if (ret)
- 		goto port_refclk_put;
- 
-+	if (host->data->setup_lanes) {
-+		ret = host->data->setup_lanes(host);
-+		if (ret)
-+			goto sysc_signal_restore;
-+
-+		ret = devm_add_action_or_reset(dev, rzv2h_pcie_release_lanes, host);
-+		if (ret)
-+			goto sysc_signal_restore;
-+	}
-+
- 	ret = rzg3s_pcie_resets_prepare_and_get(host);
- 	if (ret)
- 		goto sysc_signal_restore;
-@@ -1855,6 +1976,16 @@ static int rzg3s_pcie_resume_noirq(struct device *dev)
- 	if (ret)
- 		return ret;
- 
-+	if (host->num_lanes) {
-+		ret = rzg3s_sysc_config_func(host->sysc,
-+					     RZG3S_SYSC_FUNC_ID_LINK_MASTER,
-+					     host->num_lanes == 2  ?
-+					     RZG3S_SYSC_LINK_MODE_DUAL_X2 :
-+					     RZG3S_SYSC_LINK_MODE_SINGLE_X4);
-+		if (ret)
-+			goto assert_rst_rsm_b;
-+	}
-+
- 	ret = rzg3s_pcie_power_resets_deassert(host);
- 	if (ret)
- 		goto assert_rst_rsm_b;
-@@ -1902,6 +2033,7 @@ static const struct rzg3s_pcie_soc_data rzg3s_soc_data = {
- 	.num_power_resets = ARRAY_SIZE(rzg3s_soc_power_resets),
- 	.cfg_resets = rzg3s_soc_cfg_resets,
- 	.num_cfg_resets = ARRAY_SIZE(rzg3s_soc_cfg_resets),
-+	.num_pcie_controllers = 1,
- 	.config_post_init = rzg3s_pcie_config_post_init,
- 	.config_deinit = rzg3s_pcie_config_deinit,
- 	.init_phy = rzg3s_soc_pcie_init_phy,
-@@ -1922,6 +2054,7 @@ static const char * const rzg3e_soc_power_resets[] = { "aresetn" };
- static const struct rzg3s_pcie_soc_data rzg3e_soc_data = {
- 	.power_resets = rzg3e_soc_power_resets,
- 	.num_power_resets = ARRAY_SIZE(rzg3e_soc_power_resets),
-+	.num_pcie_controllers = 1,
- 	.config_pre_init = rzg3e_pcie_config_pre_init,
- 	.config_post_init = rzg3e_pcie_config_post_init,
- 	.config_deinit = rzg3e_pcie_config_deinit,
-@@ -1941,6 +2074,50 @@ static const struct rzg3s_pcie_soc_data rzg3e_soc_data = {
- 	},
- };
- 
-+static const struct rzg3s_pcie_soc_data rzv2h_soc_data = {
-+	.power_resets = rzg3e_soc_power_resets,
-+	.num_power_resets = ARRAY_SIZE(rzg3e_soc_power_resets),
-+	.num_pcie_controllers = 2,
-+	.config_pre_init = rzg3e_pcie_config_pre_init,
-+	.config_post_init = rzg3e_pcie_config_post_init,
-+	.config_deinit = rzg3e_pcie_config_deinit,
-+	.setup_lanes = rzv2h_pcie_setup_lanes,
-+	.sysc_info = {
-+		[RZG3S_PCIE_CONTROLLER_ID_0] = {
-+			.functions = {
-+				[RZG3S_SYSC_FUNC_ID_L1_ALLOW] = {
-+					.offset = 0x1020,
-+					.mask = BIT(0),
-+				},
-+				[RZG3S_SYSC_FUNC_ID_MODE] = {
-+					.offset = 0x1024,
-+					.mask = BIT(0),
-+				},
-+				[RZG3S_SYSC_FUNC_ID_LINK_MASTER] = {
-+					.offset = 0x1060,
-+					.mask = GENMASK(9, 8),
-+				},
-+			},
-+		},
-+		[RZG3S_PCIE_CONTROLLER_ID_1] = {
-+			.functions = {
-+				[RZG3S_SYSC_FUNC_ID_L1_ALLOW] = {
-+					.offset = 0x1050,
-+					.mask = BIT(0),
-+				},
-+				[RZG3S_SYSC_FUNC_ID_MODE] = {
-+					.offset = 0x1054,
-+					.mask = BIT(0),
-+				},
-+				[RZG3S_SYSC_FUNC_ID_LINK_MASTER] = {
-+					.offset = 0x1060,
-+					.mask = GENMASK(9, 8),
-+				},
-+			},
-+		},
-+	},
-+};
-+
- static const struct of_device_id rzg3s_pcie_of_match[] = {
- 	{
- 		.compatible = "renesas,r9a08g045-pcie",
-@@ -1950,6 +2127,10 @@ static const struct of_device_id rzg3s_pcie_of_match[] = {
- 		.compatible = "renesas,r9a09g047-pcie",
- 		.data = &rzg3e_soc_data,
- 	},
-+	{
-+		.compatible = "renesas,r9a09g057-pcie",
-+		.data = &rzv2h_soc_data,
-+	},
- 	{}
- };
- 
--- 
-2.54.0
-
+> diff --git a/drivers/pci/controller/pcie-rzg3s-host.c b/drivers/pci/contr=
+oller/pcie-rzg3s-host.c
+> index d86e7516dcc2..5a10422ced2e 100644
+> --- a/drivers/pci/controller/pcie-rzg3s-host.c
+> +++ b/drivers/pci/controller/pcie-rzg3s-host.c
+> @@ -34,6 +34,7 @@
+>  #include <linux/sizes.h>
+>  #include <linux/slab.h>
+>  #include <linux/units.h>
+> +#include <linux/workqueue.h>
+>
+>  #include "../pci.h"
+>
+> @@ -294,7 +295,12 @@ struct rzg3s_pcie_port {
+>   * @msi: MSI data structure
+>   * @port: PCIe Root Port
+>   * @hw_lock: lock for access to the HW resources
+> + * @link_work: work for DL_UpDown link-state change handling
+> + * @event_irq: PCIe event interrupt for DL_UpDown detection
+>   * @intx_irqs: INTx interrupts
+> + * @hw_initialized: set once the controller HW is fully initialised; gat=
+es
+> + *                  DL_UpDown event handling against events latched whil=
+e
+> + *                  the registers are not configured
+>   * @max_link_speed: maximum supported link speed
+>   */
+>  struct rzg3s_pcie_host {
+> @@ -309,7 +315,10 @@ struct rzg3s_pcie_host {
+>         struct rzg3s_pcie_msi msi;
+>         struct rzg3s_pcie_port port;
+>         raw_spinlock_t hw_lock;
+> +       struct work_struct link_work;
+> +       int event_irq;
+>         int intx_irqs[PCI_NUM_INTX];
+> +       bool hw_initialized;
+>         int max_link_speed;
+>  };
+>
+> @@ -575,6 +584,30 @@ static irqreturn_t rzg3s_pcie_msi_irq(int irq, void =
+*data)
+>         return IRQ_HANDLED;
+>  }
+>
+> +static irqreturn_t rzg3s_pcie_event_irq(int irq, void *data)
+> +{
+> +       struct rzg3s_pcie_host *host =3D data;
+> +       u32 status;
+> +
+> +       status =3D readl_relaxed(host->axi + RZG3S_PCI_PEIS0);
+> +
+> +       if (!(status & RZG3S_PCI_PEIS0_DL_UPDOWN))
+> +               return IRQ_NONE;
+> +
+> +       /* Clear the DL_UpDown status (W1C) */
+> +       writel_relaxed(RZG3S_PCI_PEIS0_DL_UPDOWN, host->axi + RZG3S_PCI_P=
+EIS0);
+> +
+> +       /*
+> +        * Drop the event until the controller is fully initialised. The
+> +        * event IRQ may act as a system wakeup source and fire during
+> +        * resume before the HW registers have been reconfigured.
+> +        */
+> +       if (READ_ONCE(host->hw_initialized))
+> +               schedule_work(&host->link_work);
+> +
+> +       return IRQ_HANDLED;
+> +}
+> +
+>  static void rzg3s_pcie_msi_irq_ack(struct irq_data *d)
+>  {
+>         struct rzg3s_pcie_msi *msi =3D irq_data_get_irq_chip_data(d);
+> @@ -1107,6 +1140,47 @@ static int rzg3s_pcie_set_max_link_speed(struct rz=
+g3s_pcie_host *host)
+>         return ret;
+>  }
+>
+> +static void rzg3s_pcie_link_work(struct work_struct *work)
+> +{
+> +       struct rzg3s_pcie_host *host =3D
+> +               container_of(work, struct rzg3s_pcie_host, link_work);
+> +       struct pci_host_bridge *bridge =3D pci_host_bridge_from_priv(host=
+);
+> +       struct pci_bus *bus =3D bridge->bus;
+> +       u32 val;
+> +
+> +       val =3D readl_relaxed(host->axi + RZG3S_PCI_PCSTAT1);
+> +       if (val & RZG3S_PCI_PCSTAT1_DL_DOWN_STS) {
+> +               struct pci_dev *dev, *tmp;
+> +
+> +               dev_info(host->dev, "PCIe link down, removing devices\n")=
+;
+> +
+> +               pci_lock_rescan_remove();
+> +               list_for_each_entry_safe_reverse(dev, tmp,
+> +                                                &bus->devices, bus_list)
+> +                       pci_stop_and_remove_bus_device(dev);
+> +               pci_unlock_rescan_remove();
+> +       } else {
+> +               int ret;
+> +
+> +               dev_info(host->dev, "PCIe link up, rescanning bus\n");
+> +
+> +               /*
+> +                * Attempt link speed negotiation now that the link is up=
+.
+> +                * Failure is non-fatal: the device works at the negotiat=
+ed
+> +                * speed.
+> +                */
+> +               ret =3D rzg3s_pcie_set_max_link_speed(host);
+> +               if (ret)
+> +                       dev_info(host->dev, "Failed to set max link speed=
+\n");
+> +
+> +               msleep(PCIE_RESET_CONFIG_WAIT_MS);
+> +
+> +               pci_lock_rescan_remove();
+> +               pci_rescan_bus(bus);
+> +               pci_unlock_rescan_remove();
+> +       }
+> +}
+> +
+>  static int rzg3s_pcie_config_init(struct rzg3s_pcie_host *host)
+>  {
+>         struct pci_host_bridge *bridge =3D pci_host_bridge_from_priv(host=
+);
+> @@ -1217,8 +1291,8 @@ static void rzg3s_pcie_irq_init(struct rzg3s_pcie_h=
+ost *host)
+>                        RZG3S_PCI_PEIS0_RX_DLLP_PM_ENTER,
+>                        host->axi + RZG3S_PCI_PEIS0);
+>
+> -       /* Disable all interrupts */
+> -       writel_relaxed(0, host->axi + RZG3S_PCI_PEIE0);
+> +       /* Enable DL_UpDown interrupt for link state change detection */
+> +       writel_relaxed(RZG3S_PCI_PEIS0_DL_UPDOWN, host->axi + RZG3S_PCI_P=
+EIE0);
+>
+>         /* Clear all parity and ecc error interrupts */
+>         writel_relaxed(~0U, host->axi + RZG3S_PCI_PEIS1);
+> @@ -1384,16 +1458,21 @@ static int rzg3s_pcie_host_init(struct rzg3s_pcie=
+_host *host)
+>                                  PCIE_LINK_WAIT_SLEEP_MS * MILLI,
+>                                  PCIE_LINK_WAIT_SLEEP_MS * MILLI *
+>                                  PCIE_LINK_WAIT_MAX_RETRIES);
+> -       if (ret)
+> -               goto config_deinit_post;
+> +       if (ret) {
+> +               /*
+> +                * Link is down. Leave the controller running so the
+> +                * DL_UpDown handler can enumerate a device that appears
+> +                * later.
+> +                */
+> +               dev_info(host->dev, "PCIe link down, waiting for DL_UpDow=
+n\n");
+> +               ret =3D -ENODEV;
+> +       }
+>
+>         val =3D readl_relaxed(host->axi + RZG3S_PCI_PCSTAT2);
+>         dev_info(host->dev, "PCIe link status [0x%x]\n", val);
+>
+> -       return 0;
+> +       return ret;
+>
+> -config_deinit_post:
+> -       host->data->config_deinit(host);
+>  config_deinit_and_refclk:
+>         clk_disable_unprepare(host->port.refclk);
+>  config_deinit:
+> @@ -1655,8 +1734,15 @@ rzg3s_pcie_host_setup(struct rzg3s_pcie_host *host=
+,
+>
+>         ret =3D rzg3s_pcie_host_init(host);
+>         if (ret) {
+> -               dev_err_probe(dev, ret, "Failed to initialize the HW!\n")=
+;
+> -               goto teardown_irqdomain;
+> +               if (ret !=3D -ENODEV) {
+> +                       dev_err_probe(dev, ret,
+> +                                     "Failed to initialize the HW!\n");
+> +                       goto teardown_irqdomain;
+> +               }
+> +
+> +               /* Link is down: hotplug via DL_UpDown will recover. */
+> +               WRITE_ONCE(host->hw_initialized, true);
+> +               return 0;
+>         }
+>
+>         ret =3D rzg3s_pcie_set_max_link_speed(host);
+> @@ -1665,6 +1751,8 @@ rzg3s_pcie_host_setup(struct rzg3s_pcie_host *host,
+>
+>         msleep(PCIE_RESET_CONFIG_WAIT_MS);
+>
+> +       WRITE_ONCE(host->hw_initialized, true);
+> +
+>         return 0;
+>
+>  teardown_irqdomain:
+> @@ -1682,6 +1770,7 @@ static int rzg3s_pcie_probe(struct platform_device =
+*pdev)
+>                 of_parse_phandle(np, "renesas,sysc", 0);
+>         struct rzg3s_pcie_host *host;
+>         struct rzg3s_sysc *sysc;
+> +       const char *evt_name;
+>         int ret;
+>
+>         bridge =3D devm_pci_alloc_host_bridge(dev, sizeof(*host));
+> @@ -1745,6 +1834,7 @@ static int rzg3s_pcie_probe(struct platform_device =
+*pdev)
+>                 goto rpm_disable;
+>
+>         raw_spin_lock_init(&host->hw_lock);
+> +       INIT_WORK(&host->link_work, rzg3s_pcie_link_work);
+>
+>         ret =3D rzg3s_pcie_host_setup(host, rzg3s_pcie_init_irqdomain,
+>                                     rzg3s_pcie_teardown_irqdomain);
+> @@ -1758,8 +1848,39 @@ static int rzg3s_pcie_probe(struct platform_device=
+ *pdev)
+>         if (ret)
+>                 goto host_probe_teardown;
+>
+> +       /*
+> +        * Request the PCIe event IRQ at the end of probe to avoid
+> +        * spurious link-state events during controller setup and bus
+> +        * enumeration. From here on, DL_UpDown events trigger the link
+> +        * worker to (re)scan the bus.
+> +        */
+> +       host->event_irq =3D platform_get_irq_byname(pdev, "pcie_evt");
+> +       if (host->event_irq < 0) {
+> +               ret =3D host->event_irq;
+> +               goto pci_host_remove;
+> +       }
+> +
+> +       evt_name =3D devm_kasprintf(dev, GFP_KERNEL, "%s-pcie-evt",
+> +                                 dev_name(dev));
+> +       if (!evt_name) {
+> +               ret =3D -ENOMEM;
+> +               goto pci_host_remove;
+> +       }
+> +
+> +       ret =3D request_irq(host->event_irq, rzg3s_pcie_event_irq, 0,
+> +                         evt_name, host);
+> +       if (ret) {
+> +               dev_err_probe(dev, ret, "Failed to request pcie_evt IRQ\n=
+");
+> +               goto pci_host_remove;
+> +       }
+> +
+>         return 0;
+>
+> +pci_host_remove:
+> +       pci_lock_rescan_remove();
+> +       pci_stop_root_bus(bridge->bus);
+> +       pci_remove_root_bus(bridge->bus);
+> +       pci_unlock_rescan_remove();
+>  host_probe_teardown:
+>         rzg3s_pcie_teardown_irqdomain(host);
+>         host->data->config_deinit(host);
+> @@ -1789,9 +1910,19 @@ static int rzg3s_pcie_suspend_noirq(struct device =
+*dev)
+>         struct rzg3s_sysc *sysc =3D host->sysc;
+>         int ret;
+>
+> +       /*
+> +        * Stop accepting DL_UpDown events, then drain any worker that ma=
+y
+> +        * already be running, before tearing the controller down.
+> +        */
+> +       WRITE_ONCE(host->hw_initialized, false);
+> +       cancel_work_sync(&host->link_work);
+> +
+>         ret =3D pm_runtime_put_sync(dev);
+> -       if (ret)
+> +       if (ret) {
+> +               /* Suspend aborted; keep handling DL_UpDown events. */
+> +               WRITE_ONCE(host->hw_initialized, true);
+>                 return ret;
+> +       }
+>
+>         clk_disable_unprepare(port->refclk);
+>
+> @@ -1822,6 +1953,8 @@ static int rzg3s_pcie_suspend_noirq(struct device *=
+dev)
+>  refclk_restore:
+>         clk_prepare_enable(port->refclk);
+>         pm_runtime_resume_and_get(dev);
+> +       /* Controller is alive again; resume DL_UpDown handling. */
+> +       WRITE_ONCE(host->hw_initialized, true);
+>         return ret;
+>  }
+>
+> --
+> 2.25.1
+>
+>
 
