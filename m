@@ -1,94 +1,94 @@
-Return-Path: <linux-renesas-soc+bounces-34569-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-34570-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id S5opDWjkQ2qKlAoAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-34569-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Jun 2026 17:44:40 +0200
+	id 4HpLC3rlQ2rblAoAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-34570-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Jun 2026 17:49:14 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7AFA6E6107
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Jun 2026 17:44:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80D006E6194
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Jun 2026 17:49:13 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
 	dkim=none;
 	dmarc=none;
-	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-34569-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-34569-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
+	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-34570-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-34570-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 6AD353048089
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Jun 2026 15:41:15 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 24EDA302BE14
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Jun 2026 15:44:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 058D444DB85;
-	Tue, 30 Jun 2026 15:41:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 520BA44DB85;
+	Tue, 30 Jun 2026 15:44:19 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f172.google.com (mail-vk1-f172.google.com [209.85.221.172])
+Received: from mail-ua1-f41.google.com (mail-ua1-f41.google.com [209.85.222.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C360844DB7B
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 30 Jun 2026 15:41:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13A3044CADF
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 30 Jun 2026 15:44:17 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782834074; cv=none; b=d3jHxdipZCgbHQQ3o7ArWod2vwuch/6lvJGNCqts12xNJ6PX2sB0AlzlXrC2qYc2bM4PU9HNmkceVFUv8jkuvWc0Y0iEba79yDOZIIbUDQ5wdW7i769CgFAdJefqPfiiw5xvRIIw7jBwj3b+sy4PJgSvUxHMYNZ+UQe2DULe3GE=
+	t=1782834259; cv=none; b=ExQ2Zui2AumQpPkLOnbn0iAOvSYa69fOWz251Mk70xrvBBuydwLWAmTR4vTpo9pJbU1NBcgv4xXlqaFVjZ26jL+nW+nCOVVVCf6Q9SJGcngtJPoFMxj3pFyZCdYW1neMxZDEBCUO5hdLwAO/2gTuqDsG+4z8oL2CtUhXLz/kzS8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782834074; c=relaxed/simple;
-	bh=HECdCdoiVcKsHL9ieEZjduz0kz0EHHXfKnn7LggCP2M=;
+	s=arc-20240116; t=1782834259; c=relaxed/simple;
+	bh=CuTZcG0NTQSK1IiuWewtoKi7VjACdfVhijFD8N0XzcQ=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=aNoAD3becFnKNHaq/r3+tVMeyLidrNX8qBfVN7NM//WIzJJP1z6FrHKruiUbzHJAU3+/mgbnQes413Z2YBJ9mtHq2JebKciyjx3wgFXunSsfUJKET13b8ndhezLM3EjWasA1VKONp8AcajRh7A2GTMItNo8Nfeogv5OPapljgo4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.172
-Received: by mail-vk1-f172.google.com with SMTP id 71dfb90a1353d-5bdb162ee53so1155432e0c.2
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 30 Jun 2026 08:41:13 -0700 (PDT)
+	 To:Cc:Content-Type; b=N7tHQ1l+YIyyooAeagS8IC5rMu7pIRYvMirwGEBi+r7UYpdQlNwniaxVX2yO3vIwTxc72mIra5ID9onl6JJUQ3wH6ayp2FhZsaPxG3CGZ8G7Pd5nXGAN5DtDdC+s5bGzDHtgsqxvog//sNdL0T5Qvh966u7wynAieNU4XdrnFXI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.41
+Received: by mail-ua1-f41.google.com with SMTP id a1e0cc1a2514c-96387efc30aso2808746241.3
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 30 Jun 2026 08:44:17 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782834073; x=1783438873;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=8FudzaGflml93J0qLROb0/HyeenVr7sqBJ6ASEnUvtg=;
-        b=FyLRAnkeT+7Eg5GoN6noTp1HZi8vXZOVhzIDS/zIRnl2hbstvnHiTN6iqPDz/wILCD
-         gVZbRozSKw8zkOMiT8bA9sTgAz1EO6iwuET20Qw6d2vb/U+EZjKcP72C77WK0Vkn+w5B
-         QYzLGUlHY6gl1mnVUCVq/ge29MYnHQFMU1eddyLBU/rY57KMk2oKdspW9bkfduxuSfpz
-         2Ut7MT+LDNFtq3UyYDdoq4IOKhvNiZq+u9H8SIFiIsYfs0/xBnpWYs9YZPzhYt6fonzt
-         eU/79ZuJJck+JhL/vAbu6dBwWvKnvWaZa3qiIePwk00wppprannxQCYZrQ32miXouc9L
-         LdcQ==
-X-Gm-Message-State: AOJu0YySgR46Dq1vwkR/FfJXIIeSDVbtQfvLnfiMsW+1l79dDTl0LmjU
-	5tWhBxKGGDHI6gRnzYc5bPzOvEGT1gien5PrA28bKpsTFG4n90gxEEGIK+BDhCv8zk4=
-X-Gm-Gg: AfdE7ckwhBG8RTypwzNBe/7ekCKYF11OvlbPzOiADSTOGHQtLRPGPoP8sF2daiRbXxs
-	QLqgq3OKq+yzkvwhhEiyCmmSFvAYe2gCCccZFCOPe4me+YdkGOdCByROZeQc3h34RlLFL4QDk+j
-	UGn1OW1myy5CMXCpxOYjoRdYD8X8oG9rc3E5Qjfaqwed2Wye7p4gm0yOkpXiMPXQnNxuG69hFiH
-	apEQNk+UYsuFsfXQOE9LQlFhZxpnc6Lm+8yGENzLJQXc/aZAwAlfUBeFmPIlzqp86vBLG9OlnwV
-	Q3xVxb3xXghYrS6jKDiKjB3VZVkHNnFnBqMmZTk/TLhloJk1EfwI1DiXb31c98dqt1+T4h1Zdqo
-	/s3TtbT340PQzuseNcdr4o5LOjeqwwm0siqDESBIeljVll/BM/DbzFyPC2fYwoTYjGp897luyg4
-	HTH7aTuvwom5mFd4zOFPUBDaSVzfTnjty9pCIJtHBZa8pdivLkYw==
-X-Received: by 2002:a05:6122:6161:b0:59e:f727:4bb4 with SMTP id 71dfb90a1353d-5bdbebd1b66mr2049388e0c.1.1782834072616;
-        Tue, 30 Jun 2026 08:41:12 -0700 (PDT)
-Received: from mail-vs1-f47.google.com (mail-vs1-f47.google.com. [209.85.217.47])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5bdc189bfc0sm1596098e0c.7.2026.06.30.08.41.12
+        d=1e100.net; s=20251104; t=1782834257; x=1783439057;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=yXzNdN4BqbMf7eZ7YSG7ooOCqB2xenrTYSdSfGtHZp0=;
+        b=rLpMx2A790dq41vYlH8vEW7Y4TYDSHk1nx2Gkf0nljiF/10pAZ/7eXVmUEW8tkaT4w
+         12J2dGnU9i+MPU8WL7q5w5BMdUvNMtHJXSWIeZ7BMfqW/A1JF+3yDtnRARX2ohOM/f3v
+         vhg1zmHw/Pe23hFstOccmvLJR2mUrZghxEKGcGZTqAAAAMvTe+jrCI73sviB4sU0U4ov
+         bslurlOLtjmCH+0IO9QRWmvIfPB6mvMS2NbyWGKEBoExBjg+qROrrzVHI0JPUz9K0LHY
+         a792apQgIxHkF+NU62gPdIGNpVBRSnAYuri7Mj52e2JFnUfqiEbHZN4U6oJztgwbcuV/
+         0ibQ==
+X-Forwarded-Encrypted: i=1; AHgh+RqPeMYpr0eySxt/xptphDLzFV5hRveWj6JCN4ZAgzWPc5S/yRrVahlmhraeFkldAh+Cukni/9ILj+4FmXX81uDZMw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwKHqHzVMKyjdOu/o8kDDjB6IfA4anNTwd9AZ6sQOKGdys1/hHM
+	yNHB3lfrppEPLNVDAusX2T/DyL4LGcQncqAWtlw6ETzfXQpO94kSgVo3ocq5sncJXgs=
+X-Gm-Gg: AfdE7ckC0/01di8eWi/kSL7guWhzTIwsWqwl4oSxIGphPxsSD6ce2IsN0EhdwDbYCVb
+	HZO+TLO6L28EoWUhfIPCKwG6/ESxHdEQibthdyrF8cIAFiIQ98AwY1UpFbD7EaJq9rh9g8Y29wk
+	2X8GDWh3ey5njXw9y+p5T4drh8Vxf3Ejd1ALhdZjkjEo1X5fNnLAMGXHldD0X42x7XtVkBE/F5z
+	ZcNNVRkRQ9nmj76jQDerr+tgXCMkYNQLlecr/GmukxjsDeMYOZLigZkWD2ui0jP8g/w5PoT276F
+	vL89t0dCrDOmZuldRBn+8SNezADkm/ikGNTUNSjBYhbjwO9LOw1Zo6j8AVRf9Ane0CiDbXJpusc
+	QN1WGEJqT4+tgwV+84GzP7sN7lZwHujmMz5kfGpnqSbocvR53PaYUYefofoovUb/7xu6hw9LPBF
+	KByRzmcvK7SKwsTsY8dX3V7ymOJPM7034LCMrYLPdcIdAziUx8og==
+X-Received: by 2002:a05:6102:1620:b0:631:37cb:1e64 with SMTP id ada2fe7eead31-73a35ff1b02mr2301826137.4.1782834257033;
+        Tue, 30 Jun 2026 08:44:17 -0700 (PDT)
+Received: from mail-ua1-f48.google.com (mail-ua1-f48.google.com. [209.85.222.48])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-73a83e27e6asm1350706137.8.2026.06.30.08.44.16
         for <linux-renesas-soc@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 30 Jun 2026 08:41:12 -0700 (PDT)
-Received: by mail-vs1-f47.google.com with SMTP id ada2fe7eead31-738bd0b7960so1505967137.0
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 30 Jun 2026 08:41:12 -0700 (PDT)
-X-Received: by 2002:a05:6102:598c:b0:737:5c42:858b with SMTP id
- ada2fe7eead31-73a36aee835mr2136553137.11.1782834071816; Tue, 30 Jun 2026
- 08:41:11 -0700 (PDT)
+        Tue, 30 Jun 2026 08:44:16 -0700 (PDT)
+Received: by mail-ua1-f48.google.com with SMTP id a1e0cc1a2514c-9693bbb962eso1630467241.2
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 30 Jun 2026 08:44:16 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AHgh+Rov8cjk2bxSBOSDp5wxZSZ3r0pBZ7+MxodGHIB16SlaituW1tPMwWMvvz8VWjPmj+Mgpaq8qK/c7jaENfJBWmG/OA==@vger.kernel.org
+X-Received: by 2002:a05:6102:3047:b0:631:ec2d:12bd with SMTP id
+ ada2fe7eead31-73a35ff1e67mr2422168137.5.1782834256087; Tue, 30 Jun 2026
+ 08:44:16 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260626180326.9593-1-wsa+renesas@sang-engineering.com> <20260626180326.9593-3-wsa+renesas@sang-engineering.com>
-In-Reply-To: <20260626180326.9593-3-wsa+renesas@sang-engineering.com>
+References: <20260629095326.37302-1-ahmisaranrao@gmail.com>
+In-Reply-To: <20260629095326.37302-1-ahmisaranrao@gmail.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 30 Jun 2026 17:41:00 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUi74DDa_xoJ8Lo=eV54w4q9Jhu-1N02vUkNGCKgEywow@mail.gmail.com>
-X-Gm-Features: AVVi8CcUvJP0aecjrianzUPa4AqYvcUMhpUwuDQPV--pueaST2jff09tZFzGmBc
-Message-ID: <CAMuHMdUi74DDa_xoJ8Lo=eV54w4q9Jhu-1N02vUkNGCKgEywow@mail.gmail.com>
-Subject: Re: [PATCH v4 2/4] spi: dt-bindings: snps,dw-apb-ssi: add
- 'power-domains' property
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: linux-renesas-soc@vger.kernel.org, Herve Codina <herve.codina@bootlin.com>, 
-	Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, linux-spi@vger.kernel.org, 
-	devicetree@vger.kernel.org
+Date: Tue, 30 Jun 2026 17:44:04 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdURWZ-MFLNXVra-nwRi2m-fPnY0JUU=WFR7YOYBNi2w+A@mail.gmail.com>
+X-Gm-Features: AVVi8Ce0nVeOsm0mLFiUh1ZnQx2aijL2YQYWOUlGz5qCeiV3-tLvcxG9byGNYKo
+Message-ID: <CAMuHMdURWZ-MFLNXVra-nwRi2m-fPnY0JUU=WFR7YOYBNi2w+A@mail.gmail.com>
+Subject: Re: [PATCH] ASoC: renesas: fsi: Propagate platform_get_irq() errors
+To: Narasimharao Vadlamudi <ahmisaranrao@gmail.com>
+Cc: kuninori.morimoto.gx@renesas.com, broonie@kernel.org, 
+	linux-sound@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 X-Rspamd-Action: no action
 X-Spamd-Result: default: False [-1.46 / 15.00];
@@ -97,70 +97,85 @@ X-Spamd-Result: default: False [-1.46 / 15.00];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-34569-lists,linux-renesas-soc=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	DMARC_NA(0.00)[linux-m68k.org];
-	FORGED_RECIPIENTS(0.00)[m:wsa+renesas@sang-engineering.com,m:linux-renesas-soc@vger.kernel.org,m:herve.codina@bootlin.com,m:broonie@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:linux-spi@vger.kernel.org,m:devicetree@vger.kernel.org,m:wsa@sang-engineering.com,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[geert@linux-m68k.org,linux-renesas-soc@vger.kernel.org];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	FORWARDED(0.00)[lists@lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	MISSING_XM_UA(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:ahmisaranrao@gmail.com,m:kuninori.morimoto.gx@renesas.com,m:broonie@kernel.org,m:linux-sound@vger.kernel.org,m:linux-renesas-soc@vger.kernel.org,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
 	FROM_HAS_DN(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	FORGED_SENDER(0.00)[geert@linux-m68k.org,linux-renesas-soc@vger.kernel.org];
 	TO_DN_SOME(0.00)[];
+	TAGGED_FROM(0.00)[bounces-34570-lists,linux-renesas-soc=lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORWARDED(0.00)[lists@lfdr.de];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	MISSING_XM_UA(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[geert@linux-m68k.org,linux-renesas-soc@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[9];
+	TAGGED_RCPT(0.00)[linux-renesas-soc];
 	R_DKIM_NA(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,dt];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[bootlin.com:email,sang-engineering.com:email,mail.gmail.com:mid,vger.kernel.org:from_smtp,linux-m68k.org:from_mime,linux-m68k.org:email,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[linux-m68k.org:from_mime,linux-m68k.org:email,vger.kernel.org:from_smtp,glider.be:email,mail.gmail.com:mid,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: C7AFA6E6107
+X-Rspamd-Queue-Id: 80D006E6194
 
-Hi Wolfram,
+Hi Narasimharao,
 
-On Sat, 27 Jun 2026 at 11:20, Wolfram Sang
-<wsa+renesas@sang-engineering.com> wrote:
-> This SPI controller likely belongs to a power domain for all the SoCs
-> listed. For sure, it belongs to one on the Renesas RZ/N1 SoC, so
-> enable the property to be able to describe its power domain in DTs.
+On Mon, 29 Jun 2026 at 18:25, Narasimharao Vadlamudi
+<ahmisaranrao@gmail.com> wrote:
+> platform_get_irq() returns a negative error code on failure. The
+> driver currently stores the return value in an unsigned int and returns
+> -ENODEV for all failures, which loses useful errors such as
+> -EPROBE_DEFER.
 >
-> Suggested-by: Herve Codina <herve.codina@bootlin.com>
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> Reviewed-by: Herve Codina <herve.codina@bootlin.com>
-> ---
+> Store the IRQ in an int and return the error from platform_get_irq()
+> directly.
 >
-> Change since v3:
-> * reworded commit message to make clear other SoCs likely use a
->   power-domain, too (Krzysztof)
-> * change Reported-by to Suggested-by (Krzysztof)
-> * add Rev-by (Herve)
+> Signed-off-by: Narasimharao Vadlamudi <ahmisaranrao@gmail.com>
 
 Thanks for your patch!
 
-> --- a/Documentation/devicetree/bindings/spi/snps,dw-apb-ssi.yaml
-> +++ b/Documentation/devicetree/bindings/spi/snps,dw-apb-ssi.yaml
-> @@ -87,6 +87,9 @@ properties:
->        - const: ssi_clk
->        - const: pclk
+> --- a/sound/soc/renesas/fsi.c
+> +++ b/sound/soc/renesas/fsi.c
+> @@ -1992,7 +1992,7 @@ static int fsi_probe(struct platform_device *pdev)
+>         const struct fsi_core *core;
+>         struct fsi_priv *fsi;
+>         struct resource *res;
+> -       unsigned int irq;
+> +       int irq;
+>         int ret;
 >
-> +  power-domains:
-> +    maxItems: 1
-> +
->    resets:
->      maxItems: 1
+>         memset(&info, 0, sizeof(info));
+> @@ -2007,12 +2007,15 @@ static int fsi_probe(struct platform_device *pdev)
+>         }
 >
+>         res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+> -       irq = platform_get_irq(pdev, 0);
+> -       if (!res || (int)irq <= 0) {
 
-RZ/N1 definitely needs a power-domains property, so
+This check also covered irq == 0, but that can indeed no longer happen.
+Might be good to mention that in the commit message.
+
+> +       if (!res) {
+>                 dev_err(&pdev->dev, "Not enough FSI platform resources.\n");
+>                 return -ENODEV;
+>         }
+>
+> +       irq = platform_get_irq(pdev, 0);
+> +       if (irq < 0)
+> +               return irq;
+> +
+>         master = devm_kzalloc(&pdev->dev, sizeof(*master), GFP_KERNEL);
+>         if (!master)
+>                 return -ENOMEM;
+
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-I don't know about the others, they don't seem to have it in their DTS.
 
 Gr{oetje,eeting}s,
 
