@@ -1,190 +1,176 @@
-Return-Path: <linux-renesas-soc+bounces-34570-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-34571-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id 4HpLC3rlQ2rblAoAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-34570-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Jun 2026 17:49:14 +0200
+	id 8LVwHZvlQ2relAoAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-34571-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Jun 2026 17:49:47 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80D006E6194
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Jun 2026 17:49:13 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 05D306E619E
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Jun 2026 17:49:47 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
 	dkim=none;
 	dmarc=none;
-	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-34570-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-34570-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
+	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-34571-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 172.232.135.74 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-34571-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 24EDA302BE14
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Jun 2026 15:44:20 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 9F308303ED4A
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Jun 2026 15:49:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 520BA44DB85;
-	Tue, 30 Jun 2026 15:44:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1CA1046AF1B;
+	Tue, 30 Jun 2026 15:48:57 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ua1-f41.google.com (mail-ua1-f41.google.com [209.85.222.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13A3044CADF
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 30 Jun 2026 15:44:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B173946AEDF
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 30 Jun 2026 15:48:55 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782834259; cv=none; b=ExQ2Zui2AumQpPkLOnbn0iAOvSYa69fOWz251Mk70xrvBBuydwLWAmTR4vTpo9pJbU1NBcgv4xXlqaFVjZ26jL+nW+nCOVVVCf6Q9SJGcngtJPoFMxj3pFyZCdYW1neMxZDEBCUO5hdLwAO/2gTuqDsG+4z8oL2CtUhXLz/kzS8=
+	t=1782834537; cv=none; b=FxatTY30ubyqbn3sMrkui5P/INGQzDBz1ww6duJr1xOLomn+MQLPxq2R+/ohGGoPRv3rPlaPh4MgQzuWkfqfr/ZGN9EneM5O0/Zk7BYwAsqaYut7ZoZKZvozKYsw6Zvd3uOHACuBfne6tJ7P5i+C171Er7Kjm7LITuwn5u6jlqY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782834259; c=relaxed/simple;
-	bh=CuTZcG0NTQSK1IiuWewtoKi7VjACdfVhijFD8N0XzcQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=N7tHQ1l+YIyyooAeagS8IC5rMu7pIRYvMirwGEBi+r7UYpdQlNwniaxVX2yO3vIwTxc72mIra5ID9onl6JJUQ3wH6ayp2FhZsaPxG3CGZ8G7Pd5nXGAN5DtDdC+s5bGzDHtgsqxvog//sNdL0T5Qvh966u7wynAieNU4XdrnFXI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.41
-Received: by mail-ua1-f41.google.com with SMTP id a1e0cc1a2514c-96387efc30aso2808746241.3
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 30 Jun 2026 08:44:17 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782834257; x=1783439057;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=yXzNdN4BqbMf7eZ7YSG7ooOCqB2xenrTYSdSfGtHZp0=;
-        b=rLpMx2A790dq41vYlH8vEW7Y4TYDSHk1nx2Gkf0nljiF/10pAZ/7eXVmUEW8tkaT4w
-         12J2dGnU9i+MPU8WL7q5w5BMdUvNMtHJXSWIeZ7BMfqW/A1JF+3yDtnRARX2ohOM/f3v
-         vhg1zmHw/Pe23hFstOccmvLJR2mUrZghxEKGcGZTqAAAAMvTe+jrCI73sviB4sU0U4ov
-         bslurlOLtjmCH+0IO9QRWmvIfPB6mvMS2NbyWGKEBoExBjg+qROrrzVHI0JPUz9K0LHY
-         a792apQgIxHkF+NU62gPdIGNpVBRSnAYuri7Mj52e2JFnUfqiEbHZN4U6oJztgwbcuV/
-         0ibQ==
-X-Forwarded-Encrypted: i=1; AHgh+RqPeMYpr0eySxt/xptphDLzFV5hRveWj6JCN4ZAgzWPc5S/yRrVahlmhraeFkldAh+Cukni/9ILj+4FmXX81uDZMw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwKHqHzVMKyjdOu/o8kDDjB6IfA4anNTwd9AZ6sQOKGdys1/hHM
-	yNHB3lfrppEPLNVDAusX2T/DyL4LGcQncqAWtlw6ETzfXQpO94kSgVo3ocq5sncJXgs=
-X-Gm-Gg: AfdE7ckC0/01di8eWi/kSL7guWhzTIwsWqwl4oSxIGphPxsSD6ce2IsN0EhdwDbYCVb
-	HZO+TLO6L28EoWUhfIPCKwG6/ESxHdEQibthdyrF8cIAFiIQ98AwY1UpFbD7EaJq9rh9g8Y29wk
-	2X8GDWh3ey5njXw9y+p5T4drh8Vxf3Ejd1ALhdZjkjEo1X5fNnLAMGXHldD0X42x7XtVkBE/F5z
-	ZcNNVRkRQ9nmj76jQDerr+tgXCMkYNQLlecr/GmukxjsDeMYOZLigZkWD2ui0jP8g/w5PoT276F
-	vL89t0dCrDOmZuldRBn+8SNezADkm/ikGNTUNSjBYhbjwO9LOw1Zo6j8AVRf9Ane0CiDbXJpusc
-	QN1WGEJqT4+tgwV+84GzP7sN7lZwHujmMz5kfGpnqSbocvR53PaYUYefofoovUb/7xu6hw9LPBF
-	KByRzmcvK7SKwsTsY8dX3V7ymOJPM7034LCMrYLPdcIdAziUx8og==
-X-Received: by 2002:a05:6102:1620:b0:631:37cb:1e64 with SMTP id ada2fe7eead31-73a35ff1b02mr2301826137.4.1782834257033;
-        Tue, 30 Jun 2026 08:44:17 -0700 (PDT)
-Received: from mail-ua1-f48.google.com (mail-ua1-f48.google.com. [209.85.222.48])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-73a83e27e6asm1350706137.8.2026.06.30.08.44.16
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 30 Jun 2026 08:44:16 -0700 (PDT)
-Received: by mail-ua1-f48.google.com with SMTP id a1e0cc1a2514c-9693bbb962eso1630467241.2
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 30 Jun 2026 08:44:16 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AHgh+Rov8cjk2bxSBOSDp5wxZSZ3r0pBZ7+MxodGHIB16SlaituW1tPMwWMvvz8VWjPmj+Mgpaq8qK/c7jaENfJBWmG/OA==@vger.kernel.org
-X-Received: by 2002:a05:6102:3047:b0:631:ec2d:12bd with SMTP id
- ada2fe7eead31-73a35ff1e67mr2422168137.5.1782834256087; Tue, 30 Jun 2026
- 08:44:16 -0700 (PDT)
+	s=arc-20240116; t=1782834537; c=relaxed/simple;
+	bh=rIdtbKMNKni8LiB26DCgmowwpNVHR6NebdsGmPC5Ldw=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version; b=Xe/bT2t3UQXPXgFdIqkdJcfhgZlX5tc2EJINMiCW3sHLS1Epg280g7rV44bwdfcUkDakfxbWq5BOpL0EBpD9PeTE26v5rlYQdD50kaGmcPhyDc8VDZ+C8UiopYvYfnfgHNfTP/wiqQFlfp7ss2i6uuyndy4j20gichh6a/k2NA4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C36CE1F000E9
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 30 Jun 2026 15:48:54 +0000 (UTC)
+From: Geert Uytterhoeven <geert+renesas@glider.be>
+To: linux-renesas-soc@vger.kernel.org
+Subject: renesas-drivers-2026-06-30-v7.2-rc1
+Date: Tue, 30 Jun 2026 17:48:52 +0200
+Message-ID: <20260630154852.2801554-1-geert+renesas@glider.be>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260629095326.37302-1-ahmisaranrao@gmail.com>
-In-Reply-To: <20260629095326.37302-1-ahmisaranrao@gmail.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 30 Jun 2026 17:44:04 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdURWZ-MFLNXVra-nwRi2m-fPnY0JUU=WFR7YOYBNi2w+A@mail.gmail.com>
-X-Gm-Features: AVVi8Ce0nVeOsm0mLFiUh1ZnQx2aijL2YQYWOUlGz5qCeiV3-tLvcxG9byGNYKo
-Message-ID: <CAMuHMdURWZ-MFLNXVra-nwRi2m-fPnY0JUU=WFR7YOYBNi2w+A@mail.gmail.com>
-Subject: Re: [PATCH] ASoC: renesas: fsi: Propagate platform_get_irq() errors
-To: Narasimharao Vadlamudi <ahmisaranrao@gmail.com>
-Cc: kuninori.morimoto.gx@renesas.com, broonie@kernel.org, 
-	linux-sound@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-1.46 / 15.00];
+X-Spamd-Result: default: False [-0.96 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_MISSING_CHARSET(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	DMARC_NA(0.00)[linux-m68k.org];
-	FORGED_RECIPIENTS(0.00)[m:ahmisaranrao@gmail.com,m:kuninori.morimoto.gx@renesas.com,m:broonie@kernel.org,m:linux-sound@vger.kernel.org,m:linux-renesas-soc@vger.kernel.org,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FORGED_SENDER(0.00)[geert@linux-m68k.org,linux-renesas-soc@vger.kernel.org];
-	TO_DN_SOME(0.00)[];
-	TAGGED_FROM(0.00)[bounces-34570-lists,linux-renesas-soc=lfdr.de];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORWARDED(0.00)[lists@lfdr.de];
+	TAGGED_FROM(0.00)[bounces-34571-lists,linux-renesas-soc=lfdr.de,renesas];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	MISSING_XM_UA(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[geert@linux-m68k.org,linux-renesas-soc@vger.kernel.org];
+	RCVD_TLS_LAST(0.00)[];
+	DMARC_NA(0.00)[glider.be];
+	FORGED_RECIPIENTS(0.00)[m:linux-renesas-soc@vger.kernel.org,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[geert@glider.be,linux-renesas-soc@vger.kernel.org];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORWARDED(0.00)[lists@lfdr.de];
+	RCPT_COUNT_ONE(0.00)[1];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[geert@glider.be,linux-renesas-soc@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	TO_DN_NONE(0.00)[];
+	R_DKIM_NA(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
 	TAGGED_RCPT(0.00)[linux-renesas-soc];
-	R_DKIM_NA(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[linux-m68k.org:from_mime,linux-m68k.org:email,vger.kernel.org:from_smtp,glider.be:email,mail.gmail.com:mid,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
+	MID_RHS_MATCH_FROM(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo,glider.be:mid,glider.be:from_mime,vger.kernel.org:from_smtp,linux-m68k.org:email,gitlab.freedesktop.org:url]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 80D006E6194
+X-Rspamd-Queue-Id: 05D306E619E
 
-Hi Narasimharao,
+I have pushed renesas-drivers-2026-06-30-v7.2-rc1 to
+https://git.kernel.org/cgit/linux/kernel/git/geert/renesas-drivers.git
 
-On Mon, 29 Jun 2026 at 18:25, Narasimharao Vadlamudi
-<ahmisaranrao@gmail.com> wrote:
-> platform_get_irq() returns a negative error code on failure. The
-> driver currently stores the return value in an unsigned int and returns
-> -ENODEV for all failures, which loses useful errors such as
-> -EPROBE_DEFER.
->
-> Store the IRQ in an int and return the error from platform_get_irq()
-> directly.
->
-> Signed-off-by: Narasimharao Vadlamudi <ahmisaranrao@gmail.com>
+This tree is meant to ease development of platform support and drivers
+for Renesas ARM and RISC-V SoCs.  It is created by merging (a) the
+for-next branches of various subsystem trees and (b) branches with
+driver code submitted or planned for submission to maintainers into the
+master branch of my renesas-devel.git tree.
 
-Thanks for your patch!
+Today's version is based on renesas-devel-2026-06-30-v7.2-rc1.
 
-> --- a/sound/soc/renesas/fsi.c
-> +++ b/sound/soc/renesas/fsi.c
-> @@ -1992,7 +1992,7 @@ static int fsi_probe(struct platform_device *pdev)
->         const struct fsi_core *core;
->         struct fsi_priv *fsi;
->         struct resource *res;
-> -       unsigned int irq;
-> +       int irq;
->         int ret;
->
->         memset(&info, 0, sizeof(info));
-> @@ -2007,12 +2007,15 @@ static int fsi_probe(struct platform_device *pdev)
->         }
->
->         res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-> -       irq = platform_get_irq(pdev, 0);
-> -       if (!res || (int)irq <= 0) {
+Included branches with driver code:
+  - renesas-clk-for-v7.3
+  - renesas-pinctrl-for-v7.3
+  - topic/rcar-x5h-ironhide-scmi-cpg-mdlc-remapping-v2-wip
 
-This check also covered irq == 0, but that can indeed no longer happen.
-Might be good to mention that in the commit message.
+Included fixes:
+  - [TEST] soc: renesas: rcar-rst: Enable WDT reset on early R-Car V4M
+  - ARM: shmobile: defconfig: Update for renesas-drivers
+  - [LOCAL] arm64: renesas: defconfig: Update for renesas-drivers
+  - [LOCAL] riscv: rzfive: defconfig: Update for renesas-drivers
 
-> +       if (!res) {
->                 dev_err(&pdev->dev, "Not enough FSI platform resources.\n");
->                 return -ENODEV;
->         }
->
-> +       irq = platform_get_irq(pdev, 0);
-> +       if (irq < 0)
-> +               return irq;
-> +
->         master = devm_kzalloc(&pdev->dev, sizeof(*master), GFP_KERNEL);
->         if (!master)
->                 return -ENOMEM;
-
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Included subsystem trees:
+  - git://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git#linux-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git#clk-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git#gpio/for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/mtd/linux.git#mtd/next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next.git#main
+  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git#tty-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git#i2c/for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/andi.shyti/linux.git#i2c/i2c-host-fixes
+  - git://git.kernel.org/pub/scm/linux/kernel/git/andi.shyti/linux.git#i2c/i2c-host
+  - git://git.kernel.org/pub/scm/linux/kernel/git/i3c/linux.git#i3c/next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/mkl/linux-can-next.git#master
+  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git#usb-next
+  - https://gitlab.freedesktop.org/drm/kernel.git#drm-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/iommu/linux.git#next
+  - git://linuxtv.org/media_tree.git#master
+  - git://git.kernel.org/pub/scm/linux/kernel/git/ulfh/mmc.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/ukleinek/linux.git#pwm/for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/daniel.lezcano/linux.git#timers/drivers/next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/vkoul/dmaengine.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git#staging-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/rmk/linux.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/regmap.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git#irq/core
+  - git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git#irq/drivers
+  - git://git.kernel.org/pub/scm/linux/kernel/git/libata/linux#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/sre/linux-power-supply.git#for-next
+  - git://www.linux-watchdog.org/linux-watchdog-next.git#master
+  - git://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git#for-next/core
+  - https://gitlab.freedesktop.org/drm/misc/kernel.git#for-linux-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/phy/linux-phy.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/thermal/linux.git#thermal/linux-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git#for-mfd-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git#master
+  - git://git.kernel.org/pub/scm/linux/kernel/git/driver-core/driver-core.git#driver-core-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/glaubitz/sh-linux.git#for-next
+  - https://git.pengutronix.de/git/pza/linux#reset/next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/krzk/linux-mem-ctrl.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/deller/linux-fbdev.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/jejb/scsi.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/mkp/scsi.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/riscv/linux.git#fixes
+  - git://git.kernel.org/pub/scm/linux/kernel/git/riscv/linux.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/ulfh/linux-pm.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/andy/linux-auxdisplay.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/srini/nvmem.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/char-misc.git#char-misc-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git#togreg
+  - https://git.kernel.org/pub/scm/linux/kernel/git/sudeep.holla/linux.git#for-linux-next
 
 Gr{oetje,eeting}s,
 
-                        Geert
+						Geert
 
--- 
+--
 Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
 In personal conversations with technical people, I call myself a hacker. But
 when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+							    -- Linus Torvalds
 
