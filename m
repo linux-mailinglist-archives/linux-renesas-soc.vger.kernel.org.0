@@ -1,344 +1,192 @@
-Return-Path: <linux-renesas-soc+bounces-34572-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-34573-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id EjCRO0TtQ2qzlgoAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-34572-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Jun 2026 18:22:29 +0200
+	id iI6eFZf5Q2ozmgoAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-34573-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Jun 2026 19:15:03 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 859416E664E
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Jun 2026 18:22:28 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id BDE9B6E6CFF
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Jun 2026 19:15:02 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=dul5b6bc;
-	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-34572-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 2600:3c09:e001:a7::12fc:5321 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-34572-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=quarantine) header.from=kernel.org;
+	dkim=pass header.d=gmail.com header.s=20251104 header.b=KgBaN4hq;
+	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-34573-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-34573-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=gmail.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 373DD302284B
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Jun 2026 16:22:27 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 622553011780
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Jun 2026 17:13:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 845E04779BF;
-	Tue, 30 Jun 2026 16:22:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 96DB23DB632;
+	Tue, 30 Jun 2026 17:13:57 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy1-f174.google.com (mail-dy1-f174.google.com [74.125.82.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B591411687;
-	Tue, 30 Jun 2026 16:22:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5364533F5A2
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 30 Jun 2026 17:13:56 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782836545; cv=none; b=fZ/ZZnHQrubUgiBkAskyQd8/ighmbYBMYE3j9+Pe/9skhJfejmcVXRVRgOn9egv6bDRMtzcSzAes6hlP288poTskULOPS6JOavlqAmBm/HsZj4FBClOH3yizb47S0jE9ofAIz4zwwEvhbgAmZVys77DBFkeOHYBnsYDQHlYcJUI=
+	t=1782839637; cv=none; b=FZMQXaCSWwbpVWrXP2gH6K5quneWcIYssAwng0319zId1JxfFjYTyNYGgp8mv2Oi0t9VxwFlfmXe9zLdhW6hVZVIJ7V5d0ZhgpLhioTEU5K1pAi3zdZ4IpXYvqmTAUbBqOPNFqQPmalsTIucYUu48Dd9L42N24wPjqFnShURBqs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782836545; c=relaxed/simple;
-	bh=yomOaMMl+vcnji15fJRLYYv6WVklrScE4szp52y4iTw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=C1WGauKAkYv3QAs9aDN51QRu37Bn8oIG7CpKH6Fg8/v5Hr/3XkYz0zyc4dEkd/ftVQMAMhmmoKebuPhTR+m2PxjAZx4Snq4LYzp4cgUBnFV6pkbRAg/+m4W5/51GwttbkgrGfTvdHjkx1BPSNQgNko/N8gniOF0Qt4AcGyqgono=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dul5b6bc; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6E8681F000E9;
-	Tue, 30 Jun 2026 16:22:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782836543;
-	bh=sslHSl9vky2DIRPZzDKqYfXMiyTPmeA8uuP0XK5gK7k=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=dul5b6bcSmqXLVoo6tIeMdmES/vM+PkaSomaF+A3lC8ejOh+Po+qF6DKRh7QRQ2qj
-	 RNt5b/KsKki68SFNDJku6wPb9CW+ZISWaf0sLRJDquJs7b1haH+BphobIlZQ/XsrxK
-	 7E3ztX8E7Fe4NBFIGjf/w9wLbnZk4d6dZkciTmjJWFaotbV52J/Fblih8ggVQ3AfyZ
-	 w9Ki3HlFWs5/xZeCkmZ2vLV+jhuhzcM6fttlAUrOL/P1tLzQNNB3zopW6CYS3jjrCV
-	 y7Wuixcf3Ctz91L2/ZgKY6aqX969OGCbE8ZsQQCg3RbEHpHi0Lejl3t7SC7x1470r5
-	 Bsvt3p8kOJEYw==
-Date: Tue, 30 Jun 2026 18:22:09 +0200
-From: Manivannan Sadhasivam <mani@kernel.org>
-To: Marek Vasut <marek.vasut+renesas@mailbox.org>
-Cc: linux-pci@vger.kernel.org, 
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
-	Bjorn Helgaas <bhelgaas@google.com>, Catalin Marinas <catalin.marinas@arm.com>, 
-	Conor Dooley <conor+dt@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Lorenzo Pieralisi <lpieralisi@kernel.org>, 
-	Marc Zyngier <maz@kernel.org>, Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v2 1/4] PCI: rcar-gen4: Configure AXIINTC if iMSI-RX not
- used
-Message-ID: <ck6i6tdw4ngde6vmtamfrvryg47ixycpmd74ny5hpzury5ekpr@ibgrw7o6uewj>
-References: <20260618220427.14325-1-marek.vasut+renesas@mailbox.org>
- <20260618220427.14325-2-marek.vasut+renesas@mailbox.org>
+	s=arc-20240116; t=1782839637; c=relaxed/simple;
+	bh=yIX1bqDOZJMk4FAwTaBF9FTRFIItyzhNRj3qdfFr7GM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=tZjVRUJdPV7KPGQqC9k9izIooPGE92cKnn6601bYppEz+21awVRwAAuRmuOJC2rFz8kdT8XmrMSN0VxknRIjLGSA5waFwNO/HiSaMc+/e+yzLGS4PjH/jSlmxcUHBGs0JXQxz2cZ60DFAzXkcDnXB5Tz5ohVAvSH3bsi24R2dTI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KgBaN4hq; arc=none smtp.client-ip=74.125.82.174
+Received: by mail-dy1-f174.google.com with SMTP id 5a478bee46e88-30edfd9cff9so1863213eec.1
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 30 Jun 2026 10:13:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1782839635; x=1783444435; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=LAEwzM4GUMJjKZDLNdDkTnGBKY8hW57ikhpmi3nBjbI=;
+        b=KgBaN4hq8AXl/2Tw8UygKtGrj9ErqtvCXOaKXk5xLtTPbza8Dc9mRiZGWyfmDMXjS+
+         l1Xrncroy7k8CI8mQzMShu8b8F8qrIdyObg/neJhyYWAb9pEaLX3/lEju0b7GVoqiXHf
+         nN93jNSfahGGL2//7tYSunaAmiQciS8AyrVUElvDP4TaJV1TLbRfPA6YyUrlRNVPIiuy
+         QQQaa5DeekFdxr5qesUCeFKSmzDgFGsIvQiXh1UBAYNhKGl/TY+gcOdfkACMMBMBurYB
+         hgd2XL8qJkIQOmLFSqyX+yyOsS3a9IyqMQPySOtiTfVYJV24f7ek9ITCLUzDH1uLXO0d
+         LKzg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782839635; x=1783444435;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=LAEwzM4GUMJjKZDLNdDkTnGBKY8hW57ikhpmi3nBjbI=;
+        b=EPa1Qm3yJzwTJlcjHPod9anbHqIcDvKTiI5XQyiY0cZxGV3uowrm2mLFq55AvSIYXk
+         p47ndx16lqhp5hwr8hZQPYqbGVSn6Vs5s4iMSB+cVhq8/ypC1dKm6sHmzXr8zkofvhMr
+         DB/yn3JSkoDAtpcZ+/irxIq9CyQH+uNhG8NyoQCq93zThFkvkvEAUi/4kuX0ZyfQwGT8
+         7+PTon/QlfDUJS3x/rbZFH5Fgp/v/kgsEEbhBz7xB9VQycEpSPPrPWxlJbOpWwIBlqsw
+         c2jU+faZ041kz8HuNXXnx6Fj4zf5qVOAm9DuKMY0wLct+fmsCYn1trhQ0McCLpXsalzm
+         4V1A==
+X-Forwarded-Encrypted: i=1; AHgh+Rqbc3uDjw+J8BKcO2Xn/wKZEntSb6bIUP1id/b8T3gKd9wwRdu/TdUF7lmNTUp/Tk1XMoUjwadtlZ6c/TAHbiAMDg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxefjn+gBdQO+5wIp/Etc8KNEHkVMEcmIrCrp2Hl+KnexxmTXWt
+	5gmslTsFpGEPTI/z2GzM4vJLTLnjJzGIBtZGuEd8dB+GKaa4hiRbnvuG
+X-Gm-Gg: AfdE7ckbNMsgAE0P9jkkM4CuZ/GpKq+Ze34SRJcHW7sbw6uVisV/P1R/5BiZg7X9d/b
+	pfdzNT3yYv0yKmchCCQwbDQRjGxLHfTmNJSgFl+3ImdEAb5eWLdSS+YZSIlMTCHmQLqRX1GRMWl
+	6FIqXRBuKvC3zXRJEIFhbnjz5jytgFgDRYavXtVlWh75ZH/DF3hhTPrq28aP//uYqlQnPwPOLbT
+	6I/+mBqQSJZjVK/XnqXfTfMVVRNUP0wdvZ6IpuKb5AdrVMNuKAqxfiaooLfzcVQYiVwpXqi1EoW
+	duowIUvAUyxc/+Xf7c5+WvqcXWpa6pnNRVy4lQnBxiKgBUbDO2GJi9cXZH6E0bMheWDlY6gJMxQ
+	nMeZnRjXXsD69cd9RzdKgTJSG1UZtsf3MpxDGLfky8LIfAF4Addls3JAm0e49hVz3qDzFA6zyO0
+	Jgd4VlXprlBeJUNqYwpTLHug==
+X-Received: by 2002:a05:7300:f68d:b0:30c:63fb:ebfd with SMTP id 5a478bee46e88-30ee134194emr3279885eec.19.1782839635185;
+        Tue, 30 Jun 2026 10:13:55 -0700 (PDT)
+Received: from ahmi-PC.. ([2406:b400:28:6260:79c2:f49:197:de9e])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-30ee2cd21bcsm19639864eec.0.2026.06.30.10.13.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 30 Jun 2026 10:13:54 -0700 (PDT)
+From: Narasimharao Vadlamudi <ahmisaranrao@gmail.com>
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	linux-sound@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Narasimharao Vadlamudi <ahmisaranrao@gmail.com>
+Subject: [PATCH v2] ASoC: renesas: fsi: Propagate platform_get_irq() errors
+Date: Tue, 30 Jun 2026 22:43:33 +0530
+Message-ID: <20260630171333.36396-1-ahmisaranrao@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260618220427.14325-2-marek.vasut+renesas@mailbox.org>
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-3.16 / 15.00];
-	WHITELIST_SPF_DKIM(-3.00)[kernel.org:d:+,kernel.org:s:+];
+X-Spamd-Result: default: False [0.84 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-34572-lists,linux-renesas-soc=lfdr.de];
-	FORGED_RECIPIENTS(0.00)[m:marek.vasut+renesas@mailbox.org,m:linux-pci@vger.kernel.org,m:yoshihiro.shimoda.uh@renesas.com,m:kwilczynski@kernel.org,m:bhelgaas@google.com,m:catalin.marinas@arm.com,m:conor+dt@kernel.org,m:geert+renesas@glider.be,m:krzk+dt@kernel.org,m:lpieralisi@kernel.org,m:maz@kernel.org,m:robh@kernel.org,m:devicetree@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-doc@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-renesas-soc@vger.kernel.org,m:marek.vasut@mailbox.org,m:conor@kernel.org,m:geert@glider.be,m:krzk@kernel.org,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[mani@kernel.org,linux-renesas-soc@vger.kernel.org];
 	MIME_TRACE(0.00)[0:+];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORWARDED(0.00)[lists@lfdr.de];
+	TO_DN_SOME(0.00)[];
+	FREEMAIL_CC(0.00)[gmail.com,kernel.org,perex.cz,suse.com,glider.be,vger.kernel.org];
+	RCVD_TLS_LAST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FROM_HAS_DN(0.00)[];
+	TAGGED_FROM(0.00)[bounces-34573-lists,linux-renesas-soc=lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:kuninori.morimoto.gx@renesas.com,m:lgirdwood@gmail.com,m:broonie@kernel.org,m:perex@perex.cz,m:tiwai@suse.com,m:geert+renesas@glider.be,m:linux-sound@vger.kernel.org,m:linux-renesas-soc@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:ahmisaranrao@gmail.com,m:geert@glider.be,s:lists@lfdr.de];
+	FORWARDED(0.00)[lists@lfdr.de];
+	FORGED_SENDER(0.00)[ahmisaranrao@gmail.com,linux-renesas-soc@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[17];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	ALIAS_RESOLVED(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[mani@kernel.org,linux-renesas-soc@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
+	FROM_HAS_DN(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[ahmisaranrao@gmail.com,linux-renesas-soc@vger.kernel.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	ALIAS_RESOLVED(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	RCPT_COUNT_SEVEN(0.00)[10];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,dt];
-	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
-	TO_DN_SOME(0.00)[]
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 859416E664E
+X-Rspamd-Queue-Id: BDE9B6E6CFF
 
-On Fri, Jun 19, 2026 at 12:01:59AM +0200, Marek Vasut wrote:
-> In case MSI are enabled, but DWC built-in iMSI-RX is not in use, the
-> MSI are handled via GIC ITS. Configure all controller MSI registers
-> fully.
-> 
-> Set or clear MSI capability register MSICAP0 MSI enable MSIE bit and
-> PCIe Interrupt Status 0 Enable register PCIEINTSTS0EN MSI interrupt
-> enable MSI_CTRL_INT bit according to MSI enable state, set both bits
-> if MSI are enabled, clear both bits if MSI are disabled.
-> 
-> If MSI are disabled, or MSI are enabled and iMSI-RX is used, then
-> deconfigure AXIINTCADDR and AXIINTCCONT to 0, which disables any
-> pass through of MSI TLPs onto the AXI bus and then further into
-> GIC ITS translation registers.
-> 
-> If MSI are enabled and iMSI-RX is not used, the configure AXIINTCADDR
-> with target address of GIC ITS translation registers, and configure
-> AXIINTCCONT to enable MSI TLP pass through onto AXI bus and into the
-> GIC ITS. This specific configuration allows handling of MSI via the
-> GIC ITS instead of integrated iMSI-RX.
-> 
-> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+platform_get_irq() returns a positive IRQ number on success and a
+negative error code on failure. It no longer returns zero. The driver
+currently stores the return value in an unsigned int and returns -ENODEV
+for all failures, which loses useful errors such as -EPROBE_DEFER.
 
-Same as patch 3, SoB chain is broken. Rest LGTM!
+Store the IRQ in an int and return the error from platform_get_irq()
+directly.
 
-- Mani
+Acked-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Signed-off-by: Narasimharao Vadlamudi <ahmisaranrao@gmail.com>
+---
+Changes in v2:
+- Mention that platform_get_irq() no longer returns zero.
+- Add Acked-by tag from Kuninori Morimoto.
+- Add Reviewed-by tag from Geert Uytterhoeven.
 
-> ---
-> NOTE: This would not be possible without prior work from Shimoda-san
-> ---
-> Cc: "Krzysztof Wilczyński" <kwilczynski@kernel.org>
-> Cc: Bjorn Helgaas <bhelgaas@google.com>
-> Cc: Catalin Marinas <catalin.marinas@arm.com>
-> Cc: Conor Dooley <conor+dt@kernel.org>
-> Cc: Geert Uytterhoeven <geert+renesas@glider.be>
-> Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
-> Cc: Lorenzo Pieralisi <lpieralisi@kernel.org>
-> Cc: Manivannan Sadhasivam <mani@kernel.org>
-> Cc: Marc Zyngier <maz@kernel.org>
-> Cc: Rob Herring <robh@kernel.org>
-> Cc: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-> Cc: devicetree@vger.kernel.org
-> Cc: linux-arm-kernel@lists.infradead.org
-> Cc: linux-doc@vger.kernel.org
-> Cc: linux-kernel@vger.kernel.org
-> Cc: linux-pci@vger.kernel.org
-> Cc: linux-renesas-soc@vger.kernel.org
-> ---
-> V2: Pull GITS_TRANSLATER address from DT, which also fixes missing +0x40
->     offset of the GITS_TRANSLATER register
-> ---
->  drivers/pci/controller/dwc/pcie-rcar-gen4.c | 118 +++++++++++++++++++-
->  1 file changed, 113 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/pci/controller/dwc/pcie-rcar-gen4.c b/drivers/pci/controller/dwc/pcie-rcar-gen4.c
-> index 8b03c42f8c84c..6300ab4dc38b3 100644
-> --- a/drivers/pci/controller/dwc/pcie-rcar-gen4.c
-> +++ b/drivers/pci/controller/dwc/pcie-rcar-gen4.c
-> @@ -13,8 +13,11 @@
->  #include <linux/interrupt.h>
->  #include <linux/io.h>
->  #include <linux/iopoll.h>
-> +#include <linux/irqchip/arm-gic-v3.h>
->  #include <linux/module.h>
->  #include <linux/of.h>
-> +#include <linux/of_address.h>
-> +#include <linux/of_irq.h>
->  #include <linux/pci.h>
->  #include <linux/platform_device.h>
->  #include <linux/pm_runtime.h>
-> @@ -31,6 +34,10 @@
->  #define DEVICE_TYPE_RC		BIT(4)
->  #define BIFUR_MOD_SET_ON	BIT(0)
->  
-> +/* MSI Capability */
-> +#define MSICAP0			0x0050
-> +#define MSICAP0_MSIE		BIT(16)
-> +
->  /* PCIe Interrupt Status 0 */
->  #define PCIEINTSTS0		0x0084
->  
-> @@ -55,6 +62,14 @@
->  #define APP_HOLD_PHY_RST	BIT(16)
->  #define APP_LTSSM_ENABLE	BIT(0)
->  
-> +/* INTC address */
-> +#define AXIINTCADDR		0x0a00
-> +
-> +/* INTC control & mask */
-> +#define AXIINTCCONT		0x0a04
-> +#define INTC_EN			BIT(31)
-> +#define INTC_MASK		GENMASK(11, 2)
-> +
->  /* PCIe Power Management Control */
->  #define PCIEPWRMNGCTRL		0x0070
->  #define APP_CLK_REQ_N		BIT(11)
-> @@ -305,13 +320,103 @@ static struct rcar_gen4_pcie *rcar_gen4_pcie_alloc(struct platform_device *pdev)
->  	return rcar;
->  }
->  
-> +static int rcar_gen4_pcie_host_msi_addr(struct dw_pcie_rp *pp, u32 *msi_addr)
-> +{
-> +	struct dw_pcie *dw = to_dw_pcie_from_pp(pp);
-> +	struct device_node *msi_node = NULL;
-> +	struct device *dev = dw->dev;
-> +	struct resource res;
-> +	u64 addr;
-> +	int ret;
-> +
-> +	/*
-> +	 * Either the "msi-parent" or the "msi-map" phandle needs to exist
-> +	 * to obtain the MSI node.
-> +	 */
-> +	of_msi_xlate(dev, &msi_node, 0);
-> +	if (!msi_node)
-> +		return -ENODEV;
-> +
-> +	/* Check if "msi-parent" or the "msi-map" points to ARM GICv3 ITS. */
-> +	if (!of_device_is_compatible(msi_node, "arm,gic-v3-its"))
-> +		return dev_err_probe(dev, -ENODEV, "Compatible MSI controller not found\n");
-> +
-> +	/* Derive GITS_TRANSLATER address from GICv3 */
-> +	ret = of_address_to_resource(msi_node, 0, &res);
-> +	if (ret < 0)
-> +		return dev_err_probe(dev, ret, "MSI controller resources not obtained\n");
-> +
-> +	addr = res.start + GITS_TRANSLATER;
-> +	if (addr >= SZ_4G)
-> +		return dev_err_probe(dev, -EINVAL, "MSI controller address above 32bit range\n");
-> +
-> +	*msi_addr = addr;
-> +	return 0;
-> +}
-> +
-> +static int rcar_gen4_pcie_host_msi_init(struct dw_pcie_rp *pp)
-> +{
-> +	struct dw_pcie *dw = to_dw_pcie_from_pp(pp);
-> +	struct rcar_gen4_pcie *rcar = to_rcar_gen4_pcie(dw);
-> +	u32 val;
-> +	int ret;
-> +
-> +	/* Make sure MSICAP0 MSIE is configured. */
-> +	val = dw_pcie_readl_dbi(dw, MSICAP0);
-> +	if (pci_msi_enabled())
-> +		val |= MSICAP0_MSIE;
-> +	else
-> +		val &= ~MSICAP0_MSIE;
-> +	dw_pcie_writel_dbi(dw, MSICAP0, val);
-> +
-> +	if (!pci_msi_enabled() || pp->use_imsi_rx) {
-> +		/* Clear AXIINTC mapping. */
-> +		writel(0, rcar->base + AXIINTCADDR);
-> +		writel(0, rcar->base + AXIINTCCONT);
-> +	} else {
-> +		ret = rcar_gen4_pcie_host_msi_addr(pp, &val);
-> +		if (ret)
-> +			goto err;
-> +
-> +		/* Point AXIINTC to GIC ITS and enable. */
-> +		writel(val, rcar->base + AXIINTCADDR);
-> +		writel(INTC_EN | INTC_MASK, rcar->base + AXIINTCCONT);
-> +	}
-> +
-> +	/* Configure MSI interrupt signal */
-> +	val = readl(rcar->base + PCIEINTSTS0EN);
-> +	if (pci_msi_enabled())
-> +		val |= MSI_CTRL_INT;
-> +	else
-> +		val &= ~MSI_CTRL_INT;
-> +	writel(val, rcar->base + PCIEINTSTS0EN);
-> +
-> +	return 0;
-> +
-> +err:
-> +	/* Deconfigure MSICAP0 MSIE. */
-> +	val = dw_pcie_readl_dbi(dw, MSICAP0);
-> +	val &= ~MSICAP0_MSIE;
-> +	dw_pcie_writel_dbi(dw, MSICAP0, val);
-> +
-> +	/* Clear AXIINTC mapping. */
-> +	writel(0, rcar->base + AXIINTCADDR);
-> +	writel(0, rcar->base + AXIINTCCONT);
-> +
-> +	/* Deconfigure MSI interrupt signal */
-> +	val = readl(rcar->base + PCIEINTSTS0EN);
-> +	val &= ~MSI_CTRL_INT;
-> +	writel(val, rcar->base + PCIEINTSTS0EN);
-> +
-> +	return ret;
-> +}
-> +
->  /* Host mode */
->  static int rcar_gen4_pcie_host_init(struct dw_pcie_rp *pp)
->  {
->  	struct dw_pcie *dw = to_dw_pcie_from_pp(pp);
->  	struct rcar_gen4_pcie *rcar = to_rcar_gen4_pcie(dw);
->  	int ret;
-> -	u32 val;
->  
->  	gpiod_set_value_cansleep(dw->pe_rst, 1);
->  
-> @@ -328,16 +433,19 @@ static int rcar_gen4_pcie_host_init(struct dw_pcie_rp *pp)
->  	dw_pcie_writel_dbi2(dw, PCI_BASE_ADDRESS_0, 0x0);
->  	dw_pcie_writel_dbi2(dw, PCI_BASE_ADDRESS_1, 0x0);
->  
-> -	/* Enable MSI interrupt signal */
-> -	val = readl(rcar->base + PCIEINTSTS0EN);
-> -	val |= MSI_CTRL_INT;
-> -	writel(val, rcar->base + PCIEINTSTS0EN);
-> +	ret = rcar_gen4_pcie_host_msi_init(pp);
-> +	if (ret)
-> +		goto err;
->  
->  	msleep(PCIE_T_PVPERL_MS);	/* pe_rst requires 100msec delay */
->  
->  	gpiod_set_value_cansleep(dw->pe_rst, 0);
->  
->  	return 0;
-> +
-> +err:
-> +	rcar_gen4_pcie_common_deinit(rcar);
-> +	return ret;
->  }
->  
->  static void rcar_gen4_pcie_host_deinit(struct dw_pcie_rp *pp)
-> -- 
-> 2.53.0
-> 
+ sound/soc/renesas/fsi.c | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
+diff --git a/sound/soc/renesas/fsi.c b/sound/soc/renesas/fsi.c
+index ae86014c3819..6be6587e1095 100644
+--- a/sound/soc/renesas/fsi.c
++++ b/sound/soc/renesas/fsi.c
+@@ -1992,7 +1992,7 @@ static int fsi_probe(struct platform_device *pdev)
+ 	const struct fsi_core *core;
+ 	struct fsi_priv *fsi;
+ 	struct resource *res;
+-	unsigned int irq;
++	int irq;
+ 	int ret;
+ 
+ 	memset(&info, 0, sizeof(info));
+@@ -2007,12 +2007,15 @@ static int fsi_probe(struct platform_device *pdev)
+ 	}
+ 
+ 	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+-	irq = platform_get_irq(pdev, 0);
+-	if (!res || (int)irq <= 0) {
++	if (!res) {
+ 		dev_err(&pdev->dev, "Not enough FSI platform resources.\n");
+ 		return -ENODEV;
+ 	}
+ 
++	irq = platform_get_irq(pdev, 0);
++	if (irq < 0)
++		return irq;
++
+ 	master = devm_kzalloc(&pdev->dev, sizeof(*master), GFP_KERNEL);
+ 	if (!master)
+ 		return -ENOMEM;
 -- 
-மணிவண்ணன் சதாசிவம்
+2.43.0
+
 
