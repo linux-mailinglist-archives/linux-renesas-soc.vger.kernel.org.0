@@ -1,82 +1,82 @@
-Return-Path: <linux-renesas-soc+bounces-34612-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-34613-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id oREQIRkmRWpY7woAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-34612-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 01 Jul 2026 16:37:13 +0200
+	id IjbiKfUoRWoX8AoAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-34613-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 01 Jul 2026 16:49:25 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id D43826EED52
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 01 Jul 2026 16:37:12 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id EE6CD6EEF7E
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 01 Jul 2026 16:49:24 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=gmail.com header.s=20251104 header.b=Eu7Ho0fj;
-	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-34612-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-34612-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=gmail.com header.s=20251104 header.b=FjIbpLua;
+	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-34613-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-34613-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=none) header.from=gmail.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id D2FE23016505
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  1 Jul 2026 14:30:49 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 1CF4932758FA
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  1 Jul 2026 14:30:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 44C23349CEF;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DD91F34BA20;
 	Wed,  1 Jul 2026 14:30:13 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81933348C5A
-	for <linux-renesas-soc@vger.kernel.org>; Wed,  1 Jul 2026 14:30:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1ED5C3446C3
+	for <linux-renesas-soc@vger.kernel.org>; Wed,  1 Jul 2026 14:30:12 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782916213; cv=none; b=Df3F+uYuRFHnoXK3JhYHE30wsKOpJTLDmB1yL+66RKNZKSKzEUqaYh1SXSjz/a3IPf7Vik0y+Z/aHHfCQbV+VZlX4CXknnT0rvhiNzg80YOE+jAipBt6fKPKOZ9iv4isn5kdyG8CbhzKXgAsEWg3GxEHhbaJolXDsvGHE19azFs=
+	t=1782916213; cv=none; b=hxIyFr1OB1rfeuzDHMxKMIGF9zax4K3SEcuFgudlFGVi/om6tLKEB1j/jr/Z/6bYJomzZjLGo8USBLjqr899HhmamVwJpITAcLpYSOIKein1wd9S9Gpx2Zlha+jpiVSJzqd3rRdCvC0Wg6kA0JPbi/1tHSJR1xUfcb3+1TcaVfA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1782916213; c=relaxed/simple;
-	bh=mWMP/xdPSFDaOWdYX4G9vsqs+NvHwtQ1rzsSePjmtQk=;
+	bh=g+r2ue8WQlUY2RpdLLI/+fS1P660DwdvJv/oi4A+9CU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=MWEhsfvyfKE/q68cbWpOvoMn9cqbkP78tzI9wv8psEuTx1s1+9swOCV5bqldic31QDMva8PMNnt0fthEhYORH/WWpNkGUakk1SYKNfNSXnJ9rRzqm6Rm+49WGH6iifpG8yDu42DIvZkBATSOzd/ribo4WS02gesmlNFNcFlnsJg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Eu7Ho0fj; arc=none smtp.client-ip=209.85.221.45
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-4763b0c1dcdso838984f8f.2
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 01 Jul 2026 07:30:11 -0700 (PDT)
+	 MIME-Version; b=MUar4/Nh2Q6MMSmhMSWWdSDxExJvHCn3TXR1LurIvrOjw7p0o1HQrTgvlnT/0vikXCFWdbqhFLW/P7INcjnuQ2pYw/F0o0bbKe7R4G7YR09EIjS8/k2H0MHR6lAHudHP+P8J7T9Cc4YPkphO4xVaX0bgIUV4iq7cCoXbdhgU8qg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FjIbpLua; arc=none smtp.client-ip=209.85.221.54
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-47640541585so458771f8f.1
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 01 Jul 2026 07:30:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782916210; x=1783521010; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1782916211; x=1783521011; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=o+UunQnZVp8S6m9pUrNYyzpfVfChMooAV6SEFAVDXiA=;
-        b=Eu7Ho0fjbcZZyBGocFM8zMB8Mtf+0YojHIgkw/ZDlPQVOB6jHNOiBjTMryVtO5ZznP
-         P7AuAY57GTS96/dDZpvQ3Hz8SxoqDRqCkTdv8vpPcenM3NuOb3z9L/X0iBm9+8Oq3lGG
-         Wczu7oP8hK22QqXOpIwoEugVCZB6AwmWXPbBOpTW4PYIeJuP0drmnLe2ul8Tiqt+jxHa
-         KiA5eLJuVyD0ZhICiNwKLKiYyr0U8WZsDmmMHAOkcRjUXKNlWYnhA23kudzNdGE23RVp
-         n+igv/75C23V/PUvOveSuswLD+5tbOy45mxHk5+VNGj+RDJaB7AtluDlXPOSB3NRbhjo
-         2jMw==
+         :message-id:reply-to;
+        bh=ugePcfJjWg3gTdTgtFvlc1OGp49uQ7iOCB+yoMKRNH4=;
+        b=FjIbpLuaZ26jOY0TMC2GrMU/UK3rXU8G4xqfwRTIK9RU9JkA8HpJ7rmIR4mUjAm+yD
+         7rP4cBMNOa/Tvlsf00vw4nGcS35K9JKMOW7aTgrg7WuJRKYt6QgZwaZqWTgtI1hyWraY
+         Xs+3NB2fNUO6zL6QbRRIRubHnU4/RLkfckvIpBE4QJnvI5da1Y6h3pd0XtmepUXCe1n7
+         3UHM5XoyJXVwplUrNGv3oyfgCpaNwURlOc19E7A9FuScbxVoEwNvpD6zrMAbMAlC+DqX
+         xQa9K24TfeMVR/6t6o2aB/NznysiEn+DkvjYXjudUTjOsjZYi3nPXJxKvaH0/J3npIT7
+         fwVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782916210; x=1783521010;
+        d=1e100.net; s=20251104; t=1782916211; x=1783521011;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=o+UunQnZVp8S6m9pUrNYyzpfVfChMooAV6SEFAVDXiA=;
-        b=pgaNx3zzP1boXrA90u6DUP07JUdL1EtgZFXXoCTiX+PoAd4qG9shfuaIKgVFtzJpqP
-         5owtFft1WgWiZjcDWo8RQ4FNKFfcnYRgohw2B9bEKvn3XaCJi5audlIlWSK9OBhIfPau
-         EcV/BkTrazfqRQVQd+xUHSdSgxMlzKl60uHfG7D/xhUMQlq7EKafNWpmISW/wj3lAJwR
-         iVGibTr9m1tDeWha/e/7WqSIBNJ/g8fdAMUnTJ0LQ13KOH07J/1/k4AMeGHrTWO6gphn
-         R4rKLyE/X6GHKPxFJ3DMpGQpY0OjJ+Hh2Sc4UUe5reHkt9Mq1th+Og0C2vYAs0OC59gw
-         nNNQ==
-X-Forwarded-Encrypted: i=1; AHgh+RoT8S8Owtlventw0y65E1egRaAq0kmQrjMM0q1QXrDsvFrekq+kIqfVjlUYEC8c9al1aPg/+8x4T6NSg2Y/5ERpjA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxghB970avEeN2MVYaReJXuhsUfvQ1LvWsiX0HKrVbC9wOlIO/k
-	qTwA+P37Tnyczaq93xh/0RHJTMJfj5x+/miaF6g6VWFEEMlKxvHGEgEzvThg5SC/
-X-Gm-Gg: AfdE7cmbE+dFOOvYk/Hu4v0mNN7cB5rWZ2gfJ3voM2w8K+YnNbwQ2iPWMh9Pg3GefaF
-	IhFPvzpJpsaS9Iigns3wmhZ/mssrryiQasiI5GBTPGx4A+o/NpYs+ihT/iuFjpRUXbADCvxLgJ2
-	u4ZfgnigUVDWKk1Ug/prA43ar2OcPeDxOp/X6CAMLebFCRHyttytwKjFN0VedDpbsMYpitePYtE
-	i/b6PMEk8kgDlLmRPvI0NL9+LtQ8tz5LVcAJ0b+7U4hgzvyuGRI+8F6lZtoSzUzpW9hTNlpQbER
-	VjJ2Eeb17QOa3Kh9u32KVBzASO8vCcqpPqUNBIA/0OX2fm/r3+t+XT5AOrPEmYAKk3dyYtXeOBQ
-	HVOHiAKhcZCxL4Vq5vHvuAb3Hxcb4W2p5GfnRpjY1uCzzzg2x1LrvSmJreEOBJW54eRGoLv/Rzi
-	4eNXuBIGblTqdlFARcmo4BldeWui+AFUBAyG7YJzJWY5N0X8nGUE10QIrWVLY65cujwMUo5vvTD
-	yWPaPoZ96JVaFcukqNjPq5H3fU=
-X-Received: by 2002:a5d:60c3:0:b0:472:d154:facf with SMTP id ffacd0b85a97d-477b5677a8dmr1049369f8f.42.1782916209676;
-        Wed, 01 Jul 2026 07:30:09 -0700 (PDT)
+         :to:cc:subject:date:message-id:reply-to;
+        bh=ugePcfJjWg3gTdTgtFvlc1OGp49uQ7iOCB+yoMKRNH4=;
+        b=c2zsVgyR+AfgN5WAoqu/xsJxivlouktWVuUkZczXol8zCiNgrJGY4nnd6DTti9bi1O
+         pjoCjo8mOt4VBrEg7C+8LETxP+CNXg8db70n+hxmyTkJ4LtOezS0f4UMygBM8QWv70ed
+         HXGwksKjmnhBPlwrNNiior1aMcPO53GPmwqRs1HxHcXel5dFgNRWk08brNDZRw5yDPUY
+         3k9cRNhQf8jhWgtlTrRhzSM9iuWP/UJ3rzPvLTriguue/UFYaNwq+Slc9PzANVkZqyd5
+         +cVL6IS12FHvX0iCgnPSZDlLaC+bk2aCujOdLnMfdfUpx72b+GPXRELm+agBGV8iMgzh
+         19Vw==
+X-Forwarded-Encrypted: i=1; AHgh+Rqk2n6fmABNpEGBtrCa0j0a/mAvj3fEtiyuge1udFLeFSzGMJ/3QbnldS6ZSx8VdsCzKXhT8bnMpru49BR+x1nAtA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyrfQmbet41t2uQjh27HhEd9rijnHt1kX//oRYSwO/KvHqH3o5K
+	NB6GXYIxjP2ttkLvk68DRa/TuPl0BqrfvFZXj2Cer13I/Xnjfw+fE2cj
+X-Gm-Gg: AfdE7ckV4HH2FsmWzgAjPNBWXl5RseoLG1QU81VrDw6rW/LlM+itn8cZzvJP7KmxnBZ
+	cwF9ar4XVci2CnTqeAz5525TCixvP3F0ykQaeKirAaSre7Sna8gFk3f4qcViOruqkJcbOOzSOd7
+	tu67dB8kl1xwBS0Q4McjT/Ranj0wci0Ah6JYRV6l3VNqj5imdbsHrAmNDF1PqPC8bFpGRdO33wG
+	DUYA52JtrGHJN/l9xaxyQMRB6QQs+RUv9VE+FLABWSRcxvjt2e9oBF5dEXE6vmBzkpEpYSxLjon
+	PNGqpgksu26Q+4blC5apUDm7rbBtJYFx7UhCv8w7rPbqi+VegaVvKzDWUs+d6jr/PnEnTZgSRN4
+	aUu08klTDTOdbBqDUoUPLHyuz8aE6JcBVgFsygdF/kf/kcwqMbqzkN5g15RlOP1+un6Pic3nsEr
+	JLd7+dWVKdpFImuqEwZ1Gpg+4v50Xyi39v8RD0BOXWRuOQd80TdiDSI5RtMmy3xJ3SEDce6G8pW
+	Da9mjjbrnF37dYwuOoukHQu1hXnyD6uoqZJGA==
+X-Received: by 2002:a05:6000:4305:b0:471:f180:86d7 with SMTP id ffacd0b85a97d-47759568468mr3184770f8f.41.1782916210609;
+        Wed, 01 Jul 2026 07:30:10 -0700 (PDT)
 Received: from iku.Home ([2a06:5906:61b:2d00:5353:5ce3:a6a2:3b98])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-477dd94c829sm184902f8f.24.2026.07.01.07.30.08
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-477dd94c829sm184902f8f.24.2026.07.01.07.30.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Jul 2026 07:30:08 -0700 (PDT)
+        Wed, 01 Jul 2026 07:30:10 -0700 (PDT)
 From: Prabhakar <prabhakar.csengg@gmail.com>
 X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 To: Miquel Raynal <miquel.raynal@bootlin.com>,
@@ -95,9 +95,9 @@ Cc: linux-rtc@vger.kernel.org,
 	Biju Das <biju.das.jz@bp.renesas.com>,
 	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
 	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v2 05/10] rtc: rzn1: Fix alarm range check truncation on 32-bit systems
-Date: Wed,  1 Jul 2026 15:29:48 +0100
-Message-ID: <20260701142953.2014895-6-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH v2 06/10] rtc: rzn1: Dynamically calculate synchronization delay based on clock rate
+Date: Wed,  1 Jul 2026 15:29:49 +0100
+Message-ID: <20260701142953.2014895-7-prabhakar.mahadev-lad.rj@bp.renesas.com>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20260701142953.2014895-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 References: <20260701142953.2014895-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
@@ -113,13 +113,13 @@ X-Spamd-Result: default: False [-1.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-34612-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-34613-lists,linux-renesas-soc=lfdr.de];
 	FREEMAIL_FROM(0.00)[gmail.com];
 	FORGED_RECIPIENTS(0.00)[m:miquel.raynal@bootlin.com,m:alexandre.belloni@bootlin.com,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:geert+renesas@glider.be,m:magnus.damm@gmail.com,m:wsa+renesas@sang-engineering.com,m:linux-rtc@vger.kernel.org,m:linux-renesas-soc@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:prabhakar.csengg+renesas@gmail.com,m:biju.das.jz@bp.renesas.com,m:fabrizio.castro.jz@renesas.com,m:prabhakar.mahadev-lad.rj@bp.renesas.com,m:krzk@kernel.org,m:conor@kernel.org,m:geert@glider.be,m:magnusdamm@gmail.com,m:wsa@sang-engineering.com,m:prabhakarcsengg@gmail.com,s:lists@lfdr.de];
 	FREEMAIL_TO(0.00)[bootlin.com,kernel.org,glider.be,gmail.com,sang-engineering.com];
@@ -138,65 +138,97 @@ X-Spamd-Result: default: False [-1.66 / 15.00];
 	DKIM_TRACE(0.00)[gmail.com:+];
 	RCVD_COUNT_FIVE(0.00)[5];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
 	ALIAS_RESOLVED(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[bp.renesas.com:mid,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,vger.kernel.org:from_smtp,renesas.com:email]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,bp.renesas.com:mid,renesas.com:email,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: D43826EED52
+X-Rspamd-Queue-Id: EE6CD6EEF7E
 
 From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-alarm and farest were declared as unsigned long, but
-rtc_tm_to_time64() returns time64_t (s64). On 32-bit systems where
-unsigned long is 32 bits, the assignment silently truncates the upper
-32 bits of the timestamp.
+Replace the hardcoded hardware synchronization delays with a calculated
+time window derived from the operating sub-clock frequency.
 
-Fix by declaring alarm and farest as time64_t and replacing
-time_after() with a direct signed comparison, which is correct for
-time64_t values that will never realistically overflow.
+The driver currently hardcodes microsecond ranges assuming a fixed
+sub-clock frequency of 32.768 kHz. Newer SoC variants, such as the
+RZ/T2H, drive this hardware block using a much faster clock rate
+(~195.3 kHz). Hardcoding these wait windows forces faster blocks to
+over-sleep, introducing unnecessary delays during clock initialization
+and register configuration.
+
+Calculate the duration of the required clock cycles in microseconds based
+on the runtime clock rate, and store this value in the driver private
+structure to adjust the usleep_range() and readl_poll_timeout() boundaries
+dynamically.
 
 Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
 v1->v2:
-- Added Reviewed-by tag.
+- Initialized rate variable to 32768 to avoid timeout_us of 0.
 ---
- drivers/rtc/rtc-rzn1.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ drivers/rtc/rtc-rzn1.c | 19 ++++++++++++++-----
+ 1 file changed, 14 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/rtc/rtc-rzn1.c b/drivers/rtc/rtc-rzn1.c
-index d56be7314a91..a82f2d7f7a2f 100644
+index a82f2d7f7a2f..1a45a3d895cf 100644
 --- a/drivers/rtc/rtc-rzn1.c
 +++ b/drivers/rtc/rtc-rzn1.c
-@@ -20,6 +20,7 @@
- #include <linux/pm_runtime.h>
- #include <linux/rtc.h>
- #include <linux/spinlock.h>
-+#include <linux/time64.h>
+@@ -70,6 +70,7 @@ struct rzn1_rtc {
+ 	 */
+ 	spinlock_t ctl1_access_lock;
+ 	struct rtc_time tm_alarm;
++	unsigned long sync_time;
+ };
  
- #define RZN1_RTC_CTL0 0x00
- #define   RZN1_RTC_CTL0_SLSB_SCMP BIT(4)
-@@ -259,8 +260,8 @@ static int rzn1_rtc_set_alarm(struct device *dev, struct rtc_wkalrm *alrm)
+ static void rzn1_rtc_get_time_snapshot(struct rzn1_rtc *rtc, struct rtc_time *tm)
+@@ -120,8 +121,8 @@ static int rzn1_rtc_set_time(struct device *dev, struct rtc_time *tm)
+ 		/* Hold the counter if it was counting up */
+ 		writel(RZN1_RTC_CTL2_WAIT, rtc->base + RZN1_RTC_CTL2);
+ 
+-		/* Wait for the counter to stop: two 32k clock cycles */
+-		usleep_range(61, 100);
++		/* Wait for the counter to stop: two RTC_PCLK clock cycles */
++		usleep_range(rtc->sync_time, rtc->sync_time + 100);
+ 		ret = readl_poll_timeout(rtc->base + RZN1_RTC_CTL2, val,
+ 					 val & RZN1_RTC_CTL2_WST, 0, 100);
+ 		if (ret)
+@@ -379,10 +380,10 @@ static const struct rtc_class_ops rzn1_rtc_ops_scmp = {
+ 
+ static int rzn1_rtc_probe(struct platform_device *pdev)
  {
- 	struct rzn1_rtc *rtc = dev_get_drvdata(dev);
- 	struct rtc_time *tm = &alrm->time, tm_now;
--	unsigned long alarm, farest;
- 	unsigned int days_ahead, wday;
-+	time64_t alarm, farest;
- 	int ret;
++	unsigned long rate = 32768;
+ 	struct rzn1_rtc *rtc;
+ 	u32 val, scmp_val = 0;
+ 	struct clk *xtal;
+-	unsigned long rate;
+ 	int irq, ret;
  
- 	ret = rzn1_rtc_read_time(dev, &tm_now);
-@@ -270,7 +271,7 @@ static int rzn1_rtc_set_alarm(struct device *dev, struct rtc_wkalrm *alrm)
- 	/* We cannot set alarms more than one week ahead */
- 	farest = rtc_tm_to_time64(&tm_now) + rtc->rtcdev->alarm_offset_max;
- 	alarm = rtc_tm_to_time64(tm);
--	if (time_after(alarm, farest))
-+	if (alarm > farest)
- 		return -ERANGE;
+ 	rtc = devm_kzalloc(&pdev->dev, sizeof(*rtc), GFP_KERNEL);
+@@ -431,12 +432,20 @@ static int rzn1_rtc_probe(struct platform_device *pdev)
+ 			scmp_val = RZN1_RTC_CTL0_SLSB_SCMP;
+ 	}
  
- 	/* Convert alarm day into week day */
++	/*
++	 * The internal clock counter operates in synchronization with the
++	 * RTC_PCLK clock. Calculate the duration of two RTC_PCLK clock
++	 * cycles in microseconds required for operations to complete.
++	 */
++	rtc->sync_time = DIV_ROUND_UP(2 * NSEC_PER_MSEC, rate);
++
+ 	/* Disable controller during SUBU/SCMP setup */
+ 	val = readl(rtc->base + RZN1_RTC_CTL0) & ~RZN1_RTC_CTL0_CE;
+ 	writel(val, rtc->base + RZN1_RTC_CTL0);
+-	/* Wait 2-4 32k clock cycles for the disabled controller */
++	/* Wait 2-4 RTC_PCLK clock cycles for the disabled controller to stop */
+ 	ret = readl_poll_timeout(rtc->base + RZN1_RTC_CTL0, val,
+-				 !(val & RZN1_RTC_CTL0_CEST), 62, 123);
++				 !(val & RZN1_RTC_CTL0_CEST), rtc->sync_time,
++				 rtc->sync_time * 2);
+ 	if (ret)
+ 		goto dis_runtime_pm;
+ 
 -- 
 2.54.0
 
