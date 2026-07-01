@@ -1,89 +1,91 @@
-Return-Path: <linux-renesas-soc+bounces-34581-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-34582-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id 9sLOBebYRGob2AoAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-34581-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 01 Jul 2026 11:07:50 +0200
+	id p3GxIbTYRGoG2AoAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-34582-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 01 Jul 2026 11:07:00 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFF0D6EB75A
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 01 Jul 2026 11:07:49 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id C34286EB736
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 01 Jul 2026 11:06:59 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=ragnatech.se header.s=fm1 header.b="zb666/DC";
-	dkim=pass header.d=messagingengine.com header.s=fm1 header.b="ZD/hwl9R";
-	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-34581-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-34581-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=ragnatech.se header.s=fm1 header.b=ZCOT9rXU;
+	dkim=pass header.d=messagingengine.com header.s=fm1 header.b="H UzdCKo";
+	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-34582-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 104.64.211.4 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-34582-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=none) header.from=ragnatech.se;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 4A779302CB58
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  1 Jul 2026 09:06:40 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id B73F6301422D
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  1 Jul 2026 09:06:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9173F3F0ABE;
-	Wed,  1 Jul 2026 09:06:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A9C993E6DFF;
+	Wed,  1 Jul 2026 09:06:38 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from fhigh-b3-smtp.messagingengine.com (fhigh-b3-smtp.messagingengine.com [202.12.124.154])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 375763EF0C9;
-	Wed,  1 Jul 2026 09:06:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44D4B3EFD2D;
+	Wed,  1 Jul 2026 09:06:33 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782896795; cv=none; b=pTbY8Xbd19aCclm3QZq3KGKNAORfVFqx1xuQiHD+2eV5OPR/DwCa1hIGVTzDo9h36+YobkN/iKb1cPW9R1+S+3VgFahswjkoBuTbHqHSX5IchqMGT7zmEbb3sG7WinNYZG6QPMeSCFFh0vxamHCu4WcClAEgpkbLkgDN7FZ+kNQ=
+	t=1782896798; cv=none; b=S7/kCxeS08fiApyaXrkQSG+RPHn6hZvBw+K/Ft/A8pH9dT+nPq7Bhjxc5Gr7HOgE6kP/NYOE/58dFYDBQvYFmO+j0ncT4Zkn4G6ici7axCDrny6I+bSrQIMSVOZ8NjzQpvbmXZmD9OZETPuzL/BddKLiLEtvk9fvv1CJrb7OCg8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782896795; c=relaxed/simple;
-	bh=a+zCYslTwctUlC57LcXB9oxyfds+8RQag5BpzcB63UY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=UmcNoSj7xsp7dFk4DKa8lQjtRzrV3rULanyALiGdy2plvSPNAWWa+BKMFyKP0vXW8CZpJFtvqe9qfn25Niypg2JudGyREsFlQQHzwazeNkInBnHOWCSvUQ8Z9GHE/4UWK86I0bLWqG2F5nTVDOOmAzmIa+VJx4FhYENgLlUGOrY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=zb666/DC; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=ZD/hwl9R; arc=none smtp.client-ip=202.12.124.154
-Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id E38A47A0023;
-	Wed,  1 Jul 2026 05:06:29 -0400 (EDT)
+	s=arc-20240116; t=1782896798; c=relaxed/simple;
+	bh=rykKa1icV/JrCkWGNeioXd57lQrQTnPbXyjwOzvIgsQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ILzYUk5a2/DQG1aFgb3pN1iVodNbtiwNplASMfUanf/vIVLbIFya5148XMjoz9zNJZw4kQFrgskyg5chLLrcQR8XXetJgKiFwrS4sPdGTpoBDjnlBWM54bPV94iHXBvjdpIB1PqywE5NyQbIx9H6PztVVLadrBkC3UJg8+myF7E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=ZCOT9rXU; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=HUzdCKoL; arc=none smtp.client-ip=202.12.124.154
+Received: from phl-compute-11.internal (phl-compute-11.internal [10.202.2.51])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id B9F087A0076;
+	Wed,  1 Jul 2026 05:06:32 -0400 (EDT)
 Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-02.internal (MEProxy); Wed, 01 Jul 2026 05:06:30 -0400
+  by phl-compute-11.internal (MEProxy); Wed, 01 Jul 2026 05:06:33 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
 	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:message-id:mime-version:reply-to
-	:subject:subject:to:to; s=fm1; t=1782896789; x=1782983189; bh=xl
-	Zj2IWS/yEA6l0YeXQHz6alZLDpsMjmTq7ALHs5DH4=; b=zb666/DCHWlohGfoHv
-	kbTFenalCDnrm5i4G4uIleBfTT7NFDkJGhY+shX4oXdVvAr71Os50UuiwZrN3C4r
-	alM0nQ3hChrjKb2qymyPnYD86MWWqB+nS5fnPswMWpkVORFHYi2iVf6f4gNhj+08
-	CA2I4O9QLM84BXRlFdN8VaNF0iYelQa9vciiLkHWnOIcLziL2ccyAK6NSgs8Dqcu
-	ByCPvY0mGSCPIhiTnkm9Wigxxh+zw+uY/w8hAHMVU9ja7Ms1Yy8ZkfpXnjM/dRAu
-	RIFt4beqhRsJ4mNhkKJEaqR/RugOxWSMxd2BTFKR0oXz8ak2oHHZyBp+qR3e/8Sw
-	wUZw==
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1782896792;
+	 x=1782983192; bh=RY71qZ1/mTMhQJKHTcMYAxKIoqb7zdEicrCDzqr/cbM=; b=
+	ZCOT9rXUnm1AdQnbCQ0Efa3BXXRv75ZQJRA+515lQtZcFTulkjK9uEPwBqvlbPTA
+	8SzvgiTGi9KXMruR6Cvc5GjY+cHPz26KGhj4Iie3SurLyby6BvNQYNAs+9oNvGJ4
+	ivzYWVSTUwnQYSOVqOjKIst7tlAGZViwuwT/HYCDHJ9D+Um05N2k5b4ROqPMmJMD
+	MTlrl4tfjfUnPQM7IHBpdQikm0s+9d376aR8MDhST3WuAwKygbP+UNtmc9Zo/bhs
+	NBStgutNoc25XqhP6MSXPW0GbWyxJnpFzm7u1/KGd1jmDhcaBZT28bWmKKK0yi2f
+	saqWEOYcjHASuQnAjpEdWg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
-	:subject:to:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm1; t=1782896789; x=1782983189; bh=xlZj2IWS/yEA6l0YeXQHz6alZLDp
-	sMjmTq7ALHs5DH4=; b=ZD/hwl9Rp73GrQld64ORoxQIruQzgekiJ82SvgvXfMDr
-	bqkoEWJyqkPbCpbDillF6jRwZ1VNzaCAPlbU6AInnVCEK5cIVChQiS87TBjFCXa9
-	MyOg4gtaxhO6FtcnMTfvo3IaNDTqMASWTMov7HWIqKm6G7AeUS3vGaDh2hvEuCdI
-	kSNhyJcNKkIbL5rzZEEaQtm45+ABtStYDMoHbOUZtvnVzr2pO1on7XLnf9l6xEgy
-	eJMYpiQ804fPy5PvPe3Bbi3zxotJBr678+IPRXXfCgiVdKm7FlTXKbckHikWwM6P
-	7qOJJtfNPFYTPQ6x4FsG5nh1z5YvJXq8RtCEBzd9xA==
-X-ME-Sender: <xms:ldhEahbKEOL3bP5wazLu1dqdWLIoynxkB9BIH7zc2YDj1q8Ixs7yFw>
-    <xme:ldhEam4NhJbx96cs44q6FdOKBaYr_08rutrSOMy4TRdYNHlmsRCAHfsWvEIvcoqrN
-    3D6xRBf4yLdY9E3xuo9SvfodZ4Wdbcg0V0fhMrZicUEK0TGCMzWb8E>
-X-ME-Received: <xmr:ldhEaqynrvWD0eSoj2taQCCFeN2nVefWIzn0i1QDPugE2MYuG6zRvixEijaYUxPTZJRhrUfKBHktalHoyc91TKhdW64fIkQ>
-X-ME-Proxy-Cause: dmFkZTEHujSBr1tDaokBlMPhjd6bwLitmOzJH4SPn38E53cEG/mtMfseyYzpcFUtwkBqlR
-    246XuYVy3uWfXg1U/HJhaQgnhi+rCVaNEtGRTLBxdeikAQ6pDYFkLdbgBzunYATlvaw/BM
-    prgy6iCYv5g/tuExxyE+3eMmfTLtQRNv51ssgN+lHoKT+t00YR0VmrABAFvOb2kzoGhqY+
-    nWbiS42JRSONB12mGApxDlCuwfeTiCmXEI2AOCK8MBsPHMikxalIbnaH8XtO+Yi34liHiM
-    X96kLJb/Tw0mVlXh1CoVbsj21e9gIrYmIf82uv9K/TlXv5aqM+o/OxCU70Mciqgloy1SDM
-    C4ynpVi/wzlPp+4dmvhOt5SAK8TFxRoJkfTuihD/1c0vrpn2LzV3Zz6NeptosYGjMbYsow
-    UTryaM+G6+zBsIlzhUhvDQSw9FtyAdHXLhb5BxNDDwvnOLvp0cPoSEtceZp/iUeN0daC9+
-    wQnVcynQQOvXaO4IQ61vVoRZ0EexGZDmkZUMtpCfMHBmqV8NSveryRd5sj20Am1casL2q8
-    m/r//bvg5hVLpcjQ6PBLAThrEJSYDzR+DhLdg5rf9Btv25YD+CTCPCOso+KJ9lsKDCbAan
-    Mk0p9dPEVs3jRpUPTRfuBhQ52nqMdRvdurq2pjm2myeGqYcIk72EfO/A/Kkw
-X-ME-Proxy: <xmx:ldhEavo3-BGUcKYegOVyYdZ7-_aQY45E1pAr4OX6ixdGBoakWffNcw>
-    <xmx:ldhEak2vcd8t41cuNvQdRPmTAfJIKYP8sAr6MmsVC92Bk4UJSyvu1A>
-    <xmx:ldhEagBQG-SzRjwNU1l8NS5N_6rYfy0iS-ubAuN-mSf82smCgPu2gw>
-    <xmx:ldhEatMVLkiV0M1hjESSjafHJ3Sy9_kPjSFa3gvHZ8CULA1Xw4L03w>
-    <xmx:ldhEaisqlq9X_etyLuzRp4Ldz8UoZ6MT7nC6Q-aKLiTCMQU9JNFmfPF2>
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1782896792; x=
+	1782983192; bh=RY71qZ1/mTMhQJKHTcMYAxKIoqb7zdEicrCDzqr/cbM=; b=H
+	UzdCKoLM0HEcvCTIrtzeGt6IOowXTa+yKaaTyAXBRVsVv/AeqxITps9Ps3EME0O4
+	XegXY3+1l/U/Zt4rx6nN3ua5meV+ADNccR7WBx/ZVRyW7MJqPhf2j0g6MOHv5Zz6
+	/2u6ouNqOYT0S/u1vUC7z2DSZX2gWuQPQTDeG7Xlh9Zxp6aUez8trP2GiDYesSBm
+	H4Cg8POFsD5MX/zJtL1MQBYYVbE0WBK4H6Y7KtJSsW2XVZuk+mDl3e+fK5JPqXj8
+	Xn+SLcty4fFiKg2h/oxqobu4d2j0d5iSE2AWZ8j6LsKV6Az+z6WiYcf36SAKuk8H
+	HVwL0aLEBJ9VvalHoKETA==
+X-ME-Sender: <xms:mNhEalKtKOcwvQRcKRuMFDAWIChDaoGnhxItWvL8J0FH3o-fGcDCGA>
+    <xme:mNhEatE25iTcNKFzCY5pGO3NGT_is-niMFEq50KVQEX6YMmgrXB1OzQDZsHT6hm5v
+    sEpghMs4PuCRP1YD3cjWN9SOuQFwDhIKTVNJJwzU_6iKKhgq1IsQpQ>
+X-ME-Received: <xmr:mNhEaj250hQuj1ovpPpo3cICxVjAYTWEQFJwlDAxQX-GmJ3qqGgzlKyrqYqPv_YbMCLS6q-iITHMnzyb5pewO8GOKY_FMQI>
+X-ME-Proxy-Cause: dmFkZTGNDibWHxkWFSfs++nrlQIRtDUuthtZrO1pJME/XBgH2cWthISDtRu0/57sC5xAVb
+    MLXR4CPBanKl7AoJ6V0e/N16Q3XOHNbTAMMCUo2FLnLHY58N4O+rZr1ltMEcrZ+1n1cl9Q
+    hmqDprh7MJSa98oZheV4VfgUWQ+OuLjBGBWBq2KZxOYCccjk881T3X7IrHI/agPK3fnb3v
+    1aBJp2MpLtr4MDIztgAqQnncVGHfa5gUMHI0mqvcuQYmujiRgMjUHwb+YeT+WjsJ/1OVu3
+    oJ7Qod4G48IAdiffZXT/nywy6NMgwfOEnvmOV68UjeWv7b7FjyTbEKf4udVzMdZzgt76jt
+    virzir/BMGPOdHWGDkNQAsG3Zv/TK7SSonEzUNPlY4IaAhPxreUkB5BxK+Mkm7R3cI3AAC
+    rSqvmPqQfH8OdvQC9xWSnlLj5cxEU0J12wdUpZ9uiqiNCYYoPl/UrZlxHOMiFI+LUWU6yN
+    dJhfkjQJenIRO75pxqGS0/JfWL5mS9ccrntOkWIUJbh/qTA703fA/jbEx8QvIng8GquAuN
+    2leSjG4LdFDhQcCRIntdLwCbGFWP0zzQMO6Zeyh5rHulduRJhZeYZhgTKFqMom0H3ot9nL
+    wt/BhkXmwU8rdMOnD7zvkqrtuOlxqtXU3ilbkRl4izrAZB3VGrAvDbLNGicQ
+X-ME-Proxy: <xmx:mNhEasyFB_0vGT1RI2CM2oxiaTZf28Lhs2JA99HUeZJypoPB3Xz4-Q>
+    <xmx:mNhEaqjyOMt2Hidgij1wNYXz4q2e43zMtMQnKv3J6bRA3c5Q1x1_2w>
+    <xmx:mNhEajzdSrFmU1TL_AClLPNWk4S8TaYz4jXOKxX4dyXry4JEV_GrTw>
+    <xmx:mNhEagw6kwXqk510L3AT4nXdRPfbxKoaF3oo9R_LeCyYvUThOJ5awQ>
+    <xmx:mNhEap7gZpKFAoYK1Y26uZlObfhIeg47vQqsapjbm1KfQrloau-ed0sv>
 Feedback-ID: i80c9496c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 1 Jul 2026 05:06:28 -0400 (EDT)
+ 1 Jul 2026 05:06:31 -0400 (EDT)
 From: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
 To: Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
@@ -100,11 +102,14 @@ To: Rob Herring <robh@kernel.org>,
 	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	netdev@vger.kernel.org
-Cc: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Subject: [PATCH net-next v3 0/3] ptp: Add driver for R-Car Gen4 gPTP timer
-Date: Wed,  1 Jul 2026 11:06:04 +0200
-Message-ID: <20260701090607.1108208-1-niklas.soderlund+renesas@ragnatech.se>
+Cc: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Subject: [PATCH net-next v3 1/3] dt-bindings: ptp: renesas,rcar-gen4-gptp: Add R-Car Gen4
+Date: Wed,  1 Jul 2026 11:06:05 +0200
+Message-ID: <20260701090607.1108208-2-niklas.soderlund+renesas@ragnatech.se>
 X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20260701090607.1108208-1-niklas.soderlund+renesas@ragnatech.se>
+References: <20260701090607.1108208-1-niklas.soderlund+renesas@ragnatech.se>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -119,21 +124,21 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[ragnatech.se,none];
 	R_DKIM_ALLOW(-0.20)[ragnatech.se:s=fm1,messagingengine.com:s=fm1];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-34581-lists,linux-renesas-soc=lfdr.de,renesas];
+	TAGGED_FROM(0.00)[bounces-34582-lists,linux-renesas-soc=lfdr.de,renesas];
 	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[16];
+	RCPT_COUNT_TWELVE(0.00)[17];
 	FORWARDED(0.00)[lists@lfdr.de];
 	FREEMAIL_TO(0.00)[kernel.org,glider.be,gmail.com,lunn.ch,davemloft.net,google.com,redhat.com,vger.kernel.org];
-	FORGED_RECIPIENTS(0.00)[m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:geert+renesas@glider.be,m:magnus.damm@gmail.com,m:richardcochran@gmail.com,m:andrew+netdev@lunn.ch,m:davem@davemloft.net,m:edumazet@google.com,m:kuba@kernel.org,m:pabeni@redhat.com,m:linux-renesas-soc@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:netdev@vger.kernel.org,m:niklas.soderlund+renesas@ragnatech.se,m:krzk@kernel.org,m:conor@kernel.org,m:geert@glider.be,m:magnusdamm@gmail.com,m:andrew@lunn.ch,m:niklas.soderlund@ragnatech.se,s:lists@lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:geert+renesas@glider.be,m:magnus.damm@gmail.com,m:richardcochran@gmail.com,m:andrew+netdev@lunn.ch,m:davem@davemloft.net,m:edumazet@google.com,m:kuba@kernel.org,m:pabeni@redhat.com,m:linux-renesas-soc@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:netdev@vger.kernel.org,m:niklas.soderlund+renesas@ragnatech.se,m:krzysztof.kozlowski@oss.qualcomm.com,m:krzk@kernel.org,m:conor@kernel.org,m:geert@glider.be,m:magnusdamm@gmail.com,m:andrew@lunn.ch,m:niklas.soderlund@ragnatech.se,s:lists@lfdr.de];
 	FORGED_SENDER(0.00)[niklas.soderlund@ragnatech.se,linux-renesas-soc@vger.kernel.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[6];
@@ -146,73 +151,122 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas,netdev];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[messagingengine.com:dkim,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,vger.kernel.org:from_smtp,ragnatech.se:dkim,ragnatech.se:mid,ragnatech.se:from_mime]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mailbox.org:email,vger.kernel.org:from_smtp,qualcomm.com:email,sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo,devicetree.org:url,messagingengine.com:dkim,ragnatech.se:dkim,ragnatech.se:email,ragnatech.se:mid,ragnatech.se:from_mime]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: BFF0D6EB75A
+X-Rspamd-Queue-Id: C34286EB736
 
-Hello,
+Add bindings for the R-Car Gen4 gPTP timer. The timer enables accurate
+synchronization of the clock in the control system. The timer is
+system-wide and used by different Ethernet devices on each Gen4 platform.
 
-This series is the first part cleaning up how PTP timer support is
-implemented on R-Car Gen4. Currently there is partial support for it in
-some of the Ethernet devices that can use it, but not all.
+  - On R-Car S4 it is shared between RSWITCH and RAVB.
 
-The partial support have been implemented by hacking the gPTP module
-directly into the first Ethernet device driver that used it, RTSN for
-V4H and RSWITCH for S4. This is understandable as earlier R-Car
-generations had a dedicated gPTP timer for each Ethernet device, but on
-Gen4 there is a single system-wide PTP timer shared by all.
+  - On R-Car V4H it is shared between RTSN and RAVB.
 
-The current implementation makes it impossible for other Ethernet
-devices on the platform to use the PTP timer without messing around with
-other Ethernet device drivers.
+  - On R-Car V4M it is only used by RAVB.
 
-The effort to clean this up starts with this series which adds the
-system-wide gPTP timer as its own driver and device tree node.
-
-This series will then be followed by work to add proper PTP support to
-the R-Car RAVB Gen4 driver, which currently advertises to user-space it
-supports PTP but which implementation is broken and does not work.
-
-This will in turn be followed by work to the RTSN and RSWITCH drivers
-will be be switched from its current partial support by mapping the gPTP
-address space directly to instead use this driver.
-
-Having both this and RTSN/RSWITCH described and enabled (!) in device
-tree will not work as they will try to use the same memory region. For
-this reason this new solution will only be enabled on platforms
-after all user's of the gPTP clock have moved to only use the new
-centralized timer. But in the interim both devices will be described
-(but not enabled) in the platforms base dtsi file.
-
-For some platforms this is straight forward, such as V4H Sparrow Hawk,
-which only have the RAVB Ethernet interface. This platform currently
-have no users of the PTP timer, but still advertise it supports it. This
-and the soon to be posted RAVB patches solves that.
-
-As the RAVB patches depends on this series the device tree node for the
-gPTP clock is added in this series but will be enabled and linked to
-consumers in the RAVB gPTP series for platforms where it will not
-conflict with RTSN and RSWITCH. And further enabled as more of this is
-cleaned up.
-
-The gPTP driver itself is heavily influence by the existing partial
-support for gPTP in the RTSN and RSWITCH drivers and the Renesas BSP.
-
-Niklas Söderlund (3):
-  dt-bindings: ptp: renesas,rcar-gen4-gptp: Add R-Car Gen4
-  ptp: Add driver for R-Car Gen4
-  arm64: dts: renesas: r8a779g0: Add gPTP node
-
- .../bindings/ptp/renesas,rcar-gen4-gptp.yaml  |  64 +++++
- MAINTAINERS                                   |   7 +
- arch/arm64/boot/dts/renesas/r8a779g0.dtsi     |   9 +
- drivers/ptp/Kconfig                           |  12 +
- drivers/ptp/Makefile                          |   1 +
- drivers/ptp/ptp_rcar_gen4.c                   | 219 ++++++++++++++++++
- 6 files changed, 312 insertions(+)
+Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+---
+* Changes since v1
+- Drop 'binding for' for patch subject.
+- Drop comment for renesas,rcar-gen4-gptp compatible to match other
+  Renesas bindings.
+- Drop unused label in example.
+- Rename node ptp in example.
+---
+ .../bindings/ptp/renesas,rcar-gen4-gptp.yaml  | 64 +++++++++++++++++++
+ MAINTAINERS                                   |  6 ++
+ 2 files changed, 70 insertions(+)
  create mode 100644 Documentation/devicetree/bindings/ptp/renesas,rcar-gen4-gptp.yaml
- create mode 100644 drivers/ptp/ptp_rcar_gen4.c
 
+diff --git a/Documentation/devicetree/bindings/ptp/renesas,rcar-gen4-gptp.yaml b/Documentation/devicetree/bindings/ptp/renesas,rcar-gen4-gptp.yaml
+new file mode 100644
+index 000000000000..3edd64d40038
+--- /dev/null
++++ b/Documentation/devicetree/bindings/ptp/renesas,rcar-gen4-gptp.yaml
+@@ -0,0 +1,64 @@
++# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
++# Copyright (C) 2026 Renesas Electronics Corp.
++# Copyright (C) 2026 Niklas Söderlund <niklas.soderlund@ragnatech.se>
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/ptp/renesas,rcar-gen4-gptp.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Renesas R-Car Gen4 gPTP timer
++
++maintainers:
++  - Niklas Söderlund <niklas.soderlund@ragnatech.se>
++
++description:
++  The R-Car Gen4 gPTP timer enables accurate synchronization of the clock in
++  the control system. The timer is system-wide and used by different Ethernet
++  devices on each Gen4 platform.
++
++    - On R-Car S4 it is shared between RSWITCH and RAVB.
++    - On R-Car V4H it is shared between RTSN and RAVB.
++    - On R-Car V4M it is only used by RAVB.
++
++properties:
++  compatible:
++    items:
++      - enum:
++          - renesas,r8a779f0-gptp # S4-8
++          - renesas,r8a779g0-gptp # V4H
++          - renesas,r8a779h0-gptp # V4M
++      - const: renesas,rcar-gen4-gptp
++
++  reg:
++    maxItems: 1
++
++  clocks:
++    maxItems: 1
++
++  power-domains:
++    maxItems: 1
++
++  resets:
++    maxItems: 1
++
++required:
++  - compatible
++  - reg
++  - clocks
++  - power-domains
++  - resets
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/clock/r8a779g0-cpg-mssr.h>
++    #include <dt-bindings/power/r8a779g0-sysc.h>
++
++    ptp@e6449000 {
++            compatible = "renesas,r8a779g0-gptp", "renesas,rcar-gen4-gptp";
++            reg = <0xe6449000 0x500>;
++            clocks = <&cpg CPG_MOD 2723>;
++            power-domains = <&sysc R8A779G0_PD_ALWAYS_ON>;
++            resets = <&cpg 2723>;
++    };
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 15011f5752a9..ef17128d6f3f 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -22901,6 +22901,12 @@ S:	Maintained
+ F:	Documentation/devicetree/bindings/mtd/renesas-nandc.yaml
+ F:	drivers/mtd/nand/raw/renesas-nand-controller.c
+ 
++RENESAS R-CAR GEN4 GPTP DRIVER
++M:	Niklas Söderlund <niklas.soderlund@ragnatech.se>
++L:	linux-renesas-soc@vger.kernel.org
++S:	Supported
++F:	Documentation/devicetree/bindings/ptp/renesas,rcar-gen4-gptp.yaml
++
+ RENESAS R-CAR GYROADC DRIVER
+ M:	Marek Vasut <marek.vasut+renesas@mailbox.org>
+ L:	linux-iio@vger.kernel.org
 -- 
 2.55.0
 
