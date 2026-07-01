@@ -1,192 +1,178 @@
-Return-Path: <linux-renesas-soc+bounces-34626-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-34628-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id pyXELWNKRWqj+AoAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-34626-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 01 Jul 2026 19:12:03 +0200
+	id AYw1E5Z8RWoABAsAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-34628-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 01 Jul 2026 22:46:14 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C0AF6F0342
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 01 Jul 2026 19:12:03 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id A12866F192F
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 01 Jul 2026 22:46:13 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=AOZxBODk;
-	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-34626-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 2600:3c09:e001:a7::12fc:5321 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-34626-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=quarantine) header.from=kernel.org;
+	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=xExFM1qy;
+	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=jOfnk6I8;
+	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-34628-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-34628-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=reject) header.from=mailbox.org;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id C3FD9302A9F8
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  1 Jul 2026 17:12:02 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id D55343137B12
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  1 Jul 2026 20:39:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EF18F38239B;
-	Wed,  1 Jul 2026 17:12:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A2FA63A7D98;
+	Wed,  1 Jul 2026 20:39:56 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF99329DB6C;
-	Wed,  1 Jul 2026 17:12:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3F533A71AD;
+	Wed,  1 Jul 2026 20:39:53 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782925921; cv=none; b=gXFRV/F1LG1cdXkLTuhpyv5HNCqTnLyoVt27i7ul7mwROB2rr8NOB8Er5Xzz6kOHNIAUDB//u/NestmxQv6rkbvdjU2fE4yFV4vnb1zPLr1/JB9UddJhmh6t0XFGIVyGIGaI8//DscR8GERT0Rfo8aqkKU49MNeumSEMSi7+ovY=
+	t=1782938396; cv=none; b=g0dQrUCRnns8jUTedrWQJnYYqEngae1O4JA/eMXli6Em9ZGAldmy8jnZkpIu9r1NyjQmZmCNBYtD+MHkWxDvLZc+PWSOPMjjUg1rW3JVmJnVRPIQuxl7u4Rf5Dnqh0kdLbRcVgjwePsR6/TQEUxvyo96dWnbK+YhZON4D757GUo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782925921; c=relaxed/simple;
-	bh=IYHibe3w/Usi8wZ+YbVavZuRMScTW7qDRzO5RLcfSlM=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=rnbpnogQ1nUtPP5Nd/iRZVHYvi58X105jH6qHqE6VkTm43rwQFg5pqBOEaANHUE39a0pfLh8MWcKLebhnE917RLyzdiCT2oCjmQFidNC2fqyGP6LOOVZPoj6GW0MEPitvU5AFCJiZ7EuOGa4naWz6Jd0lJQgJO0RL/JjtjV+u9I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AOZxBODk; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3DF191F000E9;
-	Wed,  1 Jul 2026 17:11:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782925920;
-	bh=N8IvyApca3rIZ+G3IaiQJxW6To6JY2BREwgZjIj25gY=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=AOZxBODkICJ+Fy6V7cpnDvxOfv/VlHsWrP5biXXMGaDirktH6tiNnaKrHVoOhaEil
-	 AYaMPSOBiuJB1diCbMH4rA1njNgEmd4hfd7LQu60RaA1f2AGDPhBx818hFFPYbDWfc
-	 PdYGoi1OOt/0lB1MA2phAEN78bvQysvnz0ONvCyeKDZeGD0yxEBQ5Vz+aTBtVM2+xc
-	 yzY9EeEWZQzld5AZITQC0EOudFKFdix5RPPE68u9XMTz++ZZwtglK0X1TGgZGCK+QH
-	 MC8BffKNEnb7QJz0CZwKRBLC48hXc5F5DPvc5aZyAdSuMwLSuhSj4B/h/JOylSVcl2
-	 HuwVOODRaMaUA==
-Date: Wed, 1 Jul 2026 13:11:57 -0400
-From: Steven Rostedt <rostedt@kernel.org>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: David Carlier <devnexen@gmail.com>, linux-kernel@vger.kernel.org, Masami
- Hiramatsu <mhiramat@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Andrew Morton
- <akpm@linux-foundation.org>, "Vineeth Pillai (Google)"
- <vineeth@bitbyteword.org>, Peter Zijlstra <peterz@infradead.org>, Linux ARM
- <linux-arm-kernel@lists.infradead.org>, Linux-Renesas
- <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [for-next][PATCH 04/15] tracepoint: Add lockdep
- rcu_is_watching() check to trace_##name##_enabled()
-Message-ID: <20260701131157.3fc4c695@robin>
-In-Reply-To: <CAMuHMdUdsTHCMnitVEHdZvRFe9xgmLLTjSr=QqvOi0dxFjkTEA@mail.gmail.com>
-References: <20260522143508.298439732@kernel.org>
-	<20260522143525.551205135@kernel.org>
-	<CAMuHMdXud_RpWag_hFqa2ByBGRxg6KnxGL1ObCWZrpTsk3TfAw@mail.gmail.com>
-	<20260630155318.7db20990@gandalf.local.home>
-	<CAMuHMdUdsTHCMnitVEHdZvRFe9xgmLLTjSr=QqvOi0dxFjkTEA@mail.gmail.com>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-redhat-linux-gnu)
+	s=arc-20240116; t=1782938396; c=relaxed/simple;
+	bh=45ktKS63svINguA/03znAG+kUb0GrmqNXv1eYU/+Fto=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=m62fHegu6bV5VFx/iFkmPAe6GVVTqpjhHqRzn2hvfusM9b84jScFzZGvo96FS84Mm9cMp3QovE0n2UEdAJNsxikft/Hc2JimujQaiAn8OToRg4HmLzs14sAPcdgNJYe9xOuWChpahMzHLChAkGC0y3JE75Qh+HGlMZWwiTxGCjw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=xExFM1qy; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=jOfnk6I8; arc=none smtp.client-ip=80.241.56.152
+Received: from smtp1.mailbox.org (smtp1.mailbox.org [IPv6:2001:67c:2050:b231:465::1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4grBhf05h0z9v3b;
+	Wed,  1 Jul 2026 22:39:46 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1782938386;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=NkxAlTQFGbaiuEekACY4kTmb7QT3eq8R9Ya17Km0roM=;
+	b=xExFM1qyH1faobKmzBOkzKHHYG0vK2RhwDumRw2uDRJf3HzJQbSso9yCfk3zJd/5MhdiWU
+	oUQrlYAdGic7O8BNN6XEL5oYfejW7JDmoe3gyFZ7Mc0UEoqtULy1sLZC8c8E3j42Jubilf
+	K93v6IhJOj6Bf2th6nlRktBnv2AOhRKfB3OCUtK2sPsoK7yEDJSowuFw5IJXftLTe1Kipr
+	8DsIDxWvzCYUl5BlZQn9Tqlkk+FPNuNF/DVVt216wQ3R1JXZVu2CbeuBCCA7r1M4Rsh0B+
+	gitTcEXCCrziwHwgUFF6n1Q8zu5X3zI+PLtOf+JqbslK2ofBj16rKZ3nz0zNvg==
+From: Marek Vasut <marek.vasut+renesas@mailbox.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1782938384;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=NkxAlTQFGbaiuEekACY4kTmb7QT3eq8R9Ya17Km0roM=;
+	b=jOfnk6I898Lgh1qcpjzFHAMB9Cqhlmfh/Ok1puVoyftl4dAB3IfpmUPEZ/v3NGPjyCYLyo
+	C+32SYu9ziYYtAkLH/vSmqaT9ci9byJs8ua6ifHJ2HUqVgStR14O+JRsV8gtxGaoYr8eJ7
+	Y499fjgo5PFw0i92B1dx0MAf+PgC8l/MikHx5cdWZ2UYkjhllVqjfNmoi+wrbwh1x994zy
+	InEgMGQqv9q59TrZhmYMfYhH1pISkC7z2iIqETUKdE/V5Z83CE/RkTmMWb1Syt+xSxKwUr
+	SQbKvq9CFiCbWEfHwF13981rqC2DL9VoVZOqDC9EoXnsA0dVgyjZYRCLKQOVgw==
+To: linux-pci@vger.kernel.org
+Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
+	=?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Marc Zyngier <maz@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org
+Subject: [PATCH v3 0/5] PCI: rcar-gen4: irqchip/gic-v3: Handle GIC ITS
+Date: Wed,  1 Jul 2026 22:37:43 +0200
+Message-ID: <20260701203918.63189-1-marek.vasut+renesas@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-MBO-RS-META: 8qus3hraqq8rxg6as1fu3rbgzyipbcr5
+X-MBO-RS-ID: 35fafbef4d7d3e030fb
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-4.66 / 15.00];
-	WHITELIST_SPF_DKIM(-3.00)[kernel.org:d:+,kernel.org:s:+];
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
+	DMARC_POLICY_ALLOW(-0.50)[mailbox.org,reject];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[mailbox.org:s=mail20150812];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-34626-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-34628-lists,linux-renesas-soc=lfdr.de,renesas];
 	RCVD_TLS_LAST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
-	FREEMAIL_CC(0.00)[gmail.com,vger.kernel.org,kernel.org,arm.com,efficios.com,linux-foundation.org,bitbyteword.org,infradead.org,lists.infradead.org];
-	FORWARDED(0.00)[lists@lfdr.de];
-	FORGED_RECIPIENTS(0.00)[m:geert@linux-m68k.org,m:devnexen@gmail.com,m:linux-kernel@vger.kernel.org,m:mhiramat@kernel.org,m:mark.rutland@arm.com,m:mathieu.desnoyers@efficios.com,m:akpm@linux-foundation.org,m:vineeth@bitbyteword.org,m:peterz@infradead.org,m:linux-arm-kernel@lists.infradead.org,m:linux-renesas-soc@vger.kernel.org,s:lists@lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_SENDER(0.00)[rostedt@kernel.org,linux-renesas-soc@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_SENDER(0.00)[marek.vasut@mailbox.org,linux-renesas-soc@vger.kernel.org];
 	MIME_TRACE(0.00)[0:+];
+	FORGED_RECIPIENTS(0.00)[m:linux-pci@vger.kernel.org,m:marek.vasut+renesas@mailbox.org,m:kwilczynski@kernel.org,m:bhelgaas@google.com,m:catalin.marinas@arm.com,m:conor+dt@kernel.org,m:geert+renesas@glider.be,m:krzk+dt@kernel.org,m:lpieralisi@kernel.org,m:mani@kernel.org,m:maz@kernel.org,m:robh@kernel.org,m:yoshihiro.shimoda.uh@renesas.com,m:devicetree@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-doc@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-renesas-soc@vger.kernel.org,m:marek.vasut@mailbox.org,m:conor@kernel.org,m:geert@glider.be,m:krzk@kernel.org,s:lists@lfdr.de];
+	FORWARDED(0.00)[lists@lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[rostedt@kernel.org,linux-renesas-soc@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	TAGGED_RCPT(0.00)[linux-renesas-soc];
+	FROM_NEQ_ENVFROM(0.00)[marek.vasut@mailbox.org,linux-renesas-soc@vger.kernel.org];
+	DKIM_TRACE(0.00)[mailbox.org:+];
+	MID_RHS_MATCH_FROM(0.00)[];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,dt];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[18];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	TO_DN_SOME(0.00)[]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 4C0AF6F0342
+X-Rspamd-Queue-Id: A12866F192F
 
-On Wed, 1 Jul 2026 11:24:31 +0200
-Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+Configure all R-Car Gen4 PCIe controller MSI registers fully, both in
+case MSI are enabled and disabled.
 
-> Thanks, it does not trigger with the commit reverted and the "echo 1 > ...".
+Patch GIC ITS driver and add quirks for R-Car Gen4 GIC ITS, which is
+configured to 32-bit address width for AXI or APB interface.
 
-Ah found the issue;
+Switch R-Car V4H to use GIC ITS in its DT and describe the GIC ITS
+implementation cacheable and shareable limitations.
 
-#define trace(point, args)                                      \
-        do {                                                    \
-                if (trace_##point##_enabled()) {                \
-                        bool exit_rcu = false;                  \
-                        if (in_nmi())                           \
-                                break;                          \
-                        if (!IS_ENABLED(CONFIG_TINY_RCU) &&     \
-                            is_idle_task(current)) {            \
-                                ct_irq_enter();                 \
-                                exit_rcu = true;                \
-                        }                                       \
-                        trace_##point(args);                    \
-                        if (exit_rcu)                           \
-                                ct_irq_exit();                  \
-                }                                               \
-        } while (0)
-#endif
+Marek Vasut (5):
+  PCI: dwc: Determine whether iMSI is used before calling .init
+  PCI: rcar-gen4: Configure AXIINTC if iMSI-RX not used
+  irqchip/gic-v3: Refactor GIC600 limited to 32bit PA erratum handling
+  irqchip/gic-v3: Add Renesas R-Car Gen4 erratum workaround
+  arm64: dts: renesas: r8a779g0: Add GICv3 ITS and update PCIe nodes
 
-The code within the enabled() call checks if RCU is watching, and if
-not, it makes it watch. So yeah, this is a special case.
+ Documentation/arch/arm64/silicon-errata.rst   |   1 +
+ arch/arm64/Kconfig                            |   9 ++
+ arch/arm64/boot/dts/renesas/r8a779g0.dtsi     |  31 +++--
+ drivers/irqchip/irq-gic-v3-its.c              |  24 ++--
+ .../pci/controller/dwc/pcie-designware-host.c |  10 +-
+ drivers/pci/controller/dwc/pcie-rcar-gen4.c   | 118 +++++++++++++++++-
+ 6 files changed, 168 insertions(+), 25 deletions(-)
 
-The following patch should fix the issue:
+---
+Cc: "Krzysztof Wilczyński" <kwilczynski@kernel.org>
+Cc: Bjorn Helgaas <bhelgaas@google.com>
+Cc: Catalin Marinas <catalin.marinas@arm.com>
+Cc: Conor Dooley <conor+dt@kernel.org>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
+Cc: Lorenzo Pieralisi <lpieralisi@kernel.org>
+Cc: Manivannan Sadhasivam <mani@kernel.org>
+Cc: Marc Zyngier <maz@kernel.org>
+Cc: Rob Herring <robh@kernel.org>
+Cc: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc: devicetree@vger.kernel.org
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-doc@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: linux-pci@vger.kernel.org
+Cc: linux-renesas-soc@vger.kernel.org
 
-diff --git a/include/linux/tracepoint.h b/include/linux/tracepoint.h
-index 4a0c36f40fe2..e0d838c9ce93 100644
---- a/include/linux/tracepoint.h
-+++ b/include/linux/tracepoint.h
-@@ -292,13 +292,18 @@ static inline struct tracepoint *tracepoint_ptr_deref(tracepoint_ptr_t *p)
- 	{								\
- 	}								\
- 	static inline bool						\
-+	__trace_##name##_enabled(void)					\
-+	{								\
-+		return static_branch_unlikely(&__tracepoint_##name.key);\
-+	}								\
-+	static inline bool						\
- 	trace_##name##_enabled(void)					\
- 	{								\
- 		if (IS_ENABLED(CONFIG_LOCKDEP)) {			\
- 			WARN_ONCE(!rcu_is_watching(),			\
- 				  "RCU not watching for tracepoint");	\
- 		}							\
--		return static_branch_unlikely(&__tracepoint_##name.key);\
-+		return __trace_##name##_enabled();			\
- 	}
- 
- #define __DECLARE_TRACE(name, proto, args, cond, data_proto)			\
-@@ -457,6 +462,11 @@ static inline struct tracepoint *tracepoint_ptr_deref(tracepoint_ptr_t *p)
- 	{								\
- 	}								\
- 	static inline bool						\
-+	__trace_##name##_enabled(void)					\
-+	{								\
-+		return false;						\
-+	}								\
-+	static inline bool						\
- 	trace_##name##_enabled(void)					\
- 	{								\
- 		return false;						\
-diff --git a/kernel/trace/trace_preemptirq.c b/kernel/trace/trace_preemptirq.c
-index 0c42b15c3800..b63e3558948f 100644
---- a/kernel/trace/trace_preemptirq.c
-+++ b/kernel/trace/trace_preemptirq.c
-@@ -30,7 +30,7 @@
- #else
- #define trace(point, args)					\
- 	do {							\
--		if (trace_##point##_enabled()) {		\
-+		if (__trace_##point##_enabled()) {		\
- 			bool exit_rcu = false;			\
- 			if (in_nmi())				\
- 				break;				\
+-- 
+2.53.0
+
 
