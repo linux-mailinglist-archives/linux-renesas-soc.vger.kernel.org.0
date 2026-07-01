@@ -1,151 +1,127 @@
-Return-Path: <linux-renesas-soc+bounces-34597-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-34598-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id Pl0+GhT4RGr/4AoAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-34597-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 01 Jul 2026 13:20:52 +0200
+	id mmlxOPL7RGo64goAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-34598-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 01 Jul 2026 13:37:22 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2FF76ECBAC
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 01 Jul 2026 13:20:51 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 48C196ECE1A
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 01 Jul 2026 13:37:22 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=sang-engineering.com header.s=k1 header.b=HCN5EfcL;
-	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-34597-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-34597-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
+	dkim=none;
 	dmarc=none;
+	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-34598-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-34598-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 1D4B83087EF6
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  1 Jul 2026 11:17:03 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 5BEF73010B9F
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  1 Jul 2026 11:37:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F35EC43DA23;
-	Wed,  1 Jul 2026 11:17:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CC2763E717C;
+	Wed,  1 Jul 2026 11:37:20 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B7F143E49B
-	for <linux-renesas-soc@vger.kernel.org>; Wed,  1 Jul 2026 11:17:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77F7C4218B8;
+	Wed,  1 Jul 2026 11:37:19 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782904622; cv=none; b=YNSrUbt9tRJ5mqxWdaREXw0biDv/MbyVF62C/wpyX9249dUsxiWeg5f0CM7+XTYO9cclZyw5xSX+Rd7t/tEuJvOSlF0/0QMzTAYNO5t54ZzcGgOzuYhsI2hJhTX89oaMrjecdjL693EcgYm/fpbqzMBkLSJ2aUVrdcloX6E6G3g=
+	t=1782905840; cv=none; b=BCeC0CA41sLoqftpB1UuNioagpGthffqyXxh/QV24qb6kt1UKyU3TAM9SG9DXlOqOMJLIwRlb/LaLtDOjLkRayRuI3PAUwNM/OHDPr/237i7pTz8MYgR7NZwKMoWNWQhtMSmKdiyRS+4/MlqOklMnsXClkwdEhgVCPVKQm3sz2I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782904622; c=relaxed/simple;
-	bh=Ju6G30nPmVF/JwZK4zThMrqgftJV0nXXCv80BHQAxH0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=p4TPdukVAhy/kYB6LnIBxWou66hTpNNbWTz7zGrheVcXM/vKcqWFgVorEsCtLEjjAs/0+ZqgTSa6ixaVDtj39dMnEheqvQEiAtgpl0owu/BhusNMjVnhxzQRB9s/o71/VrGA2qv+Fc4XMn8HCN/AMbpxe1QcAsWeeZz72Y0hdPY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=HCN5EfcL; arc=none smtp.client-ip=194.117.254.33
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=Ju6G
-	30nPmVF/JwZK4zThMrqgftJV0nXXCv80BHQAxH0=; b=HCN5EfcLkITKJVGDJGCF
-	T6b1u4EyEGQb7BBeoQr1FK5o+vy+sOZ8zmaV8tJyieIcBNONaFUcGnYlsEa162iu
-	o54TzXBJnWL+sXHgT5MfxvDnBqXSX4NRaOu144fu3jWt7EZ5Vp1uVzQWGqEJr6i8
-	M5j5opA0QCbbS+6WhQJM8QVOjzerpapI4Zi7PNfiXOhPPPtgZ03prnBHGltB22XC
-	NygthqlXNPSGXFJQfe2gMSPMep+zG8xChDhBDh3TDVR9YDsgrqJ7cpwjgPUkqOqU
-	jnQMsfRuq2SndbzMJwb1+yFSPdu5frz+e9jQLnqlP67++fv6YdaxTEEbh7Qxh3Y7
-	+g==
-Received: (qmail 672995 invoked from network); 1 Jul 2026 13:16:59 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 1 Jul 2026 13:16:59 +0200
-X-UD-Smtp-Session: l3s3148p1@vMt31IpVLelUhsc0
-Date: Wed, 1 Jul 2026 13:16:58 +0200
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: linux-renesas-soc@vger.kernel.org, Mark Brown <broonie@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>, linux-spi@vger.kernel.org,
-	devicetree@vger.kernel.org
-Subject: Re: [PATCH v4 1/4] spi: dt-bindings: snps,dw-apb-ssi: drop
- superfluous RZ/N1 entry
-Message-ID: <akT3KiUJccT2bjRn@shikoro>
-References: <20260626180326.9593-1-wsa+renesas@sang-engineering.com>
- <20260626180326.9593-2-wsa+renesas@sang-engineering.com>
- <20260630-dazzling-intrepid-lobster-c83db6@quoll>
- <b4a42f27-595b-4c02-a792-0e11c306d2ea@kernel.org>
+	s=arc-20240116; t=1782905840; c=relaxed/simple;
+	bh=fFamLJXyVNWLfc4YsfADaYv0ySxF115qkDAdWhni5/o=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=hYRkUsumTviaOvo4P/xOvN6zyDLEjk3MXywQrWOWKWRn/qq/dr+r1dBcI/wMXMjuxjinyfvJ7Z6pyDrz3+QDJcL95otJH9j2mlq6ixm5gubOtZs+kWfJ5LumNXsugDjwXXkANviFXN8ejWNHgnq1u0AXh8+zXQFYZT5B1ubwDd8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 869201F000E9;
+	Wed,  1 Jul 2026 11:37:13 +0000 (UTC)
+Message-ID: <df099fd8-6b6d-4b9e-80c4-0797d9ec5844@tuxon.dev>
+Date: Wed, 1 Jul 2026 14:37:11 +0300
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="SupshW18AQZrgaw3"
-Content-Disposition: inline
-In-Reply-To: <b4a42f27-595b-4c02-a792-0e11c306d2ea@kernel.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] can: rcar_canfd: Change the initializing flow for clocks
+ and resets
+To: Biju <biju.das.au@gmail.com>, Marc Kleine-Budde <mkl@pengutronix.de>,
+ Vincent Mailhol <mailhol@kernel.org>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Magnus Damm <magnus.damm@gmail.com>, Philipp Zabel <p.zabel@pengutronix.de>
+Cc: Tu Nguyen <tu.nguyen.xg@renesas.com>,
+ Biju Das <biju.das.jz@bp.renesas.com>, Duy Nguyen
+ <duy.nguyen.rh@renesas.com>,
+ Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+ linux-can@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20260625135216.130450-1-biju.das.jz@bp.renesas.com>
+Content-Language: en-US
+From: Claudiu Beznea <claudiu.beznea@tuxon.dev>
+In-Reply-To: <20260625135216.130450-1-biju.das.jz@bp.renesas.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-3.26 / 15.00];
-	SIGNED_PGP(-2.00)[];
+X-Spamd-Result: default: False [-1.46 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[sang-engineering.com:s=k1];
-	MIME_GOOD(-0.20)[multipart/signed,text/plain];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:krzk@kernel.org,m:linux-renesas-soc@vger.kernel.org,m:broonie@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:geert+renesas@glider.be,m:magnus.damm@gmail.com,m:linux-spi@vger.kernel.org,m:devicetree@vger.kernel.org,m:conor@kernel.org,m:geert@glider.be,m:magnusdamm@gmail.com,s:lists@lfdr.de];
-	DMARC_NA(0.00)[sang-engineering.com];
-	TAGGED_FROM(0.00)[bounces-34597-lists,linux-renesas-soc=lfdr.de,renesas];
-	MIME_TRACE(0.00)[0:+,1:+,2:~];
+	FORGED_RECIPIENTS(0.00)[m:biju.das.au@gmail.com,m:mkl@pengutronix.de,m:mailhol@kernel.org,m:geert+renesas@glider.be,m:magnus.damm@gmail.com,m:p.zabel@pengutronix.de,m:tu.nguyen.xg@renesas.com,m:biju.das.jz@bp.renesas.com,m:duy.nguyen.rh@renesas.com,m:prabhakar.mahadev-lad.rj@bp.renesas.com,m:linux-can@vger.kernel.org,m:linux-renesas-soc@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:bijudasau@gmail.com,m:geert@glider.be,m:magnusdamm@gmail.com,s:lists@lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
-	FORWARDED(0.00)[lists@lfdr.de];
-	FORGED_SENDER(0.00)[wsa@sang-engineering.com,linux-renesas-soc@vger.kernel.org];
+	DMARC_NA(0.00)[tuxon.dev];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com,pengutronix.de,kernel.org,glider.be];
+	FORGED_SENDER(0.00)[claudiu.beznea@tuxon.dev,linux-renesas-soc@vger.kernel.org];
+	RCPT_COUNT_TWELVE(0.00)[13];
+	RCVD_TLS_LAST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,kernel.org,glider.be,gmail.com];
-	MISSING_XM_UA(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORWARDED(0.00)[lists@lfdr.de];
+	TAGGED_FROM(0.00)[bounces-34598-lists,linux-renesas-soc=lfdr.de];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[wsa@sang-engineering.com,linux-renesas-soc@vger.kernel.org];
-	DKIM_TRACE(0.00)[sang-engineering.com:+];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
+	FROM_NEQ_ENVFROM(0.00)[claudiu.beznea@tuxon.dev,linux-renesas-soc@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	R_DKIM_NA(0.00)[];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
+	MID_RHS_MATCH_FROM(0.00)[];
 	TO_DN_SOME(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,vger.kernel.org:from_smtp,sang-engineering.com:dkim,sang-engineering.com:from_mime]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,tuxon.dev:mid,tuxon.dev:from_mime]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: D2FF76ECBAC
+X-Rspamd-Queue-Id: 48C196ECE1A
 
 
---SupshW18AQZrgaw3
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
+On 6/25/26 16:51, Biju wrote:
+> From: Tu Nguyen<tu.nguyen.xg@renesas.com>
+> 
+> Testing CANFD on RZ/G3E shows that many registers do not reset to their
+> initial values with the current flow of deasserting resets first and then
+> enabling clocks.
+> 
+> Based on the HW manual, clocks should be supplied first and the
+> resets deasserted afterward.
+> 
+>   section 7.4.3 Procedure for Activating Modules: RZ/G2L
+>   section 4.4.9.3 Procedure for Starting up Units: RZ/G3E
+> 
+> So, update the order of the initializing flow for resets and clocks
+> to match the hardware manual, resetting all CANFD registers to their
+> initial values. Also update rcar_canfd_global_deinit() to assert
+> resets before disabling clocks, so the teardown path mirrors the new
+> init ordering.
+> 
+> Fixes: 76e9353a80e9 ("can: rcar_canfd: Add support for RZ/G2L family")
+> Signed-off-by: Tu Nguyen<tu.nguyen.xg@renesas.com>
+> Signed-off-by: Biju Das<biju.das.jz@bp.renesas.com>
 
-> Uh... the compatible is listed twice (!) and you remove it only one
-> instance. That's completely missed in the commit msg. Patch is fine, but
-> please be explicit that you remove the variant which should be used as
-> fallback while leaving the ABI documented.
-
-Okay, I could have used 'duplicated' instead of 'superfluous' to
-make this more obvious. Will reword.
-
-
---SupshW18AQZrgaw3
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmpE9yoACgkQFA3kzBSg
-KbZPDA//cEfcjG5ymTzgvGp2vHN41NVqUEM85KtpECI6mgPJcgrmhtjPP2s7xAKk
-0kxf8k6xcMp7XBat8hlh2OJbZyibKEMeWp5aKfUZWfGn7J4ys+QK2uf3YEeg6w1k
-iC25q/KsmwdVAj1CKGx/QNeMeWoyG5HstDfZSutNoHUHyE/VDF8K+u2jyiNkz0yi
-A5wZtc9Q8IPKfkHDhGhHaby3UieaaPdWr1i3Ax0PqSJna0iBL0v+mHQbiJPld320
-DguNQDmceeBp0PFznrx34zgbcZj5NJbvBWrzomwiZWLF5/bbBwGPhqk8B7t5jrGC
-Bd9jk/pNVlv4gnZbzJq5AZptJEWARYVSTKwEGbWfoZDfTIUIM+9/3TU43BdMWbJ2
-uUNsaIreK0KdRvVC9JnRNayAxPIVD+3ag9FTO9gNEoDWXf8w1PxMJr/XUwEmp99i
-D69HJZlKWaevCePkPt2uPEG+OpB+oi8fnCAdW4IJzR/5JYPlPA/hAwUZIX+4nTQj
-0tvSGINdQV0G9nbgBmYTo48OvP8nz8LOzHb87e5FuU69ROlSJUPqGcrPs1ftnhRk
-8q9v6AX4nVSTh27/tBUTZILWNl2fbl0wwG8vp/DnD/VTV/kPGdizanU9UtnBNxe1
-5GVFu1cPEjWZNHW3Y6B/asrDa6K3RfF7YcoagQBUNPZ4kmcqj6A=
-=e157
------END PGP SIGNATURE-----
-
---SupshW18AQZrgaw3--
+Tested-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 
