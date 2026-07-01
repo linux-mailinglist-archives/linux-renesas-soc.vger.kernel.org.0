@@ -1,65 +1,69 @@
-Return-Path: <linux-renesas-soc+bounces-34602-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-34604-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id J+TuOecbRWqd7AoAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-34602-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 01 Jul 2026 15:53:43 +0200
+	id w7M5NugbRWqe7AoAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-34604-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 01 Jul 2026 15:53:44 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A5476EE650
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 01 Jul 2026 15:53:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E5D76EE655
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 01 Jul 2026 15:53:44 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=sang-engineering.com header.s=k1 header.b=HtHvrBjE;
-	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-34602-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-34602-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=sang-engineering.com header.s=k1 header.b="J+NGXv 9";
+	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-34604-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-34604-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
 	dmarc=none;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 5EF503322351
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  1 Jul 2026 13:17:03 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 34A513266121
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  1 Jul 2026 13:17:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C4A4248B369;
-	Wed,  1 Jul 2026 13:13:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 51EDB48167C;
+	Wed,  1 Jul 2026 13:13:05 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 212C548C3F6
-	for <linux-renesas-soc@vger.kernel.org>; Wed,  1 Jul 2026 13:12:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4380E48C403
+	for <linux-renesas-soc@vger.kernel.org>; Wed,  1 Jul 2026 13:13:00 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782911584; cv=none; b=Qe5z2rl6RNENPzsHDe++nm03j6iPuuOugC2oqTqO664scHwIoFvFTAENhjUIfDziMaczXPGMgklZHt/Z/sXLfd+ta9lNDeZeUANALWz42Mcxaln24n2nNMbWpPCEzjNWHdVA3yI0pAbYx2oUHdg21Z/aLkR5eSygnJlPq7y+Xwc=
+	t=1782911585; cv=none; b=jsiOxyCpLKkFxsIpDCseHmzSKi51bGJRua/isX7EvSI2E40SjeMi8BKvmD3HV2L3Jz/HQLpM0Exk9D+AoqWimLf0lfOKpgz9+6QF2vVXrrmr7/YDndSOzVWALu+hYLRtKm3rIPtRJUGvd0ZZ1FVtJO9Kg8q5SQQgiHV05BWZ/hs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782911584; c=relaxed/simple;
-	bh=3yepFYZGWP7OCDCU1WhwbZCJftBue5NPWyqGLDZgBcI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=JpZpQEP++Dd/sgh0n2Kje18xW8/17nDVTboU87OceDqn5fT3ZayAX/WX4G86LlxEE0HSK/MfiMbkfCr7u9GrcJ3ob6iNQpIkwV8ivfbvUSr57mMJEySYDTXdy22jzH6RIQR9SXv0I5Odh5t4P6azU3p5DDn9EY//wxZUoJoweR4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=HtHvrBjE; arc=none smtp.client-ip=194.117.254.33
+	s=arc-20240116; t=1782911585; c=relaxed/simple;
+	bh=F9gWWpxdSDcNRPe+XQpbs0aOTlnBvasMoYOq1x8/6zE=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=QAEO2lTPI0GNxBjker/94rqefBG5EHc9DMZricafmxKFtXat+EBCfwPLtFbi6FNvJmtQVoJ+jPEqHQ0YKBY1zlZfiSpygX8aNO480dO1ztmDWYkG1qEaLc+qbyZOA2enZ+ztHxA2iEYvV5nGvuyV8eFiTyaXbMQWhzKzaVIviWQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=J+NGXv9d; arc=none smtp.client-ip=194.117.254.33
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	sang-engineering.com; h=from:to:cc:subject:date:message-id
-	:mime-version:content-transfer-encoding; s=k1; bh=vitzn9qdLoqkMt
-	nHkttu4JwWU5DXcRVqxYSkJlcdvO8=; b=HtHvrBjEXkDcop8cACubCuhnhT+Bgq
-	tBIna+QnVpAAi97qFkpFay3FLsrPQdbPG/X6Ul9vNneVeGF3UZqTnuizonS/vu/n
-	xtAi+BBdEYlTN9vvFTKptN9wRNj+/MyDfA+suWAI4xNLWE5msgHPnujaHXp0y6MA
-	wPGGJHupZrp67NTsukn6uI77yG0NUN3nbi2jfWXq7/JWSQnssox4CQ43qnOkQvEK
-	y6T49qVMrW4ghOAoImHsy3ICDn+EJ/r8gROZm0Eg3hjsqQ0tcWi7VhhFiRDTmxwW
-	r0d+mwZ7mFKYc/dq7J8cF+Clr4/HvTE63H9/TPXMX4QZVw3QO4QcXXPA==
-Received: (qmail 712996 invoked from network); 1 Jul 2026 15:12:57 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 1 Jul 2026 15:12:57 +0200
-X-UD-Smtp-Session: l3s3148p1@Yboxc4xVVKxUhsc0
+	:in-reply-to:references:mime-version:content-transfer-encoding;
+	 s=k1; bh=KmO63xgx7KFW2kYR+qtnu3annPDisLEXrTj5KUOG+4A=; b=J+NGXv
+	9dfy7itCiK0jSQ6d91pI/tGLnMO6iYYiaqK5+kYMyWJwU5k1uQTzlyNb7/W7iRoP
+	yxiqpGEgO9S2ABaAfSXb2WTAnCoMbgcl+xIg27jcRSfwtoQS9Xe+mJfA32nlF9oK
+	N2Ul43kCRwnqr6Idk7qy8zqGn3S3ou5THRgWX2Zk4nchrnTJfV++yUGQuucJKz/9
+	H1jeGDy0ygmQ10PHJ0LDHy//9dOc0PwtiMQuvUBmLc9wQay2TqNiAFyooswRlHJU
+	ziV9FFUIsSTBP6Ks7L9LdY5OI3rvDi0B+EAR9HKqpj0ufA/8Hy+AjH69BEgVKwY/
+	UV7TAsBO9bb4eoPw==
+Received: (qmail 713056 invoked from network); 1 Jul 2026 15:12:58 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 1 Jul 2026 15:12:58 +0200
+X-UD-Smtp-Session: l3s3148p1@wQREc4xVCYxUhsc0
 From: Wolfram Sang <wsa+renesas@sang-engineering.com>
 To: linux-renesas-soc@vger.kernel.org
 Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Conor Dooley <conor+dt@kernel.org>,
-	devicetree@vger.kernel.org,
 	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	linux-spi@vger.kernel.org,
-	Magnus Damm <magnus.damm@gmail.com>,
 	Mark Brown <broonie@kernel.org>,
-	Rob Herring <robh@kernel.org>
-Subject: [PATCH v5 0/2] spi: dt-bindings: snps,dw-apb-ssi: updates for RZ/N1D
-Date: Wed,  1 Jul 2026 15:12:48 +0200
-Message-ID: <20260701131248.4545-4-wsa+renesas@sang-engineering.com>
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	linux-spi@vger.kernel.org,
+	devicetree@vger.kernel.org
+Subject: [PATCH v5 1/2] spi: dt-bindings: snps,dw-apb-ssi: drop duplicated RZ/N1 entry
+Date: Wed,  1 Jul 2026 15:12:49 +0200
+Message-ID: <20260701131248.4545-5-wsa+renesas@sang-engineering.com>
 X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20260701131248.4545-4-wsa+renesas@sang-engineering.com>
+References: <20260701131248.4545-4-wsa+renesas@sang-engineering.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -79,13 +83,13 @@ X-Spamd-Result: default: False [-1.16 / 15.00];
 	RCVD_TLS_LAST(0.00)[];
 	FORWARDED(0.00)[lists@lfdr.de];
 	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-34602-lists,linux-renesas-soc=lfdr.de,renesas];
+	TAGGED_FROM(0.00)[bounces-34604-lists,linux-renesas-soc=lfdr.de,renesas];
 	FORGED_SENDER(0.00)[wsa@sang-engineering.com,linux-renesas-soc@vger.kernel.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_RECIPIENTS(0.00)[m:linux-renesas-soc@vger.kernel.org,m:wsa+renesas@sang-engineering.com,m:conor+dt@kernel.org,m:devicetree@vger.kernel.org,m:geert+renesas@glider.be,m:krzk+dt@kernel.org,m:linux-spi@vger.kernel.org,m:magnus.damm@gmail.com,m:broonie@kernel.org,m:robh@kernel.org,m:wsa@sang-engineering.com,m:conor@kernel.org,m:geert@glider.be,m:krzk@kernel.org,m:magnusdamm@gmail.com,s:lists@lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:linux-renesas-soc@vger.kernel.org,m:wsa+renesas@sang-engineering.com,m:geert+renesas@glider.be,m:broonie@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:magnus.damm@gmail.com,m:linux-spi@vger.kernel.org,m:devicetree@vger.kernel.org,m:wsa@sang-engineering.com,m:geert@glider.be,m:krzk@kernel.org,m:conor@kernel.org,m:magnusdamm@gmail.com,s:lists@lfdr.de];
 	DMARC_NA(0.00)[sang-engineering.com];
-	FREEMAIL_CC(0.00)[sang-engineering.com,kernel.org,vger.kernel.org,glider.be,gmail.com];
+	FREEMAIL_CC(0.00)[sang-engineering.com,glider.be,kernel.org,gmail.com,vger.kernel.org];
 	DKIM_TRACE(0.00)[sang-engineering.com:+];
 	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
@@ -100,25 +104,44 @@ X-Spamd-Result: default: False [-1.16 / 15.00];
 	RCPT_COUNT_SEVEN(0.00)[10];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,dt];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sang-engineering.com:dkim,sang-engineering.com:mid,sang-engineering.com:from_mime,vger.kernel.org:from_smtp,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sang-engineering.com:dkim,sang-engineering.com:email,sang-engineering.com:mid,sang-engineering.com:from_mime,glider.be:email,vger.kernel.org:from_smtp,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 5A5476EE650
+X-Rspamd-Queue-Id: 1E5D76EE655
 
-Since the actual DT additions are in -next now, here are the remaining
-DT binding updates for the Renesas RZ/N1D SoC. Changes since v4 are
-described in the individual patches.
+Commit 164c05f03ffa ("spi: Convert DW SPI binding to DT schema") added
+an RZ/N1 SoC family entry which was not in the original txt-file. It
+doesn't follow the usual "<soc entry>, <soc family entry>" style for
+Renesas SoCs. That was properly added later with commit 029d32a892a8
+("spi: dw-apb-ssi: Integrate Renesas RZ/N1 SPI controller"). In that
+commit, removing the old and bogus SoC family entry was overlooked, so
+two SoC family entries were present. Remove the variant which should be
+used as fallback while leaving the ABI documented.
 
-A branch is here:
+Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
 
-git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git renesas/n1d/enablement
+Change since v4:
+* reworded commit message to explain there is no ABI breakage because
+  only a duplicated entry gets removed
+* rebased to -next as of today
+* added Geert's tag (Thanks!)
 
-Wolfram Sang (2):
-  spi: dt-bindings: snps,dw-apb-ssi: drop duplicated RZ/N1 entry
-  spi: dt-bindings: snps,dw-apb-ssi: add 'power-domains' property
+ Documentation/devicetree/bindings/spi/snps,dw-apb-ssi.yaml | 1 -
+ 1 file changed, 1 deletion(-)
 
- Documentation/devicetree/bindings/spi/snps,dw-apb-ssi.yaml | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
-
+diff --git a/Documentation/devicetree/bindings/spi/snps,dw-apb-ssi.yaml b/Documentation/devicetree/bindings/spi/snps,dw-apb-ssi.yaml
+index 4458316326fc..447be88caf34 100644
+--- a/Documentation/devicetree/bindings/spi/snps,dw-apb-ssi.yaml
++++ b/Documentation/devicetree/bindings/spi/snps,dw-apb-ssi.yaml
+@@ -50,7 +50,6 @@ properties:
+           - enum:
+               - mscc,ocelot-spi
+               - mscc,jaguar2-spi
+-              - renesas,rzn1-spi
+               - sophgo,sg2042-spi
+               - thead,th1520-spi
+           - const: snps,dw-apb-ssi
 -- 
 2.51.0
 
