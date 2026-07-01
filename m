@@ -1,82 +1,82 @@
-Return-Path: <linux-renesas-soc+bounces-34616-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-34617-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id jsCQOyYnRWql7woAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-34616-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 01 Jul 2026 16:41:43 +0200
+	id HO1KO0UnRWqr7woAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-34617-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 01 Jul 2026 16:42:13 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46F296EEE2E
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 01 Jul 2026 16:41:42 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BB456EEE40
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 01 Jul 2026 16:42:13 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=gmail.com header.s=20251104 header.b=l3FauQup;
-	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-34616-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-34616-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=gmail.com header.s=20251104 header.b=VFzYmXzl;
+	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-34617-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-34617-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=none) header.from=gmail.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id E4EAA3198D29
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  1 Jul 2026 14:31:22 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 7F83B31A3F83
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  1 Jul 2026 14:31:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5B47C345749;
-	Wed,  1 Jul 2026 14:30:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6914333F8DC;
+	Wed,  1 Jul 2026 14:30:18 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96C6D34D915
-	for <linux-renesas-soc@vger.kernel.org>; Wed,  1 Jul 2026 14:30:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F200351C2E
+	for <linux-renesas-soc@vger.kernel.org>; Wed,  1 Jul 2026 14:30:16 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782916217; cv=none; b=oLxTcyrJSuQClFmML5NWNJNbUyyAoL91o9Z5M3QCA11k+VE0yqWZSv2z367yE2c5iRw+w9tkL93WyKEISpQBk83gbger2MV+WhNx+Q2JFkrOC3+cguYGHLoHW6VOL+Yz++TcMq0z8snTTkdxDANZxZJBpW0/8YWQSnRd9Yfjz4E=
+	t=1782916218; cv=none; b=LrlwHCF30UIzIWSWyAcOfGQ1z7fZq5hKav2WTiJLSqGbzBZ7ahHTgRADRD2jK48xvWqvZt1KUlYGOUU+gmHRDpX9OS3tulPlM7xdeIKmGvi5HPA46YASN/ykjL8/Fi3Moo4l4vAZBFcToIj0fEnL4oW2YMq1XfMMInSuGssWQKI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782916217; c=relaxed/simple;
-	bh=Yhd1iVQuF4Gj5a1KqyYLwT1xDJsQUr3ICql4FDx5XqY=;
+	s=arc-20240116; t=1782916218; c=relaxed/simple;
+	bh=TPEjDOtOvs78CIkohl1xvcmHiYoAAprmMIWg3FBDWms=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=exGY7+mcbECtOAZTcbR9gJh1rNLHD9uJ98X0Xf34nNH+fmieFjHHo8oSlcd6zM1n08jqNsucsm/+Zcu+vCvXCs6uF2M2CLat7/Xr+B4BgA6KueJ55Ie0P+KpKNpo+RYmm4sYjTuhMEKFcTw8if9+JjvUtekve2s19i8/noDiLAA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=l3FauQup; arc=none smtp.client-ip=209.85.128.45
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-493b966dd74so3104625e9.3
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 01 Jul 2026 07:30:15 -0700 (PDT)
+	 MIME-Version; b=OoIFawxKzDYZkA0yk5cwhCu8H/bIbTgm1nXcfHw3OFhcjTFs1dHnjiA1Rbr54uqm0OG7WjCI/DVsJOc/MJ9VnUUITBwGcVtyHFP0UIISTuJD9XbZxBkMJQk02P7g2yJTiSSZfkd3BQhgTCQj1D2vdPXs2PN/URrNKTRzTL5RalE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VFzYmXzl; arc=none smtp.client-ip=209.85.128.47
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-493b6f1b14bso3282285e9.0
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 01 Jul 2026 07:30:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782916214; x=1783521014; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1782916215; x=1783521015; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=h/5R2n7GlIYPdOfOxpHGr0Kq5mLmcq/odZqFXCD5Qig=;
-        b=l3FauQupwepd+/RbQ7eZvzSPmLOOEjlDzvHJaeug049vcvNBov3O6U1pgM13cilsIH
-         cHYNCC/c1ftKk8LteX0JERrtXC4grHXUiap3yHPTbWUxtqxbWqEHWne7+u7d2rQvGfv3
-         Ifqxolol6PE67I/DVepQFpiFfZrT2UVq18lx+EltHd9zLcgkbgDo5jLa1mDFMZGl/F54
-         StOSMXw7H7eqeuKdQNKlisChJxhYn4DmPQZ+P3Siqx4FLhbV5iz8lZl5tt+n2jTkXhZI
-         TIN2K4KLlKz1DzmYGcarM1kV1LX4zDXaH2D198Ni1j7IyCgT+P673whHQJpO7gtTR1sx
-         mMmw==
+        bh=0VcSlzYOxPLTW5jLVJLClqvrOJsBnz819IiqK2l4msU=;
+        b=VFzYmXzl9kge2OuATamtFgxAQmrZmWXxNGdnwQsRaxqf6Mp+E0+cs4OIIv3tszDrVZ
+         mfiMSRLGDhiKyliaGS+M5G8ItDX2bNALH9Wno3bJw+6bVIFZUlIs5NL3lXBQ/A2zSmJW
+         ATDjD88ISmHDo//KfFYHa+OkQQdoTCMp3fczptBkUFu0YAvkXVYtcf1NTzQh5S4UwD89
+         yfUlV5jy7FoLuFE7tJBQFFm3vx0Rvp9nAo5RYMr2DS5IPXWtd8Rf9cEOChgpcmDSNpc2
+         XhKirRYyHb91ngRU32P/3inDSMRk5h40nStI/2JUKYZ+prhz6gHMud1UMvlk/KyUmfEi
+         bTkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782916214; x=1783521014;
+        d=1e100.net; s=20251104; t=1782916215; x=1783521015;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=h/5R2n7GlIYPdOfOxpHGr0Kq5mLmcq/odZqFXCD5Qig=;
-        b=mt26B2jdObBpcF+M5TLIxJG0ZlzGmYyJ7CvlxQ+S/4jhk4PJvhn2ITVj2LIkhHzvrm
-         LFkIL/gBL5MDszIWzzIcIJd+3IIn2NP7oFsKRHczoiHvcqJhwyOW/gICuzJAEmywWoVq
-         D5YiEgxGyodPGakRSLrUXfAhijvO1Jbkm3Pn/1JALD2yKUn1795AXI3AHEQjKXoskyKx
-         MMCRgUzPf3NO45M03z6v/R99MCUU++tKs4D/26skT4REfR3/oxCuN1jLqClrKKqCdVcx
-         1g7sHhme0VsPGYd6Dl/ADajjO/pWZsFbyieyGiGdyc8u2VF4AXSZPHJmyetvMkRp90Zy
-         wvfQ==
-X-Forwarded-Encrypted: i=1; AFNElJ/yfiqrILoeOcj6dvlNnG2U9NUWkG7AyeY/7Rv4NS0h+woMH0/j+bujv7fFnQRKd9+zzezuu39A6thcjEbydeqQNg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz7/ayTtJVKGpyJ2w5m2UrICJa9H2wu/1SYjv1d2lBMvQStfgaI
-	8v9PkJggeBR+fYezIHki5cowuWVhFwckLMrnEYdy0sXDwCSk+Z7L7+cg
-X-Gm-Gg: AfdE7cnd3KHFbmMcak2XIgbDexzABI+b4fqrlxiCj09uqd6wd2f+3wIYxU+fZpelSW8
-	oQD3fheBmqb/LmHoQ7gE4tLS4cAidKatKGbFQ3MDYwC9isw+ZBgCIuvb4jb1ftHciIPCuw6V3po
-	/cCfBjXIryX/o+5ENUzqlQeOo0o7afw60fEnrUFiUR9HpJZl3pU2SXGLWCNKIS3AEUvcgt0iuuo
-	HAmwtEE8A/eW+IxaHdb1MqfG716T3nFrQJD7uioDMHvofBlbPvRYxWDEVc0JmWk4fP8IGa28P3v
-	zzKWv4bAo8jRAe41lSGqzuOLbUb/yEWDdW2SgSGSb7SP7kHm/G+P2Dthcvn/6vTECx6Ir9tQjsh
-	9AtEFtbcbA5HiUpNx9ACP4qAn064q4VEddNjo0j8YNr4748x0DLfNoVd9GkWWF+BZGtmRZMpduw
-	NWb5WXzWqTERHvJSHU+7ZVky1mybXuTo87ouI/YvGEiTMMCLVY0Cb6ylIzWM9Loq5PsCr7qKmgm
-	qC+oR5acxQbLnOhpjVxU1E4MI0=
-X-Received: by 2002:a05:600c:8590:b0:492:6487:a87 with SMTP id 5b1f17b1804b1-493c2ba1f4dmr24533765e9.32.1782916213985;
-        Wed, 01 Jul 2026 07:30:13 -0700 (PDT)
+        bh=0VcSlzYOxPLTW5jLVJLClqvrOJsBnz819IiqK2l4msU=;
+        b=KUZ8l6Gdsl4duBNChPWp/K8JeAbQZpbwqqSguB06XJviKCqW9cuB7pDY2HJrMCayAC
+         KaTUbKje3J6dEmzbFBN23DX+gS3UoMPB6k+q6Q2pv8gAgJGo1W5dIatjDa9VO5igYYqK
+         rpcRWeTHcul/NKRay7jJ0NogxzKdwK/Dab3U7jsT0vWESIyNpHyKvLrYw8uR9Qjn8eGv
+         uzTs8fv+DcyKi5IVrUj++Ok9BA8mB6INRDKM0jMGgteLZ6FhOzMbvU9ak+PuHXLBPOeK
+         L3XGMCaW5IJkpK+UjDdFbVw+X1rmS+kA/TG4MhH/dOZxYMv3fqqksxSbYcfbWdB6hEW3
+         Hipg==
+X-Forwarded-Encrypted: i=1; AFNElJ8IQlPiwgsq8/LbW0YlrZ2/9Nb7/11D1haT+r5Mr1VQdFzT3C3SjrUk0V3GSgfBMFt5FNqEFFNkdF6jKboXv3nQSQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxfQGWCZyeta5PsYLpLqyUEhN+74WA9yr2qSCGmeA3h6cyfcXZT
+	VlJhLTd3HiWKXRQGdyXGB/qIqxsalxLJsvzVDN08rQCSxCiG1FkUHqUc
+X-Gm-Gg: AfdE7cki8cbAB7nl8eofsKPcShGNyZQaLIJu/n/AdV5R4TtTg+CjYCZUkduQQiGola4
+	/TCTii5WbSUwVVvj2FnDAErjPB5P83feQmNKbvctbRlbAlYOyvfCjHhaO7HFtO36QsDza9jJADW
+	hmte/k0b1reL4yX/X95yDydDUV6f/xx/HlGcqSIN+6Cek3gwSGWGPyMG8JIjlgmAHp0jBl+8Skw
+	QGiBsRBFNmy0VD8zmdlN+Ke87CXRrlSxbqOSPZXd1fxZGJ75LyOzrYtcKDOcu0CaAmaFimO8AcB
+	CZxgaOo9Lkg2zpDP+UnsUGjiy64jHGSuLGhvn8TrMQgz9OsWPoD/XF9UtCgSEBSwQms97bY68px
+	RRLgLmjnpJiV2OYmVT75xK4jJISAc/Y8CY7ULR8QLSWTicWE4QHHFBk4pQQpriCtzxb7DM60Exc
+	tXQW/ORwIj1EVo5zvOEgDT/ssDhpgtzF8vdYbVuBcoYoF3pltOiNarHBZWMMdY90WdbIfWt2Rz7
+	y3tzVpMuA8+M63uHVY/deNqGGo=
+X-Received: by 2002:a05:600c:8590:b0:493:b646:e90d with SMTP id 5b1f17b1804b1-493c2ba5537mr24039865e9.36.1782916214873;
+        Wed, 01 Jul 2026 07:30:14 -0700 (PDT)
 Received: from iku.Home ([2a06:5906:61b:2d00:5353:5ce3:a6a2:3b98])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-477dd94c829sm184902f8f.24.2026.07.01.07.30.13
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-477dd94c829sm184902f8f.24.2026.07.01.07.30.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Jul 2026 07:30:13 -0700 (PDT)
+        Wed, 01 Jul 2026 07:30:14 -0700 (PDT)
 From: Prabhakar <prabhakar.csengg@gmail.com>
 X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 To: Miquel Raynal <miquel.raynal@bootlin.com>,
@@ -95,9 +95,9 @@ Cc: linux-rtc@vger.kernel.org,
 	Biju Das <biju.das.jz@bp.renesas.com>,
 	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
 	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v2 09/10] rtc: rzn1: use FIELD_PREP/FIELD_GET and GENMASK for register access
-Date: Wed,  1 Jul 2026 15:29:52 +0100
-Message-ID: <20260701142953.2014895-10-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH v2 10/10] rtc: rzn1: Add support for Renesas RZ/T2H and RZ/N2H SoCs
+Date: Wed,  1 Jul 2026 15:29:53 +0100
+Message-ID: <20260701142953.2014895-11-prabhakar.mahadev-lad.rj@bp.renesas.com>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20260701142953.2014895-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 References: <20260701142953.2014895-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
@@ -113,13 +113,13 @@ X-Spamd-Result: default: False [-1.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-34616-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-34617-lists,linux-renesas-soc=lfdr.de];
 	FREEMAIL_FROM(0.00)[gmail.com];
 	FORGED_RECIPIENTS(0.00)[m:miquel.raynal@bootlin.com,m:alexandre.belloni@bootlin.com,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:geert+renesas@glider.be,m:magnus.damm@gmail.com,m:wsa+renesas@sang-engineering.com,m:linux-rtc@vger.kernel.org,m:linux-renesas-soc@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:prabhakar.csengg+renesas@gmail.com,m:biju.das.jz@bp.renesas.com,m:fabrizio.castro.jz@renesas.com,m:prabhakar.mahadev-lad.rj@bp.renesas.com,m:krzk@kernel.org,m:conor@kernel.org,m:geert@glider.be,m:magnusdamm@gmail.com,m:wsa@sang-engineering.com,m:prabhakarcsengg@gmail.com,s:lists@lfdr.de];
 	FREEMAIL_TO(0.00)[bootlin.com,kernel.org,glider.be,gmail.com,sang-engineering.com];
@@ -138,137 +138,55 @@ X-Spamd-Result: default: False [-1.66 / 15.00];
 	DKIM_TRACE(0.00)[gmail.com:+];
 	RCVD_COUNT_FIVE(0.00)[5];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	ALIAS_RESOLVED(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,bp.renesas.com:mid,renesas.com:email]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sang-engineering.com:email,renesas.com:email,vger.kernel.org:from_smtp,bp.renesas.com:mid,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 46F296EEE2E
+X-Rspamd-Queue-Id: 4BB456EEE40
 
 From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Replace open-coded shift and mask operations with the bitfield API.
+Add support for the RTC block found on the Renesas RZ/T2H (R9A09G077)
+and RZ/N2H (R9A09G087) SoCs by matching the new
+"renesas,r9a09g077-rtc" compatible string.
 
-Note that the weekday field is changed from an explicit 0x0f mask to
-an 8-bit field definition, matching the hardware manual. This does not
-change behaviour, as valid weekday values cannot exceed 7.
+These SoCs integrate a closely related variant of the RZ/N1 RTC IP.
+Unlike the RZ/N1 implementation, the RZ/T2H and RZ/N2H variants lack
+the RTCA0SUBU register. However, this register is not accessed when
+operating in SCMP mode using the existing rzn1_rtc_ops_scmp
+configuration, allowing the current driver infrastructure to be reused
+without modification.
+
+The RZ/T2H RTC variant also supports a 1 Hz output signal on the
+RTCAT1HZ pin, controlled by the RTCA0CTL1[RTCA01HZE] bit. This bit is
+marked as reserved in the RZ/N1 hardware manual, making RZ/T2H a
+distinct RTC variant despite its overall compatibility with the RZ/N1
+implementation.
 
 Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 ---
 v1->v2:
-- Made use of RZN1_RTC_SUBU_RTCA0FX mask for SUBU register access instead of 0x3F.
+- Updated commit message to drop reference about RTCA0TCR register.
+- Added Reviewed-by tag.
 ---
- drivers/rtc/rtc-rzn1.c | 50 +++++++++++++++++++++++-------------------
- 1 file changed, 28 insertions(+), 22 deletions(-)
+ drivers/rtc/rtc-rzn1.c | 1 +
+ 1 file changed, 1 insertion(+)
 
 diff --git a/drivers/rtc/rtc-rzn1.c b/drivers/rtc/rtc-rzn1.c
-index f236b08e3ca9..2afd8251c868 100644
+index 2afd8251c868..9469160129df 100644
 --- a/drivers/rtc/rtc-rzn1.c
 +++ b/drivers/rtc/rtc-rzn1.c
-@@ -12,6 +12,8 @@
-  */
- 
- #include <linux/bcd.h>
-+#include <linux/bitfield.h>
-+#include <linux/bits.h>
- #include <linux/clk.h>
- #include <linux/init.h>
- #include <linux/iopoll.h>
-@@ -39,14 +41,18 @@
- #define   RZN1_RTC_CTL2_STOPPED (RZN1_RTC_CTL2_WAIT | RZN1_RTC_CTL2_WST)
- 
- #define RZN1_RTC_TIME 0x30
--#define RZN1_RTC_TIME_MIN_SHIFT 8
--#define RZN1_RTC_TIME_HOUR_SHIFT 16
-+#define RZN1_RTC_TIME_SEC GENMASK(7, 0)
-+#define RZN1_RTC_TIME_MIN GENMASK(15, 8)
-+#define RZN1_RTC_TIME_HOUR GENMASK(23, 16)
-+
- #define RZN1_RTC_CAL 0x34
--#define RZN1_RTC_CAL_DAY_SHIFT 8
--#define RZN1_RTC_CAL_MON_SHIFT 16
--#define RZN1_RTC_CAL_YEAR_SHIFT 24
-+#define RZN1_RTC_CAL_WDAY GENMASK(7, 0)
-+#define RZN1_RTC_CAL_DAY GENMASK(15, 8)
-+#define RZN1_RTC_CAL_MON GENMASK(23, 16)
-+#define RZN1_RTC_CAL_YEAR GENMASK(31, 24)
- 
- #define RZN1_RTC_SUBU 0x38
-+#define   RZN1_RTC_SUBU_RTCA0FX GENMASK(5, 0)
- #define   RZN1_RTC_SUBU_DEV BIT(7)
- #define   RZN1_RTC_SUBU_DECR BIT(6)
- 
-@@ -78,15 +84,15 @@ static void rzn1_rtc_get_time_snapshot(struct rzn1_rtc *rtc, struct rtc_time *tm
- 	u32 val;
- 
- 	val = readl(rtc->base + RZN1_RTC_TIMEC);
--	tm->tm_sec = bcd2bin(val);
--	tm->tm_min = bcd2bin(val >> RZN1_RTC_TIME_MIN_SHIFT);
--	tm->tm_hour = bcd2bin(val >> RZN1_RTC_TIME_HOUR_SHIFT);
-+	tm->tm_sec = bcd2bin(FIELD_GET(RZN1_RTC_TIME_SEC, val));
-+	tm->tm_min = bcd2bin(FIELD_GET(RZN1_RTC_TIME_MIN, val));
-+	tm->tm_hour = bcd2bin(FIELD_GET(RZN1_RTC_TIME_HOUR, val));
- 
- 	val = readl(rtc->base + RZN1_RTC_CALC);
--	tm->tm_wday = val & 0x0f;
--	tm->tm_mday = bcd2bin(val >> RZN1_RTC_CAL_DAY_SHIFT);
--	tm->tm_mon = bcd2bin(val >> RZN1_RTC_CAL_MON_SHIFT) - 1;
--	tm->tm_year = bcd2bin(val >> RZN1_RTC_CAL_YEAR_SHIFT) + 100;
-+	tm->tm_wday = FIELD_GET(RZN1_RTC_CAL_WDAY, val);
-+	tm->tm_mday = bcd2bin(FIELD_GET(RZN1_RTC_CAL_DAY, val));
-+	tm->tm_mon = bcd2bin(FIELD_GET(RZN1_RTC_CAL_MON, val)) - 1;
-+	tm->tm_year = bcd2bin(FIELD_GET(RZN1_RTC_CAL_YEAR, val)) + 100;
+@@ -517,6 +517,7 @@ static void rzn1_rtc_remove(struct platform_device *pdev)
  }
  
- static int rzn1_rtc_read_time(struct device *dev, struct rtc_time *tm)
-@@ -129,15 +135,15 @@ static int rzn1_rtc_set_time(struct device *dev, struct rtc_time *tm)
- 			return ret;
- 	}
- 
--	val = bin2bcd(tm->tm_sec);
--	val |= bin2bcd(tm->tm_min) << RZN1_RTC_TIME_MIN_SHIFT;
--	val |= bin2bcd(tm->tm_hour) << RZN1_RTC_TIME_HOUR_SHIFT;
-+	val = FIELD_PREP(RZN1_RTC_TIME_SEC, bin2bcd(tm->tm_sec)) |
-+	      FIELD_PREP(RZN1_RTC_TIME_MIN, bin2bcd(tm->tm_min)) |
-+	      FIELD_PREP(RZN1_RTC_TIME_HOUR, bin2bcd(tm->tm_hour));
- 	writel(val, rtc->base + RZN1_RTC_TIME);
- 
--	val = tm->tm_wday;
--	val |= bin2bcd(tm->tm_mday) << RZN1_RTC_CAL_DAY_SHIFT;
--	val |= bin2bcd(tm->tm_mon + 1) << RZN1_RTC_CAL_MON_SHIFT;
--	val |= bin2bcd(tm->tm_year - 100) << RZN1_RTC_CAL_YEAR_SHIFT;
-+	val = FIELD_PREP(RZN1_RTC_CAL_WDAY, tm->tm_wday) |
-+	      FIELD_PREP(RZN1_RTC_CAL_DAY, bin2bcd(tm->tm_mday)) |
-+	      FIELD_PREP(RZN1_RTC_CAL_MON, bin2bcd(tm->tm_mon + 1)) |
-+	      FIELD_PREP(RZN1_RTC_CAL_YEAR, bin2bcd(tm->tm_year - 100));
- 	writel(val, rtc->base + RZN1_RTC_CAL);
- 
- 	writel(0, rtc->base + RZN1_RTC_CTL2);
-@@ -300,12 +306,12 @@ static int rzn1_rtc_read_offset(struct device *dev, long *offset)
- 	val = readl(rtc->base + RZN1_RTC_SUBU);
- 	ppb_per_step = val & RZN1_RTC_SUBU_DEV ? 1017 : 3051;
- 	subtract = val & RZN1_RTC_SUBU_DECR;
--	val &= 0x3F;
-+	val = FIELD_GET(RZN1_RTC_SUBU_RTCA0FX, val);
- 
- 	if (!val)
- 		*offset = 0;
- 	else if (subtract)
--		*offset = -(((~val) & 0x3F) + 1) * ppb_per_step;
-+		*offset = -(((~val) & RZN1_RTC_SUBU_RTCA0FX) + 1) * ppb_per_step;
- 	else
- 		*offset = (val - 1) * ppb_per_step;
- 
-@@ -347,7 +353,7 @@ static int rzn1_rtc_set_offset(struct device *dev, long offset)
- 		subu |= steps + 1;
- 	} else {
- 		subu |= RZN1_RTC_SUBU_DECR;
--		subu |= (~(-steps - 1)) & 0x3F;
-+		subu |= (~(-steps - 1)) & RZN1_RTC_SUBU_RTCA0FX;
- 	}
- 
- 	ret = readl_poll_timeout(rtc->base + RZN1_RTC_CTL2, ctl2,
+ static const struct of_device_id rzn1_rtc_of_match[] = {
++	{ .compatible	= "renesas,r9a09g077-rtc" },
+ 	{ .compatible	= "renesas,rzn1-rtc" },
+ 	{},
+ };
 -- 
 2.54.0
 
