@@ -1,185 +1,222 @@
-Return-Path: <linux-renesas-soc+bounces-34637-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-34638-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id QNGANsAXRmq7JgsAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-34637-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 02 Jul 2026 09:48:16 +0200
+	id v9SYJS8tRmqHLAsAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-34638-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 02 Jul 2026 11:19:43 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF8096F45C9
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 02 Jul 2026 09:48:15 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 54ACA6F528A
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 02 Jul 2026 11:19:40 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=gmail.com header.s=20251104 header.b=BV018Qxe;
-	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-34637-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 104.64.211.4 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-34637-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=gmail.com;
+	dkim=pass header.d=ragnatech.se header.s=fm1 header.b=kt9C4ymv;
+	dkim=pass header.d=messagingengine.com header.s=fm2 header.b="f KG2+iN";
+	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-34638-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 2600:3c15:e001:75::12fc:5321 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-34638-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=ragnatech.se;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id B86EA3009E3E
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  2 Jul 2026 07:38:41 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id A60CD30D2765
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  2 Jul 2026 08:47:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D7DCF39E6C6;
-	Thu,  2 Jul 2026 07:38:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2BBF147A0B8;
+	Thu,  2 Jul 2026 08:46:09 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fout-b4-smtp.messagingengine.com (fout-b4-smtp.messagingengine.com [202.12.124.147])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7668F39D3DA
-	for <linux-renesas-soc@vger.kernel.org>; Thu,  2 Jul 2026 07:38:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50AA83EC2F8;
+	Thu,  2 Jul 2026 08:46:05 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782977918; cv=none; b=oXwGX7dkct7wzsRGhwBcvKdfoHXVTtT9T3cNNExdLomofB3mMxJuMyjPN/jLKpgjgDAnp6zwLGcyyF0Mc1MjMNOx+R/61oIrjJo4ugE6AVkCq6naAloGXXmNDNa84myX1kLa70YCtXCdfX2aW7vX2V879m2W59PiKh0pQlzeC9M=
+	t=1782981968; cv=none; b=AdoXTTK+a+48PDXfHSuH0IX0OxbBPxbNR/JA6tyFQ6IzvngRwdpg+5t8qSqfSMLZW+oPdtXwuxoasPTsmjsVd4rEUqeoQXeqXBZa0iE0eMe4CCMA96e/QrGvg1qEYCtmioZWXrY79udOaUcZZPk6alxcP8nsFbUsW3O6LR9Z248=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782977918; c=relaxed/simple;
-	bh=DdLjUC1ksuo+PVzG3yADpMg7xDZKtpZfVtK9cx+fcI0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Em/pYFr+CkeHuo5xd/Njni8dUqX6/7vwP4zh2jZrlCBe4rw4tspto5L4CfOkxZ/1iIlaUZeuNIeoG7PdjvPNCR0vhsug/6tA+GqNsIrtHHIsMBSjYahh0inwAkpSG5H5GMqbdHYYaH1PccqUKtyuHRnp3eQb89tVcpBiJd4pjrM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BV018Qxe; arc=none smtp.client-ip=209.85.221.41
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-4745492ed3aso908890f8f.1
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 02 Jul 2026 00:38:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782977915; x=1783582715; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=k+eqRtwOb4f8aCqe1mEHXBn99q8o4sBYVGzbWmzuP10=;
-        b=BV018QxeEXIfBas2KL/xdTtJqXoWWriDanZZ4iJX997qalMvcQiqzP1vRBTbmzJ6M1
-         A2AoDO+ze0OX5y0Jix4VuVGnpsUXakv6MgT/GQ5BOobpuzHBTV39ovrniCk8U+8xBJ3y
-         D8XMiaDUCMJdsiXEmZSQQaKUmdbCjAWmKdwgRzTwiPZ0TMh92IzRLwnsqQvTRFTZYPdt
-         BghKH7W7WvCpIMt2xZ7stfr67IV7TcnJCmwizWGumZQ7lxZnjLTymyeW7Gj+rd0BVTli
-         HZb1F1UCjPZbOt30UldGwXrO2MLa0e6/yLHjj0I8YjgHI76eHAHK/LulyX8s0gyL7/oZ
-         CFHA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782977915; x=1783582715;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=k+eqRtwOb4f8aCqe1mEHXBn99q8o4sBYVGzbWmzuP10=;
-        b=MYvM8zYwpw2E4qSo/FyOIp9T39f4MAaOe0TSgfqDZC0g1uCC2XfH1tAtf0wz21A+/T
-         c93ckXQJrpKlDIUYRGrPnLqfbjQyNcUTq8s+bk3TTZUJsJdauT4AgbxP4SCvpvQBF3dV
-         Z2pY1HpxoNpOORgrv1nRrpsFMZJ4Ogl8s77E4tUcPNo9m9Saq74icZPsNlBi6WlsXBHt
-         5XuCdzCtUG9zWYgP3M9urC5tLbHcykc0aBi7fBllgjkFBUDxuU6BsQ4H5S0+5cUgwY+A
-         PBFJhU91pOCJCv00v44BRUM+lcZd5YjVSImYj2kcdsxiOLs2XvMkdTeUseJUYO8mrouR
-         x0hQ==
-X-Forwarded-Encrypted: i=1; AHgh+RqtthMYq0r0grujfEa75IZQOZFDwXQayK2nF151nrceR1rDsCdjXHDs5py0JvRyb0H95p5vi0c8WMAY9zU0mcFO/w==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx9CJBevsalYs/J+lDzoe1mrK4rzVtavAITTQfIRaxTq5cSBIrI
-	vIdLR9apFTPYP/N5Qs9QD2UC6rc8XTqkHalYJDxP+Q66z+zW1FpdRoTo
-X-Gm-Gg: AfdE7cmKsJsHJsmKrVys8Mra2UGUsBBXE86rpn5SYTNljr4WdSVzmU0gpk9dZoRbmtF
-	v/xoiQPmBynyS4RDKgLPtrFd2IIr90R6JWbjYoXPd5arVqW9uA8ZFfqixcbzmmg5aOicPouDmlw
-	tHqCnzZq5NMCTvCndjEwYgqJ0AezACWSk+8oSiwKvyOvk+/B1mWpVOU/DiWBL3/T4zQnU4psvOT
-	wx746JmjutApHbJV81TOQnCBIIQpXt3htjaabIGmNZs3A6hn3mw/5HXIFSOAW44S6Y4CTV3M7/E
-	no8CewCM5zesgESKpD9IVQZ21sLKO4wt4+C81qErFWw5TaBnMGS/yqsd+DzIjWRmmwHuKgFqgc6
-	oQHu9NAD4ADVO7MchBvBjKJoDD/azcwWg0t3mUK5X4Upsb2lPWfvv6YPfZjeaoO8i2NRvFHRgcB
-	Fmwf7KxC5D2/kib6iQ0OYBqkDT+rgXD88Od6w95Q==
-X-Received: by 2002:a05:6000:607:b0:461:9950:da50 with SMTP id ffacd0b85a97d-477574b0300mr7823320f8f.11.1782977914687;
-        Thu, 02 Jul 2026 00:38:34 -0700 (PDT)
-Received: from localhost.localdomain ([2a00:23c4:a702:d301:8d97:896e:a65c:20e3])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-477de3dd0b1sm6331170f8f.35.2026.07.02.00.38.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Jul 2026 00:38:34 -0700 (PDT)
-From: Biju <biju.das.au@gmail.com>
-X-Google-Original-From: Biju <biju.das.jz@bp.renesas.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>
-Cc: Biju Das <biju.das.jz@bp.renesas.com>,
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	s=arc-20240116; t=1782981968; c=relaxed/simple;
+	bh=2ny8V9pHFxRFcjHGeKUUazvPQRZL9gVeCXjgGusNNwk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Nzj/RqL1F3frnGdStd1Oh39jpX63rsLvyHjHB3J4i2aC3Jjlz9xM3dIOqpi16+ZINfjJ4VsOPN1+e73ipqoBE2TvGlxgyUWD4x9ZVAPicq56Y5r2sBILE7IimnJqw7AJ4rJkJV5xXpVZ6l0ttHgmXHyVRB485K09FXZWqVmEVi4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=kt9C4ymv; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=fKG2+iN6; arc=none smtp.client-ip=202.12.124.147
+Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
+	by mailfout.stl.internal (Postfix) with ESMTP id E65E51D00115;
+	Thu,  2 Jul 2026 04:46:03 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-02.internal (MEProxy); Thu, 02 Jul 2026 04:46:04 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1782981963;
+	 x=1783068363; bh=qPbEkvbSQ9M/zT2/WjgXMdML4p0u+/D/eLKyD0UTemA=; b=
+	kt9C4ymv0e3xqolPMI/99ofUvnsrX1iWSEPAF94HtTTLx51AXn0TWQ71kkBRBi90
+	KYRrfovsjhsyYnbw0jrWZpF7gNSBHaYL1VHn1r8nIJkJ3uvmZXq+nxT3gx+LeSGm
+	lcIMWXJoRg4Oh6ZeMWMLXMZwxW3v41n7rOonw2Ekhzy8Fj3PB1mwib3sUIFI47oX
+	XgPSGkRiVzmBpa1ym6xuPYJV8QB6LxTpyG+kny+rylRUqPl+Gzv/kiuxLRQM/ccq
+	/ohj9ZM8x7C85PIRi8ycXgOX6oLk/o9pqynHy8QDKzYbQFhu4oWAEAfn2xTprIp4
+	7tBFMjP0xhHRG6KYo/l3fQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1782981963; x=
+	1783068363; bh=qPbEkvbSQ9M/zT2/WjgXMdML4p0u+/D/eLKyD0UTemA=; b=f
+	KG2+iN6wvkvjtVBbTiSdY2hfqcZtemrOlxmD9/zqCvAxTtbbgz1pzQrZZDpoM3e0
+	mO3gzU7B1Xig60o43kSr28NUWnGdysHyRaod6cGRG9leSWEDTMeM5glaWZhpfR+y
+	0agni8+MI/W8xGtWP8vLPR75nFuwmkAcE5Z3SsOHXzWyZ4SxH7ZOa5amUzmaf8cx
+	UZUwEPX5yuMumhRWb/8sOBBDU6+5B8JQTvn6/t1/OeNcv3J4ccAJ4D+YgxQWNoxL
+	fHqObr7VCODToiQc/imSBWqFYFSRE9+THmDlnyNXJmPTKXDP+u2WnSq4/stezlIV
+	uroMV9XvD+KrE8z+D9Few==
+X-ME-Sender: <xms:SyVGamtTcA799OrdPQzlgYptCwoCnPbeRFxpNe9E0KIHaEj3tHHI3g>
+    <xme:SyVGap_k76AgNTpdSsqc21iiFsxDp3ahxIUtpWuE7_ZxpjENcX5ffSJB1YaiGyIFX
+    efjmcK9EAQ77DmWViK0WKNj7iK8O-eDAubOuejY2Wyk6pedwvJ9NJ4>
+X-ME-Received: <xmr:SyVGaolNGyiQ_OMNq2Ve40shh5GZNgd9Y0PMapLQUNgaXFnOYfXj23nVwgZW_J5aWVVbMGfwS01gw1cypObwHseuzHVkzks>
+X-ME-Proxy-Cause: dmFkZTGUvYukco99tdyEf6Pig8Ia48ABtTUDTTrIlD90kcgg2VUB44vCc6AZmcmLkkhRXw
+    JXPz1Xm1crDBMvLAcvBPZjULP/0up2fiwsGfDjG9S5iZLQvn0nkJgrh5JwYpBaUO5DO01q
+    O1txjYZEMeJ8JGF8riIQ3rTZLAi7kv+p+HUqr/Z1ywAyg+ICN5TbfC7+0kZi463r0H4l5W
+    fttkMkm4X7+1JpYMGGpfZ3Aftm59zij5cfGx7sdIgPtY/ay6+8uI/L78JIHxA8iqdwXt/J
+    y40Va4tt0L4+ErGK9lzpcHt2MXqnyhhP6lIRaL0YWrSqMJZFFClouXzI2PuMzcT3bsieQa
+    EmtR35bUt9QEJhVEnTvmnzRTZBNXQAASSm6X3ZMhW8HVs3Nrq/4QvKRoMb93yrZROUdt8d
+    xNQRNxUGzK4hYrbMW74gvlmIYSYpbGzbc/RAfcl/zuJdOOkb6KsZeFrnNG9XUBgVy3uv8n
+    zEjqTt6qvtUlJzTQ8nMwgJMZAm2zOIMcAQKNZ8f38pvghD02SN4nR1FggJvmp18YBI26Rb
+    kSGXcjvywe/A7Q+r8lo91DvIL/ynZ3ExPMZnc5OFqYLlFKnSMK4gmDC4Zr9U7hUMJsuon3
+    1fQfCAbOSDccLI2MpK1Yx9NKHWL9SwVP7qI/4vAmlaygjDXhRkRsT2p7FegQ
+X-ME-Proxy: <xmx:SyVGahNl-7QZRHt-aQEgA3Q5VMBTioya7YL98YhLuMh1MkxmPWWn_A>
+    <xmx:SyVGavJYXGOGgn0Ro1vrEdBwfV6ErKkxUB9BC1JhW_zz0nf405cHUg>
+    <xmx:SyVGakHJi129A08anRdFGYxe7d89Z3cGylneavctGQ1D-gEPnNT9TQ>
+    <xmx:SyVGaoAc7i_uP2WpZ1tC7Pb8sWXs4LTAdqwlcPtrOAFj02JKuT33Vw>
+    <xmx:SyVGaiJmspg1L7U_j9ZbJku9BfTiaPNtA_Adbx_ItKjSPekx5BiLLhUi>
+Feedback-ID: i80c9496c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 2 Jul 2026 04:46:02 -0400 (EDT)
+Date: Thu, 2 Jul 2026 10:46:01 +0200
+From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+To: Vadim Fedorenko <vadim.fedorenko@linux.dev>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
 	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Fan Wu <fanwu01@zju.edu.cn>,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Biju Das <biju.das.au@gmail.com>,
-	linux-renesas-soc@vger.kernel.org
-Subject: [PATCH v2] usb: renesas_usbhs: Fix power-off ordering on unbind
-Date: Thu,  2 Jul 2026 08:38:29 +0100
-Message-ID: <20260702073832.175047-1-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.43.0
+	Magnus Damm <magnus.damm@gmail.com>,
+	Richard Cochran <richardcochran@gmail.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"DavidS. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, netdev@vger.kernel.org
+Subject: Re: [PATCH net-next v3 2/3] ptp: Add driver for R-Car Gen4
+Message-ID: <20260702084601.GB3906710@ragnatech.se>
+References: <20260701090607.1108208-1-niklas.soderlund+renesas@ragnatech.se>
+ <20260701090607.1108208-3-niklas.soderlund+renesas@ragnatech.se>
+ <89720193-e8ad-4bb3-b6d2-3253413b18ab@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <89720193-e8ad-4bb3-b6d2-3253413b18ab@linux.dev>
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.16 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	DMARC_POLICY_ALLOW(-0.50)[ragnatech.se,none];
+	R_DKIM_ALLOW(-0.20)[ragnatech.se:s=fm1,messagingengine.com:s=fm2];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-34637-lists,linux-renesas-soc=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:gregkh@linuxfoundation.org,m:p.zabel@pengutronix.de,m:biju.das.jz@bp.renesas.com,m:claudiu.beznea.uj@bp.renesas.com,m:prabhakar.mahadev-lad.rj@bp.renesas.com,m:geert+renesas@glider.be,m:fanwu01@zju.edu.cn,m:linux-usb@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:biju.das.au@gmail.com,m:linux-renesas-soc@vger.kernel.org,m:geert@glider.be,m:bijudasau@gmail.com,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[bijudasau@gmail.com,linux-renesas-soc@vger.kernel.org];
+	FREEMAIL_CC(0.00)[kernel.org,glider.be,gmail.com,lunn.ch,davemloft.net,google.com,redhat.com,vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-34638-lists,linux-renesas-soc=lfdr.de,renesas];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:vadim.fedorenko@linux.dev,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:geert+renesas@glider.be,m:magnus.damm@gmail.com,m:richardcochran@gmail.com,m:andrew+netdev@lunn.ch,m:davem@davemloft.net,m:edumazet@google.com,m:kuba@kernel.org,m:pabeni@redhat.com,m:linux-renesas-soc@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:netdev@vger.kernel.org,m:krzk@kernel.org,m:conor@kernel.org,m:geert@glider.be,m:magnusdamm@gmail.com,m:andrew@lunn.ch,s:lists@lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FREEMAIL_CC(0.00)[bp.renesas.com,glider.be,zju.edu.cn,vger.kernel.org,gmail.com];
+	RCPT_COUNT_TWELVE(0.00)[16];
+	FORGED_SENDER(0.00)[niklas.soderlund@ragnatech.se,linux-renesas-soc@vger.kernel.org];
 	MIME_TRACE(0.00)[0:+];
 	FORWARDED(0.00)[lists@lfdr.de];
-	FROM_NEQ_ENVFROM(0.00)[bijudasau@gmail.com,linux-renesas-soc@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[ragnatech.se:+,messagingengine.com:+];
+	MISSING_XM_UA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[niklas.soderlund@ragnatech.se,linux-renesas-soc@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RWL_MAILSPIKE_POSSIBLE(0.00)[104.64.211.4:from];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[bp.renesas.com:mid,vger.kernel.org:from_smtp,sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo,renesas.com:email]
+	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas,netdev];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo,messagingengine.com:dkim,vger.kernel.org:from_smtp,ragnatech.se:dkim,ragnatech.se:email,ragnatech.se:mid,ragnatech.se:from_mime]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: CF8096F45C9
+X-Rspamd-Queue-Id: 54ACA6F528A
 
-From: Biju Das <biju.das.jz@bp.renesas.com>
+Hi Vadim,
 
-Move the usbhsc_power_ctrl() call to before hardware_exit() and
-reset_control_assert() in usbhs_remove(), so the PHY is powered off
-while priv->phy is still valid, rather than after hardware_exit()
-has already cleared it.
+Thanks for your feedback.
 
-Fixes: eb9ac779830b ("usb: renesas_usbhs: Fix synchronous external abort on unbind")
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
-v1->v2:
- * Moved reset_control_assert() to avoid synchronous abort
-   during unbind.
- * Updated commit description
----
- drivers/usb/renesas_usbhs/common.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+On 2026-07-01 22:47:16 +0100, Vadim Fedorenko wrote:
+> On 01/07/2026 10:06, Niklas SÃ¶derlund wrote:
+> > Add driver for the gPTP timer found on R-Car Gen4 devices. The timer is
+> > system-wide and shared by different Ethernet devices on each Gen4
+> > platform. The operation of the timer is however not completely in
+> > depended of the systems Ethernet devices.
+> > 
+> >    - On R-Car S4 is gated by the RSWITCH Ethernet module clock.
+> > 
+> >    - On R-Car V4H is gated by the RTSN Ethernet module clock.
+> > 
+> >    - On R-Car V4M is gated by its own module clock, the system have
+> >      neither RTSN or RSWITCH device. But the module clock is the same as
+> >      RTSN on V4H and the documentation referees to it as tsn (EtherTSN).
+> > 
+> > The gPTP device do have its own register space on all three platforms.
+> > But on S4 and V4H it will share its clock and reset property with
+> > RSWITCH or RTSN, respectively.
+> > 
+> > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> 
+> [...]
+> 
+> > +static int ptp_rcar_gen4_adjfine(struct ptp_clock_info *ptp, long scaled_ppm)
+> > +{
+> > +	struct ptp_rcar_gen4_priv *priv = ptp_to_priv(ptp);
+> > +	s64 addend = priv->default_addend;
+> > +	bool neg_adj = scaled_ppm < 0;
+> > +	unsigned long flags;
+> > +	s64 diff;
+> > +
+> > +	if (neg_adj)
+> > +		scaled_ppm = -scaled_ppm;
+> > +	diff = div_s64(addend * scaled_ppm_to_ppb(scaled_ppm), NSEC_PER_SEC);
+> > +	addend = neg_adj ? addend - diff : addend + diff;
+> > +
+> > +	spin_lock_irqsave(&priv->lock, flags);
+> > +	iowrite32(addend, priv->base + PTPTIVC0_REG);
+> 
+> how are you so sure that addend will always fit into s32? It looks like
+> it may go over in some cases, no?
 
-diff --git a/drivers/usb/renesas_usbhs/common.c b/drivers/usb/renesas_usbhs/common.c
-index 8c93bde4b816..51d3035f82be 100644
---- a/drivers/usb/renesas_usbhs/common.c
-+++ b/drivers/usb/renesas_usbhs/common.c
-@@ -813,9 +813,6 @@ static void usbhs_remove(struct platform_device *pdev)
- 
- 	flush_delayed_work(&priv->notify_hotplug_work);
- 
--	usbhs_platform_call(priv, hardware_exit, pdev);
--	reset_control_assert(priv->rsts);
--
- 	/*
- 	 * Explicitly free the IRQ to ensure the interrupt handler is
- 	 * disabled and synchronized before freeing resources.
-@@ -832,6 +829,9 @@ static void usbhs_remove(struct platform_device *pdev)
- 	if (!usbhs_get_dparam(priv, runtime_pwctrl))
- 		usbhsc_power_ctrl(priv, 0);
- 
-+	usbhs_platform_call(priv, hardware_exit, pdev);
-+	reset_control_assert(priv->rsts);
-+
- 	usbhsc_clk_put(priv);
- 	pm_runtime_disable(&pdev->dev);
- }
+Indeed, if the adjustment is more then 32ns per tick it will go over. 
+The register is defined as,
+
+        /* Default timer increment in ns.
+         * bit[31:27] - integer
+         * bit[26:0]  - decimal
+
+I will add a check for this clamping the value before writing it to the 
+register.
+
+> 
+> > +	spin_unlock_irqrestore(&priv->lock, flags);
+> > +
+> > +	return 0;
+> > +}
+> 
+
 -- 
-2.43.0
-
+Kind Regards,
+Niklas Söderlund
 
