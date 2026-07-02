@@ -1,222 +1,174 @@
-Return-Path: <linux-renesas-soc+bounces-34638-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-34639-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id v9SYJS8tRmqHLAsAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-34638-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 02 Jul 2026 11:19:43 +0200
+	id N2aQLj4vRmo2LQsAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-34639-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 02 Jul 2026 11:28:30 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54ACA6F528A
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 02 Jul 2026 11:19:40 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 151976F53DB
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 02 Jul 2026 11:28:30 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=ragnatech.se header.s=fm1 header.b=kt9C4ymv;
-	dkim=pass header.d=messagingengine.com header.s=fm2 header.b="f KG2+iN";
-	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-34638-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 2600:3c15:e001:75::12fc:5321 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-34638-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=ragnatech.se;
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=lPyvPnDu;
+	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-34639-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-34639-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=quarantine) header.from=kernel.org;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id A60CD30D2765
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  2 Jul 2026 08:47:42 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 094293082475
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  2 Jul 2026 09:13:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2BBF147A0B8;
-	Thu,  2 Jul 2026 08:46:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ECA4B47DD45;
+	Thu,  2 Jul 2026 09:12:53 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from fout-b4-smtp.messagingengine.com (fout-b4-smtp.messagingengine.com [202.12.124.147])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50AA83EC2F8;
-	Thu,  2 Jul 2026 08:46:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4FE147D949
+	for <linux-renesas-soc@vger.kernel.org>; Thu,  2 Jul 2026 09:12:52 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782981968; cv=none; b=AdoXTTK+a+48PDXfHSuH0IX0OxbBPxbNR/JA6tyFQ6IzvngRwdpg+5t8qSqfSMLZW+oPdtXwuxoasPTsmjsVd4rEUqeoQXeqXBZa0iE0eMe4CCMA96e/QrGvg1qEYCtmioZWXrY79udOaUcZZPk6alxcP8nsFbUsW3O6LR9Z248=
+	t=1782983573; cv=none; b=SumOGe1ZhgLONiIEMlByJVhJDxkw0pT/30ZNhX3V9U5j3JD9yDwWO8Ohu5mV1ukXfJ8mXzIUMntD1g0X4xUPtSdzE9GkOHtNk1xqZ9nExWego+hG8P1oH7soC8BigyTCWjLt+qEM942Muu55BF+mbSrylEvK2Oky+4wZi31bln0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782981968; c=relaxed/simple;
-	bh=2ny8V9pHFxRFcjHGeKUUazvPQRZL9gVeCXjgGusNNwk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Nzj/RqL1F3frnGdStd1Oh39jpX63rsLvyHjHB3J4i2aC3Jjlz9xM3dIOqpi16+ZINfjJ4VsOPN1+e73ipqoBE2TvGlxgyUWD4x9ZVAPicq56Y5r2sBILE7IimnJqw7AJ4rJkJV5xXpVZ6l0ttHgmXHyVRB485K09FXZWqVmEVi4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=kt9C4ymv; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=fKG2+iN6; arc=none smtp.client-ip=202.12.124.147
-Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
-	by mailfout.stl.internal (Postfix) with ESMTP id E65E51D00115;
-	Thu,  2 Jul 2026 04:46:03 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-02.internal (MEProxy); Thu, 02 Jul 2026 04:46:04 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1782981963;
-	 x=1783068363; bh=qPbEkvbSQ9M/zT2/WjgXMdML4p0u+/D/eLKyD0UTemA=; b=
-	kt9C4ymv0e3xqolPMI/99ofUvnsrX1iWSEPAF94HtTTLx51AXn0TWQ71kkBRBi90
-	KYRrfovsjhsyYnbw0jrWZpF7gNSBHaYL1VHn1r8nIJkJ3uvmZXq+nxT3gx+LeSGm
-	lcIMWXJoRg4Oh6ZeMWMLXMZwxW3v41n7rOonw2Ekhzy8Fj3PB1mwib3sUIFI47oX
-	XgPSGkRiVzmBpa1ym6xuPYJV8QB6LxTpyG+kny+rylRUqPl+Gzv/kiuxLRQM/ccq
-	/ohj9ZM8x7C85PIRi8ycXgOX6oLk/o9pqynHy8QDKzYbQFhu4oWAEAfn2xTprIp4
-	7tBFMjP0xhHRG6KYo/l3fQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1782981963; x=
-	1783068363; bh=qPbEkvbSQ9M/zT2/WjgXMdML4p0u+/D/eLKyD0UTemA=; b=f
-	KG2+iN6wvkvjtVBbTiSdY2hfqcZtemrOlxmD9/zqCvAxTtbbgz1pzQrZZDpoM3e0
-	mO3gzU7B1Xig60o43kSr28NUWnGdysHyRaod6cGRG9leSWEDTMeM5glaWZhpfR+y
-	0agni8+MI/W8xGtWP8vLPR75nFuwmkAcE5Z3SsOHXzWyZ4SxH7ZOa5amUzmaf8cx
-	UZUwEPX5yuMumhRWb/8sOBBDU6+5B8JQTvn6/t1/OeNcv3J4ccAJ4D+YgxQWNoxL
-	fHqObr7VCODToiQc/imSBWqFYFSRE9+THmDlnyNXJmPTKXDP+u2WnSq4/stezlIV
-	uroMV9XvD+KrE8z+D9Few==
-X-ME-Sender: <xms:SyVGamtTcA799OrdPQzlgYptCwoCnPbeRFxpNe9E0KIHaEj3tHHI3g>
-    <xme:SyVGap_k76AgNTpdSsqc21iiFsxDp3ahxIUtpWuE7_ZxpjENcX5ffSJB1YaiGyIFX
-    efjmcK9EAQ77DmWViK0WKNj7iK8O-eDAubOuejY2Wyk6pedwvJ9NJ4>
-X-ME-Received: <xmr:SyVGaolNGyiQ_OMNq2Ve40shh5GZNgd9Y0PMapLQUNgaXFnOYfXj23nVwgZW_J5aWVVbMGfwS01gw1cypObwHseuzHVkzks>
-X-ME-Proxy-Cause: dmFkZTGUvYukco99tdyEf6Pig8Ia48ABtTUDTTrIlD90kcgg2VUB44vCc6AZmcmLkkhRXw
-    JXPz1Xm1crDBMvLAcvBPZjULP/0up2fiwsGfDjG9S5iZLQvn0nkJgrh5JwYpBaUO5DO01q
-    O1txjYZEMeJ8JGF8riIQ3rTZLAi7kv+p+HUqr/Z1ywAyg+ICN5TbfC7+0kZi463r0H4l5W
-    fttkMkm4X7+1JpYMGGpfZ3Aftm59zij5cfGx7sdIgPtY/ay6+8uI/L78JIHxA8iqdwXt/J
-    y40Va4tt0L4+ErGK9lzpcHt2MXqnyhhP6lIRaL0YWrSqMJZFFClouXzI2PuMzcT3bsieQa
-    EmtR35bUt9QEJhVEnTvmnzRTZBNXQAASSm6X3ZMhW8HVs3Nrq/4QvKRoMb93yrZROUdt8d
-    xNQRNxUGzK4hYrbMW74gvlmIYSYpbGzbc/RAfcl/zuJdOOkb6KsZeFrnNG9XUBgVy3uv8n
-    zEjqTt6qvtUlJzTQ8nMwgJMZAm2zOIMcAQKNZ8f38pvghD02SN4nR1FggJvmp18YBI26Rb
-    kSGXcjvywe/A7Q+r8lo91DvIL/ynZ3ExPMZnc5OFqYLlFKnSMK4gmDC4Zr9U7hUMJsuon3
-    1fQfCAbOSDccLI2MpK1Yx9NKHWL9SwVP7qI/4vAmlaygjDXhRkRsT2p7FegQ
-X-ME-Proxy: <xmx:SyVGahNl-7QZRHt-aQEgA3Q5VMBTioya7YL98YhLuMh1MkxmPWWn_A>
-    <xmx:SyVGavJYXGOGgn0Ro1vrEdBwfV6ErKkxUB9BC1JhW_zz0nf405cHUg>
-    <xmx:SyVGakHJi129A08anRdFGYxe7d89Z3cGylneavctGQ1D-gEPnNT9TQ>
-    <xmx:SyVGaoAc7i_uP2WpZ1tC7Pb8sWXs4LTAdqwlcPtrOAFj02JKuT33Vw>
-    <xmx:SyVGaiJmspg1L7U_j9ZbJku9BfTiaPNtA_Adbx_ItKjSPekx5BiLLhUi>
-Feedback-ID: i80c9496c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 2 Jul 2026 04:46:02 -0400 (EDT)
-Date: Thu, 2 Jul 2026 10:46:01 +0200
-From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-To: Vadim Fedorenko <vadim.fedorenko@linux.dev>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Richard Cochran <richardcochran@gmail.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"DavidS. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, netdev@vger.kernel.org
-Subject: Re: [PATCH net-next v3 2/3] ptp: Add driver for R-Car Gen4
-Message-ID: <20260702084601.GB3906710@ragnatech.se>
-References: <20260701090607.1108208-1-niklas.soderlund+renesas@ragnatech.se>
- <20260701090607.1108208-3-niklas.soderlund+renesas@ragnatech.se>
- <89720193-e8ad-4bb3-b6d2-3253413b18ab@linux.dev>
+	s=arc-20240116; t=1782983573; c=relaxed/simple;
+	bh=z3us1EYcPhA08D2V/YJ+nWiOnRiCmeZ4lZeMhncdG0g=;
+	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=q1xq6KWgxIitpvqgmZy5R1Rk36SdXX9C+f06aqdI/81KZUB4/Rd1ThhcUseBeEtp/tb1jIk82QTVEEOoM6eR9k2lq6rmKOtmt42E0CRKE8wwWLljYz2ikXpbLPVPtW/82Ldqqfut944/aENJSIowYjNDkuytr5SajSRlmvxb0xA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lPyvPnDu; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2E7531F00ACA
+	for <linux-renesas-soc@vger.kernel.org>; Thu,  2 Jul 2026 09:12:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782983572;
+	bh=z3us1EYcPhA08D2V/YJ+nWiOnRiCmeZ4lZeMhncdG0g=;
+	h=From:In-Reply-To:References:Date:Subject:To:Cc;
+	b=lPyvPnDueqS9ZIaG4AR8IxxE8u+oV1PYjwXXaoyKWknbM6OhQLYanydVuc1qzgo3z
+	 R+JWVZq5YV93ScxHlquZZEI93rboq8ubHxikSWMv+AFhTH61bnsbIfLwDQqmN/fcDh
+	 L7OatAaU/eNHLzOUDAhmQAWRK86el8sgoojYtGqc2e+aa4Ab7EPhmdyDoi/e3911uD
+	 H9YT4uVHlukHAKxHgypn/78J+0kzaG/PPT63uA23z0e0Jy2jiwUJiGiPEI4aLZoKPK
+	 fgZnHkddf2MFQObw8Uq2YbfAhlewJXDrb5n2lpce9v8zY+WoWQU5rj6NBSeycKhtT0
+	 BpJ6v3y8RhK+A==
+Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-39b1eb7bd9bso15323291fa.2
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 02 Jul 2026 02:12:52 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AHgh+RrPeeCfAyTv8lcXKXwJ0sSYzhQtnIxTbWV3Ld/V1S4WJ6Sl5gwXY654xoO0SDBf33oo9o/8TAHvDXyECStifKUEXg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz8MumPjGSp3nTQ+QGltPAvPkT4aYPr1dbY5GOHp2hhshBccZm5
+	Yab2YZEhF9J6ic2g3O2Lhh7xls4f3Dx0wivWvd8hAWIrkvov236Sh+hYVVlW3+yw27MKkvvzA46
+	CCaclCOsUwCbwJgUwVYvVVTDtXLPd7my1ojwrmTTp9Q==
+X-Received: by 2002:a2e:9c86:0:b0:39b:35bd:e705 with SMTP id
+ 38308e7fff4ca-39b35bdebfemr6340391fa.37.1782983570078; Thu, 02 Jul 2026
+ 02:12:50 -0700 (PDT)
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Thu, 2 Jul 2026 04:12:46 -0500
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Thu, 2 Jul 2026 04:12:46 -0500
+From: Bartosz Golaszewski <brgl@kernel.org>
+In-Reply-To: <akOZFIowVvprnAMf@vaman>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <89720193-e8ad-4bb3-b6d2-3253413b18ab@linux.dev>
+References: <20260629-qcom-sa8255p-emac-v11-0-1b7fb95b51f9@oss.qualcomm.com>
+ <20260629-qcom-sa8255p-emac-v11-1-1b7fb95b51f9@oss.qualcomm.com>
+ <CAMuHMdXen+E-Ai51aWBa_KV9W8Fz2cQPpT-FG_kQ7akhrrYa_A@mail.gmail.com>
+ <CAMRc=Me3jaZXiXa1sFXr=8Do4sCd+XN1pKTcWC8-0j78SjCkKA@mail.gmail.com>
+ <CAMuHMdVUBgG0EFB16OxHisbxx-sBvDKvBPNZdpyDnmBrnX4ptQ@mail.gmail.com> <akOZFIowVvprnAMf@vaman>
+Date: Thu, 2 Jul 2026 04:12:46 -0500
+X-Gmail-Original-Message-ID: <CAMRc=MfBcOhbj=ETxy2Xz9o_nyzykrEhKAc3jYi6V5_jMZEE3Q@mail.gmail.com>
+X-Gm-Features: AVVi8Cc0cbGsvWIHn6Ltbm1wzcUWjyqAHy25YdAMNK19MIl0j9ziewcxopNMKrw
+Message-ID: <CAMRc=MfBcOhbj=ETxy2Xz9o_nyzykrEhKAc3jYi6V5_jMZEE3Q@mail.gmail.com>
+Subject: Re: [PATCH net-next v11 1/7] dt-bindings: phy: document the serdes
+ PHY on sa8255p
+To: Vinod Koul <vkoul@kernel.org>
+Cc: Bartosz Golaszewski <brgl@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
+	Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+	Giuseppe Cavallaro <peppe.cavallaro@st.com>, Chen-Yu Tsai <wens@kernel.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
+	Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>, 
+	Shawn Guo <shawnguo@kernel.org>, Fabio Estevam <festevam@gmail.com>, 
+	Jan Petrous <jan.petrous@oss.nxp.com>, s32@nxp.com, 
+	Mohd Ayaan Anwar <mohd.anwar@oss.qualcomm.com>, Romain Gantois <romain.gantois@bootlin.com>, 
+	Magnus Damm <magnus.damm@gmail.com>, Maxime Ripard <mripard@kernel.org>, 
+	Christophe Roullier <christophe.roullier@foss.st.com>, Radu Rendec <rrendec@redhat.com>, 
+	linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, netdev@vger.kernel.org, 
+	linux-stm32@st-md-mailman.stormreply.com, 
+	linux-arm-kernel@lists.infradead.org, Drew Fustini <dfustini@tenstorrent.com>, 
+	linux-sunxi@lists.linux.dev, linux-amlogic@lists.infradead.org, 
+	linux-mips@vger.kernel.org, imx@lists.linux.dev, 
+	linux-renesas-soc@vger.kernel.org, linux-rockchip@lists.infradead.org, 
+	sophgo@lists.linux.dev, linux-riscv@lists.infradead.org, 
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>, 
+	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, 
+	Geert Uytterhoeven <geert@linux-m68k.org>
+Content-Type: text/plain; charset="UTF-8"
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.66 / 15.00];
+X-Spamd-Result: default: False [-3.66 / 15.00];
+	WHITELIST_SPF_DKIM(-3.00)[kernel.org:d:+,kernel.org:s:+];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[ragnatech.se,none];
-	R_DKIM_ALLOW(-0.20)[ragnatech.se:s=fm1,messagingengine.com:s=fm2];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[kernel.org,glider.be,gmail.com,lunn.ch,davemloft.net,google.com,redhat.com,vger.kernel.org];
-	TAGGED_FROM(0.00)[bounces-34638-lists,linux-renesas-soc=lfdr.de,renesas];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:vadim.fedorenko@linux.dev,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:geert+renesas@glider.be,m:magnus.damm@gmail.com,m:richardcochran@gmail.com,m:andrew+netdev@lunn.ch,m:davem@davemloft.net,m:edumazet@google.com,m:kuba@kernel.org,m:pabeni@redhat.com,m:linux-renesas-soc@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:netdev@vger.kernel.org,m:krzk@kernel.org,m:conor@kernel.org,m:geert@glider.be,m:magnusdamm@gmail.com,m:andrew@lunn.ch,s:lists@lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[16];
-	FORGED_SENDER(0.00)[niklas.soderlund@ragnatech.se,linux-renesas-soc@vger.kernel.org];
 	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_TWELVE(0.00)[48];
+	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-34639-lists,linux-renesas-soc=lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:vkoul@kernel.org,m:brgl@kernel.org,m:andersson@kernel.org,m:konradybcio@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:andrew+netdev@lunn.ch,m:davem@davemloft.net,m:edumazet@google.com,m:kuba@kernel.org,m:pabeni@redhat.com,m:mcoquelin.stm32@gmail.com,m:alexandre.torgue@foss.st.com,m:peppe.cavallaro@st.com,m:wens@kernel.org,m:jernej.skrabec@gmail.com,m:neil.armstrong@linaro.org,m:khilman@baylibre.com,m:jbrunet@baylibre.com,m:shawnguo@kernel.org,m:festevam@gmail.com,m:jan.petrous@oss.nxp.com,m:s32@nxp.com,m:mohd.anwar@oss.qualcomm.com,m:romain.gantois@bootlin.com,m:magnus.damm@gmail.com,m:mripard@kernel.org,m:christophe.roullier@foss.st.com,m:rrendec@redhat.com,m:linux-arm-msm@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:netdev@vger.kernel.org,m:linux-stm32@st-md-mailman.stormreply.com,m:linux-arm-kernel@lists.infradead.org,m:dfustini@tenstorrent.com,m:linux-sunxi@lists.linux.dev,m:linux-amlogic@list
+ s.infradead.org,m:linux-mips@vger.kernel.org,m:imx@lists.linux.dev,m:linux-renesas-soc@vger.kernel.org,m:linux-rockchip@lists.infradead.org,m:sophgo@lists.linux.dev,m:linux-riscv@lists.infradead.org,m:bartosz.golaszewski@linaro.org,m:bartosz.golaszewski@oss.qualcomm.com,m:geert@linux-m68k.org,m:krzk@kernel.org,m:conor@kernel.org,m:andrew@lunn.ch,m:mcoquelinstm32@gmail.com,m:jernejskrabec@gmail.com,m:magnusdamm@gmail.com,s:lists@lfdr.de];
 	FORWARDED(0.00)[lists@lfdr.de];
-	DKIM_TRACE(0.00)[ragnatech.se:+,messagingengine.com:+];
-	MISSING_XM_UA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[niklas.soderlund@ragnatech.se,linux-renesas-soc@vger.kernel.org];
+	FORGED_SENDER(0.00)[brgl@kernel.org,linux-renesas-soc@vger.kernel.org];
+	FREEMAIL_CC(0.00)[kernel.org,lunn.ch,davemloft.net,google.com,redhat.com,gmail.com,foss.st.com,st.com,linaro.org,baylibre.com,oss.nxp.com,nxp.com,oss.qualcomm.com,bootlin.com,vger.kernel.org,st-md-mailman.stormreply.com,lists.infradead.org,tenstorrent.com,lists.linux.dev,linux-m68k.org];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,vger.kernel.org:from_smtp];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[brgl@kernel.org,linux-renesas-soc@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	ALIAS_RESOLVED(0.00)[];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,netdev];
+	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
-	MID_RHS_MATCH_FROM(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas,netdev];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo,messagingengine.com:dkim,vger.kernel.org:from_smtp,ragnatech.se:dkim,ragnatech.se:email,ragnatech.se:mid,ragnatech.se:from_mime]
+	RCVD_COUNT_SEVEN(0.00)[7]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 54ACA6F528A
+X-Rspamd-Queue-Id: 151976F53DB
 
-Hi Vadim,
+On Tue, 30 Jun 2026 12:23:16 +0200, Vinod Koul <vkoul@kernel.org> said:
+> On 29-06-26, 16:51, Geert Uytterhoeven wrote:
+>> > Russell King asked me to put the PHY logic for SCMI pm domains into the PHY
+>> > driver instead of the MAC driver where it was previously. Instead of cramming
+>> > both HLOS and firmware handling into the same driver, I figured it makes more
+>> > sense to have a dedicated, cleaner driver as the two share very little code (if
+>> > any).
+>>
+>> I think you are mixing up DT bindings and driver implementation?
+>
+> Should the bindings change if we have different driver and firmware
+> implementations? Isn't binding supposed to be agnostic of
+> implementations..?
+>
 
-Thanks for your feedback.
+I've thought about it some more and I believe this question is philosophical in
+nature.
 
-On 2026-07-01 22:47:16 +0100, Vadim Fedorenko wrote:
-> On 01/07/2026 10:06, Niklas SÃ¶derlund wrote:
-> > Add driver for the gPTP timer found on R-Car Gen4 devices. The timer is
-> > system-wide and shared by different Ethernet devices on each Gen4
-> > platform. The operation of the timer is however not completely in
-> > depended of the systems Ethernet devices.
-> > 
-> >    - On R-Car S4 is gated by the RSWITCH Ethernet module clock.
-> > 
-> >    - On R-Car V4H is gated by the RTSN Ethernet module clock.
-> > 
-> >    - On R-Car V4M is gated by its own module clock, the system have
-> >      neither RTSN or RSWITCH device. But the module clock is the same as
-> >      RTSN on V4H and the documentation referees to it as tsn (EtherTSN).
-> > 
-> > The gPTP device do have its own register space on all three platforms.
-> > But on S4 and V4H it will share its clock and reset property with
-> > RSWITCH or RTSN, respectively.
-> > 
-> > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> 
-> [...]
-> 
-> > +static int ptp_rcar_gen4_adjfine(struct ptp_clock_info *ptp, long scaled_ppm)
-> > +{
-> > +	struct ptp_rcar_gen4_priv *priv = ptp_to_priv(ptp);
-> > +	s64 addend = priv->default_addend;
-> > +	bool neg_adj = scaled_ppm < 0;
-> > +	unsigned long flags;
-> > +	s64 diff;
-> > +
-> > +	if (neg_adj)
-> > +		scaled_ppm = -scaled_ppm;
-> > +	diff = div_s64(addend * scaled_ppm_to_ppb(scaled_ppm), NSEC_PER_SEC);
-> > +	addend = neg_adj ? addend - diff : addend + diff;
-> > +
-> > +	spin_lock_irqsave(&priv->lock, flags);
-> > +	iowrite32(addend, priv->base + PTPTIVC0_REG);
-> 
-> how are you so sure that addend will always fit into s32? It looks like
-> it may go over in some cases, no?
+sa8775p and sa8255p are *the same* hardware. I can flash different firmware on
+the same Lemans Ride board and it becomes one or the other. Yet they are not
+described by the same DTS and the bindings differ as well. I don't see why we
+wouldn't allow the same approach for the this PHY.
 
-Indeed, if the adjustment is more then 32ns per tick it will go over. 
-The register is defined as,
+We treat it as different HW variant when it's managed by firmware - just like
+we do with the rest of the SoC.
 
-        /* Default timer increment in ns.
-         * bit[31:27] - integer
-         * bit[26:0]  - decimal
-
-I will add a check for this clamping the value before writing it to the 
-register.
-
-> 
-> > +	spin_unlock_irqrestore(&priv->lock, flags);
-> > +
-> > +	return 0;
-> > +}
-> 
-
--- 
-Kind Regards,
-Niklas Söderlund
+Bart
 
