@@ -1,190 +1,145 @@
-Return-Path: <linux-renesas-soc+bounces-34683-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-34684-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id K181OEypR2p+dAAAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-34683-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 03 Jul 2026 14:21:32 +0200
+	id bX+7DE6rR2oBdQAAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-34684-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 03 Jul 2026 14:30:06 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59BA67024D3
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 03 Jul 2026 14:21:32 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E99A7025DB
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 03 Jul 2026 14:30:05 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=none;
+	dkim=pass header.d=sang-engineering.com header.s=k1 header.b=AtJZgW0b;
 	dmarc=none;
-	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-34683-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-34683-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
+	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-34684-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-34684-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 6C6A0309BB6F
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  3 Jul 2026 12:15:03 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 253FA3024454
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  3 Jul 2026 12:29:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2A9623CFF62;
-	Fri,  3 Jul 2026 12:15:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0EB083CC7EB;
+	Fri,  3 Jul 2026 12:29:09 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B475D3955D8
-	for <linux-renesas-soc@vger.kernel.org>; Fri,  3 Jul 2026 12:14:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8647C3C3C12
+	for <linux-renesas-soc@vger.kernel.org>; Fri,  3 Jul 2026 12:29:05 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783080903; cv=none; b=IOZ6hiMp8KZ6JkmAJdo1Q1P7KjWj+d6yT/6iQsitczALLn12avweKfJR6qMD486KknZFJFeteO80yeYsi9aM188MXDlEOS8L4c97ArZrcL2HZ6dWp2KcHU7n7Ce8q0awfV9ObAQ3BEDa2FsHUYJjXLriABbDWpKhS44JUEz85I4=
+	t=1783081748; cv=none; b=IW6YtP2eQDXCu7gd/uFjsTx+aYpwux3sWP87PbzGcMtyUJjTfBsJ3cLw9l00ypyr4G/DUmWqkXWN9A5EulG9gEJw8LIhPzErUTWj8U50QJDmqNg5mV7sKe3D6wDTtLEUxT47dYjW393845/iqMbhpARgQh2dofQBUI/U/+2K6Vc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783080903; c=relaxed/simple;
-	bh=N7WOIrubAromhX0rbKY8neIG6P3RsjEgwjpFJcg5DD4=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=l0kyKSDQmGpYV6iJpwyyUhG5XyAm6kA/ZyenNLo/bzUQiiH87bz7he2we/PNvX7HT8YEAJZCQLnqHCSEqP3kNyN7h5arTRNiZElo0k4TzqTaszA780/wbm3ATo3smnPoJFt/H/08q00yEUveNQ4mYkObWnb94k1wTUfCISkdRTI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77] helo=[127.0.0.1])
-	by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
-	(envelope-from <s.pueschel@pengutronix.de>)
-	id 1wfcnI-0002RJ-Oc; Fri, 03 Jul 2026 14:14:56 +0200
-Message-ID: <8d336c44-1fe9-4f9e-8d00-3e1d735e40b7@pengutronix.de>
-Date: Fri, 3 Jul 2026 14:14:55 +0200
+	s=arc-20240116; t=1783081748; c=relaxed/simple;
+	bh=3XErzmFomReex+cqqDTCDX7Zj24XI05YTKHxfHkfJgY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=iMrIw/QXHzZKVJXn9Z03h8jWA6f9nolNgmUFBywXNna8XzwyAWkxtfO3Srz656dlVH/W+BGM4ns84c5uQqqAzTXd3vF+K6d03krdoH/WfP3ZLdYtfGAH0gXhLvCTGNLqIZOXMtVKFisOsVdG/CwrrDQjuf9z9SUe1lxSVVbSnB8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=AtJZgW0b; arc=none smtp.client-ip=194.117.254.33
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=date:from:to:cc:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=3XEr
+	zmFomReex+cqqDTCDX7Zj24XI05YTKHxfHkfJgY=; b=AtJZgW0baIQRZm8YFpq7
+	/5RWSh/EEjvz+1o5meQq2eRT+M60xKQNrgjy6o3UlVfQnJ+BPFmmXKAphzDCNne/
+	+WSNfrtmvpz903avvZG62y8wFTLwWJ4/AfE9HZexIz4t86uosyimplL8eM/LjvrX
+	mvUiUXh9oNfww5aQsHJ/Bzsd97gk82h0kYSLcfSJcT+0jrocmu70oikqLx4AE9A8
+	YewEOL+OlTbK1urIW+wyvA+1p86SqLp6VdAX0RUy5+jYs9hKV9FteT38rb9U3bCv
+	ptR80+Gm2vrmbJ/qwU1SoY8yNJRF81OwG1IF8+TNlgDZTHLlKKGz9fc+gvUBBtCc
+	lw==
+Received: (qmail 1514229 invoked from network); 3 Jul 2026 14:22:21 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 3 Jul 2026 14:22:21 +0200
+X-UD-Smtp-Session: l3s3148p1@zkbo+bNVnUxtKjD6
+Date: Fri, 3 Jul 2026 14:22:19 +0200
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: Mark Brown <broonie@kernel.org>
+Cc: linux-renesas-soc@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
+	devicetree@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, linux-spi@vger.kernel.org,
+	Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>
+Subject: Re: [PATCH v5 0/2] spi: dt-bindings: snps,dw-apb-ssi: updates for
+ RZ/N1D
+Message-ID: <akepe9TXn07NrkE1@shikoro>
+References: <20260701131248.4545-4-wsa+renesas@sang-engineering.com>
+ <364d2f57-db58-4ba1-a12c-025233fe35c0@sirena.org.uk>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: =?UTF-8?Q?Sven_P=C3=BCschel?= <s.pueschel@pengutronix.de>
-Subject: Re: [PATCH v2 2/4] media: v4l2-common: Add kernel-doc for
- v4l2_fill_pixfmt_mp_aligned()
-To: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>,
- tomm.merciai@gmail.com
-Cc: linux-renesas-soc@vger.kernel.org, biju.das.jz@bp.renesas.com,
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Hans Verkuil <hverkuil+cisco@kernel.org>,
- Nicolas Dufresne <nicolas.dufresne@collabora.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Mehdi Djait <mehdi.djait@linux.intel.com>,
- Nas Chung <nas.chung@chipsnmedia.com>,
- Isaac Scott <isaac.scott@ideasonboard.com>,
- Paul Cercueil <paul@crapouillou.net>,
- Daniel Scally <dan.scally+renesas@ideasonboard.com>,
- linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- kernel@pengutronix.de
-References: <20260701165003.1495035-1-tommaso.merciai.xr@bp.renesas.com>
- <20260701165003.1495035-3-tommaso.merciai.xr@bp.renesas.com>
-Content-Language: en-US
-In-Reply-To: <20260701165003.1495035-3-tommaso.merciai.xr@bp.renesas.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
-X-SA-Exim-Mail-From: s.pueschel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="hG9EEbx0Ob4UoHPd"
+Content-Disposition: inline
+In-Reply-To: <364d2f57-db58-4ba1-a12c-025233fe35c0@sirena.org.uk>
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [0.04 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-3.26 / 15.00];
+	SIGNED_PGP(-2.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_DKIM_ALLOW(-0.20)[sang-engineering.com:s=k1];
+	MIME_GOOD(-0.20)[multipart/signed,text/plain];
 	MAILLIST(-0.15)[generic];
-	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	FROM_HAS_DN(0.00)[];
-	DMARC_NA(0.00)[pengutronix.de];
-	RCVD_COUNT_THREE(0.00)[4];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:tommaso.merciai.xr@bp.renesas.com,m:tomm.merciai@gmail.com,m:linux-renesas-soc@vger.kernel.org,m:biju.das.jz@bp.renesas.com,m:prabhakar.mahadev-lad.rj@bp.renesas.com,m:jacopo.mondi@ideasonboard.com,m:mchehab@kernel.org,m:hverkuil+cisco@kernel.org,m:nicolas.dufresne@collabora.com,m:laurent.pinchart@ideasonboard.com,m:sakari.ailus@linux.intel.com,m:mehdi.djait@linux.intel.com,m:nas.chung@chipsnmedia.com,m:isaac.scott@ideasonboard.com,m:paul@crapouillou.net,m:dan.scally+renesas@ideasonboard.com,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:kernel@pengutronix.de,m:tommmerciai@gmail.com,m:hverkuil@kernel.org,m:dan.scally@ideasonboard.com,s:lists@lfdr.de];
-	FREEMAIL_TO(0.00)[bp.renesas.com,gmail.com];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[19];
-	FORGED_SENDER(0.00)[s.pueschel@pengutronix.de,linux-renesas-soc@vger.kernel.org];
-	MIME_TRACE(0.00)[0:+];
+	FORGED_RECIPIENTS(0.00)[m:broonie@kernel.org,m:linux-renesas-soc@vger.kernel.org,m:conor+dt@kernel.org,m:devicetree@vger.kernel.org,m:geert+renesas@glider.be,m:krzk+dt@kernel.org,m:linux-spi@vger.kernel.org,m:magnus.damm@gmail.com,m:robh@kernel.org,m:conor@kernel.org,m:geert@glider.be,m:krzk@kernel.org,m:magnusdamm@gmail.com,s:lists@lfdr.de];
+	DMARC_NA(0.00)[sang-engineering.com];
+	TAGGED_FROM(0.00)[bounces-34684-lists,linux-renesas-soc=lfdr.de,renesas];
+	MIME_TRACE(0.00)[0:+,1:+,2:~];
+	RCVD_COUNT_THREE(0.00)[4];
 	FORWARDED(0.00)[lists@lfdr.de];
-	TAGGED_FROM(0.00)[bounces-34683-lists,linux-renesas-soc=lfdr.de];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[s.pueschel@pengutronix.de,linux-renesas-soc@vger.kernel.org];
+	FORGED_SENDER(0.00)[wsa@sang-engineering.com,linux-renesas-soc@vger.kernel.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_CC(0.00)[vger.kernel.org,kernel.org,glider.be,gmail.com];
+	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	R_DKIM_NA(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,cisco,renesas];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[renesas.com:email,vger.kernel.org:from_smtp,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[wsa@sang-engineering.com,linux-renesas-soc@vger.kernel.org];
+	DKIM_TRACE(0.00)[sang-engineering.com:+];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
+	TO_DN_SOME(0.00)[];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,vger.kernel.org:from_smtp,shikoro:mid,sang-engineering.com:from_mime,sang-engineering.com:dkim]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 59BA67024D3
+X-Rspamd-Queue-Id: 8E99A7025DB
 
-Hi Tommaso,
 
-thanks for adding documentation.
+--hG9EEbx0Ob4UoHPd
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 7/1/26 6:49 PM, Tommaso Merciai wrote:
-> Replace the bare placeholder comment with a full kernel-doc block
-> documenting all parameters, the function behaviour for both single
-> memory plane (mem_planes == 1) and multiple memory plane (mem_planes > 1)
-> formats, and the return value.
->
-> Signed-off-by: Tommaso Merciai<tommaso.merciai.xr@bp.renesas.com>
-> ---
-> v1->v2:
->   - New patch
->
->   include/media/v4l2-common.h | 27 ++++++++++++++++++++++++++-
->   1 file changed, 26 insertions(+), 1 deletion(-)
->
-> diff --git a/include/media/v4l2-common.h b/include/media/v4l2-common.h
-> index 749fe38c134e..db59dda578f0 100644
-> --- a/include/media/v4l2-common.h
-> +++ b/include/media/v4l2-common.h
-> @@ -557,7 +557,32 @@ void v4l2_apply_frmsize_constraints(u32 *width, u32 *height,
->   int v4l2_fill_pixfmt(struct v4l2_pix_format *pixfmt, u32 pixelformat,
->   		     u32 width, u32 height);
->   
-> -/* @stride_alignment is a power of 2 value in bytes */
-> +/**
-> + * v4l2_fill_pixfmt_mp_aligned - Fill in a &struct v4l2_pix_format_mplane with
-> + *	stride alignment requirements.
-> + *
-> + * @pixfmt: pointer to the &struct v4l2_pix_format_mplane to be filled
-> + * @pixelformat: the V4L2 pixel format (V4L2_PIX_FMT_*)
-> + * @width: image width in pixels
-> + * @height: image height in pixels
-> + * @stride_alignment: stride alignment in bytes; must be a power of 2
-> + *
-> + * Fills all fields of @pixfmt for the given pixel format, dimensions, and
-> + * stride alignment.
-> + *
-> + * For formats stored in a single memory plane (mem_planes == 1), the
-> + * behaviour matches v4l2_fill_pixfmt_aligned(): plane_fmt[0].bytesperline
-Given that the v4l2_fill_pixfmt_aligned helper is added later in patch 
-3, don't you want to move this patch after adding the helper?
-> + * is set to the primary plane stride rounded up to @stride_alignment, and
-> + * per-component alignments are scaled to keep chroma strides consistently
-> + * derivable from the luma stride. plane_fmt[0].sizeimage covers all
 
-No, it's the other way: The strides of all components are aligned to the 
-@stride_alignment. To keep the chroma strides consistently derivable 
-from the luma stride, strides may be aligned to a multiple of the 
-@stride_alignment.
+> This doesn't apply against current code, please check and resend.
 
-(feel free to use the above if it sounds good)
+Looks like you already applied the previous patch series one day before?
+Sorry, I can't find or recall being notified of this. Anyhow, patches
+are upstream now, so case closed. Thank you!
 
-At least I read your text, as if only the y stride would be rounded up 
-to the nearest alignment and for other component strides may be scaled 
-down to 1/2 or 1/4 of the alignment. But most of the time the y stride 
-will be scaled up (e.g. YUV420 or YUV410) and in rare cases (e.g. 
-NV24/42) the component stride is scaled up.
 
-Sincerely
-     Sven
+--hG9EEbx0Ob4UoHPd
+Content-Type: application/pgp-signature; name="signature.asc"
 
-> + * component planes.
-> + *
-> + * For formats with multiple memory planes (mem_planes > 1), each plane's
-> + * bytesperline is independently rounded up to @stride_alignment, and
-> + * sizeimage is set to bytesperline multiplied by the plane height.
-> + *
-> + * Return: 0 on success, -EINVAL if @pixelformat is unknown.
-> + */
->   int v4l2_fill_pixfmt_mp_aligned(struct v4l2_pix_format_mplane *pixfmt,
->   				u32 pixelformat, u32 width, u32 height,
->   				u8 stride_alignment);
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmpHqXcACgkQFA3kzBSg
+KbY+2g//a7vwyNZqUB8NIBpuGwN+dmP15atYIcp5VZvVOH/0/XMo2OBAhleo8qqD
+Hjq4KX0jpAB+EoA6ejShYRoDYQOHR7HGFm3eq2eJesyjnRxMAzq0whBboaDiw7Dg
+Tx8BA6sbf26pTLaC+rErSwCzkp9NRnwXl5IZyDoMRoAA4b2hs1afMrGQdle7wESR
+6sBrwmmGj1w7MSb7+4ll4qFixegrOfdItkQJFGBjfb75RBC4Ibvz9hwpiEK7Guf0
+A4fuC+m/Fls8ucl23WbOr3ijJKr97nxAOzYDdP1qbyNEASipgrTCm2ME9kZiLQ+H
+94nn75z3/ysx5JVBpzfv8kV7jE0QNFB7g8j3dWGn0krd0yL7XtuRfwmxyiWMGnfD
+Xe149I9FVHsJE2fwsm0Ipq1YdDCleMvEB6yjgx3dkRoPbCbX/509LISNojWyCK4K
+Swj36WKSiD4+Clkwbl3kx14+9aP8Wuc3mIUSoBZn1X6E+dp3UWKCwnINBqB7Abz0
+pVZDQxjGtrHT7kDbGsmICdBzWKKFxfDm2JZnZ76IBa/zl89zP5gMuZsZqB/4bgi/
+38I8iKAjnwxa1w5JyBuaY0E1c0fZomdggo5qiC0B1Br+9+wIcbQtWzM6zyi5Exsc
+chp/LAkPVbN8a4rnDs/4RVqegxJIIEG9/XA6GyQCYadHRJrF71w=
+=gWLp
+-----END PGP SIGNATURE-----
+
+--hG9EEbx0Ob4UoHPd--
 
