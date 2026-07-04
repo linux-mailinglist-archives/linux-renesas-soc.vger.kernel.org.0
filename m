@@ -1,71 +1,71 @@
-Return-Path: <linux-renesas-soc+bounces-34720-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-34721-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id AWHdH2ptSWrz1gAAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-34720-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 04 Jul 2026 22:30:34 +0200
+	id sEMZMIdtSWr61gAAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-34721-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 04 Jul 2026 22:31:03 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEE2F7086F8
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 04 Jul 2026 22:30:33 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id EB6DD70870A
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 04 Jul 2026 22:31:02 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=g6FXhcHY;
-	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b="Wv/I55i0";
+	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b="ciX0H/56";
+	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b="QaG/dJhA";
 	dmarc=pass (policy=reject) header.from=mailbox.org;
-	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-34720-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-34720-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
+	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-34721-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-34721-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 574053026319
-	for <lists+linux-renesas-soc@lfdr.de>; Sat,  4 Jul 2026 20:28:22 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 41200302979A
+	for <lists+linux-renesas-soc@lfdr.de>; Sat,  4 Jul 2026 20:28:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 05D503563E8;
-	Sat,  4 Jul 2026 20:28:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EDBE735BDAA;
+	Sat,  4 Jul 2026 20:28:25 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
+Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7597378818;
-	Sat,  4 Jul 2026 20:28:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D5B0301471;
+	Sat,  4 Jul 2026 20:28:23 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783196901; cv=none; b=bZ7G4lMgk78lspKTCpA9rb4mApQkbZhG2P0tjdstBNKj9GLPPEGtndQ57m7O1+4ZMihUuGmNxvLybVIOVua1negT8j3IiD5vkYLgPJCoSw6kmebz+VFyiwSW34sOitfsv1iKeGefg1MDhOLb8tUUCWE3+riU3Bdr+TMMwV70TqY=
+	t=1783196905; cv=none; b=jICfjY5ZYPdo0BMYGMfmHnH35YkoZgMU3Xj9ue0tVKgzTBaKqPHtKga/L0KjdV6+jdpM2UrNj99FIfPtyvMrkAvGgh/CpAwBNoTy/Zv5UYKvl2Jga//M8Auu0qN8G3mE5eM7SJ+qFx51yz+NlLIozYpBt5gUV14Pczn2ENT4WZo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783196901; c=relaxed/simple;
-	bh=B1xgOYdISzfUXzc3Fw+K5llIZssheJzAQXhl/LSUaMk=;
+	s=arc-20240116; t=1783196905; c=relaxed/simple;
+	bh=1lkB7+1Trnr5UGpQP00QgoQwV1YztjZcXuv6sF+kAJc=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=TSsytT12kNrnpWj+TpE3eiIWxSsA8OmUzT8+ZKn6Ph+TMAaucF3bVPJw0rr+IUEL1L9VuOrYPWdim2aS8PdPJbyfiqAaGtz4HB5JsJNUOKgbwEqHMPJcRf20Ek84N34mPCNvc2YzFAGbJcOIzx+tCXT9IiVhpiGvZfnHM1psxLM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=g6FXhcHY; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=Wv/I55i0; arc=none smtp.client-ip=80.241.56.152
+	 MIME-Version:Content-Type; b=OVlsgguDnqnU5p3xnx5xpkoP+XUiR2/SbEH99yhbZnl9BugaVCUgyGVmIFh2n8BDN25KXuX9hAAZ9AnJi6OnsJtgfckd9h8FlmLdPaYnKfjZqg+irdHyfKzQnaR+aC4ReLbJP1okTQt1cHCTNqw8ZmykfWdZ9Q7NHlAnyDhdjA4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=ciX0H/56; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=QaG/dJhA; arc=none smtp.client-ip=80.241.56.172
 Received: from smtp1.mailbox.org (smtp1.mailbox.org [10.196.197.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4gt2Hv5XRkz9v9T;
-	Sat,  4 Jul 2026 22:28:11 +0200 (CEST)
+	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4gt2Hy5YRrz9tN5;
+	Sat,  4 Jul 2026 22:28:14 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1783196891;
+	t=1783196894;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=5SVmddnWbxJtZMco+iF1e5UcZG9WH0Amx7vIaLnEFVE=;
-	b=g6FXhcHYyY1y9zKb14a6nq898TULaox9JBx5xEO3nKSNJuf+HgRw9D6TZB9LYBg+Lnh4n3
-	jIe4qWeBg6nkg2njONlMaflFW1teqjz2tFGFMbEfHsdiOQSJgmfnz4uFRulC0+buvV06l5
-	ByQX7bpKif7e8FPQy/Vq7hofp+R6XvpErDQ93ACWigeIVBx81Vgh8lvk8S15Ib8KDXH7Eg
-	PRSN3mv7xG/fBYw6beLW32w+qCjOzXpJdN1T+2QXQc75Zucrk2OCslkb4Oy+c4t5Boage8
-	OJyDW7H5Da/2wdax1NMpr9lmvg9J9v8fxGJXxGmfIeXOcdlRLJM9YKhUBK+HWA==
+	bh=TKawrTkNvDnROBLym0oquR1qEV5tI5DualC+BhLUuoU=;
+	b=ciX0H/56UGdUFYcJlc/QGxhMnvPnpZZ7f3Z7L6G4+s0OtXgF6YErHzn0+g71oL+uYArBS4
+	6pGgKt22YEP0saGb5KOhvaX21QvbNyHpA35naqf76kvMhB05URzKLrRYCS3QDb1XHhJOJu
+	iMRWgEySHA5XmGeIuVLkdjmYybdTNdIY7QMkj6ZarvEOYWr2WPvj+QmlQ4FRNzvpz2Abta
+	/+b95lPrA3jpWsDA4oEu/nf1x6mdH0bF/vzdvdv59+DCm8Qqfbd89sbErCfFmE+1FwRu2s
+	qsDOpMhdUYgloA16dbY+G5GrnbkWg8k8ckFB0vDp8bTMpIopGPGLT7SR5p7YGg==
 From: Marek Vasut <marek.vasut+renesas@mailbox.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1783196890;
+	t=1783196893;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=5SVmddnWbxJtZMco+iF1e5UcZG9WH0Amx7vIaLnEFVE=;
-	b=Wv/I55i08rnPZzybgwsH+H7zHAs30BhoPRXJFbh7vsjk2j1ocHETWBouA6tjVMGpeHYets
-	7drhlo1CWGjzn9aFxd/Yg9jUFqKaZmgL4q1Hs36Gyub925QGebgRY300k5UEk7jIsPDA+p
-	ntN8vo6yrVPUSTX+sjaM8evrddLW5IlvSqJxtcUJe8Ojre9ndZEVLo4Skh5ukqW8QVYvmZ
-	oWAP9yvRYrFd31lWUjyxpdikjgZrYE6gqXvhYV0jue7VDdVQFlDvprnaWE2WkO3bcuoVC9
-	cQUqamtu+hGomfzTSK/dVDi2ukxW72tgU2F0O6YI/eD+nYRr2IhH1mgx7kEE/Q==
+	bh=TKawrTkNvDnROBLym0oquR1qEV5tI5DualC+BhLUuoU=;
+	b=QaG/dJhAP4KEpBQLO4FuBiEKEGLuJJdcL9gvoFwW5fidYsA+vt7O6IGeTJpgIf8iPUtNmu
+	w1OpTRil4YenfXRIVu0ysiWFWI3/G4PaEHjcuS484ByhKfWTgXaIufUI9YAWiwll8Eavdp
+	njnI4+W3KgYB1EwHC/u2ofyS7oKbSI9bLdQHQqn1Z1sxNY9rDD5MBp+k0HN4/VyTgtfWPh
+	nMPq3VvpZTkhdrfxLLxgDlma50dkTmGbm6mN+3cucn9+YjJjDGwxr3L51iaHBtwe+36sYQ
+	ms4lyrmXf3GqTInEpqz1xgUXI1BlrtagYZRJRLZ39boL2bcAvwTInHYB1gAZQA==
 To: linux-pci@vger.kernel.org
 Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
 	=?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
@@ -80,9 +80,9 @@ Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
 	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org
-Subject: [PATCH 4/5] PCI: dwc: rcar-gen4: Handle PERST via reset subsystem
-Date: Sat,  4 Jul 2026 22:25:03 +0200
-Message-ID: <20260704202748.355708-5-marek.vasut+renesas@mailbox.org>
+Subject: [PATCH 5/5] PCI: dwc: rcar-gen4: Add support for R-Car X5H PCIe4
+Date: Sat,  4 Jul 2026 22:25:04 +0200
+Message-ID: <20260704202748.355708-6-marek.vasut+renesas@mailbox.org>
 In-Reply-To: <20260704202748.355708-1-marek.vasut+renesas@mailbox.org>
 References: <20260704202748.355708-1-marek.vasut+renesas@mailbox.org>
 Precedence: bulk
@@ -93,20 +93,20 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-MBO-RS-META: yht6zk6gsd7yq5ndkg1ftr8s5akemx8c
-X-MBO-RS-ID: dd73db15fe41dcc2123
+X-MBO-RS-META: 1hoet8mdswsn8546yq373dfkbhc6z6rr
+X-MBO-RS-ID: eb3c9fb682a62484ad8
 X-Rspamd-Action: no action
 X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[mailbox.org,reject];
 	R_DKIM_ALLOW(-0.20)[mailbox.org:s=mail20150812];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-34720-lists,linux-renesas-soc=lfdr.de,renesas];
+	TAGGED_FROM(0.00)[bounces-34721-lists,linux-renesas-soc=lfdr.de,renesas];
 	FORGED_RECIPIENTS(0.00)[m:linux-pci@vger.kernel.org,m:marek.vasut+renesas@mailbox.org,m:kwilczynski@kernel.org,m:bhelgaas@google.com,m:conor+dt@kernel.org,m:geert+renesas@glider.be,m:krzk+dt@kernel.org,m:lpieralisi@kernel.org,m:mani@kernel.org,m:robh@kernel.org,m:yoshihiro.shimoda.uh@renesas.com,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-renesas-soc@vger.kernel.org,m:marek.vasut@mailbox.org,m:conor@kernel.org,m:geert@glider.be,m:krzk@kernel.org,s:lists@lfdr.de];
 	FORGED_SENDER(0.00)[marek.vasut@mailbox.org,linux-renesas-soc@vger.kernel.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
@@ -126,15 +126,35 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,dt];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[mailbox.org:from_mime,mailbox.org:email,mailbox.org:mid,mailbox.org:dkim,glider.be:email,renesas.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: CEE2F7086F8
+X-Rspamd-Queue-Id: EB6DD70870A
 
-Handle PERST via both GPIO and reset subsystem. On R-Car Gen4, the
-PERST signal is operated as a GPIO, on R-Car Gen5 it might only be
-accessible via SCMI reset via reset subsystem. Support both options.
-This is a preparatory patch for R-Car Gen5 support.
+Add support for R8A78000 (R-Car X5H) PCIe4.
+
+This driver previously supported R-Car Gen4 S4/V4H/V4M. PCIe features
+of R-Car X5H PCIe4 are almost all the same.
+
+The controller initialization sequence is slightly different and is
+factored out into controller specific callbacks, in a manner similar
+to previous R-Car Gen4 handling.
+
+The controller does have a PHY attached to it, but the PHY is operated
+by a separate PHY driver, the PHY driver instance binding is handled
+in rcar_gen4_pcie_get_resources() and controlled in the aforementioned
+controller specific callbacks.
+
+The controller driver is deliberately using "renesas,rcar-gen5-pcie4"
+DT compatible string to discern R-Car X5H PCIe4 controller supported
+by this driver, from R-Car X5H PCIe6 controller which will most likely
+use a separate driver.
+
+The R-Car X5H PCIe4 controller embeds HDMA instead of EDMA embedded
+in the R-Car Gen4 PCIe controller, "dw-edma" driver supports both
+DMA variants.
+
+Endpoint mode is currently not implemented for R-Car Gen5 PCIe4.
 
 Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
 ---
@@ -152,108 +172,196 @@ Cc: linux-kernel@vger.kernel.org
 Cc: linux-pci@vger.kernel.org
 Cc: linux-renesas-soc@vger.kernel.org
 ---
- drivers/pci/controller/dwc/pcie-rcar-gen4.c | 42 +++++++++++++++++++--
- 1 file changed, 39 insertions(+), 3 deletions(-)
+ drivers/pci/controller/dwc/pcie-rcar-gen4.c | 113 +++++++++++++++++++-
+ 1 file changed, 111 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/pci/controller/dwc/pcie-rcar-gen4.c b/drivers/pci/controller/dwc/pcie-rcar-gen4.c
-index 05c22cc648135..186eedb33c27d 100644
+index 186eedb33c27d..55c40424937c1 100644
 --- a/drivers/pci/controller/dwc/pcie-rcar-gen4.c
 +++ b/drivers/pci/controller/dwc/pcie-rcar-gen4.c
-@@ -98,6 +98,7 @@ struct rcar_gen4_pcie {
+@@ -19,6 +19,7 @@
+ #include <linux/of_address.h>
+ #include <linux/of_irq.h>
+ #include <linux/pci.h>
++#include <linux/phy/phy.h>
+ #include <linux/platform_device.h>
+ #include <linux/pm_runtime.h>
+ #include <linux/reset.h>
+@@ -36,6 +37,7 @@
+ 
+ /* MSI Capability */
+ #define MSICAP0			0x0050
++#define MSICAP0_MMESCAP_MASK	GENMASK(19, 17)
+ #define MSICAP0_MSIE		BIT(16)
+ 
+ /* PCIe Interrupt Status 0 */
+@@ -74,6 +76,11 @@
+ #define PCIEPWRMNGCTRL		0x0070
+ #define APP_CLK_REQ_N		BIT(11)
+ #define APP_CLK_PM_EN		BIT(10)
++#define APP_READY_ENTR_L23	BIT(6)
++#define APP_REQ_ENTR_L1		BIT(5)
++
++/* PCI Express capability */
++#define EXPCAP(x)		(0x0070 + (x))
+ 
+ #define RCAR_NUM_SPEED_CHANGE_RETRIES	10
+ #define RCAR_MAX_LINK_SPEED		4
+@@ -97,6 +104,7 @@ struct rcar_gen4_pcie {
+ 	struct dw_pcie dw;
  	void __iomem *base;
  	void __iomem *phy_base;
++	struct phy *phy;
  	struct platform_device *pdev;
-+	struct reset_control *perst;
+ 	struct reset_control *perst;
  	const struct rcar_gen4_pcie_drvdata *drvdata;
- };
- #define to_rcar_gen4_pcie(_dw)	container_of(_dw, struct rcar_gen4_pcie, dw)
-@@ -299,10 +300,27 @@ static void rcar_gen4_pcie_unprepare(struct rcar_gen4_pcie *rcar)
+@@ -169,6 +177,35 @@ static int rcar_gen4_pcie_speed_control(struct rcar_gen4_pcie *rcar)
+ 	return 0;
+ }
  
- static int rcar_gen4_pcie_get_resources(struct rcar_gen4_pcie *rcar)
- {
-+	struct device *dev = rcar->dw.dev;
-+	struct reset_control *perst;
++static int rcar_gen5_pcie_speed_control(struct rcar_gen4_pcie *rcar)
++{
++	struct dw_pcie *dw = &rcar->dw;
++	u32 lnkcap = dw_pcie_readl_dbi(dw, EXPCAP(PCI_EXP_LNKCAP));
++	u32 lnksta = dw_pcie_readw_dbi(dw, EXPCAP(PCI_EXP_LNKSTA));
++	u32 val, retries;
 +
- 	rcar->phy_base = devm_platform_ioremap_resource_byname(rcar->pdev, "phy");
- 	if (IS_ERR(rcar->phy_base))
- 		return PTR_ERR(rcar->phy_base);
- 
-+	rcar->perst = NULL;
-+	for_each_available_child_of_node_scoped(dev->of_node, of_port) {
-+		perst = of_reset_control_get(of_port, "perst");
-+		if (IS_ERR(perst)) {
-+			if (PTR_ERR(perst) != -EPROBE_DEFER)
-+				dev_err(dev, "Failed to get PERST#\n");
-+			return PTR_ERR(perst);
-+		}
++	if ((lnksta & PCI_EXP_LNKSTA_CLS) == (lnkcap & PCI_EXP_LNKCAP_SLS))
++		return 0;
 +
-+		/* There is only one root port. */
-+		rcar->perst = perst;
-+		break;
++	/* Retrain link */
++	val = dw_pcie_readl_dbi(dw, EXPCAP(PCI_EXP_LNKCTL));
++	val |= PCI_EXP_LNKCTL_RL;
++	dw_pcie_writel_dbi(dw, EXPCAP(PCI_EXP_LNKCTL), val);
++
++	/* Wait for link retrain */
++	for (retries = 0; retries <= 10; retries++) {
++		lnksta = dw_pcie_readw_dbi(dw, EXPCAP(PCI_EXP_LNKSTA));
++
++		/* Check retrain flag */
++		if (!(lnksta & PCI_EXP_LNKSTA_LT))
++			break;
++
++		usleep_range(1000, 1100);
 +	}
 +
- 	/* Renesas-specific registers */
- 	rcar->base = devm_platform_ioremap_resource_byname(rcar->pdev, "app");
- 
-@@ -425,6 +443,22 @@ static int rcar_gen4_pcie_host_msi_init(struct dw_pcie_rp *pp)
- 	return ret;
- }
- 
-+static void rcar_gen4_pcie_host_perst(struct dw_pcie_rp *pp, int enable)
-+{
-+	struct dw_pcie *dw = to_dw_pcie_from_pp(pp);
-+	struct rcar_gen4_pcie *rcar = to_rcar_gen4_pcie(dw);
-+
-+	gpiod_set_value_cansleep(dw->pe_rst, enable);
-+
-+	if (!rcar->perst)
-+		return;
-+
-+	if (enable)
-+		reset_control_assert(rcar->perst);
-+	else
-+		reset_control_deassert(rcar->perst);
++	return 0;
 +}
 +
- /* Host mode */
- static int rcar_gen4_pcie_host_init(struct dw_pcie_rp *pp)
- {
-@@ -432,7 +466,7 @@ static int rcar_gen4_pcie_host_init(struct dw_pcie_rp *pp)
- 	struct rcar_gen4_pcie *rcar = to_rcar_gen4_pcie(dw);
- 	int ret;
+ /*
+  * Enable LTSSM of this controller and manually initiate the speed change.
+  * Always return 0.
+@@ -304,8 +341,11 @@ static int rcar_gen4_pcie_get_resources(struct rcar_gen4_pcie *rcar)
+ 	struct reset_control *perst;
  
--	gpiod_set_value_cansleep(dw->pe_rst, 1);
-+	rcar_gen4_pcie_host_perst(pp, 1);
+ 	rcar->phy_base = devm_platform_ioremap_resource_byname(rcar->pdev, "phy");
+-	if (IS_ERR(rcar->phy_base))
+-		return PTR_ERR(rcar->phy_base);
++	if (IS_ERR(rcar->phy_base)) {
++		rcar->phy = devm_phy_get(dev, NULL);
++		if (IS_ERR(rcar->phy))
++			return PTR_ERR(rcar->phy);
++	}
  
- 	ret = rcar_gen4_pcie_common_init(rcar);
- 	if (ret)
-@@ -453,7 +487,7 @@ static int rcar_gen4_pcie_host_init(struct dw_pcie_rp *pp)
- 
- 	msleep(PCIE_T_PVPERL_MS);	/* pe_rst requires 100msec delay */
- 
--	gpiod_set_value_cansleep(dw->pe_rst, 0);
-+	rcar_gen4_pcie_host_perst(pp, 0);
- 
+ 	rcar->perst = NULL;
+ 	for_each_available_child_of_node_scoped(dev->of_node, of_port) {
+@@ -731,6 +771,28 @@ static int r8a779f0_pcie_ltssm_control(struct rcar_gen4_pcie *rcar, bool enable)
  	return 0;
- 
-@@ -467,7 +501,7 @@ static void rcar_gen4_pcie_host_deinit(struct dw_pcie_rp *pp)
- 	struct dw_pcie *dw = to_dw_pcie_from_pp(pp);
- 	struct rcar_gen4_pcie *rcar = to_rcar_gen4_pcie(dw);
- 
--	gpiod_set_value_cansleep(dw->pe_rst, 1);
-+	rcar_gen4_pcie_host_perst(pp, 1);
- 	rcar_gen4_pcie_common_deinit(rcar);
  }
  
-@@ -671,6 +705,8 @@ static void rcar_gen4_pcie_remove(struct platform_device *pdev)
- 
- 	rcar_gen4_remove_dw_pcie(rcar);
- 	rcar_gen4_pcie_unprepare(rcar);
-+	if (rcar->perst)
-+		reset_control_put(rcar->perst);
++static int rcar_gen5_pcie_ltssm_control(struct rcar_gen4_pcie *rcar, bool enable)
++{
++	u32 val;
++
++	val = readl(rcar->base + PCIERSTCTRL1);
++	if (enable) {
++		val |= APP_LTSSM_ENABLE;
++		val &= ~APP_HOLD_PHY_RST;
++	} else {
++		val &= ~APP_LTSSM_ENABLE;
++		val |= APP_HOLD_PHY_RST;
++	}
++	writel(val, rcar->base + PCIERSTCTRL1);
++
++	if (enable)
++		phy_power_on(rcar->phy);
++	else
++		phy_power_off(rcar->phy);
++
++	return 0;
++}
++
+ static int rcar_gen4_pcie_additional_common_init(struct rcar_gen4_pcie *rcar)
+ {
+ 	struct dw_pcie *dw = &rcar->dw;
+@@ -749,6 +811,42 @@ static int rcar_gen4_pcie_additional_common_init(struct rcar_gen4_pcie *rcar)
+ 	return 0;
  }
  
- static int r8a779f0_pcie_ltssm_control(struct rcar_gen4_pcie *rcar, bool enable)
++static int rcar_gen5_pcie_additional_common_init(struct rcar_gen4_pcie *rcar)
++{
++	struct dw_pcie *dw = &rcar->dw;
++	int ret;
++	u32 val;
++
++	ret = phy_set_mode(rcar->phy, PHY_MODE_PCIE);
++	if (ret)
++		return ret;
++
++	ret = phy_init(rcar->phy);
++	if (ret)
++		return ret;
++
++	dw_pcie_dbi_ro_wr_en(dw);
++
++	val = dw_pcie_readl_dbi(dw, PCIE_PORT_LANE_SKEW);
++	val &= ~PORT_LANE_SKEW_INSERT_MASK;
++	if (dw->num_lanes < 8)
++		val |= BIT(6);
++	dw_pcie_writel_dbi(dw, PCIE_PORT_LANE_SKEW, val);
++
++	val = dw_pcie_readl_dbi(dw, MSICAP0);
++	FIELD_MODIFY(MSICAP0_MMESCAP_MASK, &val, 4);
++	dw_pcie_writel_dbi(dw, MSICAP0, val);
++
++	dw_pcie_dbi_ro_wr_dis(dw);
++
++	val = readl(rcar->base + PCIEPWRMNGCTRL);
++	val |= APP_CLK_REQ_N | APP_CLK_PM_EN |
++	       APP_READY_ENTR_L23 | APP_REQ_ENTR_L1;
++	writel(val, rcar->base + PCIEPWRMNGCTRL);
++
++	return 0;
++}
++
+ static void rcar_gen4_pcie_phy_reg_update_bits(struct rcar_gen4_pcie *rcar,
+ 					       u32 offset, u32 mask, u32 val)
+ {
+@@ -925,6 +1023,13 @@ static struct rcar_gen4_pcie_drvdata drvdata_rcar_gen4_pcie_ep = {
+ 	.mode = DW_PCIE_EP_TYPE,
+ };
+ 
++static struct rcar_gen4_pcie_drvdata drvdata_rcar_gen5_pcie = {
++	.additional_common_init = rcar_gen5_pcie_additional_common_init,
++	.ltssm_control = rcar_gen5_pcie_ltssm_control,
++	.speed_control = rcar_gen5_pcie_speed_control,
++	.mode = DW_PCIE_RC_TYPE,
++};
++
+ static const struct of_device_id rcar_gen4_pcie_of_match[] = {
+ 	{
+ 		.compatible = "renesas,r8a779f0-pcie",
+@@ -942,6 +1047,10 @@ static const struct of_device_id rcar_gen4_pcie_of_match[] = {
+ 		.compatible = "renesas,rcar-gen4-pcie-ep",
+ 		.data = &drvdata_rcar_gen4_pcie_ep,
+ 	},
++	{
++		.compatible = "renesas,rcar-gen5-pcie4",
++		.data = &drvdata_rcar_gen5_pcie,
++	},
+ 	{},
+ };
+ MODULE_DEVICE_TABLE(of, rcar_gen4_pcie_of_match);
 -- 
 2.53.0
 
