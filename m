@@ -1,87 +1,93 @@
-Return-Path: <linux-renesas-soc+bounces-34704-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-34706-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id YTShNasjSWqkygAAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-34704-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 04 Jul 2026 17:15:55 +0200
+	id QHGINchISWoL0AAAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-34706-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 04 Jul 2026 19:54:16 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7057707CDF
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 04 Jul 2026 17:15:54 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BC1770820A
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 04 Jul 2026 19:54:16 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=X0v4DRUy;
-	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=tY79+LLs;
-	dmarc=pass (policy=reject) header.from=mailbox.org;
-	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-34704-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-34704-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=gmail.com header.s=20251104 header.b=omWA6th9;
+	dmarc=pass (policy=none) header.from=gmail.com;
+	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-34706-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-34706-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id E62633016D26
-	for <lists+linux-renesas-soc@lfdr.de>; Sat,  4 Jul 2026 15:15:53 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id B9B923023506
+	for <lists+linux-renesas-soc@lfdr.de>; Sat,  4 Jul 2026 17:53:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 78FA53546CB;
-	Sat,  4 Jul 2026 15:15:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C8629375F9C;
+	Sat,  4 Jul 2026 17:53:53 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 593C635DA7F;
-	Sat,  4 Jul 2026 15:15:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 256C1208D0
+	for <linux-renesas-soc@vger.kernel.org>; Sat,  4 Jul 2026 17:53:51 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783178149; cv=none; b=MHXC5hCAm359734JhbA/nSTPjaiLeaIJvMfM8xVHofSsVwjcujZ/Vd9CdAGQ0XqFmEatCf6tPiz8X889O8I4iDghaTZnaLvmBQ/N3i4uPJyptIFu+6SoLhQp4N5jDBop8C4wO6BXiZRyoLJ4R/e3AlWqWobQghkVFiq8E14iXq4=
+	t=1783187633; cv=none; b=OzYdVxReBpXhkElIZldPJONCnYG3N5Xod+gOOFDCvojXzVDU1uUV096VLeidVBY5Jnv2GQw5pkSQC2EaE5SDYfx+N8fXAAV3HWAF/b7f/loeEhlrh0sWQOBR28Gpzgf5c3j5wHqPiigKwrPnzF8FbRzacut1VuaG1Sd/jk73bzs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783178149; c=relaxed/simple;
-	bh=VX9EksxBnbq2GrUQJTSEi9rVGmclI8+xnc31hAmTEtY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=A9J8uLonysVQCFjAiakbPP22CV7Ii0DD5/btwXsP5TQJZfkrWjvMLgMBs/YQPo8/n24wouZCNT++ih3mnQtMfnq3N9lJYvFxRN+wCh4EIo+aoo9WxeHZGCECeNpdGhFye4lEUi/ksiG78td24mHGVgAbovKDFjwFqDNqjH8ccoU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=X0v4DRUy; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=tY79+LLs; arc=none smtp.client-ip=80.241.56.152
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4gsvMC4BNQz9vCX;
-	Sat,  4 Jul 2026 17:15:35 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1783178135;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=PE29dZpCaxKqRSw/w3IwZJZkkAzbhBe5GREsJCk9pHE=;
-	b=X0v4DRUy++cZ13/PgA5W2sLEf00SuGBv6H6usKPlvqudoyQtx6q9yZHPD5fDQ4Tncau8xr
-	sk0csfL5hfIHSbFwDOAbAjsilbyVc7wqlJ40jbs+FsyTG1OZkR+J1VXvw9Ix4TGHXMfVS1
-	00Us8Ed6s7MMpBDXlctgao8tDJw/lYtWLbciDyJccu669kj5CeWgf9PhFGYefpY38oPFIY
-	3Q2SNP1LDWGuDV5bg9LWXElBPA6JdyUrg8BF+T+g6Qoapol+z7SmWvxDijz4PE++fGosP6
-	WyauRkJ4CS5kcdRu6AyMKdm8+SFWMwsCcN6BFuRxFkJj2Gahr21f25hmRzzGQw==
-From: Marek Vasut <marek.vasut+renesas@mailbox.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1783178134;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=PE29dZpCaxKqRSw/w3IwZJZkkAzbhBe5GREsJCk9pHE=;
-	b=tY79+LLsxrr8uPC84V2NyJZwapCuUl1BqsJTu9gwfhzVP1ILDX/fZ5kZwrcJ+unfrszklf
-	Fq5YotvV4NkjmS5bjsBlrctJctVjXIVxjR89BDTpZkfVokrGZGB7JNaIlWelTQzeKLcBi4
-	lFttJgwxxdw7TqI0KmRj15MCeBLdi+HaX1U6CMR7br27NbultFwy/NkKiccJicbn9GY3Fq
-	5whUF/Rb6HOPmXSTVHXG+EOeZ0VvryyQlgiYXg4ss3ZQkqb+FKebi56e8WcqUD91flBxIs
-	HAIi44hKgmCZEQ5qMIL3o50m8jaZ0nPVZc/kn0u2wLYVYsIIDOr9RiST+3GQQg==
-To: linux-gpio@vger.kernel.org
-Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
-	Bartosz Golaszewski <brgl@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Linus Walleij <linusw@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	devicetree@vger.kernel.org,
+	s=arc-20240116; t=1783187633; c=relaxed/simple;
+	bh=35nwSOQ07RSdbmMk0T5r+J++6twNGq7wEcf4jJZIyhk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=utzjumI/XDjFewMVr8uVFYOv0bDtWp3ChKLzsgKJ+lrJ/2+6nupo1nJGo9tvWeIHoIbAC4wrUGdfy62jeHWx0t71Pr1nXI4FuNeAmQAmxPgrjtGsnSGMK/KbkRF4D+zfoXVgt+Y05AJ0TZIszTubgodBK6Ve8/ykPj5E3iGrULc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=omWA6th9; arc=none smtp.client-ip=209.85.216.47
+Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-3825c406ffeso773813a91.0
+        for <linux-renesas-soc@vger.kernel.org>; Sat, 04 Jul 2026 10:53:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1783187630; x=1783792430; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=QGOj+lcLEIoUGW5g1S/36ZoafArbXJU/eQ3z+w9OW4s=;
+        b=omWA6th9XpeF+e7vdyGIGZW4xDu+E90p2GrG/FCL7oQTomNQi/ly77sbDrKNfKGPrg
+         bLbBmClUy7D9XL5fZ7/br/GqHXMOvX7X2GJBb8OQmqIlmnYCQRo0WdBQXnvMEmzktO6q
+         Ro2mixXBeme4tc7CH7Gx1wdOiFifHTvT88HAdxKqFjjyqZgjfGs/dHZVGtcEy5M2ME8K
+         cQ1IHFk7k6LwPOwm30MmevINxTSF5oYEz1fPk9v0fO7phK1ij8AQP8oyfLMNoo6kR7yw
+         7y4xz6NvTytQ8mriN6hmoxOc8k3zEOPVKiufJPHXXvIt2RnukQPj9dFSWcfef+5pDYNu
+         tylg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783187630; x=1783792430;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=QGOj+lcLEIoUGW5g1S/36ZoafArbXJU/eQ3z+w9OW4s=;
+        b=L1UwlQlPhacr1OkSQfXZWlmbXvVJxHNFVsOUGk4Jh4z2zVv9vdeAsRVXbJQZx4XdJv
+         a6coPn2IJZXtzDiBO2E421qQys9BhRgD5EdE9tbGARH0cV4q50Rcvg5BacoXTNMlAtxi
+         DA5mvKAfJlAJWArS6dcb9ZSBnv76Fcpw5vJnUKYobwSHmGI3OxKTozcwi4belaZO7CS+
+         EIQtKlhRoJUrR/EDftIndOAHd/zMrODK1v6BMopu//SO722uO9sOfQBck4O1xfD8+I+m
+         m/gQjkSm0BKCaAW/uZTMVzcdyBV14wRonTE2OMrL2KkT9Yqx6xRims/s9n7xDgdaXPd6
+         mJmg==
+X-Gm-Message-State: AOJu0YxMF6g6mdlCkg7TIplHW2IyUPt4z/1iDpHye0buqqrNyhfrV1MT
+	A2zfT6bV9fSlTFMSJ0vRlS4IbS4wSGSR90gbk2o0BeAA1HbzkgWj/uw6
+X-Gm-Gg: AfdE7ckIIp5fjTbUw/uhJxhusPDF+akx2AuaBoYSJQ0vsib2/24WlSohp/D4er4tK9c
+	1IsDK3/Jk/GCmkj/DtujOdRrSdKhir1E3RqHzzFktLCiX86rt1uw2rsjvWLKWtaHoIqkNHYIdwT
+	NbSIJ5FhIPb03ai5S6U2lC/iJozZmLt+sAznWWWqDxhDUtji6M6MZVxlOU1WR/CIVBLHshe3FSA
+	7Lk4B1usxAOpAmHmlcBb6llJyK34gO3Ft2u2p8RgcXhvRfprb56GPmAD1/HqrZRzHVkXhBHMhez
+	k1RncQHKt6qSO8KjhzGmFOe0TaSu2dBOgI0w731wze0d2lKCExwlY0FVNTbhLpd7ZhhZHwMY4lg
+	nRWXtEMvHTaHt0w+y9NKaU1HTFK0UWvcUZeSJ2Hv7huznU9L8r4B5K4s2NB5gxeswaekDnlIBIK
+	HNcCRy4iRYcLTzF8Me5WyVDFT8y/LQKhSQXGLEJY4x/6Q=
+X-Received: by 2002:a17:90b:3b91:b0:37f:c69d:ce69 with SMTP id 98e67ed59e1d1-38280d9b8afmr4152886a91.10.1783187630445;
+        Sat, 04 Jul 2026 10:53:50 -0700 (PDT)
+Received: from localhost.localdomain ([49.207.223.101])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-30f39e07e0bsm15588749eec.30.2026.07.04.10.53.46
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Sat, 04 Jul 2026 10:53:50 -0700 (PDT)
+From: Biren Pandya <birenpandya@gmail.com>
+To: linux-media@vger.kernel.org
+Cc: linux-renesas-soc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org
-Subject: [PATCH 2/2] gpio: rcar: Add R-Car X5H (R8A78000) support
-Date: Sat,  4 Jul 2026 17:13:47 +0200
-Message-ID: <20260704151521.211335-2-marek.vasut+renesas@mailbox.org>
-In-Reply-To: <20260704151521.211335-1-marek.vasut+renesas@mailbox.org>
-References: <20260704151521.211335-1-marek.vasut+renesas@mailbox.org>
+	niklas.soderlund@ragnatech.se,
+	mchehab@kernel.org,
+	geert+renesas@glider.be,
+	magnus.damm@gmail.com,
+	laurent.pinchart@ideasonboard.com,
+	jacopo.mondi@ideasonboard.com,
+	Biren Pandya <birenpandya@gmail.com>
+Subject: [PATCH v3 0/4] media: renesas: Fix missing media_entity_cleanup()
+Date: Sat,  4 Jul 2026 23:16:39 +0530
+Message-ID: <20260704174638.66302-6-birenpandya@gmail.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -89,195 +95,79 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-MBO-RS-META: uk8n5i7h33rhjyu96fy5pa34d46nogs7
-X-MBO-RS-ID: 5d8af0c748bd7cc1393
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-1.66 / 15.00];
+X-Spamd-Result: default: False [0.84 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[mailbox.org,reject];
+	MID_CONTAINS_FROM(1.00)[];
 	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
-	R_DKIM_ALLOW(-0.20)[mailbox.org:s=mail20150812];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	FORWARDED(0.00)[lists@lfdr.de];
-	TAGGED_FROM(0.00)[bounces-34704-lists,linux-renesas-soc=lfdr.de,renesas];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:linux-gpio@vger.kernel.org,m:marek.vasut+renesas@mailbox.org,m:brgl@kernel.org,m:conor+dt@kernel.org,m:geert+renesas@glider.be,m:krzk+dt@kernel.org,m:linusw@kernel.org,m:robh@kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-renesas-soc@vger.kernel.org,m:marek.vasut@mailbox.org,m:conor@kernel.org,m:geert@glider.be,m:krzk@kernel.org,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[marek.vasut@mailbox.org,linux-renesas-soc@vger.kernel.org];
-	RCVD_COUNT_THREE(0.00)[4];
-	DKIM_TRACE(0.00)[mailbox.org:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MISSING_XM_UA(0.00)[];
 	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
+	FREEMAIL_CC(0.00)[vger.kernel.org,ragnatech.se,kernel.org,glider.be,gmail.com,ideasonboard.com];
+	TAGGED_FROM(0.00)[bounces-34706-lists,linux-renesas-soc=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	FORWARDED(0.00)[lists@lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_SENDER(0.00)[birenpandya@gmail.com,linux-renesas-soc@vger.kernel.org];
+	FORGED_RECIPIENTS(0.00)[m:linux-media@vger.kernel.org,m:linux-renesas-soc@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:niklas.soderlund@ragnatech.se,m:mchehab@kernel.org,m:geert+renesas@glider.be,m:magnus.damm@gmail.com,m:laurent.pinchart@ideasonboard.com,m:jacopo.mondi@ideasonboard.com,m:birenpandya@gmail.com,m:geert@glider.be,m:magnusdamm@gmail.com,s:lists@lfdr.de];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[marek.vasut@mailbox.org,linux-renesas-soc@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[birenpandya@gmail.com,linux-renesas-soc@vger.kernel.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
 	ALIAS_RESOLVED(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,dt];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[glider.be:email,vger.kernel.org:from_smtp,mailbox.org:from_mime,mailbox.org:email,mailbox.org:mid,mailbox.org:dkim]
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	RCPT_COUNT_SEVEN(0.00)[10];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
+	FROM_HAS_DN(0.00)[]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: E7057707CDF
+X-Rspamd-Queue-Id: 4BC1770820A
 
-R-Car X5H (R8A78000) is the first member of the R-Car Gen5 family.
-Add support for R-Car X5H, which has slightly different GPIO block
-register layout compared to previous generations. Introduce offset
-remap function which performs 1:1 remap for R-Car Gen1..4 and a bit
-more complex remap for R-Car Gen5.
+Hi all,
 
-The GPIO block register offsets on R-Car Gen5 changed and the change
-can be divided into five groups, registers which remained at the
-same offset, INDT register shifted by +0x10, OUTDTSEL register
-shifted by -0x34, INEN register shifted by -0x38 and the rest of
-the registers used by the driver shifted by +0x70 .
+This patch series addresses missing `media_entity_cleanup()` calls across
+multiple Renesas platform drivers (`rcar-csi2`, `csisp`, `rcar-vin`, and
+`rzg2l-cru`).
 
-Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
----
-Cc: Bartosz Golaszewski <brgl@kernel.org>
-Cc: Conor Dooley <conor+dt@kernel.org>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
-Cc: Linus Walleij <linusw@kernel.org>
-Cc: Rob Herring <robh@kernel.org>
-Cc: devicetree@vger.kernel.org
-Cc: linux-gpio@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
-Cc: linux-renesas-soc@vger.kernel.org
----
- drivers/gpio/gpio-rcar.c | 61 ++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 61 insertions(+)
+While `media_entity_cleanup()` is currently a no-op when
+CONFIG_MEDIA_CONTROLLER is disabled (and even when enabled in modern
+kernels, as pads are rarely dynamically allocated anymore), the media
+subsystem guidelines strictly require drivers to call it to prevent future
+leaks if the core framework behavior changes.
 
-diff --git a/drivers/gpio/gpio-rcar.c b/drivers/gpio/gpio-rcar.c
-index 09bebde5c4260..a22112d9dce0f 100644
---- a/drivers/gpio/gpio-rcar.c
-+++ b/drivers/gpio/gpio-rcar.c
-@@ -36,6 +36,7 @@ struct gpio_rcar_info {
- 	bool has_both_edge_trigger;
- 	bool has_always_in;
- 	bool has_inen;
-+	bool has_layout_gen5;
- };
- 
- struct gpio_rcar_priv {
-@@ -65,14 +66,59 @@ struct gpio_rcar_priv {
- 
- #define RCAR_MAX_GPIO_PER_BANK		32
- 
-+static inline int gpio_rcar_remap_offset(struct gpio_rcar_priv *p, int *offs)
-+{
-+	/* R-Car Gen4 and older do not need any offset remap. */
-+	if (!p->info.has_layout_gen5)
-+		return 0;
-+
-+	/*
-+	 * R-Car Gen5 register layout is slightly different and the offsets
-+	 * that have to be added to or subtracted from each register offset
-+	 * can be divided into five groups, listed below.
-+	 */
-+	switch (*offs) {
-+	case IOINTSEL...OUTDT:
-+		return 0;
-+	case INDT:
-+		*offs += 0x10;
-+		return 0;
-+	case INTDT...EDGLEVEL:
-+		fallthrough;
-+	case BOTHEDGE:
-+		*offs += 0x70;
-+		return 0;
-+	case OUTDTSEL:
-+		*offs -= 0x34;
-+		return 0;
-+	case INEN:
-+		*offs -= 0x38;
-+		return 0;
-+	default:
-+		/*
-+		 * This here must never be reached, if this is reached, that
-+		 * means there is a catastrophic failure in the driver. Skip
-+		 * any IO read/write to prevent further damage.
-+		 */
-+		WARN_ON(1);
-+		return -EINVAL;
-+	}
-+}
-+
- static inline u32 gpio_rcar_read(struct gpio_rcar_priv *p, int offs)
- {
-+	if (gpio_rcar_remap_offset(p, &offs))
-+		return 0;
-+
- 	return ioread32(p->base + offs);
- }
- 
- static inline void gpio_rcar_write(struct gpio_rcar_priv *p, int offs,
- 				   u32 value)
- {
-+	if (gpio_rcar_remap_offset(p, &offs))
-+		return;
-+
- 	iowrite32(value, p->base + offs);
- }
- 
-@@ -399,6 +445,7 @@ static const struct gpio_rcar_info gpio_rcar_info_gen1 = {
- 	.has_both_edge_trigger = false,
- 	.has_always_in = false,
- 	.has_inen = false,
-+	.has_layout_gen5 = false,
- };
- 
- static const struct gpio_rcar_info gpio_rcar_info_gen2 = {
-@@ -406,6 +453,7 @@ static const struct gpio_rcar_info gpio_rcar_info_gen2 = {
- 	.has_both_edge_trigger = true,
- 	.has_always_in = false,
- 	.has_inen = false,
-+	.has_layout_gen5 = false,
- };
- 
- static const struct gpio_rcar_info gpio_rcar_info_gen3 = {
-@@ -413,6 +461,7 @@ static const struct gpio_rcar_info gpio_rcar_info_gen3 = {
- 	.has_both_edge_trigger = true,
- 	.has_always_in = true,
- 	.has_inen = false,
-+	.has_layout_gen5 = false,
- };
- 
- static const struct gpio_rcar_info gpio_rcar_info_gen4 = {
-@@ -420,6 +469,15 @@ static const struct gpio_rcar_info gpio_rcar_info_gen4 = {
- 	.has_both_edge_trigger = true,
- 	.has_always_in = true,
- 	.has_inen = true,
-+	.has_layout_gen5 = false,
-+};
-+
-+static const struct gpio_rcar_info gpio_rcar_info_gen5 = {
-+	.has_outdtsel = true,
-+	.has_both_edge_trigger = true,
-+	.has_always_in = true,
-+	.has_inen = true,
-+	.has_layout_gen5 = true,
- };
- 
- static const struct of_device_id gpio_rcar_of_table[] = {
-@@ -438,6 +496,9 @@ static const struct of_device_id gpio_rcar_of_table[] = {
- 	}, {
- 		.compatible = "renesas,rcar-gen4-gpio",
- 		.data = &gpio_rcar_info_gen4,
-+	}, {
-+		.compatible = "renesas,rcar-gen5-gpio",
-+		.data = &gpio_rcar_info_gen5,
- 	}, {
- 		.compatible = "renesas,gpio-rcar",
- 		.data = &gpio_rcar_info_gen1,
+Changes in v3:
+- Addressed maintainer feedback from Jacopo Mondi to fix an unused-label
+  compilation error in `rcar-csi2.c`. The teardown inversion is now handled
+  cleanly inside the existing error path without requiring a new label.
+
+Changes in v2:
+- Introduced dedicated error labels in probe paths where shared error labels
+  previously caused `media_entity_cleanup()` to be skipped or improperly
+  called.
+
+Biren Pandya (4):
+  media: renesas: rcar-csi2: Add missing media_entity_cleanup()
+  media: renesas: csisp: Add missing media_entity_cleanup()
+  media: renesas: rcar-core: Add missing media_entity_cleanup()
+  media: renesas: rzg2l-core: Add missing media_entity_cleanup()
+
+ drivers/media/platform/renesas/rcar-csi2.c            | 2 ++
+ drivers/media/platform/renesas/rcar-isp/csisp.c       | 5 ++++-
+ drivers/media/platform/renesas/rcar-vin/rcar-core.c   | 5 ++++-
+ drivers/media/platform/renesas/rzg2l-cru/rzg2l-core.c | 1 +
+ 4 files changed, 11 insertions(+), 2 deletions(-)
+
 -- 
-2.53.0
+2.50.1 (Apple Git-155)
 
 
