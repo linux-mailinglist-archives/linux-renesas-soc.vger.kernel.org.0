@@ -1,78 +1,80 @@
-Return-Path: <linux-renesas-soc+bounces-34706-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-34707-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id QHGINchISWoL0AAAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-34706-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 04 Jul 2026 19:54:16 +0200
+	id 0ZUOL9JISWoN0AAAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-34707-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 04 Jul 2026 19:54:26 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BC1770820A
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 04 Jul 2026 19:54:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57AB5708212
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 04 Jul 2026 19:54:26 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=gmail.com header.s=20251104 header.b=omWA6th9;
+	dkim=pass header.d=gmail.com header.s=20251104 header.b=erba5iI9;
 	dmarc=pass (policy=none) header.from=gmail.com;
-	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-34706-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-34706-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
+	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-34707-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-34707-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id B9B923023506
-	for <lists+linux-renesas-soc@lfdr.de>; Sat,  4 Jul 2026 17:53:54 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id CB48730131C9
+	for <lists+linux-renesas-soc@lfdr.de>; Sat,  4 Jul 2026 17:53:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C8629375F9C;
-	Sat,  4 Jul 2026 17:53:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A05CC208D0;
+	Sat,  4 Jul 2026 17:53:56 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 256C1208D0
-	for <linux-renesas-soc@vger.kernel.org>; Sat,  4 Jul 2026 17:53:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 645B923815B
+	for <linux-renesas-soc@vger.kernel.org>; Sat,  4 Jul 2026 17:53:55 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783187633; cv=none; b=OzYdVxReBpXhkElIZldPJONCnYG3N5Xod+gOOFDCvojXzVDU1uUV096VLeidVBY5Jnv2GQw5pkSQC2EaE5SDYfx+N8fXAAV3HWAF/b7f/loeEhlrh0sWQOBR28Gpzgf5c3j5wHqPiigKwrPnzF8FbRzacut1VuaG1Sd/jk73bzs=
+	t=1783187636; cv=none; b=ZRPVshMOlWEYnUBMHzeDT0w+bucVHaYiby8Rtss5xJgYENgn50AshkeyayKlwEDP8WtlzA68/BQfhXixlOrSn+Vkdp0a4paYqXlwoMyB3ypIjtZU7TpYlFCt2n+eL4IMeUh6rhq4B3/KTFjIbB6x1U/pIDH5N8+BxdU2+jJtiY4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783187633; c=relaxed/simple;
-	bh=35nwSOQ07RSdbmMk0T5r+J++6twNGq7wEcf4jJZIyhk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=utzjumI/XDjFewMVr8uVFYOv0bDtWp3ChKLzsgKJ+lrJ/2+6nupo1nJGo9tvWeIHoIbAC4wrUGdfy62jeHWx0t71Pr1nXI4FuNeAmQAmxPgrjtGsnSGMK/KbkRF4D+zfoXVgt+Y05AJ0TZIszTubgodBK6Ve8/ykPj5E3iGrULc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=omWA6th9; arc=none smtp.client-ip=209.85.216.47
-Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-3825c406ffeso773813a91.0
-        for <linux-renesas-soc@vger.kernel.org>; Sat, 04 Jul 2026 10:53:51 -0700 (PDT)
+	s=arc-20240116; t=1783187636; c=relaxed/simple;
+	bh=nqVTW6DH4ASUkqta93gyc9UKrqMdUX7EO+mifFx2woo=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=DoGVKFaRePWLF6gkUX5dXieDeFyeO2/3JpJIz7Kim25Q/kxTgy4GgDWktHl7iac/eXNgmKWrhzJlaQwjk723kt/GSSma2F/ajtSyffctziEjuauUH5+6w9keaU4B2oDBXta9XrzhMiRR5Z4Uxr0riGr1QB6TQTFpX2HgJdq44RI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=erba5iI9; arc=none smtp.client-ip=209.85.216.41
+Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-37de8008910so1534035a91.0
+        for <linux-renesas-soc@vger.kernel.org>; Sat, 04 Jul 2026 10:53:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783187630; x=1783792430; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=QGOj+lcLEIoUGW5g1S/36ZoafArbXJU/eQ3z+w9OW4s=;
-        b=omWA6th9XpeF+e7vdyGIGZW4xDu+E90p2GrG/FCL7oQTomNQi/ly77sbDrKNfKGPrg
-         bLbBmClUy7D9XL5fZ7/br/GqHXMOvX7X2GJBb8OQmqIlmnYCQRo0WdBQXnvMEmzktO6q
-         Ro2mixXBeme4tc7CH7Gx1wdOiFifHTvT88HAdxKqFjjyqZgjfGs/dHZVGtcEy5M2ME8K
-         cQ1IHFk7k6LwPOwm30MmevINxTSF5oYEz1fPk9v0fO7phK1ij8AQP8oyfLMNoo6kR7yw
-         7y4xz6NvTytQ8mriN6hmoxOc8k3zEOPVKiufJPHXXvIt2RnukQPj9dFSWcfef+5pDYNu
-         tylg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783187630; x=1783792430;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1783187635; x=1783792435; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=QGOj+lcLEIoUGW5g1S/36ZoafArbXJU/eQ3z+w9OW4s=;
-        b=L1UwlQlPhacr1OkSQfXZWlmbXvVJxHNFVsOUGk4Jh4z2zVv9vdeAsRVXbJQZx4XdJv
-         a6coPn2IJZXtzDiBO2E421qQys9BhRgD5EdE9tbGARH0cV4q50Rcvg5BacoXTNMlAtxi
-         DA5mvKAfJlAJWArS6dcb9ZSBnv76Fcpw5vJnUKYobwSHmGI3OxKTozcwi4belaZO7CS+
-         EIQtKlhRoJUrR/EDftIndOAHd/zMrODK1v6BMopu//SO722uO9sOfQBck4O1xfD8+I+m
-         m/gQjkSm0BKCaAW/uZTMVzcdyBV14wRonTE2OMrL2KkT9Yqx6xRims/s9n7xDgdaXPd6
-         mJmg==
-X-Gm-Message-State: AOJu0YxMF6g6mdlCkg7TIplHW2IyUPt4z/1iDpHye0buqqrNyhfrV1MT
-	A2zfT6bV9fSlTFMSJ0vRlS4IbS4wSGSR90gbk2o0BeAA1HbzkgWj/uw6
-X-Gm-Gg: AfdE7ckIIp5fjTbUw/uhJxhusPDF+akx2AuaBoYSJQ0vsib2/24WlSohp/D4er4tK9c
-	1IsDK3/Jk/GCmkj/DtujOdRrSdKhir1E3RqHzzFktLCiX86rt1uw2rsjvWLKWtaHoIqkNHYIdwT
-	NbSIJ5FhIPb03ai5S6U2lC/iJozZmLt+sAznWWWqDxhDUtji6M6MZVxlOU1WR/CIVBLHshe3FSA
-	7Lk4B1usxAOpAmHmlcBb6llJyK34gO3Ft2u2p8RgcXhvRfprb56GPmAD1/HqrZRzHVkXhBHMhez
-	k1RncQHKt6qSO8KjhzGmFOe0TaSu2dBOgI0w731wze0d2lKCExwlY0FVNTbhLpd7ZhhZHwMY4lg
-	nRWXtEMvHTaHt0w+y9NKaU1HTFK0UWvcUZeSJ2Hv7huznU9L8r4B5K4s2NB5gxeswaekDnlIBIK
-	HNcCRy4iRYcLTzF8Me5WyVDFT8y/LQKhSQXGLEJY4x/6Q=
-X-Received: by 2002:a17:90b:3b91:b0:37f:c69d:ce69 with SMTP id 98e67ed59e1d1-38280d9b8afmr4152886a91.10.1783187630445;
-        Sat, 04 Jul 2026 10:53:50 -0700 (PDT)
+        bh=6KZPajTGZcSmUhFo1x8c8s6SejNqBr3EonFM7GD4NfQ=;
+        b=erba5iI90Ihw06gOb4xgFcV22XBzSClfyDXy+RyEDHQcGE4gLQsUunK/RhSH1LLTsh
+         ZfNhAi/VWi/z379ql3LDs4tSGgxbfo2/obOHsHl9MRAmn3nw/Pqn9bWpKtdSt4zVikxy
+         j6wCdxxp1nd+Md1zlnHNRLV0IRv57wZXFA5/2O0CbGXg6ZWDeKs8S8gSg5n5pV9EIYVC
+         0VEML8wcbmsqvWtNZXZhELGYX0HsXbqN53pXi3tezD4cq+yUei321aao47Rr+B1L4/XF
+         HCWYlrK9CdX55djaqrdIpn4pKMd1+BQnW71o9QJIQB3cxvvCcNjlHqxuwmRhROw1Pl0A
+         bwSA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783187635; x=1783792435;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=6KZPajTGZcSmUhFo1x8c8s6SejNqBr3EonFM7GD4NfQ=;
+        b=l+rD6heMhgMVdqYwMxOQKpt4FXo/K1Gi+AsvIP4GJ8hMEnBcvvwJSzQdgJlOcLELEd
+         Y5BoWP0xA3V05ZzVfUhWLStcQCBaDY2TJsqo5VvW2dec9I1FpNzTFcs4HPmRfsKT8IwL
+         JKT6ucgmYja209LJ5Cw4M7R0O0FwILXI8uCrKwisfOGTrgIctfzgBoHJ/h8S+qDMPsEH
+         aXIrsaTq5jpw9TmKa5jaFvqpNrwXaFFSEbsYNp7P6BqLMEm5LN51iTdFgUrbk1kp63t0
+         BYfW3hpph/yp2DkDW+UiQgXmcurMAUsr7nkc2bnsf6aL8s+taWzf66B6sJcMYjFpqgLz
+         86qw==
+X-Gm-Message-State: AOJu0YwPPoY/BxvZ3pdq7Qmks8e8wZo5G+w80OH3PSJCCavCmI3Nh2Mi
+	nWmVvsK/Io36f5SPJbrBc/rFuORSEEoY4yUmNH4/P0/TWiXwdKkrjQsj
+X-Gm-Gg: AfdE7ckDI42mY2b/WBJg7LsMGUmokRC7yNIHzAQb0f+BuhOq8vq4NS/kecufQyrVnie
+	R/g2tEfe2hQ4GVJvuCgOpdtrjyohxm6Ru1j/vepr3T9E2AtBSrdfOU5hr9B9uDGjmyR4AfOYk/w
+	3AvRBtgubvVMC6VE2R3T8TZ8cBZ/RiXjaDQt+Fybn/OyrBJkp6btm7hNZbEIjDSvSSajTA2rkWa
+	X9emwH7wZYf05XKjoc7xbIlZ/eFgqqLqYxQ5Q3Vax3y29aBMRSdwtkOkVjjY2XI5qEc0DghNaBu
+	+m7bXmcW3HF1GJFuWbSoOSDlMHMhYvrrbVLPcYmO1j2mVMkGEs94R6br5wcYDJ1XPsy43oY5GhF
+	sdiriUd/2bmxC7vYUmb1UNWyS7JqsVyauL5PfuFJBL46XFtbgeKMv8RTs2vX44kfjx7ulIQm5ww
+	bu/0cvCe3ScjcmGw9rlqpPjwxYeAWSpbUoj7BpvK90Rr73uOoOPidE+g==
+X-Received: by 2002:a17:90b:1802:b0:380:83fc:4315 with SMTP id 98e67ed59e1d1-3829f007711mr3908482a91.21.1783187634777;
+        Sat, 04 Jul 2026 10:53:54 -0700 (PDT)
 Received: from localhost.localdomain ([49.207.223.101])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-30f39e07e0bsm15588749eec.30.2026.07.04.10.53.46
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-30f39e07e0bsm15588749eec.30.2026.07.04.10.53.50
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Sat, 04 Jul 2026 10:53:50 -0700 (PDT)
+        Sat, 04 Jul 2026 10:53:54 -0700 (PDT)
 From: Biren Pandya <birenpandya@gmail.com>
 To: linux-media@vger.kernel.org
 Cc: linux-renesas-soc@vger.kernel.org,
@@ -84,10 +86,12 @@ Cc: linux-renesas-soc@vger.kernel.org,
 	laurent.pinchart@ideasonboard.com,
 	jacopo.mondi@ideasonboard.com,
 	Biren Pandya <birenpandya@gmail.com>
-Subject: [PATCH v3 0/4] media: renesas: Fix missing media_entity_cleanup()
-Date: Sat,  4 Jul 2026 23:16:39 +0530
-Message-ID: <20260704174638.66302-6-birenpandya@gmail.com>
+Subject: [PATCH v3 1/4] media: renesas: rcar-csi2: Add missing media_entity_cleanup()
+Date: Sat,  4 Jul 2026 23:16:40 +0530
+Message-ID: <20260704174638.66302-7-birenpandya@gmail.com>
 X-Mailer: git-send-email 2.50.1
+In-Reply-To: <20260704174638.66302-6-birenpandya@gmail.com>
+References: <20260704174638.66302-6-birenpandya@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -110,7 +114,7 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	MIME_TRACE(0.00)[0:+];
 	TO_DN_SOME(0.00)[];
 	FREEMAIL_CC(0.00)[vger.kernel.org,ragnatech.se,kernel.org,glider.be,gmail.com,ideasonboard.com];
-	TAGGED_FROM(0.00)[bounces-34706-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-34707-lists,linux-renesas-soc=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	FORWARDED(0.00)[lists@lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
@@ -131,42 +135,41 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
 	FROM_HAS_DN(0.00)[]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 4BC1770820A
+X-Rspamd-Queue-Id: 57AB5708212
 
-Hi all,
+The probe error paths and the remove function fail to call
+media_entity_cleanup() upon teardown.
 
-This patch series addresses missing `media_entity_cleanup()` calls across
-multiple Renesas platform drivers (`rcar-csi2`, `csisp`, `rcar-vin`, and
-`rzg2l-cru`).
+While currently a no-op in most cases, calling media_entity_cleanup()
+is an API requirement for entities initialized with media_entity_pads_init()
+to prevent memory leaks.
 
-While `media_entity_cleanup()` is currently a no-op when
-CONFIG_MEDIA_CONTROLLER is disabled (and even when enabled in modern
-kernels, as pads are rarely dynamically allocated anymore), the media
-subsystem guidelines strictly require drivers to call it to prevent future
-leaks if the core framework behavior changes.
+Add the missing media_entity_cleanup() calls.
+Signed-off-by: Biren Pandya <birenpandya@gmail.com>
+---
+ drivers/media/platform/renesas/rcar-csi2.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Changes in v3:
-- Addressed maintainer feedback from Jacopo Mondi to fix an unused-label
-  compilation error in `rcar-csi2.c`. The teardown inversion is now handled
-  cleanly inside the existing error path without requiring a new label.
-
-Changes in v2:
-- Introduced dedicated error labels in probe paths where shared error labels
-  previously caused `media_entity_cleanup()` to be skipped or improperly
-  called.
-
-Biren Pandya (4):
-  media: renesas: rcar-csi2: Add missing media_entity_cleanup()
-  media: renesas: csisp: Add missing media_entity_cleanup()
-  media: renesas: rcar-core: Add missing media_entity_cleanup()
-  media: renesas: rzg2l-core: Add missing media_entity_cleanup()
-
- drivers/media/platform/renesas/rcar-csi2.c            | 2 ++
- drivers/media/platform/renesas/rcar-isp/csisp.c       | 5 ++++-
- drivers/media/platform/renesas/rcar-vin/rcar-core.c   | 5 ++++-
- drivers/media/platform/renesas/rzg2l-cru/rzg2l-core.c | 1 +
- 4 files changed, 11 insertions(+), 2 deletions(-)
-
+diff --git a/drivers/media/platform/renesas/rcar-csi2.c b/drivers/media/platform/renesas/rcar-csi2.c
+index 7305cc4a04cb..f9c818b0faf7 100644
+--- a/drivers/media/platform/renesas/rcar-csi2.c
++++ b/drivers/media/platform/renesas/rcar-csi2.c
+@@ -2631,6 +2631,7 @@ static int rcsi2_probe(struct platform_device *pdev)
+ 	v4l2_subdev_cleanup(&priv->subdev);
+ error_pm_runtime:
+ 	pm_runtime_disable(&pdev->dev);
++	media_entity_cleanup(&priv->subdev.entity);
+ error_async:
+ 	v4l2_async_nf_unregister(&priv->notifier);
+ 	v4l2_async_nf_cleanup(&priv->notifier);
+@@ -2646,6 +2647,7 @@ static void rcsi2_remove(struct platform_device *pdev)
+ 	v4l2_async_nf_cleanup(&priv->notifier);
+ 	v4l2_async_unregister_subdev(&priv->subdev);
+ 	v4l2_subdev_cleanup(&priv->subdev);
++	media_entity_cleanup(&priv->subdev.entity);
+ 
+ 	pm_runtime_disable(&pdev->dev);
+ }
 -- 
 2.50.1 (Apple Git-155)
 
