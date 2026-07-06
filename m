@@ -1,255 +1,231 @@
-Return-Path: <linux-renesas-soc+bounces-34748-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-34749-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id AnKJMnyeS2qEXAEAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-34748-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 06 Jul 2026 14:24:28 +0200
+	id Meb7BjqQS2pVVgEAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-34749-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 06 Jul 2026 13:23:38 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 175307107BE
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 06 Jul 2026 14:24:28 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id C56D370FCB9
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 06 Jul 2026 13:23:37 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=gmail.com header.s=20251104 header.b=dGO8L3cI;
-	dmarc=pass (policy=none) header.from=gmail.com;
-	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-34748-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-34748-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
-	arc=pass ("subspace.kernel.org:s=arc-20240116:i=2")
+	dkim=pass header.d=baylibre.com header.s=google header.b=luQZ0p8N;
+	dmarc=none;
+	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-34749-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-34749-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
+	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 0CD5A3775BB8
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  6 Jul 2026 10:21:33 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 73E633064FD1
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  6 Jul 2026 10:39:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 388BF3FF1B4;
-	Mon,  6 Jul 2026 10:19:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DDFAE3BED11;
+	Mon,  6 Jul 2026 10:39:39 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 683443FB7C1
-	for <linux-renesas-soc@vger.kernel.org>; Mon,  6 Jul 2026 10:19:54 +0000 (UTC)
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783333196; cv=pass; b=GvyHAysdrxx+oszm3CrL8T2dRHrFCvoSFquIe6+9v8d7DJSca+HPb0QfmAIxMAJ+BBm3MXMpPlsMeyWCu9AIbP3tYRIlY12qbyCc35w8d3hm8mRafj4eDbKxLiwK49INCdg98iViE0s3UsBmnbMd24D2CierLFvUGaSCQMm53Y0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783333196; c=relaxed/simple;
-	bh=PJQ5UmcsxmykSC0BE/ND2jQEE712lBcMOooWOb3phaU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=IHW73/90Ir8WUHIrcpABlg6cmwdfW5TavmG2QF284py+yG3bX4Yg7is8B5KmAtp69cAMkGDi0OjpVMkYdA4aZ/pvrGi+H38Ic8VO0dnkap6DV96fShujFqIBVpfLoy1Hhd6BhqIjFGw5AtLjIALFUSUxkJJuUJVwE0GSDttw9O0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dGO8L3cI; arc=pass smtp.client-ip=209.85.218.43
-Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-c08acccf4a4so345776166b.3
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 06 Jul 2026 03:19:54 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1783333193; cv=none;
-        d=google.com; s=arc-20260327;
-        b=S1d3kbIWMYXxyAtKAtWaDkrj5CrujaW6qCqjfJLtoVbfnmFhmGPntNa7Puj2tINCjx
-         yPT7Mg6KiCWA0cf/i6Pso50c0dbqpfXhBLoViAPEaEOEwPKNbxtnzQXZ55OHUFbnEbB1
-         XZ8ihupzsv5AhmnE7bPySVIwKbSBU8NU6hofhJE158c/YXM00PWcPQ6CaAOwlFFBqSV7
-         pVBgjNtb9XHkT9GpTnwGxBiGN+KUr/OEja73UiM+NDfZxouN2ertJP0OjUX6iMtVUuor
-         xnszh7ziA5gp9gUDifGgfnjwyLGZkLWtoCMKKuYmqGrytVC5kWPJrpnopsUDXA9IueWT
-         K8KA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=Fm0Kcy2K0oJ4B8QIP06f/MQz75S5ZTjRepITBSZjIOk=;
-        fh=tj83X5ljAcEeDhxZgtCtpgwV6Go0S/dA7THr7pBc5Mo=;
-        b=DeirMsbTylMj7WxPGbjF8JS+8qhuTRsdbS7DIIV43AT/fLwA+Hro1JB16yj27y9Emm
-         65IY3RJpUezvWCzQURgZlWcfiXH9dZmS5RdAnZLvtsOvcpowPCUBsPwh14WYyQm/K3d4
-         d6JNuBvTJeGjBkbay8zxH2RLniS6rVibAIIHLfsEwE3y+1Gt+9UkxZUFqin1VYCFRFks
-         M5UDQstQO3KnJ1SYhtwZ8DbVOHNxKgndXHmTdE2G7S6SWRWKDYKmA4SI2KSSkW8CgGrO
-         KSBDXIkb+VIswv1qDa8o23Jm3M50YZZpyINCtIJLo0h7BwWeEgGveiKTI7rWsQPKKo5N
-         j6tQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D586C3148BF
+	for <linux-renesas-soc@vger.kernel.org>; Mon,  6 Jul 2026 10:39:37 +0000 (UTC)
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783334379; cv=none; b=O5C+rVoxZ6sNo57YX855W8B9iusqiBbSasNR019XXuNAw8yjbX2XNOTza/S6HJB+HRnFrV9xGzg0rBm6OFK+S1jx/q2Jxr7fc6V66mNFnmzfrxaflk8BuNpszJASGsSSeZMqeBLJGLTY1RxPob9Drl5Ixu8Fp1gVkTc4fT5jdTQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783334379; c=relaxed/simple;
+	bh=3NqyvZK6r61fTF0y4rbK6dX7OLUGCMSqOwp3B7dW+hA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BvW24YVTO8pWfi0Vtemnb955e7y6mlWPLo71stQO/EQvnQ1IyU5+sjJ8JE5nZ6/5vEprEPNWdbf4Edga4fKjuRrTtif1X0LJUw1ldUg4Qr5DEqzfsmYnTlkjcaIwxMvMv3TGlEePTxOXtycg/13/EO3aeWRWLje/eOEGoDLzvzA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=luQZ0p8N; arc=none smtp.client-ip=209.85.221.48
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-47d70879764so791067f8f.2
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 06 Jul 2026 03:39:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783333193; x=1783937993; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Fm0Kcy2K0oJ4B8QIP06f/MQz75S5ZTjRepITBSZjIOk=;
-        b=dGO8L3cICw2aP2ydqFy4Y/zHs+YJbypPEvzntRC+gJS3qJKY9p8flEoOUoGfLE6e99
-         Dmlhx/AS/48AOMV3quBMD10S46r50YwGlvbqSxjH9J1IqdYOn4Lirx1tzxmJnMxpSYqJ
-         QfXLgo617pnQAsxaMsRvI8PKxmnaUxo5g7yTF0KHqzWIR+53GDmMK8wmh4CrWzN96bkU
-         iTWuahgcLiEi7PfomlvQVlYPqon+/th/nBP8frI9Htn+V8ucnwQy5/aa4F6hvofGOkzj
-         jioTgUBvGxgXb505S0U0V8lFAAN5lKcqykRmzQFLTDQtN80ELXwfWW3k90c7/YRcKjE+
-         6x2A==
+        d=baylibre.com; s=google; t=1783334376; x=1783939176; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Go7lNGQE+yUmjPgVI2sZRhO3/S4lEXiftKalvVFj+z0=;
+        b=luQZ0p8NTauewf+aSngxbrXRtTh855g1JE3Q7xVyTLOGrKSoZi/OE8dgP6akPCrxcl
+         w7LsaKo1FEbNORHcJQtdm+KyWqn44tbf831ewTvNOkykaWOxY6EvMb2PG0fJchLhEk+q
+         KBP8Oj9Z0uDjAiBCBS4aqaDRNx8g3Z0GA+T8xwh/USsOaYWN8iqoyHIFXNcXLbmsaMaw
+         ncU/PMt3zaQdM/aPf4AtDRJZIqb0FRgUxx0j5YebvVABAiyKO6Ce5AvVPfLJrbu8hafD
+         9rQMLO8J/nuNt4qxd0D3m0mioezezAufGb5Fh3pSLxOrOy0rtHC4oyA9ihPX6+Z73+qz
+         sk3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783333193; x=1783937993;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=Fm0Kcy2K0oJ4B8QIP06f/MQz75S5ZTjRepITBSZjIOk=;
-        b=UZSlEUQJnA1NETlkNZN4xI8KYpDWbcCqNFZo63sLXFSenCxTVOCt5MjrkhQSM0HFMG
-         tMeFn/xsV0ZJE9kW21VH9rAiMK4xW/OytPaFQU4lhq9Y2YjUZfBFAZGmT1KM2dCUFrQj
-         Oj9CUMSLexrheOEToWu+A10ijehk1C1B3sPFip3GCcIuh2hB78Q5PBz9inOWLbSKzqcn
-         V5YhwKdpj+6x7XKj0JAYPnO+gNsC/dl0Q0rkUfJFpBVYtPBdwTrO+oG25/kzNOnPFCES
-         v3X1/W+dULr1wVzoXPgZ2pGE343D5hO1DOOhR18GLd5sq+23g0g3OAIc6R3m4mfxf9VH
-         YWmw==
-X-Forwarded-Encrypted: i=1; AHgh+Rr7Go3X6eFvnOvedAfhC/I/nz84easAaE5kcH9OQceDVdrXgmu7G2nGZvQXYC7V9ytMCuBLsdJYHgL91drtvYmi9A==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxLEf+ZwHpBQ9UM9QsBEXyP1bNSGFd8wLDl5ipDwaoYRVzae8jy
-	rAHL5q48LfozvDSD+nMAqxI3o3YLbxHtGoeJ+LnRAMxPaMoDVKW6kBI55G/CtpDIvewf0+Nnv5b
-	HDpMt45b+y6/4VNjxtjXrQwCWzoa9OqA=
-X-Gm-Gg: AfdE7cmWYMVRsO5gyZHDkLXciunfcYX4UMQVHIk5QRE0mM17riBp+iqopJ8fJsFfSu0
-	2pnpf8WNTqsUT7whQC5QaDVb8vmAdWQEVGSLlzrNEtc2TAC+fdc3mcIwncZIFzPGvzYDb3UxOgZ
-	Mjd66i2RShqhMyTZpzrZL9yPEF8JE+OHNjSALqrklRawe6JNoMMa+rKtOzR+S/PZm8yun552ltC
-	IxYXtvc1UxFuWS9jw3e1XOxXzWNdrn8/wDpmMOIEzZLJagbCknFuiWBnhV4AgP0Fl8gQxErt7U=
-X-Received: by 2002:a17:907:86a3:b0:bfd:6cf6:1952 with SMTP id
- a640c23a62f3a-c12e6a9daf1mr386845966b.28.1783333192619; Mon, 06 Jul 2026
- 03:19:52 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1783334376; x=1783939176;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Go7lNGQE+yUmjPgVI2sZRhO3/S4lEXiftKalvVFj+z0=;
+        b=GsWMKch0CR0KLRFvBQ+hdrFJsSaAz5UZ9gBL+p4wzn69MLBslBqqfg4KLcPJ8B5SnB
+         +IwisPPSYFog2an2yf4X692EKV6vIPG6r6aA7KbC8jgqzjC3/We/Rvq4FRwMucsl+UYN
+         JgyErgtMhXwBjnYmpyddOEknQZP26//IuT3WXfodAv26DeDf/Iso9A16sq4t+mCMMTrc
+         5EGNv1m4ZdZkpgim1A+6El6+M0+PkoAtTNvL08PDB9u61+FeP2B4eiMd4kfnrf9bVElE
+         eBiTwmMrn8LfM8OmAIn0QuQbtSpzS41f7RKu2q4229DxIjjAw/NB8C/wyOjyuo8zFpg6
+         yjCw==
+X-Forwarded-Encrypted: i=1; AHgh+Rrih1Ym4Z09WxeTJA/YJGPj/88oc/2ONxQHqAKcjL9WlV24NhaYKMPBD27FERTujPUKfh0CGEf3rk13QPpiptUIVA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyePAvXGPiee+2ai9ks79W2sXnbR6H/dfHQCyFK2srslDKMWZB9
+	fFY+FOnBkIfjGXQdgvTh2K+A4HJiZWf8JHDbo46UamZnsnL3DG5UbIGxB97P9XyMTX8=
+X-Gm-Gg: AfdE7cnRbO2if3cQLCuzg+n3I9RygTubKTm1XZsWsICfwh/lMS+IzBqk4VuT7tIyhqW
+	Gl6qiHVPw3m+qSWT6LugfqjXOZPagCNdWDtfTWFLQpaRoq1ryb4E9EM+K3cZ8dxt83rKqlCsN4Y
+	xFX3ouPZtyhSEHNTUX5nMPpffkM4QxPjdzwVLeDV7VYntlt4qT/IUy3P1Sb31Flf/CcrGrCER7f
+	1kX8j8gkVir+Nm/ww10jD/U4QAHUFn8T4Vae+VQZ2ecKhNHGh1WDvKsrTqudun9C9oP4ZU3L+4b
+	0j+/c1ncIJ32C1EDanevJ7yeu7Q/SfmWzB00zsB//mCSNt8iWA943QP6T7sIVjehja/sWY9a9bS
+	Cunr9of9BEorEfoqIrxobkvJIIACgbiyxxAaKfq01l47CXQW+H7kbQY1IWcAJystXGg+mO/8cP0
+	AWEu0O6IO7aTmX5aAuFzXBSMuW29GxUZGNmiZ/RYelj7N1uP48crhcgrVlw72+MLoc+V9W9Dj9r
+	MV5
+X-Received: by 2002:a05:6000:4698:b0:475:36a:8c97 with SMTP id ffacd0b85a97d-47aab76f017mr8079359f8f.45.1783334376207;
+        Mon, 06 Jul 2026 03:39:36 -0700 (PDT)
+Received: from localhost (p200300f65f47db0426af56a07ec3b32d.dip0.t-ipconnect.de. [2003:f6:5f47:db04:26af:56a0:7ec3:b32d])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-47a9de1d8cdsm25702223f8f.1.2026.07.06.03.39.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 06 Jul 2026 03:39:35 -0700 (PDT)
+Date: Mon, 6 Jul 2026 12:39:34 +0200
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig_=28The_Capable_Hub=29?= <u.kleine-koenig@baylibre.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@oss.qualcomm.com>
+Cc: Chen Wang <chen.wang@linux.dev>, linux-pwm@vger.kernel.org, 
+	Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, Neal Gompa <neal@gompa.dev>, 
+	Nicolas Ferre <nicolas.ferre@microchip.com>, Alexandre Belloni <alexandre.belloni@bootlin.com>, 
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>, Ray Jui <rjui@broadcom.com>, 
+	Scott Branden <sbranden@broadcom.com>, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Florian Fainelli <florian.fainelli@broadcom.com>, 
+	Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, Frank Li <Frank.Li@nxp.com>, 
+	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
+	Fabio Estevam <festevam@gmail.com>, Paul Cercueil <paul@crapouillou.net>, 
+	Vladimir Zapolskiy <vz@mleia.com>, Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Kevin Hilman <khilman@baylibre.com>, 
+	Jerome Brunet <jbrunet@baylibre.com>, Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Geert Uytterhoeven <geert+renesas@glider.be>, 
+	Magnus Damm <magnus.damm@gmail.com>, Heiko Stuebner <heiko@sntech.de>, 
+	Krzysztof Kozlowski <krzk@kernel.org>, Peter Griffin <peter.griffin@linaro.org>, 
+	Alim Akhtar <alim.akhtar@samsung.com>, Paul Walmsley <pjw@kernel.org>, 
+	Samuel Holland <samuel.holland@sifive.com>, Michael Walle <mwalle@kernel.org>, 
+	Inochi Amaoto <inochiama@gmail.com>, Orson Zhai <orsonzhai@gmail.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Chunyan Zhang <zhang.lyra@gmail.com>, 
+	Fabrice Gasnier <fabrice.gasnier@foss.st.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+	Alexandre Torgue <alexandre.torgue@foss.st.com>, Chen-Yu Tsai <wens@kernel.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Hammer Hsieh <hammerh0314@gmail.com>, 
+	Nobuhiro Iwamatsu <nobuhiro.iwamatsu.x90@mail.toshiba>, Alexey Charkov <alchark@gmail.com>, 
+	Sean Anderson <sean.anderson@linux.dev>, Michal Simek <michal.simek@amd.com>, asahi@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	linux-rpi-kernel@lists.infradead.org, chrome-platform@lists.linux.dev, imx@lists.linux.dev, 
+	linux-mips@vger.kernel.org, linux-amlogic@lists.infradead.org, 
+	linux-mediatek@lists.infradead.org, linux-renesas-soc@vger.kernel.org, 
+	linux-rockchip@lists.infradead.org, linux-samsung-soc@vger.kernel.org, 
+	linux-riscv@lists.infradead.org, sophgo@lists.linux.dev, linux-stm32@st-md-mailman.stormreply.com, 
+	linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH v1 4/5] pwm: Unify coding style of of_device_id arrays
+Message-ID: <akuFirxGTqu_gt4O@monoceros>
+References: <cover.1783263835.git.ukleinek@kernel.org>
+ <20de6cd60c2938aad2d21397b92742849418ab1b.1783263835.git.ukleinek@kernel.org>
+ <973f3d6f-6ff4-4685-9c9f-b07987f74d98@linux.dev>
+ <aktWoIfY_DdO6gb4@monoceros>
+ <bc697542-b1e2-41c2-af36-b708ca4aad5c@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260622155610.184271-1-biju.das.jz@bp.renesas.com>
- <20260622155610.184271-2-biju.das.jz@bp.renesas.com> <20260622160548.04F5B1F000E9@smtp.kernel.org>
-In-Reply-To: <20260622160548.04F5B1F000E9@smtp.kernel.org>
-From: Biju Das <biju.das.au@gmail.com>
-Date: Mon, 6 Jul 2026 11:19:40 +0100
-X-Gm-Features: AVVi8Cf2Rtt9_ieWlUPGWmUBXQw2-mmoGRLmFkbx6A0nrEKzRFYI9JCxTbEcgQY
-Message-ID: <CADT+UeD6x7KN-zd-22r7aeAbYzcRqot_0TSDHuZTOtPzx39hkA@mail.gmail.com>
-Subject: Re: [PATCH v18 01/12] dt-bindings: mmc: renesas,sdhi: Document RZ/G3L
- (r9a08g046) SoC
-To: sashiko-reviews@lists.linux.dev, linux-renesas-soc@vger.kernel.org
-Cc: robh@kernel.org, conor+dt@kernel.org, wsa+renesas@sang-engineering.com, 
-	devicetree@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="vyrf5kfcddz5uoeo"
+Content-Disposition: inline
+In-Reply-To: <bc697542-b1e2-41c2-af36-b708ca4aad5c@oss.qualcomm.com>
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-2.16 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+X-Spamd-Result: default: False [-1.76 / 15.00];
+	SIGNED_PGP(-2.00)[];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	MID_RHS_NOT_FQDN(0.50)[];
+	MIME_GOOD(-0.20)[multipart/signed,text/plain];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_DKIM_ALLOW(-0.20)[baylibre.com:s=google];
 	MAILLIST(-0.15)[generic];
-	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-34749-lists,linux-renesas-soc=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-34748-lists,linux-renesas-soc=lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
 	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER(0.00)[bijudasau@gmail.com,linux-renesas-soc@vger.kernel.org];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	FORGED_RECIPIENTS(0.00)[m:sashiko-reviews@lists.linux.dev,m:linux-renesas-soc@vger.kernel.org,m:robh@kernel.org,m:conor+dt@kernel.org,m:wsa+renesas@sang-engineering.com,m:devicetree@vger.kernel.org,m:conor@kernel.org,m:wsa@sang-engineering.com,s:lists@lfdr.de];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:philmd@oss.qualcomm.com,m:chen.wang@linux.dev,m:linux-pwm@vger.kernel.org,m:sven@kernel.org,m:j@jannau.net,m:neal@gompa.dev,m:nicolas.ferre@microchip.com,m:alexandre.belloni@bootlin.com,m:claudiu.beznea@tuxon.dev,m:rjui@broadcom.com,m:sbranden@broadcom.com,m:bcm-kernel-feedback-list@broadcom.com,m:florian.fainelli@broadcom.com,m:bleung@chromium.org,m:groeck@chromium.org,m:Frank.Li@nxp.com,m:s.hauer@pengutronix.de,m:kernel@pengutronix.de,m:festevam@gmail.com,m:paul@crapouillou.net,m:vz@mleia.com,m:piotr.wojtaszczyk@timesys.com,m:neil.armstrong@linaro.org,m:khilman@baylibre.com,m:jbrunet@baylibre.com,m:martin.blumenstingl@googlemail.com,m:matthias.bgg@gmail.com,m:angelogioacchino.delregno@collabora.com,m:geert+renesas@glider.be,m:magnus.damm@gmail.com,m:heiko@sntech.de,m:krzk@kernel.org,m:peter.griffin@linaro.org,m:alim.akhtar@samsung.com,m:pjw@kernel.org,m:samuel.holland@sifive.com,m:mwalle@kernel.org,m:inochiama@gmail.com,m:orsonzhai@gmail.com,m:baolin.wang
+ @linux.alibaba.com,m:zhang.lyra@gmail.com,m:fabrice.gasnier@foss.st.com,m:mcoquelin.stm32@gmail.com,m:alexandre.torgue@foss.st.com,m:wens@kernel.org,m:jernej.skrabec@gmail.com,m:hammerh0314@gmail.com,m:nobuhiro.iwamatsu.x90@mail.toshiba,m:alchark@gmail.com,m:sean.anderson@linux.dev,m:michal.simek@amd.com,m:asahi@lists.linux.dev,m:linux-arm-kernel@lists.infradead.org,m:linux-kernel@vger.kernel.org,m:linux-rpi-kernel@lists.infradead.org,m:chrome-platform@lists.linux.dev,m:imx@lists.linux.dev,m:linux-mips@vger.kernel.org,m:linux-amlogic@lists.infradead.org,m:linux-mediatek@lists.infradead.org,m:linux-renesas-soc@vger.kernel.org,m:linux-rockchip@lists.infradead.org,m:linux-samsung-soc@vger.kernel.org,m:linux-riscv@lists.infradead.org,m:sophgo@lists.linux.dev,m:linux-stm32@st-md-mailman.stormreply.com,m:linux-sunxi@lists.linux.dev,m:martinblumenstingl@gmail.com,m:matthiasbgg@gmail.com,m:geert@glider.be,m:magnusdamm@gmail.com,s:lists@lfdr.de];
+	DMARC_NA(0.00)[baylibre.com];
+	MIME_TRACE(0.00)[0:+,1:+,2:~];
+	RECEIVED_HELO_LOCALHOST(0.00)[];
 	FORWARDED(0.00)[lists@lfdr.de];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	TO_DN_NONE(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[bijudasau@gmail.com,linux-renesas-soc@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ALIAS_RESOLVED(0.00)[];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
+	FORGED_SENDER(0.00)[u.kleine-koenig@baylibre.com,linux-renesas-soc@vger.kernel.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_CC(0.00)[linux.dev,vger.kernel.org,kernel.org,jannau.net,gompa.dev,microchip.com,bootlin.com,tuxon.dev,broadcom.com,chromium.org,nxp.com,pengutronix.de,gmail.com,crapouillou.net,mleia.com,timesys.com,linaro.org,baylibre.com,googlemail.com,collabora.com,glider.be,sntech.de,samsung.com,sifive.com,linux.alibaba.com,foss.st.com,mail.toshiba,amd.com,lists.linux.dev,lists.infradead.org,st-md-mailman.stormreply.com];
 	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,vger.kernel.org:from_smtp,mail.gmail.com:mid]
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[u.kleine-koenig@baylibre.com,linux-renesas-soc@vger.kernel.org];
+	DKIM_TRACE(0.00)[baylibre.com:+];
+	RCPT_COUNT_GT_50(0.00)[67];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	TO_DN_SOME(0.00)[];
+	ALIAS_RESOLVED(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[wikipedia.org:url,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,baylibre.com:from_mime,baylibre.com:dkim,vger.kernel.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 175307107BE
-
-Hi Sashiko,
+X-Rspamd-Queue-Id: C56D370FCB9
 
 
-On Mon, Jun 22, 2026 at 5:05=E2=80=AFPM <sashiko-bot@kernel.org> wrote:
->
-> Thank you for your contribution! Sashiko AI review found 1 potential issu=
-e(s) to consider:
-> - [Medium] Relaxing the global `maxItems` for `resets` and `reset-names` =
-from 1 to 3 removes the strict constraint for legacy controllers, allowing =
-them to incorrectly define up to 3 resets.
-> --
->
-> commit 5bd955e3c9833c72a7847cd9926c293d95e5c927
-> Author: Biju Das <biju.das.jz@bp.renesas.com>
->
-> dt-bindings: mmc: renesas,sdhi: Document RZ/G3L (r9a08g046) SoC
->
-> Document the RZ/G3L (r9a08g046) SDHI controller. The RZ/G3L SDHI
-> controller is similar to RZ/G2L but has five clocks (core, clkh,
-> cd, aclk, aclkm) and three resets (rst, axim, axis), so update the
-> clocks/clock-names maximum to 5 and resets/reset-names maximum to 3.
-> It has an internal divider for all modes except HS400, and a 2048-bit
-> divider compared to 512 on others.
->
-> > diff --git a/Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml b/=
-Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml
-> > --- a/Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml
-> > +++ b/Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml
-> > @@ -116,7 +117,12 @@ properties:
-> >      maxItems: 1
-> >
-> >    resets:
-> > -    maxItems: 1
-> > +    minItems: 1
-> > +    maxItems: 3
-> > +
-> > +  reset-names:
-> > +    minItems: 1
-> > +    maxItems: 3
->
-> [ ... ]
->
-> > @@ -155,60 +161,101 @@ allOf:
-> [ ... ]
-> > +        else:
-> > +          if:
-> > +            properties:
-> > +              compatible:
-> > +                contains:
-> > +                  enum:
-> > +                    - renesas,rcar-gen2-sdhi
-> > +                    - renesas,rcar-gen3-sdhi
-> > +                    - renesas,rcar-gen4-sdhi
-> > +          then:
-> > +            properties:
-> > +              clocks:
-> > +                minItems: 1
-> > +                maxItems: 3
-> > +              clock-names:
-> > +                minItems: 1
-> > +                uniqueItems: true
-> > +                items:
-> > +                  - const: core
-> > +                  - enum: [ clkh, cd ]
-> > +                  - const: cd
-> > +          else:
-> > +            properties:
-> > +              clocks:
-> > +                minItems: 1
-> > +                maxItems: 2
-> > +              clock-names:
-> > +                minItems: 1
-> > +                items:
-> > +                  - const: core
-> > +                  - const: cd
->
-> [Severity: Medium]
-> Since the top-level resets and reset-names maxItems were increased to 3, =
-do
-> the conditional branches for R-Car Gen2/3/4 and the subsequent fallback b=
-ranch
-> need to explicitly constrain resets and reset-names back to maxItems: 1?
->
-> Without overriding the top-level relaxation here, it appears legacy contr=
-ollers
-> are now permitted to incorrectly define up to 3 resets.
+--vyrf5kfcddz5uoeo
+Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v1 4/5] pwm: Unify coding style of of_device_id arrays
+MIME-Version: 1.0
 
+Hello,
 
-OK, will add the below blocks for non RZ/G3L SoCs.
+On Mon, Jul 06, 2026 at 10:28:16AM +0200, Philippe Mathieu-Daud=E9 wrote:
+> Hi Uwe,
+>=20
+> On 6/7/26 09:19, Uwe Kleine-K=C3=B6nig (The Capable Hub) wrote:
+> > Hello Chen,
+> >=20
+> > On Mon, Jul 06, 2026 at 08:33:47AM +0800, Chen Wang wrote:
+> > > On 7/5/2026 11:14 PM, Uwe Kleine-K=F6nig (The Capable Hub) wrote:
+> > > >    - Use a single space in a of_device_id array terminator; A singl=
+e space
+> > > >      after the opening { and before the closing } in non-empty
+> > > >      initializers;
+> > > >    - No comma after an array terminator;
+> > > >    - Also no trailing comma after a named initializer iff the
+> > > iff -> if
+> >=20
+> > This is actually intended. iff =3D "if and only if", see e.g.
+> > https://en.wikipedia.org/wiki/If_and_only_if .
+>=20
+> I agree this scientific idiomatic expression is not well known
+> by non-native English speakers, and using the expanded form is
+> just simpler to review (thinking at non-native English speaker
+> reading your commit in the future).
 
---- a/Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml
-+++ b/Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml
-@@ -196,6 +196,11 @@ allOf:
-           - resets
-           - reset-names
-       else:
-+        properties:
-+          resets:
-+            maxItems: 1
-+          reset-names:
-+            maxItems: 1
+fine for me, I'll fixup to=20
 
-Cheers,
-Biju
+ - Also no trailing comma after a named initializer if (and only if) the
+   closing } is on the same line;
+
+when applying.
+
+Best regards
+Uwe
+
+--vyrf5kfcddz5uoeo
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmpLheQACgkQj4D7WH0S
+/k6DEQf+JKDZ+NcR412RMDPBxcWuk831SswOfJipQJVDxTsFWtpZIrZIbOu0ZlBp
+IEWpfB5nRfHwTSxF6Ceuf2jTc+wkwcRBKeH4MQsZFpGxBjGa4k7YEEfMSDU9S1vU
+39G1FIVXnf0sDkUOUGf5zIomYewh4gdCoWRwDnCHsV4QnZKAaKCCEpX0U6QdW2OP
+diy3iqasYf6KZyXnUyj0HBQRGjBYY4jBvVutXt4KtCqAKW+AcCANOtubadJgydWD
+xXNkFLpscFQ9aVdyKZK19UP9yKdOwzkjR9pul+TqXDviO0c5UoAZEwMZYDbB1YPi
+AJloqZ9/3vBcnEjZo3eWYk8zkrQifQ==
+=vnC0
+-----END PGP SIGNATURE-----
+
+--vyrf5kfcddz5uoeo--
 
