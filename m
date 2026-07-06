@@ -1,152 +1,206 @@
-Return-Path: <linux-renesas-soc+bounces-34751-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-34782-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id RiNsJciyS2rjYgEAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-34751-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 06 Jul 2026 15:51:04 +0200
+	id 76O/DAgMTGp/fQEAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-34782-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 06 Jul 2026 22:11:52 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8D04711808
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 06 Jul 2026 15:51:03 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 80463715538
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 06 Jul 2026 22:11:51 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=aRGGmb89;
-	dmarc=pass (policy=quarantine) header.from=kernel.org;
-	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-34751-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-34751-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=VO2c7dgq;
+	dmarc=pass (policy=reject) header.from=mailbox.org;
+	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-34782-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-34782-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 2E58F33046D4
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  6 Jul 2026 12:10:43 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id A74783035B56
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  6 Jul 2026 19:44:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BCEB64229CB;
-	Mon,  6 Jul 2026 12:10:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 537D238551A;
+	Mon,  6 Jul 2026 19:44:42 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABC9C3BA222;
-	Mon,  6 Jul 2026 12:10:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35FE737DAD5;
+	Mon,  6 Jul 2026 19:44:39 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783339842; cv=none; b=scez6P/wbmMsnAZ9aUhddjgTRLrWyyd+ETSqIEgJHt7gGW0q4hodWB5ZPxvVY4N38MFeQwBeS8+CosxFjiHfHLB7SgkJngrpqm6pyFugv/c6yxmDGvpFqpNBnXnC1mfnKZP7IKK3ZD5p6My0fBNF+9MkiC2RF/vtbqEAAg1bmcU=
+	t=1783367082; cv=none; b=TVBykELa9otTtuqc68czB9znpPUB2+RCywiw/7thLzW4O2iZC8eTDhb7DrhwZAKbnw5wIi1/ln/wxj+F4cMB4cMT9b6/1NGTG3ZBwesX5fF/mUM7+vqHCgi3MkQcD6afb+U6Toe+keWRFZZBrLAnSkIJcN+JyBVK9NLwEeex5sQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783339842; c=relaxed/simple;
-	bh=mmPuvfIzQLdOHWO0qAEpjYE2zKqAdbjlRcxutccTKs4=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=cPLBv4NwZ8qYRO62UduhGtDJd6YELgrOfMT3/QWaW39akcna54pA18aKgYSzo/f1uG9DzVv0+CGB8Hs33ktqXF8wQT4VBdRmguUoyl4RppikbqIYipU5RZRhJHBAjbQYLBw+jFyXZYTzTSieoAHWUd7pAGXEbu7nVfX9CeGZ9n8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aRGGmb89; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 76F2A1F000E9;
-	Mon,  6 Jul 2026 12:10:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783339841;
-	bh=cnEtq8u2iDv0a6zIMjQEaPJ5vMYQaREOepRI4xYGwG8=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=aRGGmb89d5a/+9GGyAM9SXd4hNACKGJ8ZWC/7ndtBWLQ9qPewR5x81XOrANFY1HDq
-	 NYWy/6xKdBaEZIGDYVKE609E+H50iqhDiau64AKJNMbqC5kHaCNzKV+Unpajlh9P3O
-	 lfTRTv+yaePWdXN8ujHv3tJ6AQJVyTsB6jGzsd769U0IiFAOzXhieh03K9pSWQTabk
-	 cNz1ky2rBxNG78/5tUQXfkEaOXxLzFtkl8GxQcmsAzfdR0y09fOZ82PnJ6q7tJb8l3
-	 Y0fzRf0dmQdlth1K9echvx3MUZKarX/yPjR6ClryUY96qxsMJPj4QVhsM+a6uJRq+y
-	 ijsK69+Mjuh2w==
-From: Mark Brown <broonie@kernel.org>
-To: kuninori.morimoto.gx@renesas.com, lgirdwood@gmail.com, perex@perex.cz, 
- tiwai@suse.com, geert+renesas@glider.be, magnus.damm@gmail.com, 
- John Madieu <john.madieu.xa@bp.renesas.com>
-Cc: linux-sound@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, john.madieu@gmail.com, 
- biju.das.jz@bp.renesas.com
-In-Reply-To: <20260610164704.2211321-1-john.madieu.xa@bp.renesas.com>
-References: <20260610164704.2211321-1-john.madieu.xa@bp.renesas.com>
-Subject: Re: [PATCH] ASoC: rsnd: adg: make rsnd_adg_clk_control()
- idempotent
-Message-Id: <178333982561.57168.14431449839923969165.b4-ty@b4>
-Date: Mon, 06 Jul 2026 13:10:25 +0100
+	s=arc-20240116; t=1783367082; c=relaxed/simple;
+	bh=CWZhUJcYoDkhoYtK1iatbsomPrNsu3GgiD409MrmM4g=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=mQf85VJJ+qxpHy9q2iyUCJ2CfE3b7YSHwZaPXu1gwfEse9Uturd2vu06ClUC7oH4VArkvpN4W9yEcpHBjGYG/jZaGRPV/aKtLTTT+K2uoJjfvMBDDKdCUWKX8TUVTkfR5+Rp5E/0/ShKdMfeji5g6+gpttyjiI7WOlfoxNYUnVg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=VO2c7dgq; arc=none smtp.client-ip=80.241.56.171
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [IPv6:2001:67c:2050:b231:465::102])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA512)
+	(No client certificate requested)
+	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4gvFDZ4ZGxzMl25;
+	Mon, 06 Jul 2026 21:44:30 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1783367070;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=yYL7G2us8L1A+ywgdNGttIZPW1DvpTtJ3gvCDvIiAEc=;
+	b=VO2c7dgq1MlQPUau1AxNghnke1EnVjyqyONihaOOagbxdtH7hnbBl0ef44m9glBZA9MnBQ
+	Bf0sAgfdYvLUGJZKMAx5vyLPknKXvEeapulY06qgaRv/U0BirpZWU0G7r9eNLlxvHyb2KZ
+	4TD/ogmzgIMmGzrMldg5gjBneQt+9EkGzCD2z7tuDLMYbXqClgf981BbmWPJoBiXixh/NS
+	GgPyVtexk1r082Q/xjJMUmNzJBiIAOCtP7sLubSirZJKLPUs/A12/GsO0vtu8OZLv5t8JO
+	xptbQjHsXSOVZNpmGV0iVCPAs2o3znZQ2+uQje1hsytLY+T2dNQz43ryIabXww==
+Message-ID: <edc7505e-1103-42d7-b88d-013ca10753b3@mailbox.org>
+Date: Mon, 6 Jul 2026 15:06:01 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Subject: Re: [PATCH 2/2] gpio: rcar: Add R-Car X5H (R8A78000) support
+To: Bartosz Golaszewski <brgl@kernel.org>
+Cc: Conor Dooley <conor+dt@kernel.org>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Linus Walleij <linusw@kernel.org>,
+ Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+ linux-gpio@vger.kernel.org
+References: <20260704151521.211335-1-marek.vasut+renesas@mailbox.org>
+ <20260704151521.211335-2-marek.vasut+renesas@mailbox.org>
+ <CAMRc=MeyKGv75rTLauZuGxSfgjCPXVE_r=A7uNduRr6kAd43aA@mail.gmail.com>
+Content-Language: en-US
+From: Marek Vasut <marek.vasut@mailbox.org>
+In-Reply-To: <CAMRc=MeyKGv75rTLauZuGxSfgjCPXVE_r=A7uNduRr6kAd43aA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1127; i=broonie@kernel.org;
- h=from:subject:message-id; bh=mmPuvfIzQLdOHWO0qAEpjYE2zKqAdbjlRcxutccTKs4=;
- b=owGbwMvMwMWocq27KDak/QLjabUkhizv2Xb9trW72lXU7v2dlbAizlPJQ+HDceXY5UvCi8U/q
- 2+w2/60k9GYhYGRi0FWTJFl7bOMVenhElvnP5r/CmYQKxPIFAYuTgGYyHJu9v/FHLmL8sx27/MI
- t109Y3Wqd5X6PrP6hWYCuvypq+WWtfXbHT3gtSP46xHX9fnW0iJn9Z+6CR+pmLLNoiSPT3jpXru
- 0+JTv4lnhPbUhFov/nW3ckrm+Oln+4XrJTFfhD+0an2dufFBcOWPhjHU1+z20NXM/7E45r8ueMJ
- +hahPr2jNH9TyMzfX3J3QW5ihvSxS+bPvnkpXJlfby2+rdBg1adszaBgbX7tjI992VnPapYW784
- vuS2TWNsikW4dN+13zRrM39a7TC7E3WuXo3w6Bn75g4y/PEnTX6fGfZC1pkLpbYlLH4WreC3eRz
- 2v0BcpH/383xV1F5Y/Ji21+dd7vmLHTwjXrtPZHrwzY+AA==
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+X-MBO-RS-META: e5aod8a9sremupnu97iu3hz4ksycwump
+X-MBO-RS-ID: c857a6e774d5f1b558b
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-3.16 / 15.00];
-	WHITELIST_SPF_DKIM(-3.00)[kernel.org:d:+,kernel.org:s:+];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[mailbox.org,reject];
+	R_DKIM_ALLOW(-0.20)[mailbox.org:s=mail20150812];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCPT_COUNT_TWELVE(0.00)[12];
-	FORGED_RECIPIENTS(0.00)[m:kuninori.morimoto.gx@renesas.com,m:lgirdwood@gmail.com,m:perex@perex.cz,m:tiwai@suse.com,m:geert+renesas@glider.be,m:magnus.damm@gmail.com,m:john.madieu.xa@bp.renesas.com,m:linux-sound@vger.kernel.org,m:linux-renesas-soc@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:john.madieu@gmail.com,m:biju.das.jz@bp.renesas.com,m:geert@glider.be,m:magnusdamm@gmail.com,m:johnmadieu@gmail.com,s:lists@lfdr.de];
+	TAGGED_FROM(0.00)[bounces-34782-lists,linux-renesas-soc=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	MIME_TRACE(0.00)[0:+];
-	FORWARDED(0.00)[lists@lfdr.de];
-	FREEMAIL_TO(0.00)[renesas.com,gmail.com,perex.cz,suse.com,glider.be,bp.renesas.com];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_SENDER(0.00)[broonie@kernel.org,linux-renesas-soc@vger.kernel.org];
-	TAGGED_FROM(0.00)[bounces-34751-lists,linux-renesas-soc=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_SENDER(0.00)[marek.vasut@mailbox.org,linux-renesas-soc@vger.kernel.org];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_RECIPIENTS(0.00)[m:brgl@kernel.org,m:conor+dt@kernel.org,m:geert+renesas@glider.be,m:krzk+dt@kernel.org,m:linusw@kernel.org,m:robh@kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-renesas-soc@vger.kernel.org,m:linux-gpio@vger.kernel.org,m:conor@kernel.org,m:geert@glider.be,m:krzk@kernel.org,s:lists@lfdr.de];
+	FORWARDED(0.00)[lists@lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[mailbox.org:+];
+	MISSING_XM_UA(0.00)[];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[broonie@kernel.org,linux-renesas-soc@vger.kernel.org];
-	FREEMAIL_CC(0.00)[vger.kernel.org,gmail.com,bp.renesas.com];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
+	FROM_NEQ_ENVFROM(0.00)[marek.vasut@mailbox.org,linux-renesas-soc@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+	RCPT_COUNT_SEVEN(0.00)[10];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
+	MID_RHS_MATCH_FROM(0.00)[];
+	TO_DN_SOME(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,mailbox.org:from_mime,mailbox.org:dkim,mailbox.org:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: D8D04711808
+X-Rspamd-Queue-Id: 80463715538
 
-On Wed, 10 Jun 2026 16:47:04 +0000, John Madieu wrote:
-> ASoC: rsnd: adg: make rsnd_adg_clk_control() idempotent
+On 7/6/26 11:19 AM, Bartosz Golaszewski wrote:
 
-Applied to
+Hello Bartosz,
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.2
+>> +static inline int gpio_rcar_remap_offset(struct gpio_rcar_priv *p, int *offs)
+>> +{
 
-Thanks!
+I am hoping to get some input on this remap function.
 
-[1/1] ASoC: rsnd: adg: make rsnd_adg_clk_control() idempotent
-      https://git.kernel.org/broonie/sound/c/ed0abc8be27e
+>> +	/* R-Car Gen4 and older do not need any offset remap. */
+>> +	if (!p->info.has_layout_gen5)
+>> +		return 0;
+>> +
+>> +	/*
+>> +	 * R-Car Gen5 register layout is slightly different and the offsets
+>> +	 * that have to be added to or subtracted from each register offset
+>> +	 * can be divided into five groups, listed below.
+>> +	 */
+>> +	switch (*offs) {
+>> +	case IOINTSEL...OUTDT:
+>> +		return 0;
+>> +	case INDT:
+>> +		*offs += 0x10;
+>> +		return 0;
+>> +	case INTDT...EDGLEVEL:
+>> +		fallthrough;
+>> +	case BOTHEDGE:
+>> +		*offs += 0x70;
+>> +		return 0;
+>> +	case OUTDTSEL:
+>> +		*offs -= 0x34;
+>> +		return 0;
+>> +	case INEN:
+>> +		*offs -= 0x38;
+>> +		return 0;
+>> +	default:
+>> +		/*
+>> +		 * This here must never be reached, if this is reached, that
+>> +		 * means there is a catastrophic failure in the driver. Skip
+>> +		 * any IO read/write to prevent further damage.
+>> +		 */
+>> +		WARN_ON(1);
+>> +		return -EINVAL;
+>> +	}
+>> +}
+>> +
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+[...]
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+>> @@ -399,6 +445,7 @@ static const struct gpio_rcar_info gpio_rcar_info_gen1 = {
+>>   	.has_both_edge_trigger = false,
+>>   	.has_always_in = false,
+>>   	.has_inen = false,
+>> +	.has_layout_gen5 = false,
+>>   };
+>>
+>>   static const struct gpio_rcar_info gpio_rcar_info_gen2 = {
+>> @@ -406,6 +453,7 @@ static const struct gpio_rcar_info gpio_rcar_info_gen2 = {
+>>   	.has_both_edge_trigger = true,
+>>   	.has_always_in = false,
+>>   	.has_inen = false,
+>> +	.has_layout_gen5 = false,
+>>   };
+>>
+>>   static const struct gpio_rcar_info gpio_rcar_info_gen3 = {
+>> @@ -413,6 +461,7 @@ static const struct gpio_rcar_info gpio_rcar_info_gen3 = {
+>>   	.has_both_edge_trigger = true,
+>>   	.has_always_in = true,
+>>   	.has_inen = false,
+>> +	.has_layout_gen5 = false,
+>>   };
+>>
+>>   static const struct gpio_rcar_info gpio_rcar_info_gen4 = {
+>> @@ -420,6 +469,15 @@ static const struct gpio_rcar_info gpio_rcar_info_gen4 = {
+>>   	.has_both_edge_trigger = true,
+>>   	.has_always_in = true,
+>>   	.has_inen = true,
+>> +	.has_layout_gen5 = false,
+> 
+> This looks good but do we really need to change these lines if it's zeroes
+> anyway?
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
+I'm just following the pattern in the driver, which does full assignment 
+of all fields for all generations of the controller. See .has_inen = 
+false in Gen1 for example. We don't have to do the assignment, but maybe 
+doing so is more comprehensible ?
 
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+-- 
+Best regards,
+Marek Vasut
 
