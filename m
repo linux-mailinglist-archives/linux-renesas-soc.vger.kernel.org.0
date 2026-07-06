@@ -1,90 +1,91 @@
-Return-Path: <linux-renesas-soc+bounces-34737-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-34738-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id O/UzKC5tS2rNRAEAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-34737-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 06 Jul 2026 10:54:06 +0200
+	id lokrDUJtS2rdRAEAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-34738-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 06 Jul 2026 10:54:26 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1425970E519
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 06 Jul 2026 10:54:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C3BC70E539
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 06 Jul 2026 10:54:25 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
 	dkim=none;
 	dmarc=none;
-	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-34737-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-34737-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
+	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-34738-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-34738-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id ECC7F304BD9F
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  6 Jul 2026 08:15:01 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id A1B9C3251386
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  6 Jul 2026 08:16:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1E7593D88F5;
-	Mon,  6 Jul 2026 08:15:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DB55933BBA2;
+	Mon,  6 Jul 2026 08:16:47 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-oa1-f41.google.com (mail-oa1-f41.google.com [209.85.160.41])
+Received: from mail-vk1-f173.google.com (mail-vk1-f173.google.com [209.85.221.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 540B93AE187
-	for <linux-renesas-soc@vger.kernel.org>; Mon,  6 Jul 2026 08:14:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 997023E0C6F
+	for <linux-renesas-soc@vger.kernel.org>; Mon,  6 Jul 2026 08:16:40 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783325699; cv=none; b=bEPpa541K2vti/+tXpNbUUbqvMa6tjRIYeqSM9K2lQ7tc9C7MZR4sNR7r7vaNrAFcWWjgRf16EZpOVFfltZjUB74cBRsVL4awJZWvGnncmA3tfgyXXlEwewvKjTjWVXYilqiCo20LW4qOMQezr+3tQmU0prN+GLUJRXrAivpTrI=
+	t=1783325806; cv=none; b=aS3/JXsAQXUMw3zHjiXU/SByKH46CfKB2fqMEbhC0RZPQJjGQgU68mV/+mLPtEmyhcsLoNw7soema+d34c+yiDmS9RAiw1QVB40kK+94XOk9ZvYgM9mXb2Mmp+HFoW01CCwvePWBxUbjr45nl32WzNo8TxBsmE+9cnJeXE79lvs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783325699; c=relaxed/simple;
-	bh=glp/HdZjPID3k9JwT/K76pg9j++zO7I3Rw77qWLA6Kg=;
+	s=arc-20240116; t=1783325806; c=relaxed/simple;
+	bh=KJatOBmAq352QrXFVmfzjgc8bnC88IRW7JAIsO6hyz4=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=pvLle2Ob80GR+Gof3xDSIbnVS+i2Oof+8NMIS3cE4d1uy+TimZ/XHoaNsIrxB5AzBciOP0t0e8zUJxsXEUnJ/72yMwnDBklPnYpkWwlJFWKkoJFPGKpaRDsD+PtfgtZuQImOdv22y89Mb2J7oLKFswxy5uhzb0SMoK59GRXZs5Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.160.41
-Received: by mail-oa1-f41.google.com with SMTP id 586e51a60fabf-44cd990a94dso1794206fac.1
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 06 Jul 2026 01:14:50 -0700 (PDT)
+	 To:Cc:Content-Type; b=HHtXhGnpzTdd2UyClxZTE8z5jHgiNb74Sd/302I2J/vf/gv10jsogAYptVv0unb4ij7h9J3Ohv6CUxgbK7DonOqu7LywEMX/ZSF7RjDhVKNFG7USDjXx7TQE5q9U10i2MoMDNkPYV5mYvFgicZ3gDAo71orrLTtF6SBMqcc5oeo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.173
+Received: by mail-vk1-f173.google.com with SMTP id 71dfb90a1353d-5bdff8c02b2so725627e0c.3
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 06 Jul 2026 01:16:39 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783325688; x=1783930488;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=qf9yz7bHOmjN0sKgSDCZJBffOCMRQyGOU+wzNPd/KAs=;
-        b=Au9cWhmx3gp+7+qZt2s6fQqA2c9hvXXvk1EayfOYALGS8NTd/BAGaF6SwuYVmfvyq1
-         fQIns2ga7h3KJdUJ+AtVtBreZEZoJaKhtiaerOGuZnAKtv7BrbZY5LKeMJOEUkuXr6XF
-         4ksXiU7N1IWDS1VtXAGg6G2QNvaVTV/159x5DxK23LzsUshJbV18IUXHw9zhkdQqVvs6
-         4AllhCKsVlbY+/WijEC51nwGmLovXseCAYFlvSRD5yGHUD/BrMnZFyp8u7kOYsgEIe8l
-         xhqNOwmza12HoS4l8CAfQqTYTdOtrI7N5JpDRgXoG9/4bj6DwqXEZEOJjURHTfuPWzJ2
-         nryA==
-X-Forwarded-Encrypted: i=1; AHgh+Rq59N1t5BegS3UnT/ENKsiuV6cKSSCkdukG7lY0l5+gkvosHlsD7gFVJJVUXZoinr1dxOENvE7HmwgLrM2E0Z2Lww==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxV0ONEYTX//IaMvzOL1OTeFWwzGl0CuXdfMFBRZCqFLWRYju25
-	fc9klMFmF8CqbCiZCoO5nHz9wwvmZT0w3FMtKYdQfsSZAuS3WUeix3qEm2j2OCeu
-X-Gm-Gg: AfdE7cmWvc2j13X3hx5b9fdlTND2x+Rtebpv27E0YPml8GHNqOPxgdyqX5FLimyHa+L
-	aI8tvmNUTo+/tNUO+AQ1z4eTl0gQYtA7Gqo4viKmWdd+wdczfZ8mZJ1n80MFP0LZ0Q/TwYyzhup
-	5QbrrqeWDgXygH7iTNzTA1uPO3wB9ehtRAUkbal48w8VHgVmtX7UtqgfRb+kkgOCKdG6t44118N
-	5aOF83xMpIDAxBBbfHHTfL6H7A5O+ktDbH9LnrdbYo2TffA0UqkgPNTJobIv3TvDBAwNv3GufwB
-	KIoS1eJbyGipPO7n5Sc6UPNAT+kco3ykkV4IoN4KIxAUCC9fn/CtGjxPHQcTaILQ5X8I3ZMjdI7
-	fFwpF3JECc2Rlf+v8T4PXzaLcVt/bEJG3dxUZfXqNfp5I1S4pJeZ0WELWujcS8VpKSbAI2SsbKV
-	WvpQBvWcEV+Td65Co5l4SGWCRWTR5CRl3Kp07Dn9ffRb2N5RbdQQ==
-X-Received: by 2002:a05:6870:a0aa:b0:448:6ba8:be6f with SMTP id 586e51a60fabf-44d1813dd5dmr5702714fac.19.1783325687728;
-        Mon, 06 Jul 2026 01:14:47 -0700 (PDT)
-Received: from mail-oo1-f45.google.com (mail-oo1-f45.google.com. [209.85.161.45])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-44cfb5fa20fsm9013979fac.16.2026.07.06.01.14.47
+        d=1e100.net; s=20251104; t=1783325797; x=1783930597;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=dbFPkCHMyK2cMipYCshkg+R5wrSHUFxUQ6/ZQ0r9elE=;
+        b=jRB/49iCsIzw/fUkCxj41UWYZSEztoNO95ufn6AtWPHX6LAVd28ivdG4pQwg8X/yI4
+         51hKK4YLp3d+OuoqdtL9E48QGngqR0s36vB0xx71v8pmR0GiJyq1iJH/for/Y4xxcVFr
+         KZ+UfFgUTRFhdYOypaj0/7EkiM/sq7egLwbua2lNTyIGjEMCQHC7EB39xvuJr2dIeYYA
+         PwX90a89jBk/p9zr5Q3eBbZXL2HouDRImO8Xf0TZ3czQpNb5PxzbG2C8dO/WK9P2m56I
+         NHSgf9Wh2MYILV2AyCQv1bWb6kXHsFLri6wc5u0GVDGNkMHZD54PlolGfD6PZxf9V/Ve
+         pTUw==
+X-Forwarded-Encrypted: i=1; AHgh+RoETt30Ipw9qRehW4vVByqV0kZCCSeVcwJUvaDSDwa/FJWDuMfCPc10hQiiZ5XsYoTFUlq4qHO4bX6kBVyEucH9oA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwEHdAPo+n59WXeV50asrtat76ACzgS3gue19B1bAVgtEiLMCze
+	JDp4qvBk2ejxMIubQvJu0r/UhoBo8whnTeqHh5geZqHPJJIkNnBRhwqfuY1tzhgd
+X-Gm-Gg: AfdE7ckbh/KYo+w8qKo66QnLdwD43MwUCA59aCEyOig737LT5hK8X/ORv00MkQ5WZdy
+	YYccRDHeJ1GUBhz4d1jBEkGzMPyaTtTzW552e6VOyFhzl0qSjOBopqgPtLkS8jUs3r8x3hJHjmi
+	m2IT0TaRLnUQ/+dvWTH4PaSDbGSK2nLpPX73U53Pw1/6xONW+bpeDUFIC8d+I+P0FY/Zeg64bdH
+	b1L5scQij9TECuEDldrhthIFZ++LuQ+7TflApZkCMIdIMzbkrGjihlDaMjWe9Dzmm/uBAoa2/BG
+	XHnGy/hS5dT19DKYFMsQiugK+UjegIXFdqH998McC09HRFTpMlfQwueBKwtogda8D8JXCuMQbh8
+	DGKuOMqPP4gfIwRv7ariVSq0Ap3ZiBqlFXm63muIbrIQNzU7gbTrCh7fzR18SwbaqVv5XaU9qAZ
+	RvVcAggkfPzJU7voofO54K7NWOmAAwkZoA4xsWyGeFCV0hK98zt8/IQQ==
+X-Received: by 2002:a05:6122:d1c:b0:5bd:cb85:a49 with SMTP id 71dfb90a1353d-5be10180bb3mr3147353e0c.6.1783325797051;
+        Mon, 06 Jul 2026 01:16:37 -0700 (PDT)
+Received: from mail-vk1-f171.google.com (mail-vk1-f171.google.com. [209.85.221.171])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5be029ac8cfsm4469125e0c.7.2026.07.06.01.16.36
         for <linux-renesas-soc@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 06 Jul 2026 01:14:47 -0700 (PDT)
-Received: by mail-oo1-f45.google.com with SMTP id 006d021491bc7-6a18eab71bfso1473600eaf.0
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 06 Jul 2026 01:14:47 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ8sHGYUPBnK0Hm07zacGXYuMwX5TYaUL0Ku4tnSYd25C/e4oOh3fuqrSuNcIfpsfwFq0c6K3m7R+IMTbiRnTGHy4w==@vger.kernel.org
-X-Received: by 2002:a05:6102:32cd:b0:73a:2195:4386 with SMTP id
- ada2fe7eead31-7427f05af6fmr3257389137.24.1783325349869; Mon, 06 Jul 2026
- 01:09:09 -0700 (PDT)
+        Mon, 06 Jul 2026 01:16:36 -0700 (PDT)
+Received: by mail-vk1-f171.google.com with SMTP id 71dfb90a1353d-5bdf96b3faaso506083e0c.2
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 06 Jul 2026 01:16:36 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AHgh+RpZWhvhP8sae2LMjG3F/dBr2q/ASJ0g+c450VqBhlleRXF2lhCv76sJb3/Wz6vdU5RFz/vRbbiwcomGcCpPw7aIXA==@vger.kernel.org
+X-Received: by 2002:a05:6122:550:b0:59c:b1f7:4df3 with SMTP id
+ 71dfb90a1353d-5be102ec434mr2809370e0c.12.1783325795169; Mon, 06 Jul 2026
+ 01:16:35 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260705213542.28987-1-laurent.pinchart+renesas@ideasonboard.com> <20260705213542.28987-2-laurent.pinchart+renesas@ideasonboard.com>
-In-Reply-To: <20260705213542.28987-2-laurent.pinchart+renesas@ideasonboard.com>
+References: <20260705213542.28987-1-laurent.pinchart+renesas@ideasonboard.com> <20260705213542.28987-5-laurent.pinchart+renesas@ideasonboard.com>
+In-Reply-To: <20260705213542.28987-5-laurent.pinchart+renesas@ideasonboard.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 6 Jul 2026 10:08:57 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUCqTQ0fWDyHJkU=0gzFe88r0hsSk9tsgfQUZq4TRcAoQ@mail.gmail.com>
-X-Gm-Features: AVVi8CeGulURzBLLfkjFzqZ7MqehawY40QKBoJDeR4KrDLoVwstpoZpBrt3N2ag
-Message-ID: <CAMuHMdUCqTQ0fWDyHJkU=0gzFe88r0hsSk9tsgfQUZq4TRcAoQ@mail.gmail.com>
-Subject: Re: [PATCH 1/4] dt-bindings: display: vga-connector: Allow hardcoding EDID
+Date: Mon, 6 Jul 2026 10:16:22 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVtK2qKHLWfyWYaPx1cYgmF0jtzh3CAPrJ4QbZ0VxypXA@mail.gmail.com>
+X-Gm-Features: AVVi8CfGdsdm5FTOvhTH4n31WpQq9-pZfeJYTHCuuEYLuLxyLezJUgX-zWbA-go
+Message-ID: <CAMuHMdVtK2qKHLWfyWYaPx1cYgmF0jtzh3CAPrJ4QbZ0VxypXA@mail.gmail.com>
+Subject: Re: [PATCH 4/4] [DNI] arm64: dts: renesas: salvator: Add overlay for
+ Dell P1911 VGA display
 To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
 	Thuan Nguyen <thuan.nguyen-hong@banvien.com.vn>, 
@@ -106,7 +107,7 @@ X-Spamd-Result: default: False [0.04 / 15.00];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-34737-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-34738-lists,linux-renesas-soc=lfdr.de];
 	DMARC_NA(0.00)[linux-m68k.org];
 	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS(0.00)[m:laurent.pinchart+renesas@ideasonboard.com,m:dri-devel@lists.freedesktop.org,m:devicetree@vger.kernel.org,m:thuan.nguyen-hong@banvien.com.vn,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:geert+renesas@glider.be,m:magnus.damm@gmail.com,m:andrzej.hajda@intel.com,m:neil.armstrong@linaro.org,m:rfoss@kernel.org,m:jonas@kwiboo.se,m:jernej.skrabec@gmail.com,m:luca.ceresoli@bootlin.com,m:linux-renesas-soc@vger.kernel.org,m:laurent.pinchart@ideasonboard.com,m:krzk@kernel.org,m:conor@kernel.org,m:geert@glider.be,m:magnusdamm@gmail.com,m:jernejskrabec@gmail.com,s:lists@lfdr.de];
@@ -129,65 +130,52 @@ X-Spamd-Result: default: False [0.04 / 15.00];
 	R_DKIM_NA(0.00)[];
 	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[ideasonboard.com:email,linux-m68k.org:from_mime,linux-m68k.org:email,mail.gmail.com:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,vger.kernel.org:from_smtp]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[linux-m68k.org:from_mime,linux-m68k.org:email,mail.gmail.com:mid,ideasonboard.com:email,vger.kernel.org:from_smtp,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 1425970E519
+X-Rspamd-Queue-Id: 7C3BC70E539
 
 Hi Laurent,
 
 On Sun, 5 Jul 2026 at 23:35, Laurent Pinchart
 <laurent.pinchart+renesas@ideasonboard.com> wrote:
-> Since DDC version 2, introduced in 1996, VGA monitors have exposed EDID
-> data over an I2C bus. The bus is also used to detect the presence of a
-> connected monitor by trying to read the EDID data.
->
-> Some devices where the VGA display is integrated in the device and
-> always connected do not connect the DDC pins. Some development boards,
-> such as the Renesas M3N Salvator-XS, also do not connect the DDC pins.
->
-> To support those, add the ability to provide hardcoded EDID data in the
-> device tree. This is mutually exclusive with specifying a DDC bus, and
-> can only be done when the VGA display is guaranteed to be always
-> connected.
+> Add an overlay that hardcodes the EDID of the Dell P1911 VGA display
+> connector to the VGA port of the Salvator board. This is meant to test
+> EDID hardcoding and should not be merged upstream.
 >
 > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 
 Thanks for your patch!
 
-> --- a/Documentation/devicetree/bindings/display/connector/vga-connector.yaml
-> +++ b/Documentation/devicetree/bindings/display/connector/vga-connector.yaml
-> @@ -19,10 +19,25 @@ properties:
->      description: phandle link to the I2C controller used for DDC EDID probing
->      $ref: /schemas/types.yaml#/definitions/phandle
->
-> +  edid:
-> +    $ref: /schemas/types.yaml#/definitions/uint8-array
-> +    description:
-> +      When the DDC signals are not wired to the connector, and the connected
-> +      display is not removable, this property is used to supply a binary EDID
-> +      blob for the display.
-> +
->    port:
->      $ref: /schemas/graph.yaml#/properties/port
->      description: Connection to controller providing VGA signals
->
-> +allOf:
-> +  - if:
-> +      required:
-> +        - ddc-i2c-bus
-> +    then:
-> +      properties:
-> +        edid: false
-> +
+> --- /dev/null
+> +++ b/arch/arm64/boot/dts/renesas/salvator-vga-dell-p1911.dtso
 
-What if the DDC signals are wired to the connector on the provider side,
-but not on the consumer side?
-A DT overlay describing the consumer device can add an edid property,
-but it cannot delete the ddc-i2c-bus property in the base DTB.
+I know this is not meant to be applied, but nothing below is
+Salvator-specific (except for the comment).  Hence this can be applied
+to any "vga" connector, and I'd rather drop the "salvator-"-prefix
+from the file name.
 
->  required:
->    - compatible
->    - port
+> @@ -0,0 +1,21 @@
+> +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+> +/*
+> + * Device Tree overlay for the Dell P1911 monitor connected to VGA port of a
+> + * Salvator-X or Salvator-XS board
+> + *
+> + * Copyright 2026 Ideas on Board Oy
+> + */
+> +
+> +/dts-v1/;
+> +/plugin/;
+> +
+> +&{/vga} {
+> +       edid = [00 ff ff ff ff ff ff 00 10 ac 74 a0 55 4b 55 30
+> +               2b 14 01 03 80 29 1a 78 ee ee 95 a3 54 4c 99 26
+> +               0f 50 54 bf ef 80 95 00 71 4f 81 80 95 0f 81 00
+> +               01 01 01 01 01 01 9a 29 a0 d0 51 84 22 30 50 98
+> +               36 00 98 ff 10 00 00 1c 00 00 00 ff 00 31 57 4b
+> +               4a 56 30 41 4b 30 55 4b 55 0a 00 00 00 fc 00 44
+> +               45 4c 4c 20 50 31 39 31 31 0a 20 20 00 00 00 fd
+> +               00 38 4b 1e 53 0e 00 0a 20 20 20 20 20 20 00 ba];
+> +};
 
 Gr{oetje,eeting}s,
 
