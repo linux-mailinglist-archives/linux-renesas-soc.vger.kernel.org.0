@@ -1,197 +1,322 @@
-Return-Path: <linux-renesas-soc+bounces-34761-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-34762-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id bSNzKxDUS2oGbAEAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-34761-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 06 Jul 2026 18:13:04 +0200
+	id Wfr0DITUS2oebAEAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-34762-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 06 Jul 2026 18:15:00 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39AE1713127
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 06 Jul 2026 18:13:04 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 87A0D71317B
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 06 Jul 2026 18:14:59 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=ooaw4qqN;
-	dmarc=pass (policy=quarantine) header.from=kernel.org;
-	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-34761-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-34761-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
-	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
+	dkim=pass header.d=qualcomm.com header.s=qcppdkim1 header.b=TvsCTFP7;
+	dkim=pass header.d=oss.qualcomm.com header.s=google header.b=UuikW8Ko;
+	dmarc=pass (policy=reject) header.from=qualcomm.com;
+	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-34762-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-34762-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
+	arc=pass ("subspace.kernel.org:s=arc-20240116:i=2")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 5068A303778B
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  6 Jul 2026 15:43:38 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 055C83321E8A
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  6 Jul 2026 15:46:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CE7D53B27DA;
-	Mon,  6 Jul 2026 15:40:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6FB103BE642;
+	Mon,  6 Jul 2026 15:46:37 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E9FA3264EF;
-	Mon,  6 Jul 2026 15:40:33 +0000 (UTC)
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783352434; cv=none; b=jurNINUZKpysxvjgW+aYcN/TVGyxNGYKMIdMeaUwbv6bAbHCEGHZnNqBGAlM1AoutkAy/YdHt/tARnBfHvShynCLYA+PMSqcKvJeD7SUrvCChSWLhGaRqUqcRO6Sn/FQWHxpeDoV2xWRQj/56Q2ZSz7XWShvUNvELGeYZItcCqQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783352434; c=relaxed/simple;
-	bh=sq9myvMBUQkbRyNRLO5CYLPkeIVl5NyZugHb9gwmj6I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rc7l8MwKrpZbPyU7g8KT1ST9IpNhq8VeOqTN6USuthlp+B4dQbNoSCHPPUzDJlw5CKH8l0k79dXa+wqvpUXuwh6wcsHD/zMXRxNvEKbYIpnD6exM+PLPcZUKaLijsnaY78e4QQBtX69+4mfyoa2MkC3syMt/n9eknjY8/VZxK0A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ooaw4qqN; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 832591F000E9;
-	Mon,  6 Jul 2026 15:40:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783352433;
-	bh=sq9myvMBUQkbRyNRLO5CYLPkeIVl5NyZugHb9gwmj6I=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=ooaw4qqNCGvTrWxYIfRFfWAtkuCsiDDA2I+tbf1K2FpTUWL22L5TkByhLoJg1RoUm
-	 b1HTCBb97IDpTsU7/+fGGbtaKnKJlnthSTw1FpLpDwYiLdvIrOrS+FuSSHkXfUFG0h
-	 OCjCwyvYsvBobG3vZO84nxDvDhgffPjt8ZmA3C9qlHEnexvMqSTSc4DUZjeHP4gUAV
-	 IVOUw9aM7IpdRGCp4ISVjHSyJiBaLUwJqtaG0ES88xEePxpt7CIltlWbcjcQBXiOmD
-	 g0foH6m+kPb0R8Q9fauNTg/hJhf1JXziofKiOAs5f0gShmioW8g1gxMFTWqsvh5Pfz
-	 hQ5dSRQnEH6Rw==
-Date: Mon, 6 Jul 2026 17:40:30 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
-	Thuan Nguyen <thuan.nguyen-hong@banvien.com.vn>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
-	Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
-	Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Luca Ceresoli <luca.ceresoli@bootlin.com>, 
-	linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 1/4] dt-bindings: display: vga-connector: Allow
- hardcoding EDID
-Message-ID: <20260706-fancy-perch-of-satiation-0c220e@houat>
-References: <20260705213542.28987-1-laurent.pinchart+renesas@ideasonboard.com>
- <20260705213542.28987-2-laurent.pinchart+renesas@ideasonboard.com>
- <20260706-capable-beaver-of-excellence-a3cf10@houat>
- <20260706094522.GA42740@killaraus.ideasonboard.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01B853B0AF0
+	for <linux-renesas-soc@vger.kernel.org>; Mon,  6 Jul 2026 15:46:35 +0000 (UTC)
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783352797; cv=pass; b=Y888ez7A6VwYkjdnU2BZTzUHQjS/9yeivQkPwCpWfLnLMepwGiDvn3jRbxQ/l8OWbAIjfs8MwWe8JoOGvDr3yLcrP1IikhGbzPO4ef5ufSOcMhJF8Pe6vQagBxzpkTLox/nE/feHgdH/8mkNoDQq+4+xLc+4UblcLywPAMImkSs=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783352797; c=relaxed/simple;
+	bh=Yl9YF4C0szpgxpM6nmjLhKwOILm5ugHAFGk2LDG/naI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=DrRS0vXDGejY1iwC7nU5do8hVka+dIg9m6btAcoejKhmq6VCnwq4Tg7/p5JKN5eSkHXmVmFPyDEilgZfZUdX0sjKFUzCnH/EFBtp8CKCmXIQDPAMR5zBg7YSqjowWB5K8qMkZggFUVHWl4rQKPFX+XA+sWyxUiEpFQHEwNPj0Wo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=TvsCTFP7; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=UuikW8Ko; arc=pass smtp.client-ip=205.220.168.131
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 666FF2Lm825763
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 6 Jul 2026 15:46:35 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	Y5lQxlfMYGfx6hjmWG2TXwuI1j5WcvzVDOnU0deR3wI=; b=TvsCTFP7y1naEBYV
+	urhWRcaSe+2zOFRHcUEW+RsLUJ8JHsvGffoPjgKHzAD2OX3biG29mbGbyC/5zdtJ
+	3dQw49Ep/rWUuHgwGjKdbe1xITYkOnlIsRCsw8e9xHuIaltBj/+8is/k4jFdHsNH
+	NMXfGKv6og5dY/XcyIdjniJYj9nmJBnhtN+HZ7uxKypQwRsa61UlnAuiu1C8NxDc
+	Ff6c0XBGfJ9RDBvjJZlRz/lPMBO4TdN/lx/bE0Nno6TuLplmm4kyDVYOw4rTE64d
+	netYvYIiWzJKq2lENJYVGAkE3eVd74vt2DNce12Z+yeStnjER4fOnvEj4Iprq/rd
+	zHXqYQ==
+Received: from mail-vs1-f70.google.com (mail-vs1-f70.google.com [209.85.217.70])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4f88t89xy9-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 06 Jul 2026 15:46:35 +0000 (GMT)
+Received: by mail-vs1-f70.google.com with SMTP id ada2fe7eead31-73883529f3eso3022203137.3
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 06 Jul 2026 08:46:35 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1783352794; cv=none;
+        d=google.com; s=arc-20260327;
+        b=nRpM3g+8ABNfjThw/L1VTULuTAbsMD6cKLY3BPV0pnB1ExxFBni5rCh2pIpkipuRmy
+         IwVLJ6YCyUmyrLXvhpzeRl46XzX/q00trv2+Bgnz242470gWplGtinQvjD9+1CcJYng+
+         bweuKd44rcL3vqq1OvlfEQ94woYLSk86gZ1yw3YuzcC3cZIIvBY3ZE22ra52hoNy0pll
+         MUFr1mFsbdE+4WJYHRx+0DBjmPnAunEQmZbYKO7vwqHckj5Jsu6uy0rCtp4XxrZmKmkj
+         37I3QCwc0AADwKWH8zwyp0LygdenD0EiaqFkelK03ZAKOXdCtigEBTOW89QdkZHlap1b
+         xfRw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=Y5lQxlfMYGfx6hjmWG2TXwuI1j5WcvzVDOnU0deR3wI=;
+        fh=gM10yrt/wmuKRGPaB1HKsGr7llG7Mk+s7SEkukIEvK8=;
+        b=R83I/2gygAAmhee55PAc8Lduup9HFT5IsN+FGt0Y3fLRlck979K034xFjyCkGg7tG8
+         U0ElLqRKGT26RDWNqx8mGrTB+HvKJ3/BdS5NqAvD2aBVW0sS2R4pTu0864d3zXldEfyO
+         zWz1ArpwH+UImeYuNg1RHMcEOBV20EIiAF6kLXu1wOVKbpwHgR79+unJRlZUkg9lkOmC
+         tRhUFqg8NgnsxwdhENoezJRqMsbOoSZ/TC7EtoZ8EuzsXOgVqvx2tCUfT7npf3VwLIWn
+         jK5XnmPLFUb0b71BdYQg5gvVsx2SgZljMBP35RcQpFJoiBbfmb4DSb8Crk6sZI1O7ipF
+         TZxw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1783352794; x=1783957594; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Y5lQxlfMYGfx6hjmWG2TXwuI1j5WcvzVDOnU0deR3wI=;
+        b=UuikW8KojgpgHcwwh1W3psu2xKiRNWotRgY7gh4Qi40P7JEmARNziAzHex6u21K5ys
+         eQUEa46YJ4NIll8jNY5YxOhX+MU/2E+2hnQb8pN1Pvt5LHallFhbZkJ26G9b8J0pZD1k
+         7SvtLxrXqLGdTbngsShZI/Z0PSxB84Kg4c0+x9VhNscG5UabOI1CzhGl4KEWWAZec/zg
+         ugp6kESFU7s0OB3qp14mqOfByQDxopXlXiN8zZ07OZon2qbt7wRjVuio1/k5GztoymU2
+         0GAxQ0s5UrZONSRI8Xw26y1kemjiPBFwteeHrgYf9DK1zGEdTDepnfJqeIaWDsrsb7PE
+         Ympw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783352794; x=1783957594;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=Y5lQxlfMYGfx6hjmWG2TXwuI1j5WcvzVDOnU0deR3wI=;
+        b=cuH6rJu0PSI8KbAywL81LhaRgK3zwmUM6PzKBcUt1JeWBBh+qqk1ouUBbNAZIRVQ2T
+         ta84GqUxXWqvAi5rfjIrRR6iEKkFjNWvhxqP6Nd4CTKM571Vh5JaI5N09tmuChYdo3Z6
+         Q0/JM6XqGzBaMvrOmKWRC6sT+6Te+P2/HKcYkGl+mH1/4wm8RCtJ2fa73XfBM83Bm1YH
+         jgHPRbyPcE58OUCqXlvWZODLk7yYP+A097hRkb+KIYUIo/wYu0+HC3ym4EuG/Wsn551r
+         kyXtewweDeMxVW/dmPtVal8/lKmA+CL4Ezx4i/PBZMQhS7QvPwNMveh8q1ck3DGov5LU
+         4hXg==
+X-Forwarded-Encrypted: i=1; AHgh+RoW5FunrrjWAAb2XRkT/hwVGcv9XwXOz8WZHE9w4XSWvn58dJM/NwchJpx4zk/lqq20yfLXm4tUGZvG426CywoR6w==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzjH4u/T5c79sRCiX/pjgRHxGOI4NR6303bjikbVJURUy+jSIs9
+	jgbBR3FWEqEdPAnBJ9BCjzK3TJ6P4xXLGLFwMDiXUZiSV5TY5/X+7vAkyhgzj8gfIi0PsnBctYJ
+	K10T1fuoxYrkIlpGwsgJjJEsCdEUzqggJOGmKRNyJ4xpHb+K47e63hZBKlmxL9rXIS2Z8ad9QX/
+	ISngrGV3ME+a5A02QzgfuL2kSmeUG7TsN73FJKn2iQxDkna0Zo
+X-Gm-Gg: AfdE7ckisa9b6eFs/tjFiv9qeb2uFXeulr7hwfmfEDdwyk3kpmqqoxivFtuVh/kZduQ
+	q0yIPvMWfByM88YYLdXYAhECfhZr4CCfoaWrMWoM0SauY6a9zObfZWf7kxfsq7n4a0E+dTJXgVZ
+	qbWKTQGQbwyawscEJ9b1NHOVxTLMzBD7w0KORw+/RXrmmxYyYWlMzgWbiG+AOrl05UYHzQ
+X-Received: by 2002:a05:6102:8011:b0:737:b586:6388 with SMTP id ada2fe7eead31-744b7d6e6d4mr649115137.13.1783352794202;
+        Mon, 06 Jul 2026 08:46:34 -0700 (PDT)
+X-Received: by 2002:a05:6102:8011:b0:737:b586:6388 with SMTP id
+ ada2fe7eead31-744b7d6e6d4mr649066137.13.1783352793781; Mon, 06 Jul 2026
+ 08:46:33 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
-	protocol="application/pgp-signature"; boundary="tpzfirttked2lrai"
-Content-Disposition: inline
-In-Reply-To: <20260706094522.GA42740@killaraus.ideasonboard.com>
+References: <20260602201344.1809801-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20260602201344.1809801-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+From: Ulf Hansson <ulf.hansson@oss.qualcomm.com>
+Date: Mon, 6 Jul 2026 17:46:21 +0200
+X-Gm-Features: AVVi8CcZLsh5xTCrQHeiyj9VO502FopUmqKqBqBBuThiWnFty4WMAnpf1TVTeto
+Message-ID: <CAPx+jO-fhBf+8T9oc6CvsAfJu1Jxp0iE=rregHJ=HmLRCvTFzg@mail.gmail.com>
+Subject: Re: [PATCH v3] mmc: mmc_test: Fix __counted_by handling after
+ kzalloc_flex() conversion
+To: Prabhakar <prabhakar.csengg@gmail.com>
+Cc: Ulf Hansson <ulfh@kernel.org>, Kees Cook <kees@kernel.org>,
+        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+        Petr Mladek <pmladek@suse.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        linux-mmc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-hardening@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzA2MDE2MCBTYWx0ZWRfXyaxy4EKrcPmk
+ j2FlWQm9qukiSzS3EAUfdmiXlgAie6NDuP48ft3K+Wuz69jQYraUfy+LZ4e3TOqz9Z1tCxv/9Ya
+ jBVz7edGtmNiasIaQ+MKunEkrzdxg1o=
+X-Proofpoint-GUID: VzFRz81uEYdOSEtn2hqwSDiPmjs3ukaG
+X-Authority-Analysis: v=2.4 cv=C6zZDwP+ c=1 sm=1 tr=0 ts=6a4bcddb cx=c_pps
+ a=N1BjEkVkxJi3uNfLdpvX3g==:117 a=IkcTkHD0fZMA:10 a=RAioF0-LDSMA:10
+ a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22
+ a=YMgV9FUhrdKAYTUUvYB2:22 a=VwQbUJbxAAAA:8 a=yC-0_ovQAAAA:8 a=pGLkceISAAAA:8
+ a=uXk8S0VtEpXI5GqmZSYA:9 a=QEXdDO2ut3YA:10 a=crWF4MFLhNY0qMRaF8an:22
+X-Proofpoint-ORIG-GUID: VzFRz81uEYdOSEtn2hqwSDiPmjs3ukaG
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzA2MDE2MCBTYWx0ZWRfX6S9Ljiu2EZ4I
+ pHkDEHvIeLG0gxAvlbLRhR8A3zmEndB0/cokPNYHBRPKK45wgLnIdXGFAD/S93eYVubYKcCQzEB
+ arO45R4Z7E7SeYynU5BWj0IOOQPr9gwXtXL/7KvxfMlHyLl4JGB8e3Q809/Lo0aVXD9h5IMf814
+ Syr2Ps1svGzA+7E9xQsXufqLM5uOezbSUMMxJ254JwnwWEe2Nsiqen5NcFcJMTDTjK5ZJmHJLSs
+ cg8hWLnkPE80c0nz6wcuFFrsgKPL6rw6AKfboJaXOo/GrWwgSVwCLmTxqQ2DoNRZrly+vxKHpML
+ 3BAG201DlpTdDBUviOHhP4spdy1G0uK0Zbo0kwhj6sbgawVxIlXrpL6miOhGsEx0FeMMcv65o/x
+ HYkDTDgpft+QNBy9rbBOixVZa60t9YSdNQ+RJgX24QMLb93zFB93T/gqU/KoLrhPtQmzZii288r
+ /99GNxLCQlm5KJlO3IQ==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-07-06_02,2026-07-06_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 phishscore=0 clxscore=1015 spamscore=0 adultscore=0
+ bulkscore=0 priorityscore=1501 lowpriorityscore=0 suspectscore=0
+ malwarescore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2606150000
+ definitions=main-2607060160
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-5.26 / 15.00];
-	WHITELIST_SPF_DKIM(-3.00)[kernel.org:d:+,kernel.org:s:+];
-	SIGNED_PGP(-2.00)[];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
-	MIME_GOOD(-0.20)[multipart/signed,text/plain];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
+	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[4];
+	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-34762-lists,linux-renesas-soc=lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[13];
 	RCVD_TLS_LAST(0.00)[];
 	FORWARDED(0.00)[lists@lfdr.de];
-	MIME_TRACE(0.00)[0:+,1:+,2:~];
-	RCPT_COUNT_TWELVE(0.00)[18];
-	FORGED_RECIPIENTS(0.00)[m:laurent.pinchart@ideasonboard.com,m:dri-devel@lists.freedesktop.org,m:devicetree@vger.kernel.org,m:thuan.nguyen-hong@banvien.com.vn,m:maarten.lankhorst@linux.intel.com,m:tzimmermann@suse.de,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:geert+renesas@glider.be,m:magnus.damm@gmail.com,m:andrzej.hajda@intel.com,m:neil.armstrong@linaro.org,m:rfoss@kernel.org,m:jonas@kwiboo.se,m:jernej.skrabec@gmail.com,m:luca.ceresoli@bootlin.com,m:linux-renesas-soc@vger.kernel.org,m:krzk@kernel.org,m:conor@kernel.org,m:geert@glider.be,m:magnusdamm@gmail.com,m:jernejskrabec@gmail.com,s:lists@lfdr.de];
+	FREEMAIL_TO(0.00)[gmail.com];
+	FORGED_RECIPIENTS(0.00)[m:prabhakar.csengg@gmail.com,m:ulfh@kernel.org,m:kees@kernel.org,m:gustavoars@kernel.org,m:pmladek@suse.com,m:geert+renesas@glider.be,m:linux-mmc@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-hardening@vger.kernel.org,m:linux-renesas-soc@vger.kernel.org,m:biju.das.jz@bp.renesas.com,m:fabrizio.castro.jz@renesas.com,m:prabhakar.mahadev-lad.rj@bp.renesas.com,m:prabhakarcsengg@gmail.com,m:geert@glider.be,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[ulf.hansson@oss.qualcomm.com,linux-renesas-soc@vger.kernel.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-34761-lists,linux-renesas-soc=lfdr.de];
-	FORGED_SENDER(0.00)[mripard@kernel.org,linux-renesas-soc@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	ALIAS_RESOLVED(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[mripard@kernel.org,linux-renesas-soc@vger.kernel.org];
-	FREEMAIL_CC(0.00)[lists.freedesktop.org,vger.kernel.org,banvien.com.vn,linux.intel.com,suse.de,kernel.org,glider.be,gmail.com,intel.com,linaro.org,kwiboo.se,bootlin.com];
+	FROM_NEQ_ENVFROM(0.00)[ulf.hansson@oss.qualcomm.com,linux-renesas-soc@vger.kernel.org];
+	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
+	ALIAS_RESOLVED(0.00)[];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
 	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,ideasonboard.com:email,bootlin.com:url,houat:mid]
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:dkim,mail.gmail.com:mid,oss.qualcomm.com:from_mime,oss.qualcomm.com:dkim,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,vger.kernel.org:from_smtp,renesas.com:email,glider.be:email]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 39AE1713127
+X-Rspamd-Queue-Id: 87A0D71317B
+
+On Tue, Jun 2, 2026 at 10:13=E2=80=AFPM Prabhakar <prabhakar.csengg@gmail.c=
+om> wrote:
+>
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>
+> Fix logic issues introduced by the kzalloc_flex() conversion in
+> mmc_test_alloc_mem() due to interaction with the __counted_by
+> annotation on the flexible array.
+>
+> Bounds-checking sanitizers rely on the counter field reflecting the
+> allocated array size before any array access occurs. However, use
+> mem->cnt both as the allocation size and as the runtime insertion
+> index, causing incorrect indexing and potentially invalid bounds
+> tracking.
+>
+> Initialize mem->cnt to the maximum allocated number of segments
+> immediately after kzalloc_flex(), then use a separate local index
+> variable to track successfully allocated entries. Update mem->cnt to
+> the actual number of initialized elements before returning or entering
+> the cleanup path.
+>
+> Also rewrite mmc_test_free_mem() to use a forward for-loop, improving
+> readability and ensuring only initialized entries are freed.
+>
+> Fixes: c3126dccfd7b ("mmc: mmc_test: use kzalloc_flex")
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+
+Applied for fixes, thanks!
+
+Kind regards
+Uffe
 
 
---tpzfirttked2lrai
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH 1/4] dt-bindings: display: vga-connector: Allow
- hardcoding EDID
-MIME-Version: 1.0
-
-On Mon, Jul 06, 2026 at 12:45:22PM +0300, Laurent Pinchart wrote:
-> On Mon, Jul 06, 2026 at 10:52:32AM +0200, Maxime Ripard wrote:
-> > On Mon, Jul 06, 2026 at 12:35:39AM +0300, Laurent Pinchart wrote:
-> > > Since DDC version 2, introduced in 1996, VGA monitors have exposed ED=
-ID
-> > > data over an I2C bus. The bus is also used to detect the presence of a
-> > > connected monitor by trying to read the EDID data.
-> > >=20
-> > > Some devices where the VGA display is integrated in the device and
-> > > always connected do not connect the DDC pins. Some development boards,
-> > > such as the Renesas M3N Salvator-XS, also do not connect the DDC pins.
-> > >=20
-> > > To support those, add the ability to provide hardcoded EDID data in t=
-he
-> > > device tree. This is mutually exclusive with specifying a DDC bus, and
-> > > can only be done when the VGA display is guaranteed to be always
-> > > connected.
-> > >=20
-> > > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboar=
-d.com>
-> >=20
-> > This feels redundant with the EDID firmware loading mechanism we have in
-> > KMS already. It should at least be mentioned why we would need to set it
-> > in the device tree at all.
->=20
-> Very good question.
->=20
-> I assume you're talking about CONFIG_DRM_LOAD_EDID_FIRMWARE, as the
-> debugfs override_edid feature isn't meant for production. If there are
-> other relevant mechanisms I'm not aware of, please let me know.
-
-No, that's indeed what I meant.
-
-> In the use case at hand, the VGA display is an integral part of the
-> device, the same way an LVDS or DSI panel would be. Using
-> CONFIG_DRM_LOAD_EDID_FIRMWARE, the manufacturer would need to set the
-> drm.edid_firmware command line parameter, and provide EDID as a file in
-> /lib/firmware/ (possibly in an initramfs). Beside the complexity, and
-> the fact it won't be very friendly to people who run a different
-> userspace on the device, I think EDID counts in this case as system
-> description, the same way we support specifying panel timings in device
-> tree.
-
-It's *some* hardware description, but you have no idea whether it's
-actually the hardware you're running from. What would be in that EDID
-anyway?
-
-There's another alternative we've used several times already, in
-simple-bridge for example: just register any VESA mode up to a given
-resolution:
-https://elixir.bootlin.com/linux/v7.1.2/source/drivers/gpu/drm/bridge/simpl=
-e-bridge.c#L66
-
-I guess it's what you would do with that EDID anyway?
-
-Maxime
-
---tpzfirttked2lrai
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCakvMbgAKCRAnX84Zoj2+
-dgK7AYCeOYF3c0NZpI970cu+5GFGs5suqhHnO75/KQE5k7Q0HURhHfAGGF1k1ASy
-Kzh7Xn8BgPSqaEpt7A9lKOPDUcZdmfuuSQQSFJ2uzQAj557UJ7Fj3xU6BczlxWJB
-0kIM/EaNow==
-=7U19
------END PGP SIGNATURE-----
-
---tpzfirttked2lrai--
+> ---
+> v2->v3:
+> - Switched back to v1 version of the patch.
+> - Addressed review comments from Geert.
+> - Add RB tag from Geert which was received on v1.
+>
+> v1->v2:
+> - Started with cnt =3D 0 and incremented before assignment to ensure
+>   accurate tracking of initialized entries in mmc_test_alloc_mem().
+> - In mmc_test_free_mem(), replaced the while loop with a forward for-loop=
+ to
+>   safely iterate over initialized entries without risking underflow.
+> - Updated commit message to clarify the issue and the fix.
+>
+> v2: https://lore.kernel.org/all/20260519133025.618255-1-prabhakar.mahadev=
+-lad.rj@bp.renesas.com/
+> v1: https://lore.kernel.org/all/20260513201315.3186621-1-prabhakar.mahade=
+v-lad.rj@bp.renesas.com/
+> ---
+>  drivers/mmc/core/mmc_test.c | 18 +++++++++++-------
+>  1 file changed, 11 insertions(+), 7 deletions(-)
+>
+> diff --git a/drivers/mmc/core/mmc_test.c b/drivers/mmc/core/mmc_test.c
+> index ab38e4c45a8d..4dc16649e61d 100644
+> --- a/drivers/mmc/core/mmc_test.c
+> +++ b/drivers/mmc/core/mmc_test.c
+> @@ -318,9 +318,9 @@ static void mmc_test_free_mem(struct mmc_test_mem *me=
+m)
+>  {
+>         if (!mem)
+>                 return;
+> -       while (mem->cnt--)
+> -               __free_pages(mem->arr[mem->cnt].page,
+> -                            mem->arr[mem->cnt].order);
+> +       for (unsigned int i =3D 0; i < mem->cnt; i++)
+> +               __free_pages(mem->arr[i].page,
+> +                            mem->arr[i].order);
+>         kfree(mem);
+>  }
+>
+> @@ -341,6 +341,7 @@ static struct mmc_test_mem *mmc_test_alloc_mem(unsign=
+ed long min_sz,
+>         unsigned long page_cnt =3D 0;
+>         unsigned long limit =3D nr_free_buffer_pages() >> 4;
+>         struct mmc_test_mem *mem;
+> +       unsigned int idx =3D 0;
+>
+>         if (max_page_cnt > limit)
+>                 max_page_cnt =3D limit;
+> @@ -375,23 +376,26 @@ static struct mmc_test_mem *mmc_test_alloc_mem(unsi=
+gned long min_sz,
+>                                 goto out_free;
+>                         break;
+>                 }
+> -               mem->arr[mem->cnt].page =3D page;
+> -               mem->arr[mem->cnt].order =3D order;
+> -               mem->cnt +=3D 1;
+> +               mem->arr[idx].page =3D page;
+> +               mem->arr[idx].order =3D order;
+> +               idx +=3D 1;
+>                 if (max_page_cnt <=3D (1UL << order))
+>                         break;
+>                 max_page_cnt -=3D 1UL << order;
+>                 page_cnt +=3D 1UL << order;
+> -               if (mem->cnt >=3D max_segs) {
+> +               if (idx >=3D mem->cnt) {
+>                         if (page_cnt < min_page_cnt)
+>                                 goto out_free;
+>                         break;
+>                 }
+>         }
+>
+> +       mem->cnt =3D idx;
+> +
+>         return mem;
+>
+>  out_free:
+> +       mem->cnt =3D idx;
+>         mmc_test_free_mem(mem);
+>         return NULL;
+>  }
+> --
+> 2.54.0
+>
 
