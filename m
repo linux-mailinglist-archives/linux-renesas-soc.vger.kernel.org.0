@@ -1,93 +1,64 @@
-Return-Path: <linux-renesas-soc+bounces-34792-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-34793-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id X2RWFhLKTGo/pwEAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-34792-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 07 Jul 2026 11:42:42 +0200
+	id 3lh2LDHXTGq1qgEAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-34793-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 07 Jul 2026 12:38:41 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F9C5719E93
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 07 Jul 2026 11:42:41 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DDE771A7D3
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 07 Jul 2026 12:38:41 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=gmail.com header.s=20251104 header.b=MWgVgOfX;
-	dmarc=pass (policy=none) header.from=gmail.com;
-	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-34792-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-34792-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
+	dkim=none;
+	dmarc=none;
+	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-34793-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 104.64.211.4 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-34793-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 1764B30A9FA7
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  7 Jul 2026 09:30:33 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 4CE3B309A08C
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  7 Jul 2026 10:24:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9BD8F397E8B;
-	Tue,  7 Jul 2026 09:30:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3AAA53E314A;
+	Tue,  7 Jul 2026 10:24:27 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36A10397331
-	for <linux-renesas-soc@vger.kernel.org>; Tue,  7 Jul 2026 09:30:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D55703E1D16;
+	Tue,  7 Jul 2026 10:24:25 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783416630; cv=none; b=NKWcimnfuIkZKIyVMrZDU0z3cgRuXLFJ0IXgZsFj3Z2Iq6Zah6WcG4D295gJfHaaxKjJeb1uw5URxfa6w35Rq506gp2l4A2DB69kKPAZyc1YFA1FhK0hSOszzWlpic/XO/Gc3yDxkuQKa87qljtyR8eIwB9OcKJGoSG2Md6K03M=
+	t=1783419867; cv=none; b=eds2G0iQf/cUylGVZfKWxGdg0RU22/60qG1F8pub75CZqD9mJQcRFoT8vGUepXTSuInD83p/lAdwOadp+VsRFbY9C5FCpLl/bfP6UHvfcDDRS+BuT3vDNhAstvhvZzYtOaUJyoBbN89/d3AGOjaJ7zkeUAICytP3T9isOh/NhtE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783416630; c=relaxed/simple;
-	bh=yp2B2gGjFuoQzAW/JY1plX3Rnv8eryOc6jDsNj0AFJk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=qeIeBVSrorM5TVRSbm4WlTkd/nMXYJAZu3a8xOKTsL9jUu5XomLQOGfLz89+f+e5crmowhcJ5qahmG3YSsodGyiWAMZ1lfXN/+XF2UnuVldiqRyTdR2wneB5jLNFsCAq/AFvtuxay5VjLql3MZcJlh4f4YTsovO+s6wNOK5aEnc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MWgVgOfX; arc=none smtp.client-ip=209.85.214.179
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-2cc6ae3e7f1so16724625ad.0
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 07 Jul 2026 02:30:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783416628; x=1784021428; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=QzQpFHJ/fNpPESLWciMsNy0ig1nfmSqgUNKGC1J6yuU=;
-        b=MWgVgOfXuq7SewHUOvr00QO/oNJK9xryHXsaLvyHi1LjdIqpzG33D3ErR1yE53+ioI
-         4AN9gUZWKhH9nJCoIt7gV0yuONvVpzh1P0e5seYvP+1HbmKVzDPK6x7PiHV62AWv2AbH
-         9XyLSH+6G+0MLsMCGUXAopYoMuMlUW95ERxGbSBTKWPe/oIfYMzlZGfOazesMEEVxM54
-         Ffdx7EmTNMcRnmY8WhT1XQvdoT3sSoHFcToadMn0NFm5Yw4HqH7jLCCHIupujv7HPcAp
-         lD2GUy9GeYkXggwo9/I/OForzT+18mO0WftxlxvQH0ofgToB9nQJ2d9pL54+bVw0e0Pq
-         Ig+w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783416628; x=1784021428;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=QzQpFHJ/fNpPESLWciMsNy0ig1nfmSqgUNKGC1J6yuU=;
-        b=mTf5t9bZ5k7NJlWaSuH/uDERuoo1DOsEbceL9baXJQMfgyZrYRE34S1kgUN6e0eaGC
-         W5H1XJvcP7V4DD3WakgYIhHszBABBLMOln4IrgGOj2PQP8NyAXtK64Y7JwxQelTojWQq
-         8uVs+fxMid+TsADT8BK9sG8p55OrIp2xNXN1S40Gwd20HBGRbvw4Ngi32hX8fzY2MZyU
-         DAuSLf8jlQ+Yc5cuusTtupvw7wsWFtOQR8CAcDE8Aob1thl6cj8kpZ0J2eoM8aRmqqDd
-         2Qb2iw2g6YdUHaGmAqKzZzoCOoepeuly6WcwQalVGX0sga0oj3sdEC4M0QUKKiY909JV
-         BFwQ==
-X-Forwarded-Encrypted: i=1; AHgh+RqedCuEOPj0+1jwwnsXqntXIdd485dp5BB8yypno3L7pgbvnBdC4HaU8rfy8WVqanfl+kU55lqiVf/SAZUAxf3Y8g==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwiauOFI8f40ApvYLAwQnI/NykhtNyX43kUWnRZaJw5fHzTzi1f
-	xQs6kBm6HKleRPQI24l/4WCrqoNUACnFu58jImN3uhUWXp5KLHIuE4t/xb62Tg==
-X-Gm-Gg: AfdE7ckR/XyMaKKzojRbC8M82nJv4e0mc6UTizZStTmKuLM/tLdKf0QMCwoYM76lqyh
-	feaVaJfkKUDBm8fFaDE94clP0YKEyKTZnLZOEBDZjpidVo3vgjE4oEteZW2Q6/nQAMvH9P156ju
-	vHktbUyYP/ljhpK4t+8sYCrMCk2qTQYKamAcjZyc0d2mWx+IrByjpK+tJMcSCTeWnrFcLFBa6TF
-	Z58fRgl7pWfdtApSOVsj9JC7tGouVGPf+j4yMKNviDMhrpEptwsA2fwS1O5FGvPUWXTLrIaIBv8
-	E4GyqRjy8hGT6VtaUS97SWblxNMAG5rNYpgnKeCzapzvHGrCiuHzT550/JTMahJN8PNOq4pFGPc
-	6TPnzLJ+UWUzF9JTIxtyhSEPTNfkhOyHiJiUWJFJXxXeliL6Mx1CWSv9i0COQ+LKTMxEdqBGRMF
-	A7W9Ignhilg95gzgBxC5Hf5hqD7CpE4/oRAmwahH2o8eU0GQU=
-X-Received: by 2002:a17:903:b87:b0:2c9:97a7:f543 with SMTP id d9443c01a7336-2ccbf056ae4mr43993585ad.41.1783416628565;
-        Tue, 07 Jul 2026 02:30:28 -0700 (PDT)
-Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ccc9bdb9bbsm8569795ad.4.2026.07.07.02.30.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Jul 2026 02:30:28 -0700 (PDT)
-From: phucduc.bui@gmail.com
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Simona Vetter <simona@ffwll.ch>,
-	dri-devel@lists.freedesktop.org,
+	s=arc-20240116; t=1783419867; c=relaxed/simple;
+	bh=rfQA24pNBdai4SXVx7SQMIib5Yam9+s344kX1w9crpU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=JggoGJdM8rwOFU9naWxuRFgGtwDJ4DBS7GLofk9GVmFYAQYMT1kB7h7GcYzAje7K4lczd7wchCX81zAWZElr4DdtIwiOrC5nEWs+4bw042bHXwozhikKrdJ8Na3q31r8F0dQPtm3sQPGtJlw7TVWU2u/3mEdm1u9O2CTg5RE2tE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4A6431F000E9;
+	Tue,  7 Jul 2026 10:24:21 +0000 (UTC)
+From: Claudiu Beznea <claudiu.beznea+renesas@tuxon.dev>
+To: mkl@pengutronix.de,
+	mailhol@kernel.org,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	geert+renesas@glider.be,
+	magnus.damm@gmail.com,
+	mturquette@baylibre.com,
+	sboyd@kernel.org,
+	bmasney@redhat.com,
+	biju.das.jz@bp.renesas.com,
+	tu.nguyen.xg@renesas.com,
+	fabrizio.castro.jz@renesas.com
+Cc: claudiu.beznea@tuxon.dev,
+	linux-can@vger.kernel.org,
+	devicetree@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH v4] drm: shmobile: Fix white screen after resume when LCDC is stopped
-Date: Tue,  7 Jul 2026 16:30:04 +0700
-Message-ID: <20260707093004.987846-1-phucduc.bui@gmail.com>
+	linux-clk@vger.kernel.org,
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Subject: [PATCH 0/8] can: rcar_canfd: Add support for Renesas RZ/G3S
+Date: Tue,  7 Jul 2026 13:24:10 +0300
+Message-ID: <20260707102418.1646159-1-claudiu.beznea+renesas@tuxon.dev>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
@@ -97,125 +68,70 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.16 / 15.00];
+X-Spamd-Result: default: False [0.54 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[kernel.org,suse.de,ffwll.ch,lists.freedesktop.org,vger.kernel.org,gmail.com];
-	TAGGED_FROM(0.00)[bounces-34792-lists,linux-renesas-soc=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:laurent.pinchart@ideasonboard.com,m:geert+renesas@glider.be,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:simona@ffwll.ch,m:dri-devel@lists.freedesktop.org,m:linux-renesas-soc@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:phucduc.bui@gmail.com,m:geert@glider.be,m:phucducbui@gmail.com,s:lists@lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FORGED_SENDER(0.00)[phucducbui@gmail.com,linux-renesas-soc@vger.kernel.org];
-	MIME_TRACE(0.00)[0:+];
+	DMARC_NA(0.00)[tuxon.dev];
+	RCPT_COUNT_TWELVE(0.00)[20];
+	FORGED_RECIPIENTS(0.00)[m:mkl@pengutronix.de,m:mailhol@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:geert+renesas@glider.be,m:magnus.damm@gmail.com,m:mturquette@baylibre.com,m:sboyd@kernel.org,m:bmasney@redhat.com,m:biju.das.jz@bp.renesas.com,m:tu.nguyen.xg@renesas.com,m:fabrizio.castro.jz@renesas.com,m:claudiu.beznea@tuxon.dev,m:linux-can@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-renesas-soc@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-clk@vger.kernel.org,m:claudiu.beznea.uj@bp.renesas.com,m:krzk@kernel.org,m:conor@kernel.org,m:geert@glider.be,m:magnusdamm@gmail.com,s:lists@lfdr.de];
 	FORWARDED(0.00)[lists@lfdr.de];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	FROM_NO_DN(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER(0.00)[claudiu.beznea@tuxon.dev,linux-renesas-soc@vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-34793-lists,linux-renesas-soc=lfdr.de,renesas];
+	FREEMAIL_TO(0.00)[pengutronix.de,kernel.org,glider.be,gmail.com,baylibre.com,redhat.com,bp.renesas.com,renesas.com];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	ALIAS_RESOLVED(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[phucducbui@gmail.com,linux-renesas-soc@vger.kernel.org];
 	PRECEDENCE_BULK(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[claudiu.beznea@tuxon.dev,linux-renesas-soc@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
-	FREEMAIL_FROM(0.00)[gmail.com];
+	ALIAS_RESOLVED(0.00)[];
 	MID_RHS_MATCH_FROM(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	TO_DN_SOME(0.00)[];
+	R_DKIM_NA(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,vger.kernel.org:from_smtp,glider.be:email]
+	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tuxon.dev:mid,tuxon.dev:from_mime,vger.kernel.org:from_smtp,renesas.com:email,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 8F9C5719E93
+X-Rspamd-Queue-Id: 0DDE771A7D3
 
-From: bui duc phuc <phucduc.bui@gmail.com>
+From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 
-The LCDC on R8A7740 may show a completely white screen after resuming
-from suspend (s2idle or s2ram).
+Hi,
 
-After resume, both Set A and Set B registers are reset to 0. As the
-Frame End interrupt is not generated while the controller is stopped
-(DO=0), the hardware register switching mechanism is not triggered.
-Consequently, Set A remains at 0x00000000 even though a valid Start
-Address is written to Set B, resulting in a white screen.
+Series adds CAN support for the Renesas RZ/G3S SoC. Along with it a typo
+fix patch was added on the CAN driver.
 
-This is a timing-dependent race condition. In some configurations,
-debug options slow down the resume path enough for a Frame End
-interrupt to occur, which can mask the issue.
+Thank you,
+Claudiu
 
-Fix this by priming both register sets with the Start Address while the
-controller is stopped, ensuring a valid base address is available
-immediately after resume.
+Claudiu Beznea (8):
+  clk: r9a08g045-cpg: Add clocks and resets for CAN-FD
+  dt-bindings: can: renesas,rcar-canfd: Document RZ/G3S SoC
+  can: rcar_canfd: Fix typos in macro names
+  can: rcar_canfd: Allow the CAN FD clock to be sourced from fck
+  can: rcar_canfd: Do not set registers selecting the CAN mode
+  can: rcar_canfd: Add support for Renesas RZ/G3S
+  arm64: dts: renesas: r9a08g045: Add CAN-FD node
+  arm64: dts: renesas: rzg3s-smarc: Enable CAN-FD
 
-Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
----
+ .../bindings/net/can/renesas,rcar-canfd.yaml  | 17 +++++-
+ arch/arm64/boot/dts/renesas/r9a08g045.dtsi    | 39 +++++++++++++
+ .../boot/dts/renesas/rzg3s-smarc-switches.h   | 12 ++++
+ arch/arm64/boot/dts/renesas/rzg3s-smarc.dtsi  | 46 +++++++++++++++
+ drivers/clk/renesas/r9a08g045-cpg.c           | 10 ++++
+ drivers/net/can/rcar/rcar_canfd.c             | 56 ++++++++++++++++---
+ 6 files changed, 170 insertions(+), 10 deletions(-)
 
-Note:
-It was originally posted in March and has already received both 
-Reviewed-by and Tested-by tags. I'm resending it to bring it back 
-to attention in case it was overlooked.
-
-Changes in v4:
- - No functional changes.
- - Resend.
-
-Changes:
- - v3 
-   Update commit message, add Tested-by and Reviewed-by tags 
- - v2 
-   Fix incorrect use of lcdc_write_mirror() for LDSA2R in
-   the DO=0 path; use lcdc_write() to update both register
-   sets as intended.
-
-
- .../gpu/drm/renesas/shmobile/shmob_drm_plane.c  | 17 +++++++++++++----
- 1 file changed, 13 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/gpu/drm/renesas/shmobile/shmob_drm_plane.c b/drivers/gpu/drm/renesas/shmobile/shmob_drm_plane.c
-index 148de34af785..92e7fb464cb3 100644
---- a/drivers/gpu/drm/renesas/shmobile/shmob_drm_plane.c
-+++ b/drivers/gpu/drm/renesas/shmobile/shmob_drm_plane.c
-@@ -70,6 +70,7 @@ static void shmob_drm_primary_plane_setup(struct shmob_drm_plane *splane,
- 	struct shmob_drm_plane_state *sstate = to_shmob_plane_state(state);
- 	struct shmob_drm_device *sdev = to_shmob_device(splane->base.dev);
- 	struct drm_framebuffer *fb = state->fb;
-+	u32 ldcnt2r;
- 
- 	/* TODO: Handle YUV colorspaces. Hardcode REC709 for now. */
- 	lcdc_write(sdev, LDDFR, sstate->format->lddfr | LDDFR_CF1);
-@@ -78,11 +79,19 @@ static void shmob_drm_primary_plane_setup(struct shmob_drm_plane *splane,
- 	/* Word and long word swap. */
- 	lcdc_write(sdev, LDDDSR, sstate->format->ldddsr);
- 
--	lcdc_write_mirror(sdev, LDSA1R, sstate->dma[0]);
--	if (shmob_drm_format_is_yuv(sstate->format))
--		lcdc_write_mirror(sdev, LDSA2R, sstate->dma[1]);
-+	ldcnt2r = lcdc_read(sdev, LDCNT2R);
-+
-+	if (ldcnt2r & LDCNT2R_DO) {
-+		lcdc_write_mirror(sdev, LDSA1R, sstate->dma[0]);
-+		if (shmob_drm_format_is_yuv(sstate->format))
-+			lcdc_write_mirror(sdev, LDSA2R, sstate->dma[1]);
- 
--	lcdc_write(sdev, LDRCNTR, lcdc_read(sdev, LDRCNTR) ^ LDRCNTR_MRS);
-+		lcdc_write(sdev, LDRCNTR, lcdc_read(sdev, LDRCNTR) ^ LDRCNTR_MRS);
-+	} else {
-+		lcdc_write(sdev, LDSA1R, sstate->dma[0]);
-+		if (shmob_drm_format_is_yuv(sstate->format))
-+			lcdc_write(sdev, LDSA2R, sstate->dma[1]);
-+	}
- }
- 
- static void shmob_drm_overlay_plane_setup(struct shmob_drm_plane *splane,
 -- 
 2.43.0
 
