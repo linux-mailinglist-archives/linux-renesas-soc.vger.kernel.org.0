@@ -1,41 +1,41 @@
-Return-Path: <linux-renesas-soc+bounces-34861-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-34862-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id yiiNCjklTmosEAIAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-34861-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 08 Jul 2026 12:23:53 +0200
+	id jMYCCU0lTmo2EAIAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-34862-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 08 Jul 2026 12:24:13 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5C017243DD
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 08 Jul 2026 12:23:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B57377243F6
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 08 Jul 2026 12:24:12 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
 	dkim=none;
 	dmarc=none;
-	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-34861-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 2600:3c09:e001:a7::12fc:5321 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-34861-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
+	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-34862-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 2600:3c09:e001:a7::12fc:5321 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-34862-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id C881530DF751
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Jul 2026 10:18:16 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id D7D2C305E4DE
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Jul 2026 10:18:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4789F403B05;
-	Wed,  8 Jul 2026 10:17:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7142A3921E9;
+	Wed,  8 Jul 2026 10:17:15 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 194B2391E5F;
-	Wed,  8 Jul 2026 10:17:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5099E381AFB;
+	Wed,  8 Jul 2026 10:17:14 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783505830; cv=none; b=sjs3DHorceGxkPGiX2UL97PRzjvI/nfC05yg/l3rxeWo7pxrN8TOO5ADM9NDGT10b+lSkpl2ib1onGxbgqj88QMFZGUCuSZbfh4wPRjpQ29E1y0cOJMAhYON3DIqNiaBItG054hRcvJHyO8voECoY0tUHzBggSYDqggOLcl6i5I=
+	t=1783505835; cv=none; b=aHAUeFoeLDnnhHXWRqUsXpXqLXjWEbRGANz27CNpso7OmucrWjkNyuCVRb1vaAxHXeJXTWkfqgNgAiVby+Tsi3uRyNdRxjGhQHic53Ug3wTOHoAWR6Xyj1mDgve55cee0PrgnZgeuswfFQ22TH313mnsRhNU0cAQnHUAIH0qLEE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783505830; c=relaxed/simple;
-	bh=HfcKmU/lLybToKAZLFgevnTSOmaQxLu2yN0ODrj7HMY=;
+	s=arc-20240116; t=1783505835; c=relaxed/simple;
+	bh=f8r2i9i7CX8Gwc26tYpu7pRUh3hJHo6IjOds+y/riL8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Vd+Q34zAWdOjULra59AGDIp6oUwbrKfGTQo9C0EujkHwIJDW9l6gBz494Vztbv44wbe089o4ypxDL6FiMONPVybVbGRlzJyrAq9DOFfTa10bxeOrzZXBD0SqjWBGQiC8bbHr6+zje/pSweSLsAB9R2r7673zLnS/MGKh8hZ35Is=
+	 MIME-Version; b=Or8DFre6Q7P7qcg0UmV7ZQjmyNu+qCELDwnks0IT9Ik/VE+5CIwuP3dh8/Ez/YjO7+pJurx/livNw4VNS3UCxE157AftkrPQxVhE8AHBVeK7VGI1P9CZ/sPoKlI0FaDCS3kwD/2uJiRgpDgt3wZE++ZA/QmeVH1UeyE4oWBzwsI=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9370B1F00A3A;
-	Wed,  8 Jul 2026 10:17:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2317D1F00A3D;
+	Wed,  8 Jul 2026 10:17:08 +0000 (UTC)
 From: Geert Uytterhoeven <geert+renesas@glider.be>
 To: Sudeep Holla <sudeep.holla@kernel.org>,
 	Cristian Marussi <cristian.marussi@arm.com>,
@@ -65,9 +65,9 @@ Cc: arm-scmi@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH v2 03/10] pmdomain: Make genpd_get_from_provider() public
-Date: Wed,  8 Jul 2026 12:16:21 +0200
-Message-ID: <fce1aa52b181082f260a824fe38baf033ba8f56e.1783505329.git.geert+renesas@glider.be>
+Subject: [PATCH v2 04/10] reset: Add reset_controller_get_provider()
+Date: Wed,  8 Jul 2026 12:16:22 +0200
+Message-ID: <c415dc5f468e62cd0e2a6b9639abb92a82c01324.1783505329.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1783505329.git.geert+renesas@glider.be>
 References: <cover.1783505329.git.geert+renesas@glider.be>
@@ -89,11 +89,11 @@ X-Spamd-Result: default: False [0.54 / 15.00];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
 	DMARC_NA(0.00)[glider.be];
-	TAGGED_FROM(0.00)[bounces-34861-lists,linux-renesas-soc=lfdr.de,renesas];
-	RCVD_COUNT_THREE(0.00)[4];
+	TAGGED_FROM(0.00)[bounces-34862-lists,linux-renesas-soc=lfdr.de,renesas];
+	FORGED_RECIPIENTS(0.00)[m:sudeep.holla@kernel.org,m:cristian.marussi@arm.com,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:saravanak@kernel.org,m:ulfh@kernel.org,m:rafael@kernel.org,m:p.zabel@pengutronix.de,m:mturquette@baylibre.com,m:sboyd@kernel.org,m:bmasney@redhat.com,m:bartosz.golaszewski@oss.qualcomm.com,m:vkoul@kernel.org,m:konrad.dybcio@oss.qualcomm.com,m:khilman@baylibre.com,m:florian.fainelli@broadcom.com,m:wsa+renesas@sang-engineering.com,m:marek.vasut+renesas@mailbox.org,m:kuninori.morimoto.gx@renesas.com,m:arm-scmi@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:devicetree@vger.kernel.org,m:linux-pm@vger.kernel.org,m:linux-clk@vger.kernel.org,m:linux-renesas-soc@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:geert+renesas@glider.be,m:krzk@kernel.org,m:conor@kernel.org,m:wsa@sang-engineering.com,m:marek.vasut@mailbox.org,m:geert@glider.be,s:lists@lfdr.de];
 	FORGED_SENDER(0.00)[geert@glider.be,linux-renesas-soc@vger.kernel.org];
 	RCPT_COUNT_TWELVE(0.00)[28];
-	FORGED_RECIPIENTS(0.00)[m:sudeep.holla@kernel.org,m:cristian.marussi@arm.com,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:saravanak@kernel.org,m:ulfh@kernel.org,m:rafael@kernel.org,m:p.zabel@pengutronix.de,m:mturquette@baylibre.com,m:sboyd@kernel.org,m:bmasney@redhat.com,m:bartosz.golaszewski@oss.qualcomm.com,m:vkoul@kernel.org,m:konrad.dybcio@oss.qualcomm.com,m:khilman@baylibre.com,m:florian.fainelli@broadcom.com,m:wsa+renesas@sang-engineering.com,m:marek.vasut+renesas@mailbox.org,m:kuninori.morimoto.gx@renesas.com,m:arm-scmi@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:devicetree@vger.kernel.org,m:linux-pm@vger.kernel.org,m:linux-clk@vger.kernel.org,m:linux-renesas-soc@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:geert+renesas@glider.be,m:krzk@kernel.org,m:conor@kernel.org,m:wsa@sang-engineering.com,m:marek.vasut@mailbox.org,m:geert@glider.be,s:lists@lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FORWARDED(0.00)[lists@lfdr.de];
@@ -112,70 +112,73 @@ X-Spamd-Result: default: False [0.54 / 15.00];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,glider.be:from_mime,glider.be:email,glider.be:mid,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: B5C017243DD
+X-Rspamd-Queue-Id: B57377243F6
 
-Unlike the corresponding function in the clock subsystem
-(of_clk_get_from_provider()), genpd_get_from_provider() is private, and
-thus cannot be used by PM Domain drivers.
+The reset subsystem differs from the clock subsystem in multiple ways:
+  1. It does not provide a public way to lookup resets from a reset
+     provider (clock has of_clk_get_from_provider()),
+  2. The xlate callback does not return a reset object, but merely an
+     index, which is converted to a reset object by the reset core.
 
-Make it public, so it be used by the R-Car X5H Module Controller driver.
+Hence add a public helper reset_controller_get_provider(), which just
+returns the provider, and will be used by the R-Car X5H Module
+Controller driver.
 
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
 v2:
   - No changes.
 ---
- drivers/pmdomain/core.c   | 4 ++--
- include/linux/pm_domain.h | 7 +++++++
- 2 files changed, 9 insertions(+), 2 deletions(-)
+ drivers/reset/core.c             | 11 +++++++++++
+ include/linux/reset-controller.h |  6 ++++++
+ 2 files changed, 17 insertions(+)
 
-diff --git a/drivers/pmdomain/core.c b/drivers/pmdomain/core.c
-index 842c4169e290677c..7de3c693ddd9a2c8 100644
---- a/drivers/pmdomain/core.c
-+++ b/drivers/pmdomain/core.c
-@@ -2900,8 +2900,7 @@ EXPORT_SYMBOL_GPL(of_genpd_del_provider);
-  * Returns a valid pointer to struct generic_pm_domain on success or ERR_PTR()
-  * on failure.
-  */
--static struct generic_pm_domain *genpd_get_from_provider(
--					const struct of_phandle_args *genpdspec)
-+struct generic_pm_domain *genpd_get_from_provider(const struct of_phandle_args *genpdspec)
- {
- 	struct generic_pm_domain *genpd = ERR_PTR(-ENOENT);
- 	struct of_genpd_provider *provider;
-@@ -2923,6 +2922,7 @@ static struct generic_pm_domain *genpd_get_from_provider(
- 
- 	return genpd;
+diff --git a/drivers/reset/core.c b/drivers/reset/core.c
+index 38e189d04d09b270..57c427bb33b322e2 100644
+--- a/drivers/reset/core.c
++++ b/drivers/reset/core.c
+@@ -1135,6 +1135,17 @@ __reset_find_rcdev(const struct fwnode_reference_args *args, bool gpio_fallback)
+ 	return NULL;
  }
-+EXPORT_SYMBOL_GPL(genpd_get_from_provider);
  
- /**
-  * of_genpd_add_child_ids() - Parse power-domains-child-ids property
-diff --git a/include/linux/pm_domain.h b/include/linux/pm_domain.h
-index f925614aebdbc914..95fd7e63e87e2095 100644
---- a/include/linux/pm_domain.h
-+++ b/include/linux/pm_domain.h
-@@ -458,6 +458,7 @@ int of_genpd_add_provider_simple(struct device_node *np,
- int of_genpd_add_provider_onecell(struct device_node *np,
- 				  struct genpd_onecell_data *data);
- void of_genpd_del_provider(struct device_node *np);
-+struct generic_pm_domain *genpd_get_from_provider(const struct of_phandle_args *genpdspec);
- int of_genpd_add_device(const struct of_phandle_args *args, struct device *dev);
- int of_genpd_add_subdomain(const struct of_phandle_args *parent_spec,
- 			   const struct of_phandle_args *subdomain_spec);
-@@ -492,6 +493,12 @@ static inline int of_genpd_add_provider_onecell(struct device_node *np,
- 
- static inline void of_genpd_del_provider(struct device_node *np) {}
- 
-+static inline struct generic_pm_domain *genpd_get_from_provider(
-+				const struct of_phandle_args *genpdspec)
++struct reset_controller_dev *
++reset_controller_get_provider(struct fwnode_handle *fwnode)
 +{
-+	return ERR_PTR(-ENODEV);
-+}
++	struct fwnode_reference_args args = { .fwnode = fwnode };
 +
- static inline int of_genpd_add_device(const struct of_phandle_args *args,
- 				      struct device *dev)
++	guard(mutex)(&reset_list_mutex);
++
++	return __reset_find_rcdev(&args, false);
++}
++EXPORT_SYMBOL_GPL(reset_controller_get_provider);
++
+ struct reset_control *
+ __fwnode_reset_control_get(struct fwnode_handle *fwnode, const char *id, int index,
+ 			   enum reset_control_flags flags)
+diff --git a/include/linux/reset-controller.h b/include/linux/reset-controller.h
+index 52a5a4e81f184407..0c17a36466115ba6 100644
+--- a/include/linux/reset-controller.h
++++ b/include/linux/reset-controller.h
+@@ -74,6 +74,7 @@ void reset_controller_unregister(struct reset_controller_dev *rcdev);
+ struct device;
+ int devm_reset_controller_register(struct device *dev,
+ 				   struct reset_controller_dev *rcdev);
++struct reset_controller_dev *reset_controller_get_provider(struct fwnode_handle *fwnode);
+ #else
+ static inline int reset_controller_register(struct reset_controller_dev *rcdev)
  {
+@@ -89,6 +90,11 @@ static inline int devm_reset_controller_register(struct device *dev,
+ {
+ 	return 0;
+ }
++
++static inline struct reset_controller_dev *reset_controller_get_provider(struct fwnode_handle *fwnode)
++{
++	return NULL;
++}
+ #endif
+ 
+ #endif
 -- 
 2.43.0
 
