@@ -1,70 +1,68 @@
-Return-Path: <linux-renesas-soc+bounces-34839-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-34840-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id MLSaKG0LTmqzCAIAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-34839-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 08 Jul 2026 10:33:49 +0200
+	id APr/Nc4KTmqiCAIAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-34840-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 08 Jul 2026 10:31:10 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 314B1723327
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 08 Jul 2026 10:33:49 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2589D7232ED
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 08 Jul 2026 10:31:10 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=ZXgQaSyx;
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=fm0grg32;
 	dmarc=pass (policy=quarantine) header.from=kernel.org;
-	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-34839-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-34839-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
+	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-34840-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-34840-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 108473001ACD
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Jul 2026 08:29:36 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 2AB79300A625
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Jul 2026 08:30:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 785063F54B4;
-	Wed,  8 Jul 2026 08:29:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 953D53FB7DC;
+	Wed,  8 Jul 2026 08:30:36 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B8ED27FD75;
-	Wed,  8 Jul 2026 08:29:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A99D3B994A;
+	Wed,  8 Jul 2026 08:30:35 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783499375; cv=none; b=l2YqYWBFi8tYgk4gZpRXwKbNFkwsffSrflyzsSYiYv+Fc/MQJeXXnUPEY7pqiRmNXRdV2VRrR0jgNA1zmNs6xzWF81alXdGhyYSfQs3AMDRcxTK/h8zmY1xucN/rUZsL9zx5yBI4Nss+qr+T7uuStVyC7olDXrXeGFZ5i5JO+vg=
+	t=1783499436; cv=none; b=BEEEyDOhIeYl5rZV/I0P5Uq/SqSEDbzcSDCeVF6cYboaqp5YSFIPXD6JfEt8rspMvYYl5QZI6ItgvQBxvvvi8+QCQpAqeFa/CQMvzEZdxZHjM9UcZrmGH/oc6+VpyFOZ94J1kKYUjeb/Vty+Ov7QSOt9wH6GXrznkkryXPSRLLs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783499375; c=relaxed/simple;
-	bh=xkjPZOWZJ0gBAldxLah5iX3ePWb2A6PPRRluNZ+a8M4=;
+	s=arc-20240116; t=1783499436; c=relaxed/simple;
+	bh=oCcqZnyK2YYlGofCxvRcruqo8OgkYBxVE5clbe4oX74=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aYn1hher/DH4/4+cKG8huugxFlM1emsMy0T3KLi2M22QPCzIeuM/dja1j8p+H3HmjoXxDRpuOaUwCJah1Vo60QeLmWxQ+x6XcHETr+57KCJJOd74xQFt6fv2mbY5r4R/VwwVEGNKpYz/35S9L5Bwse5WpLkJgArNxxKC/ZgLxvE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZXgQaSyx; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EF88F1F000E9;
-	Wed,  8 Jul 2026 08:29:32 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=QnhobyqQQ4bCvUXgZlegcvGK2Y1zZ5rN9wzXWIkp3rhn04097U+HoY+0Kfgr3IGLQyJRFX0/JmdOrvvl0pDT5zMB5a6r3NglVTTve6vHW6nny7BZtqSZiuoyUWRRFUKVsQuQLEus+wmTASL/J8SqhK5fQdUDeHC1BgZwUBmdfLU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fm0grg32; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 353A81F000E9;
+	Wed,  8 Jul 2026 08:30:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783499373;
-	bh=CWIm+NgsXwAVtIsalyxLXYc9JK4CbYz1QiTAMRXEaUk=;
+	s=k20260515; t=1783499435;
+	bh=bjtxR6NUe5F9tzlvYSS82b87oLOzar11BDinoTrndlg=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=ZXgQaSyxuwRdfO0MsiB5Go3qFhqa+he7eIP+MyDR0EfVjUny+iA1YsbMkVzJLDbcB
-	 s6yP1suFqfAk06R4ZJSY5t0We0XvbG2Iuz9Xj9e1YQVPkjDkzlVQp4fz0xkHJtnndj
-	 qea9JuS77BoMxunXeqpWRR7e8Lrezm4IIGBzQYLzNNB/GiYQgpWcVMkJN8l95Y2i1+
-	 4FYmsAH5fw3wFjY6aDLG32V6fasQ+/Z0sw2ofls1jtq5VssOWRyZuA24+hYiK/pIrM
-	 u3UThc0jkNPLsN4ZBayko3AHABMcAiuRhe7+l5RME74+C03uF1MflLqVYZkb3d/o93
-	 5kXdcESec7PbQ==
-Date: Wed, 8 Jul 2026 10:29:30 +0200
+	b=fm0grg32GQ29cQ6XWZw8mrwbqmtTGNsuX/EuGF+uW/cSLlZo5vOkZQVFRB4ia9EvZ
+	 1I0Qnj143U8Jan09r+DQGW2iUdkdVU2WtJ94f49BvlqRWgsrUqtBMohI205zeetcU4
+	 il+4iNMxqqa/SP7SVYh773xmo7zzl4FkjvtTn8Le3oqOLOoBnBfnYcHcu7f8osM2Q0
+	 5JniP2rJNYPgVolBC9SkH/LDB02of6ttEnqrYcdvEwKXCwE/BCYrSqAjXlgsTSandQ
+	 7WwovceXdRAJX4lHs1Ya/gTcrED7QEfTTHP+o7TO6Q+SgsifHerCKYoGxmye5P52cR
+	 MahYs0gM/PFug==
+Date: Wed, 8 Jul 2026 10:30:31 +0200
 From: Krzysztof Kozlowski <krzk@kernel.org>
 To: Biju <biju.das.au@gmail.com>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, David Airlie <airlied@gmail.com>, 
-	Simona Vetter <simona@ffwll.ch>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>, 
-	Magnus Damm <magnus.damm@gmail.com>, Biju Das <biju.das.jz@bp.renesas.com>, 
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Luca Ceresoli <luca.ceresoli@bootlin.com>, 
-	dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH 01/16] dt-bindings: display: bridge: renesas,dsi:
- Document RZ/G3L
-Message-ID: <20260708-hopping-exotic-baboon-6c5a46@quoll>
+Cc: Biju Das <biju.das.jz@bp.renesas.com>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+	Simona Vetter <simona@ffwll.ch>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
+	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, dri-devel@lists.freedesktop.org, 
+	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH 07/16] dt-bindings: display: renesas,rzg2l-du: Document
+ RZ/G3L SoC
+Message-ID: <20260708-satisfied-mammoth-from-betelgeuse-d4fe94@quoll>
 References: <20260704093433.273672-1-biju.das.jz@bp.renesas.com>
- <20260704093433.273672-2-biju.das.jz@bp.renesas.com>
+ <20260704093433.273672-8-biju.das.jz@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -73,7 +71,7 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260704093433.273672-2-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20260704093433.273672-8-biju.das.jz@bp.renesas.com>
 X-Rspamd-Action: no action
 X-Spamd-Result: default: False [-3.16 / 15.00];
 	WHITELIST_SPF_DKIM(-3.00)[kernel.org:d:+,kernel.org:s:+];
@@ -82,7 +80,7 @@ X-Spamd-Result: default: False [-3.16 / 15.00];
 	MID_RHS_NOT_FQDN(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
@@ -90,11 +88,11 @@ X-Spamd-Result: default: False [-3.16 / 15.00];
 	FORWARDED(0.00)[lists@lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:biju.das.au@gmail.com,m:andrzej.hajda@intel.com,m:neil.armstrong@linaro.org,m:rfoss@kernel.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:geert+renesas@glider.be,m:magnus.damm@gmail.com,m:biju.das.jz@bp.renesas.com,m:Laurent.pinchart@ideasonboard.com,m:jonas@kwiboo.se,m:jernej.skrabec@gmail.com,m:luca.ceresoli@bootlin.com,m:dri-devel@lists.freedesktop.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-renesas-soc@vger.kernel.org,m:prabhakar.mahadev-lad.rj@bp.renesas.com,m:bijudasau@gmail.com,m:krzk@kernel.org,m:conor@kernel.org,m:geert@glider.be,m:magnusdamm@gmail.com,m:jernejskrabec@gmail.com,s:lists@lfdr.de];
-	RCPT_COUNT_TWELVE(0.00)[24];
+	FORGED_RECIPIENTS(0.00)[m:biju.das.au@gmail.com,m:biju.das.jz@bp.renesas.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:geert+renesas@glider.be,m:magnus.damm@gmail.com,m:laurent.pinchart+renesas@ideasonboard.com,m:dri-devel@lists.freedesktop.org,m:linux-renesas-soc@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:prabhakar.mahadev-lad.rj@bp.renesas.com,m:bijudasau@gmail.com,m:krzk@kernel.org,m:conor@kernel.org,m:geert@glider.be,m:magnusdamm@gmail.com,m:laurent.pinchart@ideasonboard.com,s:lists@lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[18];
 	FREEMAIL_TO(0.00)[gmail.com];
 	FORGED_SENDER(0.00)[krzk@kernel.org,linux-renesas-soc@vger.kernel.org];
-	TAGGED_FROM(0.00)[bounces-34839-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-34840-lists,linux-renesas-soc=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
@@ -103,57 +101,42 @@ X-Spamd-Result: default: False [-3.16 / 15.00];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[krzk@kernel.org,linux-renesas-soc@vger.kernel.org];
 	PRECEDENCE_BULK(0.00)[];
-	FREEMAIL_CC(0.00)[intel.com,linaro.org,kernel.org,gmail.com,ffwll.ch,linux.intel.com,suse.de,glider.be,bp.renesas.com,ideasonboard.com,kwiboo.se,bootlin.com,lists.freedesktop.org,vger.kernel.org];
+	FREEMAIL_CC(0.00)[bp.renesas.com,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,glider.be,ideasonboard.com,lists.freedesktop.org,vger.kernel.org];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	DKIM_TRACE(0.00)[kernel.org:+];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[renesas.com:email,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,quoll:mid]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,quoll:mid,vger.kernel.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 314B1723327
+X-Rspamd-Queue-Id: 2589D7232ED
 
-On Sat, Jul 04, 2026 at 10:34:11AM +0100, Biju wrote:
-> From: Biju Das <biju.das.jz@bp.renesas.com>
-> 
-> The RZ/G3L DSI IP is similar to the RZ/G2L but has different global PHY
-> timings and also the PLLCLK is ungateble clock. Add the compatible
-> string "renesas,r9a08g046-mipi-dsi" to handle these difference for the
-> Renesas RZ/G3L SoC. The power to DSI region is controlled by SYSC block.
-> Document renesas,sysc-pwrrdy property to handle the power control.
-> 
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> ---
->  .../bindings/display/bridge/renesas,dsi.yaml      | 15 +++++++++++++++
->  1 file changed, 15 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/display/bridge/renesas,dsi.yaml b/Documentation/devicetree/bindings/display/bridge/renesas,dsi.yaml
-> index c20625b8425e..b114ac3b111a 100644
-> --- a/Documentation/devicetree/bindings/display/bridge/renesas,dsi.yaml
-> +++ b/Documentation/devicetree/bindings/display/bridge/renesas,dsi.yaml
-> @@ -28,6 +28,7 @@ properties:
->            - const: renesas,r9a09g057-mipi-dsi
+On Sat, Jul 04, 2026 at 10:34:17AM +0100, Biju wrote:
+>        model-dependent. Each port shall have a single endpoint.
 >  
->        - enum:
-> +          - renesas,r9a08g046-mipi-dsi # RZ/G3L
->            - renesas,r9a09g057-mipi-dsi # RZ/V2H(P)
+>      patternProperties:
+> -      "^port@[0-1]$":
+> +      "^port@[0-2]$":
+>          $ref: /schemas/graph.yaml#/properties/port
+>          unevaluatedProperties: false
 >  
->    reg:
-> @@ -108,6 +109,20 @@ properties:
->    power-domains:
->      maxItems: 1
->  
-> +  renesas,sysc-pwrrdy:
-> +    description:
-> +      The system controller PWRRDY indicates to the DSI region, if the power
-> +      supply is ready. PWRRDY needs to be set during power-on before applying
-> +      any other settings. It also needs to be set before powering off the DSI.
-> +    $ref: /schemas/types.yaml#/definitions/phandle-array
+> @@ -88,7 +89,6 @@ required:
+>    - clocks
+>    - clock-names
+>    - power-domains
+> -  - ports
 
-This feels a lot like a power domain. Please elaborate what is PWRRDY
-and why power-on/off and power status within SoC (important!) is not
-encoded as power domain.
+Why doing this change?
+
+>    - renesas,vsps
+>  
+>  additionalProperties: false
+> @@ -108,6 +108,7 @@ allOf:
+>              port@0:
+>                description: DPI
+>              port@1: false
+> +            port@2: false
 
 Best regards,
 Krzysztof
