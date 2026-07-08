@@ -1,164 +1,182 @@
-Return-Path: <linux-renesas-soc+bounces-34850-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-34851-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id CpvRC1skTmrmDwIAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-34850-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 08 Jul 2026 12:20:11 +0200
+	id b4zNNDMlTmonEAIAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-34851-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 08 Jul 2026 12:23:47 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67D827242EB
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 08 Jul 2026 12:20:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C42D7243CD
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 08 Jul 2026 12:23:47 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=163.com header.s=s110527 header.b="c cVRFzf";
+	dkim=none;
 	dmarc=none;
-	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-34850-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-34850-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
+	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-34851-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-34851-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id A05BE304E403
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Jul 2026 10:11:01 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 58A9230D403D
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Jul 2026 10:15:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2FDAA38757B;
-	Wed,  8 Jul 2026 10:11:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D80A739281B;
+	Wed,  8 Jul 2026 10:15:21 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.3])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3009E3822A8;
-	Wed,  8 Jul 2026 10:10:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EDE8380FFD;
+	Wed,  8 Jul 2026 10:15:20 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783505461; cv=none; b=C1WvZIf9Hoz5GfEzX+eIH/Wa2YiDsUujzH2gXEtLuulzDkGioshJwfvL1KZF6xNUmvw/ofddhCsMhUhBQZTZSXkkzCHcRlKfWFm08tdcpDjkpJf1bJ2p/x79blUd5XSSqj1YPDeGYuPDZndi4K01OD4nir8brS2p8pftGju7QDs=
+	t=1783505721; cv=none; b=GaI5fXAudkNQPdfBMdH1GguC9PgpyaEBWqQcIrhSGM+eHIFQP4oLQu8zd6hM1pHOoMYP+cA4jd0Q1mNN+wV1xGtYcvvtqQWiCyF1THoBGabZu/5FM4YxnsgP7PtfTDcNJ2pTEkZ94jl5gc8SWjqt5EPDfFzx10avrcTnayhPQeg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783505461; c=relaxed/simple;
-	bh=WpBjrU+g63CVj1WCaEKexhvNPjV1/Ss+5/QxmGjSRRU=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
-	 MIME-Version:Message-ID; b=H24pCleMJSjFR98IAfCtuzoSCMq/KTphrNIvBEvZBs9z85no8oIDSmrOy37VE62m7Hi5uCaID6nVHEiz/PcPlI55SvW/NVRuW66Sychobe52tFRWtwiV3nhcq6QDR4HM8zTIjtOSFeUKiEhpnV9oXAB+Kqw8l72ZXClUtjK+5j0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=ccVRFzft; arc=none smtp.client-ip=117.135.210.3
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=Date:From:To:Subject:Content-Type:MIME-Version:
-	Message-ID; bh=WpBjrU+g63CVj1WCaEKexhvNPjV1/Ss+5/QxmGjSRRU=; b=c
-	cVRFzftsbMD53Ccvpib/JGF7bOcsMraoNG6+y2qzDm/3xHiUDatbORFZ1j5rLbKj
-	bINSvHhwHzAvS4dBfSoGBcPlwAGUq7aklySxrsNlCRODa0nKj8Razdy5FAmUHftD
-	S6qlD6MjBCgAASzBaJuY+DsuLba1rTPlLyGl/FnhT4=
-Received: from fuqingshuang$kylinos.cn ( [116.128.244.169] ) by
- ajax-webmail-wmsvr-40-125 (Coremail) ; Wed, 8 Jul 2026 18:10:20 +0800 (CST)
-Date: Wed, 8 Jul 2026 18:10:20 +0800 (CST)
-From: "Qingshuang Fu" <fuqingshuang@kylinos.cn>
-To: "Geert Uytterhoeven" <geert@linux-m68k.org>
-Cc: "Thomas Gleixner" <tglx@linutronix.de>,
-	"Magnus Damm" <damm+renesas@opensource.se>,
-	"Marc Zyngier" <maz@kernel.org>, linux-kernel@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org
-Subject: Re:Re: [PATCH v4] irqchip/renesas-irqc: fix generic interrupt chip
- leak on remove
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version 2023.4-cmXT build
- 20260511(2e539873) Copyright (c) 2002-2026 www.mailtech.cn 163com
-Sender: fffsqian@163.com
-In-Reply-To: <CAMuHMdUxEnBx-2dvjSUPMjEb__0c-44y00OH9oftkPqoW18YyA@mail.gmail.com>
-References: <874ii9svk6.ffs@fw13> <20260708093849.501946-1-fffsqian@163.com>
- <CAMuHMdUxEnBx-2dvjSUPMjEb__0c-44y00OH9oftkPqoW18YyA@mail.gmail.com>
-X-NTES-SC: AL_Qu2TAfmbukwp5iiYZekckk4Vhu49Xcq2vvQv34Fec80EszD10SE5Q1hmJ3f36caPChm0sBSGSRl1xMtQYrtZ1bHHk54VLR2SEoI+N/3Q6Q==
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=GBK
+	s=arc-20240116; t=1783505721; c=relaxed/simple;
+	bh=5tvlj1Jg/kBw/iZacMOm4SIRGWlDMHmtuDl1+CS763I=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Sqnf4OZxs5rwXYuLbBYGNyvUhbrMJ/aJ/jqe4CX7H5UETxtsGdyBB7oQ4A5ubRIyboSvWfERbi9JHcozJhAFGIEPkmrFERPC6vH+YN7Kq0Q6ONrM4klLUi7c3NAI0GmABelhHOjljqFn6k1AoYrYWL4U9Dvc2T5RVeKZ4hblwO4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D89631F000E9;
+	Wed,  8 Jul 2026 10:15:16 +0000 (UTC)
+From: Geert Uytterhoeven <geert+renesas@glider.be>
+To: Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Brian Masney <bmasney@redhat.com>,
+	Ulf Hansson <ulfh@kernel.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Marek Vasut <marek.vasut+renesas@mailbox.org>,
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: devicetree@vger.kernel.org,
+	linux-clk@vger.kernel.org,
+	linux-pm@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH v2 0/6] R-Car X5H CPG/MDLC support
+Date: Wed,  8 Jul 2026 12:15:05 +0200
+Message-ID: <cover.1783505142.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Message-ID: <28e72a54.8bac.19f41350209.Coremail.fuqingshuang@kylinos.cn>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID:fSgvCgD3n0QMIk5q2dEZAA--.9971W
-X-CM-SenderInfo: 5iii21xldqqiywtou0bp/xtbC6gy5hGpOIgx0QQAA3k
-X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
+Content-Transfer-Encoding: 8bit
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [1.94 / 15.00];
+X-Spamd-Result: default: False [0.54 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MIME_BASE64_TEXT_BOGUS(1.00)[];
-	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
 	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[163.com:s=s110527];
 	MAILLIST(-0.15)[generic];
-	MIME_BASE64_TEXT(0.10)[];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FROM_HAS_DN(0.00)[];
-	DMARC_NA(0.00)[kylinos.cn];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_RECIPIENTS(0.00)[m:geert@linux-m68k.org,m:tglx@linutronix.de,m:damm+renesas@opensource.se,m:maz@kernel.org,m:linux-kernel@vger.kernel.org,m:linux-renesas-soc@vger.kernel.org,m:damm@opensource.se,s:lists@lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FORGED_SENDER(0.00)[fuqingshuang@kylinos.cn,linux-renesas-soc@vger.kernel.org];
-	MIME_TRACE(0.00)[0:+];
-	FORWARDED(0.00)[lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	HAS_X_PRIO_THREE(0.00)[3];
-	RCPT_COUNT_FIVE(0.00)[6];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	ALIAS_RESOLVED(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[fuqingshuang@kylinos.cn,linux-renesas-soc@vger.kernel.org];
-	TAGGED_FROM(0.00)[bounces-34850-lists,linux-renesas-soc=lfdr.de];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
-	DKIM_TRACE(0.00)[163.com:+];
+	DMARC_NA(0.00)[glider.be];
+	TAGGED_FROM(0.00)[bounces-34851-lists,linux-renesas-soc=lfdr.de,renesas];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_SENDER(0.00)[geert@glider.be,linux-renesas-soc@vger.kernel.org];
+	RCPT_COUNT_TWELVE(0.00)[18];
+	FORGED_RECIPIENTS(0.00)[m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:mturquette@baylibre.com,m:sboyd@kernel.org,m:bmasney@redhat.com,m:ulfh@kernel.org,m:p.zabel@pengutronix.de,m:wsa+renesas@sang-engineering.com,m:marek.vasut+renesas@mailbox.org,m:kuninori.morimoto.gx@renesas.com,m:devicetree@vger.kernel.org,m:linux-clk@vger.kernel.org,m:linux-pm@vger.kernel.org,m:linux-renesas-soc@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-kernel@vger.kernel.org,m:geert+renesas@glider.be,m:krzk@kernel.org,m:conor@kernel.org,m:wsa@sang-engineering.com,m:marek.vasut@mailbox.org,m:geert@glider.be,s:lists@lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORWARDED(0.00)[lists@lfdr.de];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[linux-m68k.org:email,vger.kernel.org:from_smtp,glider.be:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,kylinos.cn:from_mime,kylinos.cn:email,kylinos.cn:mid]
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	TO_DN_SOME(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[geert@glider.be,linux-renesas-soc@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	ALIAS_RESOLVED(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	R_DKIM_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,vger.kernel.org:from_smtp,linux-m68k.org:email,glider.be:mid,glider.be:from_mime]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 67D827242EB
+X-Rspamd-Queue-Id: 3C42D7243CD
 
-QXQgMjAyNi0wNy0wOCAxNzo0ODowNywgIkdlZXJ0IFV5dHRlcmhvZXZlbiIgPGdlZXJ0QGxpbnV4
-LW02OGsub3JnPiB3cm90ZToKPkhpIFFpbmdzaHVhbmcsCj4KPk9uIFdlZCwgOCBKdWwgMjAyNiBh
-dCAxMTozOSwgUWluZ3NodWFuZyBGdSA8ZmZmc3FpYW5AMTYzLmNvbT4gd3JvdGU6Cj4+IEZyb206
-IFFpbmdzaHVhbmcgRnUgPGZ1cWluZ3NodWFuZ0BreWxpbm9zLmNuPgo+Pgo+PiBUaGUgZHJpdmVy
-IGFsbG9jYXRlcyBkb21haW4gZ2VuZXJpYyBjaGlwcyB1c2luZwo+PiBpcnFfYWxsb2NfZG9tYWlu
-X2dlbmVyaWNfY2hpcHMoKSBkdXJpbmcgcHJvYmUuIEhvd2V2ZXIsIG9uIGRyaXZlcgo+PiByZW1v
-dmUsIHRoZSBnZW5lcmljIGNoaXBzIGFyZSBub3QgYXV0b21hdGljYWxseSBmcmVlZCB3aGVuIHRo
-ZSBpbnRlcnJ1cHQKPj4gZG9tYWluIGlzIHJlbW92ZWQgYmVjYXVzZSB0aGUgZG9tYWluIGZsYWdz
-IGRvIG5vdCBpbmNsdWRlCj4+IElSUV9ET01BSU5fRkxBR19ERVNUUk9ZX0dDLgo+Pgo+PiBUaGlz
-IGNhdXNlcyBib3RoIHRoZSBkb21haW4gZ2VuZXJpYyBjaGlwcyBzdHJ1Y3R1cmUgYW5kIHRoZSBh
-c3NvY2lhdGVkCj4+IGdlbmVyaWMgY2hpcHMgdG8gYmUgbGVha2VkLiBBZGRpdGlvbmFsbHksIHRo
-ZSBnZW5lcmljIGNoaXBzIHJlbWFpbiBvbgo+PiB0aGUgZ2xvYmFsIGdjX2xpc3QgYW5kIG1heSBs
-YXRlciBiZSB2aXNpdGVkIGJ5IGdlbmVyaWMgaW50ZXJydXB0IGNoaXAKPj4gc3VzcGVuZCwgcmVz
-dW1lLCBvciBzaHV0ZG93biBjYWxsYmFja3MgYWZ0ZXIgdGhlIGRyaXZlciBoYXMgYmVlbiByZW1v
-dmVkLAo+PiBwb3RlbnRpYWxseSByZXN1bHRpbmcgaW4gYSB1c2UtYWZ0ZXItZnJlZSBhbmQga2Vy
-bmVsIGNyYXNoLgo+Pgo+PiBGaXggdGhlIHJlc291cmNlIGxlYWsgYnkgc2V0dGluZyBJUlFfRE9N
-QUlOX0ZMQUdfREVTVFJPWV9HQyBvbiB0aGUKPj4gaW50ZXJydXB0IGRvbWFpbjsgdGhpcyBsZXRz
-IHRoZSBpbnRlcnJ1cHQgZG9tYWluIGNvcmUgYXV0b21hdGljYWxseQo+PiByZWxlYXNlIGFsbCBn
-ZW5lcmljIGNoaXBzIHdoZW4gaXJxX2RvbWFpbl9yZW1vdmUoKSBpcyBjYWxsZWQsIHJlbW92aW5n
-Cj4+IHRoZSBuZWVkIGZvciBtYW51YWwgY2xlYW51cCBjYWxscyBpbiBlcnJvciBwYXRocyBhbmQg
-cmVtb3ZlIGNhbGxiYWNrLgo+Pgo+PiBGaXhlczogOTljMjIxZGYzM2ZiZmExYiAoImlycWNoaXAv
-cmVuZXNhcy1pcnFjOiBNb3ZlIG92ZXIgdG8gbmVzdGVkIGdlbmVyaWMgY2hpcCIpCj4KPlRoYW5r
-cyBmb3IgdGhlIHVwZGF0ZSEKPk5vIGNoYW5nZWxvZz8KPgo+PiBTaWduZWQtb2ZmLWJ5OiBRaW5n
-c2h1YW5nIEZ1IDxmdXFpbmdzaHVhbmdAa3lsaW5vcy5jbj4KPj4gUmV2aWV3ZWQtYnk6IEdlZXJ0
-IFV5dHRlcmhvZXZlbiA8Z2VlcnQrcmVuZXNhc0BnbGlkZXIuYmU+Cj4KPlBsZWFzZSBkbyBub3Qg
-cmV0YWluIFJiLXRhZ3Mgd2hlbiBjb21wbGV0ZWx5IGNoYW5naW5nIGEgcGF0Y2guCj4KPj4gLS0t
-IGEvZHJpdmVycy9pcnFjaGlwL2lycS1yZW5lc2FzLWlycWMuYwo+PiArKysgYi9kcml2ZXJzL2ly
-cWNoaXAvaXJxLXJlbmVzYXMtaXJxYy5jCj4+IEBAIC0xOTQsNiArMTk0LDkgQEAgc3RhdGljIGlu
-dCBpcnFjX3Byb2JlKHN0cnVjdCBwbGF0Zm9ybV9kZXZpY2UgKnBkZXYpCj4+ICAgICAgICAgcC0+
-Z2MtPmNoaXBfdHlwZXNbMF0uY2hpcC5pcnFfc2V0X3dha2UgID0gaXJxY19pcnFfc2V0X3dha2U7
-Cj4+ICAgICAgICAgcC0+Z2MtPmNoaXBfdHlwZXNbMF0uY2hpcC5mbGFncyA9IElSUUNISVBfTUFT
-S19PTl9TVVNQRU5EOwo+Pgo+PiArICAgICAgIC8qIEF1dG9tYXRpY2FsbHkgZnJlZSBnZW5lcmlj
-IGNoaXBzIHdoZW4gaW50ZXJydXB0IGRvbWFpbiBpcyBkZXN0cm95ZWQgKi8KPgo+SSBhbSBub3Qg
-c3VyZSB5b3UgbmVlZCB0aGUgY29tbWVudC4KPgo+PiArICAgICAgIHAtPmlycV9kb21haW4tPmZs
-YWdzIHw9IElSUV9ET01BSU5fRkxBR19ERVNUUk9ZX0dDOwo+PiArCj4KPkxHVE0sIGJ1dCB5b3Ug
-bWF5IHdhbnQgdG8gZG8gdGhpcyByaWdodCBhZnRlciBjcmVhdGluZyBwLT5pcnFfZG9tYWluLAo+
-bGlrZSBpcyBkb25lIGluIHBkY19pbnRjX3Byb2JlKCkuCj4KPj4gICAgICAgICBpcnFfZG9tYWlu
-X3NldF9wbV9kZXZpY2UocC0+aXJxX2RvbWFpbiwgZGV2KTsKPj4KPj4gICAgICAgICAvKiByZXF1
-ZXN0IGludGVycnVwdHMgb25lIGJ5IG9uZSAqLwo+Pgo+Cj5HcntvZXRqZSxlZXRpbmd9cywKPgo+
-ICAgICAgICAgICAgICAgICAgICAgICAgR2VlcnQKPgo+LS0gCj5HZWVydCBVeXR0ZXJob2V2ZW4g
-LS0gVGhlcmUncyBsb3RzIG9mIExpbnV4IGJleW9uZCBpYTMyIC0tIGdlZXJ0QGxpbnV4LW02OGsu
-b3JnCj4KPkluIHBlcnNvbmFsIGNvbnZlcnNhdGlvbnMgd2l0aCB0ZWNobmljYWwgcGVvcGxlLCBJ
-IGNhbGwgbXlzZWxmIGEgaGFja2VyLiBCdXQKPndoZW4gSSdtIHRhbGtpbmcgdG8gam91cm5hbGlz
-dHMgSSBqdXN0IHNheSAicHJvZ3JhbW1lciIgb3Igc29tZXRoaW5nIGxpa2UgdGhhdC4KPiAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgLS0gTGludXMgVG9ydmFsZHMKCgpIaSBHZWVydCwK
-ClRoYW5rcyBmb3IgeW91ciByZXZpZXcuIEkndmUgdXBkYXRlZCB0aGUgcGF0Y2ggdG8gdjUgYXMg
-eW91ciBzdWdnZXN0aW9uczoKMS4gQWRkZWQgZnVsbCB2ZXJzaW9uIGNoYW5nZWxvZyB1bmRlciBz
-cGxpdCBsaW5lLgoyLiBNb3ZlZCBJUlFfRE9NQUlOX0ZMQUdfREVTVFJPWV9HQyBhc3NpZ25tZW50
-IHJpZ2h0IGFmdGVyIGlycV9kb21haW4gY3JlYXRpb24uCjMuIFJlbW92ZWQgcmVkdW5kYW50IGNv
-bW1lbnQgYW5kIGRyb3BwZWQgb2xkIFJldmlld2VkLWJ5IHRhZyBhcyBpbXBsZW1lbnRhdGlvbiBm
-dWxseSBjaGFuZ2VkLgoKdjUgcGF0Y2ggYXR0YWNoZWQuCgpRaW5nc2h1YW5nIEZ1Cgo=
+	Hi all,
+
+This patch series adds minimal support for the Renesas R-Car X5H Clock
+Pulse Generator (CPG) and Module Controller (MDLC), to aim for replacing
+the dummy clocks in r8a78000.dtsi with proper hardware description.
+These two components are closely related, in the sense that they are
+both supposed to be accessed through the ARM System Control and
+Management Interface (SCMI) on the Ironhide development board.
+
+This series consists of three parts:
+  1. Patches 1-2 add DT bindings and DT binding definitions,
+  2. Patches 3-4 add minimal CPG and MDLC drivers,
+  3. Patches 5-6 update the DTS.
+
+Some of these patches have been sent before as part of "[PATCH/RFC
+00/14] R-Car X5H Ironhide SCMI CPG/MDLC remapping"[1], hence the v2.
+However, this series does not use or rely on SCMI in any way.
+
+Major changes compared to v1[1] (more detail in the individual patches):
+  - Add default support not using SCMI,
+  - Drop everything related to SCMI.
+
+SCMI remapping support will be added in a subsequent series[2].
+Full hardware support without using SCMI could be added, too, if anyone
+would care about that use case.
+
+For testing, I have pushed this series plus additional work to[3].
+
+Thanks for your comments!
+
+[1] "[PATCH/RFC 00/14] R-Car X5H Ironhide SCMI CPG/MDLC remapping"
+    https://lore.kernel.org/cover.1776793163.git.geert+renesas@glider.be
+[2] "[PATCH v2 00/10] R-Car X5H Ironhide CPG/MDLC SCMI remapping support"
+    https://lore.kernel.org/cover.1783505329.git.geert+renesas@glider.be
+[3] topic/rcar-x5h-ironhide-scmi-cpg-mdlc-remapping-v2 branch of
+    https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git
+
+Geert Uytterhoeven (6):
+  dt-bindings: clock: Document Renesas R-Car X5H Clock Pulse Generator
+  dt-bindings: power: Document Renesas R-Car X5H Module Controller
+  clk: renesas: Add R-Car X5H CPG driver
+  pmdomain: renesas: Add R-Car X5H MDLC driver
+  arm64: dts: renesas: r8a78000: Add CPG node
+  arm64: dts: renesas: r8a78000: Add MDLC nodes
+
+ .../bindings/clock/renesas,r8a78000-cpg.yaml  |  55 +++
+ .../bindings/power/renesas,r8a78000-mdlc.yaml |  61 ++++
+ arch/arm64/boot/dts/renesas/r8a78000.dtsi     | 300 ++++++++++++++--
+ drivers/clk/renesas/Kconfig                   |   4 +
+ drivers/clk/renesas/Makefile                  |   1 +
+ drivers/clk/renesas/r8a78000-cpg.c            | 216 ++++++++++++
+ drivers/pmdomain/renesas/Kconfig              |   4 +
+ drivers/pmdomain/renesas/Makefile             |   1 +
+ drivers/pmdomain/renesas/r8a78000-mdlc.c      | 329 ++++++++++++++++++
+ drivers/soc/renesas/Kconfig                   |   1 +
+ .../dt-bindings/clock/renesas,r8a78000-cpg.h  |  14 +
+ .../dt-bindings/power/renesas,r8a78000-mdlc.h |  15 +
+ 12 files changed, 976 insertions(+), 25 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/clock/renesas,r8a78000-cpg.yaml
+ create mode 100644 Documentation/devicetree/bindings/power/renesas,r8a78000-mdlc.yaml
+ create mode 100644 drivers/clk/renesas/r8a78000-cpg.c
+ create mode 100644 drivers/pmdomain/renesas/r8a78000-mdlc.c
+ create mode 100644 include/dt-bindings/clock/renesas,r8a78000-cpg.h
+ create mode 100644 include/dt-bindings/power/renesas,r8a78000-mdlc.h
+
+-- 
+2.43.0
+
+Gr{oetje,eeting}s,
+
+						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
 
