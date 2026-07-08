@@ -1,41 +1,41 @@
-Return-Path: <linux-renesas-soc+bounces-34862-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-34863-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id jMYCCU0lTmo2EAIAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-34862-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 08 Jul 2026 12:24:13 +0200
+	id YDTVD3MlTmpJEAIAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-34863-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 08 Jul 2026 12:24:51 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id B57377243F6
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 08 Jul 2026 12:24:12 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id A61A472442B
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 08 Jul 2026 12:24:50 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
 	dkim=none;
 	dmarc=none;
-	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-34862-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 2600:3c09:e001:a7::12fc:5321 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-34862-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
+	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-34863-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-34863-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id D7D2C305E4DE
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Jul 2026 10:18:25 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id CEF7530D652B
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Jul 2026 10:18:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7142A3921E9;
-	Wed,  8 Jul 2026 10:17:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 57FAA4219FC;
+	Wed,  8 Jul 2026 10:17:21 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5099E381AFB;
-	Wed,  8 Jul 2026 10:17:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 346E742189A;
+	Wed,  8 Jul 2026 10:17:19 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783505835; cv=none; b=aHAUeFoeLDnnhHXWRqUsXpXqLXjWEbRGANz27CNpso7OmucrWjkNyuCVRb1vaAxHXeJXTWkfqgNgAiVby+Tsi3uRyNdRxjGhQHic53Ug3wTOHoAWR6Xyj1mDgve55cee0PrgnZgeuswfFQ22TH313mnsRhNU0cAQnHUAIH0qLEE=
+	t=1783505841; cv=none; b=urJOaEK11gOXQc+1k81rdguiJIDrFq8hrnEZaOJ6UbqDs2YNE41mawhtvExwKJg3szUU7EdUW8mp0hSXn9QACd3/ujIfeEQRF50QvfJvFFz/7mCLuvNvXswJR6LcNkofLr6Iwt6aLf12bpiAFcWhMKKjes/OfcElimRSZYx6w6s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783505835; c=relaxed/simple;
-	bh=f8r2i9i7CX8Gwc26tYpu7pRUh3hJHo6IjOds+y/riL8=;
+	s=arc-20240116; t=1783505841; c=relaxed/simple;
+	bh=OVfjBCOWwIW+n8Ee4eFBGu00ml5ebjzikt+6tjXE/94=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Or8DFre6Q7P7qcg0UmV7ZQjmyNu+qCELDwnks0IT9Ik/VE+5CIwuP3dh8/Ez/YjO7+pJurx/livNw4VNS3UCxE157AftkrPQxVhE8AHBVeK7VGI1P9CZ/sPoKlI0FaDCS3kwD/2uJiRgpDgt3wZE++ZA/QmeVH1UeyE4oWBzwsI=
+	 MIME-Version; b=f4BNtZcLccWk/7va+pCHRrMYlw/7cHF2zHwPSzqloQNdMnK+8CPqxnpMbV3VsCmPLjA5Ah5+aEBewgXkH6b6P/KUm5ePKNVyADORT0y0bS9ngR67GDj0HkFrCp057RomualvLficgSjkUWSs4TI0FDFlCjyQkInHmFac9ntJcw8=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2317D1F00A3D;
-	Wed,  8 Jul 2026 10:17:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A12BF1F00A3A;
+	Wed,  8 Jul 2026 10:17:14 +0000 (UTC)
 From: Geert Uytterhoeven <geert+renesas@glider.be>
 To: Sudeep Holla <sudeep.holla@kernel.org>,
 	Cristian Marussi <cristian.marussi@arm.com>,
@@ -65,9 +65,9 @@ Cc: arm-scmi@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH v2 04/10] reset: Add reset_controller_get_provider()
-Date: Wed,  8 Jul 2026 12:16:22 +0200
-Message-ID: <c415dc5f468e62cd0e2a6b9639abb92a82c01324.1783505329.git.geert+renesas@glider.be>
+Subject: [PATCH v2 05/10] dt-bindings: clock: renesas,r8a78000-cpg: Add firmware property
+Date: Wed,  8 Jul 2026 12:16:23 +0200
+Message-ID: <49726acff0fee1c3606e83c4f242ef6aad25b4b8.1783505329.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1783505329.git.geert+renesas@glider.be>
 References: <cover.1783505329.git.geert+renesas@glider.be>
@@ -83,22 +83,22 @@ X-Spamd-Result: default: False [0.54 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
 	DMARC_NA(0.00)[glider.be];
-	TAGGED_FROM(0.00)[bounces-34862-lists,linux-renesas-soc=lfdr.de,renesas];
-	FORGED_RECIPIENTS(0.00)[m:sudeep.holla@kernel.org,m:cristian.marussi@arm.com,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:saravanak@kernel.org,m:ulfh@kernel.org,m:rafael@kernel.org,m:p.zabel@pengutronix.de,m:mturquette@baylibre.com,m:sboyd@kernel.org,m:bmasney@redhat.com,m:bartosz.golaszewski@oss.qualcomm.com,m:vkoul@kernel.org,m:konrad.dybcio@oss.qualcomm.com,m:khilman@baylibre.com,m:florian.fainelli@broadcom.com,m:wsa+renesas@sang-engineering.com,m:marek.vasut+renesas@mailbox.org,m:kuninori.morimoto.gx@renesas.com,m:arm-scmi@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:devicetree@vger.kernel.org,m:linux-pm@vger.kernel.org,m:linux-clk@vger.kernel.org,m:linux-renesas-soc@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:geert+renesas@glider.be,m:krzk@kernel.org,m:conor@kernel.org,m:wsa@sang-engineering.com,m:marek.vasut@mailbox.org,m:geert@glider.be,s:lists@lfdr.de];
+	TAGGED_FROM(0.00)[bounces-34863-lists,linux-renesas-soc=lfdr.de,renesas];
+	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER(0.00)[geert@glider.be,linux-renesas-soc@vger.kernel.org];
 	RCPT_COUNT_TWELVE(0.00)[28];
-	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_RECIPIENTS(0.00)[m:sudeep.holla@kernel.org,m:cristian.marussi@arm.com,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:saravanak@kernel.org,m:ulfh@kernel.org,m:rafael@kernel.org,m:p.zabel@pengutronix.de,m:mturquette@baylibre.com,m:sboyd@kernel.org,m:bmasney@redhat.com,m:bartosz.golaszewski@oss.qualcomm.com,m:vkoul@kernel.org,m:konrad.dybcio@oss.qualcomm.com,m:khilman@baylibre.com,m:florian.fainelli@broadcom.com,m:wsa+renesas@sang-engineering.com,m:marek.vasut+renesas@mailbox.org,m:kuninori.morimoto.gx@renesas.com,m:arm-scmi@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:devicetree@vger.kernel.org,m:linux-pm@vger.kernel.org,m:linux-clk@vger.kernel.org,m:linux-renesas-soc@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:geert+renesas@glider.be,m:krzk@kernel.org,m:conor@kernel.org,m:wsa@sang-engineering.com,m:marek.vasut@mailbox.org,m:geert@glider.be,s:lists@lfdr.de];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FORWARDED(0.00)[lists@lfdr.de];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
 	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
@@ -110,75 +110,45 @@ X-Spamd-Result: default: False [0.54 / 15.00];
 	R_DKIM_NA(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,glider.be:from_mime,glider.be:email,glider.be:mid,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,glider.be:from_mime,glider.be:email,glider.be:mid,vger.kernel.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: B57377243F6
+X-Rspamd-Queue-Id: A61A472442B
 
-The reset subsystem differs from the clock subsystem in multiple ways:
-  1. It does not provide a public way to lookup resets from a reset
-     provider (clock has of_clk_get_from_provider()),
-  2. The xlate callback does not return a reset object, but merely an
-     index, which is converted to a reset object by the reset core.
-
-Hence add a public helper reset_controller_get_provider(), which just
-returns the provider, and will be used by the R-Car X5H Module
-Controller driver.
+Add a firmware property, for systems where SCMI must be used instead of
+direct hardware access.
 
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
 v2:
-  - No changes.
+  - Spin off from "dt-bindings: clock: Document Renesas R-Car X5H Clock
+    Pulse Generator".
 ---
- drivers/reset/core.c             | 11 +++++++++++
- include/linux/reset-controller.h |  6 ++++++
- 2 files changed, 17 insertions(+)
+ .../devicetree/bindings/clock/renesas,r8a78000-cpg.yaml    | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/drivers/reset/core.c b/drivers/reset/core.c
-index 38e189d04d09b270..57c427bb33b322e2 100644
---- a/drivers/reset/core.c
-+++ b/drivers/reset/core.c
-@@ -1135,6 +1135,17 @@ __reset_find_rcdev(const struct fwnode_reference_args *args, bool gpio_fallback)
- 	return NULL;
- }
+diff --git a/Documentation/devicetree/bindings/clock/renesas,r8a78000-cpg.yaml b/Documentation/devicetree/bindings/clock/renesas,r8a78000-cpg.yaml
+index 4e23bba334382346..fc499e7cf52e4f0c 100644
+--- a/Documentation/devicetree/bindings/clock/renesas,r8a78000-cpg.yaml
++++ b/Documentation/devicetree/bindings/clock/renesas,r8a78000-cpg.yaml
+@@ -35,6 +35,12 @@ properties:
+       <dt-bindings/clock/renesas,r8a78000-cpg.h>.
+     const: 1
  
-+struct reset_controller_dev *
-+reset_controller_get_provider(struct fwnode_handle *fwnode)
-+{
-+	struct fwnode_reference_args args = { .fwnode = fwnode };
++  firmware:
++    $ref: /schemas/types.yaml#/definitions/phandle
++    description:
++      Reference to the SCMI firmware device node on systems where SCMI must be
++      used instead of direct hardware access.
 +
-+	guard(mutex)(&reset_list_mutex);
-+
-+	return __reset_find_rcdev(&args, false);
-+}
-+EXPORT_SYMBOL_GPL(reset_controller_get_provider);
-+
- struct reset_control *
- __fwnode_reset_control_get(struct fwnode_handle *fwnode, const char *id, int index,
- 			   enum reset_control_flags flags)
-diff --git a/include/linux/reset-controller.h b/include/linux/reset-controller.h
-index 52a5a4e81f184407..0c17a36466115ba6 100644
---- a/include/linux/reset-controller.h
-+++ b/include/linux/reset-controller.h
-@@ -74,6 +74,7 @@ void reset_controller_unregister(struct reset_controller_dev *rcdev);
- struct device;
- int devm_reset_controller_register(struct device *dev,
- 				   struct reset_controller_dev *rcdev);
-+struct reset_controller_dev *reset_controller_get_provider(struct fwnode_handle *fwnode);
- #else
- static inline int reset_controller_register(struct reset_controller_dev *rcdev)
- {
-@@ -89,6 +90,11 @@ static inline int devm_reset_controller_register(struct device *dev,
- {
- 	return 0;
- }
-+
-+static inline struct reset_controller_dev *reset_controller_get_provider(struct fwnode_handle *fwnode)
-+{
-+	return NULL;
-+}
- #endif
- 
- #endif
+ required:
+   - compatible
+   - reg
+@@ -52,4 +58,5 @@ examples:
+             clocks = <&extal_clk>, <&extalr_clk>;
+             clock-names = "extal", "extalr";
+             #clock-cells = <1>;
++            firmware = <&scmi>;
+     };
 -- 
 2.43.0
 
