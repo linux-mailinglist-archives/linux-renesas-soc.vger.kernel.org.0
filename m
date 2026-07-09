@@ -1,125 +1,126 @@
-Return-Path: <linux-renesas-soc+bounces-34946-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-34947-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id Z8fnNp+CT2qxiQIAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-34946-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 09 Jul 2026 13:14:39 +0200
+	id QlzHCGCET2pxigIAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-34947-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 09 Jul 2026 13:22:08 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BA7E7301AB
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 09 Jul 2026 13:14:39 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id A997C7303E3
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 09 Jul 2026 13:22:07 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=none;
-	dmarc=none;
-	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-34946-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-34946-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=OgCZhmCb;
+	dmarc=pass (policy=reject) header.from=mailbox.org;
+	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-34947-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 2600:3c09:e001:a7::12fc:5321 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-34947-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 10B4A30ED67B
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Jul 2026 10:47:55 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 5DEDB300460C
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Jul 2026 11:21:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BB47E3FFADA;
-	Thu,  9 Jul 2026 10:47:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C1AD23DCDB1;
+	Thu,  9 Jul 2026 11:21:19 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 930A240B6FB
-	for <linux-renesas-soc@vger.kernel.org>; Thu,  9 Jul 2026 10:47:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84BFB3F44E2
+	for <linux-renesas-soc@vger.kernel.org>; Thu,  9 Jul 2026 11:21:17 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783594074; cv=none; b=YpmitS05FwRSfBG+B6S5PUIYBwFGUa+edpKb7t0UWlt0FVeDpiXkAKkWXYhellNGDNR4ViSlSPCyEoiUlh9SnrgL/BM7VjH8Qg4vzCDHYhdV+9S03nRpYaktCL5Bk7Bw/ij0e5GEvMsgncfn2JgGblKwRQ1O+3gf91jz3jgbAtU=
+	t=1783596079; cv=none; b=GzlRizpwTbVnQuAoN+b7uyJFM17gCCC23TK5vutGLgafaEbFRrYQiYHfacZiAwK20bXY52kX4Dz0dWsNSe8dPtru1GDPa2oWbIZAMiDPS/JjcH+Xlq5rgsHynqJnxetU3NfJ6PHsfQttgau3Bs9tgCKK7TzLy3E+GPloGpxrQMc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783594074; c=relaxed/simple;
-	bh=P7O7uTgJ7QBwbiJv4Jh9UynbJw5EB+rMsE7tohvbjRI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=i0apjdW0Z8x0vPIrrKsT6dH8MIdFvPGOoV+gX0JCq9DN4j5zK7xdFXBpta+sVYV08z5t6vrdvQY/51YXKahyrkINkFdKvCkkCx0bXGXVde6ndZ0OI94PNMRJ2lCqqu67l2Mhsb3/9tG97XA2gAnOEs4KMR7YTiXgzS88UpfQRxk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 862141F000E9;
-	Thu,  9 Jul 2026 10:47:51 +0000 (UTC)
-From: Geert Uytterhoeven <geert+renesas@glider.be>
-To: Magnus Damm <magnus.damm@gmail.com>,
-	Huy Bui <huy.bui.wm@renesas.com>,
-	Duy Nguyen <duy.nguyen.rh@renesas.com>,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: linux-renesas-soc@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Marek Vasut <marek.vasut@mailbox.org>
-Subject: [PATCH] soc: renesas: r8a78000: Drop duplicate "default ARCH_RENESAS"
-Date: Thu,  9 Jul 2026 12:47:44 +0200
-Message-ID: <64de6e95719a6dec7412cf7e917a42749e738b99.1783593775.git.geert+renesas@glider.be>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1783596079; c=relaxed/simple;
+	bh=2VyPq2t+dOLfBWVoMYpW8vCVILl/eiSO7aCcB0JKYj0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=kpXL206b3RUKGhT2vn5dt4oEoKLXv5hqhYZQ9T8ipT0mH98A34OJ+xg18TCoxDqeO7MjrRsCHxryPrWrt8tn3HxvO52vHWiESCoGXev1vVtcZLPBI+NPCxUfIqKbXrhYxjypwzN54SRTyFD+Enpio4nQjTq4etKwMNEAUIArKGE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=OgCZhmCb; arc=none smtp.client-ip=80.241.56.151
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [IPv6:2001:67c:2050:b231:465::2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA512)
+	(No client certificate requested)
+	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4gwswT4P6Lz8v5B;
+	Thu, 09 Jul 2026 13:21:13 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1783596073;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=DBYB7b1WWhEAMItaDQhK+Z3zDJbr0ZJMB5I7IpRMH40=;
+	b=OgCZhmCblaPezjAsJ8oRCkwQ+Idt+4vZolTS2e84ee9IbYbLrhY6LEdXryUY+tbnc4qc2i
+	YlzbL4YPMr/OOlEkqL/AABfR0eLxPkfPt4yfMBqXzyKi3/l4UFsS4cEwwMQ/CSUnopYGAC
+	wOSpwh2gId3hvpIMFE3rf6GquJoUgYtjbfguQ8gNNBw5Q3VWPdrU3IYxxL8fkVkAe00hME
+	Ne0yFHREVENbvbiC8SfPTPnC8WPjaO5q6utuy7azK28PHz9YLBM5p790A8PaFFiKmyj6xP
+	z9wY/+9GFXn7Q28TqmzCutuLlkljkk7EckRE4NB0znkO+j05spfnegEHY2iOrA==
+Message-ID: <b4679822-85e2-4eab-8886-056e56db28eb@mailbox.org>
+Date: Thu, 9 Jul 2026 13:21:10 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH] soc: renesas: r8a78000: Drop duplicate "default
+ ARCH_RENESAS"
+To: Geert Uytterhoeven <geert+renesas@glider.be>,
+ Magnus Damm <magnus.damm@gmail.com>, Huy Bui <huy.bui.wm@renesas.com>,
+ Duy Nguyen <duy.nguyen.rh@renesas.com>,
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: linux-renesas-soc@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+References: <64de6e95719a6dec7412cf7e917a42749e738b99.1783593775.git.geert+renesas@glider.be>
+Content-Language: en-US
+From: Marek Vasut <marek.vasut@mailbox.org>
+In-Reply-To: <64de6e95719a6dec7412cf7e917a42749e738b99.1783593775.git.geert+renesas@glider.be>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-MBO-RS-ID: d65fb8f0ee2d5d48ccc
+X-MBO-RS-META: tiidnmgg35hcxzg5id87y43xxwgh69kt
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [0.54 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	DMARC_POLICY_ALLOW(-0.50)[mailbox.org,reject];
+	R_DKIM_ALLOW(-0.20)[mailbox.org:s=mail20150812];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:magnus.damm@gmail.com,m:huy.bui.wm@renesas.com,m:duy.nguyen.rh@renesas.com,m:kuninori.morimoto.gx@renesas.com,m:linux-renesas-soc@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:geert+renesas@glider.be,m:marek.vasut@mailbox.org,m:magnusdamm@gmail.com,m:geert@glider.be,s:lists@lfdr.de];
-	DMARC_NA(0.00)[glider.be];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FREEMAIL_TO(0.00)[gmail.com,renesas.com];
-	PRECEDENCE_BULK(0.00)[];
-	FORGED_SENDER(0.00)[geert@glider.be,linux-renesas-soc@vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-34947-lists,linux-renesas-soc=lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:geert+renesas@glider.be,m:magnus.damm@gmail.com,m:huy.bui.wm@renesas.com,m:duy.nguyen.rh@renesas.com,m:kuninori.morimoto.gx@renesas.com,m:linux-renesas-soc@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:geert@glider.be,m:magnusdamm@gmail.com,s:lists@lfdr.de];
+	FREEMAIL_TO(0.00)[glider.be,gmail.com,renesas.com];
+	FORGED_SENDER(0.00)[marek.vasut@mailbox.org,linux-renesas-soc@vger.kernel.org];
 	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-34946-lists,linux-renesas-soc=lfdr.de,renesas];
+	RCVD_COUNT_THREE(0.00)[4];
 	FORWARDED(0.00)[lists@lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[geert@glider.be,linux-renesas-soc@vger.kernel.org];
-	R_DKIM_NA(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	ALIAS_RESOLVED(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	ALIAS_RESOLVED(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[marek.vasut@mailbox.org,linux-renesas-soc@vger.kernel.org];
+	DKIM_TRACE(0.00)[mailbox.org:+];
+	RCPT_COUNT_SEVEN(0.00)[7];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,vger.kernel.org:from_smtp,mailbox.org:email]
+	MID_RHS_MATCH_FROM(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,mailbox.org:from_mime,mailbox.org:email,mailbox.org:mid,mailbox.org:dkim,glider.be:email]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 5BA7E7301AB
+X-Rspamd-Queue-Id: A997C7303E3
 
-The Kconfig entry for ARCH_R8A78000 contains both "default y if
-ARCH_RENESAS" and "default ARCH_RENESAS", which are sort-of duplicates.
-
-Drop the latter, to restore consistency with the other ARM64 entries.
-
-Fixes: 5284d0b09d1bdc69 ("soc: renesas: Identify R-Car X5H")
-Reported-by: Marek Vasut <marek.vasut@mailbox.org>
-Closes: https://lore.kernel.org/a069d50d-030d-4189-ae9d-37f989829da4@mailbox.org
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
-To be queued in renesas-devel for v7.3.
-
- drivers/soc/renesas/Kconfig | 1 -
- 1 file changed, 1 deletion(-)
-
-diff --git a/drivers/soc/renesas/Kconfig b/drivers/soc/renesas/Kconfig
-index 8a625bc17091773f..e0ce51a9912beabe 100644
---- a/drivers/soc/renesas/Kconfig
-+++ b/drivers/soc/renesas/Kconfig
-@@ -356,7 +356,6 @@ config ARCH_R8A779H0
- config ARCH_R8A78000
- 	bool "ARM64 Platform support for R8A78000 (R-Car X5H)"
- 	default y if ARCH_RENESAS
--	default ARCH_RENESAS
- 	select ARCH_RCAR_GEN5
- 	help
- 	  This enables support for the Renesas R-Car X5H SoC.
--- 
-2.43.0
-
+On 7/9/26 12:47 PM, Geert Uytterhoeven wrote:
+> The Kconfig entry for ARCH_R8A78000 contains both "default y if
+> ARCH_RENESAS" and "default ARCH_RENESAS", which are sort-of duplicates.
+> 
+> Drop the latter, to restore consistency with the other ARM64 entries.
+> 
+> Fixes: 5284d0b09d1bdc69 ("soc: renesas: Identify R-Car X5H")
+> Reported-by: Marek Vasut <marek.vasut@mailbox.org>
+> Closes: https://lore.kernel.org/a069d50d-030d-4189-ae9d-37f989829da4@mailbox.org
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Reviewed-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
 
