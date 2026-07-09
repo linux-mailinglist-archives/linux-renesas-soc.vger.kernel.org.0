@@ -1,255 +1,184 @@
-Return-Path: <linux-renesas-soc+bounces-34939-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-34940-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id oC/7NmptT2ovggIAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-34939-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 09 Jul 2026 11:44:10 +0200
+	id 0vkFAvJvT2rIggIAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-34940-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 09 Jul 2026 11:54:58 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id D741D72F141
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 09 Jul 2026 11:44:09 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7904E72F2BD
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 09 Jul 2026 11:54:57 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=ideasonboard.com header.s=mail header.b=dpBu6r71;
-	dmarc=pass (policy=none) header.from=ideasonboard.com;
-	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-34939-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 2600:3c15:e001:75::12fc:5321 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-34939-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
+	dkim=none;
+	dmarc=none;
+	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-34940-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-34940-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id CE67A3010CF0
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Jul 2026 09:36:07 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 322EB302BBA9
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Jul 2026 09:50:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 30EDC3ED5D3;
-	Thu,  9 Jul 2026 09:36:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 45D023E7BD9;
+	Thu,  9 Jul 2026 09:50:07 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ua1-f44.google.com (mail-ua1-f44.google.com [209.85.222.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70CAE3EB818;
-	Thu,  9 Jul 2026 09:36:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F8E0402BA0
+	for <linux-renesas-soc@vger.kernel.org>; Thu,  9 Jul 2026 09:49:59 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783589765; cv=none; b=f1BKPjY3oZdPWoLdo6xSyDot/oke4GmX2Six3XjiF+k98Q+gzaH/SJEtW5KBB0oPEZbOZLB4pUt+DB1nNbadm+4IvVas8whbEmjNSu+MHcDEJ+0ODdKt/GWzo4Pd1z5kE4vcdeTFoGYJvuCa+ROOKmMHFsApK7Pjio0dxQQLaQM=
+	t=1783590605; cv=none; b=hN4y770y/YhtRt6mdb5YKyz/m6PR90B96Z/wR+8YGUtm7UBrnoFKr5VbR8h9yy2Jr2Ul+pUsump8LSCmfco22GdQ2ctGATYqbk5O4UCmwMNH5hwAGpkTbaTKU+8h2RR54zr67D8fZfAmSPdRA+fyxUxRBZwVVpdi/B19oAi+bV4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783589765; c=relaxed/simple;
-	bh=nFcqrRp7FRCCS7USJ00/+VfM73AB3ZkvQ4qBTbz6vDU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CNRoDvis/D7E0ggHKrglEoy+E0e5STcG2O261NoLTno37L2Hb9bI2xI7bOQwe9OHmdsCwkUNWG5ad1UYUCvTwltT8TUfwEPQ+kAJ2YV3fI+I/0yTqRkZLj1JYrY7ohI3q0hJ/WxhDUY36Fv03JQWdtUGR4cKZmn+WZhEseZ7XmQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=dpBu6r71; arc=none smtp.client-ip=213.167.242.64
-Received: from ideasonboard.com (net-93-65-100-155.cust.vodafonedsl.it [93.65.100.155])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id BAEF6448;
-	Thu,  9 Jul 2026 11:35:10 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1783589710;
-	bh=nFcqrRp7FRCCS7USJ00/+VfM73AB3ZkvQ4qBTbz6vDU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=dpBu6r71ZABL+Ox3pW2XWzV/xb0bu5kxfrWwbVwYFmg2FXy4DHee4kWgyWC2EXK8B
-	 efOb3MqbxIVNIU1mNphj64NZOTuPsx+0Stxr1PjGydkZPRNCPqJoX9PoV8gWoH/HCT
-	 FvQmg7eMbO1i/VKKI24vH3+RR9iq07eSqh6B9ubI=
-Date: Thu, 9 Jul 2026 11:35:58 +0200
-From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
-Cc: tomm.merciai@gmail.com, linux-renesas-soc@vger.kernel.org, 
-	biju.das.jz@bp.renesas.com, Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Hans Verkuil <hverkuil+cisco@kernel.org>, Nicolas Dufresne <nicolas.dufresne@collabora.com>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Mehdi Djait <mehdi.djait@linux.intel.com>, Sven =?utf-8?Q?P=C3=BCschel?= <s.pueschel@pengutronix.de>, 
-	Marek Szyprowski <m.szyprowski@samsung.com>, Isaac Scott <isaac.scott@ideasonboard.com>, 
-	Paul Cercueil <paul@crapouillou.net>, Daniel Scally <dan.scally+renesas@ideasonboard.com>, 
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 2/4] media: v4l2-common: Add
- v4l2_fill_pixfmt_aligned() helper
-Message-ID: <ak9pPzjABetdgUiq@zed>
-References: <20260708161406.396183-1-tommaso.merciai.xr@bp.renesas.com>
- <20260708161406.396183-3-tommaso.merciai.xr@bp.renesas.com>
+	s=arc-20240116; t=1783590605; c=relaxed/simple;
+	bh=XyB0QJBI/ArxNnxn06+fFpma6hNeLNHAjblX5FcA1C0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ljUoXV5fjqzm1Aon9FRP1Akht4ht1NDPtcZyYaLv5FiDsT5OFUqJ0vRvtXaIPjyrRV6/VqKzQIpymFlI0KC1UPJChmIQdZECn1vL9OZ7P4QsBegpwdJMdqUIg3wHFDw+8S09ZQ/AMD0+3nX1UYSNbSva5EyPXARxqVx1QYlFlaw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.44
+Received: by mail-ua1-f44.google.com with SMTP id a1e0cc1a2514c-9666739d3bcso566233241.0
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 09 Jul 2026 02:49:58 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783590595; x=1784195395;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=JBx1Lwl28bs84XHLARf2PZgvr/qdRO+0Qc3qcd6uTMQ=;
+        b=DxDsVfdoM2/U8XqfxCQfpgu6TSNG+Jzjqqla3R6+NzvWgw2h5ZjlUldTfs/HBA+kqh
+         nTrpHlnv+3oM3qQVeEJzMxHZIHmMh5aHruKivjGn1/B5Hz1VjkMfvgzQL5nwTJJ49aqc
+         /D15UudNdqrTOzInnwiFV4IQT+ZfSEHnVfWEhuu5pwcp7+h4CBOgDj2Utz0Tvkptkr1W
+         gR+gOKoI3+6xDJzB4ImSeok8ng1lbt+sbeNE7RFHIA7He/9PeXbxlu20F/vn3U8z9mao
+         HIiPeIFHMX2xiHf92smrU0CMcpdnGhd2D+V+OX93dvJl6tyZnfOGsXUA5B9m/R+LL1JW
+         E+4Q==
+X-Forwarded-Encrypted: i=1; AHgh+Rq9G6scaFbEtD0Y1ZHpJ9RSK2JDao/nl8pwhFFItoQch2Xjwx74RJ9riJGps6JVDm1yuQ63fiTHvbTaW93+XSGD/w==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw4wA9ZfOh5oz5492GZMDo0legISjdhMMCJ3wCTNXWxgXVZx+H7
+	8ROGtjGgeHFadxcfO5RKBsU8k0lVRTT1feP89ZNOZ373cCusVg3lKehc4O0GUwvPESU=
+X-Gm-Gg: AfdE7cnUIEFT8oF/LLalePF1/m4q2qjfNlXDskGGSjOWLlbamtiCzQNIzW1u9Iavxu7
+	8MuVQtRPlUWoN12U366uBLINs7ts1paMMGMYqbIR3TLn+DEfC6+Z2ga2wSrNV63hoAzxXE9ql4R
+	7lIlTfzu+gSrbQchEVmmlYB/SLWfbcAL40UfTGiORR27rtTMhnbo3WJeEDcnPcE94JLHx6mUVK1
+	BNzfzWKkb/Icb0VPO0nLXKYOvg1/S/7N5YVuVUdcX1vr+imW6cFNzqZN+spHfw/tTEi+3tLEkE5
+	UWcoTr7KWhnCq6/VqS5cZZ/IccB4wVeWRnArgwTkNgKDLVzoAl1nCC1SlQqdMrrMQuk94L5xIYi
+	atqzrMf3AJWWojsf+x2tPOjd/4BkItcorAe8qNu3o0uxK4tFmMtg6hjyxDLSgmR+nhZb5dvQkeN
+	fPnRvBaNc/hd80O3/mVQNY9ywq5KkU8Ni4X8I4VTxWWJWZYGBahQ==
+X-Received: by 2002:a05:6102:580a:b0:740:1df0:6ce1 with SMTP id ada2fe7eead31-744dfed34f0mr3434092137.2.1783590594960;
+        Thu, 09 Jul 2026 02:49:54 -0700 (PDT)
+Received: from mail-ua1-f48.google.com (mail-ua1-f48.google.com. [209.85.222.48])
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-96ed3186d3esm2747258241.6.2026.07.09.02.49.52
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 09 Jul 2026 02:49:53 -0700 (PDT)
+Received: by mail-ua1-f48.google.com with SMTP id a1e0cc1a2514c-9673385b1efso686647241.2
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 09 Jul 2026 02:49:52 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AHgh+RrA7UQsKqzD44/tHJVT3Iy8KTlZW+ipBFeqG3Wu9OcIbP+r1pJuj1m1zv782EYsZnk84am0vKXHka889n46r61uLQ==@vger.kernel.org
+X-Received: by 2002:a05:6102:c54:b0:740:22ba:8a4e with SMTP id
+ ada2fe7eead31-744dfed12b0mr3967593137.6.1783590592726; Thu, 09 Jul 2026
+ 02:49:52 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260708161406.396183-3-tommaso.merciai.xr@bp.renesas.com>
+References: <cover.1783505142.git.geert+renesas@glider.be> <50f5804f00c55cd60604d00da1bf1f1dc912ba8d.1783505142.git.geert+renesas@glider.be>
+ <80a31a21-9876-48a7-a9ed-baac4f87bc11@mailbox.org>
+In-Reply-To: <80a31a21-9876-48a7-a9ed-baac4f87bc11@mailbox.org>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Thu, 9 Jul 2026 11:49:40 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdV+nHe9kWbBv1k=b-6iixBBJbqeNY-Vq+qbT+wD2g6jUQ@mail.gmail.com>
+X-Gm-Features: AUfX_mz8czD0BjSvqmftRZ_pTGys7GO-j5nSESdQS6eSA4Z7r12bLxvVFtqIaAw
+Message-ID: <CAMuHMdV+nHe9kWbBv1k=b-6iixBBJbqeNY-Vq+qbT+wD2g6jUQ@mail.gmail.com>
+Subject: Re: [PATCH v2 3/6] clk: renesas: Add R-Car X5H CPG driver
+To: Marek Vasut <marek.vasut@mailbox.org>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Michael Turquette <mturquette@baylibre.com>, 
+	Stephen Boyd <sboyd@kernel.org>, Brian Masney <bmasney@redhat.com>, Ulf Hansson <ulfh@kernel.org>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, Wolfram Sang <wsa+renesas@sang-engineering.com>, 
+	Marek Vasut <marek.vasut+renesas@mailbox.org>, 
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, devicetree@vger.kernel.org, 
+	linux-clk@vger.kernel.org, linux-pm@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.16 / 15.00];
+X-Spamd-Result: default: False [0.04 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
-	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	DMARC_NA(0.00)[linux-m68k.org];
+	TAGGED_FROM(0.00)[bounces-34940-lists,linux-renesas-soc=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-34939-lists,linux-renesas-soc=lfdr.de];
-	FORGED_RECIPIENTS(0.00)[m:tommaso.merciai.xr@bp.renesas.com,m:tomm.merciai@gmail.com,m:linux-renesas-soc@vger.kernel.org,m:biju.das.jz@bp.renesas.com,m:prabhakar.mahadev-lad.rj@bp.renesas.com,m:jacopo.mondi@ideasonboard.com,m:mchehab@kernel.org,m:hverkuil+cisco@kernel.org,m:nicolas.dufresne@collabora.com,m:sakari.ailus@linux.intel.com,m:laurent.pinchart@ideasonboard.com,m:mehdi.djait@linux.intel.com,m:s.pueschel@pengutronix.de,m:m.szyprowski@samsung.com,m:isaac.scott@ideasonboard.com,m:paul@crapouillou.net,m:dan.scally+renesas@ideasonboard.com,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:tommmerciai@gmail.com,m:hverkuil@kernel.org,m:dan.scally@ideasonboard.com,s:lists@lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:marek.vasut@mailbox.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:mturquette@baylibre.com,m:sboyd@kernel.org,m:bmasney@redhat.com,m:ulfh@kernel.org,m:p.zabel@pengutronix.de,m:wsa+renesas@sang-engineering.com,m:marek.vasut+renesas@mailbox.org,m:kuninori.morimoto.gx@renesas.com,m:devicetree@vger.kernel.org,m:linux-clk@vger.kernel.org,m:linux-pm@vger.kernel.org,m:linux-renesas-soc@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-kernel@vger.kernel.org,m:krzk@kernel.org,m:conor@kernel.org,m:wsa@sang-engineering.com,s:lists@lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[19];
-	FORGED_SENDER(0.00)[jacopo.mondi@ideasonboard.com,linux-renesas-soc@vger.kernel.org];
+	RCPT_COUNT_TWELVE(0.00)[18];
+	FORGED_SENDER(0.00)[geert@linux-m68k.org,linux-renesas-soc@vger.kernel.org];
 	MIME_TRACE(0.00)[0:+];
 	FORWARDED(0.00)[lists@lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[ideasonboard.com:+];
-	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	ALIAS_RESOLVED(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[jacopo.mondi@ideasonboard.com,linux-renesas-soc@vger.kernel.org];
-	FREEMAIL_CC(0.00)[gmail.com,vger.kernel.org,bp.renesas.com,ideasonboard.com,kernel.org,collabora.com,linux.intel.com,pengutronix.de,samsung.com,crapouillou.net];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,cisco,renesas];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[renesas.com:email,zed:mid,ideasonboard.com:from_mime,ideasonboard.com:email,ideasonboard.com:dkim,vger.kernel.org:from_smtp,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
+	FORGED_SENDER_FORWARDING(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[geert@linux-m68k.org,linux-renesas-soc@vger.kernel.org];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	ALIAS_RESOLVED(0.00)[];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
+	R_DKIM_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,vger.kernel.org:from_smtp,mailbox.org:email,mail.gmail.com:mid,linux-m68k.org:from_mime,linux-m68k.org:email]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: D741D72F141
+X-Rspamd-Queue-Id: 7904E72F2BD
 
-Hi Tommaso
+Hi Marek,
 
-On Wed, Jul 08, 2026 at 06:14:03PM +0200, Tommaso Merciai wrote:
-> Add v4l2_fill_pixfmt_aligned(), a variant of v4l2_fill_pixfmt()
-> that accepts a stride_alignment parameter, mirroring the existing
-> v4l2_fill_pixfmt_mp() / v4l2_fill_pixfmt_mp_aligned() pair.
+On Wed, 8 Jul 2026 at 23:55, Marek Vasut <marek.vasut@mailbox.org> wrote:
+> On 7/8/26 12:15 PM, Geert Uytterhoeven wrote:
+> > +static int register_fixed_clks(struct r8a78000_cpg_priv *priv)
+> > +{
+> > +     struct device *dev = priv->dev;
+> > +     unsigned long rate;
+> > +     struct clk_hw *hw;
+> > +     const char *name;
+> > +
+> > +     for (unsigned int i = 0; i < ARRAY_SIZE(fixed_clk_rates); i++) {
+> > +             rate = fixed_clk_rates[i];
+> > +             name = devm_kasprintf(dev, GFP_KERNEL, "cpg-%lu", rate);
+> > +             if (!name)
+> > +                     return -ENOMEM;
+> > +
+> > +             hw = clk_hw_register_fixed_rate(dev, name, NULL, 0, rate);
 >
-> v4l2_fill_pixfmt() is refactored to call v4l2_fill_pixfmt_aligned()
-> with stride_alignment=1, preserving its existing behaviour.
->
-> The new helper is needed by drivers whose DMA engine requires the
-> line stride to be a multiple of a specific value, such as the
-> Renesas RZ/G3E CRU which requires 128-byte alignment.
->
-> Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
-> ---
-> v2->v3:
->  - No changes, just moved to from PATCH 3/4 to PATCH 2/4
->
-> v1->v2:
->  - Move v4l2_fill_pixfmt() into v4l2-common.h as inline wrapper
->  - Add v4l2_fill_pixfmt_aligned() helper documentation.
->
->  drivers/media/v4l2-core/v4l2-common.c | 12 +++++----
->  include/media/v4l2-common.h           | 38 +++++++++++++++++++++++++--
->  2 files changed, 43 insertions(+), 7 deletions(-)
->
-> diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-core/v4l2-common.c
-> index 54995ba8c20d..2ce4f1c20fbc 100644
-> --- a/drivers/media/v4l2-core/v4l2-common.c
-> +++ b/drivers/media/v4l2-core/v4l2-common.c
-> @@ -537,8 +537,8 @@ int v4l2_fill_pixfmt_mp_aligned(struct v4l2_pix_format_mplane *pixfmt,
->  }
->  EXPORT_SYMBOL_GPL(v4l2_fill_pixfmt_mp_aligned);
->
-> -int v4l2_fill_pixfmt(struct v4l2_pix_format *pixfmt, u32 pixelformat,
-> -		     u32 width, u32 height)
-> +int v4l2_fill_pixfmt_aligned(struct v4l2_pix_format *pixfmt, u32 pixelformat,
-> +			     u32 width, u32 height, u8 stride_alignment)
->  {
->  	const struct v4l2_format_info *info;
->  	int i;
-> @@ -554,15 +554,17 @@ int v4l2_fill_pixfmt(struct v4l2_pix_format *pixfmt, u32 pixelformat,
->  	pixfmt->width = width;
->  	pixfmt->height = height;
->  	pixfmt->pixelformat = pixelformat;
-> -	pixfmt->bytesperline = v4l2_format_plane_stride(info, 0, width, 1);
-> +	pixfmt->bytesperline = v4l2_format_plane_stride(info, 0, width,
-> +							stride_alignment);
->  	pixfmt->sizeimage = 0;
->
->  	for (i = 0; i < info->comp_planes; i++)
->  		pixfmt->sizeimage +=
-> -			v4l2_format_plane_size(info, i, width, height, 1);
-> +			v4l2_format_plane_size(info, i, width, height,
-> +					       stride_alignment);
->  	return 0;
->  }
-> -EXPORT_SYMBOL_GPL(v4l2_fill_pixfmt);
-> +EXPORT_SYMBOL_GPL(v4l2_fill_pixfmt_aligned);
->
->  #ifdef CONFIG_MEDIA_CONTROLLER
->  static s64 v4l2_get_link_freq_ctrl(struct v4l2_ctrl_handler *handler,
-> diff --git a/include/media/v4l2-common.h b/include/media/v4l2-common.h
-> index 749fe38c134e..be4dd9762196 100644
-> --- a/include/media/v4l2-common.h
-> +++ b/include/media/v4l2-common.h
-> @@ -554,8 +554,42 @@ static inline bool v4l2_is_format_bayer(const struct v4l2_format_info *f)
->  const struct v4l2_format_info *v4l2_format_info(u32 format);
->  void v4l2_apply_frmsize_constraints(u32 *width, u32 *height,
->  				    const struct v4l2_frmsize_stepwise *frmsize);
-> -int v4l2_fill_pixfmt(struct v4l2_pix_format *pixfmt, u32 pixelformat,
-> -		     u32 width, u32 height);
-> +
-> +/**
-> + * v4l2_fill_pixfmt_aligned - Fill in a &struct v4l2_pix_format with stride
-> + *	alignment requirements.
+> Would it be viable to use devm_clk_hw_register_fixed_rate() here ?
 
-nit:
-I was about to suggest "No '.' at the end of the function's brief to
-match the existing style" but I see the devm_v4l2_sensor_clk_get_legacy
-has it. However the majority of the other functions don't, so maybe
-consider dropping it.
+Yes, I think so; thanks!
 
-> + *
-> + * @pixfmt: pointer to the &struct v4l2_pix_format to be filled
-> + * @pixelformat: the V4L2 pixel format (V4L2_PIX_FMT_*)
-> + * @width: image width in pixels
-> + * @height: image height in pixels
-> + * @stride_alignment: stride alignment in bytes, must be a power of 2
-> + *
-> + * Fills all fields of @pixfmt for the given pixel format, dimensions, and
-> + * stride alignment. Only formats stored in a single memory plane are
-> + * supported; returns -EINVAL for multi-memory-plane formats.
-> + *
-> + * @pixfmt->bytesperline is set to the stride of the primary (plane 0) plane,
-> + * rounded up to a multiple of @stride_alignment. For formats that store
-> + * multiple component planes in a single memory buffer (e.g. NV12), the
-> + * alignment applied to each component plane's stride is scaled relative to
-> + * @stride_alignment so that the chroma stride remains consistently derivable
+> > +             if (IS_ERR(hw)) {
+> > +                     while (i-- > 0)
+> > +                             clk_hw_unregister_fixed_rate(priv->fixed_hws[i]);
+> > +                     return PTR_ERR(hw);
+> > +             }
+> > +
+> > +             priv->fixed_hws[i] = hw;
+> > +     }
+> > +
+> > +     return devm_add_action_or_reset(dev, unregister_fixed_clks, priv);
 
-Does this rather mean that
+And then this, and unregister_fixed_clks() can go, and
+r8a78000_cpg_priv.fixed_hws[] is no longer needed after probe.
 
-"For formats that store multiple component planes in a single memory
-buffer (e.g. NV12), the alignment applied to each component plane is
-the first plane @stride_alignment scaled by the plane's sub-sampling
-ratio" or have I mis-read this ?
+> > +}
 
-> + * from the luma stride. @pixfmt->bytesperline therefore reflects only the
-> + * primary plane stride.
-> + *
-> + * @pixfmt->sizeimage is set to the total size in bytes of all component planes.
+Gr{oetje,eeting}s,
 
-maybe s/component // ?
+                        Geert
 
-> + *
-> + * Return: 0 on success, -EINVAL if @pixelformat is unknown or uses multiple
-> + *	memory planes.
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-Do you need this tab ?
-
-> + */
-> +int v4l2_fill_pixfmt_aligned(struct v4l2_pix_format *pixfmt, u32 pixelformat,
-> +			     u32 width, u32 height, u8 stride_alignment);
-> +
-> +static inline int v4l2_fill_pixfmt(struct v4l2_pix_format *pixfmt,
-> +				   u32 pixelformat, u32 width, u32 height)
-> +{
-> +	return v4l2_fill_pixfmt_aligned(pixfmt, pixelformat, width, height, 1);
-> +}
-
-All minors or nit-picking
-Reviewed-by: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
-
-Thanks
-  j
-
->
->  /* @stride_alignment is a power of 2 value in bytes */
->  int v4l2_fill_pixfmt_mp_aligned(struct v4l2_pix_format_mplane *pixfmt,
-> --
-> 2.54.0
->
->
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
