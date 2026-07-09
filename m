@@ -1,260 +1,454 @@
-Return-Path: <linux-renesas-soc+bounces-34976-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-34977-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id mh6uNIzMT2oYogIAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-34976-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 09 Jul 2026 18:30:04 +0200
+	id joqDEzvVT2q7owIAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-34977-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 09 Jul 2026 19:07:07 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C787733787
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 09 Jul 2026 18:30:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90605733B18
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 09 Jul 2026 19:07:06 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=bp.renesas.com header.s=selector1 header.b=lTpk1ht5;
-	dmarc=pass (policy=none) header.from=renesas.com;
-	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-34976-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-34976-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
-	arc=reject ("cv is fail on i=2")
+	dkim=pass header.d=baylibre.com header.s=google header.b=Z+h9yZDZ;
+	dmarc=none;
+	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-34977-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-34977-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
+	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id BF9F6304E319
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Jul 2026 16:24:37 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id E2F583051A9A
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Jul 2026 16:59:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DAA31414A23;
-	Thu,  9 Jul 2026 16:24:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9147339E185;
+	Thu,  9 Jul 2026 16:59:46 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from TY3P286CU002.outbound.protection.outlook.com (mail-japaneastazon11010023.outbound.protection.outlook.com [52.101.229.23])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1947416D15;
-	Thu,  9 Jul 2026 16:24:33 +0000 (UTC)
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783614276; cv=fail; b=f0OY4Cf/YLti3M27RSqyVOPvgdVotcwOs1h+1/Apt8VGG8DRo6DR4AV1j68UcKVGp6Z7ClBkAoMzX//45ThSqjjTu7Euj69Pg++dh+5n8esFQbgROj/355A+ZO/22ONuNuptkya0RJG/5d2CamqYHU3sa4Oi61mE6wPQLOTwvcY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783614276; c=relaxed/simple;
-	bh=7V4j690yZK6J7H7C3jBsgT+jhQqmRsUtQjjMxD8AuHQ=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=nHGMMCyfmX2j69rbo2hlAQpQaaMxYwWB0630W3e/dtYEewK+YR6TUcO1IssDPjetN5OprDq2ef+idePnGzFmi1V5s8wuiuKrEOhjRq20BlkuCGIa03r0OrlAOKYq70N0LUEK1wVbvvF+z9zxcQ0pCooOtOSv6kwDSIOGVnQErEg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=lTpk1ht5; arc=fail smtp.client-ip=52.101.229.23
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=kgzxZswpDHZJk4gBSDOSYaDTc5/j++8wrL0VCOQ2+QVb84F+ABn+cCAhfLCm/u4vNYTaXVcVNKSdrGoGWNRKxVL3cO5YP6FjU9Smo4EtOEptCcio9bsslYOsmGdGhyrRqa6W76vsuuTdqVtoK3uOgSlJGaFVDdQow/AefI1e+bqphXDVNmLlr9GQQiykUKysSr+oH9ocz1oTASGpU9XMIzEdjbeMxUZLM0koRcE1NWfNL6FbCmLut9yhvmoW7A3H36keNFwsKDWxLbQ9272GcEKj/oChgo38vF8KJvZORmZUleK25tEyeJQTki3FI1j1TjC1aVoaBModNv3iih/UmQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=kOijpU89bEcpSffQaS+jSTUIxgf3ZnHjumKfA2F1ZlQ=;
- b=iGA8tjmTgNRDGl14sylfrvD+qfsXjvKeqfPnkCb91brSgB3utgLILlxV8oKDeOBW0IymB5wof0hlaoLXaAbzl4BhYb+Wu+5JoAvRQH6Sl9j9PHg4nQ7pwkzRIrxYjcdfzGlg9OSYjq+k3g7LsGsRIHrPQJhpuP9chRxU5956ZfSGqPvyN7GcW7FiZ8YQTrRsy/RzjqEfQMiqDULS6CzftiDwKTkOynFxCwKtD4XoL+FpFSbnBXjdTNh1VckmtoqdKQMftf7EyZTmR9Ygi+FTsz7Xl85H70p34aCnu96R6kU494ZV+Ny8eNxi7iOfnFiAtoieyie86jFoKUY3OSAkYQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=kOijpU89bEcpSffQaS+jSTUIxgf3ZnHjumKfA2F1ZlQ=;
- b=lTpk1ht5yUj7fk+iKtZXUQsLUXUyVrnWaNaD+lnf63r7lCWq1dNSkTK+mT+i4R9HwFqBKTIGBnia3Yi1UJdrlVpK9Buv44vZ0jEhZdCr7Rz4Pg9Q8Kx6rgqaLeIDTGizE8JKa7i9FkRWTHjEKTzAIeQCX2uB7F12gbZjlINshsQ=
-Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com (2603:1096:400:3d0::7)
- by TYYPR01MB6944.jpnprd01.prod.outlook.com (2603:1096:400:d7::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.17; Thu, 9 Jul
- 2026 16:24:29 +0000
-Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com
- ([fe80::87d1:4928:d55:97de]) by TY3PR01MB11346.jpnprd01.prod.outlook.com
- ([fe80::87d1:4928:d55:97de%4]) with mapi id 15.21.0181.009; Thu, 9 Jul 2026
- 16:24:26 +0000
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: biju.das.au <biju.das.au@gmail.com>, Ulf Hansson <ulfh@kernel.org>, Rob
- Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor
- Dooley <conor+dt@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>,
-	Philipp Zabel <p.zabel@pengutronix.de>, magnus.damm <magnus.damm@gmail.com>
-CC: wsa+renesas <wsa+renesas@sang-engineering.com>,
-	"linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, biju.das.au
-	<biju.das.au@gmail.com>
-Subject: RE: [PATCH v18 00/12] Add Renesas RZ/G3L SD/eMMC support
-Thread-Topic: [PATCH v18 00/12] Add Renesas RZ/G3L SD/eMMC support
-Thread-Index: AQHdAl+r4yj1HERfHk6QPePkoaHOOLZleakw
-Date: Thu, 9 Jul 2026 16:24:26 +0000
-Message-ID:
- <TY3PR01MB113462BB275A7939C5A82CCB586FE2@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-References: <20260622155610.184271-1-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20260622155610.184271-1-biju.das.jz@bp.renesas.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TY3PR01MB11346:EE_|TYYPR01MB6944:EE_
-x-ms-office365-filtering-correlation-id: 83958412-0721-469d-d10e-08deddd68b92
-x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|376014|7416014|23010399003|1800799024|366016|11063799006|56012099006|22082099003|18002099003|38070700021;
-x-microsoft-antispam-message-info:
- rV+4lFYzaO0dbRsxTZThmHS9+IomQQQfaotvgsQEc1RWKJPNzjfvY47hoRKY4EhfpABdNIhubjG52diYH0iqJtxcGoUa7dHqWoevB8CBRBaTpXJL8/E8iqKRi2jlv7K4VFkiDKPjB8jfv68Zeqk2bjfRiY3cbiKmaqjQ74TxhCyfuARxJEqOIhth4VNOBawH4Wyc9GtiJ/oP+ZKdG2OEG1vblSYyMU89vUJaL5NJDbA67VlMCXkggj8pElYm9GcHcf612QFiVscFtetNgZUGiK43S/w6lwwCguuQWaEUzxFhjrWAZUefpsiN4MeT/eZJRRaMEuZ0TjJg+24hBla66rnBwzB2f2b2NgeFwHLg3M0Pi1ObMGy/OV5VyaD5ROhyBP7Vp+4KJq2ulfeWdlhvgm46JbDgI5s8LY+9IYodX5mavDgccFMDwej93Svv8y7DugLdm4I0ZSNW8WJsZrHSGie6a2Hi9O+78vsTCAQSU2P1yRqi5H12zkd4Le8OMWOk2qMjhMqO2e4EWrXF9S9tYm+RLy1sLWB+9Vzh3SWb6RzlO6tCD5Mxr/i3utR7Vj6ufEw7H8b6gnbPK3fsqCFrEiPuLMLSd5TiyUnWPRHEJngwf43rcaMvaEE/rzxgZzFmeOKz0OtK0LSdCZxBLrIf6VMWnVOyHjOOAJg0Gx49cjZXsLR+aQNih2h6g02dNjbrL35VsQzVjI6fIGqkJQaxz63sRD2QaMxkgLV/9CaQbXw=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB11346.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(23010399003)(1800799024)(366016)(11063799006)(56012099006)(22082099003)(18002099003)(38070700021);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?dG0OP5u59kKtw6NGdN66hMWOPxCiDvTcPWnNIvImIUadjc4mFK+jzDKgXzFo?=
- =?us-ascii?Q?jfm2sETIcp7gvkWrtZRR2gGrhHpBh02OEW8CRNx3ZHWSKJB68Y3PR96Ii3Jx?=
- =?us-ascii?Q?klXejYBpq9AQe4Am2FAqdkAD1ejkHmJ+uD5//M3CLlxO1kVtvIxXHswrUYcS?=
- =?us-ascii?Q?8wtkUexLG1ObjgAaMO8JCNBj9tGcQ+CMFeVIoXQwl0VA8IGjA+mHTSlzzd+G?=
- =?us-ascii?Q?OAcpqx4Q9OUmyI6+4hfyal5NfguukJFI/PI35fk5fpFE+3U4diiv9L6ZAmpL?=
- =?us-ascii?Q?jgoIhNhoNdEW/aRKi9m7bYZBt9KcaLxsP8CfYvYPSUNkIsSYS/85mXv6FbCv?=
- =?us-ascii?Q?IU6jEEkmy44UY/EBCUIHT/WW4cBVvvG/srnNKVSKTzo0Sm0YHum9sznmK+lC?=
- =?us-ascii?Q?OZl37RkCsPUkBOz/DN/RkI07v+X2oOW+EMRbFwm1fNzDb8Tn5CNuUKfy+GRI?=
- =?us-ascii?Q?qVDjz80qWfQxShRdbHOwx8SdtjHTcsU0MmVhonCCcEK7HaHMgwdcAaYJILd3?=
- =?us-ascii?Q?05D8bL68hIqo5wAnhDfTNiP1KJv5/tKseWi4CCYV0H21fT3a1CKmTBysgib6?=
- =?us-ascii?Q?8+h3JqKEobReeAzAijCQrDKNsF0l9kLf2P3mz6T8bPsio2OnTvU0pE1SzA6K?=
- =?us-ascii?Q?+Y5izU4R8jA9eWXT9rsGhRMvCabuB7OVXIFZ8ly98ciF35j2jmlRf4Vwvti+?=
- =?us-ascii?Q?DkDUkB67T1ygHbalveBX5gXZNcFhhUBdcKtKPZAcRIvJW70STgDksRXHNSQe?=
- =?us-ascii?Q?+xEPIWMQrHEO4WTpGCnD+U4sv+7R5rzxtDsbgxaPHueG/uJOE4+ICIBSq0Bx?=
- =?us-ascii?Q?iSOVZtuCMJzQbirEl61GMyyFjyLNit+cPaCzqmZPlSr0Ezq7ATvOPTArPpMY?=
- =?us-ascii?Q?ZT8SH9f7Y7rc4Gk1tgBv2H9P/ZRB00B4OvFB5xA4I4e/uCxB/A2Kt13XRjPP?=
- =?us-ascii?Q?+J6RpJDmw7exmLmnLV7UIWQLDUqrmLbdB8eJk6V8glapnSSVUx748TaKNuFP?=
- =?us-ascii?Q?MuJxbe8cRJX/BScmFy7PJVKcm/GvfwQIwgIiiAgWBPfYW9mDCOqaMqNNg9Eg?=
- =?us-ascii?Q?KEE87/QY94AG93AF8Vo1g1QnegNSa6a7uji5QGEP9iVzx7VyUBJppsoRYM7t?=
- =?us-ascii?Q?MNXVjxIxLy4iGXhG8H3DGy1ZxtDz4nWLP0f79tyg7fAIBdYgElNqdCCwGeSE?=
- =?us-ascii?Q?LY18+4w9oBRiUz6nUbHfblg6u+MbdRubwSuugwqlVJDjNfCoQkreWn4yANgN?=
- =?us-ascii?Q?ha0E4mcJ3aVRryda4AiFrL+OWOinp+W5nt3j2Mljea3n7feWQ66rssVtL5aR?=
- =?us-ascii?Q?9aD24N1Urs1gVIEyMsY2h8hQmJE0YtBw5PG4xKNoPPYHax8Iw18QL9El9Jo3?=
- =?us-ascii?Q?rMyO5Se1GNeHK1bMuITmyRNqC8EEOe1GvAmoDWQ9Z0ravuy0D84RHfjSTqHK?=
- =?us-ascii?Q?obPsNQszu1k+Na+dq29KtDfvM3ufKdtMEI1XW4PcqDoZhwENEqy6bkzyLPW9?=
- =?us-ascii?Q?bD4TZm0elylstoY6Qrt0dfGSu0Bf1yoDqae4g5nKn0t7qTiUjtQZIyNCkT4q?=
- =?us-ascii?Q?JU1eh3EPisLILHmUiAF/4ab8ZOjMg81h2iTP6jr15TWpSzGkNZezjq+ym9nZ?=
- =?us-ascii?Q?QndtaQ9VlJIAoUZHoLHLYxwioO5yxuGdaFhs5haHdguZX095Utled3G29ayb?=
- =?us-ascii?Q?pLUH/25/jVqVG6MY6WLKtYIOt5dFIqPxttnJ5eTaunfQGT2H/DUgnbWNiROT?=
- =?us-ascii?Q?9knN9FTMsw=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C9A42D3A60
+	for <linux-renesas-soc@vger.kernel.org>; Thu,  9 Jul 2026 16:59:43 +0000 (UTC)
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783616386; cv=none; b=lMwc8oEQcRP6yMy7qNYHuiwqaoJQnAmFuDBOBpe3MwdNhUoQJXNr6pDn2lT0JvZODWqnLsxKn8eqAr8oBLJl66NE74JVTqjQ7lmFVusBLZ7FW3E5/FB/255H5yLhuVcBuULt9xRvoMcvtO8JgfoTT55F8edORI1sbnVjiADtwfk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783616386; c=relaxed/simple;
+	bh=x7I7jx1xlGkYcQ0g2wKbDdhKkfSw89TrgshWMQXyV+I=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=q/lq7BSwOljNYT9a8EzTSznY2kbVfLeB2vN6H0BrXwufjh0DLcg8N14LHS/DiOW6skXh08cw0vYCgMO7tBg1WjIrQs6f0k0WIYJDvDywS4LYP1XTibq7Pn0BhZZ8+nH3/Kg5/TouBpGJNd0/zaDVcvwouAo7gJtPtfeKjyI+J2o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=Z+h9yZDZ; arc=none smtp.client-ip=209.85.221.46
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-47122683cf3so80880f8f.0
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 09 Jul 2026 09:59:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre.com; s=google; t=1783616382; x=1784221182; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=VJDhVAwwnuJynU+rK7XaHmDAD2JyG8RU5Caf9YS1vZM=;
+        b=Z+h9yZDZovU+bnsnMg7Z4tTL2FNt+50VBqnoncNPA1puksfAUX/e/kwqMSMBFHGAFm
+         94UiPPccms1SbiyBT+FnrtoVVF7DMu963NG3IdGZukyo8jjW46bJMMjl1p08SGFfC2yK
+         aMBEd7/cBVbMYFUwLuo0W9+42IZdR3bL4oRvFWhfgsDw6llnVeq/WT4T4lVrFv8SygAW
+         HPpx8M2MGug855od/yCptKEP+63qhHvn/IXwy7mfgpFaOE9rsh9Ou2k6bcykx+WUl0Gc
+         ddfI0dBfI69BsyQOBOsE2qEQDGorSPWbkVt64mEWKPuHo0niR2sU0JsGuvo28PNuTVEn
+         nBmw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783616382; x=1784221182;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=VJDhVAwwnuJynU+rK7XaHmDAD2JyG8RU5Caf9YS1vZM=;
+        b=IrUubYdRo5U7oZvzEzX0saKB+LuqYkkhJqc4DNJxQ3zG3AZVJeQx94qdGB5aBEzuUR
+         iEkoFJGYlAECddjyCNFrXaYAF35DYYPoMpYnWVamMpWirRyBdnfUlaCwcjK1yivz8oUy
+         g58zcZtcDt+o8ol1Eo/UPvvwQzdi8et8SStNmarwHaiIvyRkTSlXsG1cHbWkcwUAS8PF
+         Rjk6/EfUix0yKMU9gR2KZrGJIIGrA1RzI1LnHniJ0i9IycRH54mqdssqmMFXkyGZC9Mz
+         AxEYgETPDP0AZOgky8hXdX4g2agCss+4mfgTuynPQmnZxTw5u0HX5BbUFRQFo05gJpJA
+         uReA==
+X-Forwarded-Encrypted: i=1; AHgh+Rp915IQrzmoaxelBXm6+iq8SNYRPCLzBksVuEaa3e5WKgSqaY7Jvf/5n2D/5oLFn1B00g0mgBL9I8iT0sN9aDqZbw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyJt77YSBppEU4UfpU94h9W0iSvFHxuJzdU1vLVvT+LXJz7ui7q
+	RSgKYm1p4Ox9CihpxxUBjEmBDTvUYiOOrEhE0b0OwN9SCAHi9DuQ+JmxbafdwiB4hjE=
+X-Gm-Gg: AfdE7cnrGMaCb++m4Dqt3OtW8bXSxo63A94JAwu9VkdGs11okOqEGwuBqSSWm8qtA0I
+	Kc9kjc7e3uJwi/Dhyq6jVyecdqXB8Mb86smi2/KTdCKhxoDS+ci2Tk5FaKNlLV57hTC0l4XlOJ1
+	sl27xNNbeAU2O5eNPHNL6RyMN3Xp7YXuEpz1r/R1YyD1EPEjq2Xc/F4unMR5dKr/qzKNMppcmXR
+	dewiIH9KOv8AGfbF1n0s92Q3FnQm7EuhAi8XHNEyBr0qeXVA32p25nkXBzybqfilp9Hl79qQHrR
+	5bGsvjaxAD4BQFiZLv95S44EX+S5tbw5mEBc2d2EFqs2Lu0/m5g6vaOM0Fd1fs8jMG9XqC/MxOR
+	PRj/U+m4NcArgidXrXmzbEydIVgLbRtKv/vvYNlcH3oneFzatytjxcEQ+PILzPEDruuNxvEqYyW
+	f3gR83ilCUX+IgdTS5Tryq44x110i6JD68p4kaUyBohMfNo08Ji55ovWzK2+aL/n4fGwGzsWxXl
+	3oY
+X-Received: by 2002:a05:6000:41fe:b0:47d:efd0:c026 with SMTP id ffacd0b85a97d-47df071e085mr8532732f8f.11.1783616382067;
+        Thu, 09 Jul 2026 09:59:42 -0700 (PDT)
+Received: from localhost (p200300f65f47db043de98c19b374aa68.dip0.t-ipconnect.de. [2003:f6:5f47:db04:3de9:8c19:b374:aa68])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-47aa039b0cesm53752742f8f.22.2026.07.09.09.59.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 09 Jul 2026 09:59:41 -0700 (PDT)
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig=20=28The=20Capable=20Hub=29?= <u.kleine-koenig@baylibre.com>
+To: Lee Jones <lee@kernel.org>
+Cc: Florian Fainelli <florian.fainelli@broadcom.com>,
+	Ray Jui <rjui@broadcom.com>,
+	Scott Branden <sbranden@broadcom.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	mfd@lists.linux.dev,
+	linux-rpi-kernel@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	linux-mediatek@lists.infradead.org,
+	Qunqin Zhao <zhaoqunqin@loongson.cn>,
+	linux-crypto@vger.kernel.org,
+	Benson Leung <bleung@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	chrome-platform@lists.linux.dev,
+	Colin Foster <colin.foster@in-advantage.com>,
+	David Rhodes <david.rhodes@cirrus.com>,
+	Richard Fitzgerald <rf@opensource.cirrus.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Mika Westerberg <mika.westerberg@linux.intel.com>,
+	Zha Qipeng <qipeng.zha@intel.com>,
+	Thomas Richard <thomas.richard@bootlin.com>,
+	linux-sound@vger.kernel.org,
+	patches@opensource.cirrus.com,
+	Xu Yilun <yilun.xu@intel.com>,
+	Tom Rix <trix@redhat.com>,
+	Michael Hennerich <michael.hennerich@analog.com>,
+	Chen-Yu Tsai <wens@kernel.org>,
+	Marek Vasut <marek.vasut+renesas@gmail.com>,
+	James Ogletree <jogletre@opensource.cirrus.com>,
+	Fred Treven <fred.treven@cirrus.com>,
+	Ben Bright <ben.bright@cirrus.com>,
+	Support Opensource <support.opensource@diasemi.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Charles Keepax <ckeepax@opensource.cirrus.com>,
+	Chanwoo Choi <cw00.choi@samsung.com>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	=?utf-8?q?Andr=C3=A9_Draszik?= <andre.draszik@linaro.org>,
+	Aaro Koskinen <aaro.koskinen@iki.fi>,
+	Andreas Kemnade <andreas@kemnade.info>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Roger Quadros <rogerq@kernel.org>,
+	Tony Lindgren <tony@atomide.com>,
+	Samuel Kayode <samkay014@gmail.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	linux-renesas-soc@vger.kernel.org,
+	linux-omap@vger.kernel.org,
+	imx@lists.linux.dev,
+	linux-stm32@st-md-mailman.stormreply.com,
+	Linus Walleij <linusw@kernel.org>,
+	linux@ew.tq-group.com,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+	Peter Griffin <peter.griffin@linaro.org>,
+	Alim Akhtar <alim.akhtar@samsung.com>,
+	Tim Harvey <tharvey@gateworks.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Sven Peter <sven@kernel.org>,
+	Janne Grunau <j@jannau.net>,
+	Neal Gompa <neal@gompa.dev>,
+	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
+	Luca Ceresoli <luca.ceresoli@bootlin.com>,
+	Saravanan Sekar <sravanhome@gmail.com>,
+	Frank Li <Frank.Li@nxp.com>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	=?utf-8?q?Jonathan_Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
+	Matti Vaittinen <mazziesaccount@gmail.com>,
+	Orson Zhai <orsonzhai@gmail.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Chunyan Zhang <zhang.lyra@gmail.com>,
+	Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Liviu Dudau <liviu.dudau@arm.com>,
+	Sudeep Holla <sudeep.holla@kernel.org>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Heiko Stuebner <heiko@sntech.de>,
+	linux-samsung-soc@vger.kernel.org,
+	linux-amlogic@lists.infradead.org,
+	asahi@lists.linux.dev,
+	linux-arm-msm@vger.kernel.org,
+	linux-sunxi@lists.linux.dev,
+	linux-rockchip@lists.infradead.org,
+	Peter Tyser <ptyser@xes-inc.com>
+Subject: [PATCH v3 00/23] mfd: Use named initializers for arrays of *_device_data
+Date: Thu,  9 Jul 2026 18:58:19 +0200
+Message-ID: <cover.1783615311.git.u.kleine-koenig@baylibre.com>
+X-Mailer: git-send-email 2.55.0.11.g153666a7d9bb
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11346.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 83958412-0721-469d-d10e-08deddd68b92
-X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Jul 2026 16:24:26.6953
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: X0or/Qwl4CwgXYDIzyuva41Y/Pcm4N6wsLFTbNPGCI4ewLadsk6p4OxlInc7pcogZdYEU5gLPz42YhQfKF6/cdRH39MtHbt3pu1ePaV23iU=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYYPR01MB6944
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=10849; i=u.kleine-koenig@baylibre.com; h=from:subject:message-id; bh=x7I7jx1xlGkYcQ0g2wKbDdhKkfSw89TrgshWMQXyV+I=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBqT9Mwgnh31BxHKY/FZjAXkPNmcm0bzYeRgOl6T cuiTlTVXeCJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCak/TMAAKCRCPgPtYfRL+ TjY5B/4trUacM2VOnrdO7ml6L9pBXtZl5zaoNd5/YBFCQiq3bOhzl8d7o4FccdkGs2bFKjHkS4v Z6nqRY6Y5LACAyYQ1lTm6yna4lBkYMK+YNhz7N0wZfXi/wcumQ3qB1NUXcIqrOtVsoWzRjwIVq5 tkwaeRbvvdVgPa9JyKz68aUBkfo78fyZ778y+VJIvkbupkEfBcnfDIGtUaNg3533ZsMq8uHK516 LXGdCz3u66d8ucj/6SA+/se0nKD9+UCjj+SkVZnqkUOKZVXh+Ntr1ZeP+SKzz1RbE/MhXrQh9Ku YordR+qBAJ+oKLXaovmVD5vvRlMmuiNqGroU1DqPj32i9taA
+X-Developer-Key: i=u.kleine-koenig@baylibre.com; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
+Content-Transfer-Encoding: 8bit
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [1.34 / 15.00];
+X-Spamd-Result: default: False [0.84 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_REJECT(1.00)[cv is fail on i=2];
-	DMARC_POLICY_ALLOW(-0.50)[renesas.com,none];
-	R_DKIM_ALLOW(-0.20)[bp.renesas.com:s=selector1];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	MID_CONTAINS_FROM(1.00)[];
+	R_DKIM_ALLOW(-0.20)[baylibre.com:s=google];
 	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-34977-lists,linux-renesas-soc=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-34976-lists,linux-renesas-soc=lfdr.de];
-	FORGED_RECIPIENTS(0.00)[m:biju.das.au@gmail.com,m:ulfh@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:geert+renesas@glider.be,m:p.zabel@pengutronix.de,m:magnus.damm@gmail.com,m:wsa+renesas@sang-engineering.com,m:linux-mmc@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-renesas-soc@vger.kernel.org,m:prabhakar.mahadev-lad.rj@bp.renesas.com,m:bijudasau@gmail.com,m:krzk@kernel.org,m:conor@kernel.org,m:geert@glider.be,m:magnusdamm@gmail.com,m:wsa@sang-engineering.com,s:lists@lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_SENDER(0.00)[biju.das.jz@bp.renesas.com,linux-renesas-soc@vger.kernel.org];
-	RCPT_COUNT_TWELVE(0.00)[15];
-	FREEMAIL_TO(0.00)[gmail.com,kernel.org,glider.be,pengutronix.de];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	FORWARDED(0.00)[lists@lfdr.de];
-	FREEMAIL_CC(0.00)[sang-engineering.com,vger.kernel.org,bp.renesas.com,gmail.com];
-	DKIM_TRACE(0.00)[bp.renesas.com:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[biju.das.jz@bp.renesas.com,linux-renesas-soc@vger.kernel.org];
+	RECEIVED_HELO_LOCALHOST(0.00)[];
 	FROM_HAS_DN(0.00)[];
+	DMARC_NA(0.00)[baylibre.com];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_RECIPIENTS(0.00)[m:lee@kernel.org,m:florian.fainelli@broadcom.com,m:rjui@broadcom.com,m:sbranden@broadcom.com,m:bcm-kernel-feedback-list@broadcom.com,m:mfd@lists.linux.dev,m:linux-rpi-kernel@lists.infradead.org,m:linux-arm-kernel@lists.infradead.org,m:linux-kernel@vger.kernel.org,m:matthias.bgg@gmail.com,m:angelogioacchino.delregno@collabora.com,m:linux-mediatek@lists.infradead.org,m:zhaoqunqin@loongson.cn,m:linux-crypto@vger.kernel.org,m:bleung@chromium.org,m:groeck@chromium.org,m:chrome-platform@lists.linux.dev,m:colin.foster@in-advantage.com,m:david.rhodes@cirrus.com,m:rf@opensource.cirrus.com,m:andriy.shevchenko@linux.intel.com,m:mika.westerberg@linux.intel.com,m:qipeng.zha@intel.com,m:thomas.richard@bootlin.com,m:linux-sound@vger.kernel.org,m:patches@opensource.cirrus.com,m:yilun.xu@intel.com,m:trix@redhat.com,m:michael.hennerich@analog.com,m:wens@kernel.org,m:marek.vasut+renesas@gmail.com,m:jogletre@opensource.cirrus.com,m:fred.treven@cirrus.com,m:ben.bright@cirrus.com,
+ m:support.opensource@diasemi.com,m:andy@kernel.org,m:ckeepax@opensource.cirrus.com,m:cw00.choi@samsung.com,m:krzk@kernel.org,m:andre.draszik@linaro.org,m:aaro.koskinen@iki.fi,m:andreas@kemnade.info,m:khilman@baylibre.com,m:rogerq@kernel.org,m:tony@atomide.com,m:samkay014@gmail.com,m:mcoquelin.stm32@gmail.com,m:alexandre.torgue@foss.st.com,m:linux-renesas-soc@vger.kernel.org,m:linux-omap@vger.kernel.org,m:imx@lists.linux.dev,m:linux-stm32@st-md-mailman.stormreply.com,m:linusw@kernel.org,m:linux@ew.tq-group.com,m:nicolas.ferre@microchip.com,m:alexandre.belloni@bootlin.com,m:claudiu.beznea@tuxon.dev,m:peter.griffin@linaro.org,m:alim.akhtar@samsung.com,m:tharvey@gateworks.com,m:neil.armstrong@linaro.org,m:sven@kernel.org,m:j@jannau.net,m:neal@gompa.dev,m:mathieu.dubois-briand@bootlin.com,m:luca.ceresoli@bootlin.com,m:sravanhome@gmail.com,m:Frank.Li@nxp.com,m:s.hauer@pengutronix.de,m:kernel@pengutronix.de,m:festevam@gmail.com,m:j.neuschaefer@gmx.net,m:mazziesaccount@gmail.com,m:orsonzhai
+ @gmail.com,m:baolin.wang@linux.alibaba.com,m:zhang.lyra@gmail.com,m:fabrice.gasnier@foss.st.com,m:jernej.skrabec@gmail.com,m:samuel@sholland.org,m:liviu.dudau@arm.com,m:sudeep.holla@kernel.org,m:lpieralisi@kernel.org,m:geert+renesas@glider.be,m:magnus.damm@gmail.com,m:heiko@sntech.de,m:linux-samsung-soc@vger.kernel.org,m:linux-amlogic@lists.infradead.org,m:asahi@lists.linux.dev,m:linux-arm-msm@vger.kernel.org,m:linux-sunxi@lists.linux.dev,m:linux-rockchip@lists.infradead.org,m:ptyser@xes-inc.com,s:lists@lfdr.de];
+	FORWARDED(0.00)[lists@lfdr.de];
+	FORGED_SENDER(0.00)[u.kleine-koenig@baylibre.com,linux-renesas-soc@vger.kernel.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_CC(0.00)[broadcom.com,lists.linux.dev,lists.infradead.org,vger.kernel.org,gmail.com,collabora.com,loongson.cn,chromium.org,in-advantage.com,cirrus.com,opensource.cirrus.com,linux.intel.com,intel.com,bootlin.com,redhat.com,analog.com,kernel.org,diasemi.com,samsung.com,linaro.org,iki.fi,kemnade.info,baylibre.com,atomide.com,foss.st.com,st-md-mailman.stormreply.com,ew.tq-group.com,microchip.com,tuxon.dev,gateworks.com,jannau.net,gompa.dev,nxp.com,pengutronix.de,gmx.net,linux.alibaba.com,sholland.org,arm.com,glider.be,sntech.de,xes-inc.com];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[u.kleine-koenig@baylibre.com,linux-renesas-soc@vger.kernel.org];
+	DKIM_TRACE(0.00)[baylibre.com:+];
+	RCPT_COUNT_GT_50(0.00)[92];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	MISSING_XM_UA(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
 	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,vger.kernel.org:from_smtp,renesas.com:email,bp.renesas.com:from_mime,bp.renesas.com:dkim]
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[baylibre.com:from_mime,baylibre.com:dkim,baylibre.com:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,vger.kernel.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 2C787733787
+X-Rspamd-Queue-Id: 90605733B18
 
-Hi Wolfram,
+Hello,
 
-> -----Original Message-----
-> From: Biju <biju.das.au@gmail.com>
-> Sent: 22 June 2026 16:56
-> Subject: [PATCH v18 00/12] Add Renesas RZ/G3L SD/eMMC support
->=20
-> From: Biju Das <biju.das.jz@bp.renesas.com>
->=20
-> RZ/G3L SoC has:
->=20
-> Channel 0 supports SD and eMMC (including HS400/HS400ES).
-> Channel 1 supports SD and eMMC (except for HS400).
-> Channel 2 supports SD.
->=20
-> The SoC supports a maximum frequency of 150 MHz. The SD0 interface does n=
-ot support IOVS and PWEN in the
-> SDHI register (no internal regulator), unlike SD1 and SD2. It has an inte=
-rnal divider for all modes
-> except HS400.
-> It also has a 2048-bit divider compared to 512 on others. Moreover RZ/G3L=
- supports HS400 enhanced strobe
-> mode.
+v2 of this series can be found at
+https://lore.kernel.org/lkml/cover.1783507945.git.u.kleine-koenig@baylibre.com
+.
 
-I will be sending an improved version of the patch series that
-Handles clock divider correctly.
+The objective for this series is to prepare mfd for changing
+of_device_id and the others to make driver_data a union, see
+https://lore.kernel.org/all/cover.1780048925.git.u.kleine-koenig@baylibre.com/
+for the idea behind it.
 
-Cheers,
-Biju
+Changes since v2:
+ - Added the various review tags I received;
+ - Sashiko found an issue in patch #3 ("mfd: kempld: Simplify device
+   abstraction"). The concern was valid and that made me realize that I
+   could simplify that driver even further;
+ - For drivers/mfd/rsmu_i2c.c I did a wrong split. In the middle of the
+   series the i2c_device_id array lacked the terminator. (Noticed by
+   Sashiko);
+ - The of_device_id changes were done by hand for v2, I created a script
+   for that now and catched a few more issues (pointed out by Sashiko);
+ - trivially rebased to next-20260708, no changes introduced by that;
 
->=20
-> v17->v18:
->  * Collected tag
->  * Merged patch #4 and #5 and updated commit description
->  * Annotated the empty sentinel entries in the OF match tables with a
->    "Sentinel." comment for clarity.
->  * Retained the tag as it is a trivial cleanup.
->  * New patches drop struct renesas_sdhi_hw_info, instead using
->    renesas_sdhi_of_data and tmio_mmc_data.
->  * Dropped clk, pinctrl, SoC, and board dtsi from this patch series;
->    will send later.
-> v1->v17:
->  * Collected tag for binding patch.
->  * Resending the series as there is an issue with patch threading from
->    patch #14.
->=20
-> Biju Das (12):
->   dt-bindings: mmc: renesas,sdhi: Document RZ/G3L (r9a08g046) SoC
->   mmc: renesas_sdhi: Fix whitespace alignment in struct
->     renesas_sdhi_of_data
->   mmc: renesas_sdhi: Add clk_mask field to support SoC-specific clock
->     divider widths
->   mmc: renesas_sdhi: Add max_divider field to support SoC-specific clock
->     divider ranges
->   mmc: renesas_sdhi: Add tuning delay support for RZ/G2L
->   mmc: renesas_sdhi: Add TMIO_MMC_INTERNAL_DIVIDER flag
->   mmc: renesas_sdhi: Add optional axis/axim reset controls
->   mmc: renesas_sdhi: Add RZ/G3L SDHI support
->   mmc: renesas_sdhi: Save and restore IOVS across suspend/resume
->   mmc: renesas_sdhi: Make HS400 OSEL bit configurable per SoC
->   mmc: renesas_sdhi: Add RZ/G3L HS400 support
->   mmc: renesas_sdhi: Add HS400 enhanced strobe support for RZ/G3L
->=20
->  .../devicetree/bindings/mmc/renesas,sdhi.yaml | 101 ++++++--
->  drivers/mmc/host/renesas_sdhi.h               |  12 +-
->  drivers/mmc/host/renesas_sdhi_core.c          | 239 ++++++++++++++----
->  drivers/mmc/host/renesas_sdhi_internal_dmac.c |  73 +++++-
->  drivers/mmc/host/renesas_sdhi_sys_dmac.c      |  12 +-
->  include/linux/platform_data/tmio.h            |  18 ++
->  6 files changed, 370 insertions(+), 85 deletions(-)
->=20
-> --
-> 2.43.0
+Sashiko identifyed a bunch of preexisting issues, that I didn't address.
+These are better handled by someone having the hardware I guess.
+
+Andy suggested splitting patch #18 ("mfd: Unify style of acpi_device_id
+arrays") into one for the pmic drivers and then one per driver. I didn't
+do that as it seems arbitrary to me. Lee, please voice your preference
+if you disagree with the patch separation here.
+
+Best regards
+Uwe
+
+Uwe Kleine-König (The Capable Hub) (23):
+  mfd: bcm2835-pm: Remove member of struct bcm2835_pm that is only used
+    locally
+  mfd: bcm2835-pm: Drop unused header
+  mfd: kempld: Simplify device abstraction
+  mfd: lp87565: Explicitly set driver data for the generic dt compatible
+  mfd: mt6360: Drop irrelevant __maybe_unused
+  mfd: rt4831: Drop irrelevant __maybe_unused
+  mfd: loongson-se: Drop unused assignment of acpi_device_id driver data
+  mfd: Drop unused assignment of i2c_device_id driver data
+  mfd: Drop unused assignment of platform_device_id driver data
+  mfd: Drop unused assignment of spi_device_id driver data
+  mfd: Use named initializers for acpi_device_id arrays
+  mfd: intel-m10-bmc-pmci: Use named initializers for dfl_device_id
+    array
+  mfd: Use named initializers for arrays of i2c_device_id
+  mfd: twl6030: Use named initializers for of_device_id
+  mfd: Use PCI_DEVICE* macros to initialize pci_device_id arrays
+  mfd: Use named initializers for platform_device_id array
+  mfd: Use named initializers for arrays of spi_device_id
+  mfd: Unify style of acpi_device_id arrays
+  mfd: Unify style of dmi_system_id arrays
+  mfd: Unify style of i2c_device_id arrays
+  mfd: Unify style of of_device_id arrays
+  mfd: Unify style of pci_device_id arrays
+  mfd: Unify style of spi_device_id arrays
+
+ drivers/mfd/88pm800.c                 |  4 +-
+ drivers/mfd/88pm805.c                 |  4 +-
+ drivers/mfd/88pm860x-core.c           |  8 +--
+ drivers/mfd/aat2870-core.c            |  2 +-
+ drivers/mfd/ab8500-core.c             |  8 +--
+ drivers/mfd/ab8500-sysctrl.c          |  4 +-
+ drivers/mfd/ac100.c                   |  2 +-
+ drivers/mfd/act8945a.c                |  8 +--
+ drivers/mfd/adp5520.c                 |  4 +-
+ drivers/mfd/altera-a10sr.c            |  4 +-
+ drivers/mfd/altera-sysmgr.c           |  2 +-
+ drivers/mfd/arizona-i2c.c             | 14 +++---
+ drivers/mfd/arizona-spi.c             | 14 +++---
+ drivers/mfd/as3711.c                  |  8 +--
+ drivers/mfd/as3722.c                  |  8 +--
+ drivers/mfd/atmel-hlcdc.c             |  2 +-
+ drivers/mfd/atmel-smc.c               |  2 +-
+ drivers/mfd/axp20x-i2c.c              | 26 +++++-----
+ drivers/mfd/axp20x-rsb.c              |  2 +-
+ drivers/mfd/bcm2835-pm.c              | 15 ++++--
+ drivers/mfd/bcm590xx.c                |  4 +-
+ drivers/mfd/bd9571mwv.c               |  6 +--
+ drivers/mfd/bq257xx.c                 |  8 +--
+ drivers/mfd/cgbc-core.c               |  2 +-
+ drivers/mfd/cros_ec_dev.c             |  2 +-
+ drivers/mfd/cs40l50-i2c.c             |  6 +--
+ drivers/mfd/cs40l50-spi.c             |  6 +--
+ drivers/mfd/cs42l43-i2c.c             |  8 +--
+ drivers/mfd/cs5535-mfd.c              |  2 +-
+ drivers/mfd/da903x.c                  |  6 +--
+ drivers/mfd/da9052-i2c.c              | 12 ++---
+ drivers/mfd/da9052-spi.c              | 12 ++---
+ drivers/mfd/da9055-i2c.c              |  4 +-
+ drivers/mfd/da9062-core.c             |  4 +-
+ drivers/mfd/da9063-i2c.c              | 11 +++--
+ drivers/mfd/da9150-core.c             |  4 +-
+ drivers/mfd/db8500-prcmu.c            |  4 +-
+ drivers/mfd/exynos-lpass.c            |  2 +-
+ drivers/mfd/gateworks-gsc.c           |  2 +-
+ drivers/mfd/hi6421-pmic-core.c        |  6 +--
+ drivers/mfd/hi655x-pmic.c             |  4 +-
+ drivers/mfd/intel-lpss-acpi.c         | 58 +++++++++++-----------
+ drivers/mfd/intel-m10-bmc-pmci.c      |  2 +-
+ drivers/mfd/intel-m10-bmc-spi.c       |  6 +--
+ drivers/mfd/intel_pmc_bxt.c           |  2 +-
+ drivers/mfd/intel_quark_i2c_gpio.c    |  6 +--
+ drivers/mfd/intel_soc_pmic_bxtwc.c    |  2 +-
+ drivers/mfd/intel_soc_pmic_chtdc_ti.c |  4 +-
+ drivers/mfd/intel_soc_pmic_chtwc.c    |  2 +-
+ drivers/mfd/intel_soc_pmic_crc.c      |  6 +--
+ drivers/mfd/intel_soc_pmic_mrfld.c    |  4 +-
+ drivers/mfd/ioc3.c                    |  4 +-
+ drivers/mfd/janz-cmodio.c             | 14 +++---
+ drivers/mfd/kempld-core.c             | 70 ++++++++-------------------
+ drivers/mfd/khadas-mcu.c              |  4 +-
+ drivers/mfd/lm3533-core.c             |  2 +-
+ drivers/mfd/lochnagar-i2c.c           |  2 +-
+ drivers/mfd/loongson-se.c             |  2 +-
+ drivers/mfd/lp3943.c                  |  4 +-
+ drivers/mfd/lp873x.c                  |  8 +--
+ drivers/mfd/lp87565.c                 |  9 ++--
+ drivers/mfd/lp8788.c                  |  2 +-
+ drivers/mfd/lpc_ich.c                 |  2 +-
+ drivers/mfd/macsmc.c                  |  2 +-
+ drivers/mfd/madera-core.c             |  2 +-
+ drivers/mfd/madera-i2c.c              | 18 +++----
+ drivers/mfd/madera-spi.c              | 18 +++----
+ drivers/mfd/max14577.c                |  6 +--
+ drivers/mfd/max7360.c                 |  2 +-
+ drivers/mfd/max77541.c                |  4 +-
+ drivers/mfd/max77620.c                |  8 +--
+ drivers/mfd/max77686.c                |  2 +-
+ drivers/mfd/max77693.c                |  4 +-
+ drivers/mfd/max77714.c                |  2 +-
+ drivers/mfd/max77759.c                |  4 +-
+ drivers/mfd/max77843.c                |  8 +--
+ drivers/mfd/max8907.c                 |  6 +--
+ drivers/mfd/max8925-i2c.c             |  6 +--
+ drivers/mfd/max8997.c                 |  6 +--
+ drivers/mfd/max8998.c                 |  6 +--
+ drivers/mfd/mc13xxx-spi.c             |  6 +--
+ drivers/mfd/menelaus.c                |  2 +-
+ drivers/mfd/menf21bmc.c               |  2 +-
+ drivers/mfd/motorola-cpcap.c          | 12 ++---
+ drivers/mfd/mp2629.c                  |  2 +-
+ drivers/mfd/mt6360-core.c             |  6 +--
+ drivers/mfd/mt6370.c                  |  2 +-
+ drivers/mfd/mt6397-core.c             |  4 +-
+ drivers/mfd/mxs-lradc.c               |  4 +-
+ drivers/mfd/ntxec.c                   |  4 +-
+ drivers/mfd/ocelot-spi.c              |  2 +-
+ drivers/mfd/omap-usb-host.c           |  4 +-
+ drivers/mfd/palmas.c                  |  8 +--
+ drivers/mfd/pf1550.c                  |  2 +-
+ drivers/mfd/qcom-pm8008.c             |  4 +-
+ drivers/mfd/qcom-pm8xxx.c             |  6 +--
+ drivers/mfd/rave-sp.c                 |  4 +-
+ drivers/mfd/rc5t583.c                 |  4 +-
+ drivers/mfd/rdc321x-southbridge.c     |  2 +-
+ drivers/mfd/retu-mfd.c                |  4 +-
+ drivers/mfd/rk8xx-i2c.c               |  2 +-
+ drivers/mfd/rk8xx-spi.c               |  4 +-
+ drivers/mfd/rohm-bd71828.c            |  4 +-
+ drivers/mfd/rohm-bd9576.c             |  6 +--
+ drivers/mfd/rsmu_i2c.c                | 18 +++----
+ drivers/mfd/rsmu_spi.c                | 14 +++---
+ drivers/mfd/rt4831.c                  |  6 +--
+ drivers/mfd/rt5033.c                  |  4 +-
+ drivers/mfd/rt5120.c                  |  2 +-
+ drivers/mfd/rz-mtu3.c                 |  2 +-
+ drivers/mfd/sec-acpm.c                |  6 +--
+ drivers/mfd/sec-i2c.c                 | 22 ++++-----
+ drivers/mfd/si476x-i2c.c              |  8 +--
+ drivers/mfd/simple-mfd-i2c.c          |  2 +-
+ drivers/mfd/sky81452.c                |  4 +-
+ drivers/mfd/sm501.c                   |  4 +-
+ drivers/mfd/smpro-core.c              |  2 +-
+ drivers/mfd/sprd-sc27xx-spi.c         |  4 +-
+ drivers/mfd/ssbi.c                    |  2 +-
+ drivers/mfd/stm32-lptimer.c           |  4 +-
+ drivers/mfd/stm32-timers.c            |  4 +-
+ drivers/mfd/stmfx.c                   |  4 +-
+ drivers/mfd/stmpe-i2c.c               | 34 ++++++-------
+ drivers/mfd/stmpe-spi.c               | 26 +++++-----
+ drivers/mfd/stpmic1.c                 |  4 +-
+ drivers/mfd/stw481x.c                 |  8 +--
+ drivers/mfd/sun6i-prcm.c              |  2 +-
+ drivers/mfd/tc3589x.c                 | 14 +++---
+ drivers/mfd/ti-lmu.c                  | 10 ++--
+ drivers/mfd/timberdale.c              |  2 +-
+ drivers/mfd/tps6105x.c                |  6 +--
+ drivers/mfd/tps65010.c                | 10 ++--
+ drivers/mfd/tps6507x.c                |  6 +--
+ drivers/mfd/tps65086.c                |  4 +-
+ drivers/mfd/tps65090.c                |  6 +--
+ drivers/mfd/tps65217.c                |  6 +--
+ drivers/mfd/tps65218.c                |  8 +--
+ drivers/mfd/tps65219.c                |  8 +--
+ drivers/mfd/tps6586x.c                |  6 +--
+ drivers/mfd/tps65910.c                | 12 ++---
+ drivers/mfd/tps65912-i2c.c            |  4 +-
+ drivers/mfd/tps65912-spi.c            |  4 +-
+ drivers/mfd/tps6594-i2c.c             | 12 ++---
+ drivers/mfd/tps6594-spi.c             | 12 ++---
+ drivers/mfd/tqmx86.c                  |  2 +-
+ drivers/mfd/twl-core.c                | 22 ++++-----
+ drivers/mfd/twl4030-audio.c           |  4 +-
+ drivers/mfd/twl4030-power.c           |  2 +-
+ drivers/mfd/twl6030-irq.c             |  6 +--
+ drivers/mfd/twl6040.c                 |  4 +-
+ drivers/mfd/upboard-fpga.c            |  6 +--
+ drivers/mfd/vexpress-sysreg.c         |  4 +-
+ drivers/mfd/vx855.c                   |  2 +-
+ drivers/mfd/wm831x-core.c             |  2 +-
+ drivers/mfd/wm831x-i2c.c              | 14 +++---
+ drivers/mfd/wm831x-spi.c              | 16 +++---
+ drivers/mfd/wm8350-i2c.c              |  6 +--
+ drivers/mfd/wm8400-core.c             |  4 +-
+ drivers/mfd/wm8994-core.c             |  8 +--
+ include/linux/mfd/bcm2835-pm.h        |  9 ----
+ include/linux/mfd/kempld.h            | 12 -----
+ 161 files changed, 536 insertions(+), 578 deletions(-)
+
+
+base-commit: b9810cd75b9fb56a3425d391cba3f608502bd474
+-- 
+2.55.0.11.g153666a7d9bb
 
 
