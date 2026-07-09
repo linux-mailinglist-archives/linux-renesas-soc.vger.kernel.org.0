@@ -1,54 +1,54 @@
-Return-Path: <linux-renesas-soc+bounces-34949-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-34950-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id mVG7C6iLT2qIjQIAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-34949-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 09 Jul 2026 13:53:12 +0200
+	id w+K3LBiMT2q8jQIAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-34950-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 09 Jul 2026 13:55:04 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25F97730AD9
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 09 Jul 2026 13:53:11 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E9D4730B61
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 09 Jul 2026 13:55:04 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=id2qMRlt;
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b="R1/ehSmk";
 	dmarc=pass (policy=quarantine) header.from=kernel.org;
-	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-34949-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 2600:3c15:e001:75::12fc:5321 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-34949-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
+	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-34950-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-34950-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 92F1530013A2
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Jul 2026 11:53:07 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 5C311303ED83
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Jul 2026 11:53:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 896C4332EBB;
-	Thu,  9 Jul 2026 11:53:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BC0DA3B8BD4;
+	Thu,  9 Jul 2026 11:53:07 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D50732BF41
-	for <linux-renesas-soc@vger.kernel.org>; Thu,  9 Jul 2026 11:53:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76DDE32BF41
+	for <linux-renesas-soc@vger.kernel.org>; Thu,  9 Jul 2026 11:53:06 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783597985; cv=none; b=LyL+WWXnEU1lzha2tj/xIokOc4VMXn4nhmL+V5i2WyDTtBVSxo74EO9G1szGrpMknxcUVqAOxVopiPNgGgMvoTAOygPaSPYeCr5IprpJA4oxPFbRbhT4Wm785nFD4T1VqUgqGJVPlfMjH4ESH4l+R6cBXb2XYJzQYO0UyBsgdpg=
+	t=1783597987; cv=none; b=FBZM8vYvMYnak90B/EAhktsdO1YXqdRKlA+OUzI5/ZrOPdHVGZweCN+uFitypwz9kJmqjRJ2hNjnLaV8zO0g3zheAi5161hHVrtbB212KCJeq+syQYfRkfehvJbqJSmS6V2i47F5jJz3wEqYgE0/1CZkYliQmfClWwi2EqeSGEo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783597985; c=relaxed/simple;
-	bh=H7YqCwQusozXR7uaxAuHqSEm5nx74wemaLXfiCVfJX0=;
+	s=arc-20240116; t=1783597987; c=relaxed/simple;
+	bh=zLzCiIlYhe836vwPTHP/Ek73yMSC+0sXZ0j/7NwWEcs=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Xuh7sLwfooZbJ15BEBY5CEtvFi/s5xCi/XdHYfBzYvnI7xjrNtot+dGP7losSm69BA5hHa4weuxTsAd2zOCWQqjo6tynQGrOqUMhQUBCGu7+E/k64b5iDIEqpY8eVwhNZQCPVSnwPhehy+gCOylLloAdTU1E6BqavdMemZp3D6c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=id2qMRlt; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 58E5B1F000E9;
-	Thu,  9 Jul 2026 11:53:03 +0000 (UTC)
+	 In-Reply-To:To:Cc; b=c5NTMgSOJFDOB2jYp8ujXh5g4jhfEOjnhV3rBVEgbaNpOnoASTZ+L2E/yrG5jkIVg6Woli30MoIhiQLzQhwf5O/qi1akzx9Dj3S5CeFwz6OjcRyJn1obArbLq+tnDgUobgw+pLkjn3Hx1nMjrXGD3fcQDXISUejjgggp8R4qgTY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=R1/ehSmk; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AAC271F00A3A;
+	Thu,  9 Jul 2026 11:53:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783597983;
-	bh=BbyFtQhSQE43baWkNi3gHafLxZFnWrsZEQY0V3Ej04c=;
+	s=k20260515; t=1783597986;
+	bh=BBl07Wg8XAYqUZdpLZ1WmPAMyEXpoygeYR5pTIzgjIY=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=id2qMRltpRWpCHSawjhmiAE9fH0OwIlFwlx/0WHPDX6vrbW0L1W4XIfd7U4Cl9u1A
-	 +OJenIbfuPWnGvENmzgopa4780lTdp28Y6l1exMxDfqScAzA+0uxqWhzK5WrIsVSby
-	 g3G0iu3pysP68Cnkch9nRFFuSugUzEU8vc6V6Sn/NjQC4AycXQ3inYnRb+hjYt2iE3
-	 nqR4qNns653wPOoVA/oSBXkW86J9TIaFEZLZT5GKS4FoG7DFjkuQF4MCmHo+MKiyAi
-	 6J/pGijKE8OazOxK/HkGSP3BnBNlCY2eYwz8UJi1bxvuUNWGGlHx8ujJ3x4xVR9AkV
-	 VlEJyC03H2MKQ==
+	b=R1/ehSmkmMoDljeH/5tqIoBTy6agRd+9kbMYf89sk3wxRorYDUCEn+YXYId04Yt+H
+	 0ljZr2ZGmkf1J1nYTSzMhMgUWObUjkyKYta2SFdukeoALH+9jXk3/eii3jIkZGTouY
+	 KPkPbcECjrk50r3hQUnTT2/hvOpqhSY1NChtsfE+cDxBSemdQmc6NjL1bgAFCMp7gn
+	 nOMQOwBMeJ/nj6goZsf6eii2ETu19GRTEahoSHnZaBL3oUO9vtkP92JzSPIGrDk2dY
+	 7tM3H8vSnotA3dweA4ygBTgFTljz0h+RBQxSz3FKFUBDOu7Ybq6CK54pyd9VrKgKht
+	 8m1pyruRhc78Q==
 From: Maxime Ripard <mripard@kernel.org>
-Date: Thu, 09 Jul 2026 13:51:17 +0200
-Subject: [PATCH 51/60] drm/rcar-du: Convert to atomic_create_state
+Date: Thu, 09 Jul 2026 13:51:18 +0200
+Subject: [PATCH 52/60] drm/rz-du: Convert to atomic_create_state
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -57,64 +57,59 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260709-drm-no-more-plane-reset-v1-51-302d986fe5f0@kernel.org>
+Message-Id: <20260709-drm-no-more-plane-reset-v1-52-302d986fe5f0@kernel.org>
 References: <20260709-drm-no-more-plane-reset-v1-0-302d986fe5f0@kernel.org>
 In-Reply-To: <20260709-drm-no-more-plane-reset-v1-0-302d986fe5f0@kernel.org>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
  Simona Vetter <simona@ffwll.ch>
 Cc: dri-devel@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>, 
- geert+renesas@glider.be, kieran.bingham+renesas@ideasonboard.com, 
- laurent.pinchart+renesas@ideasonboard.com, 
- linux-renesas-soc@vger.kernel.org, magnus.damm@gmail.com, 
- tomi.valkeinen+renesas@ideasonboard.com
+ biju.das.jz@bp.renesas.com, linux-renesas-soc@vger.kernel.org
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=8862; i=mripard@kernel.org;
- h=from:subject:message-id; bh=H7YqCwQusozXR7uaxAuHqSEm5nx74wemaLXfiCVfJX0=;
- b=owGbwMvMwCmsHn9OcpHtvjLG02pJDFn+3fLbAhYXh3Wc4NvfUOErphXUf2nDC6ZU4TT1qpcrv
- ItMX53rmMrCIMzJICumyPJEJuz08vbFVQ72K3/AzGFlAhnCwMUpABMJ1GZs6DtndWXrTj6rCwdr
- 1y//UvzrwkkRKfX43Wukni5ecj7p4Qr3E01XrzimLGtQLbX3OJ9+gbFhdnyL3Kx8X6vH7ftfhL0
- oytjJmGVq4vQhOtUo7pDbQp/djKs7rdKnP9l42kvn9/wZdcEA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=6735; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=zLzCiIlYhe836vwPTHP/Ek73yMSC+0sXZ0j/7NwWEcs=;
+ b=owGbwMvMwCmsHn9OcpHtvjLG02pJDFn+3QpKbm9eaOqFWB2wPLrf4LqVZWZCyM9mPznZCnP+K
+ VmaP/g6prIwCHMyyIopsjyRCTu9vH1xlYP9yh8wc1iZQIYwcHEKwERWvWFsOMJv47lyR3Ha86IN
+ n1+9XpmzNvIWx9P9k9NZdriWa8T+tGCY/8VctXCRwe0X/8T60zZ+ZGxYZ59v9jFfZcr0BWkqu8+
+ svOL8ge9rQVZSceE0phSP1K0bzwmdePim9P+B7Rltq2Urz0UDAA==
 X-Developer-Key: i=mripard@kernel.org; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-3.66 / 15.00];
+X-Spamd-Result: default: False [-5.16 / 15.00];
 	WHITELIST_SPF_DKIM(-3.00)[kernel.org:d:+,kernel.org:s:+];
-	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:maarten.lankhorst@linux.intel.com,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:dri-devel@lists.freedesktop.org,m:mripard@kernel.org,m:geert+renesas@glider.be,m:kieran.bingham+renesas@ideasonboard.com,m:laurent.pinchart+renesas@ideasonboard.com,m:linux-renesas-soc@vger.kernel.org,m:magnus.damm@gmail.com,m:tomi.valkeinen+renesas@ideasonboard.com,m:geert@glider.be,m:kieran.bingham@ideasonboard.com,m:laurent.pinchart@ideasonboard.com,m:magnusdamm@gmail.com,m:tomi.valkeinen@ideasonboard.com,s:lists@lfdr.de];
 	MIME_TRACE(0.00)[0:+];
 	RCVD_TLS_LAST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
-	FREEMAIL_TO(0.00)[linux.intel.com,suse.de,gmail.com,ffwll.ch];
-	TAGGED_FROM(0.00)[bounces-34949-lists,linux-renesas-soc=lfdr.de];
-	FORWARDED(0.00)[lists@lfdr.de];
-	RCPT_COUNT_TWELVE(0.00)[12];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:maarten.lankhorst@linux.intel.com,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:dri-devel@lists.freedesktop.org,m:mripard@kernel.org,m:biju.das.jz@bp.renesas.com,m:linux-renesas-soc@vger.kernel.org,s:lists@lfdr.de];
+	FREEMAIL_TO(0.00)[linux.intel.com,suse.de,gmail.com,ffwll.ch];
+	FORWARDED(0.00)[lists@lfdr.de];
 	FORGED_SENDER(0.00)[mripard@kernel.org,linux-renesas-soc@vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-34950-lists,linux-renesas-soc=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	TO_DN_SOME(0.00)[];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[mripard@kernel.org,linux-renesas-soc@vger.kernel.org];
-	FREEMAIL_CC(0.00)[lists.freedesktop.org,kernel.org,glider.be,ideasonboard.com,vger.kernel.org,gmail.com];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	TAGGED_RCPT(0.00)[linux-renesas-soc];
+	TO_DN_SOME(0.00)[];
 	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,glider.be:email,ideasonboard.com:email]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,renesas.com:email,vger.kernel.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 25F97730AD9
+X-Rspamd-Queue-Id: 2E9D4730B61
 
 The plane reset implementation creates a custom state
 subclass, but only initializes a pristine state without resetting any
@@ -383,90 +378,34 @@ expression PS;
 
 Signed-off-by: Maxime Ripard <mripard@kernel.org>
 ---
-Cc: geert+renesas@glider.be
-Cc: kieran.bingham+renesas@ideasonboard.com
-Cc: laurent.pinchart+renesas@ideasonboard.com
+Cc: biju.das.jz@bp.renesas.com
 Cc: linux-renesas-soc@vger.kernel.org
-Cc: magnus.damm@gmail.com
-Cc: tomi.valkeinen+renesas@ideasonboard.com
 ---
- drivers/gpu/drm/renesas/rcar-du/rcar_du_plane.c | 15 ++++++---------
- drivers/gpu/drm/renesas/rcar-du/rcar_du_vsp.c   | 15 ++++++---------
- 2 files changed, 12 insertions(+), 18 deletions(-)
+ drivers/gpu/drm/renesas/rz-du/rzg2l_du_vsp.c | 15 ++++++---------
+ 1 file changed, 6 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_du_plane.c b/drivers/gpu/drm/renesas/rcar-du/rcar_du_plane.c
-index 8870766b9e54..da2dff9bb317 100644
---- a/drivers/gpu/drm/renesas/rcar-du/rcar_du_plane.c
-+++ b/drivers/gpu/drm/renesas/rcar-du/rcar_du_plane.c
-@@ -710,28 +710,25 @@ static void rcar_du_plane_atomic_destroy_state(struct drm_plane *plane,
+diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_vsp.c b/drivers/gpu/drm/renesas/rz-du/rzg2l_du_vsp.c
+index 1efa0f0451fe..944bc9ac9589 100644
+--- a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_vsp.c
++++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_du_vsp.c
+@@ -264,30 +264,27 @@ static void rzg2l_du_vsp_plane_atomic_destroy_state(struct drm_plane *plane,
  {
  	__drm_atomic_helper_plane_destroy_state(state);
- 	kfree(to_rcar_plane_state(state));
+ 	kfree(to_rzg2l_vsp_plane_state(state));
  }
  
--static void rcar_du_plane_reset(struct drm_plane *plane)
-+static struct drm_plane_state *rcar_du_plane_create_state(struct drm_plane *plane)
+-static void rzg2l_du_vsp_plane_reset(struct drm_plane *plane)
++static struct drm_plane_state *rzg2l_du_vsp_plane_create_state(struct drm_plane *plane)
  {
- 	struct rcar_du_plane_state *state;
+ 	struct rzg2l_du_vsp_plane_state *state;
  
 -	if (plane->state) {
--		rcar_du_plane_atomic_destroy_state(plane, plane->state);
+-		rzg2l_du_vsp_plane_atomic_destroy_state(plane, plane->state);
 -		plane->state = NULL;
 -	}
 -
  	state = kzalloc_obj(*state);
- 	if (state == NULL)
--		return;
-+		return ERR_PTR(-ENOMEM);
- 
--	__drm_atomic_helper_plane_reset(plane, &state->state);
-+	__drm_atomic_helper_plane_state_init(&state->state, plane);
- 
- 	state->hwindex = -1;
- 	state->source = RCAR_DU_PLANE_MEMORY;
- 	state->colorkey = RCAR_DU_COLORKEY_NONE;
-+
-+	return &state->state;
- }
- 
- static int rcar_du_plane_atomic_set_property(struct drm_plane *plane,
- 					     struct drm_plane_state *state,
- 					     struct drm_property *property,
-@@ -765,11 +762,11 @@ static int rcar_du_plane_atomic_get_property(struct drm_plane *plane,
- }
- 
- static const struct drm_plane_funcs rcar_du_plane_funcs = {
- 	.update_plane = drm_atomic_helper_update_plane,
- 	.disable_plane = drm_atomic_helper_disable_plane,
--	.reset = rcar_du_plane_reset,
-+	.atomic_create_state = rcar_du_plane_create_state,
- 	.destroy = drm_plane_cleanup,
- 	.atomic_duplicate_state = rcar_du_plane_atomic_duplicate_state,
- 	.atomic_destroy_state = rcar_du_plane_atomic_destroy_state,
- 	.atomic_set_property = rcar_du_plane_atomic_set_property,
- 	.atomic_get_property = rcar_du_plane_atomic_get_property,
-diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_du_vsp.c b/drivers/gpu/drm/renesas/rcar-du/rcar_du_vsp.c
-index ae9f381b03c8..4293e792afdb 100644
---- a/drivers/gpu/drm/renesas/rcar-du/rcar_du_vsp.c
-+++ b/drivers/gpu/drm/renesas/rcar-du/rcar_du_vsp.c
-@@ -419,30 +419,27 @@ static void rcar_du_vsp_plane_atomic_destroy_state(struct drm_plane *plane,
- {
- 	__drm_atomic_helper_plane_destroy_state(state);
- 	kfree(to_rcar_vsp_plane_state(state));
- }
- 
--static void rcar_du_vsp_plane_reset(struct drm_plane *plane)
-+static struct drm_plane_state *rcar_du_vsp_plane_create_state(struct drm_plane *plane)
- {
- 	struct rcar_du_vsp_plane_state *state;
- 
--	if (plane->state) {
--		rcar_du_vsp_plane_atomic_destroy_state(plane, plane->state);
--		plane->state = NULL;
--	}
--
- 	state = kzalloc_obj(*state);
- 	if (state == NULL)
+ 	if (!state)
 -		return;
 +		return ERR_PTR(-ENOMEM);
  
@@ -476,16 +415,16 @@ index ae9f381b03c8..4293e792afdb 100644
 +	return &state->state;
  }
  
- static const struct drm_plane_funcs rcar_du_vsp_plane_funcs = {
+ static const struct drm_plane_funcs rzg2l_du_vsp_plane_funcs = {
  	.update_plane = drm_atomic_helper_update_plane,
  	.disable_plane = drm_atomic_helper_disable_plane,
--	.reset = rcar_du_vsp_plane_reset,
-+	.atomic_create_state = rcar_du_vsp_plane_create_state,
- 	.destroy = drm_plane_cleanup,
- 	.atomic_duplicate_state = rcar_du_vsp_plane_atomic_duplicate_state,
- 	.atomic_destroy_state = rcar_du_vsp_plane_atomic_destroy_state,
+-	.reset = rzg2l_du_vsp_plane_reset,
++	.atomic_create_state = rzg2l_du_vsp_plane_create_state,
+ 	.atomic_duplicate_state = rzg2l_du_vsp_plane_atomic_duplicate_state,
+ 	.atomic_destroy_state = rzg2l_du_vsp_plane_atomic_destroy_state,
  };
  
+ static void rzg2l_du_vsp_cleanup(struct drm_device *dev, void *res)
 
 -- 
 2.54.0
