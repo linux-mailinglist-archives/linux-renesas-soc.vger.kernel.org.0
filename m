@@ -1,122 +1,136 @@
-Return-Path: <linux-renesas-soc+bounces-35072-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-35073-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id BJsVEpc1UWpFAwMAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-35072-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 10 Jul 2026 20:10:31 +0200
+	id T2K1BgZDUWrLBQMAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-35073-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 10 Jul 2026 21:07:50 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1D4473D3DD
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 10 Jul 2026 20:10:30 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id A96F673D899
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 10 Jul 2026 21:07:49 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b="nv/sA7Mc";
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=QL8lidcy;
 	dmarc=pass (policy=quarantine) header.from=kernel.org;
-	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-35072-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 2600:3c15:e001:75::12fc:5321 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-35072-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
+	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-35073-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-35073-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id F146A301860F
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 10 Jul 2026 18:07:31 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 0E11B302BA78
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 10 Jul 2026 19:05:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5733F3803D0;
-	Fri, 10 Jul 2026 18:07:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8734A33260F;
+	Fri, 10 Jul 2026 19:05:55 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A05E737C0F7;
-	Fri, 10 Jul 2026 18:07:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BD2D23C39A
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 10 Jul 2026 19:05:54 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783706847; cv=none; b=atD/cqILollJZqHxyzVjfoajDmSLcvfjOALaUHh/WhA46KxOgIKstIrfM3xfhu9xrtaXG52vKC9vfImQTR63b0bDyQQCS3aJeZoDNQR64TVeJvqDw/okbjeKbF/neuhFojH9Yew+VEhN4nJRIcB8dA1ILwJEKwqyxp/01/q60rc=
+	t=1783710355; cv=none; b=d7bn0LC7Zd5U5CO3FbE/49muULObg73nBBEYaMSWUj08NTIBA3LwmXozY0EZS23LO/gSn7moL4G6gL9HNwMpLnmcij73bK4UG+AwRb1JE2+7jcUsDu6klneXdkvFbZAW5IgDVQCYMWFzZhWWg4D3xtvSkrl00miassTRtXm1Jyg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783706847; c=relaxed/simple;
-	bh=eAITFPOCEuW56hJol+BRhwmU47JapVeAE6fdtHRutWE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=PbdmgIFDw6/Eigr9EPbbEmD911alVCpm6PGy6ALksf6eT9Xxm0KdXGmNZw0Zf8mK33AmUvM+xAaBVJ//niHksiIxlzrJy1pIRFkaFmss8cuVoXaa6v5fgQpkZXTYT7qz3ofRbMBKj0JUkcZXNFf5HZ+mY4WkDNU6JiD+BvAf2QM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nv/sA7Mc; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EF0D81F00A3D;
-	Fri, 10 Jul 2026 18:07:24 +0000 (UTC)
+	s=arc-20240116; t=1783710355; c=relaxed/simple;
+	bh=OWz//aDmsOdKf87gyJz/K1yUNKWSM8ynRcUgh9u615g=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Uulrt6yr1Z9YlTYMz5l4k8Q2+b4XiR2Y9qqWqSkc2DPPAvJTtQ6VUOD8lmvyoL0jMFUovlrhGN7YMm1AO9Lbg/OfxLlyjci4/yhYah0pvY7vk5ZWVHp5U/D4U+1ZmxcgVDP77aCfXMguY36VQqgYMQ6xdQDsYFVV2C8LDCFuzCA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QL8lidcy; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 421E31F00ADB
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 10 Jul 2026 19:05:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783706845;
-	bh=EFkeIeU2FBGbEqfcB14GA6QRcO1JY2uvLVTQLi5eGUU=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=nv/sA7McvirQ8iJD+fR1bLLLazEgXdvuEpdtkHhcl2rUVUwrl6VHvYdddrb0PMH5J
-	 n/40Ffim08ig/rcuOQhq0pt1iOaz7JBOpu1OB1ks9yCCgqAP/Kl4WNKNvA8zoMru+B
-	 nKMcHOGBW+Rpf8oTizPXN42+nSsGXQ0bmG4lMF2O4mWuMoC35SRSviBBHMiqcMp4W1
-	 gls4lv4dt0Y/1pvI5pHR4Ag2/dF5aL7f0E3vatZw+xViWr08HyOwXeg491vocBMoR6
-	 3PGl9s9feCv3+8tfyOb8KSoRTir0tSPLsFEEeyIJmihBr2AsyyGdNvmTX6MTX8Nfpb
-	 Sy6kyPbMrIe+A==
-From: Bjorn Andersson <andersson@kernel.org>
-To: linux-renesas-soc@vger.kernel.org,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Ohad Ben-Cohen <ohad@wizery.com>,
-	linux-remoteproc@vger.kernel.org
-Subject: Re: [PATCH] hwspinlock: propagate errno when registering single lock
-Date: Fri, 10 Jul 2026 13:07:10 -0500
-Message-ID: <178370682988.2572738.9921265128936208294.b4-ty@kernel.org>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260512084856.30497-2-wsa+renesas@sang-engineering.com>
-References: <20260512084856.30497-2-wsa+renesas@sang-engineering.com>
+	s=k20260515; t=1783710354;
+	bh=OWz//aDmsOdKf87gyJz/K1yUNKWSM8ynRcUgh9u615g=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=QL8lidcyh5+abCZxDTVG4/Gehk8v5tLKDdLJh25SnKbV1AO21ehqjqRHYvUtktx9A
+	 XX9UBPCjsJitbICGA5Ha30KEC514en7ilSzwibYr8B7ybo+FrOKAbjF8EsTRmynYus
+	 H2d/0Wvqi9mindJDXb4g3MGtdEwVWZjQm2e2BD0ps+Gujvbs2m7XhPpcV0v2inmBQT
+	 LgFbV/czwxcX8bps4URygCbBRKHeiP06tLWuycT5l8qJq4R9r32+fTRs02MZVzm1Fz
+	 vQlVwsfuDxm1g+dk7V/xC2mKal40Z9H9jLvUND5gJrry32cberSHYTu4eO5ThkH+rz
+	 h9bN8ZpIQ3g2A==
+Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-39c8dbf4ef0so12231201fa.2
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 10 Jul 2026 12:05:54 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AHgh+RrIBNXu3P2XBf2t/orsBZ0RqOdqcSGTg4bIgRAD4ggwWuzeYgqWOqWqvYiytBh0xag5MvouE0B77Rv5OEvK7SX7lQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywg4wL0F512Jz3PGbewEzjciWdYGOZ2GzV1B+psBe5n7JFK/5uH
+	L9/sYWGS/6B1rjN66oS20tC82pDQXQpSLV0n5z0SrwIUqrMJYoi9mbGp/TtoaMWNVL6F6hlX+Qo
+	YLkxpjQVcm6ud6pnGMnJGir0KrY5BdPs=
+X-Received: by 2002:ac2:4431:0:b0:5ae:bb35:c956 with SMTP id
+ 2adb3069b0e04-5b0236b2a45mr62737e87.56.1783710353043; Fri, 10 Jul 2026
+ 12:05:53 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+References: <20260520-rsk7203-properties-v2-0-465f3308021b@gmail.com> <akyJOW79W0xvI-P9@google.com>
+In-Reply-To: <akyJOW79W0xvI-P9@google.com>
+From: Linus Walleij <linusw@kernel.org>
+Date: Fri, 10 Jul 2026 21:05:40 +0200
+X-Gmail-Original-Message-ID: <CAD++jL=Wx=mHORGDU_=PgGrOCdTSVes63jgSL2xQX+rCE2uaMw@mail.gmail.com>
+X-Gm-Features: AUfX_mxirnvBsYL4mzPImU7j47NPxAkPAgq7Mm-tNJlHHsQ0Fi4vPKqXX9cB5Es
+Message-ID: <CAD++jL=Wx=mHORGDU_=PgGrOCdTSVes63jgSL2xQX+rCE2uaMw@mail.gmail.com>
+Subject: Re: [PATCH v2 0/5] rsk7203: switch to using static device property,
+ drop legacy gpio API
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: Rich Felker <dalias@libc.org>, 
+	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, Yoshinori Sato <ysato@users.sourceforge.jp>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Bartosz Golaszewski <brgl@kernel.org>, 
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Arnd Bergmann <arnd@kernel.org>, 
+	linux-sh@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Rspamd-Action: no action
 X-Spamd-Result: default: False [-3.66 / 15.00];
 	WHITELIST_SPF_DKIM(-3.00)[kernel.org:d:+,kernel.org:s:+];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-35072-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-35073-lists,linux-renesas-soc=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:linux-renesas-soc@vger.kernel.org,m:wsa+renesas@sang-engineering.com,m:baolin.wang@linux.alibaba.com,m:ohad@wizery.com,m:linux-remoteproc@vger.kernel.org,m:wsa@sang-engineering.com,s:lists@lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER(0.00)[andersson@kernel.org,linux-renesas-soc@vger.kernel.org];
-	TO_DN_SOME(0.00)[];
-	FORWARDED(0.00)[lists@lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[12];
+	FORGED_RECIPIENTS(0.00)[m:dmitry.torokhov@gmail.com,m:dalias@libc.org,m:glaubitz@physik.fu-berlin.de,m:ysato@users.sourceforge.jp,m:geert+renesas@glider.be,m:brgl@kernel.org,m:andriy.shevchenko@linux.intel.com,m:arnd@kernel.org,m:linux-sh@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-renesas-soc@vger.kernel.org,m:linux-gpio@vger.kernel.org,m:dmitrytorokhov@gmail.com,m:geert@glider.be,s:lists@lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	FORWARDED(0.00)[lists@lfdr.de];
+	FORGED_SENDER(0.00)[linusw@kernel.org,linux-renesas-soc@vger.kernel.org];
+	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
+	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	ALIAS_RESOLVED(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[andersson@kernel.org,linux-renesas-soc@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[linusw@kernel.org,linux-renesas-soc@vger.kernel.org];
 	DKIM_TRACE(0.00)[kernel.org:+];
-	MID_RHS_MATCH_FROM(0.00)[];
+	ALIAS_RESOLVED(0.00)[];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
+	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,vger.kernel.org:from_smtp]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,mail.gmail.com:mid]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: C1D4473D3DD
+X-Rspamd-Queue-Id: A96F673D899
 
+On Tue, Jul 7, 2026 at 7:08=E2=80=AFAM Dmitry Torokhov
+<dmitry.torokhov@gmail.com> wrote:
 
-On Tue, 12 May 2026 10:48:23 +0200, Wolfram Sang wrote:
-> hwspin_lock_register_single() always returns 0 despite checking the
-> result from radix_tree_insert(). Propagate the errno to make sanity
-> checks in callers of this function actually meaningful.
-> 
-> 
+> Gentle ping on this series... It still applies cleanly and we need this
+> to be able top drop legacy gpio interfaces from gpio-keys (and
+> eventually from the kernel).
 
-Applied, thanks!
+I lost my patience and queued it to the pinctrl tree on an immutable
+branch:
+https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git/lo=
+g/?h=3Dib-rsk7204
 
-[1/1] hwspinlock: propagate errno when registering single lock
-      commit: e088ffa9a00eaaaf90da74763e774ca160969c26
+Then I merged this for v7.3.
 
-Best regards,
--- 
-Bjorn Andersson <andersson@kernel.org>
+Yours,
+Linus Walleij
 
