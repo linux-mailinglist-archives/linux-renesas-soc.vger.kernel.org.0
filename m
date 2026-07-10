@@ -1,90 +1,91 @@
-Return-Path: <linux-renesas-soc+bounces-35065-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-35066-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id I3psNIUUUWp7/AIAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-35065-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 10 Jul 2026 17:49:25 +0200
+	id k3eYOlAWUWrY/AIAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-35066-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 10 Jul 2026 17:57:04 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DC5073C614
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 10 Jul 2026 17:49:25 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 545E973C6B5
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 10 Jul 2026 17:57:04 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
 	dkim=none;
 	dmarc=none;
-	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-35065-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 2600:3c09:e001:a7::12fc:5321 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-35065-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
+	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-35066-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-35066-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id DC8CD300B5BF
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 10 Jul 2026 15:49:24 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 088D5300E721
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 10 Jul 2026 15:50:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0766F40683F;
-	Fri, 10 Jul 2026 15:49:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B596F43800D;
+	Fri, 10 Jul 2026 15:50:13 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vs1-f48.google.com (mail-vs1-f48.google.com [209.85.217.48])
+Received: from mail-ua1-f45.google.com (mail-ua1-f45.google.com [209.85.222.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A00F14195A4
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 10 Jul 2026 15:49:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 417C934C9AF
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 10 Jul 2026 15:50:12 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783698563; cv=none; b=vCFX4Y58OvITZs7n8ckNR/dAnJqEMZSKvTpxfb9lHqZ8XZXIzGArymVriD+ljGuL7bucFmzfob4pVWUMw21OyrJoBHw5IazDJQKjQXCHM9IaPH2BunXBImh2C40K9Z7FI1tYolRlpo11JPjC7mTgU79Moy1CeVOBIJSsKHDzBqs=
+	t=1783698613; cv=none; b=tL0ELhkiHH1GU23HzOeGJRtuFTwF1c0W6WI0v5kGlLa3+kH2nwTtXoIEFpRZzK1WIWPo2FE6fVLAxhf8E1mwScTRHlWWPO3nW4ms/0UJEfNHdMJDsV8dNl+PsjN1uTB3fFOlbtsAYZ07NwahhB8cin7d0Nx3kxnbaF9b6xOcP7w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783698563; c=relaxed/simple;
-	bh=A4h77ibawannBAPH87BChFbbPCITD6OENy0wjOmzx7E=;
+	s=arc-20240116; t=1783698613; c=relaxed/simple;
+	bh=Tq17+D31KkbBK0QvQb6lo28PCl8sTSJAnVSEdBHLiAs=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=bicXI91OepN9SG2AMYYqGLbUStRuVY150ANr3O7PFG0NCLzqfZPw3f5QBeNN4xRZccblon8TcSaQp2P2RJrGtFIRf4xbGT45nBJWoLWg5EJWGwe4U6fWTEa3HzUAPcMWjsBCcZGSJAlqZtaaB7uB5jWXHk/vnOzVbN5yyx70lTs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.48
-Received: by mail-vs1-f48.google.com with SMTP id ada2fe7eead31-725cf9a923aso932656137.0
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 10 Jul 2026 08:49:22 -0700 (PDT)
+	 To:Cc:Content-Type; b=pw3X6+hG1iwhcYf3sxCey6MUL5gAdxCbS/xvnc3M5gt4TMmIwd65DhTJgxsq2TtrpQupVOgmOUUm6C0q0GXpLGsTUjrDoB2VZ92abnM4V7Z4kuTqpoGHLE+eA6/DhHccD/Vjm5Qc8x1Kh7tZ0yUNuPsPOUt3w4WkBQJE+JVlD6Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.45
+Received: by mail-ua1-f45.google.com with SMTP id a1e0cc1a2514c-96925a563b5so791077241.0
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 10 Jul 2026 08:50:12 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783698561; x=1784303361;
+        d=1e100.net; s=20251104; t=1783698611; x=1784303411;
         h=content-type:cc:to:subject:message-id:date:from:in-reply-to
          :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to:content-type;
-        bh=c56Is5NzVBtMY2XB6xsd7AIP2CY/o4bo39X3DPUe1yU=;
-        b=Tei8Lp8VSrnUgbBH9lnNqD8k2lau+KUXVPGqAXtRZvCB7u6QR7T7ite+f6vLocsTIC
-         3fgwBZqpLWsWnmXkEvwm3V2jEGJR6WEtkDPc9rAg+UJV2Iv7g8GPBTh4pThHMRqlMr67
-         w+UbcTjepLD9CHR3k+3S0sLzdIfaJOJgLIf7hiWeYaocifnxHhOOVJG7Hjr8OEPNCPR8
-         DXnXdTULxq8Rr/q6ENjzx7s9EYefkoifGgllGEEFrv6+Spq4/1TJ04+agzXlSQlAb8Df
-         EEdZlKVwt2Rj0OnERL7GL+cXwMV3rTy3s4k3WydwfrNoKf4qytVbyRJDC4NPzeWc6JyI
-         1o3A==
-X-Forwarded-Encrypted: i=1; AHgh+RpnywfgKEuaHKhu9pWPCcuxrmGZI9TvTC39bnM1ou2Vltr2A4fvrLOk4Pt8m8030Rtth2U3Vta9gmAHxPSpXC5wtQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyDFOo72Ty5uV78mN8Ia+iiRwXMXm30Ev5JCFE1LBXPqiDGh+a4
-	iwqr3zfuUJPPXIRxBCVLz8wtE4BsuZOyy3+oAj3HsDiLddX2hgcrIZK3Dx1x8+I5
-X-Gm-Gg: AfdE7ckF3L4dn+CPM/dUXnm5coGxvmjhH1Pqvz2l8IpQ1utcuISg8Gq2H/Y4TDkdXlC
-	m+vGwKAcGnveix1BuPQOoaLM4SX6NvP2VPei8W9XDHbUIh2U9od7PtBtEqqmbZBcEot+JvhKU5R
-	gOxLf4Bl7nX8gManr66u6U2yxAF8L6D+o26JQ5BLxrFIBIkHKTS4Xw2EiJcYrCMUxjltTRtA9At
-	oabDuOCfxzSW36hZB3kkai/cPy5Hf2PYjy7ckjmE+YG8Qjvfn0EqiNDuXtUHP/aKEfmSbxKSAAs
-	AoU5s1/tuY/xDhe0T74hoWyOOg2SUsfBpfljwXnqJqoTXA4VhwhvxZgyde0omnnh3H85Jg7gMA9
-	I61no0OlbnxxDyW0l9z0sAwhh9FTYyDw76iQjvSxmWYH33nw1TQ2jInvpAfT/YSu2GORAgc5BMI
-	PiSFy9vBbvlgbVIXVFX2OjKHhZBzQyuMQ8IkGERfzwJW+rn1+00A==
-X-Received: by 2002:a05:6102:3049:b0:737:2ce5:7b2d with SMTP id ada2fe7eead31-744dfd5b06dmr7250591137.9.1783698561607;
-        Fri, 10 Jul 2026 08:49:21 -0700 (PDT)
-Received: from mail-vs1-f42.google.com (mail-vs1-f42.google.com. [209.85.217.42])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-744d6deb2a3sm5429142137.8.2026.07.10.08.49.20
+        bh=4pUJAfk6hstEUL5r9lz9Y/QmHdN8S/TdC3nHKlmz3p4=;
+        b=OAyV4G0CRbK2cEUFYWvB4KAPDACiHV4TL70MIefuOXTQxGzYImvfzdyl/fHEbCWVL/
+         P5p0i1KJrjyx23u0na8TmACEXTVffAUgWF5TDIccT6kgURrc8Fnior+YK6AxQ+hjA9tn
+         SATXlcVgWpAjgI3zlScd9ZC0fX0b6g5SqDaMXK2AAPZXRHazsAhflHrClvAiBhIbOXn1
+         6Dd7XHgRYEbV7X9jXUqJ7lZlE29e3r0qsdtDFi5zY2dmZJeTucuLM/tELx+lqVAj4xjt
+         Lc4EtaHIaH4rcrs46bFA6AcrhHbBhABk5imL4+UImAqTLsBSaFuvNwWOgyn0LRUEUJ+s
+         sBZg==
+X-Forwarded-Encrypted: i=1; AHgh+RpzKxu5JZ5l+OHkNSmMshkrRF92nbcIC0DWOgs2XY1QRcZk/pos9bxEcmSsXf25h+XLpKGre+MPSyT9tvaOOgZcKw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyw08UFoQhu0NMz4SQDqPVJoJ8sTN9JRgAlUubYTrAm9iJkApK6
+	7Ob1Hhyql18ob3AS5LKoQ0kimRUVRlyhq7lmYdd42tOricxcd6qxvTXUhnpg62ZT
+X-Gm-Gg: AfdE7cnUyUSen3odQ2IhTp8GjRPySP8ioVCG+vVN5E34HaD/Pht3E3WfBt82ZEDgXzS
+	cRb74UXXKr4sFrGGmlQeen2V8ckDfmbv7b5pP2+RuppaQRJFmHA2YL283fs/Z7n3BzXtURH6YWq
+	218MMuNlhbQJLPcSv3m3iVm6PQQ+cZh4Qi81rnuR+ZVBYxsYc/Hco1A1sSbB/CZrjl4vaYuFcp/
+	3cZtaBWadyiv0eOJMW74o3/bV6t/B7BeRyJDhrOl0Mbr952e+8xFeknU52qrJyCAGjTqp2Uq8w7
+	nqpUZEAOIKBUCapiY060QR+29arzddbqQ1NWjLIqLgS0tpSqAoByuvOcjAUh1S7fp16UbpYgApg
+	CDDnzGdV8OnQlIDZ2Ewwt/R6FxMBLl1Wi8dkOUWgggbI+7F5CZ1cCWdsiHMzBv560sgNbFHQ8zv
+	o1qEO/Fw2pYuk/sywSoqK2mmZvsRz7ZGRhc8xzz5LXU2V4YUmLYQ==
+X-Received: by 2002:a05:6102:66d5:b0:745:1b91:5489 with SMTP id ada2fe7eead31-7451b9192b5mr938616137.8.1783698610960;
+        Fri, 10 Jul 2026 08:50:10 -0700 (PDT)
+Received: from mail-vs1-f48.google.com (mail-vs1-f48.google.com. [209.85.217.48])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-744d6a3ee7csm5309018137.2.2026.07.10.08.50.10
         for <linux-renesas-soc@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 10 Jul 2026 08:49:21 -0700 (PDT)
-Received: by mail-vs1-f42.google.com with SMTP id ada2fe7eead31-725cf9a923aso932641137.0
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 10 Jul 2026 08:49:20 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AHgh+RrwMj18qNZJ8leb61ILbxLGkMCEtv1DgeDkZsg/jX3ZN+gBFqxUbXgDONg6bu8SzSPmmRn/Pe+ZkOXNnW1ymoKFNw==@vger.kernel.org
-X-Received: by 2002:a05:6102:a54:b0:738:b13a:c81b with SMTP id
- ada2fe7eead31-744dfd58226mr8804295137.7.1783698560769; Fri, 10 Jul 2026
- 08:49:20 -0700 (PDT)
+        Fri, 10 Jul 2026 08:50:10 -0700 (PDT)
+Received: by mail-vs1-f48.google.com with SMTP id ada2fe7eead31-7370ea43b9cso1238969137.1
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 10 Jul 2026 08:50:10 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AHgh+Rr6nHtS5niYo5ShRMyq21PaPirOFEPSPtIij8yzz35vn4vIkowU30/ppJdcLcfmkXgcE1/IASOsuYt+gObFl0Tf3A==@vger.kernel.org
+X-Received: by 2002:a05:6102:1a15:10b0:6cd:b43f:72fd with SMTP id
+ ada2fe7eead31-7450cbc02c2mr1897086137.22.1783698610437; Fri, 10 Jul 2026
+ 08:50:10 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260619164030.380098-1-biju.das.jz@bp.renesas.com> <20260619164030.380098-5-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20260619164030.380098-5-biju.das.jz@bp.renesas.com>
+References: <20260619164030.380098-1-biju.das.jz@bp.renesas.com> <20260619164030.380098-6-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20260619164030.380098-6-biju.das.jz@bp.renesas.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 10 Jul 2026 17:49:09 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdX2+Y3Wpd5WwZBRSjhPdABGfKEzUifcGg5gTbkya6Pjuw@mail.gmail.com>
-X-Gm-Features: AUfX_mxzY40KN7w0aM5WBFkuFrJcn1qYlqHElb3aj7kHBqjUkZvRwirbZBKZLZ8
-Message-ID: <CAMuHMdX2+Y3Wpd5WwZBRSjhPdABGfKEzUifcGg5gTbkya6Pjuw@mail.gmail.com>
-Subject: Re: [PATCH 4/6] clk: renesas: rzg2l: Add support for RZ/G3L DSI mux
+Date: Fri, 10 Jul 2026 17:49:58 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWR15XdcQkncnwov6B7KbQHXpvk1jBPOQr4f5zwtR09dA@mail.gmail.com>
+X-Gm-Features: AUfX_mxHw8t6FHfw4QItlFOI1qA8p9h3PYZrH4NBbu-mU_RDK2R6hPa3dqc-gts
+Message-ID: <CAMuHMdWR15XdcQkncnwov6B7KbQHXpvk1jBPOQr4f5zwtR09dA@mail.gmail.com>
+Subject: Re: [PATCH 5/6] clk: renesas: r9a08g046-cpg: Add MIPI DSI and LCDC
+ clock/reset entries
 To: Biju <biju.das.au@gmail.com>
 Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
 	Biju Das <biju.das.jz@bp.renesas.com>, Brian Masney <bmasney@redhat.com>, 
@@ -96,13 +97,13 @@ X-Rspamd-Action: no action
 X-Spamd-Result: default: False [0.04 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	TAGGED_FROM(0.00)[bounces-35065-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-35066-lists,linux-renesas-soc=lfdr.de];
 	DMARC_NA(0.00)[linux-m68k.org];
 	FORGED_RECIPIENTS(0.00)[m:biju.das.au@gmail.com,m:mturquette@baylibre.com,m:sboyd@kernel.org,m:biju.das.jz@bp.renesas.com,m:bmasney@redhat.com,m:linux-renesas-soc@vger.kernel.org,m:linux-clk@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:prabhakar.mahadev-lad.rj@bp.renesas.com,m:bijudasau@gmail.com,s:lists@lfdr.de];
 	FREEMAIL_TO(0.00)[gmail.com];
@@ -112,7 +113,7 @@ X-Spamd-Result: default: False [0.04 / 15.00];
 	FORGED_SENDER(0.00)[geert@linux-m68k.org,linux-renesas-soc@vger.kernel.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[6];
@@ -124,70 +125,150 @@ X-Spamd-Result: default: False [0.04 / 15.00];
 	R_DKIM_NA(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-renesas-soc];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,renesas.com:email,linux-m68k.org:from_mime,linux-m68k.org:email,mail.gmail.com:mid,vger.kernel.org:from_smtp]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,vger.kernel.org:from_smtp,linux-m68k.org:from_mime,linux-m68k.org:email,renesas.com:email]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 6DC5073C614
+X-Rspamd-Queue-Id: 545E973C6B5
 
 Hi Biju,
+
+Thanks for your patch!
+
+s/r9a08g046-cpg/r9a08g046/
 
 On Fri, 19 Jun 2026 at 18:40, Biju <biju.das.au@gmail.com> wrote:
 > From: Biju Das <biju.das.jz@bp.renesas.com>
 >
-> Add support for RZ/G3L DSI mux that supports 2 duty cycles.
+> Add clock and reset entries for the MIPI DSI and LCDC peripherals on the
+> RZ/G3L (R9A08G046) SoC.
 >
 > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-
-More comments...
-
-> --- a/drivers/clk/renesas/rzg2l-cpg.c
-> +++ b/drivers/clk/renesas/rzg2l-cpg.c
-> @@ -120,6 +120,11 @@
->  #define RZG3L_PLL7_FSTD_DIV_MR_MIN     (8 * MEGA)
->  #define RZG3L_PLL7_FSTD_DIV_MR_MAX     (16 * MEGA)
+> ---
+>  drivers/clk/renesas/r9a08g046-cpg.c | 62 +++++++++++++++++++++++++++++
+>  1 file changed, 62 insertions(+)
 >
-> +#define CPG_PLLDSI_SMUX_LVDS_DUTY_NUM          4
-> +#define CPG_PLLDSI_SMUX_LVDS_DUTY_DEN          7
-> +#define CPG_PLLDSI_SMUX_DSI_RGB_DUTY_NUM       1
-> +#define CPG_PLLDSI_SMUX_DSI_RGB_DUTY_DEN       2
+> diff --git a/drivers/clk/renesas/r9a08g046-cpg.c b/drivers/clk/renesas/r9a08g046-cpg.c
+> index 4488bd1988e8..7cea2c6d2c42 100644
+> --- a/drivers/clk/renesas/r9a08g046-cpg.c
+> +++ b/drivers/clk/renesas/r9a08g046-cpg.c
+> @@ -19,22 +19,26 @@
+>  #define G3L_CPG_PL3_DDIV               (0x208)
+>  #define G3L_CPG_SDHI_DDIV              (0x218)
+>  #define G3L_CPG_GE3D_DDIV              (0x224)
+> +#define G3L_CPG_DSI_DDIV               (0x228)
+>  #define G3L_CPG_CA55CORE_DDIV          (0x234)
+>  #define G3L_CPG_RSCI_DDIV              (0x238)
+>  #define G3L_CPG_RSPI_DDIV              (0x23c)
+>  #define G3L_CPG_SDHI_DSEL              (0x244)
+>  #define G3L_CLKDIVSTATUS               (0x280)
+>  #define G3L_CLKSELSTATUS               (0x284)
+> +#define G3L_CPG_DSI_SSEL               (0x408)
+>  #define G3L_CPG_GE3D_SSEL              (0x40c)
+>  #define G3L_CPG_ETH_SSEL               (0x410)
+>  #define G3L_CPG_RSCI_SSEL              (0x414)
+>  #define G3L_CPG_RSPI_SSEL              (0x418)
+> +#define G3L_CPG_DSI_SDIV               (0x430)
+>  #define G3L_CPG_ETH_SDIV               (0x434)
+>
+>  /* RZ/G3L Specific division configuration.  */
+>  #define G3L_DIVPL2A            DDIV_PACK(G3L_CPG_PL2_DDIV, 0, 2)
+>  #define G3L_DIVPL2B            DDIV_PACK(G3L_CPG_PL2_DDIV, 4, 2)
+>  #define G3L_DIVPL3A            DDIV_PACK(G3L_CPG_PL3_DDIV, 0, 2)
+> +#define G3L_DIVPL3B            DDIV_PACK(G3L_CPG_PL3_DDIV, 4, 2)
+>  #define G3L_DIV_SDHI0          DDIV_PACK(G3L_CPG_SDHI_DDIV, 0, 2)
+>  #define G3L_DIV_SDHI1          DDIV_PACK(G3L_CPG_SDHI_DDIV, 4, 2)
+>  #define G3L_DIV_SDHI2          DDIV_PACK(G3L_CPG_SDHI_DDIV, 8, 2)
+> @@ -54,11 +58,14 @@
+>  #define G3L_SDIV_ETH_B         DDIV_PACK(G3L_CPG_ETH_SDIV, 4, 1)
+>  #define G3L_SDIV_ETH_C         DDIV_PACK(G3L_CPG_ETH_SDIV, 8, 2)
+>  #define G3L_SDIV_ETH_D         DDIV_PACK(G3L_CPG_ETH_SDIV, 12, 1)
+> +#define G3L_SDIV_DSI_C_SET     DDIV_PACK(G3L_CPG_DSI_SDIV, 8, 1)
+> +#define G3L_DIV_DSI            DDIV_PACK(G3L_CPG_DSI_DDIV, 0, 2)
 
-I am wondering if these macros are worthwhile, as IMO they make it
-harder to understand the code.
+Please preserve sort order for both newly-added lines.
 
-> +
->  /**
->   * struct clk_hw_data - clock hardware data
->   * @hw: clock hw
+>
+>  /* RZ/G3L Clock status configuration. */
+>  #define G3L_DIVPL2A_STS                DDIV_PACK(G3L_CLKDIVSTATUS, 4, 1)
+>  #define G3L_DIVPL2B_STS                DDIV_PACK(G3L_CLKDIVSTATUS, 5, 1)
+>  #define G3L_DIVPL3A_STS                DDIV_PACK(G3L_CLKDIVSTATUS, 8, 1)
+> +#define G3L_DIVPL3B_STS                DDIV_PACK(G3L_CLKDIVSTATUS, 9, 1)
+>  #define G3L_DIV_CA55_CORE0_STS DDIV_PACK(G3L_CLKDIVSTATUS, 12, 1)
+>  #define G3L_DIV_CA55_CORE1_STS DDIV_PACK(G3L_CLKDIVSTATUS, 13, 1)
+>  #define G3L_DIV_CA55_CORE2_STS DDIV_PACK(G3L_CLKDIVSTATUS, 14, 1)
+> @@ -78,6 +85,7 @@
+>  #define G3L_SEL_SDHI1_STS      SEL_PLL_PACK(G3L_CLKSELSTATUS, 17, 1)
+>  #define G3L_SEL_SDHI2_STS      SEL_PLL_PACK(G3L_CLKSELSTATUS, 18, 1)
+>  #define G3L_DIV_GE3D_STS       DDIV_PACK(G3L_CLKDIVSTATUS, 27, 1)
+> +#define G3L_DIV_DSI_STS                DDIV_PACK(G3L_CLKDIVSTATUS, 28, 1)
+>
+>  /* RZ/G3L Specific clocks select. */
+>  #define G3L_SEL_SDHI0          SEL_PLL_PACK(G3L_CPG_SDHI_DSEL, 0, 2)
+> @@ -101,6 +109,7 @@
+>  #define G3L_SEL_RSPI0          SEL_PLL_PACK(G3L_CPG_RSPI_SSEL, 0, 2)
+>  #define G3L_SEL_RSPI1          SEL_PLL_PACK(G3L_CPG_RSPI_SSEL, 2, 2)
+>  #define G3L_SEL_RSPI2          SEL_PLL_PACK(G3L_CPG_RSPI_SSEL, 4, 2)
+> +#define G3L_SEL_DSI            SEL_PLL_PACK(G3L_CPG_DSI_SSEL, 0, 1)
 
-> +static int rzg3l_cpg_dsi_smux_get_duty_cycle(struct clk_hw *hw,
-> +                                            struct clk_duty *duty)
-> +{
-> +       u8 parent = clk_mux_ops.get_parent(hw);
-> +
-> +       /*
-> +        * CDIV7_DSIx_CLK - LVDS path (div7) - duty 4/7.
-> +        * CSDIV_DSIx - DSI/RGB path (csdiv) - duty 1/2.
-> +        */
-> +       if (parent == 0) {
-> +               duty->num = CPG_PLLDSI_SMUX_LVDS_DUTY_NUM;
-> +               duty->den = CPG_PLLDSI_SMUX_LVDS_DUTY_DEN;
+Sort order?
 
-The 4/7 duty cycle is due to the division by 7 between M2 and M2_DIV7.
-Perhaps it should be set by that divider clock instead?
+> @@ -347,6 +388,7 @@ static const struct cpg_core_clk r9a08g046_core_clks[] __initconst = {
+>         DEF_G3S_DIV("G", R9A08G046_CLK_G, CLK_SEL_GE3D, G3L_DIV_GE3D, G3L_DIV_GE3D_STS,
+>                     dtable_1_32, 0, 0, 0, NULL),
+>         DEF_FIXED("OSCCLK", R9A08G046_OSCCLK, CLK_EXTAL, 1, 1),
+> +       DEF_FIXED("dsi_pllclk", R9A08G046_MIPI_DSI_PLLCLK, R9A08G046_CLK_M4, 1, 1),
 
-> +       } else {
-> +               duty->num = CPG_PLLDSI_SMUX_DSI_RGB_DUTY_NUM;
-> +               duty->den = CPG_PLLDSI_SMUX_DSI_RGB_DUTY_DEN;
-> +       }
-> +
-> +       return 0;
-> +}
+"mipi_dsi_pllclk"
 
+>  };
+>
+>  static const struct rzg2l_mod_clk r9a08g046_mod_clks[] = {
+> @@ -400,6 +442,22 @@ static const struct rzg2l_mod_clk r9a08g046_mod_clks[] = {
+>                                         MSTOP(BUS_PERI_VIDEO, BIT(12))),
+>         DEF_MOD("ge3d_ace_clk",         R9A08G046_GE3D_ACE_CLK, R9A08G046_CLK_P1, 0x558, 2,
+>                                         MSTOP(BUS_PERI_VIDEO, BIT(12))),
+> +       DEF_MOD("dsi_sysclk",           R9A08G046_MIPI_DSI_SYSCLK, R9A08G046_CLK_M5, 0x568, 1,
+
+"mipi_dsi_sysclk"
+
+> +                                       MSTOP(BUS_PERI_VIDEO, BIT(5) | BIT(6))),
+> +       DEF_MOD("dsi_aclk",             R9A08G046_MIPI_DSI_ACLK, R9A08G046_CLK_P1, 0x568, 2,
+
+"mipi_dsi_aclk"
+
+> +                                       MSTOP(BUS_PERI_VIDEO, BIT(5) | BIT(6))),
+> +       DEF_MOD("dsi_pclk",             R9A08G046_MIPI_DSI_PCLK, R9A08G046_CLK_P2, 0x568, 3,
+
+"mipi_dsi_pclk"
+
+> +                                       MSTOP(BUS_PERI_VIDEO, BIT(5) | BIT(6))),
+> +       DEF_MOD("dsi_vclk",             R9A08G046_MIPI_DSI_VCLK, R9A08G046_CLK_M3, 0x568, 4,
+
+"mipi_dsi_vclk"
+
+> +                                       MSTOP(BUS_PERI_VIDEO, BIT(5) | BIT(6))),
+> +       DEF_MOD("dsi_lpclk",            R9A08G046_MIPI_DSI_LPCLK, R9A08G046_CLK_M1, 0x568, 5,
+
+"mipi_dsi_lpclk"
+
+
+> +                                       MSTOP(BUS_PERI_VIDEO, BIT(5) | BIT(6))),
+> +       DEF_MOD("lcdc_clk_a",           R9A08G046_LCDC_CLK_A, R9A08G046_CLK_P1, 0x56c, 0,
+> +                                       MSTOP(BUS_PERI_VIDEO, BIT(7) | BIT(8) | BIT(9))),
+> +       DEF_MOD("lcdc_clk_d",           R9A08G046_LCDC_CLK_D, R9A08G046_CLK_M3, 0x56c, 1,
+> +                                       MSTOP(BUS_PERI_VIDEO, BIT(7) | BIT(8) | BIT(9))),
+> +       DEF_MOD("lcdc_clk_p",           R9A08G046_LCDC_CLK_P, R9A08G046_CLK_P2, 0x56c, 2,
+> +                                       MSTOP(BUS_PERI_VIDEO, BIT(7) | BIT(8) | BIT(9))),
+>         DEF_MOD("ssi0_pclk2",           R9A08G046_SSI0_PCLK2, R9A08G046_CLK_P0, 0x570, 0,
+>                                         MSTOP(BUS_MCPU1, BIT(10))),
+>         DEF_MOD("ssi0_pclk_sfr",        R9A08G046_SSI0_PCLK_SFR, R9A08G046_CLK_P0, 0x570, 1,
+
+The rest LGTM.
 
 Gr{oetje,eeting}s,
 
                         Geert
 
--- 
+--
 Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
 In personal conversations with technical people, I call myself a hacker. But
