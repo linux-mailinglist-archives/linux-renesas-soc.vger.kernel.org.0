@@ -1,143 +1,122 @@
-Return-Path: <linux-renesas-soc+bounces-35071-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-35072-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id 4/DTMm8nUWqNAAMAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-35071-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 10 Jul 2026 19:10:07 +0200
+	id BJsVEpc1UWpFAwMAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-35072-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 10 Jul 2026 20:10:31 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2464073CEF6
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 10 Jul 2026 19:10:07 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id C1D4473D3DD
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 10 Jul 2026 20:10:30 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b="XDv/PS2+";
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b="nv/sA7Mc";
 	dmarc=pass (policy=quarantine) header.from=kernel.org;
-	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-35071-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-35071-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
+	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-35072-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 2600:3c15:e001:75::12fc:5321 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-35072-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 2CAF2302C921
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 10 Jul 2026 17:03:52 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id F146A301860F
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 10 Jul 2026 18:07:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8D0BE43801A;
-	Fri, 10 Jul 2026 17:03:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5733F3803D0;
+	Fri, 10 Jul 2026 18:07:27 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78EC8434408;
-	Fri, 10 Jul 2026 17:03:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A05E737C0F7;
+	Fri, 10 Jul 2026 18:07:25 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783703031; cv=none; b=cVdPhV2ma1l+LQo1s9TDEKE7n66ccUnm7oH+AzLwLcCd0HHxuAiz6gPioE7mFSK/eAoryt0nciQLlOEBfzw1iaAA+f8hSXwHWrFiHPuGScxnGhMbtxKaUbbPqTYe6+vt7fIARTbylzvBPhneZzA4wRpsww9mpJ4FDdCgKLmojAM=
+	t=1783706847; cv=none; b=atD/cqILollJZqHxyzVjfoajDmSLcvfjOALaUHh/WhA46KxOgIKstIrfM3xfhu9xrtaXG52vKC9vfImQTR63b0bDyQQCS3aJeZoDNQR64TVeJvqDw/okbjeKbF/neuhFojH9Yew+VEhN4nJRIcB8dA1ILwJEKwqyxp/01/q60rc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783703031; c=relaxed/simple;
-	bh=XEPNxeRC6JA3l5LDOfmbtOD1XiOiJOftUmu27yGvjpc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oq5KS8t3KxrSO99p45u8VKVNpGEd7mYRjQNPmfIhWSp/l6xbQe6j+OtOwbhF37RVjXHQMNOYaLs06RPGJiF70FDSs5hiBziXDf0KgNX+CyJ83tX2DFhUAbumZKjcWw9BXzGp0jrn1td3m5D1t5Amsn8KrScARAMALkD601hfOsc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XDv/PS2+; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B2E391F000E9;
-	Fri, 10 Jul 2026 17:03:48 +0000 (UTC)
+	s=arc-20240116; t=1783706847; c=relaxed/simple;
+	bh=eAITFPOCEuW56hJol+BRhwmU47JapVeAE6fdtHRutWE=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=PbdmgIFDw6/Eigr9EPbbEmD911alVCpm6PGy6ALksf6eT9Xxm0KdXGmNZw0Zf8mK33AmUvM+xAaBVJ//niHksiIxlzrJy1pIRFkaFmss8cuVoXaa6v5fgQpkZXTYT7qz3ofRbMBKj0JUkcZXNFf5HZ+mY4WkDNU6JiD+BvAf2QM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nv/sA7Mc; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EF0D81F00A3D;
+	Fri, 10 Jul 2026 18:07:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783703030;
-	bh=XEPNxeRC6JA3l5LDOfmbtOD1XiOiJOftUmu27yGvjpc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=XDv/PS2+Zwi74z1ye54hGZXDBWN0fkby7w5TGyBEV2pW2QWf12K7ZpVCDZ80RA6Of
-	 SbLm2PLyjdtKtrCnVed3TV5YqKS05ki78CLUjuNzOIawQFdniQIGqcdge2+P3TfUcH
-	 iBlZwVAgNqxsFpvn14N8LI2v39Ii7DTDqZEgtvsaUh8x6m4Z14Y6h9ftkUdZ6vmZWI
-	 TGHuANp+GuiLP/fHZ8CBbaTqkmA3KFJNbkcw8CCJ9ujvfoXVgcGnrUUkqQIv4Z9SR1
-	 ZovhqK+qyemkxTZz5DKInMdlkpJZbCkJY7/GIWt61PQcgoAj3LvNe7UFczzoa1xfn/
-	 M+ZQ4MVjA0AMQ==
-Date: Fri, 10 Jul 2026 18:03:46 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Biju <biju.das.au@gmail.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Biju Das <biju.das.jz@bp.renesas.com>, linux-kernel@vger.kernel.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v4 4/9] regulator: renesas-usb-vbus-regulator: Add RZ/G3L
- VBUS regulator support
-Message-ID: <b29edb70-70d8-4223-8de6-ba1366878eeb@sirena.org.uk>
-References: <20260709083108.108370-1-biju.das.jz@bp.renesas.com>
- <20260709083108.108370-5-biju.das.jz@bp.renesas.com>
+	s=k20260515; t=1783706845;
+	bh=EFkeIeU2FBGbEqfcB14GA6QRcO1JY2uvLVTQLi5eGUU=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=nv/sA7McvirQ8iJD+fR1bLLLazEgXdvuEpdtkHhcl2rUVUwrl6VHvYdddrb0PMH5J
+	 n/40Ffim08ig/rcuOQhq0pt1iOaz7JBOpu1OB1ks9yCCgqAP/Kl4WNKNvA8zoMru+B
+	 nKMcHOGBW+Rpf8oTizPXN42+nSsGXQ0bmG4lMF2O4mWuMoC35SRSviBBHMiqcMp4W1
+	 gls4lv4dt0Y/1pvI5pHR4Ag2/dF5aL7f0E3vatZw+xViWr08HyOwXeg491vocBMoR6
+	 3PGl9s9feCv3+8tfyOb8KSoRTir0tSPLsFEEeyIJmihBr2AsyyGdNvmTX6MTX8Nfpb
+	 Sy6kyPbMrIe+A==
+From: Bjorn Andersson <andersson@kernel.org>
+To: linux-renesas-soc@vger.kernel.org,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc: Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Ohad Ben-Cohen <ohad@wizery.com>,
+	linux-remoteproc@vger.kernel.org
+Subject: Re: [PATCH] hwspinlock: propagate errno when registering single lock
+Date: Fri, 10 Jul 2026 13:07:10 -0500
+Message-ID: <178370682988.2572738.9921265128936208294.b4-ty@kernel.org>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260512084856.30497-2-wsa+renesas@sang-engineering.com>
+References: <20260512084856.30497-2-wsa+renesas@sang-engineering.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="UvvoCiyKpGqx76hF"
-Content-Disposition: inline
-In-Reply-To: <20260709083108.108370-5-biju.das.jz@bp.renesas.com>
-X-Cookie: No directory.
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-7.26 / 15.00];
+X-Spamd-Result: default: False [-3.66 / 15.00];
 	WHITELIST_SPF_DKIM(-3.00)[kernel.org:d:+,kernel.org:s:+];
-	SIGNED_PGP(-2.00)[];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
-	MIME_GOOD(-0.20)[multipart/signed,text/plain];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
 	MAILLIST(-0.15)[generic];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-35072-lists,linux-renesas-soc=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	MIME_TRACE(0.00)[0:+,1:+,2:~];
-	TAGGED_FROM(0.00)[bounces-35071-lists,linux-renesas-soc=lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:linux-renesas-soc@vger.kernel.org,m:wsa+renesas@sang-engineering.com,m:baolin.wang@linux.alibaba.com,m:ohad@wizery.com,m:linux-remoteproc@vger.kernel.org,m:wsa@sang-engineering.com,s:lists@lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_RECIPIENTS(0.00)[m:biju.das.au@gmail.com,m:lgirdwood@gmail.com,m:p.zabel@pengutronix.de,m:biju.das.jz@bp.renesas.com,m:linux-kernel@vger.kernel.org,m:geert+renesas@glider.be,m:prabhakar.mahadev-lad.rj@bp.renesas.com,m:linux-renesas-soc@vger.kernel.org,m:bijudasau@gmail.com,m:geert@glider.be,s:lists@lfdr.de];
-	FREEMAIL_TO(0.00)[gmail.com];
+	FORGED_SENDER(0.00)[andersson@kernel.org,linux-renesas-soc@vger.kernel.org];
+	TO_DN_SOME(0.00)[];
 	FORWARDED(0.00)[lists@lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_SENDER(0.00)[broonie@kernel.org,linux-renesas-soc@vger.kernel.org];
-	FREEMAIL_CC(0.00)[gmail.com,pengutronix.de,bp.renesas.com,vger.kernel.org,glider.be];
 	FROM_HAS_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[broonie@kernel.org,linux-renesas-soc@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[andersson@kernel.org,linux-renesas-soc@vger.kernel.org];
 	DKIM_TRACE(0.00)[kernel.org:+];
-	RCPT_COUNT_SEVEN(0.00)[8];
+	MID_RHS_MATCH_FROM(0.00)[];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
-	TO_DN_SOME(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,vger.kernel.org:from_smtp,renesas.com:email]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,vger.kernel.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 2464073CEF6
+X-Rspamd-Queue-Id: C1D4473D3DD
 
 
---UvvoCiyKpGqx76hF
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Tue, 12 May 2026 10:48:23 +0200, Wolfram Sang wrote:
+> hwspin_lock_register_single() always returns 0 despite checking the
+> result from radix_tree_insert(). Propagate the errno to make sanity
+> checks in callers of this function actually meaningful.
+> 
+> 
 
-On Thu, Jul 09, 2026 at 09:30:57AM +0100, Biju wrote:
-> From: Biju Das <biju.das.jz@bp.renesas.com>
->=20
-> Add dual USB VBUS regulator support for the RZ/G3L (r9a08g046) SoC, which
-> has two OTG controllers (one per port), unlike RZ/G3S which has only one.
+Applied, thanks!
 
-Acked-by: Mark Brown <broonie@kernel.org>
+[1/1] hwspinlock: propagate errno when registering single lock
+      commit: e088ffa9a00eaaaf90da74763e774ca160969c26
 
---UvvoCiyKpGqx76hF
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmpRJfEACgkQJNaLcl1U
-h9A/+wf+JwAuutVeCEMgLrhOxQZe7BpWuzUHabeyzNh9jB/EVfTH6sWKdcieX9Hy
-A4bWr3GwPI7IrhXNCOfyGCee/MH/ZEpVSew9WP7I8ZXUKN99+SMKTF8IqFhvk4kN
-t7HAePf7f9ZjGxDDusoZAHQ6oYAC/OovYEfyYJzH7iS++IquNUV3afHig5wT0UoA
-etBEIptpy5p5XJYL/evNgha0Si0ZN46mf2GsSQVv2UCNjBOXPDMeQgpP0IpbRVC1
-8m9wPVOrsdpMhwWzSmeUlr9HXrmOPh/YyqicYZ26eYtU7Kw9SI5ngkoV05HFLSxc
-WycPYQFLIsBNQe0EoZVwNnStyayw9g==
-=UYLi
------END PGP SIGNATURE-----
-
---UvvoCiyKpGqx76hF--
+Best regards,
+-- 
+Bjorn Andersson <andersson@kernel.org>
 
