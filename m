@@ -1,185 +1,144 @@
-Return-Path: <linux-renesas-soc+bounces-35079-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-35080-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id di9dCYACUmoGLQMAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-35079-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 11 Jul 2026 10:44:48 +0200
+	id dGCgHBBcU2p6aAMAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-35080-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 12 Jul 2026 11:19:12 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 211EF740EED
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 11 Jul 2026 10:44:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B94087443D2
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 12 Jul 2026 11:19:11 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=intel.com header.s=Intel header.b=KqD1CqtX;
-	dmarc=pass (policy=none) header.from=intel.com;
-	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-35079-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-35079-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=sang-engineering.com header.s=k1 header.b=UkjLJ7O5;
+	dmarc=none;
+	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-35080-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-35080-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 205C63012EB8
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 11 Jul 2026 08:44:45 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 31A33300FED0
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 12 Jul 2026 09:19:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 64586372075;
-	Sat, 11 Jul 2026 08:44:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4EE1437474A;
+	Sun, 12 Jul 2026 09:19:07 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4144F239E7F;
-	Sat, 11 Jul 2026 08:44:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C7ED33F59C
+	for <linux-renesas-soc@vger.kernel.org>; Sun, 12 Jul 2026 09:19:02 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783759484; cv=none; b=PtsQfxpRBp2TOfIzUFMS3pEMZ44B75l3CYDZQnNxU/TUvYX6DhUMw292gze+yt+AXt1FJ/EFzH9nt0hX1cGGIybxyhmgtRQABoShMCAQZFE2eMiL9vnKTOy3VmFBCRVIJhWbTpCDYRgLjrVqkjWcPjw5HUptL5YP9F29Y5yz4fw=
+	t=1783847947; cv=none; b=l0bAIAuoKh463wLH/UNj9wGJ6sdx38bHvM8Tb3sSVKbQV1Z1nfqKfxJBreTAr9q2Njd2tP3r/1Cg6R0ZdNlH7I1KmW2t5jnnl5YJcFdxOXSG/k8IxlTQAgYREkQfLGiRfRckDTTMDAdyvyf20WGseH751qXcaj/UooDa6ig0C/Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783759484; c=relaxed/simple;
-	bh=oV4niTZ2Ii67O+QvvUkRW5HxiGVnilwQlup0VtSDcog=;
+	s=arc-20240116; t=1783847947; c=relaxed/simple;
+	bh=3QIfR6Z3GbNWSOHpHl2+zhw/ErTRo6P3Retr6+R+0j0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IadttvvFchqGrxl69ATxyCODuUse27fcJYt1dQa04uODrKy3dzuYsXM8UiBQ0AndHy0kbUtpJV3ZAcweAkiLAkfAgQBzUSFixBZ+u0K7Mrasvt+e1LqNIqpFMpMMjwWAtJBPOqCkOLLxKB44ji1x1eJkT47G0o7WHpbzT9HaGnY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KqD1CqtX; arc=none smtp.client-ip=198.175.65.17
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1783759483; x=1815295483;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=oV4niTZ2Ii67O+QvvUkRW5HxiGVnilwQlup0VtSDcog=;
-  b=KqD1CqtXfg9/dGnArHCGcSnQaPpl/VbJjuw/50/mKiR+KBAYeAZ3tDFz
-   JrNLXxDo20yfk8aK63pEDuFGcPJ/ukeZ/OgvRjSjSK9ZkWUTixi+pXcrX
-   NkPYQXHJw9Wub0StqD5eOrSNwhr4DArNhrpjJj0cV7b77uFx46WJn1ycP
-   1H27qC4tl9g6S5hT23V3lJ9ORrU916aBfME+UcyOYpZxxbfSXPiXj3BjE
-   +eLyuRhyAgXHy3AItFsJB5kPeihwtmxCm0lwwIRxMjOW9/DETFifXHHQf
-   bZb5GLsg15cwWe23wK7tqqrrq75KAknVK2Z6R7T1tVGo1wVW2MKWZhc/q
-   w==;
-X-CSE-ConnectionGUID: p87UPW7bSTqFFtKYfEG3zQ==
-X-CSE-MsgGUID: v/bdBJpBT8eozOQoP0PwEQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11841"; a="84465588"
-X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
-   d="scan'208";a="84465588"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jul 2026 01:44:42 -0700
-X-CSE-ConnectionGUID: gnBGeX6MRHKdJVQguoopjg==
-X-CSE-MsgGUID: KhKBUYNSRPew8W2lbbZOHw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
-   d="scan'208";a="248708660"
-Received: from abityuts-desk.ger.corp.intel.com (HELO localhost) ([10.245.244.254])
-  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jul 2026 01:44:39 -0700
-Date: Sat, 11 Jul 2026 11:44:36 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
-Cc: Linus Walleij <linusw@kernel.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Rich Felker <dalias@libc.org>,
-	Yoshinori Sato <ysato@users.sourceforge.jp>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Bartosz Golaszewski <brgl@kernel.org>,
-	Arnd Bergmann <arnd@kernel.org>, linux-sh@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	linux-gpio@vger.kernel.org
-Subject: Re: [PATCH v2 0/5] rsk7203: switch to using static device property,
- drop legacy gpio API
-Message-ID: <alICdFwIg91NOZzn@ashevche-desk.local>
-References: <20260520-rsk7203-properties-v2-0-465f3308021b@gmail.com>
- <akyJOW79W0xvI-P9@google.com>
- <CAD++jL=Wx=mHORGDU_=PgGrOCdTSVes63jgSL2xQX+rCE2uaMw@mail.gmail.com>
- <f9fc5cb2ae36593db9db8faf7ebcdc224842f9a0.camel@physik.fu-berlin.de>
+	 Content-Type:Content-Disposition:In-Reply-To; b=ifQllzZIW+2XIj9fiGrTo7F6WGesNzFHSMN9AuY4QY2lk41i9ieNeZJkcOav21zjPzn+sa6oLT8ftZaytHTyMuYC66BSwh8/0+sKYA4qxdhO/JK0jnBXTh4wbzI6PhZNs2foh9+W9MAeeXg1qK5GQP6Sq5bNIUbMLCk01o1yOb0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=UkjLJ7O5; arc=none smtp.client-ip=194.117.254.33
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=date:from:to:cc:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=3QIf
+	R6Z3GbNWSOHpHl2+zhw/ErTRo6P3Retr6+R+0j0=; b=UkjLJ7O5HT6JogjfW2nr
+	q3GfAjM1z/Dp9D6xurV4Vhm6ewYrPqIpBG0OW9S2NDvKrmWNnFyh4YenT9R6g+xj
+	VePkKZJsoeUq3A9GQLdfuBEXslWbaAMihtZaAd4iO5t3pORHa9eUxlIUZJj3YWeR
+	CBFsz80k4EJq53YgxdfBZmN7mviMJXI9t5XezmESZ5tz+Lin28+EzAwwWnCtjCIm
+	Ek5tNPEWB0J2yBjpTGSq0fvahsZxBNXOmvI56szLgZj+3ynnhaLRQNOaNOrEc5a3
+	0gFNV8Z8KsJWKIISHj55FemoFUN4JHZgFFx3JspaS+MjlkMT5dwtHVOfDoChEP5p
+	Dw==
+Received: (qmail 2175920 invoked from network); 12 Jul 2026 11:19:00 +0200
+Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 12 Jul 2026 11:19:00 +0200
+X-UD-Smtp-Session: l3s3148p1@n9LIdmZW3uQujnun
+Date: Sun, 12 Jul 2026 11:18:59 +0200
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: Claudiu Beznea <claudiu.beznea+renesas@tuxon.dev>
+Cc: geert+renesas@glider.be, linusw@kernel.org, robh@kernel.org,
+	krzk+dt@kernel.org, conor+dt@kernel.org, magnus.damm@gmail.com,
+	claudiu.beznea@tuxon.dev, linux-renesas-soc@vger.kernel.org,
+	linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Subject: Re: [PATCH v4 0/5] pinctrl: renesas: rzg2l: Add support for RZ/G3S
+ I3C
+Message-ID: <alNcAytiUKstopnM@ninjato>
+References: <20260710113637.1328000-1-claudiu.beznea+renesas@tuxon.dev>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="9iJjO0Yi0a+jdzfx"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <f9fc5cb2ae36593db9db8faf7ebcdc224842f9a0.camel@physik.fu-berlin.de>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+In-Reply-To: <20260710113637.1328000-1-claudiu.beznea+renesas@tuxon.dev>
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-3.66 / 15.00];
-	WHITELIST_SPF_DKIM(-3.00)[intel.com:d:+,kernel.org:s:+];
+X-Spamd-Result: default: False [-1.76 / 15.00];
+	SIGNED_PGP(-2.00)[];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	MID_RHS_NOT_FQDN(0.50)[];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	MIME_GOOD(-0.20)[multipart/signed,text/plain];
+	R_DKIM_ALLOW(-0.20)[sang-engineering.com:s=k1];
 	MAILLIST(-0.15)[generic];
-	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_TWELVE(0.00)[12];
+	RCVD_COUNT_THREE(0.00)[4];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-35079-lists,linux-renesas-soc=lfdr.de];
-	FORWARDED(0.00)[lists@lfdr.de];
-	FORGED_RECIPIENTS(0.00)[m:glaubitz@physik.fu-berlin.de,m:linusw@kernel.org,m:dmitry.torokhov@gmail.com,m:dalias@libc.org,m:ysato@users.sourceforge.jp,m:geert+renesas@glider.be,m:brgl@kernel.org,m:arnd@kernel.org,m:linux-sh@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-renesas-soc@vger.kernel.org,m:linux-gpio@vger.kernel.org,m:dmitrytorokhov@gmail.com,m:geert@glider.be,s:lists@lfdr.de];
-	HAS_ORG_HEADER(0.00)[];
-	FORGED_SENDER(0.00)[andriy.shevchenko@linux.intel.com,linux-renesas-soc@vger.kernel.org];
-	FREEMAIL_CC(0.00)[kernel.org,gmail.com,libc.org,users.sourceforge.jp,glider.be,vger.kernel.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[andriy.shevchenko@linux.intel.com,linux-renesas-soc@vger.kernel.org];
+	FORGED_RECIPIENTS(0.00)[m:claudiu.beznea+renesas@tuxon.dev,m:geert+renesas@glider.be,m:linusw@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:magnus.damm@gmail.com,m:claudiu.beznea@tuxon.dev,m:linux-renesas-soc@vger.kernel.org,m:linux-gpio@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:claudiu.beznea.uj@bp.renesas.com,m:geert@glider.be,m:krzk@kernel.org,m:conor@kernel.org,m:magnusdamm@gmail.com,s:lists@lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[intel.com:+];
-	RCVD_COUNT_FIVE(0.00)[5];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	MISSING_XM_UA(0.00)[];
+	FORGED_SENDER(0.00)[wsa@sang-engineering.com,linux-renesas-soc@vger.kernel.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[13];
+	DMARC_NA(0.00)[sang-engineering.com];
+	MIME_TRACE(0.00)[0:+,1:+,2:~];
+	FORWARDED(0.00)[lists@lfdr.de];
+	TAGGED_FROM(0.00)[bounces-35080-lists,linux-renesas-soc=lfdr.de,renesas];
+	DKIM_TRACE(0.00)[sang-engineering.com:+];
+	TO_DN_SOME(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[wsa@sang-engineering.com,linux-renesas-soc@vger.kernel.org];
+	FREEMAIL_CC(0.00)[glider.be,kernel.org,gmail.com,tuxon.dev,vger.kernel.org,bp.renesas.com];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,ashevche-desk.local:mid,intel.com:dkim]
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,dt];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,sang-engineering.com:from_mime,sang-engineering.com:dkim]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 211EF740EED
-
-On Sat, Jul 11, 2026 at 07:14:48AM +0200, John Paul Adrian Glaubitz wrote:
-> On Fri, 2026-07-10 at 21:05 +0200, Linus Walleij wrote:
-> > On Tue, Jul 7, 2026 at 7:08 AM Dmitry Torokhov
-> > <dmitry.torokhov@gmail.com> wrote:
-> > 
-> > > Gentle ping on this series... It still applies cleanly and we need this
-> > > to be able top drop legacy gpio interfaces from gpio-keys (and
-> > > eventually from the kernel).
-> > 
-> > I lost my patience and queued it to the pinctrl tree on an immutable
-> > branch:
-> > https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git/log/?h=ib-rsk7204
-> > 
-> > Then I merged this for v7.3.
-> 
-> I'm sorry, but I wasn't aware that this was an urgent patch.
-
-We are at the finish line of getting rid of legacy GPIO approach that was
-marked as a such like a decade ago. It's not that it's really hurry, but
-this particular series prevents Dmitry to finish his part what he maintains.
-
-> I'm doing this as a hobbyist and I'm working on my own pace as I cannot
-> always spend time working on kernel maintenance.
-
-Right, this is fine, the problem is that we are not working independently on a
-project, there are areas where it's possible, but in many cases one's work may
-be crucial for the other's...
-
-> I'm usually collecting patches from patchwork [1] for review and then merge
-> them in batches if they're fine.
-> 
-> What I don't understand, why did you choose to use an immutable tree? Is there
-> really a need for such an escalation? I find that a bit rude.
-
-...that's why it's good to have it being moved forward. And having an immutable
-branch is actually *to help* you, and not the opposite. Now you can simply pull
-that branch into your tree as a whole.
-
-> The v2 patch series was sent first in May, so I didn't think this was already
-> a long time.
-
-Pace of the Linux kernel development is 1 week with the release every ~9th week
-(with a gap ~3-4 weeks due to end of cycle and merge window). Currently is the
-first third of July, so... make conclusion yourself.
-
-> > [1] https://patchwork.kernel.org/project/linux-sh/list/
-
--- 
-With Best Regards,
-Andy Shevchenko
+X-Rspamd-Queue-Id: B94087443D2
 
 
+--9iJjO0Yi0a+jdzfx
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+
+> Changes in v4:
+> - dropped patch 1 from v3 as it was already applied
+
+All still works on top of linux-next as of today. Thanks!
+
+
+--9iJjO0Yi0a+jdzfx
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmpTW/8ACgkQFA3kzBSg
+KbY1iRAAiWHXU2s8MoxYlkS9Qu4lFBL6KrA0Vw9cYiWx3/x0Ig1arxZJ8tWYwy4T
+LgG5CFnlbic5gJraW1pcTWnjwAfGJrG9T6nneEHyzOnrGRCw1cZ8sjBWivM+ve/B
+fCsryLqOrgOZqHE9NKDMZXqJlKQyYc8EzL+TfJUwuRe5/vxRvYGY/DxPWf00jyH8
+zTL38z8yE/G5+glsJy+Xr5Ml5tAHa8MrBHzP93YmozdS1lg8Iw/JlDlJeYgj+WTT
+3q6z46qS6hM2wSFMhdtHxGGmmrXqH8HYgN27ZQuliY2iKLaj6UlO5zzgV1bZEaon
+artFC9PhofZS+nDuzg+tpisHWrjYunPXR7H/ICsbuSxA4bH0dIppTUekQA7A0UBT
+8H/DI292V/eD3m+WzIyIDjXdLRNhDFam1qGLcaAEkseZy20vkh6Rklzvds6oNdQ2
+ZRV5/S+Df7vBhXf/Q/D21pS/V7ogwpWuC7gfn5RkWs4BgNL2c/GIlMO4D1r4CPVU
+Of/MNyUxk89g8pVyqjBErU3J2Og3UWFhcCb97T4u53+nhhOlkHn+rFDNOj/Nork0
+vYvsCuXjUDUCAYwaJs3oFEDrta1oXr9HoqBNFwwKcOMO3NLhw4ntK5C6VZDkaU2u
+HQHfiPsqxHLCkcLU+tlMH+ktLSgnHQEMsM1nfZUkiMqWrQ6wpDc=
+=TKwm
+-----END PGP SIGNATURE-----
+
+--9iJjO0Yi0a+jdzfx--
 
