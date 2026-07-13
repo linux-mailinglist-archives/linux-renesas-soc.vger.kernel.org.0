@@ -1,188 +1,332 @@
-Return-Path: <linux-renesas-soc+bounces-35170-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-35149-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id V3BTLqV0VWqYogAAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-35170-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Jul 2026 01:28:37 +0200
+	id 1f+jMZMXVWp7jwAAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-35149-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 Jul 2026 18:51:31 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29ADF74FB77
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Jul 2026 01:28:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AE2574DC2A
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 Jul 2026 18:51:31 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=eeFZ4MWu;
-	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-35170-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-35170-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=reject) header.from=mailbox.org;
-	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
+	dkim=pass header.d=NXP1.onmicrosoft.com header.s=selector1-NXP1-onmicrosoft-com header.b=uLs4g4aF;
+	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-35149-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-35149-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
+	dmarc=fail reason="SPF not aligned (relaxed), DKIM not aligned (relaxed)" header.from=nxp.com (policy=none);
+	arc=reject ("cv is fail on i=2")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 7184130C9C94
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 Jul 2026 23:27:24 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 5BBBC3006B71
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 Jul 2026 16:51:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 275473D7A01;
-	Mon, 13 Jul 2026 23:27:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E369543802A;
+	Mon, 13 Jul 2026 16:51:18 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
+Received: from DUZPR83CU001.outbound.protection.outlook.com (mail-northeuropeazon11012033.outbound.protection.outlook.com [52.101.66.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22E1E3B8BD8;
-	Mon, 13 Jul 2026 23:27:20 +0000 (UTC)
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783985244; cv=none; b=eJBGJwxLB5nzubMB5tZctdVzb3MnQKwV8pGD1Z+rnf+U7aXvSq2Yovr1CL6ZMLnb/p5cKlV9ddvU0/j1XTsqbk2IiWet1i7f0E/LQ4Z7vschFAebLCB0wegJw+NaaCqAsAeLG4+/ZgEFWeNK98TiQCm4mzIH8Sl/R/Rxu1MIw1U=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783985244; c=relaxed/simple;
-	bh=H1hj1fKdkFAMfe6aV1gB0KI7JUT6T6OHj293Gpx6mDA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=s9RcLAMjySjro+3HUWKtaTX1Qyqmft/VB1ROSLVcOg8lKeEivY1MOuvcriLLDHbZ5sGTLuRE1DydGKeruDvoQRTi4BAn1sC4Kx4f3X/78L+ogJH76Tgy7MQjYIBWKMpUIYo2ZI7TgWziqposGE2UauG4BikBOvqnEU+HziEZxFY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=eeFZ4MWu; arc=none smtp.client-ip=80.241.56.151
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA512)
-	(No client certificate requested)
-	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4gzdrN5XjXz8v6x;
-	Tue, 14 Jul 2026 01:27:16 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1783985236;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=a6jyp32uUawh83SRhr8POWlLF0OVHeuNyqGYp5nxZsY=;
-	b=eeFZ4MWuPw2jU5Jcg7tSt39IfugRem3NikpSYn2zhVLCahxbtlWJdjgXDpQfyxw4LG+Bw6
-	aFInhLaVgicO1NFdzknmCWt9l5VsdB9KnpHor1SiPt3gYaxV/Kqx0Erhau2IJWA/s0q8PV
-	UUVD2H0b3QfX7LGqCfUUSKN41g1RJc5h9ewzCb4tbC5eBdty4zW9yChEp0C98o4VdDtKRD
-	qr/kbY5B9jBMmrD4Ju2rNBFuzdxSSCpNwQpINvcdpb3Ltvo5kY4+Bbg3A2UBYdBmAhGcq2
-	EP5h2nU9DRLck57ikG3T0RmATVVo8wdJ9DUEjTMOTYfQAIdzm/VF/cOfYyQaVA==
-Message-ID: <7715ca62-be37-4c6e-86d1-3d0816bf9bfb@mailbox.org>
-Date: Mon, 13 Jul 2026 18:20:14 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22A39385D8C;
+	Mon, 13 Jul 2026 16:51:15 +0000 (UTC)
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783961478; cv=fail; b=DBX5cZxoO7jvhSH7AfvLHg0wPdqNz8Da2dT4ET1lRby+l0gPv8iYgI28IVDULw5T9Ys9XlescUOX6Xo9gU8R0MT0TKNHYYjs/7gwAX6it7oMU7Qnir6XhZntTXS7cMZyjj4axMJxJB+f3qhCjHFEgOF/LP/TDjFcbY7EFP+iZGk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783961478; c=relaxed/simple;
+	bh=e39JXxB2cEOrppcVtr6Gja+ZJ2LQUDjwe+/FI+NxGo8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=uoHS5GFiQVwFdM/j0+pbIotkLvfRHKvT/ofUPjPAeuT8xt6xHKtATYxvZ+nruH4RX1s3SqQ7sN5GMSWJPJxVSJIjWh37D0QqIREsBF60/8AXaQQBenH1OKtsVwEyj1tyTeg0KU25TzcuxTQrWqkXgTZwPOKSGqvfFW5mn0w64Vs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=uLs4g4aF; arc=fail smtp.client-ip=52.101.66.33
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=vHLkmPIvPaBAPJN0qF/WTaDVjXTN1UbNS3xEEf9SYYjK+MHMQ7qcsqYZtyReCJQTDtpbKtDvcg0nGIybSiUJWE6wXQCg2HONnZgunAI36oMPm15vYnFzBXAOq/URD7l4Sf/pG7/hKWExZgqaFiKF9kF3YQt8+b0u8PGAQ673CulFd3BWONSIQx3qcLUrWvBQ74iC+rJHR7wGvRjrVawglJMmEPvu60R1rQ+wSS8Jfe647mKU173UARUGLRgRpCPMIrfn2JKVeDGhhKipSgjYdij399uiZGdMLd80h8V35VvjVsd7ffhdKQADTsHd92d1Fp1+3v26QHKdXkYeJ2aiaA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=MmTL0UiRYtofm+WkK1Jtf/z2z4eEGFhx9HTqBfop1AA=;
+ b=qEFJjeBUkRXIXq6x9hW6Qg+atOrhVdofUAwLi6MhbMlvlsgBbFUCKmcrJmXBjIqH35k/RFcR6GiQ80dlyhtkvjzlcBPOM8+K2/H03P3+7yBQXWuvL5/5jNwM8ouVsGOqb93Sanuy8UdYjxc1PGDClciDcWyjOOXN7ib4JGcGPHqMe41n3b0EQLk6wnZYV5CW8apduxYv0CkAhocOmP2l2CeKdVYeRLFM9oCi3PbOMfWWiDAeeoZiL7yiiUjM960usheitaJQ/FO4OsjOgPNwz/45StydUsLeS9tmwqsZ7bjbKJH/mKKGci/xP3GEKLBrZqq/9b0a72cnivGuinAHgg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
+ dkim=pass header.d=oss.nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
+ s=selector1-NXP1-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=MmTL0UiRYtofm+WkK1Jtf/z2z4eEGFhx9HTqBfop1AA=;
+ b=uLs4g4aFo3NyqSGTkVS0Zuqx6vGVl+feD08JKh4hGDtLY6EaToVoXz1twWtK7jKmbTGBf1zsd//wWeE1PKU4hVvAQUQyEUiG08vt4T4rB4NhBecK9AUHPtwFVAWalue0Qw4oB+rsVH3ho3bOzkx87aXt+YnvyRPVkLWWuVDlYaO6746doexMGmm7RdHRbf7NwazVdLqChVoEmYg8/zM2Hv5enHn+cQUh/g00d25r+o7m1GOeIe3PyllQEJ4fLPqtUIk/msqBcd33NFjOm8ttyq9e3fEweVm3XI/Q5r6S0j5XS36TF88j7YSFUr3UgsRUg5GQFBZ8TxgVhC9XTof+cA==
+Received: from GV2PR04MB11799.eurprd04.prod.outlook.com (2603:10a6:150:2cf::9)
+ by GVXPR04MB10851.eurprd04.prod.outlook.com (2603:10a6:150:21e::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.202.19; Mon, 13 Jul
+ 2026 16:51:11 +0000
+Received: from GV2PR04MB11799.eurprd04.prod.outlook.com
+ ([fe80::2146:83a2:5329:b7c]) by GV2PR04MB11799.eurprd04.prod.outlook.com
+ ([fe80::2146:83a2:5329:b7c%6]) with mapi id 15.21.0181.019; Mon, 13 Jul 2026
+ 16:51:11 +0000
+Date: Mon, 13 Jul 2026 12:51:03 -0400
+From: Frank Li <Frank.li@oss.nxp.com>
+To: Claudiu Beznea <claudiu.beznea@tuxon.dev>
+Cc: wsa+renesas@sang-engineering.com, tommaso.merciai.xr@bp.renesas.com,
+	alexandre.belloni@bootlin.com, Frank.Li@nxp.com,
+	p.zabel@pengutronix.de, linux-i3c@lists.infradead.org,
+	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
+	stable@vger.kernel.org
+Subject: Re: [PATCH v5 01/17] i3c: renesas: Check that the transfer is valid
+ before accessing it
+Message-ID: <alUXd8KfIZnLKPR5@lizhi-Precision-Tower-5810>
+References: <20260713130545.568657-1-claudiu.beznea+renesas@tuxon.dev>
+ <20260713130545.568657-2-claudiu.beznea+renesas@tuxon.dev>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260713130545.568657-2-claudiu.beznea+renesas@tuxon.dev>
+X-ClientProxiedBy: PH7P220CA0127.NAMP220.PROD.OUTLOOK.COM
+ (2603:10b6:510:327::7) To GV2PR04MB11799.eurprd04.prod.outlook.com
+ (2603:10a6:150:2cf::9)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH] PCI: rcar-gen4: Inline GIC_TRANSLATER offset macro
-To: Marc Zyngier <maz@kernel.org>
-Cc: linux-pci@vger.kernel.org, kernel test robot <lkp@intel.com>,
- =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
- Bjorn Helgaas <bhelgaas@google.com>,
- Catalin Marinas <catalin.marinas@arm.com>, Conor Dooley
- <conor+dt@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Lorenzo Pieralisi <lpieralisi@kernel.org>,
- Manivannan Sadhasivam <mani@kernel.org>, Rob Herring <robh@kernel.org>,
- Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org
-References: <20260709201103.90162-1-marek.vasut+renesas@mailbox.org>
- <87qzlb5jsl.wl-maz@kernel.org>
- <2cb03029-0957-4ed8-98bd-9b3e0e0bce2d@mailbox.org>
- <87fr1m6hma.wl-maz@kernel.org>
-Content-Language: en-US
-From: Marek Vasut <marek.vasut@mailbox.org>
-In-Reply-To: <87fr1m6hma.wl-maz@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-MBO-RS-ID: 870d1a74b75403cd9a9
-X-MBO-RS-META: m76s4j99tj8fo9x8q4hzjed7j1qa4ujj
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: GV2PR04MB11799:EE_|GVXPR04MB10851:EE_
+X-MS-Office365-Filtering-Correlation-Id: ba2744c0-8687-4dd0-106a-08dee0fef150
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|23010399003|7416014|19092799006|366016|1800799024|18002099003|22082099003|3023799007|6133799003|4143699003|56012099006|11063799006;
+X-Microsoft-Antispam-Message-Info:
+	dnvnIspCYnG3rw7aax+2BEclKCtogvpE68JOATh+1vdx/jPBjjXZNTVghrG9uhYu51aqVVBZnGlOXO1bjqG5OS477O1UOr3ztqfQNkLC7a2OcM3Zm7upqGL3n8aknA1LfEq1ARkkXwoqNelyYuNfP2V1wFf5uB5PfORid4l2ayXoPlMgXAQLlfyZF6sKh7lISpC+A+uV5gmTaW5P8k1hycMaKA5hEQqwHdgsJ7UOTgv8lf2VQCp4mkAjidZ/J+ppao/fyRFmIdDQrQO4N5O7zQwqrHcS7XJ7C+whAodFiEEJ7YQwdMWspKc0dO0idSFmRMwaFi0AtvshuDKz6imGDdf7zV/c60gLCx0+6+V7HTFHup+fsnz4MiCpe9/+5QauhN+n4/cv7GQdnqY0j+U26ZWv7dGuNQ91oWr/HRWNw2jk+QiSIrKbQS0Spd4S1oD9Geu47qwg3poLPblyK4MhNhg/+povxlxwNFywY5BYXs+WXqTBx2pihOS87Lxc4Q6/Xw5oLsYy7SyJJKdCYrdZjzrUNkVgk2lWlo/5WfpsvDPeD2aDuBpdaD/5G/nSunBzt152xmu2EqAcMOV/Gb5BGOIK5TYHY0M6inGQe4vxKHkX7h8GTUecsJ1YuhPGDFzJr6cE6FgNYAgO2EXBQmjAbmN/Q/KydxaCzS8rGcNViWc=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV2PR04MB11799.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(23010399003)(7416014)(19092799006)(366016)(1800799024)(18002099003)(22082099003)(3023799007)(6133799003)(4143699003)(56012099006)(11063799006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?0wyNdEGKY5okIluYrAds2+92B6lq1rU1CknKGFw4i+oVKB73uLKRardI1Psp?=
+ =?us-ascii?Q?wqzCYNxBzk0sxDzzs5xrlLc915eBpkSJ0i6IxVkt1b/1204a/gXWU/HEh4cq?=
+ =?us-ascii?Q?W0B2KSVWIxxK3ChyemIU7y3nNxhki5gDLGHno11LlHQLTdtvXc4rVozqPK5K?=
+ =?us-ascii?Q?g+rUk+8vOAD1LY0cNt4sqR7ckeA2weL4bTtEpNv/PPj8CGwz8BTc4e6wog8S?=
+ =?us-ascii?Q?3PpT146i6Dg0Qk3IZU4eFzl0yJPuOBB1rHVvU2sNMJwGedgcwL5/4xa7Um4t?=
+ =?us-ascii?Q?mFGaWKXEXHtNZ91CkOUPcamwmQHl7WbVT50HSk+UVCznFFmiSh0Epsp/7VPi?=
+ =?us-ascii?Q?yo44msD5WOBpxu12Aw+TB09XZT9lssbUwGAMZR9humoOmnVS/H0OUb+7T+TH?=
+ =?us-ascii?Q?M/vMLKdd/MTKSCasejYUbhKIypN6BbmR+pXVrld1JUeK8iCoh8szTWudABE3?=
+ =?us-ascii?Q?iRC4l4om1R7tguTi3zDm/Y8X6s6057kHwSIAJ/udoeP8zmr/oL7zvwYyoVFc?=
+ =?us-ascii?Q?M1qg3WhJ2heozo39/c0aov/R+iKXCvfx4rMdRMXLxNR/iA9ajticehx4lZvY?=
+ =?us-ascii?Q?M5uV4ya4Bo45A3JWzIda0kW2a1to3HKi3XMWMwfuMCPwsQJqQC0SfPBfeut/?=
+ =?us-ascii?Q?3OW7h5V2r757+jO5eUyfRD8nkknuyRBqOri+RFA9gVSG+8kEBzhpTMVPnag5?=
+ =?us-ascii?Q?xCDJVrwQGT9oem8rhW5b86c1xTL+IGyyzNNsNRkqF8HgzFFcuOnInRmqXI/O?=
+ =?us-ascii?Q?/s+KuIZ+CtJeKReP0O5sb2O88aEaqNhtYS5SAMhxQnS3VRZvYQA3a4dOVRNT?=
+ =?us-ascii?Q?ULAy3RyWE0tz+d71rY6RmC2VYT8GvL3g783lHLQqDg8EHR2nyTYfmMbRRTxZ?=
+ =?us-ascii?Q?/mbcvnY2MPIWxlMhecKJ9kJXp0uYtNvHoAqxWjK+1hegjtardM4GTVydmy47?=
+ =?us-ascii?Q?I5Z3FhY3HMuT2EeZrhlt50oHQRjrxsCu3J576xo+EMGhy4uYHFnuZlF3rqCV?=
+ =?us-ascii?Q?P6L1EVzGcd9WCIJxDt9Iz1NKwM8r1C3LqpzR5VzthqVHy0mN0MAfAoC7BGii?=
+ =?us-ascii?Q?HWf3Cq1XmFEgqj42YLEpf826v5RpMoYDCnuJrjtgWUB4zY+3CNYblmozgloA?=
+ =?us-ascii?Q?Mng52mZH+4QV7mjVGc+HrVhE85WsfDsu6TsxLUydb0UmOuaUYw+U3NuQNi0c?=
+ =?us-ascii?Q?Po/31ejYF8+BrUxk/xiaaeMIdItBMjFgvpfWjczF4Nm8ppPLsiOkwRdS4npY?=
+ =?us-ascii?Q?XHmfN4cOEpKjUB0HZ6b6Lh89a6kEiFuuZ9QjRG9t7O+vnxy2AXAJZDdiiXBb?=
+ =?us-ascii?Q?JDRcnX5m+UdUVfAq+Unxa+QAmJBDqQcHxlRDvlGjdm0pUaIqO9Z9HbjFmQla?=
+ =?us-ascii?Q?39n+QF4rkQYoQEvPXiLbQ0mF7SKpqBs2tShtGVxOJ/5RUz3oEBVaBXu2eYsg?=
+ =?us-ascii?Q?7sW55e1MWr4g9Qw/reLmy/ZpOgIaYyYucwdz8iuJDwmoq0KuHzhNiOpacgtk?=
+ =?us-ascii?Q?IBgdhHr+gvyNB01oY/pllx+KIeUt1NzmKGhUABU7oyhM7lVugWgrHSHc9/BJ?=
+ =?us-ascii?Q?Xj08TP4s20gC5cZQdTxsJSsUVGeAN/GDsenWF870tNKZWJbRnef12r9W9h+n?=
+ =?us-ascii?Q?pFMZMfkHt4IG2pexnuZqmKGP9MgB1wx7RxPvAS7z8ihyrLdUUlG6RjpehfCJ?=
+ =?us-ascii?Q?xNsjj7JdCvTLr+ouEiEKLlqHqR1fa48dp1yGtC+PTvEVV4NQsH7wwZwIt95g?=
+ =?us-ascii?Q?HrjuVfqIdCC8964gHbkIvhaOJvb6uVWpNjw/ATLdU0JHrye1Fgs7?=
+X-OriginatorOrg: oss.nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ba2744c0-8687-4dd0-106a-08dee0fef150
+X-MS-Exchange-CrossTenant-AuthSource: GV2PR04MB11799.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Jul 2026 16:51:11.1339
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: YlNBCyQy4McUgayYaDwewLxXngRVuaUxOk+ticVRCZpF7WxbKkO2g2xB3EarFND5rEe/kA055Y2rnrrBQZgFoz2tqsF+hUJkgmRN8/NgIHspGvofVJ+FmP4n+MXJ96av
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GVXPR04MB10851
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.66 / 15.00];
+X-Spamd-Result: default: False [2.44 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[mailbox.org,reject];
-	R_DKIM_ALLOW(-0.20)[mailbox.org:s=mail20150812];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	ARC_REJECT(1.00)[cv is fail on i=2];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64];
+	R_DKIM_ALLOW(-0.20)[NXP1.onmicrosoft.com:s=selector1-NXP1-onmicrosoft-com];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
+	DMARC_POLICY_SOFTFAIL(0.10)[nxp.com : SPF not aligned (relaxed), DKIM not aligned (relaxed),none];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-35170-lists,linux-renesas-soc=lfdr.de];
-	FORGED_RECIPIENTS(0.00)[m:maz@kernel.org,m:linux-pci@vger.kernel.org,m:lkp@intel.com,m:kwilczynski@kernel.org,m:bhelgaas@google.com,m:catalin.marinas@arm.com,m:conor+dt@kernel.org,m:geert+renesas@glider.be,m:krzk+dt@kernel.org,m:lpieralisi@kernel.org,m:mani@kernel.org,m:robh@kernel.org,m:yoshihiro.shimoda.uh@renesas.com,m:devicetree@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-doc@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-renesas-soc@vger.kernel.org,m:conor@kernel.org,m:geert@glider.be,m:krzk@kernel.org,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[marek.vasut@mailbox.org,linux-renesas-soc@vger.kernel.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[18];
-	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-35149-lists,linux-renesas-soc=lfdr.de];
 	FORWARDED(0.00)[lists@lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:claudiu.beznea@tuxon.dev,m:wsa+renesas@sang-engineering.com,m:tommaso.merciai.xr@bp.renesas.com,m:alexandre.belloni@bootlin.com,m:Frank.Li@nxp.com,m:p.zabel@pengutronix.de,m:linux-i3c@lists.infradead.org,m:linux-kernel@vger.kernel.org,m:linux-renesas-soc@vger.kernel.org,m:claudiu.beznea.uj@bp.renesas.com,m:stable@vger.kernel.org,m:wsa@sang-engineering.com,s:lists@lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_SENDER(0.00)[Frank.li@oss.nxp.com,linux-renesas-soc@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	ALIAS_RESOLVED(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[marek.vasut@mailbox.org,linux-renesas-soc@vger.kernel.org];
-	DKIM_TRACE(0.00)[mailbox.org:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
+	FROM_NEQ_ENVFROM(0.00)[Frank.li@oss.nxp.com,linux-renesas-soc@vger.kernel.org];
+	DKIM_TRACE(0.00)[NXP1.onmicrosoft.com:+];
+	ALIAS_RESOLVED(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	MISSING_XM_UA(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[11];
 	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[nxp.com:email,renesas.com:email,oss.nxp.com:from_mime,vger.kernel.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 29ADF74FB77
+X-Rspamd-Queue-Id: 6AE2574DC2A
 
-On 7/13/26 5:20 PM, Marc Zyngier wrote:
-> On Fri, 10 Jul 2026 14:35:10 +0100,
-> Marek Vasut <marek.vasut@mailbox.org> wrote:
->>
->> On 7/10/26 10:30 AM, Marc Zyngier wrote:
->>> On Thu, 09 Jul 2026 21:10:03 +0100,
->>> Marek Vasut <marek.vasut+renesas@mailbox.org> wrote:
->>>>
->>>> Instead of pulling in the whole linux/irqchip/arm-gic-v3.h , copy the
->>>> one GITS_TRANSLATER register offset macro directly into the driver.
->>>> This repairs the ability to build the driver on non-ARM non-GIC targets
->>>> the way it was possible until now, which retains good build test coverage.
->>>>
->>>> Reported-by: kernel test robot <lkp@intel.com>
->>>> Closes: https://lore.kernel.org/oe-kbuild-all/202607100310.iQw5m9Uo-lkp@intel.com/
->>>> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
->>>> ---
->>>> Cc: "Krzysztof Wilczyński" <kwilczynski@kernel.org>
->>>> Cc: Bjorn Helgaas <bhelgaas@google.com>
->>>> Cc: Catalin Marinas <catalin.marinas@arm.com>
->>>> Cc: Conor Dooley <conor+dt@kernel.org>
->>>> Cc: Geert Uytterhoeven <geert+renesas@glider.be>
->>>> Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
->>>> Cc: Lorenzo Pieralisi <lpieralisi@kernel.org>
->>>> Cc: Manivannan Sadhasivam <mani@kernel.org>
->>>> Cc: Marc Zyngier <maz@kernel.org>
->>>> Cc: Rob Herring <robh@kernel.org>
->>>> Cc: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
->>>> Cc: devicetree@vger.kernel.org
->>>> Cc: linux-arm-kernel@lists.infradead.org
->>>> Cc: linux-doc@vger.kernel.org
->>>> Cc: linux-kernel@vger.kernel.org
->>>> Cc: linux-pci@vger.kernel.org
->>>> Cc: linux-renesas-soc@vger.kernel.org
->>>> ---
->>>> Note: The alternative I could think of would be ifdeffery which
->>>>         is not nice and thwarts the build coverage, or limit the
->>>>         driver to ARM/ARM64 in Kconfig which also thwarts the build
->>>>         coverage. I could also split off the register macros in
->>>>         linux/irqchip/arm-gic-v3.h into some separate header
->>>>         linux/irqchip/arm-gic-v3-regs.h and include that which
->>>>         might be OKish and avoids duplication. Thoughts ?
->>>
->>> No, I'm not hacking something that is purely architecture specific for
->>> the purpose of a bizarre integration quirk that should be handled by
->>> the boot firmware, and not Linux.
->>
->> The PCIe controller is fully controlled by Linux.
-> 
-> And it shouldn't. Why can't your favourite boot-loader use it, like on
-> any reasonable machine?
-Because U-Boot is designed to boot as quickly as possible and get out of 
-the way, which means lazy initialization of any and all resources, which 
-means skip initialization of any and all hardware that is not needed to 
-boot the machine. It is one of the core design decisions behind the 
-U-Boot driver model [1].
+On Mon, Jul 13, 2026 at 04:05:29PM +0300, Claudiu Beznea wrote:
+> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+>
+> The Renesas I3C driver uses an asynchronous model to transfer data. It
+> prepares a struct renesas_i3c_xfer, enqueues it, and waits for completion.
+> The interrupt handler dequeues the transfer, updates/uses it, and signals
+> the waiting thread.
+>
+> If the completion times out, the waiting thread dequeues the transfer and
+> free it. If an interrupt fires after that, the handler may access freed
+> memory, leading to crashes.
+>
+> Check that the transfer is still valid before accessing it in the
+> interrupt handler. With it clear any status flags and disable all
+> the interrupts to avoid triggering the same interrupts again.
+>
+> Fixes: d028219a9f14 ("i3c: master: Add basic driver for the Renesas I3C controller")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+> ---
 
-The R-Car V4H using mainline U-Boot can boot from PCIe/NVMe SSD, but 
-that is purely optional and some users might instead boot from SD cards 
-or eMMCs, and even then the PCIe hardware is shut down before booting 
-the OS to prevent any issues during OS boot or reinitialization by the OS.
+Reviewed-by: Frank Li <Frank.Li@nxp.com>
 
-[1] 
-https://git.u-boot-project.org/u-boot/u-boot/-/blob/main/doc/develop/driver-model/design.rst?ref_type=heads&plain=1#L794
+>
+> Changes in v5:
+> - introduced renesas_i3c_irqs_mask_and_clear_locked() that keeps
+>   unified the IRQ mask and clean path
+> - updated the patch description
+>
+> Changes in v4:
+> - disable also the interrupts
+> - dropped the Rb tag
+>
+> Changes in v3:
+> - none
+>
+> Changes in v2:
+> - clean the IRQ status bits before returning IRQ_HANDLED and adjusted the
+>   patch description to reflect this change
+> - collected Frank's tag. Frank, please let me know if you consider
+>   I should drop your tag. Thanks!
+>
+>  drivers/i3c/master/renesas-i3c.c | 52 +++++++++++++++++++++++++++-----
+>  1 file changed, 45 insertions(+), 7 deletions(-)
+>
+> diff --git a/drivers/i3c/master/renesas-i3c.c b/drivers/i3c/master/renesas-i3c.c
+> index f39c449922ca..38b8428f464c 100644
+> --- a/drivers/i3c/master/renesas-i3c.c
+> +++ b/drivers/i3c/master/renesas-i3c.c
+> @@ -433,6 +433,21 @@ static void renesas_i3c_enqueue_xfer(struct renesas_i3c *i3c, struct renesas_i3c
+>  	}
+>  }
+>
+> +static void renesas_i3c_irqs_mask_and_clear_locked(struct renesas_i3c *i3c)
+> +{
+> +	/* Disable all the interrupts. */
+> +	renesas_writel(i3c->regs, BIE, 0);
+> +	renesas_writel(i3c->regs, NTIE, 0);
+> +
+> +	/* Clear normal transfer status flags. */
+> +	renesas_writel(i3c->regs, NTST, 0);
+> +
+> +	/* Clear bus status flags. */
+> +	renesas_writel(i3c->regs, BST, 0);
+> +	/* Read back registers to confirm writes have fully propagated. */
+> +	renesas_readl(i3c->regs, BST);
+> +}
+> +
+>  static void renesas_i3c_wait_xfer(struct renesas_i3c *i3c, struct renesas_i3c_xfer *xfer)
+>  {
+>  	unsigned long time_left;
+> @@ -1014,6 +1029,11 @@ static irqreturn_t renesas_i3c_tx_isr(int irq, void *data)
+>
+>  	scoped_guard(spinlock, &i3c->xferqueue.lock) {
+>  		xfer = i3c->xferqueue.cur;
+> +		if (!xfer) {
+> +			renesas_i3c_irqs_mask_and_clear_locked(i3c);
+> +			return IRQ_HANDLED;
+> +		}
+> +
+>  		cmd = xfer->cmds;
+>
+>  		if (xfer->is_i2c_xfer) {
+> @@ -1054,6 +1074,11 @@ static irqreturn_t renesas_i3c_resp_isr(int irq, void *data)
+>
+>  	scoped_guard(spinlock, &i3c->xferqueue.lock) {
+>  		xfer = i3c->xferqueue.cur;
+> +		if (!xfer) {
+> +			renesas_i3c_irqs_mask_and_clear_locked(i3c);
+> +			return IRQ_HANDLED;
+> +		}
+> +
+>  		cmd = xfer->cmds;
+>
+>  		/* Clear the Respone Queue Full status flag*/
+> @@ -1138,6 +1163,11 @@ static irqreturn_t renesas_i3c_tend_isr(int irq, void *data)
+>
+>  	scoped_guard(spinlock, &i3c->xferqueue.lock) {
+>  		xfer = i3c->xferqueue.cur;
+> +		if (!xfer) {
+> +			renesas_i3c_irqs_mask_and_clear_locked(i3c);
+> +			return IRQ_HANDLED;
+> +		}
+> +
+>  		cmd = xfer->cmds;
+>
+>  		if (xfer->is_i2c_xfer) {
+> @@ -1184,6 +1214,11 @@ static irqreturn_t renesas_i3c_rx_isr(int irq, void *data)
+>
+>  	scoped_guard(spinlock, &i3c->xferqueue.lock) {
+>  		xfer = i3c->xferqueue.cur;
+> +		if (!xfer) {
+> +			renesas_i3c_irqs_mask_and_clear_locked(i3c);
+> +			return IRQ_HANDLED;
+> +		}
+> +
+>  		cmd = xfer->cmds;
+>
+>  		if (xfer->is_i2c_xfer) {
+> @@ -1234,15 +1269,13 @@ static irqreturn_t renesas_i3c_stop_isr(int irq, void *data)
+>  	struct renesas_i3c_xfer *xfer;
+>
+>  	scoped_guard(spinlock, &i3c->xferqueue.lock) {
+> -		xfer = i3c->xferqueue.cur;
+> -
+> -		/* read back registers to confirm writes have fully propagated */
+> -		renesas_writel(i3c->regs, BST, 0);
+> -		renesas_readl(i3c->regs, BST);
+> -		renesas_writel(i3c->regs, BIE, 0);
+> -		renesas_clear_bit(i3c->regs, NTST, NTST_TDBEF0 | NTST_RDBFF0);
+> +		renesas_i3c_irqs_mask_and_clear_locked(i3c);
+>  		renesas_clear_bit(i3c->regs, SCSTRCTL, SCSTRCTL_RWE);
+>
+> +		xfer = i3c->xferqueue.cur;
+> +		if (!xfer)
+> +			return IRQ_HANDLED;
+> +
+>  		xfer->ret = 0;
+>  		complete(&xfer->comp);
+>  	}
+> @@ -1259,6 +1292,11 @@ static irqreturn_t renesas_i3c_start_isr(int irq, void *data)
+>
+>  	scoped_guard(spinlock, &i3c->xferqueue.lock) {
+>  		xfer = i3c->xferqueue.cur;
+> +		if (!xfer) {
+> +			renesas_i3c_irqs_mask_and_clear_locked(i3c);
+> +			return IRQ_HANDLED;
+> +		}
+> +
+>  		cmd = xfer->cmds;
+>
+>  		if (xfer->is_i2c_xfer) {
+> --
+> 2.43.0
+>
 
