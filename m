@@ -1,82 +1,81 @@
-Return-Path: <linux-renesas-soc+bounces-35151-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-35152-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id ruyIHg4bVWoJkAAAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-35151-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 Jul 2026 19:06:22 +0200
+	id 8IHtAXggVWoZkQAAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-35152-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 Jul 2026 19:29:28 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC85774DDBC
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 Jul 2026 19:06:21 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 571EE74E045
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 Jul 2026 19:29:27 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=NXP1.onmicrosoft.com header.s=selector1-NXP1-onmicrosoft-com header.b=Bxw2CvQp;
-	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-35151-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-35151-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
-	dmarc=fail reason="SPF not aligned (relaxed), DKIM not aligned (relaxed)" header.from=nxp.com (policy=none);
+	dkim=pass header.d=bp.renesas.com header.s=selector1 header.b=PHr2I2ce;
+	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-35152-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-35152-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=renesas.com;
 	arc=reject ("cv is fail on i=2")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 3ACE430247D3
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 Jul 2026 17:03:06 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 39EAD312721F
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 Jul 2026 17:26:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9AE2433439A;
-	Mon, 13 Jul 2026 17:03:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0CC7026F29C;
+	Mon, 13 Jul 2026 17:26:23 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from AS8PR04CU009.outbound.protection.outlook.com (mail-westeuropeazon11011026.outbound.protection.outlook.com [52.101.70.26])
+Received: from OS0P286CU011.outbound.protection.outlook.com (mail-japanwestazon11010051.outbound.protection.outlook.com [52.101.228.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C37FD335568;
-	Mon, 13 Jul 2026 17:03:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E1E5346ADE;
+	Mon, 13 Jul 2026 17:26:20 +0000 (UTC)
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783962185; cv=fail; b=jYbycFMfxwdClG92d1AqkrjFvetMPulFEhpF1QaEFLJSdR2rFU0p83cjyvhZvAm1Rn9jQXtOSgMvQJ3UbZrPlFJPA8laoh122Onhk2T08/58TxDbhmGUcThGGyGq+UtxSnuPRY0m3n2TfwYJu7gQABpJ7BdY+HFbAnpFDc+JkEE=
+	t=1783963582; cv=fail; b=PI61kh+AgNctEkdWinUhYIrVV5ca+xsgDDmu7jYxrvNmzbcv0VZzNWyz9ZbyWRjglVz4Oz3cf7OnSr3yRzrAAqA54XF7CUeWPDUzUa+EYBuj/Ngngxz7P/BxSQCceQXjVWa8uESDCfXEti6njcHlozMFj4uk8QsJ5IIkMxN53uo=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783962185; c=relaxed/simple;
-	bh=VFA8Ozsrq0OuWrIpEj5U1JieWzkk2U+CqG4KO/q2Lu4=;
+	s=arc-20240116; t=1783963582; c=relaxed/simple;
+	bh=QY9HzFtq/F3BXQ31KLqq/sF3XgQMyThLa3mz0e+5uwQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=HhPz0BqleScVsUJamikCw0K5hZURIN1h4wGLE+m8pkoji2gxt/ijQKArZYd8iTId673yjPx6PHf3OTKc8t2nmAh5K3iy5n6ueAj3fnHMmzhmMPhle++lPnwE0SAKxn4qqq9e6M1PCbKrOS985yj/1dJQl7FKc+Y2Q0egfp4nhvQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=Bxw2CvQp; arc=fail smtp.client-ip=52.101.70.26
+	 Content-Disposition:In-Reply-To:MIME-Version; b=biNdl0i8ZPoq9zPELg3XkRa8xJ838Tn8YVELUPnhcr4eQFPyB04PwgB7ZX+ujKiG+2grYnf4a7e8XDuYV10/Cjiv2duMIfTw6RuIb1BM8FE/Wc19Avaizf1gZE+oNCr3jvnCJ9tg4AtB912rmvBDJM/U1alBehViVlGVP1vbpig=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=PHr2I2ce; arc=fail smtp.client-ip=52.101.228.51
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=kGHEccTSSugKZOtM4/gsJDycWdBfTULU7QRJ58NpaVAaHLxbf+IUMglo0/2hdOp/FyGVpVNEZ65l84cVtEZGsnKtT4ogN/JukyWvYdwVX1J/WcyY3udWzCJHzKa7lMu2nxDWF3puKvz4eIA0A66uWbEXJWAn3ZLjMRUWfvMxhoEh4bX2WYTdirLlqKTzHUYDZesE0T5CAL6B9UOwD8/dEG9IoB3bYD9T3ECZ2BgThOcRTtGCFvnZaWXVoZ6WFSCUh055cyYa5+AJJqL+KtJ1yO9mB9RIRKwJ5pE7LEgCGSTvXLjoSEkxxSIWzTTXpyBclsmORmDm2jbf1eDMbMPKrw==
+ b=EFTqB1Q3K/akpT0cSYWiDSnklgU7rS29wzHnFYG4joz6fII3MERqqOGwgpRMRYfuickwSdV6LQ0zshEQNpD3fkqyOnQj+eAudf9SiOHLq8AD8YkwnzIu92mPl0Wj0tr03sS8w2DRkTDscF74D5ZLX17MV36Itw5qBYjndmvQzGvEaAL9mcjFOpcKdB6jTiCf4Lx77Lchx7U4PyxPy4+9yD1Lzq9y4Ib2TDrnv8GHEywel+yRBcmLrgWnfPh5uLd6Hv46ErFdefeYrpTlSZ3RbyNl2QNyYVMdEmkFp9P3EDY/GL5+dMPc0DPoAmWCYaC/POiLhuO/iJQ++NU1fSTQJA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=1Ip/zy5MHSmeZVQZ6566OnK+VJ3rKAXFNafKTgZeaa4=;
- b=OfQb8BrtvH5ZbViFs5ZmEWOeXkM+mhSaCHXfHprbwIhizYAMmEHwtvsPi1nG8P8RFGMt+4xoQLgZjzIjlVroeCg0LMwZVjgF6RwQDTImX6NXOX7IXfl16oj1Ifh0RfP7sRfHIGK6Mro3vEfJ95szwY+rPI1Ah0BFL3OHCxkgtCRYmfNpo0kVi/Nuq0MDN39uA4Nt9X3Fs1HhZij7J3/YmJJZtcZTUGW0W27Vu5RPr8BtpFA1dovMo8GieIPCarebiDyMtrg1u+zxcB2V+856TdCd/f+gG3QqfaL+CCedK/3d+HJCpHcZNPq7O9R8Mc0rDpAMp77x2KRtxUlT4qk9sA==
+ bh=trC6GHm3Elzrgi2Afw482SX7coFh+iAeuf4AVeYmgm0=;
+ b=GkUFYBq7fgc60DCq3dnY7EQl2p/bZu4m03eN9XWGhk9zvHmTfP1IUHA7DUC8tT31wE2d+aSLuyWIcxwKJYOO36vAbas3dNr+Nzp+3bPulxPQU75A5Jm+jddZQQuMgiMZZ6ZFSd4uChQgSecJpt4M+G3ysVGZyJRcF7gTHf/63j90GLYPq8MbBcifhU03Chwj+dY5gpEr2RnQD9Tw46Dv+XCbNnd9i/Y8INGjm7iVq9B+Wz7hw5/lZfyUPOkFWeAYMgHNZFXh7CPQPBVWR2IQc5xKJ/BJvBi9vNKp3oReUqVGViHWr3wKupZYTeouMxnbRdPMUzs1cNNagbBslYQ8Ag==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
- dkim=pass header.d=oss.nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
- s=selector1-NXP1-onmicrosoft-com;
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1Ip/zy5MHSmeZVQZ6566OnK+VJ3rKAXFNafKTgZeaa4=;
- b=Bxw2CvQpvYUhWRoeG6R5hW7B09XA5p68oH1H7wyvwRYE42pu1xh3k+CeOSe9EMlXJx2hLG73aH57aepNWXSrq2zhKdg/XXXVviT+UW56uMGlZnsJDGHqzG44wWxOECYQmdDrn0YErhQMr7iRfdLd51Tw6Lfl+mvwg12Wmdu6O1nsJ+oRWFwchoWqmj+I+xQOHSz8b6olSQspHIXr1ZLAVsvi/N5JYt27LZXKI7X2X6QqwAl3HJ7dKYzPvGXszIdn3DLCVwXrcgUYnIgZOyERGbN4ZLjHgZTipwULBRTNNvDnoNleuSb0zNzv5wF19jOr+pNLPhwShU2Daua3jwb45Q==
-Received: from GV2PR04MB11799.eurprd04.prod.outlook.com (2603:10a6:150:2cf::9)
- by PA1PR04MB10228.eurprd04.prod.outlook.com (2603:10a6:102:454::9) with
+ bh=trC6GHm3Elzrgi2Afw482SX7coFh+iAeuf4AVeYmgm0=;
+ b=PHr2I2cep4u51O+5SOZ0On/GIODnYY5MfbH8QFyjM5kiZfzmIOu9j98Xzl6H5o/8xdPtA74DiScAWqFM0rDf4H/2JsMzgFZgmH53BQh0MKwKr/z+tl3RI+e/x7giQxiRUB9MqDqwdnigfU+0AUdrpejDUryMkmaYdoECP20cmfM=
+Received: from TYRPR01MB13588.jpnprd01.prod.outlook.com (2603:1096:405:18d::7)
+ by TYCPR01MB18075.jpnprd01.prod.outlook.com (2603:1096:405:391::23) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.202.18; Mon, 13 Jul
- 2026 17:02:59 +0000
-Received: from GV2PR04MB11799.eurprd04.prod.outlook.com
- ([fe80::2146:83a2:5329:b7c]) by GV2PR04MB11799.eurprd04.prod.outlook.com
- ([fe80::2146:83a2:5329:b7c%6]) with mapi id 15.21.0181.019; Mon, 13 Jul 2026
- 17:02:59 +0000
-Date: Mon, 13 Jul 2026 13:02:52 -0400
-From: Frank Li <Frank.li@oss.nxp.com>
+ 2026 17:26:17 +0000
+Received: from TYRPR01MB13588.jpnprd01.prod.outlook.com
+ ([fe80::2f5b:8560:48ed:3828]) by TYRPR01MB13588.jpnprd01.prod.outlook.com
+ ([fe80::2f5b:8560:48ed:3828%4]) with mapi id 15.21.0202.014; Mon, 13 Jul 2026
+ 17:26:16 +0000
+Date: Mon, 13 Jul 2026 19:26:02 +0200
+From: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
 To: Claudiu Beznea <claudiu.beznea@tuxon.dev>
-Cc: wsa+renesas@sang-engineering.com, tommaso.merciai.xr@bp.renesas.com,
-	alexandre.belloni@bootlin.com, Frank.Li@nxp.com,
-	p.zabel@pengutronix.de, linux-i3c@lists.infradead.org,
-	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+Cc: wsa+renesas@sang-engineering.com, alexandre.belloni@bootlin.com,
+	Frank.Li@nxp.com, p.zabel@pengutronix.de,
+	linux-i3c@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
 	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Subject: Re: [PATCH v5 09/17] i3c: renesas: Use reset_control_bulk_{assert,
- deassert}()
-Message-ID: <alUaPJMt_kCaMfWh@lizhi-Precision-Tower-5810>
+Subject: Re: [PATCH v5 00/17] i3c: renesas: Suspend to RAM with power loss
+ and runtime PM
+Message-ID: <alUfewDdZ8cmGszy@tom-desktop>
 References: <20260713130545.568657-1-claudiu.beznea+renesas@tuxon.dev>
- <20260713130545.568657-10-claudiu.beznea+renesas@tuxon.dev>
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260713130545.568657-10-claudiu.beznea+renesas@tuxon.dev>
-X-ClientProxiedBy: SA1P222CA0066.NAMP222.PROD.OUTLOOK.COM
- (2603:10b6:806:2c1::21) To GV2PR04MB11799.eurprd04.prod.outlook.com
- (2603:10a6:150:2cf::9)
+In-Reply-To: <20260713130545.568657-1-claudiu.beznea+renesas@tuxon.dev>
+X-ClientProxiedBy: FR0P281CA0114.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:a8::16) To TYRPR01MB13588.jpnprd01.prod.outlook.com
+ (2603:1096:405:18d::7)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -84,196 +83,187 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: GV2PR04MB11799:EE_|PA1PR04MB10228:EE_
-X-MS-Office365-Filtering-Correlation-Id: d24cdbc1-2bbc-4157-2ee1-08dee1009763
+X-MS-TrafficTypeDiagnostic: TYRPR01MB13588:EE_|TYCPR01MB18075:EE_
+X-MS-Office365-Filtering-Correlation-Id: d3943f25-9830-4c00-aeff-08dee103d828
+X-LD-Processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|23010399003|376014|366016|19092799006|1800799024|18002099003|22082099003|11063799006|4143699003|56012099006;
+	BCL:0;ARA:13230040|23010399003|1800799024|366016|52116014|376014|6133799003|56012099006|11063799006|38350700014|18002099003|22082099003;
 X-Microsoft-Antispam-Message-Info:
-	ef5KvzrlPYjeXdAPaNwGatcaw2ibyGOgNxUpI8zkkqJeDFI7AdrvqH71IPo7vlODTCvD/9VzLWK58WfuSabB9ZsHUNuBgIi6AorCKubxWoEGvRttGNLrO7xH/9yq5TfXATy7Db98VPNEnW5Lw7zf9pkE2EG5TXCXn0x3apLzUlvWnFBOm3bkuR2iV4OM6Toc2qnEcJa5EgCFTwkH5jX8uNHILK+gmAY80vVGJXaTGNomFhnSFlUPuUIzlpErdga2n5EwHdVyfbikZrhz7po7Pprc9ZawWGiOOlC+zqDNDuYsLS0bNoHerRDAqnvJeak2jYQ1xN+3hvdDHvjz/tn2ciJFU0kMpZhXlMk+tUQAI963ATR37DUyukVwa9mQ1e+NyhapbTSpkFowTgYng269yrapPggtVlp2p8zvS3HgeZrMUgUOVwp6nBoui5/ic4UmyT4v3rJmJYAn56NkmB/K8ur82+r5IxuCTz3HzHRX5bDr7ACUaMmmxxCaNGeUx5ETypPYtbtA6nRg5ub35598P8zeoH9CFx6/TKdhMkcPLrDo4l8KJRz+OmqYNrHH23KUtI+8hF5gq2y73H1g1hYjC7CSKnzOicySNalyDUvejHQWCeGScwWCM3rd3PCWYRbGIZsAZt6ssuXZIRr4gQNB5JV4Y88ZLNQY4MdIlsST/Q0=
+	xXVWBM8CTRl71YBMv19+k7H84B3Virbl/CajVIrhh9BmLfwBCS0d1kprqvkooA8cCX7DRF4p37l8swqrfhF1p4udqXeD1KM/ZODS0cCKWyDQkNnCLXgO124hepxCFTIjvLgiYvorRojl9PZLrs2OEilwQ+vaqZMPcbmzdy53mh70GhZdg5vfvmO7Fsf+9OymjmKS2ArbHh688Gfd9JuPOFv5JzkhS0Xq1jiLy0xkHmTPaafFnaiev7Jh56f7oqgGSdDRhoE3EvjfWXyTjRraW/F9B9OInj6nTt0c45JVpAP0JbF52u/4HvzaicG4eacJ+OBHyiK0hpLuqo2G98ztfw0K/eoTthXzPmSJwQu68nGlN4E0eOhFIkJYwC2adrqKYeK3QwTgBUDbKPxC96CH4SlF97dnpnq3n4ThjHoD0Y99MmVk24PfDNNXtHRd8SQpd58SajqPscysWN7GIXd38jsL495vZilUQpoQciyu6OE5nXPjPGQQUBxFgXbq5ST+SbUg1C/nB0d5nOKkpUfZIhe3kaDvdGtKXuYiWydCM2jOkIrbH8U5tP7VNqz5J4GN2ZT0aetrk+Ybvd8S5MJRklyHD5uoytZGcmaioc7ipiGNVF7ndtHzMnKTz7TzzJ6dje1NtaOzPoLemR/ynze0a2ktyitCVcWEHlquMWufDP8yopkUbSdVH2dKOuKLwfmCghCpqSU4u1a6r36/a/0jRbv0PkrhBeitjlvm9GCp0Ik=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV2PR04MB11799.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(366016)(19092799006)(1800799024)(18002099003)(22082099003)(11063799006)(4143699003)(56012099006);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYRPR01MB13588.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(1800799024)(366016)(52116014)(376014)(6133799003)(56012099006)(11063799006)(38350700014)(18002099003)(22082099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?+GAziTNxMV3B/zq+geUmHQFJZkJ7+vMzgr/2HVfBJ4MNQcM/YbmTkm8t9QjW?=
- =?us-ascii?Q?aGcTMuKDAQPkAqrBN5cpQpWITsqsuLHOvrtfAkTyY1lzzyfHWfPFek6hcKLh?=
- =?us-ascii?Q?Tz8lkNH+nR9baaV9NwlWc4C1XdEGGtctbAzadiAdnlHkoDS/Jr14SSwVHGIG?=
- =?us-ascii?Q?dZA5ybOG4xAOnax8cuOAwznoJSQ8hgTDs8OPKpCJLozg0KtAvy5cCeiNeq3x?=
- =?us-ascii?Q?bDgQ4DgcX0w1xboZsfy7fn7kzq4GoJRXy5/pzOr2wQCmq4MfI8GjBiy/K9hG?=
- =?us-ascii?Q?OwhgY8I65zbuZVDva7tnKasY9QSOUh/QOZStxm+wAB75pkWdHC+YAhsXCR0D?=
- =?us-ascii?Q?PQYLHnqnS4MyAVDtDdKTFfUsqeuPA/iZy3Suas1Js1Zslsna15Z8R4wVdglm?=
- =?us-ascii?Q?Xheu/1mn/QNu7IHe+K813ejz2TxOJZClMpNzx3x57w4171/GdtuX8RS+oGrl?=
- =?us-ascii?Q?jnRjgGkJE2eN4CtlkAiQ8Vr9BF1n+Hz/Ae4kBxePW2CpEXO8LlkaAxTQVXrA?=
- =?us-ascii?Q?7FZ82AkJv3vkLxWW8QvX8GfXX3Maeqx6CZpUDheP/F0jI9qgI9tMMC+gD3eN?=
- =?us-ascii?Q?c83hzeB6NkiKw0OPzV8P1J5Jx/irlAQF1TPjxOxSQ+sWLxaOf9tEuvffrVqv?=
- =?us-ascii?Q?XODDxHOdcHk3UcEsLZGIZMAm01hj7pObu2uRYmlQfyOhs/jdMFIOMf0o9Nqi?=
- =?us-ascii?Q?zTsrFrMnoaLWLed2sy3jcGG4N1pfzdCUkbcs4AXPz+kXzSOJ3nPFT1siDnG3?=
- =?us-ascii?Q?2asC1FCz5ttBLkP+7D3JpvNtZ/yxBrCKJNAUkSFfHNBJGdEtXqiZsRo9XugE?=
- =?us-ascii?Q?7nuGLQUwMiDO6pSb5/USQTSTg7tGuAaJaCPVcCA8h0/3kIKJErAwxlhYaIJ5?=
- =?us-ascii?Q?9B4DL7AOg8Agurb5Q9ttEJntFakQ5rCYfh56gv2/kNICeVL5yZds2Uh6hxz8?=
- =?us-ascii?Q?ym59UuibfgFG/4o6B6sMnUA9eJWcrG8g4NDPTBsRCBOhlmtVuNdPUcxlPI9g?=
- =?us-ascii?Q?rNQNHmq4gjXXk3GQ8+UuCcZZGvgY/G4W6t24jsXsfch91Yc6/OaSG8VV3ZFn?=
- =?us-ascii?Q?dgC/Vo3LcXNZX/Q79XxN8qhI02nUNE/KVOYCzk6CL7/oWeQMYDPL9+e9clho?=
- =?us-ascii?Q?kr9zt4kR1EVpMAhDkpBk4lg+v9FZd0YM2I25twf4i8Ef79IESNscwm+ruqty?=
- =?us-ascii?Q?mweOlxL7h8ktP8c+1GX46E8+FMwhccb1vUtCgMkmKr5Sppc8THCXY3JIYnJD?=
- =?us-ascii?Q?OMwkou18FeEdeUSHvAzGQ4GdrV2ZI05a3wwkW96jgbc/soVYZQoW5U0Zog8M?=
- =?us-ascii?Q?d1a0knS54vhSP+1PRvGdLzch4c0BFbhFCSgmoYgXSteQ7IfyfEtq+qYjPRfj?=
- =?us-ascii?Q?jxZY9HuaqnlOFdtVMrjT1LllFjWf3s+3Okzr6kGCxCQFZrZZyRSNze+2tMyq?=
- =?us-ascii?Q?ScfhdKOS1LDfs+UUDxtooRtzu5HxWIEfLTyjP7rW88YNBJTWsSSOxgtlfZyc?=
- =?us-ascii?Q?ucv0LPz+I2M6chRuYYn9xwkcTXqALWqZ5oIijZZzGWblb8cogwAOBZjgCd6e?=
- =?us-ascii?Q?O9jnbJh8e+b9rQeZsoAcv55ab0K7/VeGXmaUhYOvolYZYP4lKapLXtuyfMOB?=
- =?us-ascii?Q?jk3nfj+8w34WjhIPhsbthiQeBRXt17ffQ46grgSNoNmSe2wNsDcxR3yVCu0T?=
- =?us-ascii?Q?e5c7++RBYDWRSTqVI3q3FAceLsGQqE8J5B57TtKVQyJAAZcxPV3nuxB+a3ru?=
- =?us-ascii?Q?z7hv+AzCzhu9jMjO4LnqgP3+KRN42jK33NpqIS2KRbJ3k8Txb2D6?=
-X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d24cdbc1-2bbc-4157-2ee1-08dee1009763
-X-MS-Exchange-CrossTenant-AuthSource: GV2PR04MB11799.eurprd04.prod.outlook.com
+	=?us-ascii?Q?WJbmMk15qxXEleEsuy5+JzcMJ2eHZGz87SCB+jrOzGf4MDwJEGYhK/yhEFUh?=
+ =?us-ascii?Q?Yrd2RHHjFZG5fp7MQVJZ1j5agZC/evIKw62obZOsc9ghJYkv3ZAM2PkvEr3e?=
+ =?us-ascii?Q?+oOAWXc5JdCua/TnOFfoeLtsgS9oZjEElOxjmngnRWOscdOwNtwQAHb9umUs?=
+ =?us-ascii?Q?E5Bwpn/MN/FrL+NNyfOUXn9alunOq8SVfe1CL5oga6nIDcdxyIElsfehrpDm?=
+ =?us-ascii?Q?TXz6qwXsTUOAuCAc/xicrpkKN1vv8CKnX+P76RYOFZsmeZtB8ONQkw7twiKv?=
+ =?us-ascii?Q?lWhMebU4Db/S7zE63ogDT72ykdsp2ox8/b66hxmiz7X+BApesw3IDsrJdFVU?=
+ =?us-ascii?Q?Hw4jJu60QOcGbEWUNFkkB5ammbjYqD2mEtFrxeu9L+v5bkn6FY68WvGcLEiG?=
+ =?us-ascii?Q?+TmbeqJxUt0N6WIWlZ2Jm7JJMos2LSpCoTik9aYsYh4ZzIgPdusS0j25aiEV?=
+ =?us-ascii?Q?8CfD1H3HeqLYELzPNHqH8DHzRBwYrrwqp5qJIuQE/KnXi3x78PO6ZXJSkUua?=
+ =?us-ascii?Q?sEc0hcPcFq/GbMb+snTs1RdXoR0OF/BzLiJlTDiKWlKXpcFrd1lYT2d/dY7f?=
+ =?us-ascii?Q?yB94sBqzrzjju+a4lBHfdwU13mxDDbpuCKJKgyFy8QydIPYDS9qye5/tAPpI?=
+ =?us-ascii?Q?kv42toQnCxPm73i0L50qAoyCzG882zHqocq/QrJ/KPxYuIJeZn3bhlmJ13y3?=
+ =?us-ascii?Q?2qL0voBSq4llT22oPozP7ayLzSs7pk1mVPsZPhLaFmV6cfFp/DUE1Qliajz8?=
+ =?us-ascii?Q?F0l6dIo10djttlOua1JU7lAxXsnK4GmA+wI0WC7wnLDV4/3WA9pfiBg+dkXn?=
+ =?us-ascii?Q?+Cbc8npviZb9e/MDan+JN16w2hpI1kZnpdz3lo723V/oN72OTnp3+xGlmhMT?=
+ =?us-ascii?Q?W1z453XGCXTK1Qp+pNDeMkw+RTTcBwkcVIajyG70+ECz0yyP0NfUO5fmH1uC?=
+ =?us-ascii?Q?Z3O8egIsufE6lAZ+IR20uKjn1dRjifsDa3HlW3tqeEsBf8ELu0gMNtKgfmc2?=
+ =?us-ascii?Q?nNCkWX8Gz7h30ZUeM1YUgOpUsdyBP/NBuxdjPo6hCE5qeft0AhIlQT802dWq?=
+ =?us-ascii?Q?AkZXcPLXoZLyp9qtpUyJZDAwerKmf9w5j6FdtsjiTTn6hsQad3iY/pzjfoFF?=
+ =?us-ascii?Q?SPqkse3aF8wleI5l2tVhepztYljZ4FVAy8Iyq/7FD6WfwxOj0HMAQ1UNL04k?=
+ =?us-ascii?Q?w2CxM7RCLp78ckfEoPDNxumGZHeIZE5i4jOR+hiSZMynnX5Ref4LNds5OpqE?=
+ =?us-ascii?Q?FsLzGZFkTn0uRMqAihH1f1XEO7xAHXNaAYdZGrYwAoby8RUCH88DNs5Uu45f?=
+ =?us-ascii?Q?6x+uKDCPVm3g7mKzMuWOK6zgleNPlWpO3gjYSeKzwZrRu4QGT95LflY2FXqx?=
+ =?us-ascii?Q?mUNCUHghggHNrRqfMO18wjP10ka2jkrLepKcg8D6kspFh3HQuofxt6cdWcz5?=
+ =?us-ascii?Q?l3jK04kULENuBPOa11X5WKCDHLZHw/RrrlLSTGQ0zarQfmwRKLV8lkaI6feU?=
+ =?us-ascii?Q?q6Z8857OEQxAiQvXPgdsO6zx+poHqVcPamEiJbLbZX+TG8+ioX/pmdFuOmHp?=
+ =?us-ascii?Q?gCj3x1x5s9H/APyLu5anRRZwhFGPlhlJOQHf8t4H6dnOVuVnfvq824vv6ki5?=
+ =?us-ascii?Q?S9W+jc2J4Ok4rR8mvM98LYvwnrp7LUuWY7utiE1LjL97THMfUyUFHZl7PVR8?=
+ =?us-ascii?Q?SlAT692BLl88ry4YkYFwbI0BZvihYanzi6n4rA4WiCqWpFEOw+4J31Q2dWf2?=
+ =?us-ascii?Q?OwsNiVpVJ+UxPWAF1wA/sn47gTJQwERH9xY3moBwtnBF9v9ygNEN?=
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d3943f25-9830-4c00-aeff-08dee103d828
+X-MS-Exchange-CrossTenant-AuthSource: TYRPR01MB13588.jpnprd01.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Jul 2026 17:02:59.1353
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Jul 2026 17:26:16.4675
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: G46fwO3O4DSkrctXBgPWsP5N8Gi5tWeGV1+5ygXC2sv+zD5q0mTmWdtVyj6qTswu7hFDZmB8euPocxHSAj9sIL2pwFp8S2fVvm2WC42jGXu5XYGx+loiX++rgBf1Y4bN
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA1PR04MB10228
+X-MS-Exchange-CrossTenant-UserPrincipalName: XtRR4L5p1RqVut37idgVvkYKNrweWn4+kIemLSXuqFR1cDalbZG3CWWQ/vHkRRJ0DsO/CiRK2yczR44u/E9UleUaaiDPZs2TanMXFpNYNpOJeTUzLW7AeX7L0hsf9okX
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCPR01MB18075
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [2.44 / 15.00];
+X-Spamd-Result: default: False [1.84 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_REJECT(1.00)[cv is fail on i=2];
 	MID_RHS_NOT_FQDN(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[NXP1.onmicrosoft.com:s=selector1-NXP1-onmicrosoft-com];
+	DMARC_POLICY_ALLOW(-0.50)[renesas.com,none];
+	R_DKIM_ALLOW(-0.20)[bp.renesas.com:s=selector1];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
-	DMARC_POLICY_SOFTFAIL(0.10)[nxp.com : SPF not aligned (relaxed), DKIM not aligned (relaxed),none];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:claudiu.beznea@tuxon.dev,m:wsa+renesas@sang-engineering.com,m:alexandre.belloni@bootlin.com,m:Frank.Li@nxp.com,m:p.zabel@pengutronix.de,m:linux-i3c@lists.infradead.org,m:linux-kernel@vger.kernel.org,m:linux-renesas-soc@vger.kernel.org,m:claudiu.beznea.uj@bp.renesas.com,m:wsa@sang-engineering.com,s:lists@lfdr.de];
+	TAGGED_FROM(0.00)[bounces-35152-lists,linux-renesas-soc=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-35151-lists,linux-renesas-soc=lfdr.de];
 	FORWARDED(0.00)[lists@lfdr.de];
-	FORGED_RECIPIENTS(0.00)[m:claudiu.beznea@tuxon.dev,m:wsa+renesas@sang-engineering.com,m:tommaso.merciai.xr@bp.renesas.com,m:alexandre.belloni@bootlin.com,m:Frank.Li@nxp.com,m:p.zabel@pengutronix.de,m:linux-i3c@lists.infradead.org,m:linux-kernel@vger.kernel.org,m:linux-renesas-soc@vger.kernel.org,m:claudiu.beznea.uj@bp.renesas.com,m:wsa@sang-engineering.com,s:lists@lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_SENDER(0.00)[tommaso.merciai.xr@bp.renesas.com,linux-renesas-soc@vger.kernel.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_SENDER(0.00)[Frank.li@oss.nxp.com,linux-renesas-soc@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[Frank.li@oss.nxp.com,linux-renesas-soc@vger.kernel.org];
-	DKIM_TRACE(0.00)[NXP1.onmicrosoft.com:+];
+	FROM_NEQ_ENVFROM(0.00)[tommaso.merciai.xr@bp.renesas.com,linux-renesas-soc@vger.kernel.org];
+	DKIM_TRACE(0.00)[bp.renesas.com:+];
 	ALIAS_RESOLVED(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[oss.nxp.com:from_mime,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,renesas.com:email,nxp.com:email,vger.kernel.org:from_smtp,lizhi-Precision-Tower-5810:mid,NXP1.onmicrosoft.com:dkim]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tom-desktop:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,vger.kernel.org:from_smtp,renesas.com:email,bp.renesas.com:from_mime,bp.renesas.com:dkim]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: CC85774DDBC
+X-Rspamd-Queue-Id: 571EE74E045
 
-On Mon, Jul 13, 2026 at 04:05:37PM +0300, Claudiu Beznea wrote:
+Hi Claudiu,
+Thanks for your patch.
+
+On Mon, Jul 13, 2026 at 04:05:28PM +0300, Claudiu Beznea wrote:
 > From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
->
-> Use reset_control_bulk_assert() and reset_control_bulk_deassert() in the
-> suspend and resume paths to simplify the code.
->
-> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> ---
-
-Reviewed-by: Frank Li <Frank.Li@nxp.com>
-
->
+> 
+> Hi,
+> 
+> This series adjusts the suspend to RAM code to handle cases where power
+> to the connected devices is lost during suspend to RAM. The fixes
+> included in this series are required for that support.
+> 
+> Along with suspend to RAM support, runtime PM support is also added.
+> Cleanup patches were included to prepare for clean runtime PM support.
+> 
+> Thank you,
+> Claudiu
+> 
 > Changes in v5:
-> - none
->
+> - in patch 1 introduced renesas_i3c_irqs_mask_and_clear_locked()
+>   similar to what was present in v4 in patch
+>   "i3c: renesas: Add runtime PM support" but without locking; use the
+>   same function to mask all the interrupts and cleanup the status
+>   flag in case interrupts are triggered after the transfer completion
+>   timed out
+> - introduce patch "i3c: renesas: Fix out-of-bounds access for newdevs mask"
+>   to avoid failures when there are no I3C devices connected on the
+>   bus at probe
+> - patch "i3c: renesas: Perform Dynamic Address Assignment on resume"
+>   was restored to the v1 variant; kept it simple to fix the
+>   suspend/resume for the moment
+
+Tested on RZ/G3E SMARC CARRIER II + RZ SMARC BREAKOUT board with one
+P3T1085UK-ARD board connected.
+
+Tested-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+
+
+Kind Regards,
+Tommaso
+
+
+> 
 > Changes in v4:
-> - none
->
+> - dropped patch "i3c: renesas: Do not attach devices if xfer failed"
+> - fixed the swap in renesas_i3c_group_devs_in_slots() for i3c->addr[]
+>   renesas_i3c_irqs_mask_and_clear();
+> - in patch 16/16 renamed renesas_i3c_abort_xfer() from v3 to
+> 	
 > Changes in v3:
-> - none
->
+> - re-based on top of series [1] to be able to use
+>   i3c_master_reattach_i3c_dev_locked()
+> - used i3c_master_reattach_i3c_dev_locked() on patch
+>   "i3c: renesas: Perform Dynamic Address Assignment on resume" along with
+>   grouping the I2C and I3C devices in the driver slot
+> - collected tags
+> 
 > Changes in v2:
-> - none
->
->  drivers/i3c/master/renesas-i3c.c | 30 +++++++++++++-----------------
->  1 file changed, 13 insertions(+), 17 deletions(-)
->
-> diff --git a/drivers/i3c/master/renesas-i3c.c b/drivers/i3c/master/renesas-i3c.c
-> index c459e40fd5ff..915090d0ad37 100644
-> --- a/drivers/i3c/master/renesas-i3c.c
-> +++ b/drivers/i3c/master/renesas-i3c.c
-> @@ -1437,24 +1437,22 @@ static void renesas_i3c_remove(struct platform_device *pdev)
->  static int renesas_i3c_suspend(struct device *dev)
->  {
->  	struct renesas_i3c *i3c = dev_get_drvdata(dev);
-> +	struct reset_control_bulk_data resets[] = {
-> +		{ .rstc = i3c->presetn },
-> +		{ .rstc = i3c->tresetn },
-> +	};
->  	int ret;
->
->  	i2c_mark_adapter_suspended(&i3c->base.i2c);
->
-> -	ret = reset_control_assert(i3c->presetn);
-> +	ret = reset_control_bulk_assert(ARRAY_SIZE(resets), resets);
->  	if (ret)
->  		goto err_mark_resumed;
->
-> -	ret = reset_control_assert(i3c->tresetn);
-> -	if (ret)
-> -		goto err_presetn;
-> -
->  	clk_bulk_disable(i3c->num_clks, i3c->clks);
->
->  	return 0;
->
-> -err_presetn:
-> -	reset_control_deassert(i3c->presetn);
->  err_mark_resumed:
->  	i2c_mark_adapter_resumed(&i3c->base.i2c);
->
-> @@ -1464,19 +1462,19 @@ static int renesas_i3c_suspend(struct device *dev)
->  static int renesas_i3c_resume(struct device *dev)
->  {
->  	struct renesas_i3c *i3c = dev_get_drvdata(dev);
-> +	struct reset_control_bulk_data resets[] = {
-> +		{ .rstc = i3c->presetn },
-> +		{ .rstc = i3c->tresetn },
-> +	};
->  	int ret;
->
-> -	ret = reset_control_deassert(i3c->tresetn);
-> +	ret = reset_control_bulk_deassert(ARRAY_SIZE(resets), resets);
->  	if (ret)
->  		return ret;
->
-> -	ret = reset_control_deassert(i3c->presetn);
-> -	if (ret)
-> -		goto err_tresetn;
-> -
->  	ret = clk_bulk_enable(i3c->num_clks, i3c->clks);
->  	if (ret)
-> -		goto err_presetn;
-> +		goto err_resets_asserted;
->
->  	ret = renesas_i3c_reset(i3c);
->  	if (ret)
-> @@ -1507,10 +1505,8 @@ static int renesas_i3c_resume(struct device *dev)
->
->  err_clks_disable:
->  	clk_bulk_disable(i3c->num_clks, i3c->clks);
-> -err_presetn:
-> -	reset_control_assert(i3c->presetn);
-> -err_tresetn:
-> -	reset_control_assert(i3c->tresetn);
-> +err_resets_asserted:
-> +	reset_control_bulk_assert(ARRAY_SIZE(resets), resets);
->  	return ret;
->  }
->
-> --
+> - dropped patch "i3c: renesas: Use the divider 128"
+> - adjusted the patches title and description where requested in the
+>   review process
+> - adjusted the DAA procedure after resume to still properly re-configure
+>   the controller in case the bus was full before a suspend
+> - added patch "i3c: renesas: Do not attach devices if xfer failed"
+> - collected tags
+> 
+> Claudiu Beznea (17):
+>   i3c: renesas: Check that the transfer is valid before accessing it
+>   i3c: renesas: Restore STDBR and EXTBR registers on resume
+>   i3c: renesas: Follow the reset deassert order used in probe
+>   i3c: renesas: Reconfigure the DATBAS register on re-attach
+>   i3c: renesas: Reset the controller on resume
+>   i3c: renesas: Perform Dynamic Address Assignment on resume
+>   i3c: renesas: Clean DATBAS register on detach
+>   i3c: renesas: Fix out-of-bounds access for newdevs mask
+>   i3c: renesas: Use reset_control_bulk_{assert, deassert}()
+>   i3c: renesas: Return immediately if there is no transfer
+>   i3c: renesas: Follow a unified pattern for transfer and command
+>     initialization
+>   i3c: renesas: Drop the explicit memset() call
+>   i3c: renesas: Update HW registers after SW computations are done
+>   i3c: renesas: Organize structures to avoid unnecessary padding
+>   i3c: renesas: Use the "dev_name:irq_name" format for the interrupt
+>     name
+>   i3c: renesas: Drop unnecessary tab
+>   i3c: renesas: Add runtime PM support
+> 
+>  drivers/i3c/master/renesas-i3c.c | 375 +++++++++++++++++++++----------
+>  1 file changed, 261 insertions(+), 114 deletions(-)
+> 
+> -- 
 > 2.43.0
->
+> 
 
