@@ -1,255 +1,204 @@
-Return-Path: <linux-renesas-soc+bounces-35209-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-35210-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id vqdPAGw7Vmqx1wAAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-35209-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Jul 2026 15:36:44 +0200
+	id LgbOBUk6VmpK1wAAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-35210-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Jul 2026 15:31:53 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 611B575539F
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Jul 2026 15:36:43 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id F0156755287
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Jul 2026 15:31:51 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=gmail.com header.s=20251104 header.b=gd1aObQl;
-	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-35209-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-35209-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=gmail.com;
-	arc=pass ("subspace.kernel.org:s=arc-20240116:i=2")
+	dkim=none;
+	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-35210-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 104.64.211.4 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-35210-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
+	dmarc=none;
+	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 6DEBB31687D2
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Jul 2026 13:27:55 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 4D7D8301EADD
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Jul 2026 13:31:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BBD5C339B41;
-	Tue, 14 Jul 2026 13:27:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2268546AEF2;
+	Tue, 14 Jul 2026 13:31:03 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFBC832B136
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 14 Jul 2026 13:27:31 +0000 (UTC)
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784035653; cv=pass; b=mWIbYvIgH+Jkgr2R20i1pRo9pHhfu26SSQrI4kzrmpnfWsKNp1J6TvqkYBYrOlZFPmXGb77k7bLQ7wMB5kVqYJksPmOqv7MTmkCDPzm3cNQd4Mv9uz41XldVgXGCPjInXi24ekm4p4yJxK+zi8ZsZkA4I34jDXjGytEVUnSi8q8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784035653; c=relaxed/simple;
-	bh=JwVJDiR+cBjS+r4fEWc8OMyrK+FkqxIoisO4S0dbaKs=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11F1246AEFA
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 14 Jul 2026 13:31:00 +0000 (UTC)
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784035863; cv=none; b=DMm5dlqI1bvr4Wii5r0sDY6M7w0ly3pr9gj4hEGN7wCSiWoxudJ204l8SoQX5GuGzMdkDwrySyT7OtxqsbU76dSxnyhjRiCfNUOz1tuKYqEjima4Q7A/d2TsgBOj3fLuKD7uzt1kLZe34q5dyaG6q9dLLNoyt8Imqe3Y0mPZHMY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784035863; c=relaxed/simple;
+	bh=7ltIk942FlcNb7c4P0iS7YuMPIYJUL+J93HcQaMBRJI=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=icmCjLiQPeMQk4fd8exUDyN/wT8H+lF6YarjD4iYnO8NvV4EDX182jczGNQsNkRhVSnDs3FW0ycbvwD8aQOaKEZAL5MRsyCoMo2BfI2ZMe9Aos3YOKSOcBgzoGLylt7dBrT1raZNav+XMcLJ19yVNenr/7L5eHGBlK3d+PWdpjc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gd1aObQl; arc=pass smtp.client-ip=209.85.221.54
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-472326ca506so3534234f8f.2
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 14 Jul 2026 06:27:31 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1784035650; cv=none;
-        d=google.com; s=arc-20260327;
-        b=FoYIbhMHEQ25dbzWMnlK219/gUBB+rRA7AkwNgKCYBhbniIL8/E4av9f2xf3G8BQZO
-         w7O73vwNKPE3dEmgQB1hySAvGA6axccbk7pSdfHiq4FXmKyr8LjPLV2DLDgmaEUNTPMT
-         nui9b0kwjOHmZpywvtFbERknE2dNkaffRv0mDus/VKE/dE8gdIRIrIquxw1O/QDESN+C
-         ySk37ThAnRPX95uH3d58mHOCoBcQ2g09J9KT2QMwd747wzdzlW19zultifgeIIUgbCnj
-         vjnHuseefKiNzwJLcTmiMXLKUoGw1AwTZbdlWUIquG0qqQ1Czfi3D9hVOOVFUND3u9dH
-         ZXFQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=WRj5C4BZ8aUAwy0UDz9tsH2p/apYNMhkYQtruEiLUFg=;
-        fh=IwIg2FgtBtrMW9BX1iHn67drz/b4IOwPivzxtNzqqOg=;
-        b=BBpqVeUvx/XqQE4OAVU4Vl+xjUU90JL3rDEuEFPvabzuqPzvrJ7H5l8Vpby9ZfyNaW
-         f1MVff80FME4NX3/qOc+aD3S3t0zOXuaz6E/KhV1LhrNKJ/RoEocrXJ7Ca2ysiEfJxDH
-         guRqGDJPEu4bnXlbYLxFWNCMTrFTh94SP1Hg2Z9IhyTJPlfXa2gMJm+p1WJTJq7CgJSs
-         zdKlZtdh3xJk4PcfDW9PG2cvInt09Uo5ru9b6JT/gDrleXUv4HQW//jlSuqS9r+w7Nv9
-         SkSNMbuZYBe/0tZK3P0duWn/V19iaMtrwACB0GjkOTXFFuAa1Aom0xL/WhSuUnQrq4KS
-         26cQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784035650; x=1784640450; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=WRj5C4BZ8aUAwy0UDz9tsH2p/apYNMhkYQtruEiLUFg=;
-        b=gd1aObQl+qjxD929Ebl9GEw5vMjRAD5Ra9FjKX70snWGrmmHxmsnIeVpMD18Erdzkp
-         UKkux6CpyLniULXKsfExXEZboQQVJkbJeBHN/C8OmQTYdq7wSEDnf5sj0EdAIX1xDPWH
-         45N61XtWPmVHa1wbOEUhCtCTfUfV/BiihBjoUjZMsm5ffpc4a+NttdzMekEBufsYzzYM
-         q9lRJ6931LUKwD/wZDr8+ZkavKK7+vUJX0St/6vsN9ETG2Fnr4macCZxiosPf4iC0Ojh
-         YMF0QbXrxTkWmzl5LCmZkvMdEteA7C0TWqyYda1VrNJmvlxsro2+WdSFl9sW0dDvtlJh
-         h7Ig==
+	 To:Cc:Content-Type; b=PmCYFkhiz+lIFioOdZc8K8g6JKST/pRciax3NyU16fcQ2SNYxlW9DwOdFwUMsgIWQxyVXky5mc3LJD9r8q26TrjR1gfAM14MDOfacQdNdYf5mohN3qsKv5Me9ZKhRFIfsA32wZf0B5pg+XN8TshBvx6v1J4XJxxDgh3gHkSaslI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.218.42
+Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-c12614b81c9so804751166b.3
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 14 Jul 2026 06:31:00 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784035650; x=1784640450;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=WRj5C4BZ8aUAwy0UDz9tsH2p/apYNMhkYQtruEiLUFg=;
-        b=WlS6sTZx7GPWZSqNoXATZ5PpBFAY07AWHV+/uE4sUvoCj8TOcQXi790NzYXEPUE4ZJ
-         loIKuS8FaiYKriEartHGREmPeotAg4ZqnMPhF8/jukNAQ1WWoJddwOGkPCQnLHETLhkM
-         NV0/y6M8NK9zEAltvbjdc4J5dY1p7nREmp1r1G0/Us/bxtVEWZPzBTP8U11TxrWYcWzD
-         Odg/ithIk+SnSv6v//rRgBWrfjStKIuAXoLnlOiCC6P4gqGuQ03Re+xgrm+fGZJuFS7u
-         shphy1aGZX3C/ffQosrVXOwQkgXbvmlJiOmZKC+2wdttvN5cZ5A2Dh59ky8v+jyW8YC4
-         AGZQ==
-X-Forwarded-Encrypted: i=1; AHgh+RpXQGBabFjvDqbLdaAAM/MAS6JdroVFC3887MFHXLe26NzcbhXafbnP1/AP1rVmoxfSa/qPkyUBN1Ux/i8iH8gsDg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxQrymVrQlI6GV9Ovd1DWgsnsCULAF/tdLLrka7UoKM/KsC5Pxm
-	82mQCNLFTGmB7/41mzJO23jtQId2RX8OxKSEeBtzyU4K/hQcJOF+aFlh5lfFj0t6LIiwyEidACw
-	LYu1mNlf9RTlFrclM34AUHiV0mdd56yI=
-X-Gm-Gg: AfdE7ckG9LR+zfrjBmeO1seWCEmgZUqGrrPdfS2CftoiE0LZ2v5Wx8iKQhIYCv71zqc
-	Cmxass2w93ijejwwmmTRAj2+0eg/RpkNRr0R2VTd/Tbt05f4McoWBtSuQMahZ6AEQ4lkAdrP2tu
-	PenvtfzeStipQwpazCBcMD5RnV8CXwBRXTeoIwy+g1hZRTiFBaPSh2YrMDxyDYHafHB4YaG9vLl
-	1BRFkAirB74jzFv/FTdIDu277qSW3CRCS7K/DXLZjJPAzImWcsMjs4u1+GD+lUbbDUhn376ufEx
-	QNLjZlOwkT9EoqMSkIN9q9GenD6Kd7/ibozQk7G5huMHWD8JWsLOACWnYvOGJZFT2bYiiQ==
-X-Received: by 2002:a05:6000:4693:b0:47f:4650:e45c with SMTP id
- ffacd0b85a97d-47f4650e4e6mr3694089f8f.12.1784035649771; Tue, 14 Jul 2026
- 06:27:29 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1784035859; x=1784640659;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=FfpdozjO3owtTfsOTXpWhJUHafNjaGvEr4pDq5DSDJg=;
+        b=Y+d97yvNbP3r6rR+I3d9uG0Zs+de8YyX6R+kMnvWjgK1JLlilCMYp1OOavsuVg4AVl
+         n7SQbLZnoEfUseL/jZfpg/embjDGdZNfxxJJwgGU9mMDCnPcKmTj/kYD3dW+11wcctzI
+         vw3OQ2qOPHWi4xpDeFiDMcfqDnsmlUNJl/ViaQFKxUrZc96ZD2fTwAiZ30zf/+FFstFy
+         ifDZT5aXVxsDNeOvHyXma6hIP1Qhd6Kf7J0F2MhhNie5cM2LJ575oLyDfKdmCbPrpWUG
+         rtwKNWAcQSDFv78smN1OZ2suoGeQ6FreGBNXNnzlZ8c0GWQBMF1zV9htrmqlfiKncFsQ
+         A43w==
+X-Forwarded-Encrypted: i=1; AHgh+RpVIlKv7sMXfV2zT/NKTPvZMqODcmDkmnuh4sq6i3q6fIYSqFOOQ4GK+qqzDUyVbSgrpz6s3q32keRbzLcNv/mXig==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw6iegGfmrDFmWGr1aXIhtOT4Ytp1JRsAzRnX0/NMwmsswlEerZ
+	vNZyJvL79reS9kU2b89cEMNSCXXs28iz4LbTd7RkNn6djnSjRZYEnsG/f5uLsCfxIjs=
+X-Gm-Gg: AfdE7clQkmPUUVsEhb16tEogJhcCnnwdNJWExDpkLElRLdBv5DRqMI/c8ouRzKGlzqG
+	kYN1A9C7Qfq2c51mnASktcnQVV7Z1QYk0DRwXgWP27Gqft7J0L4SM85SllefVH0vSomvwn9iqI9
+	RSCPNs4tMI4EP9bhexK/r00KL/X47zKjmhNf2fnqG6mqIsHDkrDve2TuEvgVTtYw6JvwGTMVzOn
+	lI0vsTg4u7g+GxLjKmyfNMUrq4ek3Ko7ZtwgouNFgarB8ePhiL9YBz7vX55oukj1XDAjmBXjLIF
+	2GvSAgZXyCcgvdI8Lj+goBe9xAhQJY82utu6FElUI3y7e8KKhFp14LuEdfXsGfeS92YHC2TKI6O
+	qz2YICyhW8lm268O+wdMxtcTcLadyBsY3VnVwPZ6SaEXQIWKXyLU39eBMyRGekqhzh6abpdW6Gm
+	cOIsmyoWC+ewESgqjNxBWdgV6+83pa6RW57LeY7tJpP4geout6mg==
+X-Received: by 2002:a17:907:e117:b0:c16:f44:5375 with SMTP id a640c23a62f3a-c161f4c9d3amr392697766b.60.1784035859068;
+        Tue, 14 Jul 2026 06:30:59 -0700 (PDT)
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com. [209.85.218.49])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c1673a00e9asm7897266b.20.2026.07.14.06.30.57
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 14 Jul 2026 06:30:57 -0700 (PDT)
+Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-c12614b81c9so804742766b.3
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 14 Jul 2026 06:30:57 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AHgh+RqjxhMA9JBrbLWIzUPdisrFlkuZV4TL7qF+I7YkAyZrOeMXFzR/tnZCKOGPCEExBv+aESPpkN4v1Rd0qe/Vuy65dg==@vger.kernel.org
+X-Received: by 2002:a17:907:1ca0:b0:c12:80a6:2df9 with SMTP id
+ a640c23a62f3a-c161e9400admr641458666b.8.1784035857577; Tue, 14 Jul 2026
+ 06:30:57 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260702123112.161160-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdUhiBAcJ6P7j0ZxL+0AbVqz88PMo7YX9UiYOK8jM61D1Q@mail.gmail.com>
-In-Reply-To: <CAMuHMdUhiBAcJ6P7j0ZxL+0AbVqz88PMo7YX9UiYOK8jM61D1Q@mail.gmail.com>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Tue, 14 Jul 2026 14:27:03 +0100
-X-Gm-Features: AUfX_mz-bUh857aZKLRp6jCySBSNe_W4CR-bQsVZRSwNXqRoLizYQlsdmvEfzQc
-Message-ID: <CA+V-a8uUxfDx2Xnb3uFg2=R+eYnzVmAv4PoEYeXGwAbANxG5Bg@mail.gmail.com>
-Subject: Re: [PATCH RFC v2 0/9] Add System Controller support for RZ/T2H and
- RZ/N2H SoCs
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
-	Brian Masney <bmasney@redhat.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Wim Van Sebroeck <wim@linux-watchdog.org>, Guenter Roeck <linux@roeck-us.net>, 
-	Magnus Damm <magnus.damm@gmail.com>, Philipp Zabel <p.zabel@pengutronix.de>, 
-	linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-watchdog@vger.kernel.org, 
-	Prabhakar <prabhakar.csengg+renesas@gmail.com>, Biju Das <biju.das.jz@bp.renesas.com>, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20260709192916.630794-1-biju.das.jz@bp.renesas.com> <20260709192916.630794-9-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20260709192916.630794-9-biju.das.jz@bp.renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 14 Jul 2026 15:30:43 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdW00Z-Kj7nQiZ+W6fuj20grD9GUg93K8dCKH0wWh4U7ng@mail.gmail.com>
+X-Gm-Features: AUfX_mx2ffZ10VqYnA4gH8_EiW4TggJsmyvBwCVek-BHgyJ2IKNd_EuJjfrBJ5o
+Message-ID: <CAMuHMdW00Z-Kj7nQiZ+W6fuj20grD9GUg93K8dCKH0wWh4U7ng@mail.gmail.com>
+Subject: Re: [PATCH v19 08/12] mmc: renesas_sdhi: Add RZ/G3L SDHI support
+To: Biju <biju.das.au@gmail.com>
+Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>, Ulf Hansson <ulfh@kernel.org>, 
+	Biju Das <biju.das.jz@bp.renesas.com>, linux-mmc@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, 
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+X-Spamd-Result: default: False [-1.46 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_RECIPIENTS(0.00)[m:geert@linux-m68k.org,m:mturquette@baylibre.com,m:sboyd@kernel.org,m:bmasney@redhat.com,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:wim@linux-watchdog.org,m:linux@roeck-us.net,m:magnus.damm@gmail.com,m:p.zabel@pengutronix.de,m:linux-renesas-soc@vger.kernel.org,m:linux-clk@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-watchdog@vger.kernel.org,m:prabhakar.csengg+renesas@gmail.com,m:biju.das.jz@bp.renesas.com,m:fabrizio.castro.jz@renesas.com,m:prabhakar.mahadev-lad.rj@bp.renesas.com,m:krzk@kernel.org,m:conor@kernel.org,m:magnusdamm@gmail.com,m:prabhakarcsengg@gmail.com,s:lists@lfdr.de];
-	TAGGED_FROM(0.00)[bounces-35209-lists,linux-renesas-soc=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER(0.00)[prabhakarcsengg@gmail.com,linux-renesas-soc@vger.kernel.org];
-	FORWARDED(0.00)[lists@lfdr.de];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[20];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-35210-lists,linux-renesas-soc=lfdr.de];
+	DMARC_NA(0.00)[linux-m68k.org];
+	FORGED_RECIPIENTS(0.00)[m:biju.das.au@gmail.com,m:wsa+renesas@sang-engineering.com,m:ulfh@kernel.org,m:biju.das.jz@bp.renesas.com,m:linux-mmc@vger.kernel.org,m:linux-renesas-soc@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:geert+renesas@glider.be,m:prabhakar.mahadev-lad.rj@bp.renesas.com,m:bijudasau@gmail.com,m:wsa@sang-engineering.com,m:geert@glider.be,s:lists@lfdr.de];
+	FREEMAIL_TO(0.00)[gmail.com];
 	MIME_TRACE(0.00)[0:+];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	FORWARDED(0.00)[lists@lfdr.de];
+	FORGED_SENDER(0.00)[geert@linux-m68k.org,linux-renesas-soc@vger.kernel.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	MISSING_XM_UA(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
 	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	ALIAS_RESOLVED(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[prabhakarcsengg@gmail.com,linux-renesas-soc@vger.kernel.org];
-	FREEMAIL_CC(0.00)[baylibre.com,kernel.org,redhat.com,linux-watchdog.org,roeck-us.net,gmail.com,pengutronix.de,vger.kernel.org,bp.renesas.com,renesas.com];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,renesas.com:email,linux-m68k.org:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,vger.kernel.org:from_smtp]
+	FROM_NEQ_ENVFROM(0.00)[geert@linux-m68k.org,linux-renesas-soc@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	ALIAS_RESOLVED(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	R_DKIM_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,renesas.com:email,vger.kernel.org:from_smtp,linux-m68k.org:email,linux-m68k.org:from_mime,mail.gmail.com:mid]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 611B575539F
+X-Rspamd-Queue-Id: F0156755287
 
-Hi Geert,
+Hi Biju,
 
-Thank you for the review.
+On Thu, 9 Jul 2026 at 21:29, Biju <biju.das.au@gmail.com> wrote:
+> From: Biju Das <biju.das.jz@bp.renesas.com>
+>
+> The RZ/G3L SoC (r9a08g046) has an SDHI controller with several
+> differences from existing platforms, requiring dedicated handling.
+>
+> Utilise the TMIO_MMC_HWADJ flag to identify controllers that carry
+> a second hardware adjustment register (SDm_SCC_HWADJ2 at offset 0x010).
+> When both TMIO_MMC_TUNING_DELAY and TMIO_MMC_HWADJ are set,
+> renesas_sdhi_set_hw_adjustment_delay() additionally programs HWADJ2
+> with 0x3FFF at 3.3 V and 0xFF at 1.8 V. A new RZG3L_SDHI_SCC_HWADJ4
+> register (offset 0x022) is also cleared at the start of tuning when
+> TMIO_MMC_INTERNAL_DIVIDER is set.
+>
+> Add a new version constant SDHI_VER_RZ_G3L_SDMMC (0xce10) and extend
+> renesas_sdhi_sdbuf_width() to handle it alongside the existing Gen3
+> variants.
+>
+> Introduce of_data_rzg3l with RZ/G3L-specific parameters: a wider
+> clk_mask of 0x200000200, a max_divider of 2048 (reflecting the 11-bit
+> divider), a dedicated rzg3l_scc_taps table, and all relevant tmio_flags,
+> including TMIO_MMC_INTERNAL_DIVIDER and TMIO_MMC_HWADJ. Wire it to a
+> new of_rzg3l_compatible entry using sdhi_quirks_rzg3l (which sets
+> fixed_addr_mode), and register the "renesas,sdhi-r9a08g046" compatible
+> string in the OF match table.
+>
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> ---
+> v18->v19:
+>  * Update commit description.
+>  * Updated handling for clk divider.
+>  * Renamed TMIO_MMC_HWADJ2->TMIO_MMC_HWADJ to make it generic for
+>    hardware tuning delays
+>  * Dropped duplicate SH_MOBILE_SDHI_SCC_TMPPORT2 macro
 
-On Mon, Jul 13, 2026 at 5:00=E2=80=AFPM Geert Uytterhoeven <geert@linux-m68=
-k.org> wrote:
->
-> Hi Prabhakar,
->
-> On Thu, 2 Jul 2026 at 14:31, Prabhakar <prabhakar.csengg@gmail.com> wrote=
-:
-> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > This series adds support for the System Controller (SYSC) blocks found =
-on
-> > the Renesas RZ/T2H and RZ/N2H SoCs. These blocks handle critical low-po=
-wer
-> > management and access control functions.
-> >
-> > Hardware Architecture & Dependency Challenges:
-> > ----------------------------------------------
-> > The SYSC in these SoCs is a multi-functional block responsible for:
-> >     - Clock & Reset Control
-> >     - Low Power Management
-> >     - Clock Monitor (CLMA)
-> >     - Access Control
-> >
-> > A key architectural detail is that these SYSC blocks are physically loc=
-ated
-> > within the CPG/MSSR (Clock Pulse Generator / Module Standby Software Re=
-set)
-> > address space. While the CPG/MSSR driver is already implemented and
-> > functional for these SoCs, the integration of SYSC adds a layer of
-> > complexity due to a cyclic dependency:
-> >     - SYSC requires CPG: The system controller needs a clock to operate=
-.
-> >     - CPG requires SYSC: Access control registers within the SYSC conta=
-in
-> >       bits necessary to control the PLLs managed by the CPG.
-> >
-> > If implemented as a completely separate top-level system controller nod=
-e, we
-> > would face a cyclic dependency between the CPG and SYSC drivers during =
-the
-> > boot process.
-> >
-> > Proposed Implementation
-> > ----------------------------
-> > To resolve this, the SYSC blocks are represented as child nodes of the
-> > CPG/MSSR controller in the device tree. The SYSC regmap is registered
-> > directly against the CPG device node. This hierarchy correctly models t=
-he
-> > hardware address space while allowing the drivers to share resources
-> > without deadlock.
-> >
-> > I am sending this as an RFC specifically to get feedback on the
-> > implementation of the SYSC as child nodes of the CPG to resolve the
-> > dependency cycle.
->
-> Personally, I am not a big fan of subnodes.  I assume you are using
-> subnodes because you can register only a single regmap per syscon node?
-Yes so that the consumers don't have to specify it by indexing.
+Thanks for the update!
 
-> Would it be possible to just extend the existing clock-controller
-> node with two more reg entries, and expose them through a single
-> combined regmap?
->
-That should be possible. Or would you prefer just to extend the sizes
-and create a single regmap for it?
+> --- a/drivers/mmc/host/renesas_sdhi_core.c
+> +++ b/drivers/mmc/host/renesas_sdhi_core.c
 
-               cpg: clock-controller@80280000 {
-                        compatible =3D "renesas,r9a09g077-cpg-mssr";
--                       reg =3D <0 0x80280000 0 0x10000>,
--                             <0 0x81280000 0 0x10000>;
-+                       reg =3D <0 0x80280000 0 0x20000>,
-+                             <0 0x81280000 0 0x20000>;
+> @@ -234,7 +236,14 @@ static void renesas_sdhi_set_clock(struct tmio_mmc_host *host,
+>         }
+>
+>         clock = clk & CLK_CTL_DIV_MASK;
+> -       if (clock != CLK_CTL_DIV_MASK)
+> +       if (host->pdata->max_divider != SDHI_MAX_DIVIDER_DEFAULT) {
+> +               u64 tmp;
+> +
+> +               tmp = FIELD_GET(GENMASK(9, 8), clk);
+> +               clock |= FIELD_PREP(GENMASK(17, 16), tmp);
 
-Cheers,
-Prabhakar
+This fails to build on RZ/Five, due to missing #include <linux/bitfield.h>.
 
-> Gr{oetje,eeting}s,
+Oh, fixed in v20...
+
+> +       }
+> +
+> +       if ((clock & CLK_CTL_DIV_MASK) != CLK_CTL_DIV_MASK)
+>                 host->mmc->actual_clock /= (1 << (ffs(clock) + 1));
 >
->                         Geert
->
-> --
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m6=
-8k.org
->
-> In personal conversations with technical people, I call myself a hacker. =
-But
-> when I'm talking to journalists I just say "programmer" or something like=
- that.
->                                 -- Linus Torvalds
+>         sd_ctrl_write16(host, CTL_SD_CARD_CLK_CTL, clock);
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
