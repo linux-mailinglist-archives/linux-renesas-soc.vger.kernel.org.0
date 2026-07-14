@@ -1,245 +1,440 @@
-Return-Path: <linux-renesas-soc+bounces-35219-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-35220-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id xcTuBpppVmpk5AAAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-35219-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Jul 2026 18:53:46 +0200
+	id ijFCHKdqVmq45AAAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-35220-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Jul 2026 18:58:15 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F24E7571F2
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Jul 2026 18:53:45 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id CDF4D75729B
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Jul 2026 18:58:14 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=gmail.com header.s=20251104 header.b=sUB+07b9;
-	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-35219-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-35219-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=gmail.com;
-	arc=pass ("subspace.kernel.org:s=arc-20240116:i=2")
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=H+JXmQU3;
+	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-35220-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-35220-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=quarantine) header.from=kernel.org;
+	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id ABD5531382EE
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Jul 2026 16:51:13 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id B4B66301C96C
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Jul 2026 16:58:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 034854D90AB;
-	Tue, 14 Jul 2026 16:51:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4A8DC4DD6F8;
+	Tue, 14 Jul 2026 16:58:13 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B0B447DD49
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 14 Jul 2026 16:51:11 +0000 (UTC)
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784047872; cv=pass; b=r3qxGELqJQntc7DGw44VEOB6yND6JnIFfsiAFa+AVQaUjSzYK+TYwscgf73iYFDuLjqo7UNL92GQLMbZx3nD+QcBrVRIYZXAyjYg1nZNxrAQxlYe5qQ7UR4yPDA2lFBDymHcriBVltHWcvv7/RSNCDavAFhTq4UKWgR6q3UYung=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784047872; c=relaxed/simple;
-	bh=UKuXmnxAZy4X4Zfjms3mGb3B8NsNDeeH3MZJWfiGhEs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=XodvooVKeTyxHG/054xKPcsw4titgtVHBJg3Z9alnU1G8lWV/xr+JuDBDi/jly0h7lAzFnPCU469sG8Iiw/oLjjFHo0Zh2+w7I37E1ZTPQ4n8vOVDBdKkG0reCWDz+geBTfo+eo2MDvSh4KTCqmFh+u4EYZeaoJ30zo0TtXgfV0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=sUB+07b9; arc=pass smtp.client-ip=209.85.221.53
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-4798bea72f9so2476955f8f.1
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 14 Jul 2026 09:51:11 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1784047869; cv=none;
-        d=google.com; s=arc-20260327;
-        b=pndckRr+4Gksaxi20wEIo6WtIui5G5BM41Wc622KxcHDeH9nVbUPMWxqYmk2sa28dy
-         rQERDOhr71z3thmePPXOIOSlVX4dUpYfdjPJ2lUTrNASRSrFGevfO5qsirroonSSpO7c
-         kH5rRGbwC7tj7QYs5L0gFimGFpimFt6DZWgm6JyFQwuXiKr7vI4Ja2hEEsEc1cF673Sk
-         MXytiOGZgb3HMzTvkGma80jO4P4NMHExyXXnLtqPb5+LwBeRnUusXUxbfvwmcHOsUEWC
-         0zJNGU3kt1j7W1Bv+Lk3OulS2f80S2deeqWUqomvFvsDvTVfOD3wWSn7KQYXEoF8PtHj
-         dMoA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=8BlgmiFQrHiuTd+MM0CeF9cu80lrra6/Pp38WzQSYbE=;
-        fh=EVMTIilDBEpQYw7s/mCbxhzwDlWlfuzN/C/0evwvlQ8=;
-        b=lNpZZad1Lnxd12Pzn8AE5IjHdWhlSdemz3IMoGN4Ubi1svgEmfvOcaI/SnOkU6SCpJ
-         SZOgeQcy7I74/SoBweqw95V5BL/fqShrlyOpno6WuNScMOzhkSetryRZCbcTP+UMN65j
-         YuLiyg4tPjHs8ASAG1EGkIaL5VC4mmZP/acU0dO2yAuxprI68KO2R5OIdwFZgBD5+TPO
-         +YPt9Yhg9KJOZ8duA7KCUdNxyBEIVfXGnfzGGg18/5YNfKRCdl7pOtrO9Uu6ahZDOr1A
-         U4d8hzL5DAkmeGHxcbcXN5fWD1NVG4msMnnpT4H/RHHgHUoCfJWbSBIp6Zh3lJamTWWm
-         yK5Q==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784047869; x=1784652669; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=8BlgmiFQrHiuTd+MM0CeF9cu80lrra6/Pp38WzQSYbE=;
-        b=sUB+07b97KGV3ebDMkf0d3LU/JbugGI5wAiuag6v2+UK398tluefGUR03Qt2NGVOt3
-         poU3WOZaYSn4pp7yER5a/Tzddw/uxLuMGI+r8BlwLUNOMQpmkEYJ5fOQNP7Rp0zMyeDI
-         g4deAY34diw6dPfpcjDMqPsuLXhuI+1fX4H8oicc3qt5mN0Dw6/KHBTch5etD6Dr3LpF
-         Vo2XBs61rXFmCWC82PizuiU7IC0sO4juLej9ZePmzKnC3CXA/egtX60IONCorzuqrqx9
-         t+T+fSoyeH3ErkF+ezlR0c7Tqpx+FocK+eTnhmz0ZTOTUYKAOcZUUqLhbFWff6hiTyhq
-         fFhA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784047869; x=1784652669;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=8BlgmiFQrHiuTd+MM0CeF9cu80lrra6/Pp38WzQSYbE=;
-        b=NTp28AlMCD32kFW9MzN+KBTQSu9Lekyu5d3jdhKI4GCq2lMb0cXm97dR5+EqBSfTrr
-         4tAtmdUFpjmU0n2tI4OZr70s2fwJbLu7/NjtpR86GmRxYnsRNooYT5bv2mm0Ha7aM6Vb
-         TDOZNFsIeGrKdHp8z18J1QU1ir077i5apE+H74XXYqnrL37IhvpcAjaNr/eqPmOk3zcK
-         wafbbaasS/WNo+vNtKXvipeArDd+FbcJH8jBNrGODN2YiE98hRgaTsMLzz/cZowXvFRG
-         5lwOgfWbdY8g2TVTkiYD6BeVSaf2QNSqWLokgOVzqBkKHIKDaAiirJ3J/c8hiee7AAVC
-         wtEw==
-X-Forwarded-Encrypted: i=1; AHgh+RqtOTxAZWudAIWNP7r3Gyxos7qf2IyDjYWLw9T2TujtbJ9SAYBiPiquJXKc/qG7qxoqw/x+ZkQCSDOBo0Xg50JvDg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyhCWDKAQMrOq3fiDxc3RG1hZpuIxPaCZEaFTWD8aRDviJMMK3H
-	3UdKhGSlRCcBvSzXGTTTFTQe0L1InP9t/+EjFAzaZ/GaqLAlO4C3/sN9vuTmv8qQdElYeLhvYOw
-	jXhgcOSjq7w6vO/e/uBUpCiaajIGpt2AasPsW6gA=
-X-Gm-Gg: AfdE7cl0oocQSVrBVNvVDvJVH7w7nf1+b70Jw+6q/d1qDd2S7qe9IKoNusZn5gKht9w
-	Z+nXrfXYn91w0qnKw3ym4c2GAzL58Yu1eto3rfJyFLqqq+jh0DG5z/D+O++oYsVv5J+ycV4bGWG
-	gXeicMqZd3L75g346kJx91nTkrpQhszumBNnq2VUbFHVEHh7Psm678iYQJkYmFMfHDPtlWFRF85
-	0cm2mggftO3aeQRJJf3dk7NKfoShV48Qg35Hjw1LIrjP069Lgj6lFCo+cYtmAE6wB9KMzVa5JV5
-	d2UXRy+e/EC7LlDo8aFkkVavKRTfVadaTHRHpSln+kwbq1NufYNahqgvbyjYWeV5LI8e2g==
-X-Received: by 2002:a05:6000:46c2:b0:47f:4c49:4318 with SMTP id
- ffacd0b85a97d-47f4c4944a5mr1473055f8f.49.1784047869366; Tue, 14 Jul 2026
- 09:51:09 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C76DF4DD6F1;
+	Tue, 14 Jul 2026 16:58:11 +0000 (UTC)
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784048293; cv=none; b=Uj6ctGZy/PlCqs7L6yd/RsIBFmVTB9MsxoAH3/+n0Ai/ImizLRyyZxTS4SV9dPvcELDGxDfDP8a/fUePCVmc+AGYTG8cNl60p6HowBVkfu+omLYgOfLyDu7nA8U7LNy9Nn/4awJjpaKbdnJb81Aqwj5ejrUiGaTFJsf8sH6tbdM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784048293; c=relaxed/simple;
+	bh=P8Zd6FtUrNthGPjMghbjyES0Yvahi4pU8HA3efbVLRM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=W+GCsx49u+jdsX1JBgz9lhWnmj5GLcC5B/lC4NoWyqoyYgRYVVj9PhHsbuELY6yd/o9Cq5psRinn8aO4SgfPHW1EHHTIr5pDY6MNzldvYSLtuyHwOV/ZXlrowlMAw073oP3IWIDYXl00/ZtC3iRXVb3h0dXOP+oyfSStW5Ax0fU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=H+JXmQU3; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7496F1F00A3A;
+	Tue, 14 Jul 2026 16:58:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1784048291;
+	bh=q20ft91Ycu/VWgRF22VBx1iZLRZcJ442gUyDb9zb3bI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=H+JXmQU3Aj2+0h2/Ut+qwTdtfGCoy7sxVgmWGvE+be244lKnbyiKn9dOCKao4UgzR
+	 gpCXn0cSf+yqnJRB3Ky942EPVgXBGW86vkLpp74sVg7yYhxqKlD91iruEillzhqOVU
+	 uDDmXPUQbFOCprlup+LyxKJ3wlUodu4bPzFbgThfT/HBsFXPVsPiinbot+zCPL7AKX
+	 h+P314rSVzblZ5lncjHtKX5EnU9ImmIDaSFwybJwi3h323zPrndW/WclbgMRFFqlqH
+	 5iCJt58xHMWmqp9JwmI4kFgaE+OwAgEu0mKU1PHmb0YD4Z13jMEoGVCJGV2gfn8IkZ
+	 VZDKEHz6b8dsw==
+Date: Tue, 14 Jul 2026 18:58:02 +0200
+From: Manivannan Sadhasivam <mani@kernel.org>
+To: John Madieu <john.madieu.xa@bp.renesas.com>
+Cc: claudiu.beznea.uj@bp.renesas.com, lpieralisi@kernel.org, 
+	kwilczynski@kernel.org, bhelgaas@google.com, robh@kernel.org, linux-pci@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org, john.madieu@gmail.com, 
+	biju.das.jz@bp.renesas.com, prabhakar.mahadev-lad.rj@bp.renesas.com
+Subject: Re: [PATCH v2] PCI: rzg3s-host: Re-enumerate the bus on PCIe
+ link-state changes
+Message-ID: <aifual6ttxnrbi3o3lrnprwinmhvkysmebzrscoxhyhxbaqkz5@l66w7bdechqz>
+References: <20260630141720.3938514-1-john.madieu.xa@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260702123112.161160-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <CAMuHMdUhiBAcJ6P7j0ZxL+0AbVqz88PMo7YX9UiYOK8jM61D1Q@mail.gmail.com> <CA+V-a8uUxfDx2Xnb3uFg2=R+eYnzVmAv4PoEYeXGwAbANxG5Bg@mail.gmail.com>
-In-Reply-To: <CA+V-a8uUxfDx2Xnb3uFg2=R+eYnzVmAv4PoEYeXGwAbANxG5Bg@mail.gmail.com>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Tue, 14 Jul 2026 17:50:42 +0100
-X-Gm-Features: AUfX_mwxd6v5gFWCuMlhAPL7PON29wGJJEnO7K61SQDYcZ5CBYFFPz5abzgomRI
-Message-ID: <CA+V-a8utJuuwVNy8o2zM5jHf9qXx36S79uKGtYr5O=sASh_wpg@mail.gmail.com>
-Subject: Re: [PATCH RFC v2 0/9] Add System Controller support for RZ/T2H and
- RZ/N2H SoCs
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
-	Brian Masney <bmasney@redhat.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Wim Van Sebroeck <wim@linux-watchdog.org>, Guenter Roeck <linux@roeck-us.net>, 
-	Magnus Damm <magnus.damm@gmail.com>, Philipp Zabel <p.zabel@pengutronix.de>, 
-	linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-watchdog@vger.kernel.org, 
-	Prabhakar <prabhakar.csengg+renesas@gmail.com>, Biju Das <biju.das.jz@bp.renesas.com>, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260630141720.3938514-1-john.madieu.xa@bp.renesas.com>
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+X-Spamd-Result: default: False [-4.66 / 15.00];
+	WHITELIST_SPF_DKIM(-3.00)[kernel.org:d:+,kernel.org:s:+];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_RECIPIENTS(0.00)[m:geert@linux-m68k.org,m:mturquette@baylibre.com,m:sboyd@kernel.org,m:bmasney@redhat.com,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:wim@linux-watchdog.org,m:linux@roeck-us.net,m:magnus.damm@gmail.com,m:p.zabel@pengutronix.de,m:linux-renesas-soc@vger.kernel.org,m:linux-clk@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-watchdog@vger.kernel.org,m:prabhakar.csengg+renesas@gmail.com,m:biju.das.jz@bp.renesas.com,m:fabrizio.castro.jz@renesas.com,m:prabhakar.mahadev-lad.rj@bp.renesas.com,m:krzk@kernel.org,m:conor@kernel.org,m:magnusdamm@gmail.com,m:prabhakarcsengg@gmail.com,s:lists@lfdr.de];
-	TAGGED_FROM(0.00)[bounces-35219-lists,linux-renesas-soc=lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:john.madieu.xa@bp.renesas.com,m:claudiu.beznea.uj@bp.renesas.com,m:lpieralisi@kernel.org,m:kwilczynski@kernel.org,m:bhelgaas@google.com,m:robh@kernel.org,m:linux-pci@vger.kernel.org,m:linux-renesas-soc@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:john.madieu@gmail.com,m:biju.das.jz@bp.renesas.com,m:prabhakar.mahadev-lad.rj@bp.renesas.com,m:johnmadieu@gmail.com,s:lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER(0.00)[prabhakarcsengg@gmail.com,linux-renesas-soc@vger.kernel.org];
-	FORWARDED(0.00)[lists@lfdr.de];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[20];
-	MIME_TRACE(0.00)[0:+];
+	RCVD_COUNT_THREE(0.00)[4];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[12];
+	FORGED_SENDER(0.00)[mani@kernel.org,linux-renesas-soc@vger.kernel.org];
+	MIME_TRACE(0.00)[0:+];
+	FORWARDED(0.00)[lists@lfdr.de];
+	TAGGED_FROM(0.00)[bounces-35220-lists,linux-renesas-soc=lfdr.de];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[prabhakarcsengg@gmail.com,linux-renesas-soc@vger.kernel.org];
-	FREEMAIL_CC(0.00)[baylibre.com,kernel.org,redhat.com,linux-watchdog.org,roeck-us.net,gmail.com,pengutronix.de,vger.kernel.org,bp.renesas.com,renesas.com];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
+	FROM_NEQ_ENVFROM(0.00)[mani@kernel.org,linux-renesas-soc@vger.kernel.org];
+	FREEMAIL_CC(0.00)[bp.renesas.com,kernel.org,google.com,vger.kernel.org,gmail.com];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TAGGED_RCPT(0.00)[linux-renesas-soc];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,linux-m68k.org:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,vger.kernel.org:from_smtp,renesas.com:email]
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,vger.kernel.org:from_smtp,renesas.com:email]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 6F24E7571F2
+X-Rspamd-Queue-Id: CDF4D75729B
 
-Hi Geert,
+On Tue, Jun 30, 2026 at 02:17:20PM +0000, John Madieu wrote:
+> The RZ/G3E PCIe controller does not expose the standard PCIe Slot
+> Capability registers, so the generic pciehp driver cannot be used. The
+> only link-state signal the hardware provides is the DL_UpDown bit in the
+> PEIS0 event status register, which is raised on every Data Link layer
+> up/down transition.
+> 
+> Enable DL_UpDown in PEIE0 and hook up an interrupt handler so the driver
+> can react to link-state changes: a device that trains after boot gets
+> enumerated, and a device that disappears on link loss is removed. This
+> provides hotplug-like behaviour without the PCI hotplug core, which is
+> unavailable for the reason above.
+> 
+> On a DL_UpDown event the handler acks the W1C status bit and schedules a
+> worker that inspects PCSTAT1.DL_DOWN_STS:
+> 
+>   - link up: re-run max link speed negotiation, wait for the link to
+>     settle and pci_rescan_bus() the root bus;
+>   - link down: walk the bus in reverse and
+>     pci_stop_and_remove_bus_device() each child.
+> 
+> Both paths take pci_lock_rescan_remove() to serialise against the PCI
+> core.
+> 
+> Link events are only acted upon once the controller is fully
+> initialised. A DL_UpDown latched while the registers are not configured,
+> for example when the event IRQ is used as a system wakeup source during
+> resume, is acknowledged but does not schedule a rescan.
 
-On Tue, Jul 14, 2026 at 2:27=E2=80=AFPM Lad, Prabhakar
-<prabhakar.csengg@gmail.com> wrote:
->
-> Hi Geert,
->
-> Thank you for the review.
->
-> On Mon, Jul 13, 2026 at 5:00=E2=80=AFPM Geert Uytterhoeven <geert@linux-m=
-68k.org> wrote:
-> >
-> > Hi Prabhakar,
-> >
-> > On Thu, 2 Jul 2026 at 14:31, Prabhakar <prabhakar.csengg@gmail.com> wro=
-te:
-> > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > > This series adds support for the System Controller (SYSC) blocks foun=
-d on
-> > > the Renesas RZ/T2H and RZ/N2H SoCs. These blocks handle critical low-=
-power
-> > > management and access control functions.
-> > >
-> > > Hardware Architecture & Dependency Challenges:
-> > > ----------------------------------------------
-> > > The SYSC in these SoCs is a multi-functional block responsible for:
-> > >     - Clock & Reset Control
-> > >     - Low Power Management
-> > >     - Clock Monitor (CLMA)
-> > >     - Access Control
-> > >
-> > > A key architectural detail is that these SYSC blocks are physically l=
-ocated
-> > > within the CPG/MSSR (Clock Pulse Generator / Module Standby Software =
-Reset)
-> > > address space. While the CPG/MSSR driver is already implemented and
-> > > functional for these SoCs, the integration of SYSC adds a layer of
-> > > complexity due to a cyclic dependency:
-> > >     - SYSC requires CPG: The system controller needs a clock to opera=
-te.
-> > >     - CPG requires SYSC: Access control registers within the SYSC con=
-tain
-> > >       bits necessary to control the PLLs managed by the CPG.
-> > >
-> > > If implemented as a completely separate top-level system controller n=
-ode, we
-> > > would face a cyclic dependency between the CPG and SYSC drivers durin=
-g the
-> > > boot process.
-> > >
-> > > Proposed Implementation
-> > > ----------------------------
-> > > To resolve this, the SYSC blocks are represented as child nodes of th=
-e
-> > > CPG/MSSR controller in the device tree. The SYSC regmap is registered
-> > > directly against the CPG device node. This hierarchy correctly models=
- the
-> > > hardware address space while allowing the drivers to share resources
-> > > without deadlock.
-> > >
-> > > I am sending this as an RFC specifically to get feedback on the
-> > > implementation of the SYSC as child nodes of the CPG to resolve the
-> > > dependency cycle.
-> >
-> > Personally, I am not a big fan of subnodes.  I assume you are using
-> > subnodes because you can register only a single regmap per syscon node?
-> Yes so that the consumers don't have to specify it by indexing.
->
-> > Would it be possible to just extend the existing clock-controller
-> > node with two more reg entries, and expose them through a single
-> > combined regmap?
-> >
-> That should be possible. Or would you prefer just to extend the sizes
-> and create a single regmap for it?
->
->                cpg: clock-controller@80280000 {
-I wonder wether we rename this to `sysc: system-controller` but the
-compatiable string has "*cpg-mssr" postfix.
+This is not correct. I don't see the patch configuring 'event IRQ' as a wakeup
+source.
 
-Cheers,
-Prabhakar
+Rest of the patch LGTM. If you confirm above, I can reword while applying.
+
+- Mani
+
+> The
+> hw_initialized flag, set at the end of controller setup and cleared on
+> suspend, gates this.
+> 
+> While at it, make probe tolerant of an absent device. Previously, if the
+> link failed to come up during rzg3s_pcie_host_init(), probe tore the
+> controller back down and failed. Distinguish this case with -ENODEV,
+> leave the controller and refclk running, and let the link-up path
+> enumerate the device once it appears.
+> 
+> Signed-off-by: John Madieu <john.madieu.xa@bp.renesas.com>
+> ---
+> This patch applies on top of the RZ/V2H(P) PCIe series:
+> 
+>   [PATCH v5 0/4] Add PCIe support for RZ/V2H(P) SoC
+>   https://lore.kernel.org/r/20260629220932.861445-1-prabhakar.mahadev-lad.rj@bp.renesas.com
+> 
+> Changes in v2:
+> - Rebased on top of the RZ/V2H(P) PCIe support series from Lad
+>   Prabhakar. No functional change.
+> 
+>  drivers/pci/controller/pcie-rzg3s-host.c | 153 +++++++++++++++++++++--
+>  1 file changed, 143 insertions(+), 10 deletions(-)
+> 
+> diff --git a/drivers/pci/controller/pcie-rzg3s-host.c b/drivers/pci/controller/pcie-rzg3s-host.c
+> index 8187a82..80e0c0d 100644
+> --- a/drivers/pci/controller/pcie-rzg3s-host.c
+> +++ b/drivers/pci/controller/pcie-rzg3s-host.c
+> @@ -34,6 +34,7 @@
+>  #include <linux/sizes.h>
+>  #include <linux/slab.h>
+>  #include <linux/units.h>
+> +#include <linux/workqueue.h>
+> 
+>  #include "../pci.h"
+> 
+> @@ -322,7 +323,12 @@ struct rzg3s_pcie_port {
+>   * @msi: MSI data structure
+>   * @port: PCIe Root Port
+>   * @hw_lock: lock for access to the HW resources
+> + * @link_work: work for DL_UpDown link-state change handling
+> + * @event_irq: PCIe event interrupt for DL_UpDown detection
+>   * @intx_irqs: INTx interrupts
+> + * @hw_initialized: set once the controller HW is fully initialised; gates
+> + *                  DL_UpDown event handling against events latched while
+> + *                  the registers are not configured
+>   * @max_link_speed: maximum supported link speed
+>   * @controller_id: PCIe controller identifier, used for System Controller access
+>   * @num_lanes: The number of lanes
+> @@ -339,7 +345,10 @@ struct rzg3s_pcie_host {
+>  	struct rzg3s_pcie_msi msi;
+>  	struct rzg3s_pcie_port port;
+>  	raw_spinlock_t hw_lock;
+> +	struct work_struct link_work;
+> +	int event_irq;
+>  	int intx_irqs[PCI_NUM_INTX];
+> +	bool hw_initialized;
+>  	int max_link_speed;
+>  	enum rzg3s_pcie_controller_id controller_id;
+>  	u8 num_lanes;
+> @@ -619,6 +628,30 @@ static irqreturn_t rzg3s_pcie_msi_irq(int irq, void *data)
+>  	return IRQ_HANDLED;
+>  }
+> 
+> +static irqreturn_t rzg3s_pcie_event_irq(int irq, void *data)
+> +{
+> +	struct rzg3s_pcie_host *host = data;
+> +	u32 status;
+> +
+> +	status = readl_relaxed(host->axi + RZG3S_PCI_PEIS0);
+> +
+> +	if (!(status & RZG3S_PCI_PEIS0_DL_UPDOWN))
+> +		return IRQ_NONE;
+> +
+> +	/* Clear the DL_UpDown status (W1C) */
+> +	writel_relaxed(RZG3S_PCI_PEIS0_DL_UPDOWN, host->axi + RZG3S_PCI_PEIS0);
+> +
+> +	/*
+> +	 * Drop the event until the controller is fully initialised. The
+> +	 * event IRQ may act as a system wakeup source and fire during
+> +	 * resume before the HW registers have been reconfigured.
+> +	 */
+> +	if (READ_ONCE(host->hw_initialized))
+> +		schedule_work(&host->link_work);
+> +
+> +	return IRQ_HANDLED;
+> +}
+> +
+>  static void rzg3s_pcie_msi_irq_ack(struct irq_data *d)
+>  {
+>  	struct rzg3s_pcie_msi *msi = irq_data_get_irq_chip_data(d);
+> @@ -1151,6 +1184,47 @@ static int rzg3s_pcie_set_max_link_speed(struct rzg3s_pcie_host *host)
+>  	return ret;
+>  }
+> 
+> +static void rzg3s_pcie_link_work(struct work_struct *work)
+> +{
+> +	struct rzg3s_pcie_host *host =
+> +		container_of(work, struct rzg3s_pcie_host, link_work);
+> +	struct pci_host_bridge *bridge = pci_host_bridge_from_priv(host);
+> +	struct pci_bus *bus = bridge->bus;
+> +	u32 val;
+> +
+> +	val = readl_relaxed(host->axi + RZG3S_PCI_PCSTAT1);
+> +	if (val & RZG3S_PCI_PCSTAT1_DL_DOWN_STS) {
+> +		struct pci_dev *dev, *tmp;
+> +
+> +		dev_info(host->dev, "PCIe link down, removing devices\n");
+> +
+> +		pci_lock_rescan_remove();
+> +		list_for_each_entry_safe_reverse(dev, tmp,
+> +						 &bus->devices, bus_list)
+> +			pci_stop_and_remove_bus_device(dev);
+> +		pci_unlock_rescan_remove();
+> +	} else {
+> +		int ret;
+> +
+> +		dev_info(host->dev, "PCIe link up, rescanning bus\n");
+> +
+> +		/*
+> +		 * Attempt link speed negotiation now that the link is up.
+> +		 * Failure is non-fatal: the device works at the negotiated
+> +		 * speed.
+> +		 */
+> +		ret = rzg3s_pcie_set_max_link_speed(host);
+> +		if (ret)
+> +			dev_info(host->dev, "Failed to set max link speed\n");
+> +
+> +		msleep(PCIE_RESET_CONFIG_WAIT_MS);
+> +
+> +		pci_lock_rescan_remove();
+> +		pci_rescan_bus(bus);
+> +		pci_unlock_rescan_remove();
+> +	}
+> +}
+> +
+>  static int rzg3s_pcie_config_init(struct rzg3s_pcie_host *host)
+>  {
+>  	struct pci_host_bridge *bridge = pci_host_bridge_from_priv(host);
+> @@ -1268,8 +1342,8 @@ static void rzg3s_pcie_irq_init(struct rzg3s_pcie_host *host)
+>  		       RZG3S_PCI_PEIS0_RX_DLLP_PM_ENTER,
+>  		       host->axi + RZG3S_PCI_PEIS0);
+> 
+> -	/* Disable all interrupts */
+> -	writel_relaxed(0, host->axi + RZG3S_PCI_PEIE0);
+> +	/* Enable DL_UpDown interrupt for link state change detection */
+> +	writel_relaxed(RZG3S_PCI_PEIS0_DL_UPDOWN, host->axi + RZG3S_PCI_PEIE0);
+> 
+>  	/* Clear all parity and ecc error interrupts */
+>  	writel_relaxed(~0U, host->axi + RZG3S_PCI_PEIS1);
+> @@ -1435,16 +1509,21 @@ static int rzg3s_pcie_host_init(struct rzg3s_pcie_host *host)
+>  				 PCIE_LINK_WAIT_SLEEP_MS * MILLI,
+>  				 PCIE_LINK_WAIT_SLEEP_MS * MILLI *
+>  				 PCIE_LINK_WAIT_MAX_RETRIES);
+> -	if (ret)
+> -		goto config_deinit_post;
+> +	if (ret) {
+> +		/*
+> +		 * Link is down. Leave the controller running so the
+> +		 * DL_UpDown handler can enumerate a device that appears
+> +		 * later.
+> +		 */
+> +		dev_info(host->dev, "PCIe link down, waiting for DL_UpDown\n");
+> +		ret = -ENODEV;
+> +	}
+> 
+>  	val = readl_relaxed(host->axi + RZG3S_PCI_PCSTAT2);
+>  	dev_info(host->dev, "PCIe link status [0x%x]\n", val);
+> 
+> -	return 0;
+> +	return ret;
+> 
+> -config_deinit_post:
+> -	host->data->config_deinit(host);
+>  config_deinit_and_refclk:
+>  	clk_disable_unprepare(host->port.refclk);
+>  config_deinit:
+> @@ -1706,8 +1785,15 @@ rzg3s_pcie_host_setup(struct rzg3s_pcie_host *host,
+> 
+>  	ret = rzg3s_pcie_host_init(host);
+>  	if (ret) {
+> -		dev_err_probe(dev, ret, "Failed to initialize the HW!\n");
+> -		goto teardown_irqdomain;
+> +		if (ret != -ENODEV) {
+> +			dev_err_probe(dev, ret,
+> +				      "Failed to initialize the HW!\n");
+> +			goto teardown_irqdomain;
+> +		}
+> +
+> +		/* Link is down: hotplug via DL_UpDown will recover. */
+> +		WRITE_ONCE(host->hw_initialized, true);
+> +		return 0;
+>  	}
+> 
+>  	ret = rzg3s_pcie_set_max_link_speed(host);
+> @@ -1716,6 +1802,8 @@ rzg3s_pcie_host_setup(struct rzg3s_pcie_host *host,
+> 
+>  	msleep(PCIE_RESET_CONFIG_WAIT_MS);
+> 
+> +	WRITE_ONCE(host->hw_initialized, true);
+> +
+>  	return 0;
+> 
+>  teardown_irqdomain:
+> @@ -1803,6 +1891,7 @@ static int rzg3s_pcie_probe(struct platform_device *pdev)
+>  		of_parse_phandle(np, "renesas,sysc", 0);
+>  	struct rzg3s_pcie_host *host;
+>  	struct rzg3s_sysc *sysc;
+> +	const char *evt_name;
+>  	int ret;
+> 
+>  	bridge = devm_pci_alloc_host_bridge(dev, sizeof(*host));
+> @@ -1880,6 +1969,7 @@ static int rzg3s_pcie_probe(struct platform_device *pdev)
+>  		goto rpm_disable;
+> 
+>  	raw_spin_lock_init(&host->hw_lock);
+> +	INIT_WORK(&host->link_work, rzg3s_pcie_link_work);
+> 
+>  	ret = rzg3s_pcie_host_setup(host, rzg3s_pcie_init_irqdomain,
+>  				    rzg3s_pcie_teardown_irqdomain);
+> @@ -1893,8 +1983,39 @@ static int rzg3s_pcie_probe(struct platform_device *pdev)
+>  	if (ret)
+>  		goto host_probe_teardown;
+> 
+> +	/*
+> +	 * Request the PCIe event IRQ at the end of probe to avoid
+> +	 * spurious link-state events during controller setup and bus
+> +	 * enumeration. From here on, DL_UpDown events trigger the link
+> +	 * worker to (re)scan the bus.
+> +	 */
+> +	host->event_irq = platform_get_irq_byname(pdev, "pcie_evt");
+> +	if (host->event_irq < 0) {
+> +		ret = host->event_irq;
+> +		goto pci_host_remove;
+> +	}
+> +
+> +	evt_name = devm_kasprintf(dev, GFP_KERNEL, "%s-pcie-evt",
+> +				  dev_name(dev));
+> +	if (!evt_name) {
+> +		ret = -ENOMEM;
+> +		goto pci_host_remove;
+> +	}
+> +
+> +	ret = request_irq(host->event_irq, rzg3s_pcie_event_irq, 0,
+> +			  evt_name, host);
+> +	if (ret) {
+> +		dev_err_probe(dev, ret, "Failed to request pcie_evt IRQ\n");
+> +		goto pci_host_remove;
+> +	}
+> +
+>  	return 0;
+> 
+> +pci_host_remove:
+> +	pci_lock_rescan_remove();
+> +	pci_stop_root_bus(bridge->bus);
+> +	pci_remove_root_bus(bridge->bus);
+> +	pci_unlock_rescan_remove();
+>  host_probe_teardown:
+>  	rzg3s_pcie_teardown_irqdomain(host);
+>  	host->data->config_deinit(host);
+> @@ -1924,9 +2045,19 @@ static int rzg3s_pcie_suspend_noirq(struct device *dev)
+>  	struct rzg3s_sysc *sysc = host->sysc;
+>  	int ret;
+> 
+> +	/*
+> +	 * Stop accepting DL_UpDown events, then drain any worker that may
+> +	 * already be running, before tearing the controller down.
+> +	 */
+> +	WRITE_ONCE(host->hw_initialized, false);
+> +	cancel_work_sync(&host->link_work);
+> +
+>  	ret = pm_runtime_put_sync(dev);
+> -	if (ret)
+> +	if (ret) {
+> +		/* Suspend aborted; keep handling DL_UpDown events. */
+> +		WRITE_ONCE(host->hw_initialized, true);
+>  		return ret;
+> +	}
+> 
+>  	clk_disable_unprepare(port->refclk);
+> 
+> @@ -1957,6 +2088,8 @@ config_reinit:
+>  refclk_restore:
+>  	clk_prepare_enable(port->refclk);
+>  	pm_runtime_resume_and_get(dev);
+> +	/* Controller is alive again; resume DL_UpDown handling. */
+> +	WRITE_ONCE(host->hw_initialized, true);
+>  	return ret;
+>  }
+> 
+> --
+> 2.43.0
+> 
+
+-- 
+மணிவண்ணன் சதாசிவம்
 
