@@ -1,85 +1,81 @@
-Return-Path: <linux-renesas-soc+bounces-35199-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-35200-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id Qk9+FMw1Vmr/1QAAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-35199-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Jul 2026 15:12:44 +0200
+	id s2m6Hmk3Vmpy1gAAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-35200-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Jul 2026 15:19:37 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1C90754EC7
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Jul 2026 15:12:43 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8537C754FF6
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Jul 2026 15:19:36 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=QKVPOvc7;
-	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=O573BQ2e;
-	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-35199-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-35199-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=vAU5rAbA;
+	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=gw4XFAcc;
+	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-35200-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-35200-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=reject) header.from=mailbox.org;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 5BEED312C986
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Jul 2026 13:05:48 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 872DF3298D41
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Jul 2026 13:06:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 639A1478841;
-	Tue, 14 Jul 2026 13:05:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9DBF1477993;
+	Tue, 14 Jul 2026 13:05:29 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
+Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F237477E3F;
-	Tue, 14 Jul 2026 13:04:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9422C477994;
+	Tue, 14 Jul 2026 13:05:27 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784034300; cv=none; b=MsdHiMHYe/12hysFKYxlM3rbmZ9PxMC8Fj5C49CwTiOjhTnqKRIrLyF9FUmYRP8MFFv/tOou4tlJU279EKKrSyq6phWfh9+bQHrbbYAkAg5x7ND9X74JP7ZXsMq4cc8scW7PdRC644GdYs48muHrBNxMgb35+25FnyWg09q6HcU=
+	t=1784034329; cv=none; b=YGCmIRhpjtlXrYboOio0QMKAClM5WamiBOfy3O+p9bhT0Lc45GGbLKsrnJ0UMYNImqWwX7RApMCNeW5oZqx337wsuSSirihlhMK0DYl5SACPiIyljmppXfcIc3uXccUxYaACAD9A8Uk1n8Y2jenVn9pH+CW6SqHXNzbkO8TIg1w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784034300; c=relaxed/simple;
-	bh=WZgo6fKDSqYPdcfoY5QKOyYmgw8MD7TOEaHX4YniNNQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=l5WHOgi19t9wnQus1rP474A3jX1njobuCRoLA5tpaznk7GFtsRGELbG3yaUoHIR/pHFSnr9+5L2qnuKAUf+Ty+HChYhBdIl+fHGJbWUFnWIRjJm86Bd8jvWkh2++vMjVWwBsZsoDMDSDgwVvuke7ifVNR8D3jFHgkNvRIVgHK40=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=QKVPOvc7; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=O573BQ2e; arc=none smtp.client-ip=80.241.56.161
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [IPv6:2001:67c:2050:b231:465::1])
+	s=arc-20240116; t=1784034329; c=relaxed/simple;
+	bh=HqTKOQ3soUBKlPoHyAEKydk+DaknayEetmDcdY5+uV4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=h03c0VsqNBec9m9jRfSgdkSHcfdFhpBd0li4SFuBYyK98EjSpDkhYbezz7GK9oWA7onVcIpVjkUUu6mFwtppuVLFDK/DS9YMFJox8r5G4zypPzMVE60Mak/S+bMEgl9MrD5lkuxVXMYgR9slJx2P2MylA6CldV/by7/SJhDtSFk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=vAU5rAbA; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=gw4XFAcc; arc=none smtp.client-ip=80.241.56.151
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA512)
 	(No client certificate requested)
-	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4gzzzr3fwgzKmyK;
-	Tue, 14 Jul 2026 15:04:56 +0200 (CEST)
+	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4h000N6wNVz8v9C;
+	Tue, 14 Jul 2026 15:05:24 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1784034296;
+	t=1784034325;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=r2wfK8JSekgLRRiuf/K6EQ8zzuugkmdh+qH0iDGf9K0=;
-	b=QKVPOvc7XATX0TgWPP7fg+a/GRwt5ke/O2RAWHOYxX+202HFXu4TVCrQlXnoHjVm+e30bX
-	s4PpBYbF/ThQLseE15m6CUPhpWRnIL6pcaw0aKmCcQXwnyVliZ3JWlmWxdvYU+oVqeFcSN
-	Nrk0DrXRxJNENVbJbQQUxiIsTy3jp4KvIsPIA1UX+itHkoYcqLXjMqg41LKNBpiMNjqdOC
-	necacqxRbQKpdJG0nQ5JKqzstJnI4qcr+1f9SM0cb6iG0iRR95VQB9ISnUIria7YLGV4p2
-	Hkma9wOBAbyvb2vqJKZMlwDxXCnRzEeEWko8+IR94b50FGveHmOuyoKYK4S9lQ==
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=8vHA1cpXKh35T7zr8/1wgjPgJVq9DuTAI2cDYumRPFc=;
+	b=vAU5rAbAoIv5ZBsGDt8Gu4mxuF0CBYCtILz7z5lzwKbYXzOto91xBL/u1ZYdGcwYU8QOeC
+	DiVdbzClGnIl7vyzbGmtmSU4E+unbvfBtRLmInKc1MCvrN3rI3UV+zrAJgOZsGI1V2maqx
+	V2+m3Va1bgVIUsYIu040umLmr0zPJRjzAAewdDMEhFVS5OhjioBm1OCO99YLHrhk42fpP9
+	dJDcwokGPGcgVHRFR5e7dM5f8oeqTP5wDmG05rZ6GQ3teaS4TvGxY9bP5koIuqvxGDi4Wt
+	VgbZDvHiDcO8zTfuy+u33bdjZpCtVJcvuQe0YhobuNMQE7kCJsvz6HJXh1BmcQ==
 From: Marek Vasut <marek.vasut+renesas@mailbox.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1784034294;
+	t=1784034323;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=r2wfK8JSekgLRRiuf/K6EQ8zzuugkmdh+qH0iDGf9K0=;
-	b=O573BQ2eU7zfrj+sqb3IKUmdl16xJ2OHFc+P7Eawajxtu7tVsprQoBOlkv/T+CHTYVecGo
-	hWkozd2ilBQT2PtFoEGZ5opi394w3g4THN3iOMX7c8Cr83kPiZx4ZP+o0FF25wi9yJKhaj
-	LRi9YU4Jdu6pjYytwdYGptgNcx+Hdt9zTpAKp8dgQjJDOB4jbDgAgAK1nEsDDUEYNtAdWS
-	VLe9oVXUe0/z6rmmj1QZ74xk7O+L9UNv93Sbp6rOLbed0ZsSpTvu+Fgazw1tqdQ1EuRhs4
-	jA/0R2PTkBbc7pzloOxP5bAtL7ELPoaO/c2O9im99kZfELtQEyv90Q7YmFIGaw==
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=8vHA1cpXKh35T7zr8/1wgjPgJVq9DuTAI2cDYumRPFc=;
+	b=gw4XFAcc0sEGKc0YT7BQRNQm+B1q9bZb/UAVBwlyW0HioaOkVrFKgNvxs5OiM9uJ2Weagx
+	l2ZC6+9Xg/Ehp5f/VEXlMeSd4iRMILgxB/yWft53rO7cu7B/0bu+Am9H35iooCZjfq5iZz
+	i54/Ev9Bb9K/Vrgjm3rdTQh/iUg310jK5JPulrWCzEX9GU7RFS72cjRBtAKpKp6I9g2Gv7
+	rvHccdBpDmfc1YdNuJf3isTYTx91OcReT6qZnD5xv8Z/HWru7lJ/5V9kMXelcIrnwyw6Sj
+	0D5teTkW2fr6dxGFjk2Ufwnk14IB5YfsyRbhmrQdt4l/LPiA4LZqCDqOJ9vH+Q==
 To: linux-arm-kernel@lists.infradead.org
 Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
 	Conor Dooley <conor+dt@kernel.org>,
 	Geert Uytterhoeven <geert+renesas@glider.be>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Magnus Damm <magnus.damm@gmail.com>,
 	Rob Herring <robh@kernel.org>,
 	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org
-Subject: [PATCH 9/9] arm: dts: renesas: sk-rzg1e: Specify ethernet PHY reset timings
-Date: Tue, 14 Jul 2026 15:04:02 +0200
-Message-ID: <20260714130429.11214-9-marek.vasut+renesas@mailbox.org>
-In-Reply-To: <20260714130429.11214-1-marek.vasut+renesas@mailbox.org>
-References: <20260714130429.11214-1-marek.vasut+renesas@mailbox.org>
+Subject: [PATCH 1/2] arm64: dts: renesas: cat875: Specify ethernet PHY reset timings
+Date: Tue, 14 Jul 2026 15:04:57 +0200
+Message-ID: <20260714130515.11262-1-marek.vasut+renesas@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -87,87 +83,87 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-MBO-RS-ID: 6b610f2587ac1bd8da2
-X-MBO-RS-META: mi95c6jdhh1x9qahzzdr8rzj94gbd7r4
+X-MBO-RS-META: 17a96ssnytbjkxpbtojr6tez71yddd39
+X-MBO-RS-ID: 456c9e2a5ba797afe92
 X-Rspamd-Action: no action
 X-Spamd-Result: default: False [-1.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[mailbox.org,reject];
 	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[mailbox.org,reject];
 	R_DKIM_ALLOW(-0.20)[mailbox.org:s=mail20150812];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
 	FORWARDED(0.00)[lists@lfdr.de];
-	TAGGED_FROM(0.00)[bounces-35199-lists,linux-renesas-soc=lfdr.de,renesas];
+	FREEMAIL_CC(0.00)[mailbox.org,kernel.org,glider.be,gmail.com,vger.kernel.org];
+	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-35200-lists,linux-renesas-soc=lfdr.de,renesas];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:linux-arm-kernel@lists.infradead.org,m:marek.vasut+renesas@mailbox.org,m:conor+dt@kernel.org,m:geert+renesas@glider.be,m:krzk+dt@kernel.org,m:robh@kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-renesas-soc@vger.kernel.org,m:marek.vasut@mailbox.org,m:conor@kernel.org,m:geert@glider.be,m:krzk@kernel.org,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[marek.vasut@mailbox.org,linux-renesas-soc@vger.kernel.org];
 	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:linux-arm-kernel@lists.infradead.org,m:marek.vasut+renesas@mailbox.org,m:conor+dt@kernel.org,m:geert+renesas@glider.be,m:krzk+dt@kernel.org,m:magnus.damm@gmail.com,m:robh@kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-renesas-soc@vger.kernel.org,m:marek.vasut@mailbox.org,m:conor@kernel.org,m:geert@glider.be,m:krzk@kernel.org,m:magnusdamm@gmail.com,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[marek.vasut@mailbox.org,linux-renesas-soc@vger.kernel.org];
 	DKIM_TRACE(0.00)[mailbox.org:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	TO_DN_SOME(0.00)[];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[marek.vasut@mailbox.org,linux-renesas-soc@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
 	MID_RHS_MATCH_FROM(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	TO_DN_SOME(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[10];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,dt];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,microchip.com:url,mailbox.org:from_mime,mailbox.org:mid,mailbox.org:email,mailbox.org:dkim,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,glider.be:email]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[pine64.org:url,vger.kernel.org:from_smtp,glider.be:email,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,mailbox.org:from_mime,mailbox.org:mid,mailbox.org:email,mailbox.org:dkim]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: C1C90754EC7
+X-Rspamd-Queue-Id: 8537C754FF6
 
-The KSZ8041RNL reference manual [1] DS00002245C page 47 TABLE 7-10:
-POWER-UP/RESET TIMING PARAMETERS does not indicate how long should
-the system wait after deassertion of the PHY reset and before start
-of communication with the PHY via MDIO. Opt for the same value as
-used for KSZ9031RNX, which is 300 us.
+The RTL8211E reference manual [1] page 38 chapter 7.16. PHY Reset
+(Hardware Reset) states that the PHYRSTB pin must be asserted low
+for at least 10ms (Tgap in Figure 10) and the system must wait at
+minimum 30ms (for internal circuits settle time) before accessing
+the PHY registers. Use 15ms and 35ms respectively to provide some
+additional margin.
 
-The KSZ8041RNL reference manual [1] DS00002245C page 47 TABLE 7-10:
-POWER-UP/RESET TIMING PARAMETERS row tSR Stable supply voltages to
-reset high is at minimum 10 ms. Set the DT property reset-assert-us
-to 10ms because the KSZ8041RNL RM does not explicitly spell out how
-long the reset has to be asserted, but this at least covers the worst
-case scenario.
-
-[1] https://ww1.microchip.com/downloads/aemDocuments/documents/UNG/ProductDocuments/DataSheets/00002841D.pdf
+[1] https://files.pine64.org/doc/datasheet/pine64/rtl8211e%28g%29-vb%28vl%29-cg_datasheet_1.6.pdf
 
 Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
 ---
 Cc: Conor Dooley <conor+dt@kernel.org>
 Cc: Geert Uytterhoeven <geert+renesas@glider.be>
 Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
+Cc: Magnus Damm <magnus.damm@gmail.com>
 Cc: Rob Herring <robh@kernel.org>
 Cc: devicetree@vger.kernel.org
 Cc: linux-kernel@vger.kernel.org
 Cc: linux-renesas-soc@vger.kernel.org
 ---
- arch/arm/boot/dts/renesas/r8a7745-sk-rzg1e.dts | 2 ++
+ arch/arm64/boot/dts/renesas/cat875.dtsi | 2 ++
  1 file changed, 2 insertions(+)
 
-diff --git a/arch/arm/boot/dts/renesas/r8a7745-sk-rzg1e.dts b/arch/arm/boot/dts/renesas/r8a7745-sk-rzg1e.dts
-index 42e82f0697553..26ee1eec521be 100644
---- a/arch/arm/boot/dts/renesas/r8a7745-sk-rzg1e.dts
-+++ b/arch/arm/boot/dts/renesas/r8a7745-sk-rzg1e.dts
-@@ -67,8 +67,10 @@ &ether {
- 	phy1: ethernet-phy@1 {
- 		compatible = "ethernet-phy-id0022.1537";
- 		reg = <1>;
- 		interrupts-extended = <&irqc 8 IRQ_TYPE_LEVEL_LOW>;
- 		micrel,led-mode = <1>;
- 		reset-gpios = <&gpio1 24 GPIO_ACTIVE_LOW>;
-+		reset-assert-us = <10000>;
-+		reset-deassert-us = <300>;
+diff --git a/arch/arm64/boot/dts/renesas/cat875.dtsi b/arch/arm64/boot/dts/renesas/cat875.dtsi
+index 5815e9d2d8a93..196cf2e6007ea 100644
+--- a/arch/arm64/boot/dts/renesas/cat875.dtsi
++++ b/arch/arm64/boot/dts/renesas/cat875.dtsi
+@@ -23,12 +23,14 @@ &avb {
+ 
+ 	phy0: ethernet-phy@0 {
+ 		compatible = "ethernet-phy-id001c.c915";
+ 		reg = <0>;
+ 		interrupts-extended = <&gpio2 21 IRQ_TYPE_LEVEL_LOW>;
+ 		reset-gpios = <&gpio1 20 GPIO_ACTIVE_LOW>;
++		reset-assert-us = <15000>;
++		reset-deassert-us = <35000>;
  	};
  };
+ 
+ &can0 {
+ 	pinctrl-0 = <&can0_pins>;
+ 	pinctrl-names = "default";
 -- 
 2.53.0
 
