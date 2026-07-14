@@ -1,107 +1,117 @@
-Return-Path: <linux-renesas-soc+bounces-35205-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-35206-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id mPASN884VmrL1gAAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-35205-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Jul 2026 15:25:35 +0200
+	id OJH4BqM5VmoV1wAAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-35206-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Jul 2026 15:29:07 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5504E755106
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Jul 2026 15:25:35 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 77FC57551E7
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Jul 2026 15:29:06 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=YimZB6JV;
-	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-35205-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-35205-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=GKhLiPB4;
+	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=J+lyE4Sy;
+	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-35206-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-35206-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=reject) header.from=mailbox.org;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 110EB304FAAD
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Jul 2026 13:18:36 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 81CEE31BDA1C
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Jul 2026 13:20:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 64966263F4A;
-	Tue, 14 Jul 2026 13:18:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 34CA83033F8;
+	Tue, 14 Jul 2026 13:20:18 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DED39EAC7;
-	Tue, 14 Jul 2026 13:18:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C944012CDA5;
+	Tue, 14 Jul 2026 13:20:15 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784035114; cv=none; b=hLkvRO//jP4sITZ1jKvnYMIFH05OJQPDLEFyeN5DE6aAAzHAG2Hy8ByIoGJywCaWP4Rd41q29aryocgzRuxXM6sPYj/aMTMCgyYopJ/FVP6y/fArTEtBRFhrVcA/Ljr/ES3ph41vjWK6H8JCnrN1J10hqSlNI/fCi6BHsTjdZjc=
+	t=1784035218; cv=none; b=mCGvLza7Vi9LR/h0s1gZY3hGop4kce5NpKXPHVhmI8cY+ISfhr3TZlhEIE1h52h5SXiTTV5HRqnNXfssKGYJTI4UDj1/k8r1OtIA+bfZDPnPiBsd48KH9wqkNQaX975Y/56T20S/UvNvIMqPHNNVrbzN0Rp4moSFAW2Y2VYI6os=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784035114; c=relaxed/simple;
-	bh=mhK6MFWwW4f+MEPfrdZ05ewjPvCsmOfXSIu21lHRl8k=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=jD7ME3kgsDVkMa+dovVlsTHZJxddGV7Mu/KAuVtzX3FLQ07mffUYzz8m3Wx5LV6/PdLdtptU0QkA0ReiAD7pXkZHrm8P57wxyy8fzk4SoIVr+LBIN8vragBomkNJpgRU1OUhDfXXpdqUVJ2PJzpz9aFOWdvqLLt82Z9inS6RpvQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=YimZB6JV; arc=none smtp.client-ip=80.241.56.152
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [10.196.197.1])
+	s=arc-20240116; t=1784035218; c=relaxed/simple;
+	bh=2Zh6GCPD45Curzc6XxF95qB5OvTuXdsfKjQmHEiMzGU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=nbwbSwA2Di28StkodqZ26/3UZDaQWE0gg27i73eh76O+t4Zs48Am/99waJxz7Lmpo/xJCrG+bviFxGkD0ESI2dAV5unafBzd12pYbuALBWejNTDoNZjAdUrpW1jbN4Yj9MJyWnXIyI2zg0Zg8sKfHyoEuq+tkrIUXaN6+vQZ8to=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=GKhLiPB4; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=J+lyE4Sy; arc=none smtp.client-ip=80.241.56.152
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [IPv6:2001:67c:2050:b231:465::2])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA512)
 	(No client certificate requested)
-	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4h00HS2tQMzKw4Z;
-	Tue, 14 Jul 2026 15:18:28 +0200 (CEST)
+	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4h00KS5WqtzKtxQ;
+	Tue, 14 Jul 2026 15:20:12 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1784035108;
+	t=1784035212;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=VpwqSNruxdEe6Tj6+x/b0+t0/YgQGS7L4fW77qV7xuo=;
-	b=YimZB6JVxxClVkukBv8d0EGG0tg4ASzL4WYGXIInUVeEu4ob3M/rQ+OqY3ggBP1wM6R2Lf
-	Hvi/a/LJfy0mjwUOjW/IqoJy0YBy8op2VOdNfgCg0UQoFIQNPHh5cJNauMq8MzGRgW9iX9
-	7H006OqG4fbmU53qW9SitP6AYRtK6DOky5vsAkwgbQsykD+elhQOvroD4PCGqbXzZ24Xlo
-	2QYTzsqoHcbWzt7wLDRMcuEgNJEF3SMv7Q0Lqdvr/cK1CWMdIEM+jiMe4Z1RRJAm7SkWaN
-	SkKN2lzquz8grEBTSXQJ8YgNR8fIoK4yzNcrK4mPK41WerKIUIJC4rJpL9I7Ww==
-Message-ID: <47bf010a-622d-4978-834f-de3e483b2990@mailbox.org>
-Date: Tue, 14 Jul 2026 15:18:23 +0200
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=Uy1v136JBd/TwWAL0fK29hOy7EN7PDxODRCjp0URlHY=;
+	b=GKhLiPB4F8rXiuNGBhXLvKHsOaLYz6d3kdCfUFv+yXCbuMMWT+5aQZOQk05Gs1OVqsS9tA
+	v2etbJItXbnOlF3psG3wcpPJPys5uIx12eXo2CDP0SxmUVIuLtiqqFFUcEDsHRcN/OJPzB
+	ERYpiKOi61HIr9XvGwS9gSy0cuWdIEbYpjG0EhqiUK5ppi11St44A1tDk6LYCCtBPJAsAY
+	DcKreRrTdxO9wB5/8QW5NyGXZJL1vrhvBR3odJrhjz1dANbU5jOMS812TkiKtqrvOQDIgX
+	bcLoLkdZToek0aCo9oiqGVZGdQv21+XamWaeoYHIxcHvxCnkJlDXTrhSkDTwGQ==
+From: Marek Vasut <marek.vasut+renesas@mailbox.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1784035207;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=Uy1v136JBd/TwWAL0fK29hOy7EN7PDxODRCjp0URlHY=;
+	b=J+lyE4SysZUHi0CMVloGo6OKODciXi7fLmIRM+Cmwx/60T8VC7eMJZ41BTH7Y4hMd7gUUT
+	NMCP0HU4oUJb2j6WjWvoi5wDvWNrF1LPxJnbPK97H1Avxk+sR9AVtRuw86ZzYA6aX3hARX
+	x7ORYNx8OfoTx1nbmYH8rNHiRvvXgrHTug6HBUHSfUjK+QgktnekWKbJD1/IaupbRoEkZ8
+	8kqtvgx5lNSnxjw6Yy42sTtnMpgMEvEyU8KhZq7vDIXHpWpdJ0pKu21NLosPBVE8c9qps9
+	zej6gZYXzdzyR7USjxYUH8V/ig5lnD+8GCQ71lGYQrC9YNgDTaytZ3zlkFmkAQ==
+To: linux-pci@vger.kernel.org
+Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
+	kernel test robot <lkp@intel.com>,
+	=?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Marc Zyngier <maz@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org
+Subject: [PATCH v2] PCI: rcar-gen4: Isolate driver to ARM64
+Date: Tue, 14 Jul 2026 15:19:27 +0200
+Message-ID: <20260714131957.38067-1-marek.vasut+renesas@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: Marek Vasut <marek.vasut@mailbox.org>
-Subject: Re: [PATCH] PCI: rcar-gen4: Inline GIC_TRANSLATER offset macro
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Bjorn Helgaas <helgaas@kernel.org>, Marc Zyngier <maz@kernel.org>,
- linux-pci@vger.kernel.org, kernel test robot <lkp@intel.com>,
- =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
- Bjorn Helgaas <bhelgaas@google.com>,
- Catalin Marinas <catalin.marinas@arm.com>, Conor Dooley
- <conor+dt@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Lorenzo Pieralisi <lpieralisi@kernel.org>,
- Manivannan Sadhasivam <mani@kernel.org>, Rob Herring <robh@kernel.org>,
- Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org
-References: <20260713175400.GA1258926@bhelgaas>
- <2013cac8-d887-4a09-b1c5-6dc9606f16f0@mailbox.org>
- <CAMuHMdVvWE7YZgKvreSn_vJLOVD4eMmn3TCGOyqSXksqjBCwvg@mail.gmail.com>
-Content-Language: en-US
-In-Reply-To: <CAMuHMdVvWE7YZgKvreSn_vJLOVD4eMmn3TCGOyqSXksqjBCwvg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-MBO-RS-ID: 4790a4a28d19f015309
-X-MBO-RS-META: mbz4dnndw38hnzbsotnhrof5d7tigzxn
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-MBO-RS-ID: 31c95b1302611529b56
+X-MBO-RS-META: fexm4t6jjueq3oy4dg3s7beno87arnjf
 X-Rspamd-Action: no action
 X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[mailbox.org,reject];
 	R_DKIM_ALLOW(-0.20)[mailbox.org:s=mail20150812];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-35205-lists,linux-renesas-soc=lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
+	TAGGED_FROM(0.00)[bounces-35206-lists,linux-renesas-soc=lfdr.de,renesas];
+	FORGED_RECIPIENTS(0.00)[m:linux-pci@vger.kernel.org,m:marek.vasut+renesas@mailbox.org,m:lkp@intel.com,m:kwilczynski@kernel.org,m:bhelgaas@google.com,m:catalin.marinas@arm.com,m:conor+dt@kernel.org,m:geert+renesas@glider.be,m:krzk+dt@kernel.org,m:lpieralisi@kernel.org,m:mani@kernel.org,m:maz@kernel.org,m:robh@kernel.org,m:yoshihiro.shimoda.uh@renesas.com,m:devicetree@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-doc@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-renesas-soc@vger.kernel.org,m:marek.vasut@mailbox.org,m:conor@kernel.org,m:geert@glider.be,m:krzk@kernel.org,s:lists@lfdr.de];
 	FORGED_SENDER(0.00)[marek.vasut@mailbox.org,linux-renesas-soc@vger.kernel.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[20];
-	FORGED_RECIPIENTS(0.00)[m:geert@linux-m68k.org,m:helgaas@kernel.org,m:maz@kernel.org,m:linux-pci@vger.kernel.org,m:lkp@intel.com,m:kwilczynski@kernel.org,m:bhelgaas@google.com,m:catalin.marinas@arm.com,m:conor+dt@kernel.org,m:geert+renesas@glider.be,m:krzk+dt@kernel.org,m:lpieralisi@kernel.org,m:mani@kernel.org,m:robh@kernel.org,m:yoshihiro.shimoda.uh@renesas.com,m:devicetree@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-doc@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-renesas-soc@vger.kernel.org,m:conor@kernel.org,m:geert@glider.be,m:krzk@kernel.org,s:lists@lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[19];
+	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
 	FORWARDED(0.00)[lists@lfdr.de];
 	FROM_HAS_DN(0.00)[];
@@ -113,35 +123,73 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	FROM_NEQ_ENVFROM(0.00)[marek.vasut@mailbox.org,linux-renesas-soc@vger.kernel.org];
 	DKIM_TRACE(0.00)[mailbox.org:+];
 	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,dt];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,vger.kernel.org:from_smtp,mailbox.org:from_mime,mailbox.org:dkim,mailbox.org:mid]
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 5504E755106
+X-Rspamd-Queue-Id: 77FC57551E7
 
-On 7/14/26 9:54 AM, Geert Uytterhoeven wrote:
+The driver includes linux/irqchip/arm-gic-v3.h which pulls in headers
+which are available only on ARM and ARM64, on other architectures the
+headers are not present and the driver fails to build. This driver is
+used only on ARM64 hardware, isolate its build only to ARM64 to avoid
+build failures on other architectures.
 
-Hello Geert,
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202607100310.iQw5m9Uo-lkp@intel.com/
+Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+---
+Cc: "Krzysztof Wilczyński" <kwilczynski@kernel.org>
+Cc: Bjorn Helgaas <bhelgaas@google.com>
+Cc: Catalin Marinas <catalin.marinas@arm.com>
+Cc: Conor Dooley <conor+dt@kernel.org>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
+Cc: Lorenzo Pieralisi <lpieralisi@kernel.org>
+Cc: Manivannan Sadhasivam <mani@kernel.org>
+Cc: Marc Zyngier <maz@kernel.org>
+Cc: Rob Herring <robh@kernel.org>
+Cc: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc: devicetree@vger.kernel.org
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-doc@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: linux-pci@vger.kernel.org
+Cc: linux-renesas-soc@vger.kernel.org
+---
+V2: This is a rework of PCI: rcar-gen4: Inline GIC_TRANSLATER offset macro
+    which isolates the driver build to ARM64 via Kconfig instead:
+    https://lore.kernel.org/linux-pci/CAMuHMdVvWE7YZgKvreSn_vJLOVD4eMmn3TCGOyqSXksqjBCwvg@mail.gmail.com/
+    https://lore.kernel.org/linux-pci/20260714110041.GA1349622@bhelgaas/
+---
+ drivers/pci/controller/dwc/Kconfig | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
->>>> So in the end, it is either this patch or limit the build to
->>>> arm/arm64 . At least this patch still allows building this driver
->>>> with more compilers on the various build bots, so I would opt for
->>>> this patch here.
->>>
->>> I like the build coverage, but duplicating the #define doesn't really
->>> seem good to me.  It makes readability worse because cscope/tags now
->>> sees two definitions without an obvious reason.
->>
->> I can rename the macro, or ... sigh ... I can reduce the driver to build
-> 
-> That would obfuscate the code?
-> 
->> only on ARM/ARM64. Which one do you prefer ?
-> 
-> Just add the dependency for compile-testing, just like
-> PCIE_IPROC_PLATFORM does.
+diff --git a/drivers/pci/controller/dwc/Kconfig b/drivers/pci/controller/dwc/Kconfig
+index 49a7a2c50ca15..3260d916110b2 100644
+--- a/drivers/pci/controller/dwc/Kconfig
++++ b/drivers/pci/controller/dwc/Kconfig
+@@ -346,7 +346,7 @@ config PCIE_RCAR_GEN4
+ 
+ config PCIE_RCAR_GEN4_HOST
+ 	tristate "Renesas R-Car Gen4 PCIe controller (host mode)"
+-	depends on ARCH_RENESAS || COMPILE_TEST
++	depends on ARM64 && (ARCH_RENESAS || COMPILE_TEST)
+ 	depends on PCI_MSI
+ 	select PCIE_DW_HOST
+ 	select PCIE_RCAR_GEN4
+@@ -357,7 +357,7 @@ config PCIE_RCAR_GEN4_HOST
+ 
+ config PCIE_RCAR_GEN4_EP
+ 	tristate "Renesas R-Car Gen4 PCIe controller (endpoint mode)"
+-	depends on ARCH_RENESAS || COMPILE_TEST
++	depends on ARM64 && (ARCH_RENESAS || COMPILE_TEST)
+ 	depends on PCI_ENDPOINT
+ 	select PCIE_DW_EP
+ 	select PCIE_RCAR_GEN4
+-- 
+2.53.0
 
-I will send a V2 shortly.
 
