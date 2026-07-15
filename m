@@ -1,52 +1,52 @@
-Return-Path: <linux-renesas-soc+bounces-35257-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-35255-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id BmvoI8tmV2q2LQEAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-35257-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Jul 2026 12:54:03 +0200
+	id jDgDG8ZmV2qvLQEAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-35255-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Jul 2026 12:53:58 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id D923D75D217
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Jul 2026 12:54:02 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0EF8075D20A
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Jul 2026 12:53:58 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=sang-engineering.com header.s=k1 header.b="Gxmwu1 R";
-	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-35257-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-35257-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=sang-engineering.com header.s=k1 header.b="itmohP Q";
+	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-35255-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-35255-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
 	dmarc=none;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id F3EE7301AF57
+	by sea.lore.kernel.org (Postfix) with ESMTP id 97C083017783
 	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Jul 2026 10:53:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7E518437467;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 56451437102;
 	Wed, 15 Jul 2026 10:53:54 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77618437840
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38E26435A93
 	for <linux-renesas-soc@vger.kernel.org>; Wed, 15 Jul 2026 10:53:49 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784112834; cv=none; b=Kipwo/wfOXLg63AtuvLHrjZwkAA0f5ioBj2SyD0Xe6XbLj45+YuGcWCS0IQT2mxFhlfDsP6UoLkfaLs34INF28RnnBezvYqy+SX33+8RAbh8g5xZWbzQBD2PmMHAbCkl/FLTXl7Wqfpv3iL0b9ahgtg64TjtK59rVIiXI3CqkQc=
+	t=1784112834; cv=none; b=GznX8fp/dOZWPBl6FSppL3uxafWe+49g0WdLDrRHINPZ/t3sDy6YlgHvbqjT629DKmzX59lbNnx4vkZQwBVcC4sdzTEsiPm0pkx++tUetkfmlDwC0+rqTmaRUCi3Qt6N91u8duQIsWp7MlCMYucMsQHF5IkvIOW+CtEXw3heWSM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1784112834; c=relaxed/simple;
-	bh=F0uQNzmNTXF9rjajK87zaDKmEL2/OE2yJTgrZBuyqqc=;
+	bh=VYaNehHZfey9hQ2LPiz2P5PVyulFZrTujSAfkLpIgT0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=b/Iyu/enMxhu0l20dHWw4rsd85BZ4cmQTX+nt0CYO9oI0v85meg2BbOaYI/NK/gzQVTIaMewH9feAUZ3VQiePYjwdkPRmQyrtZrjXh5KcaQeGa4BOEiRXvEnGRDb5engd9IlfVhzD2jxQH6XS1NAz//9QI8Qul8Tw+cTxMS7Z0k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=Gxmwu1RD; arc=none smtp.client-ip=194.117.254.33
+	 MIME-Version; b=Tb2g+SvFz5psD2pBXbUrhQxcnD8wwP5AsC99fuWW5mslqJZzvxX1LZ6P4ktNsJ8fZ5dcvVfdN45mtOeBFOcg9TGrD3y7Vl7U88QiWTTDLZLaWtLyDuSqbKliytW42d3Wt3Onfs9X9CLJYc8lZZwAfhQLGGTGWJ9dhQp1gSUhvJk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=itmohPQY; arc=none smtp.client-ip=194.117.254.33
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	sang-engineering.com; h=from:to:cc:subject:date:message-id
 	:in-reply-to:references:mime-version:content-transfer-encoding;
-	 s=k1; bh=mfOTn0ePsmB4nLPFoRzXyMuhBLF2DEttVWXrsn8BDPs=; b=Gxmwu1
-	RDbxEw9Bv0h3E3JjGiVpFCrTjgDrczP2htap6jjOTdjkEUFpuZUjQ04z5fUWbyf3
-	XVDAibkPK3joHRpe7Zcvcbm+3b/9XH+rv34OzxbIVd58pJ0yLm8IozRb9xuVeX3E
-	CmIopSAgKeRXCe6vK+laRdlenYnEoLIrMD9JwOrYB8HwEENwJ9413WNZ2dZGoqAG
-	xlUfCNYRAo8HyyAxHTVttcuXmGg2asROIvnZDMcvJhCd3en1xC8DLbdfLOJPrGbh
-	HUA7kvLfZ4MTn2dICrhfr0WGRCM/D+ct/pcTeMRMMnnS4afgI2wfVLnqhxI04uz7
-	N8kMzokYsDIxSUwg==
-Received: (qmail 654725 invoked from network); 15 Jul 2026 12:53:41 +0200
+	 s=k1; bh=z80esgxY8k1SXoq3sL/sFu/PAwMONvCDDC37DQ1P5vw=; b=itmohP
+	QYVa79OF3ZoaQEHKMqEGyNbbeWeWjEfxbmRbEgPTlEebWvH3c4IS9mgfJBzx0Sj8
+	h1Dfe8WrS9Q+OfttVToeASvwt7yRJh1s8T7Ex7jzpzjOKBs3pNN4nubzeQJeybcZ
+	ZMRwUrgVI5ZbgmEovLp0PEnkAj/K5fK7/ANf7zJUEXF6pttonsfKrG0mwRvVqFLe
+	aMX5Opdi6w4YPjCSMlShfyuiAk7RGTOXvHoZoq/+rY+qSlKrTO2LUXcU7eBfQbAT
+	sOObSU7MWVtnPxAgkZGZEUWz+rCGtA8EWp1IWplI1A+5IzjJ7j2iij1PxHIAMxNs
+	P9OIuDid7Nb1jM4A==
+Received: (qmail 654766 invoked from network); 15 Jul 2026 12:53:41 +0200
 Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 15 Jul 2026 12:53:41 +0200
-X-UD-Smtp-Session: l3s3148p1@z/fvIqRWMrMujntW
+X-UD-Smtp-Session: l3s3148p1@SJH5IqRWPrMujntW
 From: Wolfram Sang <wsa+renesas@sang-engineering.com>
 To: linux-renesas-soc@vger.kernel.org
 Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
@@ -56,9 +56,9 @@ Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
 	Conor Dooley <conor+dt@kernel.org>,
 	devicetree@vger.kernel.org
-Subject: [PATCH 1/2] ARM: dts: renesas: lager: specify correct connector for i2cexio0 bus
-Date: Wed, 15 Jul 2026 12:53:07 +0200
-Message-ID: <20260715105306.25147-5-wsa+renesas@sang-engineering.com>
+Subject: [PATCH 2/2] ARM: dts: renesas: lager: use inclusive wording
+Date: Wed, 15 Jul 2026 12:53:08 +0200
+Message-ID: <20260715105306.25147-6-wsa+renesas@sang-engineering.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20260715105306.25147-4-wsa+renesas@sang-engineering.com>
 References: <20260715105306.25147-4-wsa+renesas@sang-engineering.com>
@@ -73,7 +73,7 @@ X-Rspamd-Action: no action
 X-Spamd-Result: default: False [-1.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	R_DKIM_ALLOW(-0.20)[sang-engineering.com:s=k1];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
@@ -81,7 +81,7 @@ X-Spamd-Result: default: False [-1.16 / 15.00];
 	MIME_TRACE(0.00)[0:+];
 	FORWARDED(0.00)[lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-35257-lists,linux-renesas-soc=lfdr.de,renesas];
+	TAGGED_FROM(0.00)[bounces-35255-lists,linux-renesas-soc=lfdr.de,renesas];
 	FORGED_SENDER(0.00)[wsa@sang-engineering.com,linux-renesas-soc@vger.kernel.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
@@ -99,35 +99,39 @@ X-Spamd-Result: default: False [-1.16 / 15.00];
 	ALIAS_RESOLVED(0.00)[];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCPT_COUNT_SEVEN(0.00)[8];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,dt];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: D923D75D217
+X-Rspamd-Queue-Id: 0EF8075D20A
 
-It is located on EXIO connector C, not A.
+The feature is now officially called "target" in I2C documentation.
 
 Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 ---
-
-I would put a fixes tag here, but I recall docs don't get fixes?
-
- arch/arm/boot/dts/renesas/r8a7790-lager.dts | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ arch/arm/boot/dts/renesas/r8a7790-lager.dts | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/arch/arm/boot/dts/renesas/r8a7790-lager.dts b/arch/arm/boot/dts/renesas/r8a7790-lager.dts
-index 8e7665501675..ad12c46eaed0 100644
+index ad12c46eaed0..46c3f4f7c335 100644
 --- a/arch/arm/boot/dts/renesas/r8a7790-lager.dts
 +++ b/arch/arm/boot/dts/renesas/r8a7790-lager.dts
-@@ -302,7 +302,7 @@ gpioi2c2: i2c-9 {
- 	};
- 
+@@ -304,11 +304,11 @@ gpioi2c2: i2c-9 {
  	/*
--	 * IIC0/I2C0 is routed to EXIO connector A, pins 114 (SCL) + 116 (SDA) only.
-+	 * IIC0/I2C0 is routed to EXIO connector C, pins 114 (SCL) + 116 (SDA) only.
+ 	 * IIC0/I2C0 is routed to EXIO connector C, pins 114 (SCL) + 116 (SDA) only.
  	 * We use the I2C demuxer, so the desired IP core can be selected at runtime
- 	 * depending on the use case (e.g. DMA with IIC0 or slave support with I2C0).
- 	 * Note: For testing the I2C slave feature, it is convenient to connect this
+-	 * depending on the use case (e.g. DMA with IIC0 or slave support with I2C0).
+-	 * Note: For testing the I2C slave feature, it is convenient to connect this
++	 * depending on the use case (e.g. DMA with IIC0 or target support with I2C0).
++	 * Note: For testing the I2C target feature, it is convenient to connect this
+ 	 * bus with IIC3 on pins 110 (SCL) + 112 (SDA), select I2C0 at runtime, and
+-	 * instantiate the slave device at runtime according to the documentation.
+-	 * You can then communicate with the slave via IIC3.
++	 * instantiate the target device at runtime according to the documentation.
++	 * You can then communicate with the target via IIC3.
+ 	 *
+ 	 * IIC0/I2C0 does not appear to support fallback to GPIO.
+ 	 */
 -- 
 2.47.3
 
