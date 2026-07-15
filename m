@@ -1,63 +1,97 @@
-Return-Path: <linux-renesas-soc+bounces-35258-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-35259-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id WwAzCfd8V2olJwAAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-35258-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Jul 2026 14:28:39 +0200
+	id FJkcG+KOV2rGWwAAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-35259-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Jul 2026 15:45:06 +0200
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67AC675E1D2
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Jul 2026 14:28:38 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id CB9B175ED5F
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Jul 2026 15:45:05 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=sang-engineering.com header.s=k1 header.b=TNGSDlND;
-	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-35258-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-35258-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
-	dmarc=none;
+	dkim=pass header.d=gmail.com header.s=20251104 header.b=WUG24UOw;
+	spf=pass (mail.lfdr.de: domain of "linux-renesas-soc+bounces-35259-lists+linux-renesas-soc=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-renesas-soc+bounces-35259-lists+linux-renesas-soc=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=gmail.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 0BFCB3006151
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Jul 2026 12:23:52 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id E28D030D6937
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Jul 2026 13:39:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8BF064432F2;
-	Wed, 15 Jul 2026 12:23:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 492E32EBBB9;
+	Wed, 15 Jul 2026 13:39:32 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07142438474
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 15 Jul 2026 12:23:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 409B62EEE94
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 15 Jul 2026 13:39:29 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784118231; cv=none; b=g6avblX1o1M4JdwLwXGw1UvFLR/0C5qqdFihijp6LjRchHw717GzhTHwWciTXrpbrzslfm502vSYzTaDEA7W1oMGLFq5dbqBFsfiAapF7vUnP5yajSBd4zhf4hboUeKzoVl4mv4yvlXkuvgAAApC/wAxmcouJyuc0epxb/0DmYI=
+	t=1784122772; cv=none; b=ROZ6Wh29jOHE6JzjUl6XXZVgK8nQjmA+OvsqkRjYJAQcQhnhvNQdbQnzsv9j4s4y6UOkr7qkH8RuJNUUPJxqbaNOb1s8qM0qBj1hS+c5k+jww6xB9E9+xkyQtkseK3wCuFrHzB3st3mcRLKF4u5trWajjyqM7znu1AHT14qx+7E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784118231; c=relaxed/simple;
-	bh=bDAOPe5Qcuz1UX//tXS59VnDMR5cUxqww/YP5Nf/abY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=YCZajyAOgEdTaEgJQr0yPamB8xXZ9A1QNiDuTj37L8Xe2bA/rhkXvLNvftUJfEp2k5PO16huOOjvYH9GZf4P8OcC37ZSs8gfC4lt2TUcoH53RI1M5UIveDSPPHEaJhrMSACsXadB0vR1bAxNqDXYyfxOcrQLeICp1MviPHNV9Dk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=TNGSDlND; arc=none smtp.client-ip=194.117.254.33
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=from:to:cc:subject:date:message-id
-	:mime-version:content-transfer-encoding; s=k1; bh=8CvlUGuiNoEinh
-	8lQW/4EuXAkmHCwLSgBalcuIStamE=; b=TNGSDlNDYKgHCD6khSgdY6YCzV+rxC
-	45lVPXWq3pg1SHp79mPk6qSUh/6tyyKVnlaX0Ngg6aDUOp7keHEvnbZNB4l23DOB
-	s5l1Vr6W7GofKutisNLF+8vj5oYh1EFC2vYy3Ub4J4LI9DDnC/sNhO7IQnL0WGfY
-	mFE9hYX9qyvgjDFDGN5YIqrJlKo58dgT4BQwsOnYimo1O6lksmBSVjmXt4YKc+i7
-	YGJmkIpcxU2UZ6boDmtjJ8+bk5iVffxqI86O1nEsyVLegKKabGKMJ0+kYQxtgC/2
-	5aBlinKWmKDQDOWWSo41GMDii0Rxeemq1YEhRSqD9+MHRjrlryQVUiHw==
-Received: (qmail 682654 invoked from network); 15 Jul 2026 14:23:44 +0200
-Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 15 Jul 2026 14:23:44 +0200
-X-UD-Smtp-Session: l3s3148p1@7Lv7ZKVW9JcujntW
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: linux-renesas-soc@vger.kernel.org
-Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	devicetree@vger.kernel.org
-Subject: [PATCH] ARM: dts: renesas: r9a06g032-rzn1d400-eb: enable GPIOs on CN12
-Date: Wed, 15 Jul 2026 14:21:05 +0200
-Message-ID: <20260715122341.47838-2-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.47.3
+	s=arc-20240116; t=1784122772; c=relaxed/simple;
+	bh=0mTF0HeekyGGYC4JPA4QUcc5bVo9wdGVAb6Ff+VtFAs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=q2NPFTR6wGsKJbp23ZVCunV4bggVZGxDqkHMIIUKBtAdlihCEuSWk6hi/R+YMhTVRZ1JOxrLWNhRSf4qF957M3w9vnzHxE52o61Mn1jTik+Ma7LboscDbUROCmAj8HcdSd/V3NBo5g3wYQmkWG15rQIJGP7LrS5XHJ3pxQay5+E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WUG24UOw; arc=none smtp.client-ip=209.85.128.52
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-493ece78b0cso38663535e9.0
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 15 Jul 2026 06:39:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1784122768; x=1784727568; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=8db6f/b29rlspzEm6qOKfHn59Vtz9L/QmnkbFCJSt8s=;
+        b=WUG24UOwdsSvjeTuwyTiXR6zojEB9QyY36JtnL4dvrhHCKRawmRfrcI7CvuJ7Qxf1a
+         9PX2C4zn9JBjOXnrBj+GidXwF3wsHIif3ygu5zPbkDE1oms2n+wVzvUHYU5+wm1AkjVe
+         T4+3FP9fJghKgRpluoRHYimFeGUQjLm+2s7Zp3/0B37Qi9T5CdS1/0K0HEyyqIBJAcCl
+         /gHOrrDOS2A8yJwts9iFySqP45gDtCT8HSEuiAEL8Z5285BwFFPU9tCPtXlGOiASPJXU
+         jG7fnSRXJzeTFL+u1De2ao8xdVxxdUDzRSCrec6fyjimOwocjipcnqmh5tL+EIskwdSn
+         aPuA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784122768; x=1784727568;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=8db6f/b29rlspzEm6qOKfHn59Vtz9L/QmnkbFCJSt8s=;
+        b=TQaMKZeCpigxxqXZngEgoX12+OopQQSWJh4GX+6eDIt6aYgk1gvCSXAuITTFn5mL21
+         Ot7Af2MYBre9ME9Qq+9ViqrpfB7Vc2jptjMWDbor+qFb8jR2tQvywLYHWUbBdDhe82/u
+         9Nfl+atuV2fIk4g5gxXFfKdCCcXIB9nv1//+QY6VMlLaTHN21TlpOJEiozZ7+xxGdj53
+         mnSDMbQTesRw/SWTziE9vPghWhqO0mDiTEVolSD3AY5TvYwAYKrpLnpFmwpn7B30qt6e
+         J/WC39FQMZAonjOmJiacLgOA3LG4Cx3NLCO751MeRLH1Q7lCvQXPG+dAnE+TzoPfFd3Z
+         NNCQ==
+X-Forwarded-Encrypted: i=1; AHgh+RpiOXbNsu6xF+XhZjdrjfTACuZyJB2f+1We5ZQwnsut2tLVkMykA+NA03oR9vbThwXkQbauLWamlWNntqgv+Ei4SQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwddSnqFyXXj/R4QsF/v06lxngMlWYxo1G/ZdumDIGNBujp5Izm
+	niGe/M/9DZcVOfaMamYI/WSmnQcdaTz3yPDUUVtzxcLltW4DgJ7HnJ4S
+X-Gm-Gg: AfdE7cnl3gZwWgfSeI8awQr5vYb9gYzivHPCsFvu1Stu/oGHlgm16cY+AQERERIJF8S
+	g3w7yiTalodge+wKmOdgq61QaKkB3Is6dvcvaFK7m3ujqk3VLRAgc4bA5vqP5RFVtk8eiq4TA4k
+	eKwKiCR+HwDXBTO+h+ujylF1UwI8k6Vho3C//gxTCpfIdtmnQR4Xl1WbJ+PsjUmPZNL9E7biot2
+	et9QdZYmyYhrBPclEdtObM0ifkwa0ahYH0LKav+9WkMV2zmuV8IGUT5XPPulmxNb9sS3XL/ifMX
+	KUgxKo95fZiszW/9/gNCUyVmrIfXlWcvGPqdroggUDnF+aV3ijfDa9YzO7TQWKXCrUCATybxBCt
+	Fpzm4NrSfAN81NpRrs4qKc+/TC2cbPAIhSxQPepyql+XSAgOJ2GJ0l6o04AXMCXtOzhhr6RmkVf
+	mx8/swXTJbikpgJDk3IYGF1qfXSbzDJBR7CKJZIbm5JvVjJkJarTCdLjMU0H46dRr22aJkUvTQu
+	csiUUtwc70MrWTLFFXImEnP3ZQ=
+X-Received: by 2002:a05:600c:c87:b0:493:fd5b:2d5c with SMTP id 5b1f17b1804b1-49515904a8dmr86490105e9.22.1784122767750;
+        Wed, 15 Jul 2026 06:39:27 -0700 (PDT)
+Received: from iku.Home ([2a06:5906:61b:2d00:6d4f:b160:7aea:9d1b])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4953b35105esm79420195e9.9.2026.07.15.06.39.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 15 Jul 2026 06:39:27 -0700 (PDT)
+From: Prabhakar <prabhakar.csengg@gmail.com>
+X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To: Guenter Roeck <linux@roeck-us.net>,
+	Wim Van Sebroeck <wim@linux-watchdog.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: linux-watchdog@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Prabhakar <prabhakar.csengg+renesas@gmail.com>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH v2 0/2] watchdog: rzv2h: Convert WDTDCR handling to regmap
+Date: Wed, 15 Jul 2026 14:39:20 +0100
+Message-ID: <20260715133922.2129340-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -65,91 +99,77 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-1.16 / 15.00];
+X-Spamd-Result: default: False [-0.16 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[sang-engineering.com:s=k1];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-35258-lists,linux-renesas-soc=lfdr.de,renesas];
 	FORWARDED(0.00)[lists@lfdr.de];
+	FREEMAIL_CC(0.00)[vger.kernel.org,gmail.com,bp.renesas.com,renesas.com];
 	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[sang-engineering.com,glider.be,gmail.com,kernel.org,vger.kernel.org];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER(0.00)[wsa@sang-engineering.com,linux-renesas-soc@vger.kernel.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:linux-renesas-soc@vger.kernel.org,m:wsa+renesas@sang-engineering.com,m:geert+renesas@glider.be,m:magnus.damm@gmail.com,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:devicetree@vger.kernel.org,m:wsa@sang-engineering.com,m:geert@glider.be,m:magnusdamm@gmail.com,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2600:3c0a:e001:db::12fc:5321:from];
-	RCVD_COUNT_THREE(0.00)[4];
-	DMARC_NA(0.00)[sang-engineering.com];
-	DKIM_TRACE(0.00)[sang-engineering.com:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	DNSWL_BLOCKED(0.00)[100.90.174.1:received,2600:3c0a:e001:db::12fc:5321:from,194.117.254.33:received];
+	TAGGED_FROM(0.00)[bounces-35259-lists,linux-renesas-soc=lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:linux@roeck-us.net,m:wim@linux-watchdog.org,m:p.zabel@pengutronix.de,m:geert+renesas@glider.be,m:linux-watchdog@vger.kernel.org,m:linux-renesas-soc@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:prabhakar.csengg+renesas@gmail.com,m:biju.das.jz@bp.renesas.com,m:fabrizio.castro.jz@renesas.com,m:prabhakar.mahadev-lad.rj@bp.renesas.com,m:geert@glider.be,m:prabhakarcsengg@gmail.com,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[prabhakarcsengg@gmail.com,linux-renesas-soc@vger.kernel.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	FREEMAIL_FROM(0.00)[gmail.com];
 	PRECEDENCE_BULK(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[prabhakarcsengg@gmail.com,linux-renesas-soc@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[wsa@sang-engineering.com,linux-renesas-soc@vger.kernel.org];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[100.90.174.1:received,194.117.254.33:received];
-	DWL_DNSWL_BLOCKED(0.00)[sang-engineering.com:dkim];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,dt];
-	MID_RHS_MATCH_FROM(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,vger.kernel.org:from_smtp]
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,vger.kernel.org:from_smtp,bp.renesas.com:mid,renesas.com:email]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 67AC675E1D2
+X-Rspamd-Queue-Id: CB9B175ED5F
 X-Rspamd-Action: no action
 
-CN12 offers some GPIOs independently of switch settings. Add the nodes.
-Verified all the pins with a multimeter successfully.
+From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
----
+Hi All,
 
- .../boot/dts/renesas/r9a06g032-rzn1d400-eb.dts  | 17 +++++++++++++++++
- 1 file changed, 17 insertions(+)
+This patch series converts the WDTDCR register access from raw
+readl/writel variants over to the regmap framework using
+devm_regmap_init_mmio(). This conversion serves as a preparatory
+refactoring step. It allows the driver to subsequently support
+syscon-based system controllers natively by passing along alternative
+regmap handles without forcing messy architectural branching at runtime.
 
-diff --git a/arch/arm/boot/dts/renesas/r9a06g032-rzn1d400-eb.dts b/arch/arm/boot/dts/renesas/r9a06g032-rzn1d400-eb.dts
-index ead379988fb1..7d6ddc91bb2e 100644
---- a/arch/arm/boot/dts/renesas/r9a06g032-rzn1d400-eb.dts
-+++ b/arch/arm/boot/dts/renesas/r9a06g032-rzn1d400-eb.dts
-@@ -57,6 +57,12 @@ &gpio2 {
- 	status = "okay";
- };
- 
-+&gpio2b {
-+	pinctrl-0 = <&pins_gpio2b>;
-+	pinctrl-names = "default";
-+	status = "okay";
-+};
-+
- &i2c2 {
- 	/* Sensors are different across revisions. All are LM75B compatible */
- 	sensor@49 {
-@@ -136,6 +142,17 @@ pins_eth2: pins-eth2 {
- 		bias-disable;
- 	};
- 
-+	pins_gpio2b: pins-gpio2b {
-+		pinmux = <RZN1_PINMUX(164, RZN1_FUNC_GPIO)>,
-+			 <RZN1_PINMUX(165, RZN1_FUNC_GPIO)>,
-+			 <RZN1_PINMUX(166, RZN1_FUNC_GPIO)>,
-+			 <RZN1_PINMUX(167, RZN1_FUNC_GPIO)>,
-+			 <RZN1_PINMUX(168, RZN1_FUNC_GPIO)>,
-+			 <RZN1_PINMUX(169, RZN1_FUNC_GPIO)>;
-+		drive-strength = <6>;
-+		bias-disable;
-+	};
-+
- 	pins_mdio0: pins-mdio0 {
- 		pinmux = <RZN1_PINMUX(150, RZN1_FUNC_MDIO0_GMAC0)>,
- 			 <RZN1_PINMUX(151, RZN1_FUNC_MDIO0_GMAC0)>;
+Note,
+ - This change was suggested [0]
+   [0] https://lore.kernel.org/all/c3ef312a-4c26-498c-90c8-118c6dc035a0@roeck-us.net/ 
+- Patches are rebased on top of next-20260714
+
+v1->v2:
+ - Dropped patch #1 from v1 series.
+ - Switched to use regmap_set/clear_bits()
+
+v1: https://lore.kernel.org/all/20260702160457.1884345-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
+
+Cheers,
+Prabhakar
+
+Lad Prabhakar (2):
+  watchdog: rzv2h: Convert WDTDCR handling to regmap
+  watchdog: rzv2h: Drop WDTRCR_RSTIRQS macro
+
+ drivers/watchdog/rzv2h_wdt.c | 77 +++++++++++++++++++++++++-----------
+ 1 file changed, 54 insertions(+), 23 deletions(-)
+
 -- 
-2.47.3
+2.54.0
 
 
